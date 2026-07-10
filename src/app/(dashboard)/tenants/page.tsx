@@ -1,0 +1,58 @@
+import { requirePermission } from "@/lib/auth/session";
+import { db } from "@/lib/db";
+import { Breadcrumbs } from "@/components/layout/breadcrumbs";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+export default async function TenantsPage() {
+  await requirePermission("tenants:read");
+
+  const tenants = await db.tenant.findMany({
+    where: { deletedAt: null },
+    include: {
+      user: { select: { name: true, email: true, phone: true } },
+      leases: {
+        where: { status: "ACTIVE" },
+        include: {
+          unit: {
+            include: { property: { select: { name: true } } },
+          },
+        },
+        take: 1,
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <Breadcrumbs items={[{ label: "Tenants" }]} />
+        <h1 className="mt-2 text-2xl font-bold">Tenants</h1>
+        <p className="text-muted-foreground">{tenants.length} tenants</p>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {tenants.map((tenant) => {
+          const lease = tenant.leases[0];
+          return (
+            <Card key={tenant.id}>
+              <CardContent className="p-4 space-y-2">
+                <p className="font-medium">{tenant.user.name}</p>
+                <p className="text-sm text-muted-foreground">{tenant.user.email}</p>
+                {lease && (
+                  <>
+                    <p className="text-sm">
+                      {lease.unit.property.name} · Unit {lease.unit.unitNumber}
+                    </p>
+                    <Badge variant="success">Active Lease</Badge>
+                  </>
+                )}
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
