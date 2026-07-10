@@ -41,6 +41,85 @@ export async function createProperty(formData: FormData) {
   return { success: true, id: property.id };
 }
 
+export async function updateProperty(id: string, formData: FormData) {
+  const session = await requirePermission("properties:write");
+
+  const existing = await db.property.findUnique({ where: { id } });
+  if (!existing) return { error: "Property not found" };
+
+  const raw: Record<string, unknown> = {};
+  for (const key of [
+    "name", "addressLine1", "addressLine2", "city", "state", "zipCode",
+    "status", "ownerId", "squareFootage", "bedrooms", "bathrooms",
+    "rentAmount", "securityDeposit", "parking", "internalNotes",
+  ]) {
+    const val = formData.get(key);
+    if (val !== null && val !== "") raw[key] = val;
+  }
+
+  const parsed = propertySchema.safeParse(raw);
+  if (!parsed.success) {
+    return { error: parsed.error.errors[0].message };
+  }
+
+  const property = await db.property.update({
+    where: { id },
+    data: parsed.data,
+  });
+
+  await logActivity({
+    action: ActivityAction.UPDATED,
+    entityType: "Property",
+    entityId: property.id,
+    userId: session.user.id,
+    propertyId: property.id,
+  });
+
+  revalidatePath(`/properties/${id}`);
+  revalidatePath("/properties");
+  return { success: true, id: property.id };
+}
+
+export async function updateUnit(unitId: string, formData: FormData) {
+  const session = await requirePermission("units:write");
+
+  const existing = await db.unit.findUnique({ where: { id: unitId } });
+  if (!existing) return { error: "Unit not found" };
+
+  const raw: Record<string, unknown> = { propertyId: existing.propertyId };
+  for (const key of [
+    "unitNumber", "status", "squareFootage",
+    "bedrooms", "bathrooms", "rentAmount", "depositAmount",
+  ]) {
+    const val = formData.get(key);
+    if (val !== null && val !== "") raw[key] = val;
+  }
+
+  const parsed = unitSchema.safeParse(raw);
+  if (!parsed.success) {
+    return { error: parsed.error.errors[0].message };
+  }
+
+  const { propertyId, ...unitData } = parsed.data;
+  const unit = await db.unit.update({
+    where: { id: unitId },
+    data: unitData,
+  });
+
+  await logActivity({
+    action: ActivityAction.UPDATED,
+    entityType: "Unit",
+    entityId: unit.id,
+    userId: session.user.id,
+    propertyId,
+    unitId: unit.id,
+  });
+
+  revalidatePath(`/properties/${propertyId}`);
+  revalidatePath("/properties");
+  return { success: true, id: unit.id };
+}
+
 export async function createUnit(formData: FormData) {
   await requirePermission("units:write");
 

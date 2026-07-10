@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Loader2 } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 interface NewEventFormProps {
   properties: { id: string; name: string }[];
@@ -37,11 +38,13 @@ export function NewEventForm({ properties, staff }: NewEventFormProps) {
     const result = await createCalendarEvent(formData);
 
     if (result.error) {
+      toast({ title: "Failed to create event", description: result.error, variant: "destructive" });
       setError(result.error);
       setLoading(false);
       return;
     }
 
+    toast({ title: "Event created" });
     router.push("/calendar");
   };
 

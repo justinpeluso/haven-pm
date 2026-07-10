@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Loader2 } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface NewProspectFormProps {
@@ -46,11 +47,13 @@ export function NewProspectForm({ properties }: NewProspectFormProps) {
     const result = await createProspect(formData);
 
     if (result.error) {
+      toast({ title: "Failed to add prospect", description: result.error, variant: "destructive" });
       setError(result.error);
       setLoading(false);
       return;
     }
 
+    toast({ title: "Prospect added" });
     router.push(`/prospects/${result.id}`);
   };
 

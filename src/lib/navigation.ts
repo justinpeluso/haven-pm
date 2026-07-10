@@ -33,6 +33,7 @@ export const mainNavItems: NavItem[] = [
   { title: "Documents", href: "/documents", icon: FileText, permission: "documents:read" },
   { title: "Messages", href: "/messages", icon: MessageSquare, permission: "messages:read" },
   { title: "Reports", href: "/reports", icon: BarChart3, permission: "reports:read" },
+  { title: "Audit Log", href: "/audit", icon: ClipboardList, permission: "audit:read" },
   { title: "Search", href: "/search", icon: Search, permission: "search:global" },
 ];
 

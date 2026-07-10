@@ -2,7 +2,7 @@
 
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { Bell, LogOut, User } from "lucide-react";
+import { Bell, LogOut, Menu, User } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,9 +26,10 @@ interface HeaderProps {
     email: string;
     role: UserRole;
   };
+  onMenuClick?: () => void;
 }
 
-export function Header({ user }: HeaderProps) {
+export function Header({ user, onMenuClick }: HeaderProps) {
   const { data: notifications } = useQuery({
     queryKey: ["notifications", "unread"],
     queryFn: async () => {
@@ -40,12 +41,22 @@ export function Header({ user }: HeaderProps) {
   });
 
   return (
-    <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b bg-background/95 px-6 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex-1">
+    <header className="sticky top-0 z-40 flex h-14 items-center gap-3 border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:gap-4 md:px-6">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="shrink-0 md:hidden"
+        onClick={onMenuClick}
+        aria-label="Open menu"
+      >
+        <Menu className="h-5 w-5" />
+      </Button>
+
+      <div className="flex-1 min-w-0">
         <CommandPalette />
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 md:gap-2">
         <ThemeToggle />
 
         <Button variant="ghost" size="icon" className="relative h-8 w-8" asChild>
@@ -79,9 +90,9 @@ export function Header({ user }: HeaderProps) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href="/settings/profile">
+              <Link href="/settings">
                 <User className="mr-2 h-4 w-4" />
-                Profile
+                Settings
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />

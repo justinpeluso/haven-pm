@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 interface MaintenanceUpdateFormProps {
   requestId: string;
@@ -47,8 +48,13 @@ export function MaintenanceUpdateForm({
     formData.set("priority", priority);
     if (staffId) formData.set("assignedStaffId", staffId);
 
-    await updateMaintenanceRequest(requestId, formData);
+    const result = await updateMaintenanceRequest(requestId, formData);
     setLoading(false);
+    if (result.error) {
+      toast({ title: "Update failed", description: result.error, variant: "destructive" });
+      return;
+    }
+    toast({ title: "Changes saved" });
     router.refresh();
   };
 

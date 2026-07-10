@@ -2,11 +2,15 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { requirePermission } from "@/lib/auth/session";
 import { getProperty } from "@/lib/actions/properties";
+import { db } from "@/lib/db";
+import { hasPermission } from "@/lib/permissions";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ActivityTimeline } from "@/components/shared/activity-timeline";
+import { PropertyEditForm } from "@/components/properties/property-edit-form";
+import { UnitsManager } from "@/components/properties/units-manager";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
 export default async function PropertyDetailPage({
@@ -14,11 +18,23 @@ export default async function PropertyDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  await requirePermission("properties:read");
+  const session = await requirePermission("properties:read");
   const { id } = await params;
-  const property = await getProperty(id);
+  const [property, owners] = await Promise.all([
+    getProperty(id),
+    hasPermission(session.user.role, "properties:write")
+      ? db.owner.findMany({
+          where: { deletedAt: null },
+          select: { id: true, name: true },
+          orderBy: { name: "asc" },
+        })
+      : Promise.resolve([]),
+  ]);
 
   if (!property) notFound();
+
+  const canWrite = hasPermission(session.user.role, "properties:write");
+  const canWriteUnits = hasPermission(session.user.role, "units:write");
 
   return (
     <div className="space-y-6">
@@ -29,9 +45,10 @@ export default async function PropertyDetailPage({
             { label: property.name },
           ]}
         />
-        <div className="mt-2 flex items-center gap-3">
+        <div className="mt-2 flex flex-wrap items-center gap-3">
           <h1 className="text-2xl font-bold">{property.name}</h1>
           <Badge variant="outline">{property.status}</Badge>
+          {canWrite && <PropertyEditForm property={property} owners={owners} />}
         </div>
         <p className="text-muted-foreground">
           {property.addressLine1}
@@ -81,78 +98,79 @@ export default async function PropertyDetailPage({
         </TabsList>
 
         <TabsContent value="units" className="mt-4">
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {property.units.map((unit) => {
-              const activeLease = unit.leases[0];
-              return (
-                <Card key={unit.id}>
-                  <CardHeader className="pb-2">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-sm">Unit {unit.unitNumber}</CardTitle>
-                      <Badge variant="outline">{unit.status}</Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="text-sm space-y-1">
-                    <p>{formatCurrency(Number(unit.rentAmount))}/mo</p>
-                    {unit.bedrooms && <p>{unit.bedrooms} bed · {unit.bathrooms} bath</p>}
-                    {activeLease && (
-                      <p className="text-muted-foreground">
-                        Tenant: {activeLease.tenant.user.name}
-                      </p>
-                    )}
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+          <UnitsManager
+            propertyId={property.id}
+            canWrite={canWriteUnits}
+            units={property.units.map((unit) => ({
+              id: unit.id,
+              unitNumber: unit.unitNumber,
+              status: unit.status,
+              rentAmount: unit.rentAmount,
+              bedrooms: unit.bedrooms,
+              bathrooms: unit.bathrooms,
+              tenantName: unit.leases[0]?.tenant.user.name,
+            }))}
+          />
         </TabsContent>
 
         <TabsContent value="maintenance" className="mt-4">
           <div className="space-y-2">
-            {property.maintenanceRequests.map((req) => (
-              <Link
-                key={req.id}
-                href={`/maintenance/${req.id}`}
-                className="flex items-center justify-between rounded-lg border p-3 hover:bg-muted/50"
-              >
-                <div>
-                  <p className="font-medium">{req.title}</p>
-                  <p className="text-sm text-muted-foreground">{req.requestNumber}</p>
-                </div>
-                <Badge>{req.status}</Badge>
-              </Link>
-            ))}
+            {property.maintenanceRequests.length === 0 ? (
+              <p className="py-8 text-center text-sm text-muted-foreground">No maintenance requests</p>
+            ) : (
+              property.maintenanceRequests.map((req) => (
+                <Link
+                  key={req.id}
+                  href={`/maintenance/${req.id}`}
+                  className="flex items-center justify-between rounded-lg border p-3 hover:bg-muted/50"
+                >
+                  <div>
+                    <p className="font-medium">{req.title}</p>
+                    <p className="text-sm text-muted-foreground">{req.requestNumber}</p>
+                  </div>
+                  <Badge>{req.status}</Badge>
+                </Link>
+              ))
+            )}
           </div>
         </TabsContent>
 
         <TabsContent value="documents" className="mt-4">
           <div className="space-y-2">
-            {property.documents.map((doc) => (
-              <div key={doc.id} className="flex items-center justify-between rounded-lg border p-3">
-                <div>
-                  <p className="font-medium">{doc.name}</p>
-                  <p className="text-sm text-muted-foreground">{doc.type}</p>
+            {property.documents.length === 0 ? (
+              <p className="py-8 text-center text-sm text-muted-foreground">No documents</p>
+            ) : (
+              property.documents.map((doc) => (
+                <div key={doc.id} className="flex items-center justify-between rounded-lg border p-3">
+                  <div>
+                    <p className="font-medium">{doc.name}</p>
+                    <p className="text-sm text-muted-foreground">{doc.type}</p>
+                  </div>
+                  <a href={doc.url} target="_blank" rel="noopener noreferrer" className="text-sm text-primary">
+                    View
+                  </a>
                 </div>
-                <a href={doc.url} target="_blank" rel="noopener noreferrer" className="text-sm text-primary">
-                  View
-                </a>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </TabsContent>
 
         <TabsContent value="notes" className="mt-4">
           <div className="space-y-3">
-            {property.notes.map((note) => (
-              <Card key={note.id}>
-                <CardContent className="pt-4">
-                  <p className="text-sm">{note.content}</p>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    {note.author.name} · {formatDate(note.createdAt)}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+            {property.notes.length === 0 ? (
+              <p className="py-8 text-center text-sm text-muted-foreground">No notes</p>
+            ) : (
+              property.notes.map((note) => (
+                <Card key={note.id}>
+                  <CardContent className="pt-4">
+                    <p className="text-sm">{note.content}</p>
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      {note.author.name} · {formatDate(note.createdAt)}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))
+            )}
           </div>
         </TabsContent>
 

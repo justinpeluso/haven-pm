@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Loader2 } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 interface NewMaintenanceFormProps {
   properties: { id: string; name: string; units: { id: string; unitNumber: string }[] }[];
@@ -40,11 +41,13 @@ export function NewMaintenanceForm({ properties }: NewMaintenanceFormProps) {
     const result = await createMaintenanceRequest(formData);
 
     if (result.error) {
+      toast({ title: "Failed to submit", description: result.error, variant: "destructive" });
       setError(result.error);
       setLoading(false);
       return;
     }
 
+    toast({ title: "Request submitted", description: "Maintenance request created successfully." });
     router.push(`/maintenance/${result.id}`);
   };
 

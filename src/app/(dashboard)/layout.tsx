@@ -1,7 +1,5 @@
 import { requireAuth } from "@/lib/auth/session";
-import { Sidebar } from "@/components/layout/sidebar";
-import { Header } from "@/components/layout/header";
-import { NotificationStream } from "@/components/notifications/notification-stream";
+import { DashboardShell } from "@/components/layout/dashboard-shell";
 
 export default async function DashboardLayout({
   children,
@@ -11,13 +9,8 @@ export default async function DashboardLayout({
   const session = await requireAuth();
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar role={session.user.role} />
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <NotificationStream />
-        <Header user={session.user} />
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
-      </div>
-    </div>
+    <DashboardShell role={session.user.role} user={session.user}>
+      {children}
+    </DashboardShell>
   );
 }

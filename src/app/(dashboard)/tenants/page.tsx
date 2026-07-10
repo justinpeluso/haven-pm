@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { EmptyState } from "@/components/shared/empty-state";
+import { UserCircle } from "lucide-react";
 
 export default async function TenantsPage() {
   await requirePermission("tenants:read");
@@ -32,27 +34,35 @@ export default async function TenantsPage() {
         <p className="text-muted-foreground">{tenants.length} tenants</p>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {tenants.map((tenant) => {
-          const lease = tenant.leases[0];
-          return (
-            <Card key={tenant.id}>
-              <CardContent className="p-4 space-y-2">
-                <p className="font-medium">{tenant.user.name}</p>
-                <p className="text-sm text-muted-foreground">{tenant.user.email}</p>
-                {lease && (
-                  <>
-                    <p className="text-sm">
-                      {lease.unit.property.name} · Unit {lease.unit.unitNumber}
-                    </p>
-                    <Badge variant="success">Active Lease</Badge>
-                  </>
-                )}
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+      {tenants.length === 0 ? (
+        <EmptyState
+          icon={UserCircle}
+          title="No tenants yet"
+          description="Tenants appear here once leases are created and activated."
+        />
+      ) : (
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {tenants.map((tenant) => {
+            const lease = tenant.leases[0];
+            return (
+              <Card key={tenant.id}>
+                <CardContent className="space-y-2 p-4">
+                  <p className="font-medium">{tenant.user.name}</p>
+                  <p className="text-sm text-muted-foreground">{tenant.user.email}</p>
+                  {lease && (
+                    <>
+                      <p className="text-sm">
+                        {lease.unit.property.name} · Unit {lease.unit.unitNumber}
+                      </p>
+                      <Badge variant="success">Active Lease</Badge>
+                    </>
+                  )}
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

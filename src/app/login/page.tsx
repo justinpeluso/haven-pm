@@ -87,6 +87,7 @@ export default function LoginPage() {
               <li>manager@havenpm.com — Property Manager</li>
               <li>agent@havenpm.com — Leasing Agent</li>
               <li>maintenance@havenpm.com — Maintenance Staff</li>
+              <li>office@havenpm.com — Office Staff</li>
               <li>tenant@havenpm.com — Tenant</li>
             </ul>
           </div>

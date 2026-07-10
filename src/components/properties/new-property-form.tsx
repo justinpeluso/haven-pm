@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Loader2 } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 interface NewPropertyFormProps {
   owners: { id: string; name: string }[];
@@ -36,11 +37,13 @@ export function NewPropertyForm({ owners }: NewPropertyFormProps) {
     const result = await createProperty(formData);
 
     if (result.error) {
+      toast({ title: "Failed to create property", description: result.error, variant: "destructive" });
       setError(result.error);
       setLoading(false);
       return;
     }
 
+    toast({ title: "Property created" });
     router.push(`/properties/${result.id}`);
   };
 
