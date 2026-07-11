@@ -25,6 +25,7 @@ import { Loader2, Plus, Pencil } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { unitStatusBadgeVariant, formatUnitStatus } from "@/lib/occupancy";
 
 const UNIT_STATUSES = ["AVAILABLE", "OCCUPIED", "NOTICE_GIVEN", "VACANT", "MAINTENANCE_HOLD"] as const;
 
@@ -36,6 +37,7 @@ interface UnitItem {
   bedrooms: number | null;
   bathrooms: number | null;
   tenantName?: string | null;
+  tenantEmail?: string | null;
 }
 
 interface UnitsManagerProps {
@@ -118,7 +120,9 @@ export function UnitsManager({ propertyId, units, canWrite }: UnitsManagerProps)
               <div className="flex items-center justify-between">
                 <CardTitle className="text-sm">Unit {unit.unitNumber}</CardTitle>
                 <div className="flex items-center gap-1">
-                  <Badge variant="outline">{unit.status}</Badge>
+                  <Badge variant={unitStatusBadgeVariant(unit.status)}>
+                    {formatUnitStatus(unit.status)}
+                  </Badge>
                   {canWrite && (
                     <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditUnit(unit)}>
                       <Pencil className="h-3 w-3" />
@@ -130,7 +134,14 @@ export function UnitsManager({ propertyId, units, canWrite }: UnitsManagerProps)
             <CardContent className="space-y-1 text-sm">
               <p>{formatCurrency(Number(unit.rentAmount))}/mo</p>
               {unit.bedrooms != null && <p>{unit.bedrooms} bed · {unit.bathrooms} bath</p>}
-              {unit.tenantName && <p className="text-muted-foreground">Tenant: {unit.tenantName}</p>}
+              {unit.tenantName ? (
+                <div className="pt-1 text-muted-foreground">
+                  <p className="font-medium text-foreground">{unit.tenantName}</p>
+                  {unit.tenantEmail && <p className="text-xs">{unit.tenantEmail}</p>}
+                </div>
+              ) : (
+                <p className="text-muted-foreground">No occupant</p>
+              )}
             </CardContent>
           </Card>
         ))}

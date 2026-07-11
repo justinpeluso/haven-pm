@@ -99,4 +99,9 @@ echo "  Press Ctrl+C to stop the server"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
+# Stop stale dev server and clear Next cache (avoids 500s after production builds)
+pkill -f "next dev" 2>/dev/null || true
+sleep 1
+rm -rf .next
+
 npm run dev

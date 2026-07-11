@@ -162,7 +162,20 @@ export async function getProperties() {
     where: { deletedAt: null },
     include: {
       owner: true,
-      units: { where: { deletedAt: null } },
+      units: {
+        where: { deletedAt: null },
+        include: {
+          leases: {
+            where: { status: "ACTIVE" },
+            include: {
+              tenant: {
+                include: { user: { select: { name: true, email: true } } },
+              },
+            },
+            take: 1,
+          },
+        },
+      },
       _count: {
         select: {
           maintenanceRequests: {
@@ -187,7 +200,13 @@ export async function getProperty(id: string) {
         include: {
           leases: {
             where: { status: "ACTIVE" },
-            include: { tenant: { include: { user: { select: { name: true, email: true } } } } },
+            include: {
+              tenant: {
+                include: {
+                  user: { select: { name: true, email: true, phone: true } },
+                },
+              },
+            },
           },
         },
       },

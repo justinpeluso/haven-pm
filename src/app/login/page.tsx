@@ -85,10 +85,10 @@ export default function LoginPage() {
             <ul className="space-y-1">
               <li>admin@havenpm.com — Administrator</li>
               <li>manager@havenpm.com — Property Manager</li>
-              <li>agent@havenpm.com — Leasing Agent</li>
+              <li>agent@havenpm.com / agent2@ / agent3@ — Agents</li>
               <li>maintenance@havenpm.com — Maintenance Staff</li>
               <li>office@havenpm.com — Office Staff</li>
-              <li>tenant@havenpm.com — Tenant</li>
+              <li>tenant@havenpm.com … tenant10@ — Tenants</li>
             </ul>
           </div>
         </CardContent>

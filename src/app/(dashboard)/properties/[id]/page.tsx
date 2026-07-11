@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { Mail, Phone, User } from "lucide-react";
 import { requirePermission } from "@/lib/auth/session";
 import { getProperty } from "@/lib/actions/properties";
 import { db } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
+import { getOccupancy, unitStatusBadgeVariant, formatUnitStatus } from "@/lib/occupancy";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -35,6 +37,23 @@ export default async function PropertyDetailPage({
 
   const canWrite = hasPermission(session.user.role, "properties:write");
   const canWriteUnits = hasPermission(session.user.role, "units:write");
+  const occupancy = getOccupancy(property.units);
+
+  const occupants = property.units.flatMap((unit) =>
+    unit.leases.map((lease) => ({
+      unitId: unit.id,
+      unitNumber: unit.unitNumber,
+      unitStatus: unit.status,
+      rentAmount: unit.rentAmount,
+      leaseStart: lease.startDate,
+      leaseEnd: lease.endDate,
+      tenantId: lease.tenant.id,
+      name: lease.tenant.user.name,
+      email: lease.tenant.user.email,
+      phone: lease.tenant.user.phone || lease.tenant.phone,
+      pets: lease.tenant.pets,
+    }))
+  );
 
   return (
     <div className="space-y-6">
@@ -47,7 +66,8 @@ export default async function PropertyDetailPage({
         />
         <div className="mt-2 flex flex-wrap items-center gap-3">
           <h1 className="text-2xl font-bold">{property.name}</h1>
-          <Badge variant="outline">{property.status}</Badge>
+          <Badge variant={occupancy.badgeVariant}>{occupancy.label}</Badge>
+          <Badge variant="outline">{property.status.replace(/_/g, " ")}</Badge>
           {canWrite && <PropertyEditForm property={property} owners={owners} />}
         </div>
         <p className="text-muted-foreground">
@@ -55,6 +75,7 @@ export default async function PropertyDetailPage({
           {property.addressLine2 && `, ${property.addressLine2}`}
           , {property.city}, {property.state} {property.zipCode}
         </p>
+        <p className="mt-1 text-sm text-muted-foreground">{occupancy.description}</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-4">
@@ -67,17 +88,15 @@ export default async function PropertyDetailPage({
         <Card>
           <CardContent className="pt-6">
             <p className="text-sm text-muted-foreground">Occupied</p>
-            <p className="text-2xl font-bold">
-              {property.units.filter((u) => u.status === "OCCUPIED").length}
+            <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+              {occupancy.occupied}
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
             <p className="text-sm text-muted-foreground">Available</p>
-            <p className="text-2xl font-bold">
-              {property.units.filter((u) => u.status === "AVAILABLE").length}
-            </p>
+            <p className="text-2xl font-bold">{occupancy.available}</p>
           </CardContent>
         </Card>
         <Card>
@@ -87,6 +106,71 @@ export default async function PropertyDetailPage({
           </CardContent>
         </Card>
       </div>
+
+      <Card>
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between gap-2">
+            <CardTitle className="text-base">Current Occupants</CardTitle>
+            <Badge variant={occupancy.badgeVariant}>
+              {occupants.length} resident{occupants.length === 1 ? "" : "s"}
+            </Badge>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {occupants.length === 0 ? (
+            <div className="rounded-lg border border-dashed bg-muted/20 px-4 py-8 text-center">
+              <p className="font-medium">No current occupants</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                This property is vacant — no active leases on any unit.
+              </p>
+            </div>
+          ) : (
+            <div className="grid gap-3 sm:grid-cols-2">
+              {occupants.map((occ) => (
+                <div
+                  key={`${occ.tenantId}-${occ.unitId}`}
+                  className="rounded-lg border p-4"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted">
+                        <User className="h-4 w-4 text-muted-foreground" />
+                      </div>
+                      <div>
+                        <p className="font-medium">{occ.name || "Unnamed tenant"}</p>
+                        <p className="text-sm text-muted-foreground">
+                          Unit {occ.unitNumber} · {formatCurrency(Number(occ.rentAmount))}/mo
+                        </p>
+                      </div>
+                    </div>
+                    <Badge variant={unitStatusBadgeVariant(occ.unitStatus)}>
+                      {formatUnitStatus(occ.unitStatus)}
+                    </Badge>
+                  </div>
+                  <div className="mt-3 space-y-1 text-sm text-muted-foreground">
+                    {occ.email && (
+                      <p className="flex items-center gap-1.5">
+                        <Mail className="h-3.5 w-3.5" />
+                        {occ.email}
+                      </p>
+                    )}
+                    {occ.phone && (
+                      <p className="flex items-center gap-1.5">
+                        <Phone className="h-3.5 w-3.5" />
+                        {occ.phone}
+                      </p>
+                    )}
+                    <p>
+                      Lease {formatDate(occ.leaseStart)} – {formatDate(occ.leaseEnd)}
+                    </p>
+                    {occ.pets && <p>Pets: {occ.pets}</p>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       <Tabs defaultValue="units">
         <TabsList>
@@ -109,6 +193,7 @@ export default async function PropertyDetailPage({
               bedrooms: unit.bedrooms,
               bathrooms: unit.bathrooms,
               tenantName: unit.leases[0]?.tenant.user.name,
+              tenantEmail: unit.leases[0]?.tenant.user.email,
             }))}
           />
         </TabsContent>
@@ -128,7 +213,7 @@ export default async function PropertyDetailPage({
                     <p className="font-medium">{req.title}</p>
                     <p className="text-sm text-muted-foreground">{req.requestNumber}</p>
                   </div>
-                  <Badge>{req.status}</Badge>
+                  <Badge variant="outline">{req.status.replace(/_/g, " ")}</Badge>
                 </Link>
               ))
             )}
