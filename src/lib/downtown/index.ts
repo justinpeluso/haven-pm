@@ -9,4 +9,3 @@ export * from "./gallery";
 export * from "./intel";
 export * from "./news";
 export * from "./news-summary";
-export * from "./vibrancy-map";
