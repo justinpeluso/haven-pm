@@ -186,36 +186,38 @@ The tenant "Pay Rent" button links to `PAYMENT_PORTAL_URL` in settings. Replace 
 
 ## Deploy for free (public URL)
 
-Best free combo for this stack:
+**Live demo:** https://haven-pm.vercel.app  
+**Login:** `admin@havenpm.com` / `password123`  
+**Local:** http://localhost:3000 (separate Postgres — do not point `.env` at Neon)
 
-1. **Neon** — free Postgres → copy the connection string  
-2. **GitHub** — push this repo  
-3. **Vercel** — Import the repo, set env vars, deploy  
+Best free combo for this stack: **Neon** (Postgres) + **GitHub** + **Vercel**.
 
 ### Environment variables on Vercel
 
 | Name | Value |
 |------|--------|
-| `DATABASE_URL` | Neon connection string |
+| `DATABASE_URL` | Neon connection string (via Vercel Neon integration) |
 | `AUTH_SECRET` | `openssl rand -base64 32` |
-| `AUTH_URL` | Your Vercel URL, e.g. `https://haven-pm.vercel.app` |
+| `AUTH_URL` | `https://haven-pm.vercel.app` |
 | `MESSAGING_PORTAL_URL` | `https://my.quo.com/` |
 | `MESSAGING_PROVIDER_NAME` | `OpenPhone` |
 | `MESSAGING_PHONE_NUMBER` | `(412) 797-5007` |
 
-In Vercel → Project → Settings → General → **Build Command**:  
-`npm run vercel-build`
+Build command is set in `vercel.json` (`npm run vercel-build`).
 
-After first deploy, seed demo data once (from your machine with `DATABASE_URL` pointed at Neon):
+Helpers (run in Terminal; keep local `.env` on localhost Postgres):
 
 ```bash
-DATABASE_URL="your-neon-url" npm run db:seed
+./scripts/deploy-online.sh   # link, Neon, deploy, seed
+./scripts/seed-prod.sh       # re-seed Neon only
+./scripts/finish-online.sh   # env checks + seed + smoke
 ```
 
 ### Limits to know
 
 - Vercel/Neon free tiers are fine for demos; they sleep/idle and have usage caps  
 - File uploads use the local disk today — they **won’t persist** on Vercel (documents may break until you add S3/Blob storage)
+- Edge middleware must stay slim (no Prisma/bcrypt in `src/middleware.ts`)
 
 ## Scripts
 
