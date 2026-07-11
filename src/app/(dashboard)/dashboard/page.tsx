@@ -13,6 +13,7 @@ import { TenantDashboard } from "@/components/dashboard/tenant-dashboard";
 import { MaintenanceDashboard } from "@/components/dashboard/maintenance-dashboard";
 import { AgentDashboard } from "@/components/dashboard/agent-dashboard";
 import { DashboardSideWidgets } from "@/components/dashboard/dashboard-side-widgets";
+import { PittsburghTrafficWidget } from "@/components/dashboard/pittsburgh-traffic-widget";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 
 export default async function DashboardPage() {
@@ -56,6 +57,8 @@ export default async function DashboardPage() {
           propertyName: e.property?.name ?? null,
         }))}
       />
+
+      <PittsburghTrafficWidget />
 
       {dashboard.type === "admin" && dashboard.data && (
         <AdminDashboard data={dashboard.data} />
