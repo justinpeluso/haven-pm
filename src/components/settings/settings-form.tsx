@@ -1,7 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { savePaymentSettings, saveMessagingSettings } from "@/lib/actions/settings";
+import {
+  savePaymentSettings,
+  saveMessagingSettings,
+  saveCompanySettings,
+  saveLeasingSettings,
+  saveMaintenanceSettings,
+  saveNotificationSettings,
+  saveCalendarSettings,
+  saveRegionalSettings,
+} from "@/lib/actions/settings";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,156 +22,558 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Loader2, CreditCard, Smartphone } from "lucide-react";
-import type { PaymentSettings, MessagingSettings } from "@/lib/settings";
+import {
+  Loader2,
+  CreditCard,
+  Smartphone,
+  Building2,
+  FileSignature,
+  Wrench,
+  Bell,
+  Calendar,
+  Globe,
+} from "lucide-react";
+import type {
+  PaymentSettings,
+  MessagingSettings,
+  CompanySettings,
+  LeasingSettings,
+  MaintenanceSettings,
+  NotificationSettings,
+  CalendarSettings,
+  RegionalSettings,
+} from "@/lib/settings";
 import { toast } from "@/hooks/use-toast";
 
 interface SettingsFormProps {
   payment: PaymentSettings;
   messaging: MessagingSettings;
+  company: CompanySettings;
+  leasing: LeasingSettings;
+  maintenance: MaintenanceSettings;
+  notifications: NotificationSettings;
+  calendar: CalendarSettings;
+  regional: RegionalSettings;
   stripeConfigured: boolean;
+  canWrite: boolean;
 }
 
-export function SettingsForm({ payment, messaging, stripeConfigured }: SettingsFormProps) {
-  const [paymentLoading, setPaymentLoading] = useState(false);
-  const [messagingLoading, setMessagingLoading] = useState(false);
+function SaveButton({ loading, disabled }: { loading: boolean; disabled?: boolean }) {
+  return (
+    <Button type="submit" disabled={loading || disabled}>
+      {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+      Save
+    </Button>
+  );
+}
+
+export function SettingsForm({
+  payment,
+  messaging,
+  company,
+  leasing,
+  maintenance,
+  notifications,
+  calendar,
+  regional,
+  stripeConfigured,
+  canWrite,
+}: SettingsFormProps) {
+  const [loadingKey, setLoadingKey] = useState<string | null>(null);
   const [provider, setProvider] = useState(payment.provider);
+  const [leasePriority, setLeasePriority] = useState(maintenance.defaultPriority);
+  const [digest, setDigest] = useState(notifications.digestFrequency);
+  const [weekStart, setWeekStart] = useState(calendar.weekStartsOn);
+  const [currency, setCurrency] = useState(regional.currency);
+  const [dateFormat, setDateFormat] = useState(regional.dateFormat);
+  const [measurement, setMeasurement] = useState(regional.measurement);
+  const [timezone, setTimezone] = useState(company.timezone);
+  const [requirePets, setRequirePets] = useState(leasing.requirePetsDisclosure === "true");
+  const [allowTenantCreate, setAllowTenantCreate] = useState(maintenance.allowTenantCreate === "true");
+  const [requirePhotos, setRequirePhotos] = useState(maintenance.requirePhotos === "true");
+  const [emailMaintenance, setEmailMaintenance] = useState(notifications.emailMaintenance === "true");
+  const [emailShowings, setEmailShowings] = useState(notifications.emailShowings === "true");
+  const [emailLeaseExpiring, setEmailLeaseExpiring] = useState(notifications.emailLeaseExpiring === "true");
+  const [emailNewProspects, setEmailNewProspects] = useState(notifications.emailNewProspects === "true");
+  const [showWeekends, setShowWeekends] = useState(calendar.showWeekends === "true");
 
-  const handlePaymentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setPaymentLoading(true);
-    const formData = new FormData(e.currentTarget);
-    formData.set("provider", provider);
-    await savePaymentSettings(formData);
-    setPaymentLoading(false);
-    toast({ title: "Payment settings saved" });
-  };
-
-  const handleMessagingSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setMessagingLoading(true);
-    const formData = new FormData(e.currentTarget);
-    const result = await saveMessagingSettings(formData);
-    setMessagingLoading(false);
+  const runSave = async (
+    key: string,
+    action: (fd: FormData) => Promise<{ success?: boolean; error?: string }>,
+    formData: FormData
+  ) => {
+    if (!canWrite) {
+      toast({ title: "Read-only", description: "You don't have permission to change settings.", variant: "destructive" });
+      return;
+    }
+    setLoadingKey(key);
+    const result = await action(formData);
+    setLoadingKey(null);
     if (result.error) {
       toast({ title: "Could not save", description: result.error, variant: "destructive" });
       return;
     }
-    toast({ title: "Messaging settings saved" });
+    toast({ title: "Settings saved" });
   };
 
   return (
     <div className="space-y-6">
-      <form onSubmit={handlePaymentSubmit}>
+      {/* Company */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const fd = new FormData(e.currentTarget);
+          fd.set("timezone", timezone);
+          void runSave("company", saveCompanySettings, fd);
+        }}
+      >
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
-              <CreditCard className="h-4 w-4" />
-              Payment Configuration
+              <Building2 className="h-4 w-4" />
+              Company profile
             </CardTitle>
-            <CardDescription>
-              Configure how tenants pay rent via the &quot;Pay Rent&quot; button
-            </CardDescription>
+            <CardDescription>Brand and contact details shown across Haven</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="name">Company name</Label>
+                <Input id="name" name="name" defaultValue={company.name} disabled={!canWrite} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="legalName">Legal name</Label>
+                <Input id="legalName" name="legalName" defaultValue={company.legalName} disabled={!canWrite} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="supportEmail">Support email</Label>
+                <Input id="supportEmail" name="supportEmail" type="email" defaultValue={company.supportEmail} disabled={!canWrite} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="supportPhone">Support phone</Label>
+                <Input id="supportPhone" name="supportPhone" defaultValue={company.supportPhone} disabled={!canWrite} />
+              </div>
+              <div className="space-y-2 sm:col-span-2">
+                <Label htmlFor="website">Website</Label>
+                <Input id="website" name="website" type="url" defaultValue={company.website} disabled={!canWrite} />
+              </div>
+              <div className="space-y-2 sm:col-span-2">
+                <Label htmlFor="address">Street address</Label>
+                <Input id="address" name="address" defaultValue={company.address} disabled={!canWrite} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="city">City</Label>
+                <Input id="city" name="city" defaultValue={company.city} disabled={!canWrite} />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                  <Label htmlFor="state">State</Label>
+                  <Input id="state" name="state" defaultValue={company.state} disabled={!canWrite} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="zipCode">ZIP</Label>
+                  <Input id="zipCode" name="zipCode" defaultValue={company.zipCode} disabled={!canWrite} />
+                </div>
+              </div>
+              <div className="space-y-2 sm:col-span-2">
+                <Label>Timezone</Label>
+                <Select value={timezone} onValueChange={setTimezone} disabled={!canWrite}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {[
+                      "America/Los_Angeles",
+                      "America/Denver",
+                      "America/Chicago",
+                      "America/New_York",
+                      "America/Phoenix",
+                      "Pacific/Honolulu",
+                    ].map((tz) => (
+                      <SelectItem key={tz} value={tz}>{tz}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            {canWrite && <SaveButton loading={loadingKey === "company"} />}
+          </CardContent>
+        </Card>
+      </form>
+
+      {/* Leasing */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const fd = new FormData(e.currentTarget);
+          if (requirePets) fd.set("requirePetsDisclosure", "on");
+          void runSave("leasing", saveLeasingSettings, fd);
+        }}
+      >
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <FileSignature className="h-4 w-4" />
+              Leasing defaults
+            </CardTitle>
+            <CardDescription>Defaults for new leases, showings, and fees</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-3">
+              <div className="space-y-2">
+                <Label htmlFor="defaultLeaseMonths">Lease term (months)</Label>
+                <Input id="defaultLeaseMonths" name="defaultLeaseMonths" type="number" min={1} defaultValue={leasing.defaultLeaseMonths} disabled={!canWrite} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="defaultDepositMonths">Deposit (months rent)</Label>
+                <Input id="defaultDepositMonths" name="defaultDepositMonths" type="number" min={0} step={0.5} defaultValue={leasing.defaultDepositMonths} disabled={!canWrite} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="defaultShowingMinutes">Showing length (min)</Label>
+                <Input id="defaultShowingMinutes" name="defaultShowingMinutes" type="number" min={15} step={15} defaultValue={leasing.defaultShowingMinutes} disabled={!canWrite} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="applicationFee">Application fee ($)</Label>
+                <Input id="applicationFee" name="applicationFee" type="number" min={0} step={1} defaultValue={leasing.applicationFee} disabled={!canWrite} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="lateFeeAmount">Late fee ($)</Label>
+                <Input id="lateFeeAmount" name="lateFeeAmount" type="number" min={0} step={1} defaultValue={leasing.lateFeeAmount} disabled={!canWrite} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="lateFeeGraceDays">Late fee grace (days)</Label>
+                <Input id="lateFeeGraceDays" name="lateFeeGraceDays" type="number" min={0} defaultValue={leasing.lateFeeGraceDays} disabled={!canWrite} />
+              </div>
+            </div>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                className="h-4 w-4 rounded border"
+                checked={requirePets}
+                onChange={(e) => setRequirePets(e.target.checked)}
+                disabled={!canWrite}
+              />
+              Require pets disclosure on applications
+            </label>
+            {canWrite && <SaveButton loading={loadingKey === "leasing"} />}
+          </CardContent>
+        </Card>
+      </form>
+
+      {/* Maintenance */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const fd = new FormData(e.currentTarget);
+          fd.set("defaultPriority", leasePriority);
+          if (allowTenantCreate) fd.set("allowTenantCreate", "on");
+          if (requirePhotos) fd.set("requirePhotos", "on");
+          void runSave("maintenance", saveMaintenanceSettings, fd);
+        }}
+      >
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Wrench className="h-4 w-4" />
+              Maintenance
+            </CardTitle>
+            <CardDescription>Work-order defaults and response targets</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-3">
+              <div className="space-y-2">
+                <Label>Default priority</Label>
+                <Select value={leasePriority} onValueChange={setLeasePriority} disabled={!canWrite}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {["LOW", "MEDIUM", "HIGH", "EMERGENCY"].map((p) => (
+                      <SelectItem key={p} value={p}>{p}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="emergencySlaHours">Emergency SLA (hours)</Label>
+                <Input id="emergencySlaHours" name="emergencySlaHours" type="number" min={1} defaultValue={maintenance.emergencySlaHours} disabled={!canWrite} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="highSlaHours">High priority SLA (hours)</Label>
+                <Input id="highSlaHours" name="highSlaHours" type="number" min={1} defaultValue={maintenance.highSlaHours} disabled={!canWrite} />
+              </div>
+              <div className="space-y-2 sm:col-span-3">
+                <Label htmlFor="afterHoursPhone">After-hours emergency phone</Label>
+                <Input id="afterHoursPhone" name="afterHoursPhone" defaultValue={maintenance.afterHoursPhone} disabled={!canWrite} />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 text-sm">
+                <input type="checkbox" className="h-4 w-4 rounded border" checked={allowTenantCreate} onChange={(e) => setAllowTenantCreate(e.target.checked)} disabled={!canWrite} />
+                Allow tenants to submit maintenance requests
+              </label>
+              <label className="flex items-center gap-2 text-sm">
+                <input type="checkbox" className="h-4 w-4 rounded border" checked={requirePhotos} onChange={(e) => setRequirePhotos(e.target.checked)} disabled={!canWrite} />
+                Require photo upload on new requests
+              </label>
+            </div>
+            {canWrite && <SaveButton loading={loadingKey === "maintenance"} />}
+          </CardContent>
+        </Card>
+      </form>
+
+      {/* Notifications */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const fd = new FormData(e.currentTarget);
+          fd.set("digestFrequency", digest);
+          if (emailMaintenance) fd.set("emailMaintenance", "on");
+          if (emailShowings) fd.set("emailShowings", "on");
+          if (emailLeaseExpiring) fd.set("emailLeaseExpiring", "on");
+          if (emailNewProspects) fd.set("emailNewProspects", "on");
+          void runSave("notifications", saveNotificationSettings, fd);
+        }}
+      >
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Bell className="h-4 w-4" />
+              Notifications
+            </CardTitle>
+            <CardDescription>Email alert preferences for staff</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label>Payment Provider</Label>
-              <Select value={provider} onValueChange={(v) => setProvider(v as "external" | "stripe")}>
+              <label className="flex items-center gap-2 text-sm">
+                <input type="checkbox" className="h-4 w-4 rounded border" checked={emailMaintenance} onChange={(e) => setEmailMaintenance(e.target.checked)} disabled={!canWrite} />
+                New / updated maintenance requests
+              </label>
+              <label className="flex items-center gap-2 text-sm">
+                <input type="checkbox" className="h-4 w-4 rounded border" checked={emailShowings} onChange={(e) => setEmailShowings(e.target.checked)} disabled={!canWrite} />
+                Showing booked or changed
+              </label>
+              <label className="flex items-center gap-2 text-sm">
+                <input type="checkbox" className="h-4 w-4 rounded border" checked={emailLeaseExpiring} onChange={(e) => setEmailLeaseExpiring(e.target.checked)} disabled={!canWrite} />
+                Leases expiring within 60 days
+              </label>
+              <label className="flex items-center gap-2 text-sm">
+                <input type="checkbox" className="h-4 w-4 rounded border" checked={emailNewProspects} onChange={(e) => setEmailNewProspects(e.target.checked)} disabled={!canWrite} />
+                New prospect leads
+              </label>
+            </div>
+            <div className="space-y-2 max-w-xs">
+              <Label>Email digest</Label>
+              <Select value={digest} onValueChange={setDigest} disabled={!canWrite}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="external">External Portal URL</SelectItem>
+                  <SelectItem value="daily">Daily</SelectItem>
+                  <SelectItem value="weekly">Weekly</SelectItem>
+                  <SelectItem value="off">Off</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            {canWrite && <SaveButton loading={loadingKey === "notifications"} />}
+          </CardContent>
+        </Card>
+      </form>
+
+      {/* Calendar */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const fd = new FormData(e.currentTarget);
+          fd.set("weekStartsOn", weekStart);
+          if (showWeekends) fd.set("showWeekends", "on");
+          void runSave("calendar", saveCalendarSettings, fd);
+        }}
+      >
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Calendar className="h-4 w-4" />
+              Calendar & hours
+            </CardTitle>
+            <CardDescription>Business hours and calendar display</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label>Week starts on</Label>
+                <Select value={weekStart} onValueChange={setWeekStart} disabled={!canWrite}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="sunday">Sunday</SelectItem>
+                    <SelectItem value="monday">Monday</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="defaultEventMinutes">Default event length (min)</Label>
+                <Input id="defaultEventMinutes" name="defaultEventMinutes" type="number" min={15} step={15} defaultValue={calendar.defaultEventMinutes} disabled={!canWrite} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="businessOpen">Office opens</Label>
+                <Input id="businessOpen" name="businessOpen" type="time" defaultValue={calendar.businessOpen} disabled={!canWrite} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="businessClose">Office closes</Label>
+                <Input id="businessClose" name="businessClose" type="time" defaultValue={calendar.businessClose} disabled={!canWrite} />
+              </div>
+            </div>
+            <label className="flex items-center gap-2 text-sm">
+              <input type="checkbox" className="h-4 w-4 rounded border" checked={showWeekends} onChange={(e) => setShowWeekends(e.target.checked)} disabled={!canWrite} />
+              Show weekends on calendar
+            </label>
+            {canWrite && <SaveButton loading={loadingKey === "calendar"} />}
+          </CardContent>
+        </Card>
+      </form>
+
+      {/* Regional */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const fd = new FormData(e.currentTarget);
+          fd.set("currency", currency);
+          fd.set("dateFormat", dateFormat);
+          fd.set("measurement", measurement);
+          void runSave("regional", saveRegionalSettings, fd);
+        }}
+      >
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Globe className="h-4 w-4" />
+              Regional
+            </CardTitle>
+            <CardDescription>Currency, dates, and units of measure</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-3">
+              <div className="space-y-2">
+                <Label>Currency</Label>
+                <Select value={currency} onValueChange={setCurrency} disabled={!canWrite}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {["USD", "CAD", "EUR", "GBP", "MXN"].map((c) => (
+                      <SelectItem key={c} value={c}>{c}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>Date format</Label>
+                <Select value={dateFormat} onValueChange={setDateFormat} disabled={!canWrite}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="MM/DD/YYYY">MM/DD/YYYY</SelectItem>
+                    <SelectItem value="DD/MM/YYYY">DD/MM/YYYY</SelectItem>
+                    <SelectItem value="YYYY-MM-DD">YYYY-MM-DD</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>Measurements</Label>
+                <Select value={measurement} onValueChange={setMeasurement} disabled={!canWrite}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="imperial">Imperial (sq ft)</SelectItem>
+                    <SelectItem value="metric">Metric (m²)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            {canWrite && <SaveButton loading={loadingKey === "regional"} />}
+          </CardContent>
+        </Card>
+      </form>
+
+      {/* Payment */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const fd = new FormData(e.currentTarget);
+          fd.set("provider", provider);
+          void runSave("payment", savePaymentSettings, fd);
+        }}
+      >
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <CreditCard className="h-4 w-4" />
+              Payments
+            </CardTitle>
+            <CardDescription>How tenants pay rent via Pay Rent</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label>Payment provider</Label>
+              <Select value={provider} onValueChange={(v) => setProvider(v as "external" | "stripe")} disabled={!canWrite}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="external">External portal URL</SelectItem>
                   <SelectItem value="stripe" disabled={!stripeConfigured}>
                     Stripe Checkout {!stripeConfigured && "(not configured)"}
                   </SelectItem>
                 </SelectContent>
               </Select>
             </div>
-
             {provider === "external" && (
               <div className="space-y-2">
-                <Label htmlFor="externalUrl">External Payment Portal URL</Label>
-                <Input
-                  id="externalUrl"
-                  name="externalUrl"
-                  type="url"
-                  defaultValue={payment.externalUrl}
-                  placeholder="https://payments.example.com"
-                />
-                <p className="text-xs text-muted-foreground">
-                  Tenants will be redirected to this URL when clicking Pay Rent
-                </p>
+                <Label htmlFor="externalUrl">Payment portal URL</Label>
+                <Input id="externalUrl" name="externalUrl" type="url" defaultValue={payment.externalUrl} disabled={!canWrite} />
               </div>
             )}
-
             {provider === "stripe" && (
-              <div className="space-y-2 rounded-lg bg-muted p-4 text-sm">
-                <p className="font-medium">Stripe Checkout</p>
-                <p className="text-muted-foreground">
-                  Tenants pay rent via Stripe Checkout. Set these in your <code>.env</code> file:
-                </p>
-                <ul className="list-disc space-y-1 pl-4 text-xs text-muted-foreground">
-                  <li>STRIPE_SECRET_KEY=sk_test_...</li>
-                  <li>STRIPE_PUBLISHABLE_KEY=pk_test_...</li>
-                </ul>
-                {!stripeConfigured && (
-                  <p className="text-xs text-destructive">
-                    STRIPE_SECRET_KEY not found — add it to enable Stripe payments
-                  </p>
-                )}
-              </div>
+              <p className="text-sm text-muted-foreground">
+                Uses <code>STRIPE_SECRET_KEY</code> from your environment.
+              </p>
             )}
-
-            <Button type="submit" disabled={paymentLoading}>
-              {paymentLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Save Payment Settings
-            </Button>
+            {canWrite && <SaveButton loading={loadingKey === "payment"} />}
           </CardContent>
         </Card>
       </form>
 
-      <form onSubmit={handleMessagingSubmit}>
+      {/* Messaging */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          void runSave("messaging", saveMessagingSettings, new FormData(e.currentTarget));
+        }}
+      >
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
               <Smartphone className="h-4 w-4" />
-              SMS / Messaging Portal
+              SMS / messaging portal
             </CardTitle>
             <CardDescription>
-              Haven does not send texts itself. Staff open your SMS provider from Messages.
-              Paste the provider dashboard URL here when you subscribe.
+              External SMS provider dashboard opened from Texting
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="providerName">Provider display name</Label>
-              <Input
-                id="providerName"
-                name="providerName"
-                defaultValue={messaging.providerName}
-                placeholder="e.g. Dialpad, Twilio, Apartment List SMS"
-              />
+              <Label htmlFor="providerName">Provider name</Label>
+              <Input id="providerName" name="providerName" defaultValue={messaging.providerName} disabled={!canWrite} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="portalUrl">Portal URL</Label>
-              <Input
-                id="portalUrl"
-                name="portalUrl"
-                type="url"
-                required
-                defaultValue={messaging.portalUrl}
-                placeholder="https://app.your-sms-provider.com"
-              />
-              <p className="text-xs text-muted-foreground">
-                Placeholder until you choose a vendor:{" "}
-                <code className="text-[11px]">https://messaging.example.com/haven-pm</code>
-              </p>
+              <Input id="portalUrl" name="portalUrl" type="url" required defaultValue={messaging.portalUrl} disabled={!canWrite} />
             </div>
-            <Button type="submit" disabled={messagingLoading}>
-              {messagingLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Save Messaging Settings
-            </Button>
+            {canWrite && <SaveButton loading={loadingKey === "messaging"} />}
           </CardContent>
         </Card>
       </form>
