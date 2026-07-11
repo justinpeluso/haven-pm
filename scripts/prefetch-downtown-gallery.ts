@@ -15,6 +15,8 @@ type GalleryImage = {
   source: string;
   kind: "historic" | "streetscape" | "building" | "map";
   credit?: string;
+  /** Best-effort capture/upload year for ranking */
+  year?: number;
 };
 
 type Downtown = (typeof inventory.downtowns)[number];
@@ -23,20 +25,49 @@ const UA = "HavenPM/1.0 (downtown gallery; https://github.com/justinpeluso/haven
 const PLACEHOLDER_URL = "/downtown-placeholder.svg";
 const OUT = path.join(process.cwd(), "data", "downtown-gallery.json");
 
-function inferKind(title: string): GalleryImage["kind"] {
+function yearFromTitle(title: string): number | undefined {
+  const years = [...title.matchAll(/\b((?:19|20)\d{2})\b/g)].map((m) => Number(m[1]));
+  if (!years.length) return undefined;
+  // Prefer the most recent plausible photo year in the title
+  const plausible = years.filter((y) => y >= 1870 && y <= new Date().getFullYear());
+  if (!plausible.length) return undefined;
+  return Math.max(...plausible);
+}
+
+function yearFromTimestamp(ts?: string): number | undefined {
+  if (!ts) return undefined;
+  const y = Number(ts.slice(0, 4));
+  if (y >= 1990 && y <= new Date().getFullYear()) return y;
+  return undefined;
+}
+
+function isRecent(img: GalleryImage) {
+  if (img.kind === "historic") return false;
+  if (img.year && img.year >= 2010) return true;
+  if (img.year && img.year < 1990) return false;
+  // No year but contemporary street/building from Commons geo — treat as recent-ish
+  return img.kind === "streetscape" || img.kind === "building";
+}
+
+function inferKind(title: string, year?: number): GalleryImage["kind"] {
   const t = title.toLowerCase();
-  if (/historic|history|19\d{2}|postcard|vintage|old |archive|nrhp|historic district|nara/.test(t)) {
+  if (/map|locator|diagram|satellite|iss\d|view of earth|from space|election/.test(t)) return "map";
+  // Explicit historic cues, or clearly old years
+  if (
+    /postcard|vintage|old |archive|nara|nrhp/.test(t) ||
+    (year !== undefined && year < 1990) ||
+    (/historic|history|historic district/.test(t) && (year === undefined || year < 2005))
+  ) {
     return "historic";
   }
   if (/main street|downtown|streetscape|business|storefront|street|avenue|road|bridge/.test(t)) {
     return "streetscape";
   }
-  if (/map|locator|diagram|satellite|iss\d|view of earth|from space|election/.test(t)) return "map";
   return "building";
 }
 
 function skipTitle(title: string) {
-  return /coat of arms|locator map|flag of|seal of|logo|icon|diagram|\.svg\b|route map|county map|openstreetmap|wiki\s*mini\s*atlas|iss\d|view of earth|from space|astronaut|election|highlighted\.png|highlighted\.svg|dem\.|lidar/i.test(
+  return /coat of arms|locator map|flag of|seal of|logo|icon|diagram|\.svg\b|route map|county map|openstreetmap|wiki\s*mini\s*atlas|iss\d|view of earth|from space|astronaut|election|highlighted\.png|highlighted\.svg|dem\.|lidar|enumeration district|census\b|infantry|regiment/i.test(
     title
   );
 }
@@ -106,6 +137,7 @@ type ApiPage = {
     mime?: string;
     width?: number;
     height?: number;
+    timestamp?: string;
   }>;
 };
 
@@ -116,17 +148,18 @@ function pagesToImages(pages: ApiPage[], source: string): GalleryImage[] {
     const title = page.title || "";
     if (!info?.mime?.startsWith("image/") || info.mime.includes("svg")) continue;
     if (skipTitle(title)) continue;
-    // Keep API thumb sizes exactly — rewriting to 640px breaks Wikimedia's allow-list
     const full = absHttps(info.url || info.thumburl || "");
     const thumb = absHttps(info.thumburl || info.url || "");
     if (!full || !thumb) continue;
+    const year = yearFromTitle(title) ?? yearFromTimestamp(info.timestamp);
     out.push({
       url: full,
       thumbUrl: thumb,
       title: title.replace(/^File:/, ""),
       source,
-      kind: inferKind(title),
+      kind: inferKind(title, year),
       credit: source,
+      year,
     });
   }
   return out;
@@ -143,7 +176,7 @@ async function geoImages(d: Downtown, radius: number): Promise<GalleryImage[]> {
     ggslimit: "25",
     ggsnamespace: "6",
     prop: "imageinfo",
-    iiprop: "url|mime|size",
+    iiprop: "url|mime|size|timestamp",
     iiurlwidth: "640",
   });
   const json = await fetchJson(`https://commons.wikimedia.org/w/api.php?${params}`);
@@ -163,7 +196,7 @@ async function searchFileImages(queries: string[]): Promise<GalleryImage[]> {
       gsrsearch: q,
       gsrlimit: "12",
       prop: "imageinfo",
-      iiprop: "url|mime|size",
+      iiprop: "url|mime|size|timestamp",
       iiurlwidth: "640",
     });
     const json = await fetchJson(`https://commons.wikimedia.org/w/api.php?${params}`);
@@ -197,13 +230,15 @@ async function wikipediaImages(d: Downtown): Promise<GalleryImage[]> {
     const src = summary.originalimage?.source || summary.thumbnail?.source;
     if (src && !seen.has(src) && !/\.svg($|\?)/i.test(src) && !skipTitle(pageTitle)) {
       seen.add(src);
+      const year = yearFromTitle(pageTitle);
       out.push({
         url: absHttps(summary.originalimage?.source || src),
         thumbUrl: absHttps(summary.thumbnail?.source || src),
         title: pageTitle,
         source: "Wikipedia",
-        kind: inferKind(pageTitle),
+        kind: inferKind(pageTitle, year),
         credit: "Wikipedia",
+        year,
       });
     }
 
@@ -225,7 +260,7 @@ async function wikipediaImages(d: Downtown): Promise<GalleryImage[]> {
         origin: "*",
         titles: fileTitles.join("|"),
         prop: "imageinfo",
-        iiprop: "url|mime|size",
+        iiprop: "url|mime|size|timestamp",
         iiurlwidth: "640",
       });
       const json = await fetchJson(`https://commons.wikimedia.org/w/api.php?${params}`);
@@ -255,11 +290,19 @@ function scoreRelevance(img: GalleryImage, d: Downtown) {
   else if (new RegExp(`\\b${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i").test(t)) s += 6;
   if (t.includes("downtown") || t.includes("main street")) s += 4;
   if (img.kind === "streetscape") s += 3;
-  if (img.kind === "historic") s += 2;
-  if (img.kind === "building") s += 1;
+  if (img.kind === "building") s += 2;
+  if (img.kind === "historic") s += 1;
   if (img.kind === "map") s -= 20;
+  // Prefer recent street photos over archival
+  if (img.year && img.year >= 2020) s += 12;
+  else if (img.year && img.year >= 2015) s += 9;
+  else if (img.year && img.year >= 2010) s += 6;
+  else if (img.year && img.year >= 2000) s += 3;
+  else if (img.year && img.year < 1980) s -= 2;
+  if (img.kind === "historic") s -= 1;
   if (t.includes("stadium") || t.includes("penn state") || t.includes("freedom plaza")) s -= 15;
-  // Wrong municipality: "in OtherTown, Other County"
+  if (/\binfantry|sewickley|civil war|regiment\b/i.test(t) && name === "beaver") s -= 25;
+  if (/sewickley/i.test(t) && name === "beaver") s -= 25;
   const located = t.match(/\bin ([a-z .'-]+), ([a-z]+) county/i);
   if (located) {
     const place = located[1].trim();
@@ -277,11 +320,39 @@ function keepImage(img: GalleryImage, d: Downtown) {
   return scoreRelevance(img, d) >= 3;
 }
 
+/** Keep recent street/building frames first, then a few historic. */
+function pickBalanced(merged: GalleryImage[], d: Downtown, limit = 10): GalleryImage[] {
+  const ranked = [...merged].sort((a, b) => scoreRelevance(b, d) - scoreRelevance(a, d));
+  const recent = ranked.filter(isRecent);
+  const historic = ranked.filter((img) => !isRecent(img));
+  const out: GalleryImage[] = [];
+  const seen = new Set<string>();
+  const push = (img: GalleryImage) => {
+    const key = img.title.toLowerCase();
+    if (seen.has(key)) return;
+    seen.add(key);
+    out.push(img);
+  };
+  for (const img of recent) {
+    if (out.length >= Math.min(7, limit)) break;
+    push(img);
+  }
+  for (const img of historic) {
+    if (out.length >= limit) break;
+    push(img);
+  }
+  // Fill remaining from ranked if still thin
+  for (const img of ranked) {
+    if (out.length >= limit) break;
+    push(img);
+  }
+  return out;
+}
+
 async function imagesFor(d: Downtown): Promise<GalleryImage[]> {
   const stateFull = d.state === "PA" ? "Pennsylvania" : "Ohio";
   const radius = Math.max(1500, d.radiusM + 800);
 
-  // Sequential sources — fewer parallel hits on Commons
   const geo = await geoImages(d, radius);
   await sleep(80);
   const wiki = await wikipediaImages(d);
@@ -290,6 +361,10 @@ async function imagesFor(d: Downtown): Promise<GalleryImage[]> {
     `"${d.name}" "${stateFull}"`,
     `"${d.name}" ${stateFull} downtown`,
     `"${d.name}" ${stateFull} street`,
+    // Explicit recent-year searches
+    `"${d.name}" ${stateFull} 2024 OR 2023 OR 2022`,
+    `"${d.name}" ${stateFull} 2021 OR 2020 OR 2019`,
+    `"${d.name}" ${stateFull} 2018 OR 2017 OR 2016`,
   ]);
 
   const seen = new Set<string>();
@@ -302,10 +377,9 @@ async function imagesFor(d: Downtown): Promise<GalleryImage[]> {
     merged.push(img);
   }
 
-  merged.sort((a, b) => scoreRelevance(b, d) - scoreRelevance(a, d));
-  let photos = merged.slice(0, 10);
+  let photos = pickBalanced(merged, d, 10);
 
-  if (photos.length < 3) {
+  if (photos.filter(isRecent).length < 3) {
     await sleep(100);
     const wider = await geoImages(d, 4500);
     for (const img of wider) {
@@ -313,11 +387,9 @@ async function imagesFor(d: Downtown): Promise<GalleryImage[]> {
       const key = img.title.toLowerCase().replace(/\s+/g, " ");
       if (seen.has(key)) continue;
       seen.add(key);
-      photos.push(img);
-      if (photos.length >= 8) break;
+      merged.push(img);
     }
-    photos.sort((a, b) => scoreRelevance(b, d) - scoreRelevance(a, d));
-    photos = photos.slice(0, 10);
+    photos = pickBalanced(merged, d, 10);
   }
 
   if (photos.length === 0) return [placeholder(d)];
@@ -350,32 +422,46 @@ function writeCache(byId: Record<string, GalleryImage[]>) {
 
 async function main() {
   const downtowns = inventory.downtowns;
-  console.log(`Prefetching gallery for ${downtowns.length} downtowns (paced)…`);
+  const forceIds = new Set(
+    (process.env.FORCE_IDS || "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean)
+  );
+  const target = forceIds.size
+    ? downtowns.filter((d) => forceIds.has(d.id))
+    : downtowns;
+  console.log(
+    forceIds.size
+      ? `Force-refreshing ${target.length} downtowns…`
+      : `Prefetching gallery for ${target.length} downtowns (paced)…`
+  );
   const byId: Record<string, GalleryImage[]> = {};
 
-  // Resume support: keep existing good entries if re-run mid-flight
-  if (fs.existsSync(OUT) && process.env.RESUME === "1") {
+  // Always seed from existing cache when force-refreshing a subset
+  if (fs.existsSync(OUT) && (process.env.RESUME === "1" || forceIds.size > 0)) {
     try {
       const prev = JSON.parse(fs.readFileSync(OUT, "utf8"));
       Object.assign(byId, prev.byId || {});
-      console.log(`Resuming with ${Object.keys(byId).length} cached entries`);
+      console.log(`Loaded ${Object.keys(byId).length} cached entries`);
     } catch {
       /* ignore */
     }
   }
 
-  await mapPool(downtowns, 2, async (d, i) => {
+  await mapPool(target, 2, async (d, i) => {
     const existing = byId[d.id];
     const existingReal = existing?.filter((x) => x.kind !== "map").length ?? 0;
-    if (process.env.RESUME === "1" && existingReal >= 3) {
+    if (!forceIds.size && process.env.RESUME === "1" && existingReal >= 3) {
       return existing!;
     }
 
     const images = await imagesFor(d);
     byId[d.id] = images;
-    if ((i + 1) % 10 === 0 || i === downtowns.length - 1) {
+    if ((i + 1) % 10 === 0 || i === target.length - 1) {
       const real = images.filter((x) => x.kind !== "map").length;
-      console.log(`  ${i + 1}/${downtowns.length} — ${d.name}: ${real} photos`);
+      const recent = images.filter((x) => x.kind !== "map" && isRecent(x)).length;
+      console.log(`  ${i + 1}/${target.length} — ${d.name}: ${real} photos (${recent} recent)`);
       writeCache(byId);
     }
     await sleep(220);
@@ -383,12 +469,15 @@ async function main() {
   });
 
   writeCache(byId);
-  const realCounts = Object.values(byId).map((x) => x.filter((i) => i.kind !== "map").length);
+  const real = Object.values(byId).map((x) => x.filter((i) => i.kind !== "map"));
+  const realCounts = real.map((x) => x.length);
+  const recentCounts = real.map((x) => x.filter(isRecent).length);
   const avg = realCounts.reduce((a, b) => a + b, 0) / realCounts.length;
+  const avgRecent = recentCounts.reduce((a, b) => a + b, 0) / recentCounts.length;
   const bytes = fs.statSync(OUT).size;
   console.log(`Wrote ${OUT} (${(bytes / 1024).toFixed(0)} KB)`);
   console.log(
-    `≥3 photos: ${realCounts.filter((n) => n >= 3).length}/${downtowns.length} · ≥5: ${realCounts.filter((n) => n >= 5).length} · avg ${avg.toFixed(1)} · 0 photos: ${realCounts.filter((n) => n === 0).length}`
+    `≥3 photos: ${realCounts.filter((n) => n >= 3).length}/${Object.keys(byId).length} · avg ${avg.toFixed(1)} · avg recent ${avgRecent.toFixed(1)} · 0 photos: ${realCounts.filter((n) => n === 0).length}`
   );
 }
 

@@ -123,8 +123,8 @@ export function DowntownGallery({ initial }: Props) {
           Main Street images across {initial.length} downtowns
         </h1>
         <p className="max-w-2xl text-sm" style={{ color: "var(--dt-muted)" }}>
-          Prefetched Wikimedia / Wikipedia photos (historic + streetscape + buildings). Search all
-          CBDs instantly. Select up to 4 to compare.
+          Prefetched Wikimedia / Wikipedia photos — recent streetscapes first, plus historic
+          frames when available. Search all CBDs instantly. Select up to 4 to compare.
         </p>
       </header>
 

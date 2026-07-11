@@ -11,6 +11,7 @@ export type GalleryImage = {
   source: string;
   kind: GalleryImageKind;
   credit?: string;
+  year?: number;
 };
 
 export type DowntownGalleryCard = {
