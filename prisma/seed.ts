@@ -208,6 +208,10 @@ async function main() {
       { key: "vendors", value: JSON.stringify(VENDORS) },
       { key: "messaging_portal_url", value: "https://messaging.example.com/haven-pm" },
       { key: "messaging_provider_name", value: "SMS Portal (coming soon)" },
+      { key: "company_city", value: "Pittsburgh" },
+      { key: "company_state", value: "PA" },
+      { key: "company_zip", value: "15222" },
+      { key: "company_timezone", value: "America/New_York" },
     ],
   });
 

@@ -1,5 +1,12 @@
 /** Open-Meteo — free, no API key required. https://open-meteo.com */
 
+export interface WeatherDay {
+  date: string;
+  weatherCode: number;
+  high: number;
+  low: number;
+}
+
 export interface WeatherSnapshot {
   locationLabel: string;
   temperature: number;
@@ -9,6 +16,7 @@ export interface WeatherSnapshot {
   windUnit: string;
   high: number | null;
   low: number | null;
+  days: WeatherDay[];
   fetchedAt: string;
 }
 
@@ -40,52 +48,14 @@ export function weatherLabel(code: number): string {
   return WMO_LABELS[code] ?? "Weather";
 }
 
-/** Default: Pittsburgh, PA */
-const DEFAULT_COORDS = { lat: 40.4406, lon: -79.9959, label: "Pittsburgh, PA" };
+/** Pittsburgh, PA — fixed weather location */
+const PITTSBURGH = { lat: 40.4406, lon: -79.9959, label: "Pittsburgh, PA" };
 
 export async function fetchWeatherForPlace(
-  city: string,
-  state?: string
+  _city?: string,
+  _state?: string
 ): Promise<WeatherSnapshot> {
-  let lat = DEFAULT_COORDS.lat;
-  let lon = DEFAULT_COORDS.lon;
-  let locationLabel = DEFAULT_COORDS.label;
-
-  const query = [city, state].filter(Boolean).join(", ");
-  if (query) {
-    try {
-      const geoUrl = new URL("https://geocoding-api.open-meteo.com/v1/search");
-      geoUrl.searchParams.set("name", query);
-      geoUrl.searchParams.set("count", "5");
-      geoUrl.searchParams.set("language", "en");
-      geoUrl.searchParams.set("format", "json");
-      geoUrl.searchParams.set("countryCode", "US");
-
-      const geoRes = await fetch(geoUrl.toString(), { next: { revalidate: 86400 } });
-      if (geoRes.ok) {
-        const geo = await geoRes.json();
-        const results = geo.results ?? [];
-        const stateUpper = state?.toUpperCase();
-        const hit =
-          results.find(
-            (r: { admin1?: string; admin1_code?: string }) =>
-              !stateUpper ||
-              r.admin1_code?.endsWith(stateUpper) ||
-              r.admin1?.toUpperCase().includes(stateUpper) ||
-              (stateUpper === "PA" && r.admin1?.toLowerCase().includes("pennsylvania"))
-          ) ?? results[0];
-        if (hit) {
-          lat = hit.latitude;
-          lon = hit.longitude;
-          locationLabel = [hit.name, hit.admin1 || state].filter(Boolean).join(", ");
-        } else if (city) {
-          locationLabel = state ? `${city}, ${state}` : city;
-        }
-      }
-    } catch {
-      // fall back to defaults
-    }
-  }
+  const { lat, lon, label: locationLabel } = PITTSBURGH;
 
   const forecastUrl = new URL("https://api.open-meteo.com/v1/forecast");
   forecastUrl.searchParams.set("latitude", String(lat));
@@ -100,8 +70,8 @@ export async function fetchWeatherForPlace(
   );
   forecastUrl.searchParams.set("temperature_unit", "fahrenheit");
   forecastUrl.searchParams.set("wind_speed_unit", "mph");
-  forecastUrl.searchParams.set("timezone", "auto");
-  forecastUrl.searchParams.set("forecast_days", "1");
+  forecastUrl.searchParams.set("timezone", "America/New_York");
+  forecastUrl.searchParams.set("forecast_days", "7");
 
   const res = await fetch(forecastUrl.toString(), { next: { revalidate: 1800 } });
   if (!res.ok) {
@@ -112,6 +82,13 @@ export async function fetchWeatherForPlace(
   const current = data.current;
   const daily = data.daily;
 
+  const days: WeatherDay[] = (daily?.time ?? []).map((date: string, i: number) => ({
+    date,
+    weatherCode: daily.weather_code[i],
+    high: Math.round(daily.temperature_2m_max[i]),
+    low: Math.round(daily.temperature_2m_min[i]),
+  }));
+
   return {
     locationLabel,
     temperature: Math.round(current.temperature_2m),
@@ -119,8 +96,9 @@ export async function fetchWeatherForPlace(
     weatherCode: current.weather_code,
     windSpeed: Math.round(current.wind_speed_10m),
     windUnit: data.current_units?.wind_speed_10m || "mph",
-    high: daily?.temperature_2m_max?.[0] != null ? Math.round(daily.temperature_2m_max[0]) : null,
-    low: daily?.temperature_2m_min?.[0] != null ? Math.round(daily.temperature_2m_min[0]) : null,
+    high: days[0]?.high ?? null,
+    low: days[0]?.low ?? null,
+    days,
     fetchedAt: new Date().toISOString(),
   };
 }

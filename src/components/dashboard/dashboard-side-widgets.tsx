@@ -9,7 +9,6 @@ import {
   CloudSun,
   MapPin,
   Sun,
-  Wind,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -17,17 +16,23 @@ import { Button } from "@/components/ui/button";
 import { formatDateTime } from "@/lib/utils";
 import { weatherLabel, type WeatherSnapshot } from "@/lib/weather";
 
-function WeatherIcon({ code }: { code: number }) {
-  if (code === 0 || code === 1) return <Sun className="h-12 w-12 text-amber-500" />;
-  if (code === 2) return <CloudSun className="h-12 w-12 text-sky-500" />;
-  if (code === 3) return <Cloud className="h-12 w-12 text-slate-400" />;
-  if (code === 45 || code === 48) return <CloudFog className="h-12 w-12 text-slate-400" />;
-  if (code >= 71 && code <= 77) return <CloudSnow className="h-12 w-12 text-sky-400" />;
-  if (code >= 95) return <CloudLightning className="h-12 w-12 text-violet-500" />;
+function WeatherIcon({ code, className = "h-5 w-5" }: { code: number; className?: string }) {
+  if (code === 0 || code === 1) return <Sun className={`${className} text-amber-500`} />;
+  if (code === 2) return <CloudSun className={`${className} text-sky-500`} />;
+  if (code === 3) return <Cloud className={`${className} text-slate-400`} />;
+  if (code === 45 || code === 48) return <CloudFog className={`${className} text-slate-400`} />;
+  if (code >= 71 && code <= 77) return <CloudSnow className={`${className} text-sky-400`} />;
+  if (code >= 95) return <CloudLightning className={`${className} text-violet-500`} />;
   if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) {
-    return <CloudRain className="h-12 w-12 text-blue-500" />;
+    return <CloudRain className={`${className} text-blue-500`} />;
   }
-  return <CloudSun className="h-12 w-12 text-sky-500" />;
+  return <CloudSun className={`${className} text-sky-500`} />;
+}
+
+function weekdayLabel(dateStr: string, index: number): string {
+  if (index === 0) return "Today";
+  const date = new Date(`${dateStr}T12:00:00`);
+  return date.toLocaleDateString("en-US", { weekday: "short" });
 }
 
 export interface CalendarPreviewEvent {
@@ -96,7 +101,7 @@ export function DashboardSideWidgets({
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
           <CardTitle className="flex items-center gap-2 text-base">
             <CloudSun className="h-4 w-4" />
-            Local weather
+            Weekly forecast
           </CardTitle>
           {weather && (
             <span className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -109,33 +114,48 @@ export function DashboardSideWidgets({
           {weatherError && !weather ? (
             <p className="py-6 text-center text-sm text-muted-foreground">{weatherError}</p>
           ) : weather ? (
-            <div className="flex items-center gap-4">
-              <WeatherIcon code={weather.weatherCode} />
-              <div className="min-w-0 flex-1 space-y-1">
-                <p className="text-3xl font-bold tracking-tight">
-                  {weather.temperature}°
-                  <span className="text-lg font-medium text-muted-foreground">
-                    {weather.temperatureUnit.includes("F") ? "F" : "C"}
-                  </span>
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {weatherLabel(weather.weatherCode)}
-                </p>
-                <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
-                  {weather.high != null && weather.low != null && (
-                    <span>
-                      H {weather.high}° · L {weather.low}°
-                    </span>
-                  )}
-                  <span className="inline-flex items-center gap-1">
-                    <Wind className="h-3 w-3" />
-                    {weather.windSpeed} {weather.windUnit}
-                  </span>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <WeatherIcon code={weather.weatherCode} className="h-10 w-10" />
+                <div>
+                  <p className="text-2xl font-bold tracking-tight">
+                    {weather.temperature}°F
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {weatherLabel(weather.weatherCode)}
+                    {weather.high != null && weather.low != null
+                      ? ` · H ${weather.high}° L ${weather.low}°`
+                      : ""}
+                  </p>
                 </div>
-                <p className="text-[10px] text-muted-foreground/80">
-                  Powered by Open-Meteo — free, no API key
-                </p>
               </div>
+
+              <ul className="divide-y rounded-lg border">
+                {weather.days.map((day, index) => (
+                  <li
+                    key={day.date}
+                    className="flex items-center gap-3 px-3 py-2 text-sm"
+                  >
+                    <span className="w-12 shrink-0 font-medium text-muted-foreground">
+                      {weekdayLabel(day.date, index)}
+                    </span>
+                    <WeatherIcon code={day.weatherCode} className="h-4 w-4 shrink-0" />
+                    <span className="min-w-0 flex-1 truncate text-xs text-muted-foreground">
+                      {weatherLabel(day.weatherCode)}
+                    </span>
+                    <span className="shrink-0 tabular-nums text-muted-foreground">
+                      {day.low}°
+                    </span>
+                    <span className="w-8 shrink-0 text-right tabular-nums font-medium">
+                      {day.high}°
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <p className="text-[10px] text-muted-foreground/80">
+                Pittsburgh, PA · Open-Meteo
+              </p>
             </div>
           ) : (
             <p className="py-6 text-center text-sm text-muted-foreground">Loading weather…</p>
