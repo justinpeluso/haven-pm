@@ -94,23 +94,40 @@ export function DowntownCompare({ ids }: { ids: string[] }) {
               </p>
             </div>
             <div className="space-y-3 p-3">
-              {d.images.map((img) => (
-                <figure key={img.url} className="space-y-1.5">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={img.thumbUrl || img.url}
-                    alt={img.title}
-                    className="w-full rounded-sm object-cover aspect-[4/3] border border-[var(--dt-line)]"
-                    loading="lazy"
-                  />
-                  <figcaption className="text-[0.65rem] leading-relaxed" style={{ color: "var(--dt-muted)" }}>
-                    <span className="uppercase tracking-wide text-[var(--dt-accent)]">{img.kind}</span>
-                    {" · "}
-                    {img.title}
-                    {img.credit ? ` · ${img.credit}` : ""}
-                  </figcaption>
-                </figure>
-              ))}
+              {d.images
+                .filter((img) => img.kind !== "map" || d.images.length === 1)
+                .map((img) => {
+                  const src = (img.thumbUrl || img.url).startsWith("//")
+                    ? `https:${img.thumbUrl || img.url}`
+                    : img.thumbUrl || img.url;
+                  return (
+                    <figure key={img.url + img.title} className="space-y-1.5">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={src.startsWith("data:") ? "/downtown-placeholder.svg" : src}
+                        alt={img.title}
+                        className="w-full rounded-sm object-cover aspect-[4/3] border border-[var(--dt-line)]"
+                        loading="lazy"
+                        decoding="async"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          e.currentTarget.src = "/downtown-placeholder.svg";
+                        }}
+                      />
+                      <figcaption
+                        className="text-[0.65rem] leading-relaxed"
+                        style={{ color: "var(--dt-muted)" }}
+                      >
+                        <span className="uppercase tracking-wide text-[var(--dt-accent)]">
+                          {img.kind}
+                        </span>
+                        {" · "}
+                        {img.title}
+                        {img.credit ? ` · ${img.credit}` : ""}
+                      </figcaption>
+                    </figure>
+                  );
+                })}
             </div>
           </div>
         ))}

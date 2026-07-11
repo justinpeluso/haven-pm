@@ -1,6 +1,6 @@
 "use client";
 
-import { useDeferredValue, useEffect, useMemo, useState, useTransition } from "react";
+import { useDeferredValue, useMemo, useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search, X, Columns2, Check } from "lucide-react";
@@ -16,20 +16,60 @@ export type GalleryCard = {
   milesFromAllegheny: number;
   tags: string[];
   vibrancy: number;
-  images?: GalleryImage[];
+  images: GalleryImage[];
 };
 
 type Props = {
   initial: GalleryCard[];
 };
 
+const PAGE_SIZE = 36;
+const PLACEHOLDER = "/downtown-placeholder.svg";
+
+function absHttps(u: string) {
+  if (!u) return PLACEHOLDER;
+  if (u.startsWith("//")) return `https:${u}`;
+  if (u.startsWith("http://")) return `https://${u.slice(7)}`;
+  if (u.startsWith("data:")) return PLACEHOLDER;
+  return u;
+}
+
+function SafeImg({
+  src,
+  alt,
+  className,
+  fallback = PLACEHOLDER,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  fallback?: string;
+}) {
+  const [current, setCurrent] = useState(() => absHttps(src));
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={current}
+      alt={alt}
+      className={className}
+      loading="lazy"
+      decoding="async"
+      referrerPolicy="no-referrer"
+      onError={() => {
+        const fb = absHttps(fallback);
+        if (current !== fb) setCurrent(fb);
+      }}
+    />
+  );
+}
+
 export function DowntownGallery({ initial }: Props) {
   const router = useRouter();
   const [q, setQ] = useState("");
   const [state, setState] = useState<"ALL" | "PA" | "OH">("ALL");
   const [selected, setSelected] = useState<string[]>([]);
-  const [imageMap, setImageMap] = useState<Record<string, GalleryImage[]>>({});
-  const [loadingIds, setLoadingIds] = useState<Set<string>>(new Set());
+  const [kindFilter, setKindFilter] = useState<"all" | GalleryImage["kind"]>("all");
+  const [visible, setVisible] = useState(PAGE_SIZE);
   const [, startTransition] = useTransition();
   const deferredQ = useDeferredValue(q);
 
@@ -45,66 +85,26 @@ export function DowntownGallery({ initial }: Props) {
           .includes(query)
       );
     }
+    if (kindFilter !== "all") {
+      list = list.filter((d) => d.images.some((img) => img.kind === kindFilter));
+    }
     return list;
-  }, [initial, state, deferredQ]);
+  }, [initial, state, deferredQ, kindFilter]);
 
-  // Lazy-load images for visible first page of filtered results
-  const visibleKey = filtered
-    .slice(0, 30)
-    .map((d) => d.id)
-    .join(",");
-
-  useEffect(() => {
-    const need = visibleKey
-      .split(",")
-      .filter(Boolean)
-      .filter((id) => !imageMap[id] && !loadingIds.has(id));
-    if (need.length === 0) return;
-
-    let cancelled = false;
-    setLoadingIds((prev) => {
-      const next = new Set(prev);
-      need.forEach((id) => next.add(id));
-      return next;
-    });
-
-    (async () => {
-      const chunkSize = 4;
-      for (let i = 0; i < need.length; i += chunkSize) {
-        if (cancelled) return;
-        const chunk = need.slice(i, i + chunkSize);
-        await Promise.all(
-          chunk.map(async (id) => {
-            try {
-              const res = await fetch(`/api/downtowns/gallery?id=${encodeURIComponent(id)}`);
-              if (!res.ok) return;
-              const data = await res.json();
-              if (cancelled) return;
-              setImageMap((prev) => ({ ...prev, [id]: data.images ?? [] }));
-            } catch {
-              // ignore
-            } finally {
-              setLoadingIds((prev) => {
-                const next = new Set(prev);
-                next.delete(id);
-                return next;
-              });
-            }
-          })
-        );
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [visibleKey]); // imageMap/loading checked inside for freshness
+  const shown = filtered.slice(0, visible);
 
   function toggleSelect(id: string) {
     setSelected((prev) => {
       if (prev.includes(id)) return prev.filter((x) => x !== id);
       if (prev.length >= 4) return prev;
       return [...prev, id];
+    });
+  }
+
+  function resetAndFilter(fn: () => void) {
+    startTransition(() => {
+      setVisible(PAGE_SIZE);
+      fn();
     });
   }
 
@@ -123,8 +123,8 @@ export function DowntownGallery({ initial }: Props) {
           Main Street images across {initial.length} downtowns
         </h1>
         <p className="max-w-2xl text-sm" style={{ color: "var(--dt-muted)" }}>
-          Search all CBDs, browse streetscape / historic / building photos from Wikimedia Commons
-          when available, with OpenStreetMap core maps as fallback. Select up to 4 downtowns to compare.
+          Prefetched Wikimedia / Wikipedia photos (historic + streetscape + buildings). Search all
+          CBDs instantly. Select up to 4 to compare.
         </p>
       </header>
 
@@ -134,11 +134,19 @@ export function DowntownGallery({ initial }: Props) {
           className="downtown-input"
           placeholder="Search gallery — town, CBD, county, tag…"
           value={q}
-          onChange={(e) => startTransition(() => setQ(e.target.value))}
+          onChange={(e) => {
+            const value = e.target.value;
+            resetAndFilter(() => setQ(value));
+          }}
         />
         {q && (
           <div className="downtown-search-actions">
-            <button type="button" className="downtown-chip" onClick={() => setQ("")} aria-label="Clear">
+            <button
+              type="button"
+              className="downtown-chip"
+              onClick={() => resetAndFilter(() => setQ(""))}
+              aria-label="Clear"
+            >
               <X className="h-3.5 w-3.5" />
             </button>
           </div>
@@ -147,10 +155,12 @@ export function DowntownGallery({ initial }: Props) {
 
       <div className="space-y-3">
         <p className="text-xs" style={{ color: "var(--dt-muted)" }}>
-          Showing <span className="downtown-stat text-[var(--dt-fg)]">{filtered.length}</span> downtowns
-          {selected.length > 0 && (
-            <> · {selected.length}/4 selected for compare</>
-          )}
+          Showing{" "}
+          <span className="downtown-stat text-[var(--dt-fg)]">
+            {shown.length}/{filtered.length}
+          </span>{" "}
+          downtowns
+          {selected.length > 0 && <> · {selected.length}/4 selected</>}
         </p>
         <div className="flex flex-wrap gap-2.5">
           {(["ALL", "PA", "OH"] as const).map((s) => (
@@ -159,39 +169,42 @@ export function DowntownGallery({ initial }: Props) {
               type="button"
               className="downtown-chip"
               data-active={state === s}
-              onClick={() => setState(s)}
+              onClick={() => resetAndFilter(() => setState(s))}
             >
               {s === "ALL" ? "All states" : s}
+            </button>
+          ))}
+          {(["all", "streetscape", "historic", "building"] as const).map((k) => (
+            <button
+              key={k}
+              type="button"
+              className="downtown-chip"
+              data-active={kindFilter === k}
+              onClick={() => resetAndFilter(() => setKindFilter(k))}
+            >
+              {k === "all" ? "All photo types" : k}
             </button>
           ))}
         </div>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {filtered.map((d) => {
-          const images = imageMap[d.id] ?? [];
-          const hero = images.find((i) => i.kind !== "map") ?? images[0];
+        {shown.map((d) => {
+          const photos = d.images.filter((i) => i.kind !== "map");
+          const images = photos.length > 0 ? photos : d.images;
+          const hero = images[0];
           const isSelected = selected.includes(d.id);
-          const loading = loadingIds.has(d.id) && images.length === 0;
+          const thumbs = images.slice(0, 6);
 
           return (
             <article key={d.id} className="downtown-panel overflow-hidden">
               <div className="relative aspect-[16/10] bg-black/40">
-                {hero ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                {hero && (
+                  <SafeImg
                     src={hero.thumbUrl || hero.url}
                     alt={hero.title}
                     className="h-full w-full object-cover"
-                    loading="lazy"
                   />
-                ) : (
-                  <div
-                    className="flex h-full items-center justify-center text-xs"
-                    style={{ color: "var(--dt-muted)" }}
-                  >
-                    {loading ? "Loading images…" : "No image yet"}
-                  </div>
                 )}
                 <button
                   type="button"
@@ -226,25 +239,23 @@ export function DowntownGallery({ initial }: Props) {
                     V {d.vibrancy}
                   </span>
                 </div>
-                {images.length > 1 && (
+                {thumbs.length > 1 && (
                   <div className="flex gap-1.5 overflow-x-auto pb-1">
-                    {images.slice(0, 5).map((img) => (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        key={img.url}
+                    {thumbs.slice(1, 4).map((img) => (
+                      <SafeImg
+                        key={img.url + img.title}
                         src={img.thumbUrl || img.url}
                         alt={img.title}
-                        title={`${img.kind}: ${img.title}`}
                         className="h-14 w-20 shrink-0 rounded-sm object-cover border border-[var(--dt-line)]"
-                        loading="lazy"
                       />
                     ))}
                   </div>
                 )}
                 <p className="text-[0.65rem]" style={{ color: "var(--dt-muted)" }}>
-                  {images.length
-                    ? `${images.length} frames · ${images.filter((i) => i.kind === "historic").length} historic · ${images.filter((i) => i.kind === "streetscape" || i.kind === "building").length} street/building`
-                    : "Fetching Commons / map…"}
+                  {photos.length || images.length} frames ·{" "}
+                  {photos.filter((i) => i.kind === "historic").length} historic ·{" "}
+                  {photos.filter((i) => i.kind === "streetscape" || i.kind === "building").length}{" "}
+                  street/building
                 </p>
               </div>
             </article>
@@ -252,23 +263,32 @@ export function DowntownGallery({ initial }: Props) {
         })}
       </div>
 
+      {visible < filtered.length && (
+        <div className="flex justify-center pb-8">
+          <button
+            type="button"
+            className="downtown-chip"
+            data-active="true"
+            onClick={() => setVisible((v) => v + PAGE_SIZE)}
+          >
+            Show more ({filtered.length - visible} left)
+          </button>
+        </div>
+      )}
+
       {selected.length > 0 && (
         <div
           className="fixed bottom-4 left-1/2 z-40 flex -translate-x-1/2 items-center gap-3 border border-[var(--dt-line)] px-4 py-3 shadow-xl"
           style={{ background: "rgba(14,20,25,0.95)" }}
         >
           <Columns2 className="h-4 w-4" style={{ color: "var(--dt-accent)" }} />
-          <span className="text-sm">
-            Compare {selected.length}/4 downtowns
-          </span>
+          <span className="text-sm">Compare {selected.length}/4 downtowns</span>
           <button
             type="button"
             className="downtown-chip"
             data-active="true"
             disabled={selected.length < 2}
-            onClick={() =>
-              router.push(`/downtown/gallery/compare?ids=${selected.join(",")}`)
-            }
+            onClick={() => router.push(`/downtown/gallery/compare?ids=${selected.join(",")}`)}
           >
             Open compare
           </button>
