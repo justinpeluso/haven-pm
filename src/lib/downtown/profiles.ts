@@ -1,4 +1,5 @@
 import type { BusinessMix, DowntownRecord } from "./types";
+import { getDowntownIntel, type DowntownIntel } from "./intel";
 
 export type SampleBusiness = {
   name: string;
@@ -14,6 +15,24 @@ export type DowntownProfile = {
   landmarks: string[];
   sampleBusinesses: SampleBusiness[];
   marketNotes: string;
+  /** Expanded place overview (Wikipedia lead + CBD framing). */
+  overview: string;
+  history: string;
+  demographicsNarrative: string;
+  demographics: {
+    population2020?: number;
+    population2023?: number;
+    landAreaSqMi?: number;
+    waterAreaSqMi?: number;
+    densityPerSqMi?: number;
+    elevationFt?: number;
+    foundedYear?: number;
+    placeName?: string;
+    source?: string;
+  };
+  facts: string[];
+  wikiUrl?: string;
+  wikiTitle?: string;
 };
 
 const FOOD = [
@@ -109,7 +128,16 @@ export function generateSampleBusinesses(d: DowntownRecord): SampleBusiness[] {
   return out.slice(0, 14);
 }
 
-function defaultProfile(d: DowntownRecord): DowntownProfile {
+function defaultProfile(d: DowntownRecord): Omit<
+  DowntownProfile,
+  | "overview"
+  | "history"
+  | "demographicsNarrative"
+  | "demographics"
+  | "facts"
+  | "wikiUrl"
+  | "wikiTitle"
+> {
   const corridors = [d.downtownName];
   if (!/main street/i.test(d.downtownName)) corridors.push("Main Street");
   return {
@@ -121,8 +149,60 @@ function defaultProfile(d: DowntownRecord): DowntownProfile {
   };
 }
 
+function enrichWithIntel(
+  d: DowntownRecord,
+  base: Omit<
+    DowntownProfile,
+    | "overview"
+    | "history"
+    | "demographicsNarrative"
+    | "demographics"
+    | "facts"
+    | "wikiUrl"
+    | "wikiTitle"
+  >
+): DowntownProfile {
+  const intel: DowntownIntel = getDowntownIntel(d);
+  const overview = [base.isolationBrief, intel.summary].filter(Boolean).join("\n\n");
+  return {
+    ...base,
+    overview,
+    history: intel.history,
+    demographicsNarrative: intel.demographicsNarrative,
+    demographics: {
+      population2020: intel.population?.census2020,
+      population2023: intel.population?.estimate2023,
+      landAreaSqMi: intel.landAreaSqMi,
+      waterAreaSqMi: intel.waterAreaSqMi,
+      densityPerSqMi: intel.densityPerSqMi,
+      elevationFt: intel.elevationFt,
+      foundedYear: intel.foundedYear,
+      placeName: intel.placeName,
+      source: intel.population?.source,
+    },
+    facts: intel.facts?.length ? intel.facts : [
+      `${d.downtownName}`,
+      `${d.county} County, ${d.state}`,
+      `${d.milesFromAllegheny} mi from Allegheny`,
+    ],
+    wikiUrl: intel.wikiUrl,
+    wikiTitle: intel.wikiTitle,
+  };
+}
+
+type CuratedBase = Omit<
+  DowntownProfile,
+  | "overview"
+  | "history"
+  | "demographicsNarrative"
+  | "demographics"
+  | "facts"
+  | "wikiUrl"
+  | "wikiTitle"
+>;
+
 /** Hand-curated isolation briefs for key downtowns (e.g. Beaver). */
-const CURATED: Record<string, DowntownProfile> = {
+const CURATED: Record<string, CuratedBase> = {
   "beaver-pa": {
     isolationBrief:
       "Beaver Borough’s downtown is isolated along Third Street between the Beaver County Courthouse block and the Ohio River bluff. The CBD is a compact county-seat main street: civic buildings, professional offices, restaurants, and specialty retail in a walkable grid—not the highway commercial strips outside the borough.",
@@ -299,13 +379,13 @@ const CURATED: Record<string, DowntownProfile> = {
 export function getDowntownProfile(d: DowntownRecord): DowntownProfile {
   const curated = CURATED[d.id];
   if (curated) {
-    return {
+    return enrichWithIntel(d, {
       ...curated,
       sampleBusinesses:
         curated.sampleBusinesses.length > 0
           ? curated.sampleBusinesses
           : generateSampleBusinesses(d),
-    };
+    });
   }
-  return defaultProfile(d);
+  return enrichWithIntel(d, defaultProfile(d));
 }

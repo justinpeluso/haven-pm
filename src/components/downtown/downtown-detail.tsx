@@ -167,14 +167,46 @@ export function DowntownDetail({
         )}
       </header>
 
-      <div className="downtown-panel p-5">
-        <h2 className="text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--dt-accent)" }}>
-          CBD isolation
-        </h2>
-        <p className="mt-2 max-w-3xl text-sm leading-relaxed">{profile.isolationBrief}</p>
-        <div className="mt-4 grid gap-4 md:grid-cols-3">
+      <div className="downtown-panel p-5 space-y-4">
+        <div>
+          <h2
+            className="text-[0.65rem] uppercase tracking-[0.14em]"
+            style={{ color: "var(--dt-accent)" }}
+          >
+            Market overview
+          </h2>
+          <div className="mt-2 max-w-3xl space-y-3 text-sm leading-relaxed whitespace-pre-line">
+            {profile.overview || profile.isolationBrief}
+          </div>
+          {profile.wikiUrl && (
+            <a
+              href={profile.wikiUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-3 inline-block text-xs underline underline-offset-2"
+              style={{ color: "var(--dt-muted)" }}
+            >
+              Wikipedia{profile.wikiTitle ? ` · ${profile.wikiTitle}` : ""}
+            </a>
+          )}
+        </div>
+
+        {profile.facts?.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {profile.facts.map((f) => (
+              <span key={f} className="downtown-chip">
+                {f}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div className="grid gap-4 md:grid-cols-3 border-t border-[var(--dt-line)] pt-4">
           <div>
-            <div className="text-[0.65rem] uppercase tracking-[0.12em]" style={{ color: "var(--dt-muted)" }}>
+            <div
+              className="text-[0.65rem] uppercase tracking-[0.12em]"
+              style={{ color: "var(--dt-muted)" }}
+            >
               Primary corridors
             </div>
             <ul className="mt-2 space-y-1 text-sm">
@@ -184,7 +216,10 @@ export function DowntownDetail({
             </ul>
           </div>
           <div>
-            <div className="text-[0.65rem] uppercase tracking-[0.12em]" style={{ color: "var(--dt-muted)" }}>
+            <div
+              className="text-[0.65rem] uppercase tracking-[0.12em]"
+              style={{ color: "var(--dt-muted)" }}
+            >
               Landmarks / anchors
             </div>
             <ul className="mt-2 space-y-1 text-sm">
@@ -194,7 +229,10 @@ export function DowntownDetail({
             </ul>
           </div>
           <div>
-            <div className="text-[0.65rem] uppercase tracking-[0.12em]" style={{ color: "var(--dt-muted)" }}>
+            <div
+              className="text-[0.65rem] uppercase tracking-[0.12em]"
+              style={{ color: "var(--dt-muted)" }}
+            >
               Market notes
             </div>
             <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--dt-muted)" }}>
@@ -202,6 +240,91 @@ export function DowntownDetail({
             </p>
           </div>
         </div>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <div className="downtown-panel p-5">
+          <h2
+            className="text-[0.65rem] uppercase tracking-[0.14em]"
+            style={{ color: "var(--dt-accent)" }}
+          >
+            Town history
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed whitespace-pre-line">
+            {profile.history || "History notes will appear after the intel cache is built."}
+          </p>
+        </div>
+        <div className="downtown-panel p-5 space-y-4">
+          <h2
+            className="text-[0.65rem] uppercase tracking-[0.14em]"
+            style={{ color: "var(--dt-accent)" }}
+          >
+            Current demographics
+          </h2>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {[
+              {
+                label: "Pop. 2023",
+                value: profile.demographics?.population2023?.toLocaleString() ?? "—",
+              },
+              {
+                label: "Census 2020",
+                value: profile.demographics?.population2020?.toLocaleString() ?? "—",
+              },
+              {
+                label: "Land area",
+                value: profile.demographics?.landAreaSqMi
+                  ? `${profile.demographics.landAreaSqMi.toFixed(2)} sq mi`
+                  : "—",
+              },
+              {
+                label: "Density",
+                value: profile.demographics?.densityPerSqMi
+                  ? `${Math.round(profile.demographics.densityPerSqMi).toLocaleString()}/sq mi`
+                  : "—",
+              },
+              {
+                label: "Founded",
+                value: profile.demographics?.foundedYear?.toString() ?? "—",
+              },
+              {
+                label: "Elevation",
+                value: profile.demographics?.elevationFt
+                  ? `${profile.demographics.elevationFt} ft`
+                  : "—",
+              },
+            ].map((stat) => (
+              <div key={stat.label} className="border border-[var(--dt-line)] p-3">
+                <div
+                  className="text-[0.65rem] uppercase tracking-[0.12em]"
+                  style={{ color: "var(--dt-muted)" }}
+                >
+                  {stat.label}
+                </div>
+                <div className="downtown-stat mt-1 text-lg">{stat.value}</div>
+              </div>
+            ))}
+          </div>
+          <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: "var(--dt-muted)" }}>
+            {profile.demographicsNarrative}
+          </p>
+          {profile.demographics?.source && (
+            <p className="text-[0.65rem]" style={{ color: "var(--dt-muted)" }}>
+              Source: {profile.demographics.source}
+              {profile.demographics.placeName ? ` · ${profile.demographics.placeName}` : ""}
+            </p>
+          )}
+        </div>
+      </div>
+
+      <div className="downtown-panel p-5">
+        <h2
+          className="text-[0.65rem] uppercase tracking-[0.14em]"
+          style={{ color: "var(--dt-accent)" }}
+        >
+          CBD isolation
+        </h2>
+        <p className="mt-2 max-w-3xl text-sm leading-relaxed">{profile.isolationBrief}</p>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-3">
