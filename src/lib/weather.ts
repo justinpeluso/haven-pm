@@ -40,8 +40,8 @@ export function weatherLabel(code: number): string {
   return WMO_LABELS[code] ?? "Weather";
 }
 
-/** Default: Portland, OR (company HQ seed city) */
-const DEFAULT_COORDS = { lat: 45.5152, lon: -122.6784, label: "Portland, OR" };
+/** Default: Pittsburgh, PA */
+const DEFAULT_COORDS = { lat: 40.4406, lon: -79.9959, label: "Pittsburgh, PA" };
 
 export async function fetchWeatherForPlace(
   city: string,
@@ -55,15 +55,25 @@ export async function fetchWeatherForPlace(
   if (query) {
     try {
       const geoUrl = new URL("https://geocoding-api.open-meteo.com/v1/search");
-      geoUrl.searchParams.set("name", city);
-      geoUrl.searchParams.set("count", "1");
+      geoUrl.searchParams.set("name", query);
+      geoUrl.searchParams.set("count", "5");
       geoUrl.searchParams.set("language", "en");
       geoUrl.searchParams.set("format", "json");
+      geoUrl.searchParams.set("countryCode", "US");
 
       const geoRes = await fetch(geoUrl.toString(), { next: { revalidate: 86400 } });
       if (geoRes.ok) {
         const geo = await geoRes.json();
-        const hit = geo.results?.[0];
+        const results = geo.results ?? [];
+        const stateUpper = state?.toUpperCase();
+        const hit =
+          results.find(
+            (r: { admin1?: string; admin1_code?: string }) =>
+              !stateUpper ||
+              r.admin1_code?.endsWith(stateUpper) ||
+              r.admin1?.toUpperCase().includes(stateUpper) ||
+              (stateUpper === "PA" && r.admin1?.toLowerCase().includes("pennsylvania"))
+          ) ?? results[0];
         if (hit) {
           lat = hit.latitude;
           lon = hit.longitude;

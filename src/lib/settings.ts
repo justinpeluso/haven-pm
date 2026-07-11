@@ -162,10 +162,10 @@ export async function getCompanySettings(): Promise<CompanySettings> {
     supportPhone: map.company_support_phone || "555-0100",
     website: map.company_website || "https://havenpm.example.com",
     address: map.company_address || "100 Commerce St",
-    city: map.company_city || "Portland",
-    state: map.company_state || "OR",
-    zipCode: map.company_zip || "97201",
-    timezone: map.company_timezone || "America/Los_Angeles",
+    city: map.company_city || "Pittsburgh",
+    state: map.company_state || "PA",
+    zipCode: map.company_zip || "15222",
+    timezone: map.company_timezone || "America/New_York",
   };
 }
 

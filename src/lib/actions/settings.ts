@@ -62,7 +62,7 @@ export async function saveCompanySettings(formData: FormData) {
     company_city: String(formData.get("city") || ""),
     company_state: String(formData.get("state") || ""),
     company_zip: String(formData.get("zipCode") || ""),
-    company_timezone: String(formData.get("timezone") || "America/Los_Angeles"),
+    company_timezone: String(formData.get("timezone") || "America/New_York"),
   });
 
   revalidateSettings();
