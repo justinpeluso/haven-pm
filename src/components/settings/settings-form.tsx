@@ -561,17 +561,34 @@ export function SettingsForm({
               SMS / messaging portal
             </CardTitle>
             <CardDescription>
-              External SMS provider dashboard opened from Texting
+              Opens from Texting. Default is OpenPhone (my.openphone.com).
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="providerName">Provider name</Label>
-              <Input id="providerName" name="providerName" defaultValue={messaging.providerName} disabled={!canWrite} />
+              <Input
+                id="providerName"
+                name="providerName"
+                placeholder="OpenPhone"
+                defaultValue={messaging.providerName}
+                disabled={!canWrite}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="portalUrl">Portal URL</Label>
-              <Input id="portalUrl" name="portalUrl" type="url" required defaultValue={messaging.portalUrl} disabled={!canWrite} />
+              <Input
+                id="portalUrl"
+                name="portalUrl"
+                type="url"
+                required
+                placeholder="https://my.openphone.com/"
+                defaultValue={messaging.portalUrl}
+                disabled={!canWrite}
+              />
+              <p className="text-xs text-muted-foreground">
+                After you create an OpenPhone workspace, keep this URL (or paste any deep link they give you).
+              </p>
             </div>
             {canWrite && <SaveButton loading={loadingKey === "messaging"} />}
           </CardContent>

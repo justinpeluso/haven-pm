@@ -84,8 +84,8 @@ export async function upsertSettings(entries: Record<string, string>) {
   );
 }
 
-const DEFAULT_MESSAGING_URL = "https://messaging.example.com/haven-pm";
-const DEFAULT_MESSAGING_PROVIDER = "SMS Portal (coming soon)";
+const DEFAULT_MESSAGING_URL = "https://my.openphone.com/";
+const DEFAULT_MESSAGING_PROVIDER = "OpenPhone";
 
 export async function getPaymentSettings(): Promise<PaymentSettings> {
   const map = await getSettingMap([
