@@ -561,7 +561,7 @@ export function SettingsForm({
               SMS / messaging portal
             </CardTitle>
             <CardDescription>
-              Opens from Texting. Default is OpenPhone (my.openphone.com).
+              Opens from Texting. Default is OpenPhone / Quo (my.quo.com).
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
