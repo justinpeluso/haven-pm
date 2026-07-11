@@ -9,6 +9,8 @@ import type {
   UsPeer,
 } from "@/lib/downtown/types";
 import type { DowntownProfile } from "@/lib/downtown/profiles";
+import type { DowntownYoutube } from "@/lib/downtown/youtube";
+import type { DowntownDocument } from "@/lib/downtown/documents";
 import { DowntownSubnav } from "./downtown-subnav";
 
 type DowntownInfo = {
@@ -30,6 +32,17 @@ type Props = {
   initialProfile: DowntownProfile;
   peers: UsPeer[];
   mapUrl: string;
+  youtube?: DowntownYoutube | null;
+  documents?: DowntownDocument[];
+};
+
+const DOC_KIND_LABEL: Record<DowntownDocument["kind"], string> = {
+  founding: "Founding",
+  courthouse: "Courthouse",
+  plat_map: "Plat map",
+  sanborn: "Sanborn",
+  plan: "Plan",
+  other: "Scan",
 };
 
 function MixBars({ mix }: { mix: BusinessMix }) {
@@ -65,6 +78,8 @@ export function DowntownDetail({
   initialProfile,
   peers,
   mapUrl,
+  youtube = null,
+  documents = [],
 }: Props) {
   const [metrics, setMetrics] = useState(initialMetrics);
   const [profile, setProfile] = useState(initialProfile);
@@ -316,6 +331,79 @@ export function DowntownDetail({
           )}
         </div>
       </div>
+
+      {youtube?.videoId ? (
+        <div className="downtown-panel p-5 space-y-3">
+          <h2
+            className="text-[0.65rem] uppercase tracking-[0.14em]"
+            style={{ color: "var(--dt-accent)" }}
+          >
+            Town history on video
+          </h2>
+          <div className="relative w-full overflow-hidden border border-[var(--dt-line)] bg-black/40 aspect-video">
+            <iframe
+              title={youtube.title || "Town history video"}
+              src={`https://www.youtube-nocookie.com/embed/${youtube.videoId}`}
+              className="absolute inset-0 h-full w-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          </div>
+          <p className="text-sm leading-snug">
+            {youtube.title}
+            {youtube.channelTitle ? (
+              <span style={{ color: "var(--dt-muted)" }}> · {youtube.channelTitle}</span>
+            ) : null}
+          </p>
+        </div>
+      ) : null}
+
+      {documents.length > 0 ? (
+        <div className="downtown-panel p-5 space-y-4">
+          <h2
+            className="text-[0.65rem] uppercase tracking-[0.14em]"
+            style={{ color: "var(--dt-accent)" }}
+          >
+            Documents & scans
+          </h2>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {documents.map((doc) => (
+              <a
+                key={`${doc.url}-${doc.title}`}
+                href={doc.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block border border-[var(--dt-line)] transition hover:border-[var(--dt-accent)]"
+              >
+                <div className="relative aspect-[4/3] overflow-hidden bg-black/35">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={doc.thumbUrl}
+                    alt=""
+                    className="h-full w-full object-cover opacity-90 transition group-hover:opacity-100"
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <div className="space-y-2 p-3">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="downtown-chip">
+                      {DOC_KIND_LABEL[doc.kind] ?? "Scan"}
+                    </span>
+                    {doc.year ? <span className="downtown-chip">{doc.year}</span> : null}
+                  </div>
+                  <div className="text-sm leading-snug line-clamp-2">{doc.title}</div>
+                  <div className="text-[0.65rem] uppercase tracking-[0.1em]" style={{ color: "var(--dt-muted)" }}>
+                    {doc.source}
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : null}
 
       <div className="downtown-panel p-5">
         <h2
