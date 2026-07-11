@@ -32,7 +32,6 @@ import {
   Bell,
   Calendar,
   Globe,
-  ExternalLink,
 } from "lucide-react";
 import type {
   PaymentSettings,
@@ -157,19 +156,6 @@ export function SettingsForm({
               <div className="space-y-2 sm:col-span-2">
                 <Label htmlFor="website">Website</Label>
                 <Input id="website" name="website" type="url" defaultValue={company.website} disabled={!canWrite} />
-                {company.website && (
-                  <p className="text-sm">
-                    <a
-                      href={company.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-primary hover:underline"
-                    >
-                      {company.website.replace(/^https?:\/\//, "")}
-                      <ExternalLink className="h-3 w-3" />
-                    </a>
-                  </p>
-                )}
               </div>
               <div className="space-y-2 sm:col-span-2">
                 <Label htmlFor="address">Street address</Label>

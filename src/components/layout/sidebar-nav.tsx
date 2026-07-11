@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { getNavItemsForRole } from "@/lib/navigation";
 import { UserRole } from "@prisma/client";
-import { Building2, ExternalLink } from "lucide-react";
+import { Building2 } from "lucide-react";
 
 interface SidebarNavProps {
   role: UserRole;
@@ -26,7 +26,6 @@ export function SidebarNav({
   const pathname = usePathname();
   const navItems = getNavItemsForRole(role);
   const brandName = company?.name || "Haven PM";
-  const website = company?.website;
 
   return (
     <>
@@ -37,21 +36,7 @@ export function SidebarNav({
         {!collapsed && (
           <div className="min-w-0 flex-1">
             <span className="block truncate text-sm font-semibold">{brandName}</span>
-            {website ? (
-              <a
-                href={website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 truncate text-xs text-muted-foreground hover:text-foreground hover:underline"
-                title={website}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <span className="truncate">{website.replace(/^https?:\/\//, "")}</span>
-                <ExternalLink className="h-3 w-3 shrink-0" />
-              </a>
-            ) : (
-              <span className="text-xs text-muted-foreground">Property Management</span>
-            )}
+            <span className="text-xs text-muted-foreground">Property Management</span>
           </div>
         )}
       </div>
