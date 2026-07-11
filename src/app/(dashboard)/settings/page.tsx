@@ -1,5 +1,5 @@
 import { requirePermission } from "@/lib/auth/session";
-import { getPaymentSettings } from "@/lib/settings";
+import { getPaymentSettings, getMessagingSettings } from "@/lib/settings";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { SettingsForm } from "@/components/settings/settings-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,17 +9,24 @@ import { Label } from "@/components/ui/label";
 export default async function SettingsPage() {
   await requirePermission("settings:read");
 
-  const payment = await getPaymentSettings();
+  const [payment, messaging] = await Promise.all([
+    getPaymentSettings(),
+    getMessagingSettings(),
+  ]);
   const stripeConfigured = !!process.env.STRIPE_SECRET_KEY;
 
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div className="max-w-2xl space-y-6">
       <div>
         <Breadcrumbs items={[{ label: "Settings" }]} />
         <h1 className="mt-2 text-2xl font-bold">Settings</h1>
       </div>
 
-      <SettingsForm payment={payment} stripeConfigured={stripeConfigured} />
+      <SettingsForm
+        payment={payment}
+        messaging={messaging}
+        stripeConfigured={stripeConfigured}
+      />
 
       <Card>
         <CardHeader>

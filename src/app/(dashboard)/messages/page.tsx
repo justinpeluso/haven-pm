@@ -1,75 +1,67 @@
 import { requirePermission } from "@/lib/auth/session";
-import { db } from "@/lib/db";
+import { getMessagingSettings } from "@/lib/settings";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
-import { Card, CardContent } from "@/components/ui/card";
-import { EmptyState } from "@/components/shared/empty-state";
-import { ComposeForm } from "@/components/messages/compose-form";
-import { formatDateTime } from "@/lib/utils";
-import { MessageSquare } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ExternalLink, MessageSquare, Smartphone } from "lucide-react";
 
 export default async function MessagesPage() {
-  const session = await requirePermission("messages:read");
-
-  const [messages, users] = await Promise.all([
-    db.message.findMany({
-      where: {
-        deletedAt: null,
-        OR: [
-          { senderId: session.user.id },
-          { receiverId: session.user.id },
-        ],
-      },
-      include: {
-        sender: { select: { name: true } },
-        receiver: { select: { name: true } },
-      },
-      orderBy: { createdAt: "desc" },
-      take: 50,
-    }),
-    db.user.findMany({
-      where: { id: { not: session.user.id }, deletedAt: null },
-      select: { id: true, name: true, email: true },
-      orderBy: { name: "asc" },
-    }),
-  ]);
+  await requirePermission("messages:read");
+  const messaging = await getMessagingSettings();
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-2xl space-y-6">
       <div>
         <Breadcrumbs items={[{ label: "Messages" }]} />
-        <h1 className="mt-2 text-2xl font-bold">Messages</h1>
+        <h1 className="mt-2 text-2xl font-bold">Texting & Messages</h1>
+        <p className="text-muted-foreground">
+          Prospect and tenant SMS runs through an external messaging provider — not Haven&apos;s built-in inbox.
+        </p>
       </div>
 
-      <ComposeForm users={users} />
+      <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <Smartphone className="h-5 w-5" />
+            Open messaging portal
+          </CardTitle>
+          <CardDescription>
+            Mass texts, two-way SMS, and prospect campaigns are handled in{" "}
+            <span className="font-medium text-foreground">{messaging.providerName}</span>.
+            Configure the URL under Settings when you pick a vendor.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Button asChild size="lg" className="w-full sm:w-auto">
+            <a href={messaging.portalUrl} target="_blank" rel="noopener noreferrer">
+              <ExternalLink className="mr-2 h-4 w-4" />
+              Open SMS Portal
+            </a>
+          </Button>
+          <p className="text-xs text-muted-foreground break-all">
+            Destination: {messaging.portalUrl}
+          </p>
+        </CardContent>
+      </Card>
 
-      <div className="space-y-2">
-        <h2 className="text-sm font-medium text-muted-foreground">Recent messages</h2>
-        {messages.length === 0 ? (
-          <EmptyState
-            icon={MessageSquare}
-            title="No messages yet"
-            description="Send a message to a team member or tenant using the form above."
-          />
-        ) : (
-          messages.map((msg) => (
-            <Card key={msg.id}>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <p className="font-medium">{msg.subject || "No subject"}</p>
-                  <span className="text-xs text-muted-foreground">
-                    {formatDateTime(msg.createdAt)}
-                  </span>
-                </div>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {msg.senderId === session.user.id ? "To" : "From"}{" "}
-                  {msg.senderId === session.user.id ? msg.receiver.name : msg.sender.name}
-                </p>
-                <p className="mt-2 line-clamp-2 text-sm">{msg.body}</p>
-              </CardContent>
-            </Card>
-          ))
-        )}
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <MessageSquare className="h-4 w-4" />
+            Why external?
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2 text-sm text-muted-foreground">
+          <p>
+            Carrier-compliant mass texting, delivery reports, opt-out handling, and high-volume
+            prospect blasts are better handled by a dedicated SMS platform than an in-app chat.
+          </p>
+          <p>
+            Until a provider is chosen, this button opens a placeholder URL so the workflow is ready
+            to wire up.
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 }

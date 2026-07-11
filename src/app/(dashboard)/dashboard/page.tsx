@@ -1,6 +1,6 @@
 import { requireAuth } from "@/lib/auth/session";
 import { getDashboardData } from "@/lib/queries/dashboard";
-import { getPaymentSettings } from "@/lib/settings";
+import { getPaymentSettings, getMessagingSettings } from "@/lib/settings";
 import { UserRole } from "@prisma/client";
 import { AdminDashboard } from "@/components/dashboard/admin-dashboard";
 import { TenantDashboard } from "@/components/dashboard/tenant-dashboard";
@@ -10,9 +10,10 @@ import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 
 export default async function DashboardPage() {
   const session = await requireAuth();
-  const [dashboard, payment] = await Promise.all([
+  const [dashboard, payment, messaging] = await Promise.all([
     getDashboardData(session.user.role, session.user.id),
     getPaymentSettings(),
+    getMessagingSettings(),
   ]);
 
   return (
@@ -40,7 +41,7 @@ export default async function DashboardPage() {
         <MaintenanceDashboard data={dashboard.data} />
       )}
       {dashboard.type === "tenant" && dashboard.data && (
-        <TenantDashboard data={dashboard.data} payment={payment} />
+        <TenantDashboard data={dashboard.data} payment={payment} messaging={messaging} />
       )}
       {session.user.role === UserRole.PROSPECT && (
         <div className="rounded-xl border p-8 text-center">

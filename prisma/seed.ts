@@ -206,6 +206,8 @@ async function main() {
     data: [
       { key: "payment_portal_url", value: "https://payments.example.com" },
       { key: "vendors", value: JSON.stringify(VENDORS) },
+      { key: "messaging_portal_url", value: "https://messaging.example.com/haven-pm" },
+      { key: "messaging_provider_name", value: "SMS Portal (coming soon)" },
     ],
   });
 

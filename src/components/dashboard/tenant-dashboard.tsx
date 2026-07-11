@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import type { getTenantDashboardData } from "@/lib/queries/dashboard";
-import type { PaymentSettings } from "@/lib/settings";
+import type { PaymentSettings, MessagingSettings } from "@/lib/settings";
 import { PayRentButton } from "@/components/tenant/pay-rent-button";
 
 type TenantData = Awaited<ReturnType<typeof getTenantDashboardData>>;
@@ -13,9 +13,11 @@ type TenantData = Awaited<ReturnType<typeof getTenantDashboardData>>;
 export function TenantDashboard({
   data,
   payment,
+  messaging,
 }: {
   data: TenantData;
   payment: PaymentSettings;
+  messaging: MessagingSettings;
 }) {
   const activeLease = data.tenant?.leases[0];
   const property = activeLease?.unit.property;
@@ -147,23 +149,15 @@ export function TenantDashboard({
               Messages
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            {data.tenant?.user.messagesReceived.length ? (
-              <div className="space-y-2">
-                {data.tenant.user.messagesReceived.map((msg) => (
-                  <Link
-                    key={msg.id}
-                    href="/messages"
-                    className="block rounded-lg border p-3 transition-colors hover:bg-muted/50"
-                  >
-                    <p className="text-sm font-medium">{msg.subject || "No subject"}</p>
-                    <p className="text-xs text-muted-foreground">From {msg.sender.name}</p>
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <p className="text-sm text-muted-foreground">No messages</p>
-            )}
+          <CardContent className="space-y-3">
+            <p className="text-sm text-muted-foreground">
+              Text your property team through our SMS messaging portal.
+            </p>
+            <Button asChild>
+              <a href={messaging.portalUrl} target="_blank" rel="noopener noreferrer">
+                Open messaging portal
+              </a>
+            </Button>
           </CardContent>
         </Card>
       </div>
