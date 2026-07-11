@@ -2,9 +2,22 @@
 
 import { useCallback, useEffect, useMemo, useState, useTransition } from "react";
 import Link from "next/link";
-import { Search, RefreshCw, Newspaper, ExternalLink } from "lucide-react";
+import { Search, RefreshCw, Newspaper, ChevronRight } from "lucide-react";
 import { DowntownSubnav } from "./downtown-subnav";
 import type { CbdNewsStory } from "@/lib/downtown/news";
+
+function storyHref(s: CbdNewsStory) {
+  const params = new URLSearchParams();
+  params.set("id", s.id);
+  params.set("url", s.link);
+  params.set("title", s.title);
+  params.set("source", s.source);
+  if (s.publishedAt) params.set("publishedAt", s.publishedAt);
+  if (s.snippet) params.set("snippet", s.snippet);
+  if (s.downtownName) params.set("downtownName", s.downtownName);
+  if (s.state) params.set("state", s.state);
+  return `/downtown/news/story?${params.toString()}`;
+}
 
 type TownOption = {
   id: string;
@@ -103,7 +116,8 @@ export function DowntownNews({ towns }: Props) {
         </h1>
         <p className="max-w-2xl text-sm" style={{ color: "var(--dt-muted)" }}>
           Free Google News RSS for boroughs and cities in the Allegheny 40-mile ring. Search a town,
-          filter by state, or pin one CBD. Auto-refreshes every {INTERVAL_SEC}s.
+          filter by state, or pin one CBD. Open a story for an in-app summary. Auto-refreshes every{" "}
+          {INTERVAL_SEC}s.
         </p>
       </header>
 
@@ -193,57 +207,49 @@ export function DowntownNews({ towns }: Props) {
       </p>
 
       <div className="grid gap-3">
-        {stories.map((s) => (
-          <article key={s.id} className="downtown-panel p-4">
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div className="space-y-2 min-w-0 flex-1">
-                <div className="flex flex-wrap gap-2">
-                  <span className="downtown-chip" data-active="true">
-                    <Newspaper className="mr-1 h-3 w-3" />
-                    {s.source}
-                  </span>
-                  {s.downtownId !== "regional" ? (
-                    <Link href={`/downtown/${s.downtownId}`} className="downtown-chip">
-                      {s.downtownName}, {s.state}
-                    </Link>
-                  ) : (
-                    <span className="downtown-chip">
-                      {s.downtownName}, {s.state}
+        {stories.map((s) => {
+          const href = storyHref(s);
+          return (
+            <article key={s.id} className="downtown-panel p-4">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div className="space-y-2 min-w-0 flex-1">
+                  <div className="flex flex-wrap gap-2">
+                    <span className="downtown-chip" data-active="true">
+                      <Newspaper className="mr-1 h-3 w-3" />
+                      {s.source}
                     </span>
-                  )}
-                  <span className="downtown-chip">{s.county} County</span>
-                </div>
-                <a
-                  href={s.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="block font-medium leading-snug hover:underline"
-                >
-                  {s.title}
-                </a>
-                {s.snippet && (
-                  <p className="text-sm leading-relaxed" style={{ color: "var(--dt-muted)" }}>
-                    {s.snippet}
+                    {s.downtownId !== "regional" ? (
+                      <Link href={`/downtown/${s.downtownId}`} className="downtown-chip">
+                        {s.downtownName}, {s.state}
+                      </Link>
+                    ) : (
+                      <span className="downtown-chip">
+                        {s.downtownName}, {s.state}
+                      </span>
+                    )}
+                    <span className="downtown-chip">{s.county} County</span>
+                  </div>
+                  <Link href={href} className="block font-medium leading-snug hover:underline">
+                    {s.title}
+                  </Link>
+                  <p className="text-[0.65rem]" style={{ color: "var(--dt-muted)" }}>
+                    {s.publishedAt
+                      ? new Date(s.publishedAt).toLocaleString()
+                      : "Publish time unavailable"}
                   </p>
-                )}
-                <p className="text-[0.65rem]" style={{ color: "var(--dt-muted)" }}>
-                  {s.publishedAt
-                    ? new Date(s.publishedAt).toLocaleString()
-                    : "Publish time unavailable"}
-                </p>
+                  <Link
+                    href={href}
+                    className="inline-flex items-center text-[0.7rem] uppercase tracking-[0.12em]"
+                    style={{ color: "var(--dt-accent)" }}
+                  >
+                    View summary
+                    <ChevronRight className="ml-0.5 h-3.5 w-3.5" />
+                  </Link>
+                </div>
               </div>
-              <a
-                href={s.link}
-                target="_blank"
-                rel="noreferrer"
-                className="downtown-chip shrink-0"
-                aria-label="Open story"
-              >
-                <ExternalLink className="h-3.5 w-3.5" />
-              </a>
-            </div>
-          </article>
-        ))}
+            </article>
+          );
+        })}
         {!loading && stories.length === 0 && (
           <div className="downtown-panel p-8 text-sm" style={{ color: "var(--dt-muted)" }}>
             No stories matched this filter. Try another town or clear search.

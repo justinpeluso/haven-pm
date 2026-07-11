@@ -29,13 +29,13 @@ const memCache = new Map<string, CacheEntry>();
 
 function stripHtml(s: string) {
   return s
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, "&")
+    .replace(/&nbsp;/g, " ")
+    .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -63,7 +63,7 @@ function parseRssItems(xml: string): Array<{
       stripHtml(pickTag(block, "dc:creator")) ||
       "News";
     const pub = stripHtml(pickTag(block, "pubDate"));
-    const snippet = stripHtml(pickTag(block, "description")).slice(0, 280);
+    const snippet = stripHtml(pickTag(block, "description")).slice(0, 400);
     let publishedAt: string | null = null;
     if (pub) {
       const d = new Date(pub);
