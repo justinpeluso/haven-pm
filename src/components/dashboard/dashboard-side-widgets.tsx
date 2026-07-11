@@ -1,10 +1,34 @@
 import Link from "next/link";
-import { Calendar, CloudSun, MapPin, Wind } from "lucide-react";
+import {
+  Calendar,
+  Cloud,
+  CloudFog,
+  CloudLightning,
+  CloudRain,
+  CloudSnow,
+  CloudSun,
+  MapPin,
+  Sun,
+  Wind,
+} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatDateTime } from "@/lib/utils";
-import { weatherEmoji, weatherLabel, type WeatherSnapshot } from "@/lib/weather";
+import { weatherLabel, type WeatherSnapshot } from "@/lib/weather";
+
+function WeatherIcon({ code }: { code: number }) {
+  if (code === 0 || code === 1) return <Sun className="h-12 w-12 text-amber-500" />;
+  if (code === 2) return <CloudSun className="h-12 w-12 text-sky-500" />;
+  if (code === 3) return <Cloud className="h-12 w-12 text-slate-400" />;
+  if (code === 45 || code === 48) return <CloudFog className="h-12 w-12 text-slate-400" />;
+  if (code >= 71 && code <= 77) return <CloudSnow className="h-12 w-12 text-sky-400" />;
+  if (code >= 95) return <CloudLightning className="h-12 w-12 text-violet-500" />;
+  if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) {
+    return <CloudRain className="h-12 w-12 text-blue-500" />;
+  }
+  return <CloudSun className="h-12 w-12 text-sky-500" />;
+}
 
 export interface CalendarPreviewEvent {
   id: string;
@@ -86,9 +110,7 @@ export function DashboardSideWidgets({
             <p className="py-6 text-center text-sm text-muted-foreground">{weatherError}</p>
           ) : weather ? (
             <div className="flex items-center gap-4">
-              <div className="text-5xl leading-none" aria-hidden>
-                {weatherEmoji(weather.weatherCode)}
-              </div>
+              <WeatherIcon code={weather.weatherCode} />
               <div className="min-w-0 flex-1 space-y-1">
                 <p className="text-3xl font-bold tracking-tight">
                   {weather.temperature}°
@@ -111,7 +133,7 @@ export function DashboardSideWidgets({
                   </span>
                 </div>
                 <p className="text-[10px] text-muted-foreground/80">
-                  Via Open-Meteo (free, no API key)
+                  Powered by Open-Meteo — free, no API key
                 </p>
               </div>
             </div>
