@@ -1,0 +1,40 @@
+---
+description: Always boot and verify Haven PM (Postgres, seed, Next.js) when working in this project
+alwaysApply: true
+---
+
+# Haven PM — always run what's needed
+
+When working in this repo, **proactively keep the local stack running**. Do not wait to be asked.
+
+## Startup checklist (run early in a session)
+
+1. Ensure PostgreSQL is reachable (`haven_pm` on localhost).
+2. If the DB/schema may be stale: `npm run db:push` (and `npm run db:seed` only when seed data is missing or the user asks to reset).
+3. Ensure `npm run dev` is running on **http://localhost:3000**.
+4. If Next is wedged or `.next` is corrupt: `pkill -f "next dev"; rm -rf .next; npm run dev`.
+5. Prefer `./start.sh` for a full cold start (DB + seed + clean `.next` + dev).
+
+## PATH
+
+Use Homebrew Node 20:
+
+```bash
+export PATH="/opt/homebrew/opt/node@20/bin:/opt/homebrew/opt/postgresql@16/bin:/opt/homebrew/bin:$PATH"
+```
+
+## Demo login
+
+- URL: http://localhost:3000
+- `admin@havenpm.com` / `password123`
+
+## After code changes
+
+- Verify the app still responds (`/` or `/dashboard` or `/login` → 200).
+- For new API routes used by dashboard widgets, smoke-check them when relevant.
+- Do **not** run `npm run build` while `npm run dev` is running (corrupts `.next`).
+
+## Do not
+
+- Ask the user to start the server if you can start it yourself.
+- Leave the project in a broken/unbooted state after making changes.

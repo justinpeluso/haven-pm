@@ -1,11 +1,12 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Mail, Phone, User } from "lucide-react";
+import { Mail, User } from "lucide-react";
 import { requirePermission } from "@/lib/auth/session";
 import { getProperty } from "@/lib/actions/properties";
 import { db } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
 import { getOccupancy, unitStatusBadgeVariant, formatUnitStatus } from "@/lib/occupancy";
+import { getMessagingSettings } from "@/lib/settings";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ActivityTimeline } from "@/components/shared/activity-timeline";
 import { PropertyEditForm } from "@/components/properties/property-edit-form";
 import { UnitsManager } from "@/components/properties/units-manager";
+import { PhoneLink } from "@/components/shared/phone-link";
 import { formatCurrency, formatDate, toNumber } from "@/lib/utils";
 
 export default async function PropertyDetailPage({
@@ -22,7 +24,7 @@ export default async function PropertyDetailPage({
 }) {
   const session = await requirePermission("properties:read");
   const { id } = await params;
-  const [property, owners] = await Promise.all([
+  const [property, owners, messaging] = await Promise.all([
     getProperty(id),
     hasPermission(session.user.role, "properties:write")
       ? db.owner.findMany({
@@ -31,6 +33,7 @@ export default async function PropertyDetailPage({
           orderBy: { name: "asc" },
         })
       : Promise.resolve([]),
+    getMessagingSettings(),
   ]);
 
   if (!property) notFound();
@@ -194,10 +197,9 @@ export default async function PropertyDetailPage({
                       </p>
                     )}
                     {occ.phone && (
-                      <p className="flex items-center gap-1.5">
-                        <Phone className="h-3.5 w-3.5" />
-                        {occ.phone}
-                      </p>
+                      <div className="flex items-center gap-1.5">
+                        <PhoneLink phone={occ.phone} fromNumber={messaging.phoneNumber} />
+                      </div>
                     )}
                     <p>
                       Lease {formatDate(occ.leaseStart)} – {formatDate(occ.leaseEnd)}

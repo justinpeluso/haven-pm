@@ -3,12 +3,14 @@ import { Suspense } from "react";
 import { Plus, Users } from "lucide-react";
 import { requirePermission } from "@/lib/auth/session";
 import { getProspects } from "@/lib/actions/prospects";
+import { getMessagingSettings } from "@/lib/settings";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ListFilters } from "@/components/shared/list-filters";
+import { PhoneLink } from "@/components/shared/phone-link";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
 const STATUS_OPTIONS = [
@@ -23,7 +25,10 @@ export default async function ProspectsPage({
 }) {
   await requirePermission("prospects:read");
   const params = await searchParams;
-  const prospects = await getProspects(params.status);
+  const [prospects, messaging] = await Promise.all([
+    getProspects(params.status),
+    getMessagingSettings(),
+  ]);
 
   return (
     <div className="space-y-6">
@@ -62,41 +67,46 @@ export default async function ProspectsPage({
       ) : (
         <div className="space-y-3">
           {prospects.map((prospect) => (
-            <Link key={prospect.id} href={`/prospects/${prospect.id}`}>
-              <Card className="transition-colors hover:bg-muted/50">
-                <CardContent className="flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <p className="font-medium">{prospect.name}</p>
-                    <p className="text-sm text-muted-foreground">{prospect.email}</p>
-                    {prospect.properties.length > 0 && (
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        Interested in: {prospect.properties.map((p) => p.property.name).join(", ")}
-                      </p>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-3">
-                    {prospect.budget && (
-                      <span className="text-sm text-muted-foreground">
-                        {formatCurrency(Number(prospect.budget))}
-                      </span>
-                    )}
-                    {prospect.moveDate && (
-                      <span className="text-sm text-muted-foreground">
-                        Move: {formatDate(prospect.moveDate)}
-                      </span>
-                    )}
-                    <Badge variant="outline">{formatStatus(prospect.status)}</Badge>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
+            <Card key={prospect.id} className="transition-colors hover:bg-muted/50">
+              <CardContent className="flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <Link href={`/prospects/${prospect.id}`} className="font-medium hover:underline">
+                    {prospect.name}
+                  </Link>
+                  <p className="text-sm text-muted-foreground">{prospect.email}</p>
+                  {prospect.phone && (
+                    <div className="mt-1">
+                      <PhoneLink
+                        phone={prospect.phone}
+                        fromNumber={messaging.phoneNumber}
+                        className="text-sm"
+                      />
+                    </div>
+                  )}
+                  {prospect.properties.length > 0 && (
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Interested in: {prospect.properties.map((p) => p.property.name).join(", ")}
+                    </p>
+                  )}
+                </div>
+                <div className="flex items-center gap-3">
+                  {prospect.budget && (
+                    <span className="text-sm text-muted-foreground">
+                      {formatCurrency(Number(prospect.budget))}
+                    </span>
+                  )}
+                  <Badge variant="outline">{prospect.status.replace(/_/g, " ")}</Badge>
+                  {prospect.createdAt && (
+                    <span className="hidden text-xs text-muted-foreground sm:inline">
+                      {formatDate(prospect.createdAt)}
+                    </span>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       )}
     </div>
   );
-}
-
-function formatStatus(status: string): string {
-  return status.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }

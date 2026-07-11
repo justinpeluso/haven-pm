@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatCurrency, formatDate } from "@/lib/utils";
+import { openPhoneMessageHref } from "@/lib/phone";
 import type { getTenantDashboardData } from "@/lib/queries/dashboard";
 import type { PaymentSettings, MessagingSettings } from "@/lib/settings";
 import { PayRentButton } from "@/components/tenant/pay-rent-button";
@@ -163,7 +164,7 @@ export function TenantDashboard({
             <div className="flex flex-wrap gap-2">
               {messaging.phoneNumber && (
                 <Button asChild variant="outline">
-                  <a href={`sms:${messaging.phoneNumber.replace(/[^\d+]/g, "")}`}>
+                  <a href={openPhoneMessageHref(messaging.phoneNumber)}>
                     Send a text
                   </a>
                 </Button>

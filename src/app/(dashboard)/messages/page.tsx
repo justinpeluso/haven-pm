@@ -5,11 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, MessageSquare, Phone, Smartphone, CheckCircle2 } from "lucide-react";
-
-function telHref(phone: string): string {
-  const digits = phone.replace(/[^\d+]/g, "");
-  return digits ? `sms:${digits}` : "#";
-}
+import { openPhoneMessageHref } from "@/lib/phone";
 
 export default async function MessagesPage() {
   await requirePermission("messages:read");
@@ -72,7 +68,7 @@ export default async function MessagesPage() {
             </Button>
             {hasNumber && (
               <Button asChild size="lg" variant="outline">
-                <a href={telHref(messaging.phoneNumber)}>Text this number</a>
+                <a href={openPhoneMessageHref(messaging.phoneNumber)}>Text this number</a>
               </Button>
             )}
             {!hasNumber && (

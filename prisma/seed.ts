@@ -17,11 +17,11 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 const VENDORS = [
-  { name: "Cascade HVAC Pros", category: "HVAC", phone: "555-1001", email: "dispatch@cascadehvac.test" },
-  { name: "Bright Electric Co.", category: "Electrical", phone: "555-1002", email: "jobs@brightelectric.test" },
-  { name: "HandyFix Services", category: "Handyman", phone: "555-1003", email: "hello@handyfix.test" },
-  { name: "FlowRight Plumbing", category: "Plumbing", phone: "555-1004", email: "service@flowright.test" },
-  { name: "GreenScape Maintenance", category: "Landscaping", phone: "555-1005", email: "crew@greenscape.test" },
+  { name: "Cascade HVAC Pros", category: "HVAC", phone: "(412) 555-1001", email: "dispatch@cascadehvac.test" },
+  { name: "Bright Electric Co.", category: "Electrical", phone: "(412) 555-1002", email: "jobs@brightelectric.test" },
+  { name: "HandyFix Services", category: "Handyman", phone: "(412) 555-1003", email: "hello@handyfix.test" },
+  { name: "FlowRight Plumbing", category: "Plumbing", phone: "(412) 555-1004", email: "service@flowright.test" },
+  { name: "GreenScape Maintenance", category: "Landscaping", phone: "(412) 555-1005", email: "crew@greenscape.test" },
 ] as const;
 
 const PROPERTY_ADDRESSES = [
@@ -135,7 +135,7 @@ async function main() {
       name: "Alex Administrator",
       passwordHash,
       role: UserRole.ADMINISTRATOR,
-      phone: "555-0100",
+      phone: "(412) 555-0100",
     },
   });
 
@@ -145,7 +145,7 @@ async function main() {
       name: "Maria Manager",
       passwordHash,
       role: UserRole.PROPERTY_MANAGER,
-      phone: "555-0101",
+      phone: "(412) 555-0101",
     },
   });
 
@@ -156,7 +156,7 @@ async function main() {
         name: "Jordan Agent",
         passwordHash,
         role: UserRole.LEASING_AGENT,
-        phone: "555-0102",
+        phone: "(412) 555-0102",
       },
     }),
     prisma.user.create({
@@ -165,7 +165,7 @@ async function main() {
         name: "Riley Agent",
         passwordHash,
         role: UserRole.LEASING_AGENT,
-        phone: "555-0112",
+        phone: "(412) 555-0112",
       },
     }),
     prisma.user.create({
@@ -174,7 +174,7 @@ async function main() {
         name: "Casey Agent",
         passwordHash,
         role: UserRole.LEASING_AGENT,
-        phone: "555-0122",
+        phone: "(412) 555-0122",
       },
     }),
   ]);
@@ -185,7 +185,7 @@ async function main() {
       name: "Mike Technician",
       passwordHash,
       role: UserRole.MAINTENANCE_STAFF,
-      phone: "555-0103",
+      phone: "(412) 555-0103",
     },
   });
 
@@ -195,7 +195,7 @@ async function main() {
       name: "Sarah Office",
       passwordHash,
       role: UserRole.OFFICE_STAFF,
-      phone: "555-0104",
+      phone: "(412) 555-0104",
     },
   });
 
@@ -221,7 +221,7 @@ async function main() {
     data: {
       name: "Riverside Holdings LLC",
       email: "contact@riversideholdings.com",
-      phone: "555-0200",
+      phone: "(412) 555-0200",
       address: "100 Commerce St, Portland, OR 97201",
     },
   });
@@ -230,7 +230,7 @@ async function main() {
     data: {
       name: "Pacific Property Group",
       email: "info@pacificproperty.com",
-      phone: "555-0201",
+      phone: "(412) 555-0201",
     },
   });
 
@@ -309,7 +309,7 @@ async function main() {
         name: TENANT_NAMES[i],
         passwordHash,
         role: UserRole.TENANT,
-        phone: `555-02${String(i).padStart(2, "0")}`,
+        phone: `(412) 555-02${String(i).padStart(2, "0")}`,
       },
     });
 
@@ -318,7 +318,7 @@ async function main() {
         userId: user.id,
         phone: user.phone,
         emergencyContact: `Emergency for ${TENANT_NAMES[i]}`,
-        emergencyPhone: `555-09${String(i).padStart(2, "0")}`,
+        emergencyPhone: `(412) 555-09${String(i).padStart(2, "0")}`,
         pets: i % 3 === 0 ? "1 cat (approved)" : i % 3 === 1 ? "None" : "1 dog (approved)",
       },
     });
@@ -354,7 +354,7 @@ async function main() {
       data: {
         name: PROSPECT_NAMES[i],
         email: `prospect${i + 1}@email.com`,
-        phone: `555-03${String(i).padStart(2, "0")}`,
+        phone: `(412) 555-03${String(i).padStart(2, "0")}`,
         leadSource: LEAD_SOURCES[i % LEAD_SOURCES.length],
         budget: 1500 + (i % 8) * 150,
         moveDate: new Date(2026, 7 + (i % 3), 1 + (i % 20)),

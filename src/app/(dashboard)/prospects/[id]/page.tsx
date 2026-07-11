@@ -3,6 +3,7 @@ import { requirePermission } from "@/lib/auth/session";
 import { getProspect } from "@/lib/actions/prospects";
 import { db } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
+import { getMessagingSettings } from "@/lib/settings";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +12,7 @@ import { ActivityTimeline } from "@/components/shared/activity-timeline";
 import { ProspectActions } from "@/components/prospects/prospect-actions";
 import { ScheduleShowingForm } from "@/components/prospects/schedule-showing-form";
 import { EmptyState } from "@/components/shared/empty-state";
+import { PhoneLink } from "@/components/shared/phone-link";
 import { formatCurrency, formatDate, formatDateTime } from "@/lib/utils";
 import { Calendar, FileText, Home } from "lucide-react";
 
@@ -21,7 +23,10 @@ export default async function ProspectDetailPage({
 }) {
   const session = await requirePermission("prospects:read");
   const { id } = await params;
-  const prospect = await getProspect(id);
+  const [prospect, messaging] = await Promise.all([
+    getProspect(id),
+    getMessagingSettings(),
+  ]);
 
   if (!prospect) notFound();
 
@@ -68,7 +73,15 @@ export default async function ProspectDetailPage({
           <h1 className="text-2xl font-bold">{prospect.name}</h1>
           <Badge variant="outline">{formatStatus(prospect.status)}</Badge>
         </div>
-        <p className="text-muted-foreground">{prospect.email} · {prospect.phone}</p>
+        <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-muted-foreground">
+          <span>{prospect.email}</span>
+          {prospect.phone && (
+            <>
+              <span>·</span>
+              <PhoneLink phone={prospect.phone} fromNumber={messaging.phoneNumber} />
+            </>
+          )}
+        </p>
       </div>
 
       <ProspectActions prospectId={prospect.id} currentStatus={prospect.status} />

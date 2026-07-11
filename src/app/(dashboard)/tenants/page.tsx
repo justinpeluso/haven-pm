@@ -1,30 +1,35 @@
 import { requirePermission } from "@/lib/auth/session";
 import { db } from "@/lib/db";
+import { getMessagingSettings } from "@/lib/settings";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/shared/empty-state";
+import { PhoneLink } from "@/components/shared/phone-link";
 import { UserCircle } from "lucide-react";
 
 export default async function TenantsPage() {
   await requirePermission("tenants:read");
 
-  const tenants = await db.tenant.findMany({
-    where: { deletedAt: null },
-    include: {
-      user: { select: { name: true, email: true, phone: true } },
-      leases: {
-        where: { status: "ACTIVE" },
-        include: {
-          unit: {
-            include: { property: { select: { name: true } } },
+  const [tenants, messaging] = await Promise.all([
+    db.tenant.findMany({
+      where: { deletedAt: null },
+      include: {
+        user: { select: { name: true, email: true, phone: true } },
+        leases: {
+          where: { status: "ACTIVE" },
+          include: {
+            unit: {
+              include: { property: { select: { name: true } } },
+            },
           },
+          take: 1,
         },
-        take: 1,
       },
-    },
-    orderBy: { createdAt: "desc" },
-  });
+      orderBy: { createdAt: "desc" },
+    }),
+    getMessagingSettings(),
+  ]);
 
   return (
     <div className="space-y-6">
@@ -44,11 +49,19 @@ export default async function TenantsPage() {
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {tenants.map((tenant) => {
             const lease = tenant.leases[0];
+            const phone = tenant.phone || tenant.user.phone;
             return (
               <Card key={tenant.id}>
                 <CardContent className="space-y-2 p-4">
                   <p className="font-medium">{tenant.user.name}</p>
                   <p className="text-sm text-muted-foreground">{tenant.user.email}</p>
+                  {phone && (
+                    <PhoneLink
+                      phone={phone}
+                      fromNumber={messaging.phoneNumber}
+                      className="text-sm"
+                    />
+                  )}
                   {lease && (
                     <>
                       <p className="text-sm">

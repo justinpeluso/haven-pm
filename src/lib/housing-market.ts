@@ -68,7 +68,7 @@ function pctChange(current: number, prior: number | null): number | null {
 async function fetchZillowTwoBedRentProxy(): Promise<HousingMetric> {
   const res = await fetch(ZILLOW_CITY_ZORI, {
     headers: { "User-Agent": "HavenPM/1.0 (local dashboard)", Accept: "text/csv" },
-    next: { revalidate: 3600 },
+    cache: "no-store",
   });
   if (!res.ok) throw new Error(`Zillow ZORI ${res.status}`);
 
@@ -133,7 +133,7 @@ async function wprdcSql(sql: string): Promise<Record<string, unknown>[]> {
   const url = `${WPRDC_SQL}?sql=${encodeURIComponent(sql)}`;
   const res = await fetch(url, {
     headers: { Accept: "application/json", "User-Agent": "HavenPM/1.0" },
-    next: { revalidate: 3600 },
+    cache: "no-store",
   });
   if (!res.ok) throw new Error(`WPRDC ${res.status}`);
   const data = await res.json();
