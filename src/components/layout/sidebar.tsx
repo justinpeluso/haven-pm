@@ -9,16 +9,19 @@ import { cn } from "@/lib/utils";
 
 interface SidebarProps {
   role: UserRole;
+  company?: {
+    name: string;
+    website: string;
+  };
   mobileOpen: boolean;
   onMobileOpenChange: (open: boolean) => void;
 }
 
-export function Sidebar({ role, mobileOpen, onMobileOpenChange }: SidebarProps) {
+export function Sidebar({ role, company, mobileOpen, onMobileOpenChange }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
     <>
-      {/* Mobile drawer */}
       {mobileOpen && (
         <div className="fixed inset-0 z-50 md:hidden">
           <div
@@ -26,19 +29,22 @@ export function Sidebar({ role, mobileOpen, onMobileOpenChange }: SidebarProps) 
             onClick={() => onMobileOpenChange(false)}
           />
           <aside className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-sidebar shadow-xl">
-            <SidebarNav role={role} onNavigate={() => onMobileOpenChange(false)} />
+            <SidebarNav
+              role={role}
+              company={company}
+              onNavigate={() => onMobileOpenChange(false)}
+            />
           </aside>
         </div>
       )}
 
-      {/* Desktop sidebar */}
       <aside
         className={cn(
           "sticky top-0 hidden h-screen flex-col border-r bg-sidebar transition-all duration-300 md:flex",
           collapsed ? "w-16" : "w-64"
         )}
       >
-        <SidebarNav role={role} collapsed={collapsed} />
+        <SidebarNav role={role} company={company} collapsed={collapsed} />
         <div className="border-t p-2">
           <Button
             variant="ghost"

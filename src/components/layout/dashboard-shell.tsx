@@ -14,16 +14,21 @@ interface DashboardShellProps {
     email: string;
     role: UserRole;
   };
+  company?: {
+    name: string;
+    website: string;
+  };
   children: React.ReactNode;
 }
 
-export function DashboardShell({ role, user, children }: DashboardShellProps) {
+export function DashboardShell({ role, user, company, children }: DashboardShellProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <div className="flex min-h-screen">
       <Sidebar
         role={role}
+        company={company}
         mobileOpen={mobileOpen}
         onMobileOpenChange={setMobileOpen}
       />
