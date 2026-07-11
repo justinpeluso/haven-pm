@@ -190,6 +190,8 @@ The tenant "Pay Rent" button links to `PAYMENT_PORTAL_URL` in settings. Replace 
 **Login:** `admin@havenpm.com` / `password123`  
 **Local:** http://localhost:3000 (separate Postgres — do not point `.env` at Neon)
 
+**Downtown Properties:** `/downtown` — 250+ CBDs within ~40 miles of Allegheny County (PA + OH), section search, vibrancy/vacancy estimates, business mix, US peer comparisons. Uses OpenStreetMap when available; baked baselines work offline of Overpass (local + Vercel).
+
 Best free combo for this stack: **Neon** (Postgres) + **GitHub** + **Vercel**.
 
 ### Environment variables on Vercel

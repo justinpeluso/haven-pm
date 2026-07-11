@@ -1,0 +1,7594 @@
+{
+  "generatedAt": "2026-07-11T08:25:22.484Z",
+  "alleghenyCenter": {
+    "lat": 40.4406,
+    "lng": -79.9959
+  },
+  "radiusMiles": 40,
+  "count": 258,
+  "downtowns": [
+    {
+      "id": "pittsburgh-pa",
+      "name": "Pittsburgh",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 0,
+      "downtownName": "Downtown / Golden Triangle",
+      "center": {
+        "lat": 40.4406,
+        "lng": -79.9959
+      },
+      "radiusM": 1200,
+      "tags": [
+        "city",
+        "river_town",
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 85,
+        "vacancyEstimate": 24.6,
+        "mix": {
+          "food": 27,
+          "retail": 14,
+          "services": 15,
+          "civic": 7,
+          "office": 5,
+          "other": 32
+        },
+        "poiCount": 162
+      }
+    },
+    {
+      "id": "mount-oliver-pa",
+      "name": "Mount Oliver",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 2.3,
+      "downtownName": "Brownsville Road",
+      "center": {
+        "lat": 40.4084,
+        "lng": -79.9867
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 53,
+        "vacancyEstimate": 22.2,
+        "mix": {
+          "food": 24,
+          "retail": 25,
+          "services": 21,
+          "civic": 8,
+          "office": 10,
+          "other": 12
+        },
+        "poiCount": 95
+      }
+    },
+    {
+      "id": "millvale-pa",
+      "name": "Millvale",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 2.9,
+      "downtownName": "Grant Avenue Downtown",
+      "center": {
+        "lat": 40.4801,
+        "lng": -79.9784
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 67,
+        "vacancyEstimate": 23,
+        "mix": {
+          "food": 25,
+          "retail": 17,
+          "services": 20,
+          "civic": 15,
+          "office": 13,
+          "other": 10
+        },
+        "poiCount": 119
+      }
+    },
+    {
+      "id": "green-tree-pa",
+      "name": "Green Tree",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 3.2,
+      "downtownName": "Greentree Road",
+      "center": {
+        "lat": 40.4151,
+        "lng": -80.0456
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 75,
+        "vacancyEstimate": 30.5,
+        "mix": {
+          "food": 27,
+          "retail": 13,
+          "services": 16,
+          "civic": 3,
+          "office": 2,
+          "other": 39
+        },
+        "poiCount": 134
+      }
+    },
+    {
+      "id": "crafton-pa",
+      "name": "Crafton",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 3.7,
+      "downtownName": "Crafton Boulevard",
+      "center": {
+        "lat": 40.4345,
+        "lng": -80.0667
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 58,
+        "vacancyEstimate": 25.9,
+        "mix": {
+          "food": 24,
+          "retail": 13,
+          "services": 12,
+          "civic": 5,
+          "office": 1,
+          "other": 45
+        },
+        "poiCount": 107
+      }
+    },
+    {
+      "id": "dormont-pa",
+      "name": "Dormont",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 3.7,
+      "downtownName": "Potomac Avenue",
+      "center": {
+        "lat": 40.3956,
+        "lng": -80.0331
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 81,
+        "vacancyEstimate": 27.5,
+        "mix": {
+          "food": 20,
+          "retail": 16,
+          "services": 20,
+          "civic": 9,
+          "office": 16,
+          "other": 19
+        },
+        "poiCount": 125
+      }
+    },
+    {
+      "id": "mckees-rocks-pa",
+      "name": "McKees Rocks",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 4.1,
+      "downtownName": "Island Avenue / Chartiers",
+      "center": {
+        "lat": 40.4656,
+        "lng": -80.0656
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 68,
+        "vacancyEstimate": 21.5,
+        "mix": {
+          "food": 26,
+          "retail": 5,
+          "services": 14,
+          "civic": 5,
+          "office": 3,
+          "other": 47
+        },
+        "poiCount": 148
+      }
+    },
+    {
+      "id": "reserve-pa",
+      "name": "Reserve",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 4.1,
+      "downtownName": "Reserve Road / Millvale border",
+      "center": {
+        "lat": 40.4989,
+        "lng": -79.9834
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 63,
+        "vacancyEstimate": 23.3,
+        "mix": {
+          "food": 28,
+          "retail": 23,
+          "services": 26,
+          "civic": 9,
+          "office": 10,
+          "other": 4
+        },
+        "poiCount": 134
+      }
+    },
+    {
+      "id": "ingram-pa",
+      "name": "Ingram",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 4.3,
+      "downtownName": "West Prospect Avenue",
+      "center": {
+        "lat": 40.4467,
+        "lng": -80.0778
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 77,
+        "vacancyEstimate": 22.3,
+        "mix": {
+          "food": 19,
+          "retail": 9,
+          "services": 20,
+          "civic": 3,
+          "office": 6,
+          "other": 43
+        },
+        "poiCount": 151
+      }
+    },
+    {
+      "id": "rosslyn-farms-pa",
+      "name": "Rosslyn Farms",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 4.5,
+      "downtownName": "Kings Highway shops",
+      "center": {
+        "lat": 40.4256,
+        "lng": -80.0789
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 62,
+        "vacancyEstimate": 22.8,
+        "mix": {
+          "food": 22,
+          "retail": 19,
+          "services": 25,
+          "civic": 13,
+          "office": 17,
+          "other": 4
+        },
+        "poiCount": 133
+      }
+    },
+    {
+      "id": "thornburg-pa",
+      "name": "Thornburg",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 4.6,
+      "downtownName": "Cornell Avenue",
+      "center": {
+        "lat": 40.4345,
+        "lng": -80.0834
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 61,
+        "vacancyEstimate": 28.4,
+        "mix": {
+          "food": 28,
+          "retail": 23,
+          "services": 19,
+          "civic": 14,
+          "office": 12,
+          "other": 4
+        },
+        "poiCount": 114
+      }
+    },
+    {
+      "id": "bellevue-pa",
+      "name": "Bellevue",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 4.7,
+      "downtownName": "Lincoln Avenue",
+      "center": {
+        "lat": 40.494,
+        "lng": -80.0517
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 62,
+        "vacancyEstimate": 29.6,
+        "mix": {
+          "food": 31,
+          "retail": 11,
+          "services": 16,
+          "civic": 3,
+          "office": 4,
+          "other": 35
+        },
+        "poiCount": 139
+      }
+    },
+    {
+      "id": "brentwood-pa",
+      "name": "Brentwood",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 4.9,
+      "downtownName": "Brownsville Road",
+      "center": {
+        "lat": 40.3709,
+        "lng": -79.975
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 67,
+        "vacancyEstimate": 28.2,
+        "mix": {
+          "food": 29,
+          "retail": 7,
+          "services": 16,
+          "civic": 7,
+          "office": 7,
+          "other": 34
+        },
+        "poiCount": 146
+      }
+    },
+    {
+      "id": "stowe-pa",
+      "name": "Stowe",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 4.9,
+      "downtownName": "Broadway Avenue",
+      "center": {
+        "lat": 40.4789,
+        "lng": -80.0734
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 55,
+        "vacancyEstimate": 22.4,
+        "mix": {
+          "food": 25,
+          "retail": 23,
+          "services": 21,
+          "civic": 10,
+          "office": 17,
+          "other": 4
+        },
+        "poiCount": 121
+      }
+    },
+    {
+      "id": "carnegie-pa",
+      "name": "Carnegie",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 5.1,
+      "downtownName": "East Main Street",
+      "center": {
+        "lat": 40.4087,
+        "lng": -80.0834
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 65,
+        "vacancyEstimate": 24.8,
+        "mix": {
+          "food": 27,
+          "retail": 20,
+          "services": 26,
+          "civic": 7,
+          "office": 17,
+          "other": 3
+        },
+        "poiCount": 144
+      }
+    },
+    {
+      "id": "homestead-pa",
+      "name": "Homestead",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 5.1,
+      "downtownName": "Eighth Avenue Downtown",
+      "center": {
+        "lat": 40.4053,
+        "lng": -79.9117
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 76,
+        "vacancyEstimate": 27.2,
+        "mix": {
+          "food": 19,
+          "retail": 16,
+          "services": 18,
+          "civic": 8,
+          "office": 6,
+          "other": 33
+        },
+        "poiCount": 158
+      }
+    },
+    {
+      "id": "etna-pa",
+      "name": "Etna",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 5.2,
+      "downtownName": "Butler Street Corridor",
+      "center": {
+        "lat": 40.5042,
+        "lng": -79.9448
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 77,
+        "vacancyEstimate": 25.4,
+        "mix": {
+          "food": 31,
+          "retail": 13,
+          "services": 14,
+          "civic": 7,
+          "office": 5,
+          "other": 30
+        },
+        "poiCount": 155
+      }
+    },
+    {
+      "id": "sharpsburg-pa",
+      "name": "Sharpsburg",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 5.2,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.4945,
+        "lng": -79.9262
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 68,
+        "vacancyEstimate": 22,
+        "mix": {
+          "food": 30,
+          "retail": 7,
+          "services": 18,
+          "civic": 6,
+          "office": 3,
+          "other": 36
+        },
+        "poiCount": 132
+      }
+    },
+    {
+      "id": "west-homestead-pa",
+      "name": "West Homestead",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 5.2,
+      "downtownName": "West Eighth Avenue",
+      "center": {
+        "lat": 40.3956,
+        "lng": -79.9156
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 56,
+        "vacancyEstimate": 27.8,
+        "mix": {
+          "food": 27,
+          "retail": 14,
+          "services": 13,
+          "civic": 3,
+          "office": 8,
+          "other": 35
+        },
+        "poiCount": 108
+      }
+    },
+    {
+      "id": "bellevue-heights-pa",
+      "name": "Bellevue Heights",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 5.4,
+      "downtownName": "Lincoln Avenue North",
+      "center": {
+        "lat": 40.5089,
+        "lng": -80.0456
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 54,
+        "vacancyEstimate": 21.8,
+        "mix": {
+          "food": 26,
+          "retail": 7,
+          "services": 16,
+          "civic": 4,
+          "office": 1,
+          "other": 46
+        },
+        "poiCount": 131
+      }
+    },
+    {
+      "id": "castle-shannon-pa",
+      "name": "Castle Shannon",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 5.4,
+      "downtownName": "Castle Shannon Boulevard",
+      "center": {
+        "lat": 40.3648,
+        "lng": -80.0223
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 62,
+        "vacancyEstimate": 25.2,
+        "mix": {
+          "food": 25,
+          "retail": 5,
+          "services": 12,
+          "civic": 7,
+          "office": 3,
+          "other": 48
+        },
+        "poiCount": 112
+      }
+    },
+    {
+      "id": "pennsbury-village-pa",
+      "name": "Pennsbury Village",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 5.6,
+      "downtownName": "Pennsbury Boulevard",
+      "center": {
+        "lat": 40.4289,
+        "lng": -80.1012
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 76,
+        "vacancyEstimate": 28.8,
+        "mix": {
+          "food": 19,
+          "retail": 22,
+          "services": 25,
+          "civic": 14,
+          "office": 16,
+          "other": 4
+        },
+        "poiCount": 133
+      }
+    },
+    {
+      "id": "whitehall-pa",
+      "name": "Whitehall",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 5.6,
+      "downtownName": "Provost Road shops",
+      "center": {
+        "lat": 40.3601,
+        "lng": -79.9906
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 76,
+        "vacancyEstimate": 30,
+        "mix": {
+          "food": 28,
+          "retail": 24,
+          "services": 22,
+          "civic": 9,
+          "office": 13,
+          "other": 4
+        },
+        "poiCount": 150
+      }
+    },
+    {
+      "id": "avalon-pa",
+      "name": "Avalon",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 5.7,
+      "downtownName": "California Avenue",
+      "center": {
+        "lat": 40.501,
+        "lng": -80.0684
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 61,
+        "vacancyEstimate": 26.7,
+        "mix": {
+          "food": 20,
+          "retail": 9,
+          "services": 18,
+          "civic": 5,
+          "office": 9,
+          "other": 39
+        },
+        "poiCount": 108
+      }
+    },
+    {
+      "id": "scott-pa",
+      "name": "Scott",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 5.8,
+      "downtownName": "Washington Avenue / Bower Hill",
+      "center": {
+        "lat": 40.3889,
+        "lng": -80.0834
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 54,
+        "vacancyEstimate": 25.9,
+        "mix": {
+          "food": 24,
+          "retail": 25,
+          "services": 21,
+          "civic": 14,
+          "office": 14,
+          "other": 2
+        },
+        "poiCount": 95
+      }
+    },
+    {
+      "id": "west-view-pa",
+      "name": "West View",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 5.8,
+      "downtownName": "Center Avenue",
+      "center": {
+        "lat": 40.5223,
+        "lng": -80.0173
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 69,
+        "vacancyEstimate": 22.9,
+        "mix": {
+          "food": 22,
+          "retail": 16,
+          "services": 27,
+          "civic": 9,
+          "office": 10,
+          "other": 16
+        },
+        "poiCount": 135
+      }
+    },
+    {
+      "id": "shaler-pa",
+      "name": "Shaler",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 5.9,
+      "downtownName": "Mount Royal Boulevard",
+      "center": {
+        "lat": 40.5223,
+        "lng": -79.9634
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb",
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 75,
+        "vacancyEstimate": 19.9,
+        "mix": {
+          "food": 22,
+          "retail": 15,
+          "services": 16,
+          "civic": 3,
+          "office": 4,
+          "other": 40
+        },
+        "poiCount": 154
+      }
+    },
+    {
+      "id": "aspinwall-pa",
+      "name": "Aspinwall",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 6,
+      "downtownName": "Freeport Road Business District",
+      "center": {
+        "lat": 40.4915,
+        "lng": -79.9045
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 77,
+        "vacancyEstimate": 28.5,
+        "mix": {
+          "food": 20,
+          "retail": 16,
+          "services": 19,
+          "civic": 6,
+          "office": 3,
+          "other": 36
+        },
+        "poiCount": 148
+      }
+    },
+    {
+      "id": "heidelberg-pa",
+      "name": "Heidelberg",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 6,
+      "downtownName": "Washington Avenue",
+      "center": {
+        "lat": 40.3912,
+        "lng": -80.0901
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 50,
+        "vacancyEstimate": 27.9,
+        "mix": {
+          "food": 25,
+          "retail": 23,
+          "services": 19,
+          "civic": 12,
+          "office": 17,
+          "other": 4
+        },
+        "poiCount": 94
+      }
+    },
+    {
+      "id": "wilkinsburg-pa",
+      "name": "Wilkinsburg",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 6,
+      "downtownName": "Penn Avenue Business District",
+      "center": {
+        "lat": 40.4417,
+        "lng": -79.8817
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 66,
+        "vacancyEstimate": 29.1,
+        "mix": {
+          "food": 28,
+          "retail": 23,
+          "services": 23,
+          "civic": 8,
+          "office": 10,
+          "other": 8
+        },
+        "poiCount": 114
+      }
+    },
+    {
+      "id": "edgewood-pa",
+      "name": "Edgewood",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 6.1,
+      "downtownName": "Pennwood Avenue",
+      "center": {
+        "lat": 40.432,
+        "lng": -79.8806
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 58,
+        "vacancyEstimate": 27.3,
+        "mix": {
+          "food": 27,
+          "retail": 18,
+          "services": 24,
+          "civic": 11,
+          "office": 12,
+          "other": 8
+        },
+        "poiCount": 130
+      }
+    },
+    {
+      "id": "munhall-pa",
+      "name": "Munhall",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 6.1,
+      "downtownName": "East Eighth Avenue",
+      "center": {
+        "lat": 40.3917,
+        "lng": -79.9001
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 71,
+        "vacancyEstimate": 24.3,
+        "mix": {
+          "food": 24,
+          "retail": 11,
+          "services": 19,
+          "civic": 3,
+          "office": 4,
+          "other": 39
+        },
+        "poiCount": 125
+      }
+    },
+    {
+      "id": "swissvale-pa",
+      "name": "Swissvale",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 6.1,
+      "downtownName": "Monongahela Avenue",
+      "center": {
+        "lat": 40.4237,
+        "lng": -79.8828
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 61,
+        "vacancyEstimate": 24.9,
+        "mix": {
+          "food": 24,
+          "retail": 21,
+          "services": 25,
+          "civic": 8,
+          "office": 12,
+          "other": 10
+        },
+        "poiCount": 116
+      }
+    },
+    {
+      "id": "kennedy-pa",
+      "name": "Kennedy",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 6.2,
+      "downtownName": "Pine Hollow Road",
+      "center": {
+        "lat": 40.4789,
+        "lng": -80.1034
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 72,
+        "vacancyEstimate": 23.5,
+        "mix": {
+          "food": 27,
+          "retail": 20,
+          "services": 25,
+          "civic": 9,
+          "office": 16,
+          "other": 3
+        },
+        "poiCount": 115
+      }
+    },
+    {
+      "id": "ben-avon-pa",
+      "name": "Ben Avon",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 6.5,
+      "downtownName": "Ohio River Blvd shops",
+      "center": {
+        "lat": 40.5081,
+        "lng": -80.0834
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 60,
+        "vacancyEstimate": 22.5,
+        "mix": {
+          "food": 29,
+          "retail": 18,
+          "services": 22,
+          "civic": 9,
+          "office": 16,
+          "other": 6
+        },
+        "poiCount": 102
+      }
+    },
+    {
+      "id": "o-hara-pa",
+      "name": "O'Hara",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 6.5,
+      "downtownName": "Freeport Road",
+      "center": {
+        "lat": 40.4989,
+        "lng": -79.8989
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 57,
+        "vacancyEstimate": 28.9,
+        "mix": {
+          "food": 23,
+          "retail": 16,
+          "services": 20,
+          "civic": 4,
+          "office": 3,
+          "other": 34
+        },
+        "poiCount": 115
+      }
+    },
+    {
+      "id": "rankin-pa",
+      "name": "Rankin",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 6.5,
+      "downtownName": "Kenmawr Avenue",
+      "center": {
+        "lat": 40.4123,
+        "lng": -79.879
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 62,
+        "vacancyEstimate": 27.3,
+        "mix": {
+          "food": 24,
+          "retail": 5,
+          "services": 17,
+          "civic": 4,
+          "office": 1,
+          "other": 49
+        },
+        "poiCount": 111
+      }
+    },
+    {
+      "id": "mount-lebanon-pa",
+      "name": "Mount Lebanon",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 6.6,
+      "downtownName": "Washington Road Uptown",
+      "center": {
+        "lat": 40.3553,
+        "lng": -80.0506
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 52,
+        "vacancyEstimate": 21.1,
+        "mix": {
+          "food": 30,
+          "retail": 11,
+          "services": 11,
+          "civic": 1,
+          "office": 4,
+          "other": 43
+        },
+        "poiCount": 126
+      }
+    },
+    {
+      "id": "baldwin-pa",
+      "name": "Baldwin",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 7.1,
+      "downtownName": "Brownsville Road",
+      "center": {
+        "lat": 40.3381,
+        "lng": -79.9789
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 51,
+        "vacancyEstimate": 21.8,
+        "mix": {
+          "food": 27,
+          "retail": 21,
+          "services": 26,
+          "civic": 10,
+          "office": 13,
+          "other": 3
+        },
+        "poiCount": 101
+      }
+    },
+    {
+      "id": "braddock-pa",
+      "name": "Braddock",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 7.2,
+      "downtownName": "Braddock Avenue",
+      "center": {
+        "lat": 40.4034,
+        "lng": -79.8684
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 49,
+        "vacancyEstimate": 23,
+        "mix": {
+          "food": 28,
+          "retail": 20,
+          "services": 21,
+          "civic": 11,
+          "office": 17,
+          "other": 3
+        },
+        "poiCount": 114
+      }
+    },
+    {
+      "id": "emsworth-pa",
+      "name": "Emsworth",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 7.2,
+      "downtownName": "Center Avenue",
+      "center": {
+        "lat": 40.5123,
+        "lng": -80.0945
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 65,
+        "vacancyEstimate": 28,
+        "mix": {
+          "food": 30,
+          "retail": 14,
+          "services": 19,
+          "civic": 3,
+          "office": 4,
+          "other": 30
+        },
+        "poiCount": 106
+      }
+    },
+    {
+      "id": "ross-pa",
+      "name": "Ross",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 7.2,
+      "downtownName": "McKnight Road Corridor",
+      "center": {
+        "lat": 40.5434,
+        "lng": -80.0189
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 65,
+        "vacancyEstimate": 24.8,
+        "mix": {
+          "food": 22,
+          "retail": 7,
+          "services": 12,
+          "civic": 5,
+          "office": 3,
+          "other": 51
+        },
+        "poiCount": 130
+      }
+    },
+    {
+      "id": "pleasant-hills-pa",
+      "name": "Pleasant Hills",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 7.7,
+      "downtownName": "Claireton Boulevard",
+      "center": {
+        "lat": 40.3323,
+        "lng": -79.9606
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 50,
+        "vacancyEstimate": 28.4,
+        "mix": {
+          "food": 24,
+          "retail": 12,
+          "services": 19,
+          "civic": 3,
+          "office": 4,
+          "other": 38
+        },
+        "poiCount": 118
+      }
+    },
+    {
+      "id": "forest-hills-pa",
+      "name": "Forest Hills",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 7.8,
+      "downtownName": "Ardmore Boulevard",
+      "center": {
+        "lat": 40.4198,
+        "lng": -79.8501
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 69,
+        "vacancyEstimate": 21.2,
+        "mix": {
+          "food": 19,
+          "retail": 17,
+          "services": 20,
+          "civic": 10,
+          "office": 12,
+          "other": 22
+        },
+        "poiCount": 122
+      }
+    },
+    {
+      "id": "fox-chapel-pa",
+      "name": "Fox Chapel",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 7.8,
+      "downtownName": "Fox Chapel Road Village",
+      "center": {
+        "lat": 40.5117,
+        "lng": -79.8795
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 73,
+        "vacancyEstimate": 24.8,
+        "mix": {
+          "food": 18,
+          "retail": 8,
+          "services": 12,
+          "civic": 4,
+          "office": 5,
+          "other": 53
+        },
+        "poiCount": 117
+      }
+    },
+    {
+      "id": "blawnox-pa",
+      "name": "Blawnox",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 7.9,
+      "downtownName": "Freeport Road",
+      "center": {
+        "lat": 40.4923,
+        "lng": -79.8614
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 52,
+        "vacancyEstimate": 22.6,
+        "mix": {
+          "food": 20,
+          "retail": 12,
+          "services": 17,
+          "civic": 7,
+          "office": 9,
+          "other": 35
+        },
+        "poiCount": 96
+      }
+    },
+    {
+      "id": "north-braddock-pa",
+      "name": "North Braddock",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 7.9,
+      "downtownName": "Jones Avenue",
+      "center": {
+        "lat": 40.4112,
+        "lng": -79.8512
+      },
+      "radiusM": 550,
+      "tags": [
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 62,
+        "vacancyEstimate": 33.2,
+        "mix": {
+          "food": 21,
+          "retail": 20,
+          "services": 21,
+          "civic": 15,
+          "office": 11,
+          "other": 12
+        },
+        "poiCount": 142
+      }
+    },
+    {
+      "id": "robinson-pa",
+      "name": "Robinson",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 7.9,
+      "downtownName": "Robinson Town Centre",
+      "center": {
+        "lat": 40.4589,
+        "lng": -80.1434
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 63,
+        "vacancyEstimate": 30.8,
+        "mix": {
+          "food": 26,
+          "retail": 18,
+          "services": 26,
+          "civic": 9,
+          "office": 16,
+          "other": 5
+        },
+        "poiCount": 119
+      }
+    },
+    {
+      "id": "bethel-park-pa",
+      "name": "Bethel Park",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 8.1,
+      "downtownName": "South Park Road / Village",
+      "center": {
+        "lat": 40.3276,
+        "lng": -80.0395
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb",
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 69,
+        "vacancyEstimate": 24.9,
+        "mix": {
+          "food": 24,
+          "retail": 15,
+          "services": 12,
+          "civic": 1,
+          "office": 6,
+          "other": 42
+        },
+        "poiCount": 139
+      }
+    },
+    {
+      "id": "neville-pa",
+      "name": "Neville",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 8.2,
+      "downtownName": "Grand Avenue",
+      "center": {
+        "lat": 40.5089,
+        "lng": -80.1234
+      },
+      "radiusM": 550,
+      "tags": [
+        "industrial",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 50,
+        "vacancyEstimate": 26.9,
+        "mix": {
+          "food": 26,
+          "retail": 11,
+          "services": 16,
+          "civic": 8,
+          "office": 4,
+          "other": 35
+        },
+        "poiCount": 126
+      }
+    },
+    {
+      "id": "bridgeville-pa",
+      "name": "Bridgeville",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 8.4,
+      "downtownName": "Washington Avenue Downtown",
+      "center": {
+        "lat": 40.3562,
+        "lng": -80.1101
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 77,
+        "vacancyEstimate": 21.5,
+        "mix": {
+          "food": 28,
+          "retail": 5,
+          "services": 13,
+          "civic": 1,
+          "office": 8,
+          "other": 45
+        },
+        "poiCount": 119
+      }
+    },
+    {
+      "id": "collier-pa",
+      "name": "Collier",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 8.4,
+      "downtownName": "Route 50 / Rennerdale",
+      "center": {
+        "lat": 40.3789,
+        "lng": -80.1334
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 65,
+        "vacancyEstimate": 21.9,
+        "mix": {
+          "food": 20,
+          "retail": 23,
+          "services": 24,
+          "civic": 13,
+          "office": 17,
+          "other": 3
+        },
+        "poiCount": 141
+      }
+    },
+    {
+      "id": "dravosburg-pa",
+      "name": "Dravosburg",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 8.4,
+      "downtownName": "McClure Street",
+      "center": {
+        "lat": 40.3506,
+        "lng": -79.8895
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 77,
+        "vacancyEstimate": 19.9,
+        "mix": {
+          "food": 25,
+          "retail": 21,
+          "services": 26,
+          "civic": 14,
+          "office": 10,
+          "other": 4
+        },
+        "poiCount": 155
+      }
+    },
+    {
+      "id": "chalfant-pa",
+      "name": "Chalfant",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 8.5,
+      "downtownName": "North Avenue",
+      "center": {
+        "lat": 40.4089,
+        "lng": -79.8389
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 73,
+        "vacancyEstimate": 22.1,
+        "mix": {
+          "food": 22,
+          "retail": 16,
+          "services": 26,
+          "civic": 9,
+          "office": 10,
+          "other": 17
+        },
+        "poiCount": 151
+      }
+    },
+    {
+      "id": "duquesne-pa",
+      "name": "Duquesne",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 8.6,
+      "downtownName": "Grant Avenue",
+      "center": {
+        "lat": 40.3703,
+        "lng": -79.86
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 60,
+        "vacancyEstimate": 23.7,
+        "mix": {
+          "food": 29,
+          "retail": 14,
+          "services": 19,
+          "civic": 3,
+          "office": 4,
+          "other": 31
+        },
+        "poiCount": 104
+      }
+    },
+    {
+      "id": "west-mifflin-pa",
+      "name": "West Mifflin",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 8.7,
+      "downtownName": "Lebanon Church Road / Century III",
+      "center": {
+        "lat": 40.3634,
+        "lng": -79.8664
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 76,
+        "vacancyEstimate": 24.3,
+        "mix": {
+          "food": 22,
+          "retail": 20,
+          "services": 27,
+          "civic": 8,
+          "office": 16,
+          "other": 7
+        },
+        "poiCount": 144
+      }
+    },
+    {
+      "id": "east-pittsburgh-pa",
+      "name": "East Pittsburgh",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 8.8,
+      "downtownName": "Electric Avenue",
+      "center": {
+        "lat": 40.397,
+        "lng": -79.8384
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 72,
+        "vacancyEstimate": 31.5,
+        "mix": {
+          "food": 19,
+          "retail": 7,
+          "services": 13,
+          "civic": 1,
+          "office": 8,
+          "other": 52
+        },
+        "poiCount": 133
+      }
+    },
+    {
+      "id": "kilbuck-pa",
+      "name": "Kilbuck",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 8.8,
+      "downtownName": "Ohio River Blvd",
+      "center": {
+        "lat": 40.5234,
+        "lng": -80.1234
+      },
+      "radiusM": 550,
+      "tags": [
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 78,
+        "vacancyEstimate": 29.5,
+        "mix": {
+          "food": 26,
+          "retail": 21,
+          "services": 20,
+          "civic": 13,
+          "office": 16,
+          "other": 4
+        },
+        "poiCount": 136
+      }
+    },
+    {
+      "id": "upper-st-clair-pa",
+      "name": "Upper St. Clair",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 9,
+      "downtownName": "Washington Road",
+      "center": {
+        "lat": 40.3289,
+        "lng": -80.0834
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 59,
+        "vacancyEstimate": 31.5,
+        "mix": {
+          "food": 21,
+          "retail": 24,
+          "services": 21,
+          "civic": 11,
+          "office": 16,
+          "other": 7
+        },
+        "poiCount": 135
+      }
+    },
+    {
+      "id": "penn-hills-pa",
+      "name": "Penn Hills",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 9.2,
+      "downtownName": "Rodgers Drive / Universal",
+      "center": {
+        "lat": 40.5012,
+        "lng": -79.839
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 74,
+        "vacancyEstimate": 23.7,
+        "mix": {
+          "food": 29,
+          "retail": 16,
+          "services": 17,
+          "civic": 7,
+          "office": 9,
+          "other": 22
+        },
+        "poiCount": 121
+      }
+    },
+    {
+      "id": "wilkins-pa",
+      "name": "Wilkins",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 9.2,
+      "downtownName": "William Penn Highway",
+      "center": {
+        "lat": 40.4189,
+        "lng": -79.8234
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 70,
+        "vacancyEstimate": 26.1,
+        "mix": {
+          "food": 28,
+          "retail": 11,
+          "services": 15,
+          "civic": 2,
+          "office": 6,
+          "other": 38
+        },
+        "poiCount": 112
+      }
+    },
+    {
+      "id": "turtle-creek-pa",
+      "name": "Turtle Creek",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 9.3,
+      "downtownName": "Penn Avenue Downtown",
+      "center": {
+        "lat": 40.4067,
+        "lng": -79.8256
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 51,
+        "vacancyEstimate": 26.3,
+        "mix": {
+          "food": 18,
+          "retail": 8,
+          "services": 19,
+          "civic": 7,
+          "office": 9,
+          "other": 39
+        },
+        "poiCount": 121
+      }
+    },
+    {
+      "id": "mckeesport-pa",
+      "name": "McKeesport",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 9.4,
+      "downtownName": "Fifth Avenue Downtown",
+      "center": {
+        "lat": 40.3478,
+        "lng": -79.8642
+      },
+      "radiusM": 900,
+      "tags": [
+        "city",
+        "river_town",
+        "main_street",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 66,
+        "vacancyEstimate": 27,
+        "mix": {
+          "food": 26,
+          "retail": 5,
+          "services": 15,
+          "civic": 7,
+          "office": 7,
+          "other": 40
+        },
+        "poiCount": 137
+      }
+    },
+    {
+      "id": "verona-pa",
+      "name": "Verona",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 9.4,
+      "downtownName": "Allegheny River Blvd",
+      "center": {
+        "lat": 40.5065,
+        "lng": -79.8392
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 64,
+        "vacancyEstimate": 18.8,
+        "mix": {
+          "food": 18,
+          "retail": 27,
+          "services": 25,
+          "civic": 11,
+          "office": 10,
+          "other": 9
+        },
+        "poiCount": 135
+      }
+    },
+    {
+      "id": "glassport-pa",
+      "name": "Glassport",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 9.6,
+      "downtownName": "Ohio Avenue",
+      "center": {
+        "lat": 40.3259,
+        "lng": -79.8923
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 67,
+        "vacancyEstimate": 25.4,
+        "mix": {
+          "food": 24,
+          "retail": 19,
+          "services": 25,
+          "civic": 11,
+          "office": 17,
+          "other": 4
+        },
+        "poiCount": 132
+      }
+    },
+    {
+      "id": "ohio-township-pa",
+      "name": "Ohio Township",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 9.6,
+      "downtownName": "Mount Nebo Road",
+      "center": {
+        "lat": 40.5534,
+        "lng": -80.1034
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 52,
+        "vacancyEstimate": 25.6,
+        "mix": {
+          "food": 29,
+          "retail": 7,
+          "services": 15,
+          "civic": 6,
+          "office": 9,
+          "other": 34
+        },
+        "poiCount": 93
+      }
+    },
+    {
+      "id": "port-vue-pa",
+      "name": "Port Vue",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 9.7,
+      "downtownName": "Romine Avenue",
+      "center": {
+        "lat": 40.3367,
+        "lng": -79.8706
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 71,
+        "vacancyEstimate": 23.4,
+        "mix": {
+          "food": 21,
+          "retail": 25,
+          "services": 26,
+          "civic": 10,
+          "office": 13,
+          "other": 5
+        },
+        "poiCount": 114
+      }
+    },
+    {
+      "id": "oakmont-pa",
+      "name": "Oakmont",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 9.8,
+      "downtownName": "Allegheny River Boulevard",
+      "center": {
+        "lat": 40.5217,
+        "lng": -79.8423
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 81,
+        "vacancyEstimate": 21.8,
+        "mix": {
+          "food": 29,
+          "retail": 15,
+          "services": 24,
+          "civic": 12,
+          "office": 16,
+          "other": 4
+        },
+        "poiCount": 124
+      }
+    },
+    {
+      "id": "south-park-pa",
+      "name": "South Park",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 9.9,
+      "downtownName": "Library Road",
+      "center": {
+        "lat": 40.2989,
+        "lng": -80.0234
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 59,
+        "vacancyEstimate": 26.8,
+        "mix": {
+          "food": 21,
+          "retail": 13,
+          "services": 18,
+          "civic": 5,
+          "office": 9,
+          "other": 34
+        },
+        "poiCount": 106
+      }
+    },
+    {
+      "id": "hampton-pa",
+      "name": "Hampton",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 10.1,
+      "downtownName": "Route 8 Village",
+      "center": {
+        "lat": 40.5834,
+        "lng": -79.9589
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 54,
+        "vacancyEstimate": 30.4,
+        "mix": {
+          "food": 24,
+          "retail": 8,
+          "services": 17,
+          "civic": 7,
+          "office": 7,
+          "other": 37
+        },
+        "poiCount": 95
+      }
+    },
+    {
+      "id": "mccandless-pa",
+      "name": "McCandless",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 10.1,
+      "downtownName": "Perry Highway / North Park",
+      "center": {
+        "lat": 40.5834,
+        "lng": -80.0334
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 75,
+        "vacancyEstimate": 28.6,
+        "mix": {
+          "food": 25,
+          "retail": 20,
+          "services": 23,
+          "civic": 13,
+          "office": 16,
+          "other": 3
+        },
+        "poiCount": 136
+      }
+    },
+    {
+      "id": "oakdale-pa",
+      "name": "Oakdale",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 10.4,
+      "downtownName": "State Street",
+      "center": {
+        "lat": 40.3978,
+        "lng": -80.1856
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 54,
+        "vacancyEstimate": 20.4,
+        "mix": {
+          "food": 26,
+          "retail": 9,
+          "services": 11,
+          "civic": 7,
+          "office": 1,
+          "other": 46
+        },
+        "poiCount": 117
+      }
+    },
+    {
+      "id": "coraopolis-pa",
+      "name": "Coraopolis",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 10.5,
+      "downtownName": "Fifth Avenue Downtown",
+      "center": {
+        "lat": 40.5184,
+        "lng": -80.1667
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 79,
+        "vacancyEstimate": 21.2,
+        "mix": {
+          "food": 26,
+          "retail": 16,
+          "services": 11,
+          "civic": 6,
+          "office": 7,
+          "other": 34
+        },
+        "poiCount": 132
+      }
+    },
+    {
+      "id": "indiana-township-pa",
+      "name": "Indiana Township",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 10.5,
+      "downtownName": "Route 910 Village",
+      "center": {
+        "lat": 40.5634,
+        "lng": -79.8789
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 71,
+        "vacancyEstimate": 23.8,
+        "mix": {
+          "food": 26,
+          "retail": 9,
+          "services": 12,
+          "civic": 8,
+          "office": 2,
+          "other": 43
+        },
+        "poiCount": 128
+      }
+    },
+    {
+      "id": "north-versailles-pa",
+      "name": "North Versailles",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 10.5,
+      "downtownName": "East Pittsburgh-McKeesport Blvd",
+      "center": {
+        "lat": 40.3789,
+        "lng": -79.8134
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 64,
+        "vacancyEstimate": 25.6,
+        "mix": {
+          "food": 23,
+          "retail": 19,
+          "services": 20,
+          "civic": 8,
+          "office": 10,
+          "other": 20
+        },
+        "poiCount": 131
+      }
+    },
+    {
+      "id": "wilmerding-pa",
+      "name": "Wilmerding",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 10.5,
+      "downtownName": "Westinghouse Avenue",
+      "center": {
+        "lat": 40.3909,
+        "lng": -79.8081
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 57,
+        "vacancyEstimate": 26.2,
+        "mix": {
+          "food": 19,
+          "retail": 16,
+          "services": 17,
+          "civic": 5,
+          "office": 7,
+          "other": 36
+        },
+        "poiCount": 101
+      }
+    },
+    {
+      "id": "east-mckeesport-pa",
+      "name": "East McKeesport",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 10.6,
+      "downtownName": "Fifth Avenue",
+      "center": {
+        "lat": 40.3834,
+        "lng": -79.8089
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 79,
+        "vacancyEstimate": 25.8,
+        "mix": {
+          "food": 30,
+          "retail": 13,
+          "services": 15,
+          "civic": 1,
+          "office": 10,
+          "other": 31
+        },
+        "poiCount": 150
+      }
+    },
+    {
+      "id": "liberty-pa",
+      "name": "Liberty",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 10.8,
+      "downtownName": "Liberty Way shops",
+      "center": {
+        "lat": 40.3256,
+        "lng": -79.8567
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 72,
+        "vacancyEstimate": 20.5,
+        "mix": {
+          "food": 24,
+          "retail": 13,
+          "services": 14,
+          "civic": 5,
+          "office": 3,
+          "other": 41
+        },
+        "poiCount": 147
+      }
+    },
+    {
+      "id": "glen-osborne-pa",
+      "name": "Glen Osborne",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 10.9,
+      "downtownName": "Ohio River Blvd",
+      "center": {
+        "lat": 40.5289,
+        "lng": -80.1689
+      },
+      "radiusM": 550,
+      "tags": [
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 67,
+        "vacancyEstimate": 23.1,
+        "mix": {
+          "food": 26,
+          "retail": 5,
+          "services": 15,
+          "civic": 3,
+          "office": 10,
+          "other": 41
+        },
+        "poiCount": 133
+      }
+    },
+    {
+      "id": "jefferson-hills-pa",
+      "name": "Jefferson Hills",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 10.9,
+      "downtownName": "Route 51 Village",
+      "center": {
+        "lat": 40.2912,
+        "lng": -79.9301
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 64,
+        "vacancyEstimate": 27.5,
+        "mix": {
+          "food": 22,
+          "retail": 8,
+          "services": 15,
+          "civic": 3,
+          "office": 10,
+          "other": 42
+        },
+        "poiCount": 122
+      }
+    },
+    {
+      "id": "north-fayette-pa",
+      "name": "North Fayette",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 10.9,
+      "downtownName": "Route 22 / Imperial",
+      "center": {
+        "lat": 40.4289,
+        "lng": -80.2034
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 72,
+        "vacancyEstimate": 22.1,
+        "mix": {
+          "food": 21,
+          "retail": 15,
+          "services": 11,
+          "civic": 2,
+          "office": 2,
+          "other": 49
+        },
+        "poiCount": 152
+      }
+    },
+    {
+      "id": "south-fayette-pa",
+      "name": "South Fayette",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 10.9,
+      "downtownName": "Millers Run / Mayview",
+      "center": {
+        "lat": 40.3489,
+        "lng": -80.1634
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 68,
+        "vacancyEstimate": 30.5,
+        "mix": {
+          "food": 25,
+          "retail": 21,
+          "services": 20,
+          "civic": 12,
+          "office": 18,
+          "other": 4
+        },
+        "poiCount": 129
+      }
+    },
+    {
+      "id": "franklin-park-pa",
+      "name": "Franklin Park",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 11,
+      "downtownName": "Rochester Road / Brandt School",
+      "center": {
+        "lat": 40.5834,
+        "lng": -80.0901
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 74,
+        "vacancyEstimate": 28.7,
+        "mix": {
+          "food": 19,
+          "retail": 13,
+          "services": 20,
+          "civic": 5,
+          "office": 9,
+          "other": 34
+        },
+        "poiCount": 144
+      }
+    },
+    {
+      "id": "monroeville-pa",
+      "name": "Monroeville",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 11,
+      "downtownName": "Monroeville Boulevard / Miracle Mile",
+      "center": {
+        "lat": 40.4212,
+        "lng": -79.7881
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 57,
+        "vacancyEstimate": 29.3,
+        "mix": {
+          "food": 27,
+          "retail": 12,
+          "services": 11,
+          "civic": 8,
+          "office": 10,
+          "other": 32
+        },
+        "poiCount": 107
+      }
+    },
+    {
+      "id": "aleppo-pa",
+      "name": "Aleppo",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 11.3,
+      "downtownName": "Glenfield Road",
+      "center": {
+        "lat": 40.5434,
+        "lng": -80.1634
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 53,
+        "vacancyEstimate": 26.9,
+        "mix": {
+          "food": 24,
+          "retail": 10,
+          "services": 12,
+          "civic": 6,
+          "office": 9,
+          "other": 39
+        },
+        "poiCount": 114
+      }
+    },
+    {
+      "id": "harmar-pa",
+      "name": "Harmar",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 11.3,
+      "downtownName": "Freeport Road",
+      "center": {
+        "lat": 40.5389,
+        "lng": -79.8234
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 53,
+        "vacancyEstimate": 23.9,
+        "mix": {
+          "food": 24,
+          "retail": 21,
+          "services": 25,
+          "civic": 11,
+          "office": 10,
+          "other": 9
+        },
+        "poiCount": 106
+      }
+    },
+    {
+      "id": "sewickley-heights-pa",
+      "name": "Sewickley Heights",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 11.4,
+      "downtownName": "Country Club / Village",
+      "center": {
+        "lat": 40.5534,
+        "lng": -80.1534
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 45,
+        "vacancyEstimate": 31.7,
+        "mix": {
+          "food": 26,
+          "retail": 23,
+          "services": 19,
+          "civic": 13,
+          "office": 16,
+          "other": 3
+        },
+        "poiCount": 99
+      }
+    },
+    {
+      "id": "wall-pa",
+      "name": "Wall",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 11.4,
+      "downtownName": "Wall Avenue",
+      "center": {
+        "lat": 40.3934,
+        "lng": -79.7889
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 73,
+        "vacancyEstimate": 23.5,
+        "mix": {
+          "food": 19,
+          "retail": 21,
+          "services": 22,
+          "civic": 15,
+          "office": 13,
+          "other": 10
+        },
+        "poiCount": 151
+      }
+    },
+    {
+      "id": "sewickley-hills-pa",
+      "name": "Sewickley Hills",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 11.5,
+      "downtownName": "Fern Hollow Village",
+      "center": {
+        "lat": 40.5634,
+        "lng": -80.1434
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 46,
+        "vacancyEstimate": 28.7,
+        "mix": {
+          "food": 27,
+          "retail": 22,
+          "services": 22,
+          "civic": 11,
+          "office": 14,
+          "other": 4
+        },
+        "poiCount": 88
+      }
+    },
+    {
+      "id": "clairton-pa",
+      "name": "Clairton",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 11.7,
+      "downtownName": "St. Clair Avenue",
+      "center": {
+        "lat": 40.2945,
+        "lng": -79.8851
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 68,
+        "vacancyEstimate": 21.1,
+        "mix": {
+          "food": 29,
+          "retail": 8,
+          "services": 18,
+          "civic": 6,
+          "office": 3,
+          "other": 36
+        },
+        "poiCount": 143
+      }
+    },
+    {
+      "id": "pitcairn-pa",
+      "name": "Pitcairn",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 11.8,
+      "downtownName": "Broadway Boulevard",
+      "center": {
+        "lat": 40.4031,
+        "lng": -79.7762
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 61,
+        "vacancyEstimate": 30.1,
+        "mix": {
+          "food": 19,
+          "retail": 25,
+          "services": 21,
+          "civic": 10,
+          "office": 12,
+          "other": 13
+        },
+        "poiCount": 109
+      }
+    },
+    {
+      "id": "sewickley-pa",
+      "name": "Sewickley",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 11.9,
+      "downtownName": "Broad Street Downtown",
+      "center": {
+        "lat": 40.5365,
+        "lng": -80.1845
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 54,
+        "vacancyEstimate": 19.6,
+        "mix": {
+          "food": 31,
+          "retail": 13,
+          "services": 17,
+          "civic": 2,
+          "office": 6,
+          "other": 31
+        },
+        "poiCount": 108
+      }
+    },
+    {
+      "id": "sturgeon-pa",
+      "name": "Sturgeon",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 12,
+      "downtownName": "Noblestown Road",
+      "center": {
+        "lat": 40.3889,
+        "lng": -80.2134
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 69,
+        "vacancyEstimate": 22.4,
+        "mix": {
+          "food": 20,
+          "retail": 8,
+          "services": 11,
+          "civic": 6,
+          "office": 7,
+          "other": 48
+        },
+        "poiCount": 119
+      }
+    },
+    {
+      "id": "mcmurray-pa",
+      "name": "McMurray",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 12.1,
+      "downtownName": "McMurray Road Village",
+      "center": {
+        "lat": 40.2789,
+        "lng": -80.0834
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 73,
+        "vacancyEstimate": 28.8,
+        "mix": {
+          "food": 30,
+          "retail": 19,
+          "services": 25,
+          "civic": 11,
+          "office": 12,
+          "other": 3
+        },
+        "poiCount": 151
+      }
+    },
+    {
+      "id": "white-oak-pa",
+      "name": "White Oak",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 12.2,
+      "downtownName": "Lincoln Way",
+      "center": {
+        "lat": 40.3356,
+        "lng": -79.8089
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb",
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 75,
+        "vacancyEstimate": 22.2,
+        "mix": {
+          "food": 24,
+          "retail": 21,
+          "services": 27,
+          "civic": 11,
+          "office": 14,
+          "other": 3
+        },
+        "poiCount": 148
+      }
+    },
+    {
+      "id": "peters-township-pa",
+      "name": "Peters Township",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 12.4,
+      "downtownName": "Washington Road / Venetia",
+      "center": {
+        "lat": 40.2689,
+        "lng": -80.0634
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 62,
+        "vacancyEstimate": 30,
+        "mix": {
+          "food": 19,
+          "retail": 25,
+          "services": 25,
+          "civic": 10,
+          "office": 16,
+          "other": 5
+        },
+        "poiCount": 116
+      }
+    },
+    {
+      "id": "cecil-pa",
+      "name": "Cecil",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 12.5,
+      "downtownName": "Route 50 Village",
+      "center": {
+        "lat": 40.3289,
+        "lng": -80.1834
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 56,
+        "vacancyEstimate": 24,
+        "mix": {
+          "food": 27,
+          "retail": 22,
+          "services": 23,
+          "civic": 11,
+          "office": 13,
+          "other": 4
+        },
+        "poiCount": 98
+      }
+    },
+    {
+      "id": "edgeworth-pa",
+      "name": "Edgeworth",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 12.8,
+      "downtownName": "Beaver Road",
+      "center": {
+        "lat": 40.5512,
+        "lng": -80.1923
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 73,
+        "vacancyEstimate": 27.2,
+        "mix": {
+          "food": 18,
+          "retail": 12,
+          "services": 19,
+          "civic": 5,
+          "office": 9,
+          "other": 37
+        },
+        "poiCount": 139
+      }
+    },
+    {
+      "id": "west-elizabeth-pa",
+      "name": "West Elizabeth",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 12.9,
+      "downtownName": "Fifth Street",
+      "center": {
+        "lat": 40.2689,
+        "lng": -79.8989
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 57,
+        "vacancyEstimate": 28,
+        "mix": {
+          "food": 30,
+          "retail": 17,
+          "services": 21,
+          "civic": 11,
+          "office": 17,
+          "other": 4
+        },
+        "poiCount": 99
+      }
+    },
+    {
+      "id": "imperial-pa",
+      "name": "Imperial",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 13,
+      "downtownName": "Route 30 / Imperial",
+      "center": {
+        "lat": 40.4534,
+        "lng": -80.2434
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 52,
+        "vacancyEstimate": 26.4,
+        "mix": {
+          "food": 20,
+          "retail": 15,
+          "services": 19,
+          "civic": 2,
+          "office": 10,
+          "other": 34
+        },
+        "poiCount": 100
+      }
+    },
+    {
+      "id": "trafford-pa",
+      "name": "Trafford",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 13,
+      "downtownName": "Brinton Avenue",
+      "center": {
+        "lat": 40.3856,
+        "lng": -79.7589
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 49,
+        "vacancyEstimate": 20.6,
+        "mix": {
+          "food": 19,
+          "retail": 14,
+          "services": 11,
+          "civic": 1,
+          "office": 4,
+          "other": 51
+        },
+        "poiCount": 120
+      }
+    },
+    {
+      "id": "elizabeth-pa",
+      "name": "Elizabeth",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 13.1,
+      "downtownName": "Second Avenue Downtown",
+      "center": {
+        "lat": 40.2695,
+        "lng": -79.8898
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 81,
+        "vacancyEstimate": 25,
+        "mix": {
+          "food": 23,
+          "retail": 14,
+          "services": 16,
+          "civic": 3,
+          "office": 4,
+          "other": 40
+        },
+        "poiCount": 153
+      }
+    },
+    {
+      "id": "moon-pa",
+      "name": "Moon",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 13.1,
+      "downtownName": "University Boulevard",
+      "center": {
+        "lat": 40.5189,
+        "lng": -80.2234
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb",
+        "college"
+      ],
+      "baseline": {
+        "vibrancy": 70,
+        "vacancyEstimate": 22,
+        "mix": {
+          "food": 20,
+          "retail": 5,
+          "services": 18,
+          "civic": 5,
+          "office": 9,
+          "other": 43
+        },
+        "poiCount": 116
+      }
+    },
+    {
+      "id": "springdale-pa",
+      "name": "Springdale",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 13.1,
+      "downtownName": "Pittsburgh Street Downtown",
+      "center": {
+        "lat": 40.5409,
+        "lng": -79.7839
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 79,
+        "vacancyEstimate": 27.4,
+        "mix": {
+          "food": 27,
+          "retail": 18,
+          "services": 28,
+          "civic": 11,
+          "office": 12,
+          "other": 4
+        },
+        "poiCount": 158
+      }
+    },
+    {
+      "id": "south-versailles-pa",
+      "name": "South Versailles",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 13.3,
+      "downtownName": "Versailles Avenue",
+      "center": {
+        "lat": 40.3189,
+        "lng": -79.7989
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 54,
+        "vacancyEstimate": 24.3,
+        "mix": {
+          "food": 21,
+          "retail": 14,
+          "services": 17,
+          "civic": 2,
+          "office": 6,
+          "other": 40
+        },
+        "poiCount": 117
+      }
+    },
+    {
+      "id": "mcdonald-washington-pa",
+      "name": "McDonald Washington",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 13.4,
+      "downtownName": "East Lincoln Avenue",
+      "center": {
+        "lat": 40.3689,
+        "lng": -80.2334
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 77,
+        "vacancyEstimate": 26.1,
+        "mix": {
+          "food": 28,
+          "retail": 5,
+          "services": 20,
+          "civic": 5,
+          "office": 1,
+          "other": 41
+        },
+        "poiCount": 150
+      }
+    },
+    {
+      "id": "mcdonald-pa",
+      "name": "McDonald",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 13.5,
+      "downtownName": "East Lincoln Avenue",
+      "center": {
+        "lat": 40.3701,
+        "lng": -80.2345
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 79,
+        "vacancyEstimate": 27.3,
+        "mix": {
+          "food": 31,
+          "retail": 5,
+          "services": 11,
+          "civic": 5,
+          "office": 9,
+          "other": 39
+        },
+        "poiCount": 145
+      }
+    },
+    {
+      "id": "plum-pa",
+      "name": "Plum",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 13.6,
+      "downtownName": "New Texas Road / Village",
+      "center": {
+        "lat": 40.5003,
+        "lng": -79.7495
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 47,
+        "vacancyEstimate": 30.1,
+        "mix": {
+          "food": 26,
+          "retail": 19,
+          "services": 27,
+          "civic": 14,
+          "office": 10,
+          "other": 4
+        },
+        "poiCount": 108
+      }
+    },
+    {
+      "id": "bell-acres-pa",
+      "name": "Bell Acres",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 13.7,
+      "downtownName": "Big Sewickley Creek",
+      "center": {
+        "lat": 40.5934,
+        "lng": -80.1634
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 45,
+        "vacancyEstimate": 22.3,
+        "mix": {
+          "food": 23,
+          "retail": 12,
+          "services": 17,
+          "civic": 3,
+          "office": 2,
+          "other": 43
+        },
+        "poiCount": 89
+      }
+    },
+    {
+      "id": "findlay-pa",
+      "name": "Findlay",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 13.8,
+      "downtownName": "Airport / Clinton Village",
+      "center": {
+        "lat": 40.4789,
+        "lng": -80.2534
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 41,
+        "vacancyEstimate": 28.1,
+        "mix": {
+          "food": 26,
+          "retail": 9,
+          "services": 11,
+          "civic": 3,
+          "office": 8,
+          "other": 43
+        },
+        "poiCount": 100
+      }
+    },
+    {
+      "id": "cheswick-pa",
+      "name": "Cheswick",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 14.1,
+      "downtownName": "Pittsburgh Street",
+      "center": {
+        "lat": 40.5417,
+        "lng": -79.7631
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 75,
+        "vacancyEstimate": 23.1,
+        "mix": {
+          "food": 22,
+          "retail": 20,
+          "services": 24,
+          "civic": 11,
+          "office": 12,
+          "other": 11
+        },
+        "poiCount": 125
+      }
+    },
+    {
+      "id": "leetsdale-pa",
+      "name": "Leetsdale",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 14.1,
+      "downtownName": "Beaver Street",
+      "center": {
+        "lat": 40.5634,
+        "lng": -80.2101
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 66,
+        "vacancyEstimate": 21.3,
+        "mix": {
+          "food": 26,
+          "retail": 20,
+          "services": 26,
+          "civic": 9,
+          "office": 12,
+          "other": 7
+        },
+        "poiCount": 139
+      }
+    },
+    {
+      "id": "pine-pa",
+      "name": "Pine",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 14.1,
+      "downtownName": "Perry Highway",
+      "center": {
+        "lat": 40.6434,
+        "lng": -80.0334
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 46,
+        "vacancyEstimate": 30.1,
+        "mix": {
+          "food": 21,
+          "retail": 27,
+          "services": 21,
+          "civic": 8,
+          "office": 18,
+          "other": 5
+        },
+        "poiCount": 106
+      }
+    },
+    {
+      "id": "richland-pa",
+      "name": "Richland",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 14.2,
+      "downtownName": "Route 8 / Gibsonia",
+      "center": {
+        "lat": 40.6434,
+        "lng": -79.9534
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 50,
+        "vacancyEstimate": 27.7,
+        "mix": {
+          "food": 20,
+          "retail": 7,
+          "services": 13,
+          "civic": 6,
+          "office": 7,
+          "other": 47
+        },
+        "poiCount": 108
+      }
+    },
+    {
+      "id": "bradford-woods-pa",
+      "name": "Bradford Woods",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 14.5,
+      "downtownName": "Bradford Road Village",
+      "center": {
+        "lat": 40.6389,
+        "lng": -80.0834
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 54,
+        "vacancyEstimate": 30.2,
+        "mix": {
+          "food": 26,
+          "retail": 12,
+          "services": 12,
+          "civic": 1,
+          "office": 6,
+          "other": 43
+        },
+        "poiCount": 100
+      }
+    },
+    {
+      "id": "forward-pa",
+      "name": "Forward",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 14.8,
+      "downtownName": "River Road Village",
+      "center": {
+        "lat": 40.2489,
+        "lng": -79.8689
+      },
+      "radiusM": 550,
+      "tags": [
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 75,
+        "vacancyEstimate": 21.6,
+        "mix": {
+          "food": 20,
+          "retail": 15,
+          "services": 11,
+          "civic": 2,
+          "office": 2,
+          "other": 50
+        },
+        "poiCount": 151
+      }
+    },
+    {
+      "id": "frazer-pa",
+      "name": "Frazer",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 14.8,
+      "downtownName": "Butler Road",
+      "center": {
+        "lat": 40.5889,
+        "lng": -79.7934
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 46,
+        "vacancyEstimate": 30.8,
+        "mix": {
+          "food": 21,
+          "retail": 21,
+          "services": 23,
+          "civic": 14,
+          "office": 17,
+          "other": 4
+        },
+        "poiCount": 116
+      }
+    },
+    {
+      "id": "west-deer-pa",
+      "name": "West Deer",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 14.8,
+      "downtownName": "Saxonburg Boulevard",
+      "center": {
+        "lat": 40.6334,
+        "lng": -79.8734
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 54,
+        "vacancyEstimate": 24.8,
+        "mix": {
+          "food": 25,
+          "retail": 14,
+          "services": 18,
+          "civic": 3,
+          "office": 6,
+          "other": 34
+        },
+        "poiCount": 109
+      }
+    },
+    {
+      "id": "lawrence-pa",
+      "name": "Lawrence",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 15,
+      "downtownName": "Route 19",
+      "center": {
+        "lat": 40.3089,
+        "lng": -80.2234
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 73,
+        "vacancyEstimate": 29,
+        "mix": {
+          "food": 24,
+          "retail": 12,
+          "services": 15,
+          "civic": 8,
+          "office": 2,
+          "other": 39
+        },
+        "poiCount": 135
+      }
+    },
+    {
+      "id": "crescent-pa",
+      "name": "Crescent",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 15.1,
+      "downtownName": "Stoops Ferry",
+      "center": {
+        "lat": 40.5634,
+        "lng": -80.2334
+      },
+      "radiusM": 550,
+      "tags": [
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 74,
+        "vacancyEstimate": 24.6,
+        "mix": {
+          "food": 24,
+          "retail": 7,
+          "services": 20,
+          "civic": 3,
+          "office": 8,
+          "other": 38
+        },
+        "poiCount": 118
+      }
+    },
+    {
+      "id": "new-kensington-pa",
+      "name": "New Kensington",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 15.1,
+      "downtownName": "Fifth Avenue Downtown",
+      "center": {
+        "lat": 40.5698,
+        "lng": -79.7648
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 73,
+        "vacancyEstimate": 28,
+        "mix": {
+          "food": 22,
+          "retail": 7,
+          "services": 16,
+          "civic": 7,
+          "office": 9,
+          "other": 39
+        },
+        "poiCount": 153
+      }
+    },
+    {
+      "id": "arnold-pa",
+      "name": "Arnold",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 15.4,
+      "downtownName": "Constitution Boulevard",
+      "center": {
+        "lat": 40.5801,
+        "lng": -79.7667
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 65,
+        "vacancyEstimate": 26,
+        "mix": {
+          "food": 19,
+          "retail": 8,
+          "services": 15,
+          "civic": 3,
+          "office": 10,
+          "other": 45
+        },
+        "poiCount": 129
+      }
+    },
+    {
+      "id": "marshall-pa",
+      "name": "Marshall",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 15.6,
+      "downtownName": "Wexford / Route 19",
+      "center": {
+        "lat": 40.6534,
+        "lng": -80.0934
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 47,
+        "vacancyEstimate": 29.6,
+        "mix": {
+          "food": 19,
+          "retail": 5,
+          "services": 18,
+          "civic": 4,
+          "office": 1,
+          "other": 53
+        },
+        "poiCount": 91
+      }
+    },
+    {
+      "id": "murrysville-pa",
+      "name": "Murrysville",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 15.7,
+      "downtownName": "Old William Penn Highway",
+      "center": {
+        "lat": 40.4284,
+        "lng": -79.6976
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb",
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 74,
+        "vacancyEstimate": 25.5,
+        "mix": {
+          "food": 23,
+          "retail": 18,
+          "services": 22,
+          "civic": 15,
+          "office": 13,
+          "other": 9
+        },
+        "poiCount": 119
+      }
+    },
+    {
+      "id": "south-heights-pa",
+      "name": "South Heights",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 15.7,
+      "downtownName": "Jordan Street",
+      "center": {
+        "lat": 40.5734,
+        "lng": -80.2389
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 58,
+        "vacancyEstimate": 29.3,
+        "mix": {
+          "food": 31,
+          "retail": 5,
+          "services": 12,
+          "civic": 2,
+          "office": 2,
+          "other": 48
+        },
+        "poiCount": 111
+      }
+    },
+    {
+      "id": "ambridge-pa",
+      "name": "Ambridge",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 15.9,
+      "downtownName": "Merchant Street",
+      "center": {
+        "lat": 40.589,
+        "lng": -80.2262
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 79,
+        "vacancyEstimate": 22.1,
+        "mix": {
+          "food": 28,
+          "retail": 16,
+          "services": 22,
+          "civic": 13,
+          "office": 18,
+          "other": 3
+        },
+        "poiCount": 139
+      }
+    },
+    {
+      "id": "canonsburg-pa",
+      "name": "Canonsburg",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 15.9,
+      "downtownName": "Pike Street Downtown",
+      "center": {
+        "lat": 40.2626,
+        "lng": -80.1873
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 53,
+        "vacancyEstimate": 21.5,
+        "mix": {
+          "food": 29,
+          "retail": 16,
+          "services": 14,
+          "civic": 1,
+          "office": 10,
+          "other": 30
+        },
+        "poiCount": 118
+      }
+    },
+    {
+      "id": "harmony-township-pa",
+      "name": "Harmony Township",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 16.1,
+      "downtownName": "Duss Avenue",
+      "center": {
+        "lat": 40.6089,
+        "lng": -80.2089
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 54,
+        "vacancyEstimate": 32.1,
+        "mix": {
+          "food": 20,
+          "retail": 11,
+          "services": 20,
+          "civic": 3,
+          "office": 8,
+          "other": 38
+        },
+        "poiCount": 96
+      }
+    },
+    {
+      "id": "midway-pa",
+      "name": "Midway",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 16.4,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.3689,
+        "lng": -80.2934
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 66,
+        "vacancyEstimate": 22.7,
+        "mix": {
+          "food": 22,
+          "retail": 20,
+          "services": 22,
+          "civic": 11,
+          "office": 18,
+          "other": 7
+        },
+        "poiCount": 131
+      }
+    },
+    {
+      "id": "north-irwin-pa",
+      "name": "North Irwin",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 16.4,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.3389,
+        "lng": -79.7134
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 57,
+        "vacancyEstimate": 26.3,
+        "mix": {
+          "food": 30,
+          "retail": 14,
+          "services": 19,
+          "civic": 3,
+          "office": 4,
+          "other": 30
+        },
+        "poiCount": 99
+      }
+    },
+    {
+      "id": "east-deer-pa",
+      "name": "East Deer",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 16.5,
+      "downtownName": "Freeport Road",
+      "center": {
+        "lat": 40.6089,
+        "lng": -79.7734
+      },
+      "radiusM": 550,
+      "tags": [
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 58,
+        "vacancyEstimate": 29.1,
+        "mix": {
+          "food": 29,
+          "retail": 8,
+          "services": 14,
+          "civic": 7,
+          "office": 7,
+          "other": 35
+        },
+        "poiCount": 123
+      }
+    },
+    {
+      "id": "valencia-pa",
+      "name": "Valencia",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 16.5,
+      "downtownName": "Three Degree Road",
+      "center": {
+        "lat": 40.6756,
+        "lng": -80.0489
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 79,
+        "vacancyEstimate": 25.1,
+        "mix": {
+          "food": 24,
+          "retail": 8,
+          "services": 12,
+          "civic": 3,
+          "office": 8,
+          "other": 45
+        },
+        "poiCount": 123
+      }
+    },
+    {
+      "id": "tarentum-pa",
+      "name": "Tarentum",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 16.7,
+      "downtownName": "Corbet Street Downtown",
+      "center": {
+        "lat": 40.6031,
+        "lng": -79.7598
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 80,
+        "vacancyEstimate": 19.9,
+        "mix": {
+          "food": 21,
+          "retail": 15,
+          "services": 11,
+          "civic": 5,
+          "office": 9,
+          "other": 39
+        },
+        "poiCount": 161
+      }
+    },
+    {
+      "id": "monongahela-pa",
+      "name": "Monongahela",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 17,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.2003,
+        "lng": -79.9264
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 57,
+        "vacancyEstimate": 21.2,
+        "mix": {
+          "food": 24,
+          "retail": 13,
+          "services": 16,
+          "civic": 2,
+          "office": 6,
+          "other": 39
+        },
+        "poiCount": 118
+      }
+    },
+    {
+      "id": "sutersville-pa",
+      "name": "Sutersville",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 17.2,
+      "downtownName": "First Street",
+      "center": {
+        "lat": 40.2389,
+        "lng": -79.8034
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 61,
+        "vacancyEstimate": 28.4,
+        "mix": {
+          "food": 19,
+          "retail": 19,
+          "services": 24,
+          "civic": 8,
+          "office": 14,
+          "other": 16
+        },
+        "poiCount": 140
+      }
+    },
+    {
+      "id": "aliquippa-pa",
+      "name": "Aliquippa",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 17.3,
+      "downtownName": "Franklin Avenue Downtown",
+      "center": {
+        "lat": 40.6089,
+        "lng": -80.2401
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 67,
+        "vacancyEstimate": 27,
+        "mix": {
+          "food": 21,
+          "retail": 14,
+          "services": 20,
+          "civic": 4,
+          "office": 5,
+          "other": 36
+        },
+        "poiCount": 146
+      }
+    },
+    {
+      "id": "houston-pa",
+      "name": "Houston",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 17.4,
+      "downtownName": "Pike Street",
+      "center": {
+        "lat": 40.2489,
+        "lng": -80.2089
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 64,
+        "vacancyEstimate": 27,
+        "mix": {
+          "food": 23,
+          "retail": 20,
+          "services": 29,
+          "civic": 11,
+          "office": 14,
+          "other": 3
+        },
+        "poiCount": 121
+      }
+    },
+    {
+      "id": "irwin-pa",
+      "name": "Irwin",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 17.5,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.3245,
+        "lng": -79.7012
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 61,
+        "vacancyEstimate": 30.6,
+        "mix": {
+          "food": 30,
+          "retail": 10,
+          "services": 16,
+          "civic": 3,
+          "office": 4,
+          "other": 37
+        },
+        "poiCount": 127
+      }
+    },
+    {
+      "id": "lower-burrell-pa",
+      "name": "Lower Burrell",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 17.5,
+      "downtownName": "Freeport Road",
+      "center": {
+        "lat": 40.5834,
+        "lng": -79.7212
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 71,
+        "vacancyEstimate": 29.8,
+        "mix": {
+          "food": 25,
+          "retail": 20,
+          "services": 22,
+          "civic": 9,
+          "office": 18,
+          "other": 6
+        },
+        "poiCount": 143
+      }
+    },
+    {
+      "id": "seven-fields-pa",
+      "name": "Seven Fields",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 17.5,
+      "downtownName": "Route 228 Village",
+      "center": {
+        "lat": 40.6889,
+        "lng": -80.0634
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 58,
+        "vacancyEstimate": 29.2,
+        "mix": {
+          "food": 20,
+          "retail": 26,
+          "services": 25,
+          "civic": 14,
+          "office": 11,
+          "other": 4
+        },
+        "poiCount": 119
+      }
+    },
+    {
+      "id": "mars-pa",
+      "name": "Mars",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 17.6,
+      "downtownName": "Grand Avenue Downtown",
+      "center": {
+        "lat": 40.6956,
+        "lng": -80.0117
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 78,
+        "vacancyEstimate": 25.8,
+        "mix": {
+          "food": 20,
+          "retail": 24,
+          "services": 25,
+          "civic": 12,
+          "office": 15,
+          "other": 4
+        },
+        "poiCount": 157
+      }
+    },
+    {
+      "id": "brackenridge-pa",
+      "name": "Brackenridge",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 17.7,
+      "downtownName": "Brackenridge Avenue",
+      "center": {
+        "lat": 40.6081,
+        "lng": -79.7412
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 74,
+        "vacancyEstimate": 24.4,
+        "mix": {
+          "food": 22,
+          "retail": 15,
+          "services": 16,
+          "civic": 7,
+          "office": 9,
+          "other": 31
+        },
+        "poiCount": 149
+      }
+    },
+    {
+      "id": "cranberry-township-pa",
+      "name": "Cranberry Township",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 17.8,
+      "downtownName": "Route 19 / Freedom Road",
+      "center": {
+        "lat": 40.6845,
+        "lng": -80.1073
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 49,
+        "vacancyEstimate": 26.2,
+        "mix": {
+          "food": 28,
+          "retail": 5,
+          "services": 15,
+          "civic": 8,
+          "office": 2,
+          "other": 42
+        },
+        "poiCount": 115
+      }
+    },
+    {
+      "id": "hopewell-pa",
+      "name": "Hopewell",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 17.8,
+      "downtownName": "Route 151 Village",
+      "center": {
+        "lat": 40.5889,
+        "lng": -80.2734
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 60,
+        "vacancyEstimate": 29.8,
+        "mix": {
+          "food": 23,
+          "retail": 13,
+          "services": 12,
+          "civic": 1,
+          "office": 8,
+          "other": 43
+        },
+        "poiCount": 110
+      }
+    },
+    {
+      "id": "bulger-pa",
+      "name": "Bulger",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 17.9,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.4089,
+        "lng": -80.3334
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 51,
+        "vacancyEstimate": 28.2,
+        "mix": {
+          "food": 29,
+          "retail": 19,
+          "services": 28,
+          "civic": 10,
+          "office": 10,
+          "other": 4
+        },
+        "poiCount": 101
+      }
+    },
+    {
+      "id": "baden-pa",
+      "name": "Baden",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 18.2,
+      "downtownName": "State Street",
+      "center": {
+        "lat": 40.6356,
+        "lng": -80.2289
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 72,
+        "vacancyEstimate": 30.1,
+        "mix": {
+          "food": 31,
+          "retail": 12,
+          "services": 18,
+          "civic": 5,
+          "office": 9,
+          "other": 25
+        },
+        "poiCount": 151
+      }
+    },
+    {
+      "id": "economy-pa",
+      "name": "Economy",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 18.6,
+      "downtownName": "Route 65 Village",
+      "center": {
+        "lat": 40.6689,
+        "lng": -80.1834
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 58,
+        "vacancyEstimate": 23.3,
+        "mix": {
+          "food": 26,
+          "retail": 18,
+          "services": 25,
+          "civic": 13,
+          "office": 14,
+          "other": 4
+        },
+        "poiCount": 116
+      }
+    },
+    {
+      "id": "manor-pa",
+      "name": "Manor",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 18.7,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.3334,
+        "lng": -79.6689
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 65,
+        "vacancyEstimate": 23.5,
+        "mix": {
+          "food": 30,
+          "retail": 16,
+          "services": 23,
+          "civic": 15,
+          "office": 13,
+          "other": 3
+        },
+        "poiCount": 129
+      }
+    },
+    {
+      "id": "slovan-pa",
+      "name": "Slovan",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 19,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.3989,
+        "lng": -80.3534
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 56,
+        "vacancyEstimate": 29.5,
+        "mix": {
+          "food": 29,
+          "retail": 18,
+          "services": 27,
+          "civic": 9,
+          "office": 13,
+          "other": 4
+        },
+        "poiCount": 101
+      }
+    },
+    {
+      "id": "harrison-pa",
+      "name": "Harrison",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 19.3,
+      "downtownName": "Freeport Road / Natrona",
+      "center": {
+        "lat": 40.6289,
+        "lng": -79.7234
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 72,
+        "vacancyEstimate": 28.1,
+        "mix": {
+          "food": 25,
+          "retail": 21,
+          "services": 22,
+          "civic": 11,
+          "office": 17,
+          "other": 4
+        },
+        "poiCount": 151
+      }
+    },
+    {
+      "id": "export-pa",
+      "name": "Export",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 19.6,
+      "downtownName": "Washington Avenue",
+      "center": {
+        "lat": 40.4189,
+        "lng": -79.6234
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 68,
+        "vacancyEstimate": 22.4,
+        "mix": {
+          "food": 19,
+          "retail": 5,
+          "services": 18,
+          "civic": 2,
+          "office": 8,
+          "other": 48
+        },
+        "poiCount": 115
+      }
+    },
+    {
+      "id": "fawn-pa",
+      "name": "Fawn",
+      "state": "PA",
+      "county": "Allegheny",
+      "milesFromAllegheny": 19.6,
+      "downtownName": "Butler-Freeport corridor",
+      "center": {
+        "lat": 40.6489,
+        "lng": -79.7434
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 51,
+        "vacancyEstimate": 30,
+        "mix": {
+          "food": 30,
+          "retail": 22,
+          "services": 22,
+          "civic": 10,
+          "office": 13,
+          "other": 3
+        },
+        "poiCount": 98
+      }
+    },
+    {
+      "id": "donora-pa",
+      "name": "Donora",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 19.8,
+      "downtownName": "Fifth Street Downtown",
+      "center": {
+        "lat": 40.1734,
+        "lng": -79.8576
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 53,
+        "vacancyEstimate": 28.4,
+        "mix": {
+          "food": 25,
+          "retail": 19,
+          "services": 26,
+          "civic": 10,
+          "office": 17,
+          "other": 3
+        },
+        "poiCount": 123
+      }
+    },
+    {
+      "id": "conway-pa",
+      "name": "Conway",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 19.9,
+      "downtownName": "Second Avenue",
+      "center": {
+        "lat": 40.6634,
+        "lng": -80.2367
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 68,
+        "vacancyEstimate": 21.2,
+        "mix": {
+          "food": 28,
+          "retail": 16,
+          "services": 11,
+          "civic": 2,
+          "office": 10,
+          "other": 33
+        },
+        "poiCount": 120
+      }
+    },
+    {
+      "id": "west-newton-pa",
+      "name": "West Newton",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 20,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.2089,
+        "lng": -79.7689
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 62,
+        "vacancyEstimate": 25,
+        "mix": {
+          "food": 28,
+          "retail": 5,
+          "services": 18,
+          "civic": 6,
+          "office": 5,
+          "other": 38
+        },
+        "poiCount": 109
+      }
+    },
+    {
+      "id": "monessen-pa",
+      "name": "Monessen",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 20.1,
+      "downtownName": "Donner Avenue",
+      "center": {
+        "lat": 40.1615,
+        "lng": -79.8876
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 70,
+        "vacancyEstimate": 27.8,
+        "mix": {
+          "food": 19,
+          "retail": 11,
+          "services": 16,
+          "civic": 8,
+          "office": 6,
+          "other": 40
+        },
+        "poiCount": 151
+      }
+    },
+    {
+      "id": "penn-pa",
+      "name": "Penn",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 20.1,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.3289,
+        "lng": -79.6434
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 58,
+        "vacancyEstimate": 26,
+        "mix": {
+          "food": 26,
+          "retail": 7,
+          "services": 14,
+          "civic": 8,
+          "office": 2,
+          "other": 43
+        },
+        "poiCount": 109
+      }
+    },
+    {
+      "id": "upper-burrell-pa",
+      "name": "Upper Burrell",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 20.1,
+      "downtownName": "Route 56 Village",
+      "center": {
+        "lat": 40.6089,
+        "lng": -79.6834
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 49,
+        "vacancyEstimate": 31.8,
+        "mix": {
+          "food": 28,
+          "retail": 10,
+          "services": 12,
+          "civic": 5,
+          "office": 3,
+          "other": 42
+        },
+        "poiCount": 107
+      }
+    },
+    {
+      "id": "adamsburg-pa",
+      "name": "Adamsburg",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 20.2,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.3089,
+        "lng": -79.6534
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 51,
+        "vacancyEstimate": 21.8,
+        "mix": {
+          "food": 19,
+          "retail": 19,
+          "services": 27,
+          "civic": 13,
+          "office": 19,
+          "other": 3
+        },
+        "poiCount": 94
+      }
+    },
+    {
+      "id": "independence-pa",
+      "name": "Independence",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 20.2,
+      "downtownName": "Independence Road",
+      "center": {
+        "lat": 40.5489,
+        "lng": -80.3534
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 57,
+        "vacancyEstimate": 26.4,
+        "mix": {
+          "food": 29,
+          "retail": 17,
+          "services": 26,
+          "civic": 8,
+          "office": 14,
+          "other": 6
+        },
+        "poiCount": 99
+      }
+    },
+    {
+      "id": "callery-pa",
+      "name": "Callery",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 20.7,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.7389,
+        "lng": -80.0389
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 71,
+        "vacancyEstimate": 29.1,
+        "mix": {
+          "food": 23,
+          "retail": 16,
+          "services": 12,
+          "civic": 6,
+          "office": 9,
+          "other": 34
+        },
+        "poiCount": 120
+      }
+    },
+    {
+      "id": "charleroi-pa",
+      "name": "Charleroi",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 20.9,
+      "downtownName": "McKean Avenue Downtown",
+      "center": {
+        "lat": 40.1462,
+        "lng": -79.9014
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 57,
+        "vacancyEstimate": 26.7,
+        "mix": {
+          "food": 18,
+          "retail": 15,
+          "services": 11,
+          "civic": 8,
+          "office": 8,
+          "other": 40
+        },
+        "poiCount": 130
+      }
+    },
+    {
+      "id": "burgettstown-pa",
+      "name": "Burgettstown",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 21.2,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.3809,
+        "lng": -80.3912
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 62,
+        "vacancyEstimate": 29.7,
+        "mix": {
+          "food": 20,
+          "retail": 21,
+          "services": 25,
+          "civic": 14,
+          "office": 16,
+          "other": 4
+        },
+        "poiCount": 112
+      }
+    },
+    {
+      "id": "madison-pa",
+      "name": "Madison",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 21.3,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.2489,
+        "lng": -79.6789
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 71,
+        "vacancyEstimate": 23.7,
+        "mix": {
+          "food": 30,
+          "retail": 16,
+          "services": 24,
+          "civic": 14,
+          "office": 11,
+          "other": 5
+        },
+        "poiCount": 125
+      }
+    },
+    {
+      "id": "freedom-pa",
+      "name": "Freedom",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 21.5,
+      "downtownName": "Third Avenue",
+      "center": {
+        "lat": 40.6834,
+        "lng": -80.2512
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 56,
+        "vacancyEstimate": 22.7,
+        "mix": {
+          "food": 21,
+          "retail": 18,
+          "services": 20,
+          "civic": 11,
+          "office": 18,
+          "other": 12
+        },
+        "poiCount": 119
+      }
+    },
+    {
+      "id": "jeannette-pa",
+      "name": "Jeannette",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 21.5,
+      "downtownName": "Fifth Street Downtown",
+      "center": {
+        "lat": 40.3281,
+        "lng": -79.6153
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 53,
+        "vacancyEstimate": 26.5,
+        "mix": {
+          "food": 23,
+          "retail": 13,
+          "services": 20,
+          "civic": 1,
+          "office": 4,
+          "other": 39
+        },
+        "poiCount": 120
+      }
+    },
+    {
+      "id": "center-township-pa",
+      "name": "Center Township",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 21.6,
+      "downtownName": "Brodhead Road",
+      "center": {
+        "lat": 40.6489,
+        "lng": -80.3034
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 71,
+        "vacancyEstimate": 29.5,
+        "mix": {
+          "food": 23,
+          "retail": 10,
+          "services": 20,
+          "civic": 2,
+          "office": 2,
+          "other": 43
+        },
+        "poiCount": 148
+      }
+    },
+    {
+      "id": "bentleyville-pa",
+      "name": "Bentleyville",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 21.9,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.1234,
+        "lng": -80.0089
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 50,
+        "vacancyEstimate": 25.6,
+        "mix": {
+          "food": 22,
+          "retail": 10,
+          "services": 18,
+          "civic": 8,
+          "office": 8,
+          "other": 34
+        },
+        "poiCount": 102
+      }
+    },
+    {
+      "id": "monaca-pa",
+      "name": "Monaca",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 22.1,
+      "downtownName": "Pennsylvania Avenue",
+      "center": {
+        "lat": 40.6834,
+        "lng": -80.2712
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 73,
+        "vacancyEstimate": 19.8,
+        "mix": {
+          "food": 20,
+          "retail": 22,
+          "services": 21,
+          "civic": 8,
+          "office": 18,
+          "other": 11
+        },
+        "poiCount": 127
+      }
+    },
+    {
+      "id": "delmont-pa",
+      "name": "Delmont",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 22.4,
+      "downtownName": "Greensburgh Street",
+      "center": {
+        "lat": 40.4134,
+        "lng": -79.5712
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 66,
+        "vacancyEstimate": 30.4,
+        "mix": {
+          "food": 24,
+          "retail": 19,
+          "services": 24,
+          "civic": 11,
+          "office": 18,
+          "other": 4
+        },
+        "poiCount": 107
+      }
+    },
+    {
+      "id": "new-sewickley-pa",
+      "name": "New Sewickley",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 22.7,
+      "downtownName": "Freedom Road",
+      "center": {
+        "lat": 40.7289,
+        "lng": -80.2034
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 72,
+        "vacancyEstimate": 23.6,
+        "mix": {
+          "food": 28,
+          "retail": 20,
+          "services": 24,
+          "civic": 9,
+          "office": 15,
+          "other": 4
+        },
+        "poiCount": 122
+      }
+    },
+    {
+      "id": "washington-pa",
+      "name": "Washington",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 22.7,
+      "downtownName": "Main Street Downtown",
+      "center": {
+        "lat": 40.174,
+        "lng": -80.2462
+      },
+      "radiusM": 900,
+      "tags": [
+        "main_street",
+        "county_seat",
+        "city",
+        "college"
+      ],
+      "baseline": {
+        "vibrancy": 73,
+        "vacancyEstimate": 24.8,
+        "mix": {
+          "food": 19,
+          "retail": 14,
+          "services": 15,
+          "civic": 8,
+          "office": 2,
+          "other": 42
+        },
+        "poiCount": 152
+      }
+    },
+    {
+      "id": "east-rochester-pa",
+      "name": "East Rochester",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 22.9,
+      "downtownName": "New York Avenue",
+      "center": {
+        "lat": 40.6989,
+        "lng": -80.2689
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 69,
+        "vacancyEstimate": 26.8,
+        "mix": {
+          "food": 26,
+          "retail": 5,
+          "services": 11,
+          "civic": 4,
+          "office": 5,
+          "other": 49
+        },
+        "poiCount": 128
+      }
+    },
+    {
+      "id": "ellsworth-pa",
+      "name": "Ellsworth",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 23,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.1089,
+        "lng": -80.0234
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 75,
+        "vacancyEstimate": 22.6,
+        "mix": {
+          "food": 27,
+          "retail": 16,
+          "services": 18,
+          "civic": 1,
+          "office": 2,
+          "other": 36
+        },
+        "poiCount": 154
+      }
+    },
+    {
+      "id": "evans-city-pa",
+      "name": "Evans City",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 23,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.7692,
+        "lng": -80.0667
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 77,
+        "vacancyEstimate": 26.2,
+        "mix": {
+          "food": 28,
+          "retail": 5,
+          "services": 17,
+          "civic": 6,
+          "office": 1,
+          "other": 43
+        },
+        "poiCount": 129
+      }
+    },
+    {
+      "id": "freeport-pa",
+      "name": "Freeport",
+      "state": "PA",
+      "county": "Armstrong",
+      "milesFromAllegheny": 23,
+      "downtownName": "Fifth Street Downtown",
+      "center": {
+        "lat": 40.6745,
+        "lng": -79.6848
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 74,
+        "vacancyEstimate": 27,
+        "mix": {
+          "food": 24,
+          "retail": 20,
+          "services": 22,
+          "civic": 11,
+          "office": 18,
+          "other": 5
+        },
+        "poiCount": 140
+      }
+    },
+    {
+      "id": "raccoon-pa",
+      "name": "Raccoon",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 23.1,
+      "downtownName": "Route 18",
+      "center": {
+        "lat": 40.5989,
+        "lng": -80.3834
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 67,
+        "vacancyEstimate": 28.4,
+        "mix": {
+          "food": 20,
+          "retail": 15,
+          "services": 14,
+          "civic": 7,
+          "office": 7,
+          "other": 37
+        },
+        "poiCount": 118
+      }
+    },
+    {
+      "id": "nixon-pa",
+      "name": "Nixon",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 23.6,
+      "downtownName": "Route 8",
+      "center": {
+        "lat": 40.7789,
+        "lng": -79.9289
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 55,
+        "vacancyEstimate": 25.5,
+        "mix": {
+          "food": 20,
+          "retail": 26,
+          "services": 21,
+          "civic": 14,
+          "office": 14,
+          "other": 5
+        },
+        "poiCount": 111
+      }
+    },
+    {
+      "id": "rochester-pa",
+      "name": "Rochester",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 23.6,
+      "downtownName": "Brighton Avenue",
+      "center": {
+        "lat": 40.7023,
+        "lng": -80.2834
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 80,
+        "vacancyEstimate": 27.7,
+        "mix": {
+          "food": 26,
+          "retail": 18,
+          "services": 25,
+          "civic": 10,
+          "office": 16,
+          "other": 5
+        },
+        "poiCount": 140
+      }
+    },
+    {
+      "id": "bridgewater-pa",
+      "name": "Bridgewater",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 23.7,
+      "downtownName": "Market Street",
+      "center": {
+        "lat": 40.6989,
+        "lng": -80.2934
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 48,
+        "vacancyEstimate": 27.5,
+        "mix": {
+          "food": 19,
+          "retail": 25,
+          "services": 23,
+          "civic": 13,
+          "office": 11,
+          "other": 9
+        },
+        "poiCount": 113
+      }
+    },
+    {
+      "id": "saxonburg-pa",
+      "name": "Saxonburg",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 23.7,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.7534,
+        "lng": -79.8112
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 66,
+        "vacancyEstimate": 23.9,
+        "mix": {
+          "food": 18,
+          "retail": 13,
+          "services": 19,
+          "civic": 2,
+          "office": 10,
+          "other": 38
+        },
+        "poiCount": 140
+      }
+    },
+    {
+      "id": "smithton-pa",
+      "name": "Smithton",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 23.7,
+      "downtownName": "Second Street",
+      "center": {
+        "lat": 40.1589,
+        "lng": -79.7389
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 50,
+        "vacancyEstimate": 23.9,
+        "mix": {
+          "food": 20,
+          "retail": 24,
+          "services": 24,
+          "civic": 13,
+          "office": 15,
+          "other": 4
+        },
+        "poiCount": 101
+      }
+    },
+    {
+      "id": "west-leechburg-pa",
+      "name": "West Leechburg",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 23.7,
+      "downtownName": "Third Street",
+      "center": {
+        "lat": 40.6289,
+        "lng": -79.6189
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 63,
+        "vacancyEstimate": 22.1,
+        "mix": {
+          "food": 18,
+          "retail": 25,
+          "services": 25,
+          "civic": 13,
+          "office": 15,
+          "other": 4
+        },
+        "poiCount": 117
+      }
+    },
+    {
+      "id": "beaver-pa",
+      "name": "Beaver",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 23.9,
+      "downtownName": "Third Street Downtown",
+      "center": {
+        "lat": 40.6953,
+        "lng": -80.3048
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town",
+        "county_seat"
+      ],
+      "baseline": {
+        "vibrancy": 52,
+        "vacancyEstimate": 20.5,
+        "mix": {
+          "food": 22,
+          "retail": 14,
+          "services": 19,
+          "civic": 7,
+          "office": 9,
+          "other": 29
+        },
+        "poiCount": 93
+      }
+    },
+    {
+      "id": "cokeburg-pa",
+      "name": "Cokeburg",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 23.9,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.0989,
+        "lng": -80.0634
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 53,
+        "vacancyEstimate": 27.3,
+        "mix": {
+          "food": 29,
+          "retail": 9,
+          "services": 16,
+          "civic": 3,
+          "office": 4,
+          "other": 39
+        },
+        "poiCount": 113
+      }
+    },
+    {
+      "id": "hyde-park-pa",
+      "name": "Hyde Park",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 24,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.5889,
+        "lng": -79.5834
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 62,
+        "vacancyEstimate": 22.7,
+        "mix": {
+          "food": 20,
+          "retail": 18,
+          "services": 26,
+          "civic": 14,
+          "office": 11,
+          "other": 11
+        },
+        "poiCount": 116
+      }
+    },
+    {
+      "id": "oklahoma-pa",
+      "name": "Oklahoma",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 24.2,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.5789,
+        "lng": -79.5734
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 74,
+        "vacancyEstimate": 22.7,
+        "mix": {
+          "food": 27,
+          "retail": 7,
+          "services": 15,
+          "civic": 8,
+          "office": 4,
+          "other": 39
+        },
+        "poiCount": 122
+      }
+    },
+    {
+      "id": "leechburg-pa",
+      "name": "Leechburg",
+      "state": "PA",
+      "county": "Armstrong",
+      "milesFromAllegheny": 24.3,
+      "downtownName": "Market Street",
+      "center": {
+        "lat": 40.6292,
+        "lng": -79.6056
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 64,
+        "vacancyEstimate": 25.3,
+        "mix": {
+          "food": 24,
+          "retail": 6,
+          "services": 11,
+          "civic": 7,
+          "office": 1,
+          "other": 51
+        },
+        "poiCount": 130
+      }
+    },
+    {
+      "id": "potter-pa",
+      "name": "Potter",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 24.5,
+      "downtownName": "Route 68 Village",
+      "center": {
+        "lat": 40.6689,
+        "lng": -80.3534
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 50,
+        "vacancyEstimate": 25.6,
+        "mix": {
+          "food": 23,
+          "retail": 15,
+          "services": 16,
+          "civic": 5,
+          "office": 7,
+          "other": 34
+        },
+        "poiCount": 123
+      }
+    },
+    {
+      "id": "apollo-pa",
+      "name": "Apollo",
+      "state": "PA",
+      "county": "Armstrong",
+      "milesFromAllegheny": 24.6,
+      "downtownName": "First Street",
+      "center": {
+        "lat": 40.5815,
+        "lng": -79.5664
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 61,
+        "vacancyEstimate": 25.4,
+        "mix": {
+          "food": 24,
+          "retail": 5,
+          "services": 20,
+          "civic": 4,
+          "office": 3,
+          "other": 44
+        },
+        "poiCount": 128
+      }
+    },
+    {
+      "id": "southwest-greensburg-heights-pa",
+      "name": "Southwest Greensburg Heights",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 25,
+      "downtownName": "Otterman Street",
+      "center": {
+        "lat": 40.2989,
+        "lng": -79.5589
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 43,
+        "vacancyEstimate": 26.8,
+        "mix": {
+          "food": 21,
+          "retail": 19,
+          "services": 22,
+          "civic": 9,
+          "office": 16,
+          "other": 13
+        },
+        "poiCount": 92
+      }
+    },
+    {
+      "id": "north-apollo-pa",
+      "name": "North Apollo",
+      "state": "PA",
+      "county": "Armstrong",
+      "milesFromAllegheny": 25.2,
+      "downtownName": "North Fourth Street",
+      "center": {
+        "lat": 40.5912,
+        "lng": -79.5589
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 77,
+        "vacancyEstimate": 30.6,
+        "mix": {
+          "food": 23,
+          "retail": 23,
+          "services": 25,
+          "civic": 12,
+          "office": 13,
+          "other": 4
+        },
+        "poiCount": 156
+      }
+    },
+    {
+      "id": "vandergrift-pa",
+      "name": "Vandergrift",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 25.3,
+      "downtownName": "Grant Avenue",
+      "center": {
+        "lat": 40.6028,
+        "lng": -79.5648
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 45,
+        "vacancyEstimate": 26.8,
+        "mix": {
+          "food": 27,
+          "retail": 16,
+          "services": 16,
+          "civic": 3,
+          "office": 4,
+          "other": 34
+        },
+        "poiCount": 96
+      }
+    },
+    {
+      "id": "east-vandergrift-pa",
+      "name": "East Vandergrift",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 25.4,
+      "downtownName": "Washington Avenue",
+      "center": {
+        "lat": 40.5989,
+        "lng": -79.5589
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 77,
+        "vacancyEstimate": 21.6,
+        "mix": {
+          "food": 22,
+          "retail": 21,
+          "services": 27,
+          "civic": 10,
+          "office": 17,
+          "other": 3
+        },
+        "poiCount": 153
+      }
+    },
+    {
+      "id": "fallston-pa",
+      "name": "Fallston",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 25.5,
+      "downtownName": "Second Avenue",
+      "center": {
+        "lat": 40.7234,
+        "lng": -80.3089
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 70,
+        "vacancyEstimate": 21.6,
+        "mix": {
+          "food": 20,
+          "retail": 12,
+          "services": 15,
+          "civic": 6,
+          "office": 1,
+          "other": 46
+        },
+        "poiCount": 130
+      }
+    },
+    {
+      "id": "hunker-pa",
+      "name": "Hunker",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 25.5,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.2089,
+        "lng": -79.6189
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 76,
+        "vacancyEstimate": 22.8,
+        "mix": {
+          "food": 18,
+          "retail": 16,
+          "services": 24,
+          "civic": 15,
+          "office": 17,
+          "other": 10
+        },
+        "poiCount": 129
+      }
+    },
+    {
+      "id": "southwest-greensburg-pa",
+      "name": "Southwest Greensburg",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 25.8,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.2889,
+        "lng": -79.5489
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 74,
+        "vacancyEstimate": 24.7,
+        "mix": {
+          "food": 30,
+          "retail": 16,
+          "services": 22,
+          "civic": 13,
+          "office": 11,
+          "other": 8
+        },
+        "poiCount": 147
+      }
+    },
+    {
+      "id": "greensburg-pa",
+      "name": "Greensburg",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 25.9,
+      "downtownName": "Main Street Downtown",
+      "center": {
+        "lat": 40.3015,
+        "lng": -79.5389
+      },
+      "radiusM": 900,
+      "tags": [
+        "main_street",
+        "county_seat",
+        "city",
+        "college"
+      ],
+      "baseline": {
+        "vibrancy": 74,
+        "vacancyEstimate": 26.9,
+        "mix": {
+          "food": 23,
+          "retail": 8,
+          "services": 19,
+          "civic": 3,
+          "office": 4,
+          "other": 43
+        },
+        "poiCount": 146
+      }
+    },
+    {
+      "id": "harmony-pa",
+      "name": "Harmony",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 25.9,
+      "downtownName": "Main Street Historic",
+      "center": {
+        "lat": 40.8023,
+        "lng": -80.1273
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 54,
+        "vacancyEstimate": 29.5,
+        "mix": {
+          "food": 25,
+          "retail": 16,
+          "services": 20,
+          "civic": 1,
+          "office": 6,
+          "other": 32
+        },
+        "poiCount": 118
+      }
+    },
+    {
+      "id": "new-brighton-pa",
+      "name": "New Brighton",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 25.9,
+      "downtownName": "Third Avenue",
+      "center": {
+        "lat": 40.7303,
+        "lng": -80.3101
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 66,
+        "vacancyEstimate": 20.1,
+        "mix": {
+          "food": 25,
+          "retail": 17,
+          "services": 21,
+          "civic": 12,
+          "office": 15,
+          "other": 10
+        },
+        "poiCount": 115
+      }
+    },
+    {
+      "id": "shippingport-pa",
+      "name": "Shippingport",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 25.9,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.6289,
+        "lng": -80.4234
+      },
+      "radiusM": 550,
+      "tags": [
+        "river_town",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 46,
+        "vacancyEstimate": 26.5,
+        "mix": {
+          "food": 22,
+          "retail": 15,
+          "services": 15,
+          "civic": 8,
+          "office": 4,
+          "other": 36
+        },
+        "poiCount": 86
+      }
+    },
+    {
+      "id": "industry-pa",
+      "name": "Industry",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 26,
+      "downtownName": "Ohio River Blvd",
+      "center": {
+        "lat": 40.6489,
+        "lng": -80.4089
+      },
+      "radiusM": 550,
+      "tags": [
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 58,
+        "vacancyEstimate": 32.9,
+        "mix": {
+          "food": 25,
+          "retail": 17,
+          "services": 27,
+          "civic": 10,
+          "office": 18,
+          "other": 3
+        },
+        "poiCount": 124
+      }
+    },
+    {
+      "id": "youngwood-pa",
+      "name": "Youngwood",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 26,
+      "downtownName": "Third Street",
+      "center": {
+        "lat": 40.2389,
+        "lng": -79.5789
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 62,
+        "vacancyEstimate": 21.7,
+        "mix": {
+          "food": 28,
+          "retail": 22,
+          "services": 25,
+          "civic": 7,
+          "office": 15,
+          "other": 3
+        },
+        "poiCount": 129
+      }
+    },
+    {
+      "id": "connoquenessing-pa",
+      "name": "Connoquenessing",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 26.2,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.8189,
+        "lng": -80.0134
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 49,
+        "vacancyEstimate": 29.5,
+        "mix": {
+          "food": 30,
+          "retail": 14,
+          "services": 15,
+          "civic": 1,
+          "office": 8,
+          "other": 32
+        },
+        "poiCount": 127
+      }
+    },
+    {
+      "id": "south-greensburg-pa",
+      "name": "South Greensburg",
+      "state": "PA",
+      "county": "Westmoreland",
+      "milesFromAllegheny": 26.5,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.2789,
+        "lng": -79.5389
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 50,
+        "vacancyEstimate": 24.7,
+        "mix": {
+          "food": 31,
+          "retail": 6,
+          "services": 12,
+          "civic": 3,
+          "office": 8,
+          "other": 40
+        },
+        "poiCount": 111
+      }
+    },
+    {
+      "id": "west-middletown-pa",
+      "name": "West Middletown",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 26.5,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.2389,
+        "lng": -80.4234
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 65,
+        "vacancyEstimate": 30.1,
+        "mix": {
+          "food": 18,
+          "retail": 19,
+          "services": 28,
+          "civic": 13,
+          "office": 19,
+          "other": 3
+        },
+        "poiCount": 143
+      }
+    },
+    {
+      "id": "avella-pa",
+      "name": "Avella",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 26.6,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.2789,
+        "lng": -80.4534
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 50,
+        "vacancyEstimate": 30.7,
+        "mix": {
+          "food": 27,
+          "retail": 20,
+          "services": 20,
+          "civic": 12,
+          "office": 17,
+          "other": 4
+        },
+        "poiCount": 94
+      }
+    },
+    {
+      "id": "zelienople-pa",
+      "name": "Zelienople",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 26.6,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.7945,
+        "lng": -80.1934
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 53,
+        "vacancyEstimate": 30.1,
+        "mix": {
+          "food": 18,
+          "retail": 11,
+          "services": 19,
+          "civic": 1,
+          "office": 4,
+          "other": 47
+        },
+        "poiCount": 101
+      }
+    },
+    {
+      "id": "patterson-heights-pa",
+      "name": "Patterson Heights",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 26.8,
+      "downtownName": "Seventh Avenue",
+      "center": {
+        "lat": 40.7389,
+        "lng": -80.3234
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 66,
+        "vacancyEstimate": 31.3,
+        "mix": {
+          "food": 22,
+          "retail": 11,
+          "services": 13,
+          "civic": 8,
+          "office": 2,
+          "other": 44
+        },
+        "poiCount": 130
+      }
+    },
+    {
+      "id": "prospective-pa",
+      "name": "Prospective",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 26.8,
+      "downtownName": "Route 8 Village",
+      "center": {
+        "lat": 40.8089,
+        "lng": -79.8334
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 54,
+        "vacancyEstimate": 32.3,
+        "mix": {
+          "food": 29,
+          "retail": 13,
+          "services": 18,
+          "civic": 1,
+          "office": 4,
+          "other": 35
+        },
+        "poiCount": 101
+      }
+    },
+    {
+      "id": "midland-heights-pa",
+      "name": "Midland Heights",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 27.1,
+      "downtownName": "Midland Road",
+      "center": {
+        "lat": 40.6489,
+        "lng": -80.4334
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 73,
+        "vacancyEstimate": 27,
+        "mix": {
+          "food": 29,
+          "retail": 16,
+          "services": 17,
+          "civic": 5,
+          "office": 5,
+          "other": 28
+        },
+        "poiCount": 118
+      }
+    },
+    {
+      "id": "midland-pa",
+      "name": "Midland",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 27.3,
+      "downtownName": "Midland Avenue",
+      "center": {
+        "lat": 40.6334,
+        "lng": -80.4489
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 63,
+        "vacancyEstimate": 29,
+        "mix": {
+          "food": 23,
+          "retail": 18,
+          "services": 27,
+          "civic": 12,
+          "office": 16,
+          "other": 4
+        },
+        "poiCount": 136
+      }
+    },
+    {
+      "id": "beaver-falls-pa",
+      "name": "Beaver Falls",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 27.4,
+      "downtownName": "Seventh Avenue Downtown",
+      "center": {
+        "lat": 40.752,
+        "lng": -80.3192
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "college",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 59,
+        "vacancyEstimate": 22.4,
+        "mix": {
+          "food": 29,
+          "retail": 15,
+          "services": 15,
+          "civic": 1,
+          "office": 8,
+          "other": 32
+        },
+        "poiCount": 105
+      }
+    },
+    {
+      "id": "brighton-township-pa",
+      "name": "Brighton Township",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 27.4,
+      "downtownName": "Dutch Ridge Road",
+      "center": {
+        "lat": 40.7289,
+        "lng": -80.3534
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 73,
+        "vacancyEstimate": 29.4,
+        "mix": {
+          "food": 27,
+          "retail": 11,
+          "services": 17,
+          "civic": 6,
+          "office": 1,
+          "other": 38
+        },
+        "poiCount": 146
+      }
+    },
+    {
+      "id": "hookstown-pa",
+      "name": "Hookstown",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 27.4,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.5989,
+        "lng": -80.4734
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 51,
+        "vacancyEstimate": 23,
+        "mix": {
+          "food": 30,
+          "retail": 21,
+          "services": 26,
+          "civic": 9,
+          "office": 11,
+          "other": 3
+        },
+        "poiCount": 92
+      }
+    },
+    {
+      "id": "homeacre-lyndora-pa",
+      "name": "Homeacre-Lyndora",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 27.7,
+      "downtownName": "New Castle Street",
+      "center": {
+        "lat": 40.8389,
+        "lng": -79.9289
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 58,
+        "vacancyEstimate": 24.6,
+        "mix": {
+          "food": 19,
+          "retail": 22,
+          "services": 22,
+          "civic": 8,
+          "office": 12,
+          "other": 17
+        },
+        "poiCount": 102
+      }
+    },
+    {
+      "id": "north-sewickley-pa",
+      "name": "North Sewickley",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 27.8,
+      "downtownName": "Route 65",
+      "center": {
+        "lat": 40.7789,
+        "lng": -80.2834
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 69,
+        "vacancyEstimate": 23.4,
+        "mix": {
+          "food": 27,
+          "retail": 20,
+          "services": 19,
+          "civic": 12,
+          "office": 18,
+          "other": 4
+        },
+        "poiCount": 122
+      }
+    },
+    {
+      "id": "lyndora-pa",
+      "name": "Lyndora",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 28.5,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.8489,
+        "lng": -79.9189
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 46,
+        "vacancyEstimate": 27.7,
+        "mix": {
+          "food": 30,
+          "retail": 10,
+          "services": 13,
+          "civic": 7,
+          "office": 5,
+          "other": 35
+        },
+        "poiCount": 97
+      }
+    },
+    {
+      "id": "franklin-township-beaver-pa",
+      "name": "Franklin Township Beaver",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 28.8,
+      "downtownName": "Route 288 Village",
+      "center": {
+        "lat": 40.8089,
+        "lng": -80.2534
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 64,
+        "vacancyEstimate": 25.3,
+        "mix": {
+          "food": 31,
+          "retail": 9,
+          "services": 15,
+          "civic": 2,
+          "office": 4,
+          "other": 39
+        },
+        "poiCount": 134
+      }
+    },
+    {
+      "id": "meridian-pa",
+      "name": "Meridian",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 29,
+      "downtownName": "Meridian Road",
+      "center": {
+        "lat": 40.8589,
+        "lng": -79.9589
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 47,
+        "vacancyEstimate": 26.5,
+        "mix": {
+          "food": 22,
+          "retail": 19,
+          "services": 28,
+          "civic": 9,
+          "office": 14,
+          "other": 8
+        },
+        "poiCount": 88
+      }
+    },
+    {
+      "id": "west-mayfield-pa",
+      "name": "West Mayfield",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 29,
+      "downtownName": "Fourteenth Avenue",
+      "center": {
+        "lat": 40.7689,
+        "lng": -80.3389
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 64,
+        "vacancyEstimate": 22.5,
+        "mix": {
+          "food": 24,
+          "retail": 11,
+          "services": 18,
+          "civic": 3,
+          "office": 6,
+          "other": 38
+        },
+        "poiCount": 127
+      }
+    },
+    {
+      "id": "butler-pa",
+      "name": "Butler",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 29.5,
+      "downtownName": "Main Street Downtown",
+      "center": {
+        "lat": 40.8612,
+        "lng": -79.8953
+      },
+      "radiusM": 900,
+      "tags": [
+        "main_street",
+        "county_seat",
+        "city"
+      ],
+      "baseline": {
+        "vibrancy": 66,
+        "vacancyEstimate": 30.4,
+        "mix": {
+          "food": 21,
+          "retail": 20,
+          "services": 27,
+          "civic": 9,
+          "office": 12,
+          "other": 11
+        },
+        "poiCount": 132
+      }
+    },
+    {
+      "id": "chippewa-pa",
+      "name": "Chippewa",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 29.6,
+      "downtownName": "Shenango Road",
+      "center": {
+        "lat": 40.7589,
+        "lng": -80.3734
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 65,
+        "vacancyEstimate": 29.6,
+        "mix": {
+          "food": 26,
+          "retail": 10,
+          "services": 14,
+          "civic": 5,
+          "office": 5,
+          "other": 40
+        },
+        "poiCount": 106
+      }
+    },
+    {
+      "id": "marion-township-pa",
+      "name": "Marion Township",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 29.6,
+      "downtownName": "Route 588",
+      "center": {
+        "lat": 40.7889,
+        "lng": -80.3234
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 70,
+        "vacancyEstimate": 24.2,
+        "mix": {
+          "food": 29,
+          "retail": 24,
+          "services": 24,
+          "civic": 8,
+          "office": 12,
+          "other": 3
+        },
+        "poiCount": 120
+      }
+    },
+    {
+      "id": "meadowood-pa",
+      "name": "Meadowood",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 29.7,
+      "downtownName": "New Castle Road",
+      "center": {
+        "lat": 40.8689,
+        "lng": -79.9389
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 70,
+        "vacancyEstimate": 31.4,
+        "mix": {
+          "food": 25,
+          "retail": 19,
+          "services": 20,
+          "civic": 13,
+          "office": 18,
+          "other": 5
+        },
+        "poiCount": 149
+      }
+    },
+    {
+      "id": "georgetown-pa",
+      "name": "Georgetown",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 29.8,
+      "downtownName": "Market Street",
+      "center": {
+        "lat": 40.6389,
+        "lng": -80.4989
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 55,
+        "vacancyEstimate": 21,
+        "mix": {
+          "food": 30,
+          "retail": 5,
+          "services": 19,
+          "civic": 8,
+          "office": 6,
+          "other": 32
+        },
+        "poiCount": 127
+      }
+    },
+    {
+      "id": "glasgow-pa",
+      "name": "Glasgow",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 30.5,
+      "downtownName": "First Street",
+      "center": {
+        "lat": 40.6489,
+        "lng": -80.5089
+      },
+      "radiusM": 550,
+      "tags": [
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 56,
+        "vacancyEstimate": 27.6,
+        "mix": {
+          "food": 27,
+          "retail": 18,
+          "services": 29,
+          "civic": 10,
+          "office": 10,
+          "other": 6
+        },
+        "poiCount": 124
+      }
+    },
+    {
+      "id": "claysville-pa",
+      "name": "Claysville",
+      "state": "PA",
+      "county": "Washington",
+      "milesFromAllegheny": 30.8,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.1289,
+        "lng": -80.4134
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 64,
+        "vacancyEstimate": 26.9,
+        "mix": {
+          "food": 20,
+          "retail": 23,
+          "services": 24,
+          "civic": 14,
+          "office": 16,
+          "other": 3
+        },
+        "poiCount": 111
+      }
+    },
+    {
+      "id": "ohioville-pa",
+      "name": "Ohioville",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 30.9,
+      "downtownName": "Route 168 Village",
+      "center": {
+        "lat": 40.6789,
+        "lng": -80.4934
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 60,
+        "vacancyEstimate": 33.3,
+        "mix": {
+          "food": 22,
+          "retail": 16,
+          "services": 17,
+          "civic": 8,
+          "office": 4,
+          "other": 33
+        },
+        "poiCount": 107
+      }
+    },
+    {
+      "id": "shanor-northvue-pa",
+      "name": "Shanor-Northvue",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 31.3,
+      "downtownName": "Route 8 North",
+      "center": {
+        "lat": 40.8889,
+        "lng": -79.9089
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 70,
+        "vacancyEstimate": 33.3,
+        "mix": {
+          "food": 20,
+          "retail": 23,
+          "services": 28,
+          "civic": 9,
+          "office": 12,
+          "other": 8
+        },
+        "poiCount": 118
+      }
+    },
+    {
+      "id": "homewood-pa",
+      "name": "Homewood",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 31.7,
+      "downtownName": "Fourth Avenue",
+      "center": {
+        "lat": 40.8134,
+        "lng": -80.3489
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 48,
+        "vacancyEstimate": 22.1,
+        "mix": {
+          "food": 24,
+          "retail": 19,
+          "services": 25,
+          "civic": 12,
+          "office": 16,
+          "other": 4
+        },
+        "poiCount": 121
+      }
+    },
+    {
+      "id": "pulaski-township-pa",
+      "name": "Pulaski Township",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 31.7,
+      "downtownName": "Route 351",
+      "center": {
+        "lat": 40.7789,
+        "lng": -80.4034
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 60,
+        "vacancyEstimate": 32.7,
+        "mix": {
+          "food": 21,
+          "retail": 8,
+          "services": 14,
+          "civic": 8,
+          "office": 2,
+          "other": 47
+        },
+        "poiCount": 130
+      }
+    },
+    {
+      "id": "toronto-oh",
+      "name": "Toronto",
+      "state": "OH",
+      "county": "Jefferson",
+      "milesFromAllegheny": 31.8,
+      "downtownName": "Market Street Downtown",
+      "center": {
+        "lat": 40.4642,
+        "lng": -80.6006
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 65,
+        "vacancyEstimate": 28.3,
+        "mix": {
+          "food": 30,
+          "retail": 16,
+          "services": 12,
+          "civic": 4,
+          "office": 7,
+          "other": 31
+        },
+        "poiCount": 113
+      }
+    },
+    {
+      "id": "koppel-pa",
+      "name": "Koppel",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 32,
+      "downtownName": "Fifth Avenue",
+      "center": {
+        "lat": 40.8334,
+        "lng": -80.3189
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 66,
+        "vacancyEstimate": 25,
+        "mix": {
+          "food": 26,
+          "retail": 7,
+          "services": 18,
+          "civic": 2,
+          "office": 8,
+          "other": 39
+        },
+        "poiCount": 130
+      }
+    },
+    {
+      "id": "big-beaver-pa",
+      "name": "Big Beaver",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 32.7,
+      "downtownName": "Route 18 Village",
+      "center": {
+        "lat": 40.8234,
+        "lng": -80.3634
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 53,
+        "vacancyEstimate": 27.4,
+        "mix": {
+          "food": 25,
+          "retail": 21,
+          "services": 22,
+          "civic": 13,
+          "office": 16,
+          "other": 3
+        },
+        "poiCount": 132
+      }
+    },
+    {
+      "id": "ellwood-city-pa",
+      "name": "Ellwood City",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 32.8,
+      "downtownName": "Fifth Street Downtown",
+      "center": {
+        "lat": 40.8617,
+        "lng": -80.2867
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 61,
+        "vacancyEstimate": 26.4,
+        "mix": {
+          "food": 25,
+          "retail": 15,
+          "services": 11,
+          "civic": 4,
+          "office": 5,
+          "other": 40
+        },
+        "poiCount": 135
+      }
+    },
+    {
+      "id": "ellwood-city-lawrence-pa",
+      "name": "Ellwood City Lawrence",
+      "state": "PA",
+      "county": "Lawrence",
+      "milesFromAllegheny": 32.8,
+      "downtownName": "Fifth Street",
+      "center": {
+        "lat": 40.8617,
+        "lng": -80.2867
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 57,
+        "vacancyEstimate": 22.2,
+        "mix": {
+          "food": 19,
+          "retail": 10,
+          "services": 14,
+          "civic": 1,
+          "office": 8,
+          "other": 48
+        },
+        "poiCount": 103
+      }
+    },
+    {
+      "id": "east-liverpool-oh",
+      "name": "East Liverpool",
+      "state": "OH",
+      "county": "Columbiana",
+      "milesFromAllegheny": 32.9,
+      "downtownName": "Fifth Street Downtown",
+      "center": {
+        "lat": 40.6187,
+        "lng": -80.5773
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 59,
+        "vacancyEstimate": 31.2,
+        "mix": {
+          "food": 31,
+          "retail": 5,
+          "services": 20,
+          "civic": 5,
+          "office": 1,
+          "other": 38
+        },
+        "poiCount": 125
+      }
+    },
+    {
+      "id": "empire-oh",
+      "name": "Empire",
+      "state": "OH",
+      "county": "Jefferson",
+      "milesFromAllegheny": 33.3,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.5089,
+        "lng": -80.6234
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 66,
+        "vacancyEstimate": 23.1,
+        "mix": {
+          "food": 19,
+          "retail": 16,
+          "services": 20,
+          "civic": 2,
+          "office": 10,
+          "other": 33
+        },
+        "poiCount": 131
+      }
+    },
+    {
+      "id": "mingo-junction-oh",
+      "name": "Mingo Junction",
+      "state": "OH",
+      "county": "Jefferson",
+      "milesFromAllegheny": 33.5,
+      "downtownName": "Commercial Street",
+      "center": {
+        "lat": 40.3217,
+        "lng": -80.6123
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 74,
+        "vacancyEstimate": 23.5,
+        "mix": {
+          "food": 21,
+          "retail": 26,
+          "services": 26,
+          "civic": 13,
+          "office": 10,
+          "other": 4
+        },
+        "poiCount": 128
+      }
+    },
+    {
+      "id": "darlington-pa",
+      "name": "Darlington",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 33.9,
+      "downtownName": "Second Street",
+      "center": {
+        "lat": 40.8089,
+        "lng": -80.4234
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 64,
+        "vacancyEstimate": 22.9,
+        "mix": {
+          "food": 31,
+          "retail": 10,
+          "services": 11,
+          "civic": 3,
+          "office": 6,
+          "other": 39
+        },
+        "poiCount": 132
+      }
+    },
+    {
+      "id": "steubenville-oh",
+      "name": "Steubenville",
+      "state": "OH",
+      "county": "Jefferson",
+      "milesFromAllegheny": 33.9,
+      "downtownName": "Fourth Street Downtown",
+      "center": {
+        "lat": 40.3698,
+        "lng": -80.634
+      },
+      "radiusM": 900,
+      "tags": [
+        "main_street",
+        "city",
+        "college",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 58,
+        "vacancyEstimate": 22.3,
+        "mix": {
+          "food": 23,
+          "retail": 22,
+          "services": 21,
+          "civic": 8,
+          "office": 18,
+          "other": 8
+        },
+        "poiCount": 108
+      }
+    },
+    {
+      "id": "lacroft-oh",
+      "name": "LaCroft",
+      "state": "OH",
+      "county": "Columbiana",
+      "milesFromAllegheny": 34,
+      "downtownName": "St. Clair Avenue",
+      "center": {
+        "lat": 40.6489,
+        "lng": -80.5834
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 55,
+        "vacancyEstimate": 28.1,
+        "mix": {
+          "food": 28,
+          "retail": 17,
+          "services": 26,
+          "civic": 8,
+          "office": 14,
+          "other": 7
+        },
+        "poiCount": 97
+      }
+    },
+    {
+      "id": "stratton-oh",
+      "name": "Stratton",
+      "state": "OH",
+      "county": "Jefferson",
+      "milesFromAllegheny": 34.1,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.5289,
+        "lng": -80.6334
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 70,
+        "vacancyEstimate": 28.9,
+        "mix": {
+          "food": 26,
+          "retail": 7,
+          "services": 17,
+          "civic": 8,
+          "office": 4,
+          "other": 38
+        },
+        "poiCount": 142
+      }
+    },
+    {
+      "id": "portersville-pa",
+      "name": "Portersville",
+      "state": "PA",
+      "county": "Butler",
+      "milesFromAllegheny": 34.2,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.9234,
+        "lng": -80.1434
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 63,
+        "vacancyEstimate": 22.3,
+        "mix": {
+          "food": 29,
+          "retail": 18,
+          "services": 22,
+          "civic": 9,
+          "office": 17,
+          "other": 5
+        },
+        "poiCount": 106
+      }
+    },
+    {
+      "id": "new-galilee-pa",
+      "name": "New Galilee",
+      "state": "PA",
+      "county": "Beaver",
+      "milesFromAllegheny": 34.4,
+      "downtownName": "Centennial Avenue",
+      "center": {
+        "lat": 40.8334,
+        "lng": -80.3989
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 55,
+        "vacancyEstimate": 26,
+        "mix": {
+          "food": 29,
+          "retail": 18,
+          "services": 25,
+          "civic": 9,
+          "office": 15,
+          "other": 4
+        },
+        "poiCount": 108
+      }
+    },
+    {
+      "id": "calcutta-oh",
+      "name": "Calcutta",
+      "state": "OH",
+      "county": "Columbiana",
+      "milesFromAllegheny": 35,
+      "downtownName": "St. Clair Avenue",
+      "center": {
+        "lat": 40.6789,
+        "lng": -80.5834
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 50,
+        "vacancyEstimate": 26.4,
+        "mix": {
+          "food": 24,
+          "retail": 24,
+          "services": 25,
+          "civic": 13,
+          "office": 10,
+          "other": 4
+        },
+        "poiCount": 96
+      }
+    },
+    {
+      "id": "brilliant-oh",
+      "name": "Brilliant",
+      "state": "OH",
+      "county": "Jefferson",
+      "milesFromAllegheny": 35.1,
+      "downtownName": "Third Street",
+      "center": {
+        "lat": 40.2689,
+        "lng": -80.6234
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 77,
+        "vacancyEstimate": 28,
+        "mix": {
+          "food": 28,
+          "retail": 11,
+          "services": 17,
+          "civic": 3,
+          "office": 2,
+          "other": 39
+        },
+        "poiCount": 143
+      }
+    },
+    {
+      "id": "wampum-pa",
+      "name": "Wampum",
+      "state": "PA",
+      "county": "Lawrence",
+      "milesFromAllegheny": 35.8,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.8889,
+        "lng": -80.3389
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 67,
+        "vacancyEstimate": 30.3,
+        "mix": {
+          "food": 26,
+          "retail": 21,
+          "services": 22,
+          "civic": 8,
+          "office": 10,
+          "other": 13
+        },
+        "poiCount": 146
+      }
+    },
+    {
+      "id": "wellsville-oh",
+      "name": "Wellsville",
+      "state": "OH",
+      "county": "Columbiana",
+      "milesFromAllegheny": 36.1,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.6028,
+        "lng": -80.6489
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 68,
+        "vacancyEstimate": 22.1,
+        "mix": {
+          "food": 28,
+          "retail": 7,
+          "services": 20,
+          "civic": 2,
+          "office": 10,
+          "other": 33
+        },
+        "poiCount": 111
+      }
+    },
+    {
+      "id": "negley-oh",
+      "name": "Negley",
+      "state": "OH",
+      "county": "Columbiana",
+      "milesFromAllegheny": 37.3,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.7889,
+        "lng": -80.5389
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 48,
+        "vacancyEstimate": 22.6,
+        "mix": {
+          "food": 29,
+          "retail": 11,
+          "services": 20,
+          "civic": 5,
+          "office": 1,
+          "other": 34
+        },
+        "poiCount": 95
+      }
+    },
+    {
+      "id": "wintersville-oh",
+      "name": "Wintersville",
+      "state": "OH",
+      "county": "Jefferson",
+      "milesFromAllegheny": 37.5,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.3789,
+        "lng": -80.7034
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb",
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 57,
+        "vacancyEstimate": 26,
+        "mix": {
+          "food": 24,
+          "retail": 26,
+          "services": 21,
+          "civic": 9,
+          "office": 17,
+          "other": 3
+        },
+        "poiCount": 107
+      }
+    },
+    {
+      "id": "pollock-oh",
+      "name": "Pollock",
+      "state": "OH",
+      "county": "Columbiana",
+      "milesFromAllegheny": 38,
+      "downtownName": "State Route 7",
+      "center": {
+        "lat": 40.7089,
+        "lng": -80.6289
+      },
+      "radiusM": 550,
+      "tags": [
+        "suburb"
+      ],
+      "baseline": {
+        "vibrancy": 66,
+        "vacancyEstimate": 26,
+        "mix": {
+          "food": 31,
+          "retail": 7,
+          "services": 12,
+          "civic": 6,
+          "office": 9,
+          "other": 35
+        },
+        "poiCount": 137
+      }
+    },
+    {
+      "id": "east-palestine-oh",
+      "name": "East Palestine",
+      "state": "OH",
+      "county": "Columbiana",
+      "milesFromAllegheny": 39.4,
+      "downtownName": "Market Street",
+      "center": {
+        "lat": 40.8339,
+        "lng": -80.5403
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 75,
+        "vacancyEstimate": 26.4,
+        "mix": {
+          "food": 18,
+          "retail": 25,
+          "services": 27,
+          "civic": 15,
+          "office": 11,
+          "other": 4
+        },
+        "poiCount": 152
+      }
+    },
+    {
+      "id": "irondale-oh",
+      "name": "Irondale",
+      "state": "OH",
+      "county": "Jefferson",
+      "milesFromAllegheny": 39.5,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.5689,
+        "lng": -80.7289
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "industrial"
+      ],
+      "baseline": {
+        "vibrancy": 69,
+        "vacancyEstimate": 33.4,
+        "mix": {
+          "food": 18,
+          "retail": 21,
+          "services": 28,
+          "civic": 13,
+          "office": 16,
+          "other": 4
+        },
+        "poiCount": 136
+      }
+    },
+    {
+      "id": "rogers-oh",
+      "name": "Rogers",
+      "state": "OH",
+      "county": "Columbiana",
+      "milesFromAllegheny": 40.2,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.7889,
+        "lng": -80.6089
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 53,
+        "vacancyEstimate": 24.6,
+        "mix": {
+          "food": 23,
+          "retail": 25,
+          "services": 19,
+          "civic": 12,
+          "office": 17,
+          "other": 4
+        },
+        "poiCount": 112
+      }
+    },
+    {
+      "id": "richmond-oh",
+      "name": "Richmond",
+      "state": "OH",
+      "county": "Jefferson",
+      "milesFromAllegheny": 40.9,
+      "downtownName": "Main Street",
+      "center": {
+        "lat": 40.4389,
+        "lng": -80.7734
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street"
+      ],
+      "baseline": {
+        "vibrancy": 52,
+        "vacancyEstimate": 23.5,
+        "mix": {
+          "food": 29,
+          "retail": 16,
+          "services": 18,
+          "civic": 2,
+          "office": 10,
+          "other": 25
+        },
+        "poiCount": 127
+      }
+    },
+    {
+      "id": "tiltonsville-oh",
+      "name": "Tiltonsville",
+      "state": "OH",
+      "county": "Jefferson",
+      "milesFromAllegheny": 41.2,
+      "downtownName": "Walden Avenue",
+      "center": {
+        "lat": 40.1789,
+        "lng": -80.6989
+      },
+      "radiusM": 550,
+      "tags": [
+        "main_street",
+        "river_town"
+      ],
+      "baseline": {
+        "vibrancy": 77,
+        "vacancyEstimate": 30.9,
+        "mix": {
+          "food": 20,
+          "retail": 15,
+          "services": 19,
+          "civic": 6,
+          "office": 5,
+          "other": 35
+        },
+        "poiCount": 127
+      }
+    }
+  ]
+}

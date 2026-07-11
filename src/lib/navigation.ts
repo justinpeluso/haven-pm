@@ -5,6 +5,7 @@ import {
   ClipboardList,
   FileText,
   Home,
+  Landmark,
   MessageSquare,
   Search,
   Settings,
@@ -26,6 +27,7 @@ export interface NavItem {
 export const mainNavItems: NavItem[] = [
   { title: "Dashboard", href: "/dashboard", icon: Home },
   { title: "Properties", href: "/properties", icon: Building2, permission: "properties:read" },
+  { title: "Downtown", href: "/downtown", icon: Landmark, permission: "downtowns:read" },
   { title: "Maintenance", href: "/maintenance", icon: Wrench, permission: "maintenance:read" },
   { title: "Prospects", href: "/prospects", icon: UserPlus, permission: "prospects:read" },
   { title: "Calendar", href: "/calendar", icon: Calendar, permission: "calendar:read" },

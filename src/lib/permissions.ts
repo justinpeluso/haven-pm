@@ -29,6 +29,7 @@ export type Permission =
   | "users:write"
   | "audit:read"
   | "search:global"
+  | "downtowns:read"
   | "notes:write"
   | "notifications:read";
 
@@ -46,7 +47,7 @@ const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     "reports:read", "reports:export",
     "settings:read", "settings:write",
     "users:read", "users:write",
-    "audit:read", "search:global", "notes:write", "notifications:read",
+    "audit:read", "search:global", "downtowns:read", "notes:write", "notifications:read",
   ],
   PROPERTY_MANAGER: [
     "properties:read", "properties:write",
@@ -60,7 +61,7 @@ const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     "messages:read", "messages:write",
     "reports:read", "reports:export",
     "settings:read",
-    "search:global", "notes:write", "notifications:read",
+    "search:global", "downtowns:read", "notes:write", "notifications:read",
   ],
   LEASING_AGENT: [
     "properties:read",
@@ -73,7 +74,7 @@ const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     "documents:read", "documents:write",
     "messages:read", "messages:write",
     "reports:read",
-    "search:global", "notes:write", "notifications:read",
+    "search:global", "downtowns:read", "notes:write", "notifications:read",
   ],
   MAINTENANCE_STAFF: [
     "properties:read",
@@ -95,7 +96,7 @@ const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     "documents:read", "documents:write",
     "messages:read", "messages:write",
     "reports:read",
-    "search:global", "notes:write", "notifications:read",
+    "search:global", "downtowns:read", "notes:write", "notifications:read",
   ],
   TENANT: [
     "maintenance:read", "maintenance:write",
