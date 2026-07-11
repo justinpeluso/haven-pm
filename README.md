@@ -184,6 +184,39 @@ The tenant "Pay Rent" button links to `PAYMENT_PORTAL_URL` in settings. Replace 
 - Stripe Checkout for tenant rent payments
 - Falls back to external portal URL when Stripe is not configured
 
+## Deploy for free (public URL)
+
+Best free combo for this stack:
+
+1. **Neon** — free Postgres → copy the connection string  
+2. **GitHub** — push this repo  
+3. **Vercel** — Import the repo, set env vars, deploy  
+
+### Environment variables on Vercel
+
+| Name | Value |
+|------|--------|
+| `DATABASE_URL` | Neon connection string |
+| `AUTH_SECRET` | `openssl rand -base64 32` |
+| `AUTH_URL` | Your Vercel URL, e.g. `https://haven-pm.vercel.app` |
+| `MESSAGING_PORTAL_URL` | `https://my.quo.com/` |
+| `MESSAGING_PROVIDER_NAME` | `OpenPhone` |
+| `MESSAGING_PHONE_NUMBER` | `(412) 797-5007` |
+
+In Vercel → Project → Settings → General → **Build Command**:  
+`npm run vercel-build`
+
+After first deploy, seed demo data once (from your machine with `DATABASE_URL` pointed at Neon):
+
+```bash
+DATABASE_URL="your-neon-url" npm run db:seed
+```
+
+### Limits to know
+
+- Vercel/Neon free tiers are fine for demos; they sleep/idle and have usage caps  
+- File uploads use the local disk today — they **won’t persist** on Vercel (documents may break until you add S3/Blob storage)
+
 ## Scripts
 
 | Command | Description |
