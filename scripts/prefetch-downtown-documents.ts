@@ -627,11 +627,14 @@ async function main() {
   const byId: Record<string, DowntownDocument[]> = { ...progress.byId };
 
   const work = targets.filter((d) => {
-    const existing = byId[d.id];
-    const enough = (existing?.length ?? 0) >= TARGET_MIN;
     if (forceIds.size) return true;
-    if (existing && (enough || (onlyMissing && existing.length > 0))) return false;
-    return true;
+    const existing = byId[d.id];
+    if (existing === undefined) return true; // never attempted
+    const n = existing.length;
+    if (n >= TARGET_MIN) return false;
+    if (n === 0) return process.env.RETRY_EMPTY === "1";
+    // 1–2 docs: only retry when explicitly requested
+    return process.env.RETRY_WEAK === "1";
   });
 
   console.log(
@@ -650,14 +653,20 @@ async function main() {
       const d = work[idx];
       try {
         const docs = await docsFor(d);
-        byId[d.id] = docs;
-        if (docs.length >= 1) withAny += 1;
-        if (docs.length >= 3) with3 += 1;
-        const kinds = docs.map((x) => x.kind).join(",");
-        done += 1;
-        console.log(
-          `  ${done}/${work.length} ${docs.length ? "✓" : "✗"} ${d.id} → ${docs.length} docs [${kinds}]`
-        );
+        // Never clobber non-empty cache with an empty force/retry result
+        if (docs.length === 0 && (byId[d.id]?.length ?? 0) > 0) {
+          done += 1;
+          console.log(`  ${done}/${work.length} ~ ${d.id} → keep ${byId[d.id].length} cached (fresh empty)`);
+        } else {
+          byId[d.id] = docs;
+          if (docs.length >= 1) withAny += 1;
+          if (docs.length >= 3) with3 += 1;
+          const kinds = docs.map((x) => x.kind).join(",");
+          done += 1;
+          console.log(
+            `  ${done}/${work.length} ${docs.length ? "✓" : "✗"} ${d.id} → ${docs.length} docs [${kinds}]`
+          );
+        }
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
         done += 1;

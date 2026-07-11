@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-11T23:07:45.924Z",
+  "generatedAt": "2026-07-11T23:46:37.524Z",
   "count": 258,
   "byId": {
     "pittsburgh-pa": [
@@ -454,16 +454,61 @@
     ],
     "washington-pa": [
       {
-        "title": "History of Washington County : from its first settlement to the present time : first under Virginia as Yohogania, Ohio, or Augusta County until 1781 : and subsequently under Pennsylvania; with sketches of all the townships, boroughs, and villages, etc. : and to which is added a full account of the celebrated Mason and Dixon's Line, the Whiskey Insurrection, Indian warfare, traditional and local historical events",
+        "title": "Sanborn Fire Insurance Map from Washington, Washington County, Pennsylvania, 1904, Plate 0000.jpg",
+        "url": "https://commons.wikimedia.org/wiki/File:Sanborn_Fire_Insurance_Map_from_Washington,_Washington_County,_Pennsylvania,_1904,_Plate_0000.jpg",
+        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Sanborn_Fire_Insurance_Map_from_Washington%2C_Washington_County%2C_Pennsylvania%2C_1904%2C_Plate_0000.jpg/500px-Sanborn_Fire_Insurance_Map_from_Washington%2C_Washington_County%2C_Pennsylvania%2C_1904%2C_Plate_0000.jpg",
+        "kind": "sanborn",
+        "year": 1904,
+        "source": "Wikimedia Commons",
+        "credit": "Wikimedia Commons"
+      },
+      {
+        "title": "Sanborn Fire Insurance Map from Washington, Washington County, Pennsylvania, 1914, Plate 0003.jpg",
+        "url": "https://commons.wikimedia.org/wiki/File:Sanborn_Fire_Insurance_Map_from_Washington,_Washington_County,_Pennsylvania,_1914,_Plate_0003.jpg",
+        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Sanborn_Fire_Insurance_Map_from_Washington%2C_Washington_County%2C_Pennsylvania%2C_1914%2C_Plate_0003.jpg/500px-Sanborn_Fire_Insurance_Map_from_Washington%2C_Washington_County%2C_Pennsylvania%2C_1914%2C_Plate_0003.jpg",
+        "kind": "sanborn",
+        "year": 1914,
+        "source": "Wikimedia Commons",
+        "credit": "Wikimedia Commons"
+      },
+      {
+        "title": "History of Washington County, Pennsylvania : with biographical sketches of many of its pioneers and prominent men",
+        "url": "https://archive.org/details/historyofwashing00crum",
+        "thumbUrl": "https://archive.org/services/img/historyofwashing00crum",
+        "kind": "founding",
+        "year": 1882,
+        "source": "Internet Archive",
+        "credit": "Internet Archive"
+      },
+      {
+        "title": "History of Washington County : from its first settlement to the present time",
         "url": "https://archive.org/details/historyofwashing00crei",
         "thumbUrl": "https://archive.org/services/img/historyofwashing00crei",
         "kind": "founding",
         "year": 1871,
         "source": "Internet Archive",
-        "credit": "Creigh, Alfred, b. 1810"
+        "credit": "Internet Archive"
       }
     ],
     "beaver-pa": [
+      {
+        "title": "Sanborn Fire Insurance Map from Beaver, Beaver County, Pennsylvania.",
+        "url": "https://www.loc.gov/item/sanborn07515_006/",
+        "thumbUrl": "https://tile.loc.gov/storage-services/service/gmd/gmd382m/g3824m/g3824bm/g3824bm_g075151912/07515_1912-0001.gif",
+        "kind": "sanborn",
+        "year": 1912,
+        "source": "Library of Congress",
+        "credit": "Library of Congress"
+      },
+      {
+        "title": "Sanborn Fire Insurance Map from Beaver, Beaver County, Pennsylvania.",
+        "url": "https://www.loc.gov/item/sanborn07515_005/",
+        "thumbUrl": "https://tile.loc.gov/storage-services/service/gmd/gmd382m/g3824m/g3824bm/g3824bm_g075151906/07515_1906-0001.gif",
+        "kind": "sanborn",
+        "year": 1906,
+        "source": "Library of Congress",
+        "credit": "Library of Congress"
+      },
       {
         "title": "Beaver County Court House, Beaver, Pa",
         "url": "https://archive.org/details/nby_0BH1285",
@@ -3687,12 +3732,13 @@
         "credit": "Cushing, Thomas, b. 1821"
       },
       {
-        "title": "History of Liberty Township, Centre County, Pennsylvania",
-        "url": "https://archive.org/details/HistoryOfLibertyTownshipCentreCountyPennsylvania",
-        "thumbUrl": "https://archive.org/services/img/HistoryOfLibertyTownshipCentreCountyPennsylvania",
+        "title": "History of Allegheny county, Pennsylvania",
+        "url": "https://archive.org/details/historyofalleghe00cush_0",
+        "thumbUrl": "https://archive.org/services/img/historyofalleghe00cush_0",
         "kind": "founding",
+        "year": 1889,
         "source": "Internet Archive",
-        "credit": "Harry A and Vera A Lingle"
+        "credit": "Cushing, Thomas, b. 1821. cn"
       }
     ],
     "wilmerding-pa": [
@@ -4357,15 +4403,6 @@
     ],
     "sturgeon-pa": [
       {
-        "title": "History of Washington County, Pennsylvania : with biographical sketches of many of its pioneers and prominent men",
-        "url": "https://archive.org/details/historyofwashing00crum",
-        "thumbUrl": "https://archive.org/services/img/historyofwashing00crum",
-        "kind": "founding",
-        "year": 1882,
-        "source": "Internet Archive",
-        "credit": "Crumrine, Boyd, 1838-1916"
-      },
-      {
         "title": "History of Washington County : from its first settlement to the present time : first under Virginia as Yohogania, Ohio, or Augusta County until 1781 : and subsequently under Pennsylvania; with sketches of all the townships, boroughs, and villages, etc. : and to which is added a full account of the celebrated Mason and Dixon's Line, the Whiskey Insurrection, Indian warfare, traditional and local historical events",
         "url": "https://archive.org/details/historyofwashing00crei",
         "thumbUrl": "https://archive.org/services/img/historyofwashing00crei",
@@ -4373,6 +4410,15 @@
         "year": 1871,
         "source": "Internet Archive",
         "credit": "Creigh, Alfred, b. 1810"
+      },
+      {
+        "title": "History of Washington County, Pennsylvania : with biographical sketches of many of its pioneers and prominent men",
+        "url": "https://archive.org/details/historyofwashing00crum",
+        "thumbUrl": "https://archive.org/services/img/historyofwashing00crum",
+        "kind": "founding",
+        "year": 1882,
+        "source": "Internet Archive",
+        "credit": "Crumrine, Boyd, 1838-1916"
       }
     ],
     "white-oak-pa": [
@@ -4444,15 +4490,6 @@
     ],
     "peters-township-pa": [
       {
-        "title": "History of Washington County : from its first settlement to the present time : first under Virginia as Yohogania, Ohio, or Augusta County until 1781 : and subsequently under Pennsylvania; with sketches of all the townships, boroughs, and villages, etc. : and to which is added a full account of the celebrated Mason and Dixon's Line, the Whiskey Insurrection, Indian warfare, traditional and local historical events",
-        "url": "https://archive.org/details/historyofwashing00crei",
-        "thumbUrl": "https://archive.org/services/img/historyofwashing00crei",
-        "kind": "founding",
-        "year": 1871,
-        "source": "Internet Archive",
-        "credit": "Creigh, Alfred, b. 1810"
-      },
-      {
         "title": "History of Washington County, Pennsylvania : with biographical sketches of many of its pioneers and prominent men",
         "url": "https://archive.org/details/historyofwashing00crum",
         "thumbUrl": "https://archive.org/services/img/historyofwashing00crum",
@@ -4460,6 +4497,15 @@
         "year": 1882,
         "source": "Internet Archive",
         "credit": "Crumrine, Boyd, 1838-1916"
+      },
+      {
+        "title": "History of Washington County : from its first settlement to the present time : first under Virginia as Yohogania, Ohio, or Augusta County until 1781 : and subsequently under Pennsylvania; with sketches of all the townships, boroughs, and villages, etc. : and to which is added a full account of the celebrated Mason and Dixon's Line, the Whiskey Insurrection, Indian warfare, traditional and local historical events",
+        "url": "https://archive.org/details/historyofwashing00crei",
+        "thumbUrl": "https://archive.org/services/img/historyofwashing00crei",
+        "kind": "founding",
+        "year": 1871,
+        "source": "Internet Archive",
+        "credit": "Creigh, Alfred, b. 1810"
       }
     ],
     "cecil-pa": [
@@ -4959,15 +5005,6 @@
     ],
     "mcdonald-washington-pa": [
       {
-        "title": "History of Washington County, Pennsylvania : with biographical sketches of many of its pioneers and prominent men",
-        "url": "https://archive.org/details/historyofwashing00crum",
-        "thumbUrl": "https://archive.org/services/img/historyofwashing00crum",
-        "kind": "founding",
-        "year": 1882,
-        "source": "Internet Archive",
-        "credit": "Crumrine, Boyd, 1838-1916"
-      },
-      {
         "title": "History of Washington County : from its first settlement to the present time : first under Virginia as Yohogania, Ohio, or Augusta County until 1781 : and subsequently under Pennsylvania; with sketches of all the townships, boroughs, and villages, etc. : and to which is added a full account of the celebrated Mason and Dixon's Line, the Whiskey Insurrection, Indian warfare, traditional and local historical events",
         "url": "https://archive.org/details/historyofwashing00crei",
         "thumbUrl": "https://archive.org/services/img/historyofwashing00crei",
@@ -4975,6 +5012,15 @@
         "year": 1871,
         "source": "Internet Archive",
         "credit": "Creigh, Alfred, b. 1810"
+      },
+      {
+        "title": "History of Washington County, Pennsylvania : with biographical sketches of many of its pioneers and prominent men",
+        "url": "https://archive.org/details/historyofwashing00crum",
+        "thumbUrl": "https://archive.org/services/img/historyofwashing00crum",
+        "kind": "founding",
+        "year": 1882,
+        "source": "Internet Archive",
+        "credit": "Crumrine, Boyd, 1838-1916"
       }
     ],
     "plum-pa": [
@@ -6034,12 +6080,12 @@
     "north-irwin-pa": [
       {
         "title": "History of Westmoreland county, Pennsylvania",
-        "url": "https://archive.org/details/historyofwestmor01bouc",
-        "thumbUrl": "https://archive.org/services/img/historyofwestmor01bouc",
+        "url": "https://archive.org/details/historyofwestmor02bouc",
+        "thumbUrl": "https://archive.org/services/img/historyofwestmor02bouc",
         "kind": "founding",
         "year": 1906,
         "source": "Internet Archive",
-        "credit": "Boucher, John Newton"
+        "credit": "Boucher, John Newton, 1854-1933"
       }
     ],
     "valencia-pa": [
@@ -6396,12 +6442,12 @@
     "lower-burrell-pa": [
       {
         "title": "History of Westmoreland county, Pennsylvania",
-        "url": "https://archive.org/details/historyofwestmor01bouc",
-        "thumbUrl": "https://archive.org/services/img/historyofwestmor01bouc",
+        "url": "https://archive.org/details/historyofwestmor02bouc",
+        "thumbUrl": "https://archive.org/services/img/historyofwestmor02bouc",
         "kind": "founding",
         "year": 1906,
         "source": "Internet Archive",
-        "credit": "Boucher, John Newton"
+        "credit": "Boucher, John Newton, 1854-1933"
       }
     ],
     "brackenridge-pa": [
@@ -6695,15 +6741,6 @@
     ],
     "bulger-pa": [
       {
-        "title": "History of Washington County : from its first settlement to the present time : first under Virginia as Yohogania, Ohio, or Augusta County until 1781 : and subsequently under Pennsylvania; with sketches of all the townships, boroughs, and villages, etc. : and to which is added a full account of the celebrated Mason and Dixon's Line, the Whiskey Insurrection, Indian warfare, traditional and local historical events",
-        "url": "https://archive.org/details/historyofwashing00crei",
-        "thumbUrl": "https://archive.org/services/img/historyofwashing00crei",
-        "kind": "founding",
-        "year": 1871,
-        "source": "Internet Archive",
-        "credit": "Creigh, Alfred, b. 1810"
-      },
-      {
         "title": "History of Washington County, Pennsylvania : with biographical sketches of many of its pioneers and prominent men",
         "url": "https://archive.org/details/historyofwashing00crum",
         "thumbUrl": "https://archive.org/services/img/historyofwashing00crum",
@@ -6711,6 +6748,15 @@
         "year": 1882,
         "source": "Internet Archive",
         "credit": "Crumrine, Boyd, 1838-1916"
+      },
+      {
+        "title": "History of Washington County : from its first settlement to the present time : first under Virginia as Yohogania, Ohio, or Augusta County until 1781 : and subsequently under Pennsylvania; with sketches of all the townships, boroughs, and villages, etc. : and to which is added a full account of the celebrated Mason and Dixon's Line, the Whiskey Insurrection, Indian warfare, traditional and local historical events",
+        "url": "https://archive.org/details/historyofwashing00crei",
+        "thumbUrl": "https://archive.org/services/img/historyofwashing00crei",
+        "kind": "founding",
+        "year": 1871,
+        "source": "Internet Archive",
+        "credit": "Creigh, Alfred, b. 1810"
       }
     ],
     "manor-pa": [
@@ -6901,15 +6947,6 @@
     ],
     "slovan-pa": [
       {
-        "title": "History of Washington County : from its first settlement to the present time : first under Virginia as Yohogania, Ohio, or Augusta County until 1781 : and subsequently under Pennsylvania; with sketches of all the townships, boroughs, and villages, etc. : and to which is added a full account of the celebrated Mason and Dixon's Line, the Whiskey Insurrection, Indian warfare, traditional and local historical events",
-        "url": "https://archive.org/details/historyofwashing00crei",
-        "thumbUrl": "https://archive.org/services/img/historyofwashing00crei",
-        "kind": "founding",
-        "year": 1871,
-        "source": "Internet Archive",
-        "credit": "Creigh, Alfred, b. 1810"
-      },
-      {
         "title": "History of Washington County, Pennsylvania : with biographical sketches of many of its pioneers and prominent men",
         "url": "https://archive.org/details/historyofwashing00crum",
         "thumbUrl": "https://archive.org/services/img/historyofwashing00crum",
@@ -6917,6 +6954,15 @@
         "year": 1882,
         "source": "Internet Archive",
         "credit": "Crumrine, Boyd, 1838-1916"
+      },
+      {
+        "title": "History of Washington County : from its first settlement to the present time : first under Virginia as Yohogania, Ohio, or Augusta County until 1781 : and subsequently under Pennsylvania; with sketches of all the townships, boroughs, and villages, etc. : and to which is added a full account of the celebrated Mason and Dixon's Line, the Whiskey Insurrection, Indian warfare, traditional and local historical events",
+        "url": "https://archive.org/details/historyofwashing00crei",
+        "thumbUrl": "https://archive.org/services/img/historyofwashing00crei",
+        "kind": "founding",
+        "year": 1871,
+        "source": "Internet Archive",
+        "credit": "Creigh, Alfred, b. 1810"
       }
     ],
     "export-pa": [
@@ -7161,12 +7207,12 @@
     "upper-burrell-pa": [
       {
         "title": "History of Westmoreland county, Pennsylvania",
-        "url": "https://archive.org/details/historyofwestmor02bouc",
-        "thumbUrl": "https://archive.org/services/img/historyofwestmor02bouc",
+        "url": "https://archive.org/details/historyofwestmor01bouc",
+        "thumbUrl": "https://archive.org/services/img/historyofwestmor01bouc",
         "kind": "founding",
         "year": 1906,
         "source": "Internet Archive",
-        "credit": "Boucher, John Newton, 1854-1933"
+        "credit": "Boucher, John Newton"
       }
     ],
     "callery-pa": [
@@ -7323,15 +7369,6 @@
     ],
     "charleroi-pa": [
       {
-        "title": "History of Washington County : from its first settlement to the present time : first under Virginia as Yohogania, Ohio, or Augusta County until 1781 : and subsequently under Pennsylvania; with sketches of all the townships, boroughs, and villages, etc. : and to which is added a full account of the celebrated Mason and Dixon's Line, the Whiskey Insurrection, Indian warfare, traditional and local historical events",
-        "url": "https://archive.org/details/historyofwashing00crei",
-        "thumbUrl": "https://archive.org/services/img/historyofwashing00crei",
-        "kind": "founding",
-        "year": 1871,
-        "source": "Internet Archive",
-        "credit": "Creigh, Alfred, b. 1810"
-      },
-      {
         "title": "History of Washington County, Pennsylvania : with biographical sketches of many of its pioneers and prominent men",
         "url": "https://archive.org/details/historyofwashing00crum",
         "thumbUrl": "https://archive.org/services/img/historyofwashing00crum",
@@ -7339,6 +7376,15 @@
         "year": 1882,
         "source": "Internet Archive",
         "credit": "Crumrine, Boyd, 1838-1916"
+      },
+      {
+        "title": "History of Washington County : from its first settlement to the present time : first under Virginia as Yohogania, Ohio, or Augusta County until 1781 : and subsequently under Pennsylvania; with sketches of all the townships, boroughs, and villages, etc. : and to which is added a full account of the celebrated Mason and Dixon's Line, the Whiskey Insurrection, Indian warfare, traditional and local historical events",
+        "url": "https://archive.org/details/historyofwashing00crei",
+        "thumbUrl": "https://archive.org/services/img/historyofwashing00crei",
+        "kind": "founding",
+        "year": 1871,
+        "source": "Internet Archive",
+        "credit": "Creigh, Alfred, b. 1810"
       }
     ],
     "madison-pa": [
@@ -7554,12 +7600,12 @@
     "delmont-pa": [
       {
         "title": "History of Westmoreland county, Pennsylvania",
-        "url": "https://archive.org/details/historyofwestmor01bouc",
-        "thumbUrl": "https://archive.org/services/img/historyofwestmor01bouc",
+        "url": "https://archive.org/details/historyofwestmor02bouc",
+        "thumbUrl": "https://archive.org/services/img/historyofwestmor02bouc",
         "kind": "founding",
         "year": 1906,
         "source": "Internet Archive",
-        "credit": "Boucher, John Newton"
+        "credit": "Boucher, John Newton, 1854-1933"
       }
     ],
     "east-rochester-pa": [
@@ -8030,15 +8076,6 @@
     ],
     "smithton-pa": [
       {
-        "title": "Sanborn Fire Insurance Map from Smithton, Westmoreland County, Pennsylvania.",
-        "url": "https://www.loc.gov/item/sanborn07975_001/",
-        "thumbUrl": "https://tile.loc.gov/storage-services/service/gmd/gmd382m/g3824m/g3824sm/g3824sm_g079751912/07975_1912-0001.gif",
-        "kind": "sanborn",
-        "year": 1912,
-        "source": "Library of Congress",
-        "credit": "Library of Congress"
-      },
-      {
         "title": "History of Westmoreland county, Pennsylvania",
         "url": "https://archive.org/details/historyofwestmor01bouc",
         "thumbUrl": "https://archive.org/services/img/historyofwestmor01bouc",
@@ -8098,24 +8135,15 @@
     "west-leechburg-pa": [
       {
         "title": "History of Westmoreland county, Pennsylvania",
-        "url": "https://archive.org/details/historyofwestmor01bouc",
-        "thumbUrl": "https://archive.org/services/img/historyofwestmor01bouc",
+        "url": "https://archive.org/details/historyofwestmor02bouc",
+        "thumbUrl": "https://archive.org/services/img/historyofwestmor02bouc",
         "kind": "founding",
         "year": 1906,
         "source": "Internet Archive",
-        "credit": "Boucher, John Newton"
+        "credit": "Boucher, John Newton, 1854-1933"
       }
     ],
     "cokeburg-pa": [
-      {
-        "title": "History of Washington County, Pennsylvania : with biographical sketches of many of its pioneers and prominent men",
-        "url": "https://archive.org/details/historyofwashing00crum",
-        "thumbUrl": "https://archive.org/services/img/historyofwashing00crum",
-        "kind": "founding",
-        "year": 1882,
-        "source": "Internet Archive",
-        "credit": "Crumrine, Boyd, 1838-1916"
-      },
       {
         "title": "History of Washington County : from its first settlement to the present time : first under Virginia as Yohogania, Ohio, or Augusta County until 1781 : and subsequently under Pennsylvania; with sketches of all the townships, boroughs, and villages, etc. : and to which is added a full account of the celebrated Mason and Dixon's Line, the Whiskey Insurrection, Indian warfare, traditional and local historical events",
         "url": "https://archive.org/details/historyofwashing00crei",
@@ -8124,6 +8152,15 @@
         "year": 1871,
         "source": "Internet Archive",
         "credit": "Creigh, Alfred, b. 1810"
+      },
+      {
+        "title": "History of Washington County, Pennsylvania : with biographical sketches of many of its pioneers and prominent men",
+        "url": "https://archive.org/details/historyofwashing00crum",
+        "thumbUrl": "https://archive.org/services/img/historyofwashing00crum",
+        "kind": "founding",
+        "year": 1882,
+        "source": "Internet Archive",
+        "credit": "Crumrine, Boyd, 1838-1916"
       }
     ],
     "oklahoma-pa": [
@@ -8261,12 +8298,12 @@
     "leechburg-pa": [
       {
         "title": "History of Armstrong County, Pennsylvania",
-        "url": "https://archive.org/details/historyofarmstro0000robe",
-        "thumbUrl": "https://archive.org/services/img/historyofarmstro0000robe",
+        "url": "https://archive.org/details/historyofarmstro00smit_0",
+        "thumbUrl": "https://archive.org/services/img/historyofarmstro00smit_0",
         "kind": "founding",
         "year": 1883,
         "source": "Internet Archive",
-        "credit": "Robert Walter Smith, Esq."
+        "credit": "Smith, Robert Walter. cn"
       }
     ],
     "apollo-pa": [
@@ -8281,12 +8318,12 @@
       },
       {
         "title": "History of Armstrong County, Pennsylvania",
-        "url": "https://archive.org/details/historyofarmstro0000robe",
-        "thumbUrl": "https://archive.org/services/img/historyofarmstro0000robe",
+        "url": "https://archive.org/details/historyofarmstro01smit",
+        "thumbUrl": "https://archive.org/services/img/historyofarmstro01smit",
         "kind": "founding",
         "year": 1883,
         "source": "Internet Archive",
-        "credit": "Robert Walter Smith, Esq."
+        "credit": "Smith, Robert Walter"
       }
     ],
     "southwest-greensburg-heights-pa": [
@@ -8506,12 +8543,12 @@
     "southwest-greensburg-pa": [
       {
         "title": "History of Westmoreland county, Pennsylvania",
-        "url": "https://archive.org/details/historyofwestmor02bouc",
-        "thumbUrl": "https://archive.org/services/img/historyofwestmor02bouc",
+        "url": "https://archive.org/details/historyofwestmor01bouc",
+        "thumbUrl": "https://archive.org/services/img/historyofwestmor01bouc",
         "kind": "founding",
         "year": 1906,
         "source": "Internet Archive",
-        "credit": "Boucher, John Newton, 1854-1933"
+        "credit": "Boucher, John Newton"
       }
     ],
     "shippingport-pa": [
@@ -10597,15 +10634,6 @@
     ],
     "brilliant-oh": [
       {
-        "title": "Sanborn Fire Insurance Map from Brilliant, Jefferson County, Ohio.",
-        "url": "https://www.loc.gov/item/sanborn06615_001/",
-        "thumbUrl": "https://tile.loc.gov/storage-services/service/gmd/gmd408m/g4084m/g4084bm/g4084bm_g066151924/06615_1924-0001.gif",
-        "kind": "sanborn",
-        "year": 1924,
-        "source": "Library of Congress",
-        "credit": "Library of Congress"
-      },
-      {
         "title": "Kelly Miller's history of the world war for human rights : an intensely human and brilliant account of the world war; why America entered the conflict; what the allies fought for; and a thrilling account of the important part taken by the Negro in the tragic defeat of Germany; the downfall of the autocracy, and complete victory for the cause of righteousness and freedom ...",
         "url": "https://archive.org/details/kellymillershist00mill_2",
         "thumbUrl": "https://archive.org/services/img/kellymillershist00mill_2",
@@ -10617,15 +10645,6 @@
     ],
     "stratton-oh": [
       {
-        "title": "A book of Strattons; being a collection of Stratton records from England and Scotland, and a genealogical history of the early colonial Strattons in America, with five generations of their descendants;",
-        "url": "https://www.loc.gov/item/08022251/",
-        "thumbUrl": "https://tile.loc.gov/image-services/iiif/public:gdcmassbookdig:bookofstrattonsb03stra:bookofstrattonsb03stra_0013/full/pct:12.5/0/default.jpg",
-        "kind": "founding",
-        "year": 1908,
-        "source": "Library of Congress",
-        "credit": "Library of Congress"
-      },
-      {
         "title": "(Portraits) Bryant, Stratton & Smith Business College. Warren City Officials. Globe Foundry & Machine Works. Public Buildings of Niles, Ohio.",
         "url": "https://archive.org/details/dr_portraits-bryant-stratton--smith-business-college-warren-city-official-3514081",
         "thumbUrl": "https://archive.org/services/img/dr_portraits-bryant-stratton--smith-business-college-warren-city-official-3514081",
@@ -10636,15 +10655,6 @@
       }
     ],
     "wampum-pa": [
-      {
-        "title": "Sanborn Fire Insurance Map from Wampum, Lawrence County, Pennsylvania.",
-        "url": "https://www.loc.gov/item/sanborn08023_001/",
-        "thumbUrl": "https://tile.loc.gov/storage-services/service/gmd/gmd382m/g3824m/g3824wm/g3824wm_g080231925/08023_1925-0001.gif",
-        "kind": "sanborn",
-        "year": 1925,
-        "source": "Library of Congress",
-        "credit": "Library of Congress"
-      },
       {
         "title": "Atlas of the County of Lawrence and the State of Pennsylvania, bound with History of Lawrence County, Pennsylvania",
         "url": "https://archive.org/details/bwb_W8-AIM-695",
