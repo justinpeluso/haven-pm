@@ -3,12 +3,20 @@ import { getMessagingSettings } from "@/lib/settings";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, MessageSquare, Smartphone, CheckCircle2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ExternalLink, MessageSquare, Phone, Smartphone, CheckCircle2 } from "lucide-react";
+
+function telHref(phone: string): string {
+  const digits = phone.replace(/[^\d+]/g, "");
+  return digits ? `sms:${digits}` : "#";
+}
 
 export default async function MessagesPage() {
   await requirePermission("messages:read");
   const messaging = await getMessagingSettings();
-  const isOpenPhone = /openphone/i.test(messaging.providerName) || /openphone\.com/i.test(messaging.portalUrl);
+  const isOpenPhone =
+    /openphone/i.test(messaging.providerName) || /openphone\.com/i.test(messaging.portalUrl);
+  const hasNumber = Boolean(messaging.phoneNumber?.trim());
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
@@ -17,83 +25,89 @@ export default async function MessagesPage() {
         <h1 className="mt-2 text-2xl font-bold">Texting & Messages</h1>
         <p className="text-muted-foreground">
           Prospect and tenant SMS runs through{" "}
-          <span className="font-medium text-foreground">{messaging.providerName}</span> — not
-          Haven&apos;s built-in inbox.
+          <span className="font-medium text-foreground">{messaging.providerName}</span>.
         </p>
       </div>
 
       <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Smartphone className="h-5 w-5" />
-            Open {messaging.providerName}
-          </CardTitle>
+          <div className="flex flex-wrap items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Smartphone className="h-5 w-5" />
+              {messaging.providerName}
+            </CardTitle>
+            {hasNumber ? (
+              <Badge variant="success">Connected</Badge>
+            ) : (
+              <Badge variant="warning">Add business number</Badge>
+            )}
+          </div>
           <CardDescription>
-            Shared business number for calls and two-way texts with tenants and prospects.
-            Change the portal URL anytime under Settings.
+            Staff open the shared inbox here. Tenants text the business number below.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          {hasNumber && (
+            <div className="rounded-xl border bg-background/80 p-4">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Business number
+              </p>
+              <p className="mt-1 flex items-center gap-2 text-2xl font-bold tracking-tight">
+                <Phone className="h-5 w-5 text-muted-foreground" />
+                {messaging.phoneNumber}
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Share this number with tenants and prospects — not your personal cell.
+              </p>
+            </div>
+          )}
+
           <div className="flex flex-wrap gap-2">
             <Button asChild size="lg">
               <a href={messaging.portalUrl} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="mr-2 h-4 w-4" />
-                Open {messaging.providerName}
+                Open {messaging.providerName} inbox
               </a>
             </Button>
-            {isOpenPhone && (
+            {hasNumber && (
               <Button asChild size="lg" variant="outline">
-                <a href="https://www.openphone.com/" target="_blank" rel="noopener noreferrer">
-                  Create OpenPhone account
-                </a>
+                <a href={telHref(messaging.phoneNumber)}>Text this number</a>
+              </Button>
+            )}
+            {!hasNumber && (
+              <Button asChild size="lg" variant="outline">
+                <a href="/settings">Add number in Settings</a>
               </Button>
             )}
           </div>
           <p className="text-xs text-muted-foreground break-all">
-            Destination: {messaging.portalUrl}
+            Inbox: {messaging.portalUrl}
           </p>
         </CardContent>
       </Card>
 
-      {isOpenPhone && (
+      {isOpenPhone && !hasNumber && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
               <CheckCircle2 className="h-4 w-4" />
-              OpenPhone setup (about 10 minutes)
+              Finish connecting OpenPhone
             </CardTitle>
             <CardDescription>
-              Haven can&apos;t create the account for you — once it exists, this button opens it.
+              Account is ready — paste your OpenPhone business number in Settings → SMS.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ol className="list-decimal space-y-3 pl-5 text-sm text-muted-foreground">
+            <ol className="list-decimal space-y-2 pl-5 text-sm text-muted-foreground">
+              <li>Open OpenPhone and copy your workspace phone number.</li>
               <li>
-                Go to{" "}
-                <a
-                  href="https://www.openphone.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium text-foreground underline underline-offset-2"
-                >
-                  openphone.com
+                In Haven go to{" "}
+                <a href="/settings" className="font-medium text-foreground underline underline-offset-2">
+                  Settings
                 </a>{" "}
-                and start a free trial / create a workspace for Haven PM.
+                → SMS / messaging portal.
               </li>
-              <li>
-                Pick a local Pittsburgh-area number (or port your existing business line).
-              </li>
-              <li>
-                Invite leasing agents and property managers so everyone shares the same inbox.
-              </li>
-              <li>
-                Confirm the web inbox opens at{" "}
-                <span className="font-medium text-foreground">my.openphone.com</span> (already set
-                in Settings).
-              </li>
-              <li>
-                Optional: install the iOS / Android / desktop apps for after-hours replies.
-              </li>
+              <li>Paste the number and save — Texting will show Connected.</li>
             </ol>
           </CardContent>
         </Card>
@@ -103,17 +117,16 @@ export default async function MessagesPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
             <MessageSquare className="h-4 w-4" />
-            Why OpenPhone here?
+            How staff use this
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2 text-sm text-muted-foreground">
           <p>
-            Shared number, real two-way SMS, voicemail, and a team inbox — without Haven needing to
-            become a phone carrier or handle A2P registration itself.
+            Click <span className="font-medium text-foreground">Open {messaging.providerName} inbox</span>{" "}
+            to reply to tenants and prospects in the shared team inbox.
           </p>
           <p>
-            For big vacancy blasts later, add a campaign tool (SimpleTexting / Textedly). Day-to-day
-            tenant and prospect texts stay in OpenPhone.
+            Haven does not send SMS itself — OpenPhone handles delivery, voicemail, and the number.
           </p>
         </CardContent>
       </Card>

@@ -35,6 +35,7 @@ export async function saveMessagingSettings(formData: FormData) {
 
   const portalUrl = (formData.get("portalUrl") as string)?.trim();
   const providerName = (formData.get("providerName") as string)?.trim();
+  const phoneNumber = (formData.get("phoneNumber") as string)?.trim() || "";
 
   if (!portalUrl) {
     return { error: "Messaging portal URL is required" };
@@ -43,6 +44,7 @@ export async function saveMessagingSettings(formData: FormData) {
   await updateMessagingSettings({
     portalUrl,
     providerName: providerName || undefined,
+    phoneNumber,
   });
 
   revalidateSettings();

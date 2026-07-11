@@ -151,13 +151,29 @@ export function TenantDashboard({
           </CardHeader>
           <CardContent className="space-y-3">
             <p className="text-sm text-muted-foreground">
-              Text your property team through our SMS messaging portal.
+              Text your property team
+              {messaging.phoneNumber
+                ? ` at ${messaging.phoneNumber}`
+                : " through our SMS messaging portal"}
+              .
             </p>
-            <Button asChild>
-              <a href={messaging.portalUrl} target="_blank" rel="noopener noreferrer">
-                Open messaging portal
-              </a>
-            </Button>
+            {messaging.phoneNumber && (
+              <p className="text-lg font-semibold tracking-tight">{messaging.phoneNumber}</p>
+            )}
+            <div className="flex flex-wrap gap-2">
+              {messaging.phoneNumber && (
+                <Button asChild variant="outline">
+                  <a href={`sms:${messaging.phoneNumber.replace(/[^\d+]/g, "")}`}>
+                    Send a text
+                  </a>
+                </Button>
+              )}
+              <Button asChild>
+                <a href={messaging.portalUrl} target="_blank" rel="noopener noreferrer">
+                  Open messaging portal
+                </a>
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>

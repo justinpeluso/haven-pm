@@ -11,6 +11,7 @@ export interface PaymentSettings {
 export interface MessagingSettings {
   portalUrl: string;
   providerName: string;
+  phoneNumber: string;
 }
 
 export interface CompanySettings {
@@ -119,6 +120,7 @@ export async function getMessagingSettings(): Promise<MessagingSettings> {
   const map = await getSettingMap([
     "messaging_portal_url",
     "messaging_provider_name",
+    "messaging_phone_number",
   ]);
 
   return {
@@ -126,18 +128,29 @@ export async function getMessagingSettings(): Promise<MessagingSettings> {
       map.messaging_portal_url ||
       process.env.MESSAGING_PORTAL_URL ||
       DEFAULT_MESSAGING_URL,
-    providerName: map.messaging_provider_name || DEFAULT_MESSAGING_PROVIDER,
+    providerName:
+      map.messaging_provider_name ||
+      process.env.MESSAGING_PROVIDER_NAME ||
+      DEFAULT_MESSAGING_PROVIDER,
+    phoneNumber:
+      map.messaging_phone_number ||
+      process.env.MESSAGING_PHONE_NUMBER ||
+      "",
   };
 }
 
 export async function updateMessagingSettings(data: {
   portalUrl: string;
   providerName?: string;
+  phoneNumber?: string;
 }) {
   const entries: Record<string, string> = {
     messaging_portal_url: data.portalUrl,
   };
   if (data.providerName) entries.messaging_provider_name = data.providerName;
+  if (data.phoneNumber !== undefined) {
+    entries.messaging_phone_number = data.phoneNumber;
+  }
   await upsertSettings(entries);
 }
 

@@ -576,6 +576,20 @@ export function SettingsForm({
               />
             </div>
             <div className="space-y-2">
+              <Label htmlFor="phoneNumber">OpenPhone business number</Label>
+              <Input
+                id="phoneNumber"
+                name="phoneNumber"
+                type="tel"
+                placeholder="(412) 555-0100"
+                defaultValue={messaging.phoneNumber}
+                disabled={!canWrite}
+              />
+              <p className="text-xs text-muted-foreground">
+                The number tenants and prospects should text (from your OpenPhone workspace).
+              </p>
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="portalUrl">Portal URL</Label>
               <Input
                 id="portalUrl"
@@ -587,7 +601,7 @@ export function SettingsForm({
                 disabled={!canWrite}
               />
               <p className="text-xs text-muted-foreground">
-                After you create an OpenPhone workspace, keep this URL (or paste any deep link they give you).
+                Staff inbox link — usually https://my.openphone.com/
               </p>
             </div>
             {canWrite && <SaveButton loading={loadingKey === "messaging"} />}
