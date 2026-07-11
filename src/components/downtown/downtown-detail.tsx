@@ -10,6 +10,7 @@ import type {
 } from "@/lib/downtown/types";
 import type { DowntownProfile } from "@/lib/downtown/profiles";
 import { DowntownSubnav } from "./downtown-subnav";
+import { CbdVibrancyInfographic } from "./cbd-vibrancy-infographic";
 
 type DowntownInfo = {
   id: string;
@@ -359,6 +360,24 @@ export function DowntownDetail({
             Named businesses in this CBD snapshot
           </p>
         </div>
+      </div>
+
+      <div className="space-y-3">
+        <h2
+          className="text-[0.65rem] uppercase tracking-[0.14em]"
+          style={{ color: "var(--dt-accent)" }}
+        >
+          CBD activation view
+        </h2>
+        <CbdVibrancyInfographic
+          name={initialDowntown.name}
+          state={initialDowntown.state}
+          downtownName={initialDowntown.downtownName}
+          tags={initialDowntown.tags}
+          vibrancy={metrics.vibrancy}
+          vacancyEstimate={metrics.vacancyEstimate}
+          radiusM={initialDowntown.radiusM}
+        />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
