@@ -33,7 +33,7 @@ interface UnitItem {
   id: string;
   unitNumber: string;
   status: string;
-  rentAmount: unknown;
+  rentAmount: number;
   bedrooms: number | null;
   bathrooms: number | null;
   tenantName?: string | null;
@@ -199,7 +199,7 @@ function UnitFields({ unit }: { unit?: UnitItem }) {
       </div>
       <div className="space-y-2">
         <Label htmlFor="rentAmount">Rent Amount</Label>
-        <Input id="rentAmount" name="rentAmount" type="number" min={0} step={0.01} required defaultValue={unit ? Number(unit.rentAmount) : ""} />
+        <Input id="rentAmount" name="rentAmount" type="number" min={0} step={0.01} required defaultValue={unit?.rentAmount ?? ""} />
       </div>
       <div className="space-y-2">
         <Label htmlFor="depositAmount">Deposit</Label>

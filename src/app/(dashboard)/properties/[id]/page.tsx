@@ -44,7 +44,7 @@ export default async function PropertyDetailPage({
       unitId: unit.id,
       unitNumber: unit.unitNumber,
       unitStatus: unit.status,
-      rentAmount: unit.rentAmount,
+      rentAmount: Number(unit.rentAmount),
       leaseStart: lease.startDate,
       leaseEnd: lease.endDate,
       tenantId: lease.tenant.id,
@@ -68,7 +68,30 @@ export default async function PropertyDetailPage({
           <h1 className="text-2xl font-bold">{property.name}</h1>
           <Badge variant={occupancy.badgeVariant}>{occupancy.label}</Badge>
           <Badge variant="outline">{property.status.replace(/_/g, " ")}</Badge>
-          {canWrite && <PropertyEditForm property={property} owners={owners} />}
+          {canWrite && (
+            <PropertyEditForm
+              property={{
+                id: property.id,
+                name: property.name,
+                addressLine1: property.addressLine1,
+                addressLine2: property.addressLine2,
+                city: property.city,
+                state: property.state,
+                zipCode: property.zipCode,
+                status: property.status,
+                ownerId: property.ownerId,
+                squareFootage: property.squareFootage,
+                bedrooms: property.bedrooms,
+                bathrooms: property.bathrooms != null ? Number(property.bathrooms) : null,
+                rentAmount: property.rentAmount != null ? Number(property.rentAmount) : null,
+                securityDeposit:
+                  property.securityDeposit != null ? Number(property.securityDeposit) : null,
+                parking: property.parking,
+                internalNotes: property.internalNotes,
+              }}
+              owners={owners}
+            />
+          )}
         </div>
         <p className="text-muted-foreground">
           {property.addressLine1}
@@ -189,9 +212,9 @@ export default async function PropertyDetailPage({
               id: unit.id,
               unitNumber: unit.unitNumber,
               status: unit.status,
-              rentAmount: unit.rentAmount,
+              rentAmount: Number(unit.rentAmount),
               bedrooms: unit.bedrooms,
-              bathrooms: unit.bathrooms,
+              bathrooms: unit.bathrooms != null ? Number(unit.bathrooms) : null,
               tenantName: unit.leases[0]?.tenant.user.name,
               tenantEmail: unit.leases[0]?.tenant.user.email,
             }))}

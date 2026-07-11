@@ -32,8 +32,8 @@ interface PropertyEditFormProps {
     squareFootage: number | null;
     bedrooms: number | null;
     bathrooms: number | null;
-    rentAmount: unknown;
-    securityDeposit: unknown;
+    rentAmount: number | null;
+    securityDeposit: number | null;
     parking: string | null;
     internalNotes: string | null;
   };
@@ -153,11 +153,11 @@ export function PropertyEditForm({ property, owners }: PropertyEditFormProps) {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="rentAmount">Rent Amount</Label>
-              <Input id="rentAmount" name="rentAmount" type="number" min={0} step={0.01} defaultValue={property.rentAmount ? Number(property.rentAmount) : ""} />
+              <Input id="rentAmount" name="rentAmount" type="number" min={0} step={0.01} defaultValue={property.rentAmount ?? ""} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="securityDeposit">Security Deposit</Label>
-              <Input id="securityDeposit" name="securityDeposit" type="number" min={0} step={0.01} defaultValue={property.securityDeposit ? Number(property.securityDeposit) : ""} />
+              <Input id="securityDeposit" name="securityDeposit" type="number" min={0} step={0.01} defaultValue={property.securityDeposit ?? ""} />
             </div>
           </div>
 
