@@ -15,3 +15,20 @@ export async function getCalendarEventsForRange(start: string, end: string) {
     orderBy: { startAt: "asc" },
   });
 }
+
+export async function getCalendarPreviewEvents(limit = 6) {
+  const now = new Date();
+  const twoWeeks = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
+
+  return db.calendarEvent.findMany({
+    where: {
+      deletedAt: null,
+      startAt: { gte: now, lte: twoWeeks },
+    },
+    include: {
+      property: { select: { name: true } },
+    },
+    orderBy: { startAt: "asc" },
+    take: limit,
+  });
+}

@@ -1,19 +1,35 @@
 import { requireAuth } from "@/lib/auth/session";
 import { getDashboardData } from "@/lib/queries/dashboard";
-import { getPaymentSettings, getMessagingSettings } from "@/lib/settings";
+import { getCalendarPreviewEvents } from "@/lib/queries/calendar";
+import {
+  getPaymentSettings,
+  getMessagingSettings,
+  getCompanySettings,
+} from "@/lib/settings";
+import { fetchWeatherForPlace } from "@/lib/weather";
 import { UserRole } from "@prisma/client";
 import { AdminDashboard } from "@/components/dashboard/admin-dashboard";
 import { TenantDashboard } from "@/components/dashboard/tenant-dashboard";
 import { MaintenanceDashboard } from "@/components/dashboard/maintenance-dashboard";
 import { AgentDashboard } from "@/components/dashboard/agent-dashboard";
+import { DashboardSideWidgets } from "@/components/dashboard/dashboard-side-widgets";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 
 export default async function DashboardPage() {
   const session = await requireAuth();
-  const [dashboard, payment, messaging] = await Promise.all([
+  const company = await getCompanySettings();
+
+  const [dashboard, payment, messaging, events, weatherResult] = await Promise.all([
     getDashboardData(session.user.role, session.user.id),
     getPaymentSettings(),
     getMessagingSettings(),
+    getCalendarPreviewEvents(6),
+    fetchWeatherForPlace(company.city, company.state)
+      .then((weather) => ({ weather, error: null as string | null }))
+      .catch(() => ({
+        weather: null,
+        error: "Weather unavailable right now — try refreshing.",
+      })),
   ]);
 
   return (
@@ -27,6 +43,19 @@ export default async function DashboardPage() {
           Here&apos;s what&apos;s happening across your portfolio today.
         </p>
       </div>
+
+      <DashboardSideWidgets
+        weather={weatherResult.weather}
+        weatherError={weatherResult.error}
+        events={events.map((e) => ({
+          id: e.id,
+          title: e.title,
+          type: e.type,
+          startAt: e.startAt,
+          color: e.color,
+          propertyName: e.property?.name ?? null,
+        }))}
+      />
 
       {dashboard.type === "admin" && dashboard.data && (
         <AdminDashboard data={dashboard.data} />
