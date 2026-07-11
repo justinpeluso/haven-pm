@@ -7,5 +7,6 @@ export * from "./metrics";
 export * from "./profiles";
 export * from "./gallery";
 export * from "./intel";
+export * from "./youtube";
 export * from "./news";
 export * from "./news-summary";
