@@ -58,7 +58,7 @@ export default async function TenantsPage() {
                   {phone && (
                     <PhoneLink
                       phone={phone}
-                      fromNumber={messaging.phoneNumber}
+                      inboxUrl={messaging.portalUrl}
                       className="text-sm"
                     />
                   )}

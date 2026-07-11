@@ -198,7 +198,7 @@ export default async function PropertyDetailPage({
                     )}
                     {occ.phone && (
                       <div className="flex items-center gap-1.5">
-                        <PhoneLink phone={occ.phone} fromNumber={messaging.phoneNumber} />
+                        <PhoneLink phone={occ.phone} inboxUrl={messaging.portalUrl} />
                       </div>
                     )}
                     <p>

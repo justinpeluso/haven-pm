@@ -78,7 +78,7 @@ export default async function ProspectDetailPage({
           {prospect.phone && (
             <>
               <span>·</span>
-              <PhoneLink phone={prospect.phone} fromNumber={messaging.phoneNumber} />
+              <PhoneLink phone={prospect.phone} inboxUrl={messaging.portalUrl} />
             </>
           )}
         </p>

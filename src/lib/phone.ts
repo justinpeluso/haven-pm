@@ -1,4 +1,4 @@
-/** Phone helpers + OpenPhone / Quo compose deep links */
+/** Phone display helpers */
 
 export function phoneDigits(phone: string | null | undefined): string {
   if (!phone) return "";
@@ -18,24 +18,12 @@ export function formatPhone(phone: string | null | undefined): string {
   return phone;
 }
 
-/**
- * Opens Quo / OpenPhone message composer to `toPhone`.
- * Uses openphone:// deep link (works with Quo mobile + desktop apps).
- * `fromPhone` should be your OpenPhone business number when available.
- */
-export function openPhoneMessageHref(
-  toPhone: string,
-  fromPhone?: string | null
-): string {
-  const to = phoneDigits(toPhone);
-  if (!to) return "#";
+const DEFAULT_INBOX = "https://my.quo.com/";
 
-  const params = new URLSearchParams();
-  params.set("number", to);
-  const from = phoneDigits(fromPhone || "");
-  if (from) params.set("from", from);
-
-  return `openphone://message?${params.toString()}`;
+/** OpenPhone / Quo web inbox (compose deep links are unreliable on desktop). */
+export function openPhoneInboxHref(portalUrl?: string | null): string {
+  const url = portalUrl?.trim();
+  return url || DEFAULT_INBOX;
 }
 
 /** Demo Pittsburgh-area fake numbers: (412) 555-0xxx */

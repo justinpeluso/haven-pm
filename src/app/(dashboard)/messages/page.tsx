@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, MessageSquare, Phone, Smartphone, CheckCircle2 } from "lucide-react";
-import { openPhoneMessageHref } from "@/lib/phone";
 
 export default async function MessagesPage() {
   await requirePermission("messages:read");
@@ -68,7 +67,9 @@ export default async function MessagesPage() {
             </Button>
             {hasNumber && (
               <Button asChild size="lg" variant="outline">
-                <a href={openPhoneMessageHref(messaging.phoneNumber)}>Text this number</a>
+                <a href={messaging.portalUrl} target="_blank" rel="noopener noreferrer">
+                  Open inbox to text
+                </a>
               </Button>
             )}
             {!hasNumber && (

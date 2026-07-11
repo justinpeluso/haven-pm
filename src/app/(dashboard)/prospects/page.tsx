@@ -78,7 +78,7 @@ export default async function ProspectsPage({
                     <div className="mt-1">
                       <PhoneLink
                         phone={prospect.phone}
-                        fromNumber={messaging.phoneNumber}
+                        inboxUrl={messaging.portalUrl}
                         className="text-sm"
                       />
                     </div>
