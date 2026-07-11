@@ -1,6 +1,7 @@
 import { requireAuth } from "@/lib/auth/session";
 import { getDashboardData } from "@/lib/queries/dashboard";
 import { getCalendarPreviewEvents } from "@/lib/queries/calendar";
+import { getPortfolioPulse } from "@/lib/queries/portfolio-pulse";
 import {
   getPaymentSettings,
   getMessagingSettings,
@@ -15,24 +16,29 @@ import { AgentDashboard } from "@/components/dashboard/agent-dashboard";
 import { DashboardSideWidgets } from "@/components/dashboard/dashboard-side-widgets";
 import { PittsburghTrafficWidget } from "@/components/dashboard/pittsburgh-traffic-widget";
 import { PittsburghHousingWidget } from "@/components/dashboard/pittsburgh-housing-widget";
+import { PittsburghAirQualityWidget } from "@/components/dashboard/pittsburgh-air-quality-widget";
+import { MortgageRatesWidget } from "@/components/dashboard/mortgage-rates-widget";
+import { PortfolioPulseWidget } from "@/components/dashboard/portfolio-pulse-widget";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 
 export default async function DashboardPage() {
   const session = await requireAuth();
   const company = await getCompanySettings();
 
-  const [dashboard, payment, messaging, events, weatherResult] = await Promise.all([
-    getDashboardData(session.user.role, session.user.id),
-    getPaymentSettings(),
-    getMessagingSettings(),
-    getCalendarPreviewEvents(6),
-    fetchWeatherForPlace(company.city, company.state)
-      .then((weather) => ({ weather, error: null as string | null }))
-      .catch(() => ({
-        weather: null,
-        error: "Weather unavailable right now — try refreshing.",
-      })),
-  ]);
+  const [dashboard, payment, messaging, events, weatherResult, pulse] =
+    await Promise.all([
+      getDashboardData(session.user.role, session.user.id),
+      getPaymentSettings(),
+      getMessagingSettings(),
+      getCalendarPreviewEvents(6),
+      fetchWeatherForPlace(company.city, company.state)
+        .then((weather) => ({ weather, error: null as string | null }))
+        .catch(() => ({
+          weather: null,
+          error: "Weather unavailable right now — try refreshing.",
+        })),
+      getPortfolioPulse(),
+    ]);
 
   return (
     <div className="space-y-6">
@@ -62,6 +68,13 @@ export default async function DashboardPage() {
       <PittsburghTrafficWidget />
 
       <PittsburghHousingWidget />
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <PittsburghAirQualityWidget />
+        <MortgageRatesWidget />
+      </div>
+
+      <PortfolioPulseWidget data={pulse} />
 
       {dashboard.type === "admin" && dashboard.data && (
         <AdminDashboard data={dashboard.data} />
