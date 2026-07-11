@@ -9,5 +9,6 @@ export * from "./gallery";
 export * from "./intel";
 export * from "./youtube";
 export * from "./documents";
+export * from "./historical-properties";
 export * from "./news";
 export * from "./news-summary";
