@@ -85,7 +85,7 @@ export async function upsertSettings(entries: Record<string, string>) {
   );
 }
 
-const DEFAULT_MESSAGING_URL = "https://my.openphone.com/";
+const DEFAULT_MESSAGING_URL = "https://my.quo.com/";
 const DEFAULT_MESSAGING_PROVIDER = "OpenPhone";
 
 export async function getPaymentSettings(): Promise<PaymentSettings> {

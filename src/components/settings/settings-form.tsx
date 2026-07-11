@@ -596,12 +596,12 @@ export function SettingsForm({
                 name="portalUrl"
                 type="url"
                 required
-                placeholder="https://my.openphone.com/"
+                placeholder="https://my.quo.com/"
                 defaultValue={messaging.portalUrl}
                 disabled={!canWrite}
               />
               <p className="text-xs text-muted-foreground">
-                Staff inbox link — usually https://my.openphone.com/
+                Staff inbox link — usually https://my.quo.com/ (OpenPhone)
               </p>
             </div>
             {canWrite && <SaveButton loading={loadingKey === "messaging"} />}

@@ -15,7 +15,8 @@ export default async function MessagesPage() {
   await requirePermission("messages:read");
   const messaging = await getMessagingSettings();
   const isOpenPhone =
-    /openphone/i.test(messaging.providerName) || /openphone\.com/i.test(messaging.portalUrl);
+    /openphone|quo/i.test(messaging.providerName) ||
+    /openphone\.com|quo\.com/i.test(messaging.portalUrl);
   const hasNumber = Boolean(messaging.phoneNumber?.trim());
 
   return (

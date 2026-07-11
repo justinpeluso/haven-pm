@@ -206,8 +206,9 @@ async function main() {
     data: [
       { key: "payment_portal_url", value: "https://payments.example.com" },
       { key: "vendors", value: JSON.stringify(VENDORS) },
-      { key: "messaging_portal_url", value: "https://my.openphone.com/" },
+      { key: "messaging_portal_url", value: "https://my.quo.com/" },
       { key: "messaging_provider_name", value: "OpenPhone" },
+      { key: "messaging_phone_number", value: "(412) 797-5007" },
       { key: "company_city", value: "Pittsburgh" },
       { key: "company_state", value: "PA" },
       { key: "company_zip", value: "15222" },
