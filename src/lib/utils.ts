@@ -7,11 +7,30 @@ export function cn(...inputs: ClassValue[]) {
 
 export function formatCurrency(amount: number | string | null | undefined): string {
   if (amount == null) return "—";
-  const num = typeof amount === "string" ? parseFloat(amount) : amount;
+  const num = typeof amount === "string" ? parseFloat(amount) : Number(amount);
+  if (Number.isNaN(num)) return "—";
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
   }).format(num);
+}
+
+/** Convert Prisma Decimals (and nested values) into plain JSON-safe data for Client Components. */
+export function toPlain<T>(value: T): T {
+  return JSON.parse(
+    JSON.stringify(value, (_, v) => {
+      if (v != null && typeof v === "object" && typeof (v as { toNumber?: unknown }).toNumber === "function") {
+        return Number(v);
+      }
+      return v;
+    })
+  ) as T;
+}
+
+export function toNumber(value: unknown): number | null {
+  if (value == null || value === "") return null;
+  const n = Number(value);
+  return Number.isFinite(n) ? n : null;
 }
 
 export function formatDate(date: Date | string | null | undefined): string {

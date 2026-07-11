@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ActivityTimeline } from "@/components/shared/activity-timeline";
 import { PropertyEditForm } from "@/components/properties/property-edit-form";
 import { UnitsManager } from "@/components/properties/units-manager";
-import { formatCurrency, formatDate } from "@/lib/utils";
+import { formatCurrency, formatDate, toNumber } from "@/lib/utils";
 
 export default async function PropertyDetailPage({
   params,
@@ -39,14 +39,44 @@ export default async function PropertyDetailPage({
   const canWriteUnits = hasPermission(session.user.role, "units:write");
   const occupancy = getOccupancy(property.units);
 
+  const editProperty = {
+    id: property.id,
+    name: property.name,
+    addressLine1: property.addressLine1,
+    addressLine2: property.addressLine2,
+    city: property.city,
+    state: property.state,
+    zipCode: property.zipCode,
+    status: property.status,
+    ownerId: property.ownerId,
+    squareFootage: property.squareFootage,
+    bedrooms: property.bedrooms,
+    bathrooms: toNumber(property.bathrooms),
+    rentAmount: toNumber(property.rentAmount),
+    securityDeposit: toNumber(property.securityDeposit),
+    parking: property.parking,
+    internalNotes: property.internalNotes,
+  };
+
+  const unitItems = property.units.map((unit) => ({
+    id: unit.id,
+    unitNumber: unit.unitNumber,
+    status: unit.status,
+    rentAmount: toNumber(unit.rentAmount) ?? 0,
+    bedrooms: unit.bedrooms,
+    bathrooms: toNumber(unit.bathrooms),
+    tenantName: unit.leases[0]?.tenant.user.name ?? null,
+    tenantEmail: unit.leases[0]?.tenant.user.email ?? null,
+  }));
+
   const occupants = property.units.flatMap((unit) =>
     unit.leases.map((lease) => ({
       unitId: unit.id,
       unitNumber: unit.unitNumber,
       unitStatus: unit.status,
-      rentAmount: Number(unit.rentAmount),
-      leaseStart: lease.startDate,
-      leaseEnd: lease.endDate,
+      rentAmount: toNumber(unit.rentAmount) ?? 0,
+      leaseStart: lease.startDate.toISOString(),
+      leaseEnd: lease.endDate.toISOString(),
       tenantId: lease.tenant.id,
       name: lease.tenant.user.name,
       email: lease.tenant.user.email,
@@ -54,6 +84,15 @@ export default async function PropertyDetailPage({
       pets: lease.tenant.pets,
     }))
   );
+
+  const activityItems = property.activityLogs.map((log) => ({
+    id: log.id,
+    action: `${log.action} — ${log.entityType}`,
+    userName: log.user?.name ?? null,
+    oldValue: log.oldValue,
+    newValue: log.newValue,
+    createdAt: log.createdAt.toISOString(),
+  }));
 
   return (
     <div className="space-y-6">
@@ -68,30 +107,7 @@ export default async function PropertyDetailPage({
           <h1 className="text-2xl font-bold">{property.name}</h1>
           <Badge variant={occupancy.badgeVariant}>{occupancy.label}</Badge>
           <Badge variant="outline">{property.status.replace(/_/g, " ")}</Badge>
-          {canWrite && (
-            <PropertyEditForm
-              property={{
-                id: property.id,
-                name: property.name,
-                addressLine1: property.addressLine1,
-                addressLine2: property.addressLine2,
-                city: property.city,
-                state: property.state,
-                zipCode: property.zipCode,
-                status: property.status,
-                ownerId: property.ownerId,
-                squareFootage: property.squareFootage,
-                bedrooms: property.bedrooms,
-                bathrooms: property.bathrooms != null ? Number(property.bathrooms) : null,
-                rentAmount: property.rentAmount != null ? Number(property.rentAmount) : null,
-                securityDeposit:
-                  property.securityDeposit != null ? Number(property.securityDeposit) : null,
-                parking: property.parking,
-                internalNotes: property.internalNotes,
-              }}
-              owners={owners}
-            />
-          )}
+          {canWrite && <PropertyEditForm property={editProperty} owners={owners} />}
         </div>
         <p className="text-muted-foreground">
           {property.addressLine1}
@@ -162,7 +178,7 @@ export default async function PropertyDetailPage({
                       <div>
                         <p className="font-medium">{occ.name || "Unnamed tenant"}</p>
                         <p className="text-sm text-muted-foreground">
-                          Unit {occ.unitNumber} · {formatCurrency(Number(occ.rentAmount))}/mo
+                          Unit {occ.unitNumber} · {formatCurrency(occ.rentAmount)}/mo
                         </p>
                       </div>
                     </div>
@@ -208,16 +224,7 @@ export default async function PropertyDetailPage({
           <UnitsManager
             propertyId={property.id}
             canWrite={canWriteUnits}
-            units={property.units.map((unit) => ({
-              id: unit.id,
-              unitNumber: unit.unitNumber,
-              status: unit.status,
-              rentAmount: Number(unit.rentAmount),
-              bedrooms: unit.bedrooms,
-              bathrooms: unit.bathrooms != null ? Number(unit.bathrooms) : null,
-              tenantName: unit.leases[0]?.tenant.user.name,
-              tenantEmail: unit.leases[0]?.tenant.user.email,
-            }))}
+            units={unitItems}
           />
         </TabsContent>
 
@@ -283,16 +290,7 @@ export default async function PropertyDetailPage({
         </TabsContent>
 
         <TabsContent value="activity" className="mt-4">
-          <ActivityTimeline
-            items={property.activityLogs.map((log) => ({
-              id: log.id,
-              action: `${log.action} — ${log.entityType}`,
-              userName: log.user?.name,
-              oldValue: log.oldValue,
-              newValue: log.newValue,
-              createdAt: log.createdAt,
-            }))}
-          />
+          <ActivityTimeline items={activityItems} />
         </TabsContent>
       </Tabs>
 
