@@ -1,4 +1,5 @@
 import type { ClassId, PlayerSlot, Stats } from "./types";
+import { BLANK_BASE_STATS, CREATE_STAT_POOL } from "./create";
 
 /** Map login email → party slot. Player1 = Justin (DM). */
 export const EMAIL_TO_SLOT: Record<string, PlayerSlot> = {
@@ -17,7 +18,7 @@ export const SLOT_DEFAULTS: Record<
     email: "player1@havenpm.com",
     dogName: "Scout",
     dogBreed: "German Shepherd of the North",
-    suggestedClass: "paladin",
+    suggestedClass: "healer",
   },
   rusty: {
     displayName: "Rusty",
@@ -37,14 +38,14 @@ export const SLOT_DEFAULTS: Record<
   },
 };
 
+/** Class resource baselines — stats are blank + point-buy at create (no presets). */
 export const CLASS_DEFS: Record<
   ClassId,
-  { name: string; blurb: string; baseStats: Stats; hp: number; stamina: number; mana: number }
+  { name: string; blurb: string; hp: number; stamina: number; mana: number }
 > = {
   warrior: {
     name: "Warrior",
     blurb: "Steel and shield — the front line of every hold and fellowship.",
-    baseStats: { strength: 16, dexterity: 12, constitution: 15, intelligence: 8, wisdom: 10, charisma: 10 },
     hp: 32,
     stamina: 28,
     mana: 6,
@@ -52,15 +53,13 @@ export const CLASS_DEFS: Record<
   ranger: {
     name: "Ranger",
     blurb: "Bow, trail-craft, and a hound that answers to silent whistles.",
-    baseStats: { strength: 12, dexterity: 16, constitution: 13, intelligence: 10, wisdom: 14, charisma: 10 },
     hp: 26,
     stamina: 26,
     mana: 10,
   },
   mage: {
     name: "Mage",
-    blurb: "Arcane fire, frost, and ward — Middle-earth lore in a Skyrim staff.",
-    baseStats: { strength: 8, dexterity: 12, constitution: 10, intelligence: 16, wisdom: 14, charisma: 12 },
+    blurb: "Arcane fire, frost, and ward — Middle-earth lore in a Skyrim staff. Pick 2 magic.",
     hp: 18,
     stamina: 14,
     mana: 36,
@@ -68,22 +67,30 @@ export const CLASS_DEFS: Record<
   rogue: {
     name: "Rogue",
     blurb: "Shadow-step, lockpick, and a dagger that finds gaps in dragonscale.",
-    baseStats: { strength: 10, dexterity: 16, constitution: 12, intelligence: 12, wisdom: 11, charisma: 13 },
     hp: 22,
     stamina: 30,
     mana: 8,
   },
-  paladin: {
-    name: "Paladin",
-    blurb: "Oath-bound steel and healing light — DM of the party, shield of friends.",
-    baseStats: { strength: 14, dexterity: 10, constitution: 14, intelligence: 10, wisdom: 14, charisma: 15 },
-    hp: 30,
-    stamina: 22,
-    mana: 18,
+  healer: {
+    name: "Healer",
+    blurb: "Oath-light and field medicine — knit the party back together. Pick 3 magic.",
+    hp: 28,
+    stamina: 18,
+    mana: 28,
+  },
+  bard: {
+    name: "Bard",
+    blurb: "Song, spark, and silver tongue — the chronicle's own muse. Pick 4 magic.",
+    hp: 22,
+    stamina: 20,
+    mana: 24,
   },
 };
 
-export const STAT_POINT_BUY_POOL = 8;
+/** @deprecated Prefer BLANK_BASE_STATS — kept for older call sites. */
+export const CLASS_BASE_STATS_BLANK: Stats = { ...BLANK_BASE_STATS };
+
+export const STAT_POINT_BUY_POOL = CREATE_STAT_POOL;
 
 export function slotFromEmail(email: string | null | undefined): PlayerSlot | null {
   if (!email) return null;

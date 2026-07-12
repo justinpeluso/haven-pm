@@ -530,9 +530,20 @@ export function gearCatalogStats(): Record<GearItem["tier"], number> {
 }
 
 export const STARTER_GEAR_BY_CLASS: Record<string, string[]> = {
-  warrior: ["iron-sword", "wood-shield", "hide-jerkin", "healing-potion", "trail-rations", "hound-treat"],
-  ranger: ["hunting-bow", "leather-cap", "hide-jerkin", "healing-potion", "trail-rations", "hound-treat"],
-  mage: ["oak-staff", "copper-ring", "wool-trousers", "mana-draught", "healing-potion", "hound-treat"],
-  rogue: ["iron-sword", "leather-cap", "travel-gloves", "healing-potion", "trail-rations", "hound-treat"],
-  paladin: ["iron-sword", "wood-shield", "hide-jerkin", "healing-potion", "trail-rations", "hound-treat"],
+  warrior: ["healing-potion", "trail-rations", "hound-treat"],
+  ranger: ["healing-potion", "trail-rations", "hound-treat"],
+  mage: ["mana-draught", "healing-potion", "hound-treat"],
+  healer: ["mana-draught", "healing-potion", "hound-treat"],
+  bard: ["mana-draught", "healing-potion", "hound-treat"],
+  rogue: ["healing-potion", "trail-rations", "hound-treat"],
+};
+
+/** Level-1 weapon picks at character create. */
+export const CREATE_WEAPONS_BY_CLASS: Record<string, string[]> = {
+  warrior: ["iron-sword", "hunting-bow", "oak-staff"],
+  ranger: ["hunting-bow", "iron-sword"],
+  mage: ["oak-staff", "iron-sword"],
+  healer: ["oak-staff", "iron-sword"],
+  bard: ["oak-staff", "hunting-bow", "iron-sword"],
+  rogue: ["iron-sword", "hunting-bow"],
 };

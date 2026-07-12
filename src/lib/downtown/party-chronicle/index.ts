@@ -1,14 +1,15 @@
 /**
- * Party Chronicle — Downtown party RPG (comic CRPG).
+ * Neverworld — Downtown party RPG (comic CRPG).
  *
  * Skill trees + combat hotbar:
- *   SKILL_TREES, ABILITIES, HOTBAR_SIZE (≥3),
- *   unlockSkillNode, applyClassStarterSkills, useHotbarSlot, buildCombatUsePayload
+ *   SKILL_TREES, ABILITIES, HOTBAR_SIZE (≥5),
+ *   unlockSkillNode, applyCreateKit, useHotbarSlot, buildCombatUsePayload
  */
 
 export * from "./types";
 export * from "./skills";
 export * from "./hotbar";
+export * from "./create";
 export * from "./players";
 export * from "./progression";
 export * from "./alignment";

@@ -8,6 +8,7 @@ import { rollEncounter } from "./encounters";
 import { levelFromXp, skillPointsForLevelGain } from "./progression";
 import { getRecipe, recipesForAct, type RecipeDef } from "./recipes";
 import { getSideQuest, sideQuestsForChapter, type SideQuestDef } from "./side-quests";
+import { getStoryNode } from "./story";
 import type {
   CharacterSave,
   DeckEncounterState,
@@ -93,6 +94,15 @@ export function startRoadEncounter(
   if (world.endingId) return { world, message: "Chronicle already closed." };
   if (world.deckEncounter && world.encounterEnemyHp != null && world.encounterEnemyHp > 0) {
     return { world, message: "Already in a road fight — use the hotbar." };
+  }
+  const storyNode = getStoryNode(world.campaignNodeId);
+  if (
+    storyNode?.kind === "encounter" &&
+    world.encounterEnemyHp != null &&
+    world.encounterEnemyHp > 0 &&
+    !world.deckEncounter
+  ) {
+    return { world, message: "Finish the story fight first." };
   }
 
   const foe = rollEncounter(actIdForChapter(world.chapterId));

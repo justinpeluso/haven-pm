@@ -674,23 +674,41 @@ export function listUnlockableNodes(character: CharacterSave): SkillNode[] {
   return allNodes().filter((n) => canUnlockNode(character, n.id).ok);
 }
 
-/** Recommended skill points at character create (covers every class starter path). */
-export const STARTER_SKILL_POINTS = 3;
+/** Leftover points after create kit (abilities granted free at create). */
+export const STARTER_SKILL_POINTS = 1;
 
-/** Level-1 unlock order per class (prereq-safe, 3 points). */
+/** Legacy auto-starter — Neverworld create uses player picks via create.ts. */
 export const CLASS_STARTER_NODES: Record<ClassId, string[]> = {
-  warrior: ["cmb-strike", "srv-bandage", "srv-cook"],
-  ranger: ["bst-bond", "srv-cook", "cmb-strike"],
-  mage: ["mag-spark", "mag-heal", "mag-frost"],
-  rogue: ["spc-persuade", "cmb-strike", "srv-bandage"],
-  paladin: ["cmb-strike", "mag-spark", "mag-heal"],
+  warrior: ["cmb-strike", "srv-bandage"],
+  ranger: ["bst-bond", "cmb-strike"],
+  mage: ["mag-spark", "mag-frost"],
+  healer: ["mag-spark", "mag-heal", "mag-ward"],
+  bard: ["mag-spark", "mag-frost", "mag-heal", "mag-ward"],
+  rogue: ["spc-persuade", "cmb-strike"],
 };
 
-/** Preferred hotbar ability order — ≥3 actives after starter unlocks. */
 export const CLASS_STARTER_ABILITIES: Record<ClassId, string[]> = {
-  warrior: ["ab-power-strike", "ab-field-bandage", "ab-camp-stew"],
-  ranger: ["ab-hound-bond", "ab-camp-stew", "ab-power-strike"],
-  mage: ["ab-arcane-spark", "ab-lay-hands", "ab-frostbite"],
-  rogue: ["ab-silver-tongue", "ab-power-strike", "ab-field-bandage"],
-  paladin: ["ab-power-strike", "ab-arcane-spark", "ab-lay-hands"],
+  warrior: ["ab-power-strike", "ab-field-bandage"],
+  ranger: ["ab-hound-bond", "ab-power-strike"],
+  mage: ["ab-arcane-spark", "ab-frostbite"],
+  healer: ["ab-arcane-spark", "ab-lay-hands", "ab-novice-ward"],
+  bard: ["ab-arcane-spark", "ab-frostbite", "ab-lay-hands", "ab-novice-ward"],
+  rogue: ["ab-silver-tongue", "ab-power-strike"],
 };
+
+/** Non-magic starter skills offered at character create. */
+export const CREATE_SKILL_ABILITIES = [
+  "ab-power-strike",
+  "ab-camp-stew",
+  "ab-field-bandage",
+  "ab-silver-tongue",
+  "ab-hound-bond",
+] as const;
+
+/** Magic starter spells offered at character create. */
+export const CREATE_MAGIC_ABILITIES = [
+  "ab-arcane-spark",
+  "ab-frostbite",
+  "ab-lay-hands",
+  "ab-novice-ward",
+] as const;

@@ -1,4 +1,4 @@
-/** Party Chronicle — Skyrim / Middle-earth party RPG types */
+/** Neverworld — Skyrim / Middle-earth party RPG types */
 
 export const STAT_KEYS = ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"] as const;
 export type StatKey = (typeof STAT_KEYS)[number];
@@ -7,7 +7,7 @@ export type Stats = Record<StatKey, number>;
 export const PLAYER_SLOT_ORDER = ["justin", "rusty", "elisha"] as const;
 export type PlayerSlot = (typeof PLAYER_SLOT_ORDER)[number];
 
-export const CLASS_IDS = ["warrior", "ranger", "mage", "rogue", "paladin"] as const;
+export const CLASS_IDS = ["warrior", "ranger", "mage", "rogue", "healer", "bard"] as const;
 export type ClassId = (typeof CLASS_IDS)[number];
 
 export const EQUIP_SLOTS = ["head", "chest", "hands", "legs", "weapon", "offhand", "accessory"] as const;
@@ -104,7 +104,8 @@ export type DogCompanion = {
 
 export type HotbarSlot = string | null;
 
-export const HOTBAR_SIZE = 4;
+/** ≥5 so Bard (1 skill + 4 magic) fits on the bar. */
+export const HOTBAR_SIZE = 5;
 
 export type CharacterSave = {
   slot: PlayerSlot;

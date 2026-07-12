@@ -1,7 +1,13 @@
 import { EMPTY_ALIGNMENT } from "./alignment";
+import {
+  applyCreateKit,
+  BLANK_BASE_STATS,
+  CREATE_STAT_POOL,
+  type CreateKitPicks,
+} from "./create";
 import { CLASS_DEFS, SLOT_DEFAULTS } from "./players";
 import { STARTER_GEAR_BY_CLASS } from "./gear";
-import { applyClassStarterSkills, createEmptyHotbar } from "./hotbar";
+import { createEmptyHotbar } from "./hotbar";
 import { STARTER_SKILL_POINTS } from "./skills";
 import { START_CHAPTER_ID, START_NODE_ID } from "./story";
 import type {
@@ -11,25 +17,33 @@ import type {
   PlayerSlot,
   Stats,
 } from "./types";
-import { PLAYER_SLOT_ORDER } from "./types";
+import { CLASS_IDS, PLAYER_SLOT_ORDER } from "./types";
 
 export const SAVE_KEY = "haven-party-chronicle-v1";
 /** Postgres Setting.key for shared multiplayer campaign state. */
 export const WORLD_SETTING_KEY = "party_chronicle_world_v1";
 
+function coerceClassId(raw: string | undefined): ClassId {
+  if (raw && (CLASS_IDS as readonly string[]).includes(raw)) return raw as ClassId;
+  // Legacy paladin → healer
+  if (raw === "paladin") return "healer";
+  return "warrior";
+}
+
+/** Blank sheet — no preset stats, no preloaded hotbar kit. */
 export function createBlankCharacter(slot: PlayerSlot, classId?: ClassId): CharacterSave {
   const def = SLOT_DEFAULTS[slot];
   const cls = classId ?? def.suggestedClass;
   const classDef = CLASS_DEFS[cls];
   const starter = STARTER_GEAR_BY_CLASS[cls] ?? STARTER_GEAR_BY_CLASS.warrior!;
-  const blank: CharacterSave = {
+  return {
     slot,
     name: def.displayName,
     classId: cls,
     level: 1,
     xp: 0,
     skillPoints: STARTER_SKILL_POINTS,
-    stats: { ...classDef.baseStats },
+    stats: { ...BLANK_BASE_STATS },
     hp: classDef.hp,
     maxHp: classDef.hp,
     stamina: classDef.stamina,
@@ -53,8 +67,6 @@ export function createBlankCharacter(slot: PlayerSlot, classId?: ClassId): Chara
     choiceLog: [],
     created: false,
   };
-  // Pre-load class kit (trees + ≥3 hotbar skills) — still editable before created=true.
-  return applyClassStarterSkills(blank, cls);
 }
 
 export function createNewWorld(): PartyWorldSave {
@@ -75,7 +87,7 @@ export function createNewWorld(): PartyWorldSave {
     deckEncounter: null,
     completedSideQuests: [],
     cookedRecipes: [],
-    log: ["The Party Chronicle unrolls. Justin's turn begins."],
+    log: ["Neverworld unrolls. Justin's turn begins."],
     endingId: null,
     characters,
     startedAt: now,
@@ -131,32 +143,47 @@ export function completeCharacterCreation(
     dogName: string;
     dogBreed: string;
     statBumps: Partial<Stats>;
-    pool: number;
+    pool?: number;
+    kit: CreateKitPicks;
   }
 ): CharacterSave | { error: string } {
+  const pool = opts.pool ?? CREATE_STAT_POOL;
   const base = createBlankCharacter(char.slot, opts.classId);
-  const stats = applyPointBuy(CLASS_DEFS[opts.classId].baseStats, opts.statBumps, opts.pool);
+  const stats = applyPointBuy(BLANK_BASE_STATS, opts.statBumps, pool);
   if (!stats) return { error: "Too many stat points spent." };
-  return {
-    ...base,
-    name: opts.name.trim() || base.name,
-    stats,
-    dog: {
-      ...base.dog,
-      name: opts.dogName.trim() || base.dog.name,
-      breed: opts.dogBreed.trim() || base.dog.breed,
+
+  const withKit = applyCreateKit(
+    {
+      ...base,
+      name: opts.name.trim() || base.name,
+      stats,
+      dog: {
+        ...base.dog,
+        name: opts.dogName.trim() || base.dog.name,
+        breed: opts.dogBreed.trim() || base.dog.breed,
+      },
     },
-    created: true,
-  };
+    opts.kit
+  );
+  if ("error" in withKit) return withKit;
+
+  return { ...withKit, created: true };
 }
 
 export function normalizeWorld(world: PartyWorldSave): PartyWorldSave {
   const characters = { ...world.characters } as Record<PlayerSlot, CharacterSave>;
   for (const slot of PLAYER_SLOT_ORDER) {
-    if (!characters[slot]) characters[slot] = createBlankCharacter(slot);
-    if (!characters[slot].hotbar || characters[slot].hotbar.length < 3) {
-      characters[slot] = { ...characters[slot], hotbar: createEmptyHotbar() };
+    if (!characters[slot]) {
+      characters[slot] = createBlankCharacter(slot);
+      continue;
     }
+    const c = characters[slot];
+    const classId = coerceClassId(c.classId as string);
+    let next = classId !== c.classId ? { ...c, classId } : c;
+    if (!next.hotbar || next.hotbar.length < 3) {
+      next = { ...next, hotbar: createEmptyHotbar() };
+    }
+    characters[slot] = next;
   }
   return {
     ...world,

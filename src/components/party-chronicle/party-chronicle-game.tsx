@@ -40,6 +40,13 @@ import {
   loadWorld,
   writeWorld,
 } from "@/lib/downtown/party-chronicle/persist";
+import {
+  BLANK_BASE_STATS,
+  listCreateMagic,
+  listCreateSkills,
+  weaponsForClass,
+  magicSlotsForClass,
+} from "@/lib/downtown/party-chronicle/create";
 import { canUnlockNode, getAbility, SKILL_TREES } from "@/lib/downtown/party-chronicle/skills";
 import {
   chapterForNode,
@@ -294,9 +301,9 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   if (phase === "boot") {
     return (
       <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
-        <DowntownSubnav active="party" />
+        <DowntownSubnav active="neverworld" />
         <p className="text-sm" style={{ color: "var(--dt-muted)" }}>
-          Loading Chronicle…
+          Loading Neverworld…
         </p>
       </div>
     );
@@ -305,10 +312,10 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   if (phase === "title") {
     return (
       <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
-        <DowntownSubnav active="party" />
+        <DowntownSubnav active="neverworld" />
         <div className="pc-panel-jagged p-8 text-center space-y-4 max-w-lg mx-auto">
           <p className="pc-eyebrow">Haven PM · Downtown</p>
-          <h1 className="pc-title text-4xl md:text-5xl">Party Chronicle</h1>
+          <h1 className="pc-title text-4xl md:text-5xl">Neverworld</h1>
           <p className="text-sm leading-relaxed">
             Three heroes, three hounds, Justin → Rusty → Elisha. Choices steer Animal, Human, or Demon.
           </p>
@@ -344,7 +351,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           persist(next);
           const ready = PLAYER_SLOT_ORDER.every((s) => next.characters[s].created);
           setPhase(ready || char.created ? "play" : "create");
-          setFlash(ready ? "Party sealed — the Chronicle opens." : "Character sealed. Waiting on the others.");
+          setFlash(ready ? "Party sealed — Neverworld opens." : "Character sealed. Waiting on the others.");
         }}
         onBack={leaveToTitle}
       />
@@ -356,7 +363,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     const endNode = getStoryNode(world.campaignNodeId);
     return (
       <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
-        <DowntownSubnav active="party" />
+        <DowntownSubnav active="neverworld" />
         <div className="pc-ending space-y-4">
           <p className="pc-eyebrow" style={{ color: "var(--pc-cyan)" }}>
             Chronicle Complete
@@ -397,7 +404,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   if (!world || !storyNode) {
     return (
       <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
-        <DowntownSubnav active="party" />
+        <DowntownSubnav active="neverworld" />
         <p className="text-sm">Story node missing — reset the campaign.</p>
         {identity.isDm ? (
           <button type="button" className="pc-chip" onClick={resetCampaign}>
@@ -426,7 +433,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
 
   return (
     <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
-      <DowntownSubnav active="party" />
+      <DowntownSubnav active="neverworld" />
       {flash && (
         <div className="pc-turn-banner" role="status">
           {flash}
@@ -436,7 +443,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       <div className="pc-header-bar px-4 py-3 flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="pc-eyebrow text-[0.65rem]" style={{ color: "var(--pc-ink)" }}>
-            {chapter ? `Ch ${chapter.chapter} · ${chapter.title}` : "Party Chronicle"}
+            {chapter ? `Ch ${chapter.chapter} · ${chapter.title}` : "Neverworld"}
           </p>
           <h1 className="pc-title text-2xl md:text-3xl">{storyNode.title}</h1>
           <p className="text-xs font-bold">
@@ -942,18 +949,46 @@ function CreatePhase({
   onBack: () => void;
 }) {
   const def = SLOT_DEFAULTS[slot];
+  const initialClass = base.classId || def.suggestedClass;
+  const skills = useMemo(() => listCreateSkills(), []);
+  const magicOptions = useMemo(() => listCreateMagic(), []);
+
   const [name, setName] = useState(base.name || def.displayName);
-  const [classId, setClassId] = useState<ClassId>(base.classId || def.suggestedClass);
+  const [classId, setClassId] = useState<ClassId>(initialClass);
   const [dogName, setDogName] = useState(base.dog.name || def.dogName);
   const [dogBreed, setDogBreed] = useState(base.dog.breed || def.dogBreed);
   const [bumps, setBumps] = useState<Partial<Record<StatKey, number>>>({});
+  const weapons = useMemo(() => weaponsForClass(classId), [classId]);
+  const [weaponId, setWeaponId] = useState(() => weaponsForClass(initialClass)[0]?.id ?? "iron-sword");
+  const [skillId, setSkillId] = useState(skills[0]?.id ?? "ab-power-strike");
+  const [magicIds, setMagicIds] = useState<string[]>([]);
+  const [createError, setCreateError] = useState<string | null>(null);
+
+  const magicNeeded = magicSlotsForClass(classId);
+
+  useEffect(() => {
+    if (!weapons.some((w) => w.id === weaponId)) {
+      setWeaponId(weapons[0]?.id ?? "iron-sword");
+    }
+  }, [weapons, weaponId]);
+
+  useEffect(() => {
+    setMagicIds((prev) => {
+      if (prev.length === magicNeeded) return prev;
+      const next = prev.slice(0, magicNeeded);
+      while (next.length < magicNeeded && magicOptions[next.length]) {
+        next.push(magicOptions[next.length].id);
+      }
+      return next;
+    });
+  }, [classId, magicNeeded, magicOptions]);
 
   const spent = useMemo(
     () => STAT_KEYS.reduce((s, k) => s + (bumps[k] ?? 0), 0),
     [bumps]
   );
   const left = STAT_POINT_BUY_POOL - spent;
-  const preview = applyPointBuy(CLASS_DEFS[classId].baseStats, bumps, STAT_POINT_BUY_POOL);
+  const preview = applyPointBuy(BLANK_BASE_STATS, bumps, STAT_POINT_BUY_POOL);
 
   const bump = (key: StatKey, delta: number) => {
     const cur = bumps[key] ?? 0;
@@ -963,29 +998,48 @@ function CreatePhase({
     setBumps({ ...bumps, [key]: next });
   };
 
+  const toggleMagic = (id: string) => {
+    setMagicIds((prev) => {
+      if (prev.includes(id)) return prev.filter((m) => m !== id);
+      if (prev.length >= magicNeeded) {
+        // Replace oldest pick when at capacity (single-slot classes feel snappier).
+        return [...prev.slice(1), id];
+      }
+      return [...prev, id];
+    });
+  };
+
   const submit = () => {
-    const blank = createBlankCharacter(slot, classId);
-    const result = completeCharacterCreation(blank, {
+    setCreateError(null);
+    const result = completeCharacterCreation(base, {
       name,
       classId,
       dogName,
       dogBreed,
       statBumps: bumps,
       pool: STAT_POINT_BUY_POOL,
+      kit: { weaponId, skillAbilityId: skillId, magicAbilityIds: magicIds },
     });
-    if ("error" in result) return;
+    if ("error" in result) {
+      setCreateError(result.error);
+      return;
+    }
     onSave(result);
   };
 
+  const kitReady = Boolean(weaponId && skillId && magicIds.length === magicNeeded && left >= 0);
+
   return (
     <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
-      <DowntownSubnav active="party" />
+      <DowntownSubnav active="neverworld" />
       <div className="pc-header-bar px-4 py-3">
-        <h1 className="pc-title text-2xl">Character Creation — {def.displayName}</h1>
-        <p className="text-xs font-bold">Class starters fill ≥3 hotbar slots from landed skill trees.</p>
+        <h1 className="pc-title text-2xl">Neverworld — {def.displayName}</h1>
+        <p className="text-xs font-bold">
+          Blank stats · pick 1 weapon, 1 skill, and {magicNeeded} magic — wired to your hotbar.
+        </p>
       </div>
-      <div className="grid gap-4 md:grid-cols-2">
-        <div className="pc-panel p-4 pc-create-form">
+      <div className="grid gap-4 lg:grid-cols-3">
+        <div className="pc-panel p-4 pc-create-form space-y-2">
           <label htmlFor="pc-name">Hero name</label>
           <input id="pc-name" value={name} onChange={(e) => setName(e.target.value)} />
           <label htmlFor="pc-class">Class</label>
@@ -995,6 +1049,7 @@ function CreatePhase({
             onChange={(e) => {
               setClassId(e.target.value as ClassId);
               setBumps({});
+              setCreateError(null);
             }}
           >
             {CLASS_IDS.map((id) => (
@@ -1003,14 +1058,71 @@ function CreatePhase({
               </option>
             ))}
           </select>
-          <p className="text-xs mb-3">{CLASS_DEFS[classId].blurb}</p>
+          <p className="text-xs mb-2">{CLASS_DEFS[classId].blurb}</p>
           <label htmlFor="pc-dog">Hound</label>
           <input id="pc-dog" value={dogName} onChange={(e) => setDogName(e.target.value)} />
           <label htmlFor="pc-breed">Breed</label>
           <input id="pc-breed" value={dogBreed} onChange={(e) => setDogBreed(e.target.value)} />
         </div>
+
+        <div className="pc-panel p-4 space-y-3">
+          <p className="pc-eyebrow">Starter kit</p>
+          <div>
+            <p className="text-xs font-bold mb-1">Weapon (equipped)</p>
+            <div className="flex flex-wrap gap-1">
+              {weapons.map((w) => (
+                <button
+                  key={w.id}
+                  type="button"
+                  className="pc-chip text-[0.65rem]"
+                  data-active={weaponId === w.id}
+                  onClick={() => setWeaponId(w.id)}
+                >
+                  {w.name}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-bold mb-1">Skill (hotbar slot 1)</p>
+            <div className="flex flex-wrap gap-1">
+              {skills.map((s) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  className="pc-chip text-[0.65rem]"
+                  data-active={skillId === s.id}
+                  onClick={() => setSkillId(s.id)}
+                  title={s.blurb}
+                >
+                  {s.name}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-bold mb-1">
+              Magic ({magicIds.length}/{magicNeeded})
+            </p>
+            <div className="flex flex-wrap gap-1">
+              {magicOptions.map((m) => (
+                <button
+                  key={m.id}
+                  type="button"
+                  className="pc-chip text-[0.65rem]"
+                  data-active={magicIds.includes(m.id)}
+                  onClick={() => toggleMagic(m.id)}
+                  title={m.blurb}
+                >
+                  {m.name}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
         <div className="pc-panel p-4">
-          <p className="pc-eyebrow">Point buy — {left} left</p>
+          <p className="pc-eyebrow">Point buy — {left} left (all stats start at 8)</p>
           <div className="space-y-2">
             {STAT_KEYS.map((key) => (
               <div key={key} className="flex items-center gap-2">
@@ -1018,15 +1130,27 @@ function CreatePhase({
                 <button type="button" className="pc-chip px-2 py-0" onClick={() => bump(key, -1)}>
                   −
                 </button>
-                <span className="w-6 text-center font-bold">{preview?.[key] ?? CLASS_DEFS[classId].baseStats[key]}</span>
+                <span className="w-6 text-center font-bold">
+                  {preview?.[key] ?? BLANK_BASE_STATS[key]}
+                </span>
                 <button type="button" className="pc-chip px-2 py-0" onClick={() => bump(key, 1)}>
                   +
                 </button>
               </div>
             ))}
           </div>
+          {createError && (
+            <p className="text-xs font-bold mt-2" style={{ color: "var(--pc-magenta)" }}>
+              {createError}
+            </p>
+          )}
           <div className="flex gap-2 mt-4">
-            <button type="button" className="pc-primary-btn" disabled={left < 0} onClick={submit}>
+            <button
+              type="button"
+              className="pc-primary-btn"
+              disabled={!kitReady}
+              onClick={submit}
+            >
               Seal Character
             </button>
             <button type="button" className="pc-chip" onClick={onBack}>

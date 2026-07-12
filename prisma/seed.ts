@@ -160,7 +160,7 @@ async function main() {
     },
   });
 
-  // ─── Sims Real Life party players (login email; display name = character) ─
+  // ─── Neverworld party players (login email; display name = character) ─
   await prisma.user.create({
     data: {
       email: "player1@havenpm.com",
