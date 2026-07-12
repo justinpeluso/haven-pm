@@ -1,4 +1,11 @@
-import { DEFAULT_DOG_NAME, DOG_CUES_WIN, DOG_TRAINING_WIN, WIN_WEIGHT_LB } from "./data";
+import {
+  DEFAULT_DOG_NAME,
+  DOG_CUES_WIN,
+  DOG_TRAINING_WIN,
+  REQUIRED_WIN_CUES,
+  REQUIRED_WIN_TRAINING,
+  WIN_WEIGHT_LB,
+} from "./data";
 import type { PlayerSave, Quest, Stats } from "./types";
 
 export { STAT_KEYS } from "./types";
@@ -208,7 +215,7 @@ Disclaimer: this is a life-sim, not a care plan.`,
         id: "q5-dog",
         kind: "check",
         title: "Hound at Heel",
-        body: `Scout needs training ≥ ${DOG_TRAINING_WIN} and at least ${DOG_CUES_WIN} cues before the banner rises.`,
+        body: `Scout needs training ≥ ${REQUIRED_WIN_TRAINING} and win cues (${REQUIRED_WIN_CUES.join(", ")}) before the banner rises.`,
         checkId: "dog_partner_ready",
       },
       {
@@ -256,7 +263,10 @@ export function questCheckPasses(save: PlayerSave, checkId: string): boolean {
     case "dog_bond_40":
       return save.dog.bond >= 40;
     case "dog_partner_ready":
-      return save.dog.training >= DOG_TRAINING_WIN && save.dog.cuesLearned.length >= DOG_CUES_WIN;
+      return (
+        save.dog.training >= REQUIRED_WIN_TRAINING &&
+        REQUIRED_WIN_CUES.every((c) => save.dog.cuesLearned.includes(c))
+      );
     default:
       return false;
   }
