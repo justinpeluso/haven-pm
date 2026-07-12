@@ -36,10 +36,18 @@ export type CreateKitPicks = {
 export function magicSlotsForClass(classId: ClassId): number {
   switch (classId) {
     case "mage":
+    case "warlock":
+    case "sorcerer":
+    case "battlemage":
+    case "spellsword":
       return 2;
     case "healer":
+    case "priest":
+    case "druid":
+    case "monk":
       return 3;
     case "bard":
+    case "evoker":
       return 4;
     default:
       return 1;

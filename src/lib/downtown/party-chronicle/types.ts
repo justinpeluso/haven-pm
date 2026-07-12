@@ -7,7 +7,35 @@ export type Stats = Record<StatKey, number>;
 export const PLAYER_SLOT_ORDER = ["justin", "rusty", "elisha"] as const;
 export type PlayerSlot = (typeof PLAYER_SLOT_ORDER)[number];
 
-export const CLASS_IDS = ["warrior", "ranger", "mage", "rogue", "healer", "bard"] as const;
+export const CLASS_IDS = [
+  // Core fellowship
+  "warrior",
+  "ranger", // WoW Hunter
+  "mage",
+  "rogue", // Skyrim Thief
+  "healer",
+  "bard",
+  // WoW
+  "paladin",
+  "priest",
+  "deathknight",
+  "shaman",
+  "warlock",
+  "monk",
+  "druid",
+  "demonhunter",
+  "evoker",
+  // Skyrim
+  "assassin",
+  "battlemage",
+  "spellsword",
+  "nightblade",
+  "sorcerer",
+  "warden",
+  "necromancer",
+  "barbarian",
+  "knight",
+] as const;
 export type ClassId = (typeof CLASS_IDS)[number];
 
 export const EQUIP_SLOTS = ["head", "chest", "hands", "legs", "weapon", "offhand", "accessory"] as const;

@@ -678,22 +678,77 @@ export function listUnlockableNodes(character: CharacterSave): SkillNode[] {
 export const STARTER_SKILL_POINTS = 1;
 
 /** Legacy auto-starter — Neverworld create uses player picks via create.ts. */
+const COMBAT_STARTER = ["cmb-strike", "srv-bandage"] as const;
+const COMBAT_ABILITIES = ["ab-power-strike", "ab-field-bandage"] as const;
+const RANGER_STARTER = ["bst-bond", "cmb-strike"] as const;
+const RANGER_ABILITIES = ["ab-hound-bond", "ab-power-strike"] as const;
+const CASTER_STARTER = ["mag-spark", "mag-frost"] as const;
+const CASTER_ABILITIES = ["ab-arcane-spark", "ab-frostbite"] as const;
+const HEALER_STARTER = ["mag-spark", "mag-heal", "mag-ward"] as const;
+const HEALER_ABILITIES = ["ab-arcane-spark", "ab-lay-hands", "ab-novice-ward"] as const;
+const BARD_STARTER = ["mag-spark", "mag-frost", "mag-heal", "mag-ward"] as const;
+const BARD_ABILITIES = ["ab-arcane-spark", "ab-frostbite", "ab-lay-hands", "ab-novice-ward"] as const;
+const ROGUE_STARTER = ["spc-persuade", "cmb-strike"] as const;
+const ROGUE_ABILITIES = ["ab-silver-tongue", "ab-power-strike"] as const;
+const HYBRID_STARTER = ["cmb-strike", "mag-spark"] as const;
+const HYBRID_ABILITIES = ["ab-power-strike", "ab-arcane-spark"] as const;
+const SHAMAN_STARTER = ["mag-spark", "bst-bond", "mag-heal"] as const;
+const SHAMAN_ABILITIES = ["ab-arcane-spark", "ab-hound-bond", "ab-lay-hands"] as const;
+const BATTLEMAGE_STARTER = ["cmb-strike", "mag-spark", "mag-frost"] as const;
+const BATTLEMAGE_ABILITIES = ["ab-power-strike", "ab-arcane-spark", "ab-frostbite"] as const;
+
 export const CLASS_STARTER_NODES: Record<ClassId, string[]> = {
-  warrior: ["cmb-strike", "srv-bandage"],
-  ranger: ["bst-bond", "cmb-strike"],
-  mage: ["mag-spark", "mag-frost"],
-  healer: ["mag-spark", "mag-heal", "mag-ward"],
-  bard: ["mag-spark", "mag-frost", "mag-heal", "mag-ward"],
-  rogue: ["spc-persuade", "cmb-strike"],
+  warrior: [...COMBAT_STARTER],
+  ranger: [...RANGER_STARTER],
+  mage: [...CASTER_STARTER],
+  healer: [...HEALER_STARTER],
+  bard: [...BARD_STARTER],
+  rogue: [...ROGUE_STARTER],
+  paladin: [...COMBAT_STARTER],
+  priest: [...HEALER_STARTER],
+  deathknight: [...HYBRID_STARTER],
+  shaman: [...SHAMAN_STARTER],
+  warlock: [...CASTER_STARTER],
+  monk: [...HEALER_STARTER],
+  druid: [...HEALER_STARTER],
+  demonhunter: [...HYBRID_STARTER],
+  evoker: [...BARD_STARTER],
+  assassin: [...ROGUE_STARTER],
+  battlemage: [...BATTLEMAGE_STARTER],
+  spellsword: [...BATTLEMAGE_STARTER],
+  nightblade: [...HYBRID_STARTER],
+  sorcerer: [...CASTER_STARTER],
+  warden: [...RANGER_STARTER],
+  necromancer: [...CASTER_STARTER],
+  barbarian: [...COMBAT_STARTER],
+  knight: [...COMBAT_STARTER],
 };
 
 export const CLASS_STARTER_ABILITIES: Record<ClassId, string[]> = {
-  warrior: ["ab-power-strike", "ab-field-bandage"],
-  ranger: ["ab-hound-bond", "ab-power-strike"],
-  mage: ["ab-arcane-spark", "ab-frostbite"],
-  healer: ["ab-arcane-spark", "ab-lay-hands", "ab-novice-ward"],
-  bard: ["ab-arcane-spark", "ab-frostbite", "ab-lay-hands", "ab-novice-ward"],
-  rogue: ["ab-silver-tongue", "ab-power-strike"],
+  warrior: [...COMBAT_ABILITIES],
+  ranger: [...RANGER_ABILITIES],
+  mage: [...CASTER_ABILITIES],
+  healer: [...HEALER_ABILITIES],
+  bard: [...BARD_ABILITIES],
+  rogue: [...ROGUE_ABILITIES],
+  paladin: [...COMBAT_ABILITIES],
+  priest: [...HEALER_ABILITIES],
+  deathknight: [...HYBRID_ABILITIES],
+  shaman: [...SHAMAN_ABILITIES],
+  warlock: [...CASTER_ABILITIES],
+  monk: [...HEALER_ABILITIES],
+  druid: [...HEALER_ABILITIES],
+  demonhunter: [...HYBRID_ABILITIES],
+  evoker: [...BARD_ABILITIES],
+  assassin: [...ROGUE_ABILITIES],
+  battlemage: [...BATTLEMAGE_ABILITIES],
+  spellsword: [...BATTLEMAGE_ABILITIES],
+  nightblade: [...HYBRID_ABILITIES],
+  sorcerer: [...CASTER_ABILITIES],
+  warden: [...RANGER_ABILITIES],
+  necromancer: [...CASTER_ABILITIES],
+  barbarian: [...COMBAT_ABILITIES],
+  knight: [...COMBAT_ABILITIES],
 };
 
 /** Non-magic starter skills offered at character create. */

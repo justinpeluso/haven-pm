@@ -1,4 +1,4 @@
-import type { GearItem } from "./types";
+import type { ClassId, GearItem } from "./types";
 
 export const GEAR_CATALOG: GearItem[] = [
   // Common weapons / armor
@@ -529,21 +529,68 @@ export function gearCatalogStats(): Record<GearItem["tier"], number> {
   };
 }
 
-export const STARTER_GEAR_BY_CLASS: Record<string, string[]> = {
-  warrior: ["healing-potion", "trail-rations", "hound-treat"],
-  ranger: ["healing-potion", "trail-rations", "hound-treat"],
-  mage: ["mana-draught", "healing-potion", "hound-treat"],
-  healer: ["mana-draught", "healing-potion", "hound-treat"],
-  bard: ["mana-draught", "healing-potion", "hound-treat"],
-  rogue: ["healing-potion", "trail-rations", "hound-treat"],
+const PHYSICAL_STARTER = ["healing-potion", "trail-rations", "hound-treat"] as const;
+const CASTER_STARTER = ["mana-draught", "healing-potion", "hound-treat"] as const;
+
+const MELEE_WEAPONS = ["iron-sword", "hunting-bow", "oak-staff"] as const;
+const RANGED_WEAPONS = ["hunting-bow", "iron-sword", "bronze-dagger"] as const;
+const CASTER_WEAPONS = ["oak-staff", "sling-of-pebbles"] as const;
+const HYBRID_WEAPONS = ["iron-sword", "oak-staff", "hunting-bow"] as const;
+const STEALTH_WEAPONS = ["bronze-dagger", "iron-sword", "sling-of-pebbles"] as const;
+const SUPPORT_WEAPONS = ["oak-staff", "hunting-bow", "bronze-dagger"] as const;
+const HEALER_WEAPONS = ["oak-staff", "bronze-dagger"] as const;
+
+export const STARTER_GEAR_BY_CLASS: Record<ClassId, string[]> = {
+  warrior: [...PHYSICAL_STARTER],
+  ranger: [...PHYSICAL_STARTER],
+  mage: [...CASTER_STARTER],
+  rogue: [...PHYSICAL_STARTER],
+  healer: [...CASTER_STARTER],
+  bard: [...CASTER_STARTER],
+  paladin: [...PHYSICAL_STARTER],
+  priest: [...CASTER_STARTER],
+  deathknight: [...PHYSICAL_STARTER],
+  shaman: [...CASTER_STARTER],
+  warlock: [...CASTER_STARTER],
+  monk: [...CASTER_STARTER],
+  druid: [...CASTER_STARTER],
+  demonhunter: [...PHYSICAL_STARTER],
+  evoker: [...CASTER_STARTER],
+  assassin: [...PHYSICAL_STARTER],
+  battlemage: [...CASTER_STARTER],
+  spellsword: [...CASTER_STARTER],
+  nightblade: [...PHYSICAL_STARTER],
+  sorcerer: [...CASTER_STARTER],
+  warden: [...PHYSICAL_STARTER],
+  necromancer: [...CASTER_STARTER],
+  barbarian: [...PHYSICAL_STARTER],
+  knight: [...PHYSICAL_STARTER],
 };
 
 /** Level-1 weapon picks at character create. */
-export const CREATE_WEAPONS_BY_CLASS: Record<string, string[]> = {
-  warrior: ["iron-sword", "hunting-bow", "oak-staff"],
-  ranger: ["hunting-bow", "iron-sword", "bronze-dagger"],
-  mage: ["oak-staff", "sling-of-pebbles"],
-  healer: ["oak-staff", "bronze-dagger"],
-  bard: ["oak-staff", "hunting-bow", "bronze-dagger"],
-  rogue: ["bronze-dagger", "iron-sword", "sling-of-pebbles"],
+export const CREATE_WEAPONS_BY_CLASS: Record<ClassId, string[]> = {
+  warrior: [...MELEE_WEAPONS],
+  ranger: [...RANGED_WEAPONS],
+  mage: [...CASTER_WEAPONS],
+  rogue: [...STEALTH_WEAPONS],
+  healer: [...HEALER_WEAPONS],
+  bard: [...SUPPORT_WEAPONS],
+  paladin: [...MELEE_WEAPONS],
+  priest: [...HEALER_WEAPONS],
+  deathknight: [...MELEE_WEAPONS],
+  shaman: [...HEALER_WEAPONS, "iron-sword"],
+  warlock: [...CASTER_WEAPONS],
+  monk: [...HEALER_WEAPONS, "iron-sword"],
+  druid: [...HEALER_WEAPONS, "hunting-bow"],
+  demonhunter: [...STEALTH_WEAPONS, "hunting-bow"],
+  evoker: [...SUPPORT_WEAPONS],
+  assassin: [...STEALTH_WEAPONS],
+  battlemage: [...HYBRID_WEAPONS],
+  spellsword: [...HYBRID_WEAPONS],
+  nightblade: [...STEALTH_WEAPONS, "oak-staff"],
+  sorcerer: [...CASTER_WEAPONS],
+  warden: [...RANGED_WEAPONS, "oak-staff"],
+  necromancer: [...CASTER_WEAPONS],
+  barbarian: [...MELEE_WEAPONS],
+  knight: [...MELEE_WEAPONS],
 };
