@@ -566,7 +566,18 @@ export function advanceDay(save: PlayerSave): ActionResult {
     };
   }
 
-  const msg = `Day ${next.day}. ${note} Weight now ${newWeight.toFixed(1)} lb.${weightDrama} Pay stub +$${stipend}. Energy restored.`;
+  let perfect = "";
+  if (
+    save.dayResistance &&
+    save.dayCalories >= estimateTdee(save) &&
+    save.dog.fedToday &&
+    save.dog.walkedToday
+  ) {
+    next = { ...next, xp: next.xp + 12, money: next.money + 5 };
+    perfect = " Perfect day banner: surplus + iron + hound (+12 XP, +$5).";
+  }
+
+  const msg = `Day ${next.day}. ${note} Weight now ${newWeight.toFixed(1)} lb.${weightDrama} Pay stub +$${stipend}. Energy restored.${perfect}`;
   next = pushLog(next, msg);
   next = advanceQuest(next);
 

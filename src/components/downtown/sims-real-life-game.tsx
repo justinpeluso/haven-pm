@@ -20,12 +20,15 @@ import {
   abilityMod,
   acknowledgeQuestStep,
   advanceDay,
+  checkVictory,
   currentQuestStep,
   dogCare,
   doExercise,
   eatMeal,
   estimateTdee,
+  magicFocus,
   rest,
+  socialOuting,
 } from "@/lib/downtown/sims-real-life/engine";
 import {
   clearSave,
@@ -55,7 +58,7 @@ import { SIMS_CLASS } from "@/components/sims-real-life";
 import { DowntownSubnav } from "./downtown-subnav";
 
 type UiPhase = "boot" | "title" | "play" | "graduated";
-type ActionTab = "feed" | "train" | "dog" | "rest" | "tips";
+type ActionTab = "feed" | "train" | "dog" | "camp" | "tips";
 
 type RollDrama = NonNullable<LastRoll> & { message: string };
 
@@ -171,7 +174,13 @@ function DiceDramaOverlay({ drama, onDone }: { drama: RollDrama; onDone: () => v
         : "Fail-forward";
 
   return (
-    <div className="sims-dice-overlay" role="dialog" aria-label="Dice roll">
+    <button
+      type="button"
+      className="sims-dice-overlay"
+      role="dialog"
+      aria-label="Dice roll — click to continue"
+      onClick={() => onDoneRef.current()}
+    >
       <div className={`sims-dice-card ${SIMS_CLASS.panel}`}>
         <p className="text-[0.7rem] uppercase tracking-[0.18em]" style={{ color: "var(--dt-accent)" }}>
           {drama.label ?? STAT_LABELS[drama.stat]} check
@@ -189,8 +198,11 @@ function DiceDramaOverlay({ drama, onDone }: { drama: RollDrama; onDone: () => v
         <p className="mt-3 text-xs leading-relaxed" style={{ color: "var(--dt-muted)" }}>
           {drama.message}
         </p>
+        <p className="pt-2 text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--dt-accent)" }}>
+          Tap to continue
+        </p>
       </div>
-    </div>
+    </button>
   );
 }
 
@@ -502,11 +514,21 @@ export function SimsRealLifeGame() {
               {save.name} · {save.age}
             </h1>
             <p className="text-xs" style={{ color: "var(--dt-muted)" }}>
-              Day {save.day} · Turn {save.turn} · {save.xp} XP · phase {save.phase}
+              Day {save.day} · Turn {save.turn} · {save.xp} XP · {FLAVOR_LINES[flavorIdx]}
             </p>
           </div>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 items-center">
+          {!checkVictory(save) && save.weightLb >= WIN_WEIGHT_LB - 3 && (
+            <span className="downtown-chip text-xs" style={{ color: "var(--dt-good)", borderColor: "var(--dt-good)" }}>
+              Scale closing in
+            </span>
+          )}
+          {dogWinPct >= 70 && !checkVictory(save) && (
+            <span className="downtown-chip text-xs" style={{ color: "var(--dt-accent)", borderColor: "var(--dt-accent)" }}>
+              Hound nearly ready
+            </span>
+          )}
           <button type="button" className="downtown-chip text-xs" onClick={resetRun}>
             Reset run
           </button>
@@ -536,7 +558,7 @@ export function SimsRealLifeGame() {
       {journalStep?.kind === "narrative" && (
         <div className={`${SIMS_CLASS.parchment} px-4 py-4 space-y-3 sims-roll-pop`}>
           <p className="text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--dt-accent)" }}>
-            Quest scroll · read to advance
+            Quest journal · read to advance
           </p>
           <h2 className={`text-xl ${SIMS_CLASS.title}`}>{journalStep.title}</h2>
           <RichText text={journalStep.body} />
@@ -662,11 +684,11 @@ export function SimsRealLifeGame() {
           <div className="flex flex-wrap gap-2 border-b border-[var(--dt-line)] pb-3">
             {(
               [
-                ["feed", "Feed"],
-                ["train", "Train body"],
-                ["dog", "Dog"],
-                ["rest", "Rest"],
-                ["tips", "Tips / Log"],
+                ["feed", "Feast"],
+                ["train", "Trials"],
+                ["dog", "Hound"],
+                ["camp", "Camp"],
+                ["tips", "Codex"],
               ] as const
             ).map(([id, label]) => (
               <button
@@ -929,12 +951,12 @@ export function SimsRealLifeGame() {
             </div>
           )}
 
-          {tab === "rest" && (
+          {tab === "camp" && (
             <div className="space-y-4">
               <div className="space-y-1">
-                <h2 className="text-xl">Rest</h2>
+                <h2 className={`text-xl ${SIMS_CLASS.title}`}>Camp & life magic</h2>
                 <p className="text-xs" style={{ color: "var(--dt-muted)" }}>
-                  Nap to recover mid-day energy, or advance the day to apply the weight model and reset dog care flags.
+                  Short rest, downtown charm quests, mindfulness focus — then end the day for the weigh-in.
                 </p>
               </div>
               <button
@@ -942,9 +964,38 @@ export function SimsRealLifeGame() {
                 className={`w-full text-left p-4 space-y-1 ${SIMS_CLASS.actionRow}`}
                 onClick={() => applyResult(rest(save))}
               >
-                <span className="block text-sm font-medium">Rest break</span>
+                <span className="block text-sm font-medium">Short rest</span>
+                <span className="block text-[0.65rem] uppercase tracking-[0.1em]" style={{ color: "var(--dt-accent)" }}>
+                  Recover energy
+                </span>
                 <span className="block text-xs" style={{ color: "var(--dt-muted)" }}>
-                  Recover energy from CON. {save.dog.name} dozes. Same day continues.
+                  CON restores stamina. {save.dog.name} dozes at your boots. Same day continues.
+                </span>
+              </button>
+              <button
+                type="button"
+                className={`w-full text-left p-4 space-y-1 ${SIMS_CLASS.actionRow}`}
+                onClick={() => applyResult(socialOuting(save))}
+              >
+                <span className="block text-sm font-medium">Downtown charm quest</span>
+                <span className="block text-[0.65rem] uppercase tracking-[0.1em]" style={{ color: "var(--dt-accent)" }}>
+                  Charisma check · side quest
+                </span>
+                <span className="block text-xs" style={{ color: "var(--dt-muted)" }}>
+                  Talk your way into snacks, tips, or coin. Fail-forward still feeds the surplus a little.
+                </span>
+              </button>
+              <button
+                type="button"
+                className={`w-full text-left p-4 space-y-1 ${SIMS_CLASS.actionRow}`}
+                onClick={() => applyResult(magicFocus(save))}
+              >
+                <span className="block text-sm font-medium">Circle of Clarity</span>
+                <span className="block text-[0.65rem] uppercase tracking-[0.1em]" style={{ color: "var(--dt-accent)" }}>
+                  Magic · mindfulness focus
+                </span>
+                <span className="block text-xs" style={{ color: "var(--dt-muted)" }}>
+                  Breath, visualization, notebook — restore energy and soft Magic/Wisdom bumps.
                 </span>
               </button>
               <button
@@ -954,16 +1005,17 @@ export function SimsRealLifeGame() {
                 onClick={() => applyResult(advanceDay(save))}
               >
                 <span className="block text-sm font-medium" style={{ color: "var(--dt-good)" }}>
-                  End day {save.day}
+                  End day {save.day} — campfire weigh-in
                 </span>
                 <span className="block text-xs" style={{ color: "var(--dt-muted)" }}>
-                  Apply surplus → weight tick, restore energy, reset fed/walked. Today: {save.dayCalories} / ~{tdee}{" "}
-                  kcal
-                  {save.dayResistance ? " · resistance ✓" : ""}
-                  {save.dayCardioOnly ? " · cardio-only" : ""}.
+                  Apply surplus → weight tick, restore energy, reset her fed/walked. Today: {save.dayCalories} / ~
+                  {tdee} kcal
+                  {save.dayResistance ? " · iron ✓" : ""}
+                  {save.dayCardioOnly ? " · wind only" : ""}
+                  {save.dog.fedToday && save.dog.walkedToday ? " · hound cared ✓" : " · hound needs you"}.
                 </span>
               </button>
-              <p className="text-xs italic" style={{ color: "var(--dt-muted)" }}>
+              <p className={`text-xs italic ${SIMS_CLASS.parchment} p-3`} style={{ color: "var(--dt-muted)" }}>
                 {FLAVOR_LINES[flavorIdx]}
               </p>
             </div>

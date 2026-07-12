@@ -32,10 +32,15 @@ export function researchStepsForCue(cueId: string): string[] {
 /** Rotating one-liners for empty moments / juice. */
 export const FLAVOR_LINES = [
   "The scale is a quest marker, not a villain.",
-  "Scout’s ears are radar dishes set to ‘treat?’",
+  "Her ears are radar dishes set to ‘treat?’",
   "Magic here means breath, focus, and choosing the next good rep.",
   "A bored Shepherd invents hobbies. A trained one invents high-fives.",
   "Surplus is patience wearing a fork.",
   "Fail-forward is still forward — the d20 just gossiped.",
   "1½ years old: all the drama of a teenager, all the loyalty of a legend.",
+  "Daybreak Rations taste better after Trials of Iron.",
+  "Loose leash is a love language.",
+  "Natural 20s are rare. Showing up is legendary.",
+  "Campfire weigh-ins never lie — they just take their time.",
+  "Charisma opens doors. Protein fills the doorway.",
 ] as const;
