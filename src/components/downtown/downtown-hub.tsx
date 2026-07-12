@@ -217,6 +217,20 @@ export function DowntownHub({ initial, stats, compare }: Props) {
           {stats.count} central business districts across western PA and nearby Ohio.
           Search is fuzzy across town, CBD name, county, and tags — try “Beaver” or “Third Street”.
         </p>
+        <div className="downtown-hub-legend max-w-3xl pt-1">
+          <span>
+            <strong>Market intel</strong> — CBD isolation, demographics, mix &amp; directory
+          </span>
+          <span>
+            <strong>News</strong> — local CBD coverage
+          </span>
+          <span>
+            <strong>Gallery</strong> — street &amp; storefront photos
+          </span>
+          <span>
+            <strong>Historical Properties</strong> — building dossiers
+          </span>
+        </div>
       </header>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

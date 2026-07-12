@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
 import type {
   BusinessMix,
@@ -45,6 +45,8 @@ const DOC_KIND_LABEL: Record<DowntownDocument["kind"], string> = {
   other: "Scan",
 };
 
+const HISTORY_PREVIEW_CHARS = 520;
+
 function MixBars({ mix }: { mix: BusinessMix }) {
   const entries: [string, number][] = [
     ["Food", mix.food],
@@ -65,6 +67,42 @@ function MixBars({ mix }: { mix: BusinessMix }) {
           <span className="downtown-stat text-right">{pct}%</span>
         </div>
       ))}
+    </div>
+  );
+}
+
+function SectionLabel({ children }: { children: ReactNode }) {
+  return <h2 className="downtown-section-label">{children}</h2>;
+}
+
+function ExpandableText({
+  text,
+  limit = HISTORY_PREVIEW_CHARS,
+  className = "",
+}: {
+  text: string;
+  limit?: number;
+  className?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const needsTruncation = text.length > limit;
+  const shown =
+    !needsTruncation || open
+      ? text
+      : `${text.slice(0, limit).replace(/\s+\S*$/, "").trimEnd()}…`;
+
+  return (
+    <div className={className}>
+      <p className="downtown-prose whitespace-pre-line">{shown}</p>
+      {needsTruncation && (
+        <button
+          type="button"
+          className="downtown-read-more mt-2"
+          onClick={() => setOpen((v) => !v)}
+        >
+          {open ? "Show less" : "Read more"}
+        </button>
+      )}
     </div>
   );
 }
@@ -140,8 +178,20 @@ export function DowntownDetail({
 
   const radiusMi = Math.round((initialDowntown.radiusM / 1609.34) * 100) / 100;
 
+  const overviewBody = useMemo(() => {
+    const overview = (profile.overview || "").trim();
+    const isolation = (profile.isolationBrief || "").trim();
+    if (!overview) return isolation;
+    if (!isolation) return overview;
+    if (overview.startsWith(isolation) || overview === isolation) return overview;
+    return `${isolation}\n\n${overview}`;
+  }, [profile.overview, profile.isolationBrief]);
+
+  const historyText =
+    profile.history?.trim() || "History notes will appear after the intel cache is built.";
+
   return (
-    <div className="downtown-shell space-y-6">
+    <div className="downtown-shell downtown-detail space-y-8">
       <DowntownSubnav active="intel" />
       <div className="text-sm" style={{ color: "var(--dt-muted)" }}>
         <Link href="/downtown" className="underline decoration-[var(--dt-line)] underline-offset-2">
@@ -149,7 +199,8 @@ export function DowntownDetail({
         </Link>
       </div>
 
-      <header className="space-y-3 border-b border-[var(--dt-line)] pb-5">
+      {/* 1. Hero + CBD isolation / market overview */}
+      <header className="space-y-4 border-b border-[var(--dt-line)] pb-6">
         <div className="flex flex-wrap items-center gap-2">
           <span className="downtown-chip" data-active="true">
             {metrics.dataSource === "osm" ? "OSM live" : "Baseline directory"}
@@ -182,17 +233,10 @@ export function DowntownDetail({
         )}
       </header>
 
-      <div className="downtown-panel p-5 space-y-4">
+      <section className="downtown-panel p-5 space-y-5">
         <div>
-          <h2
-            className="text-[0.65rem] uppercase tracking-[0.14em]"
-            style={{ color: "var(--dt-accent)" }}
-          >
-            Market overview
-          </h2>
-          <div className="mt-2 max-w-3xl space-y-3 text-sm leading-relaxed whitespace-pre-line">
-            {profile.overview || profile.isolationBrief}
-          </div>
+          <SectionLabel>CBD isolation · market overview</SectionLabel>
+          <ExpandableText text={overviewBody} limit={640} className="mt-3 max-w-3xl" />
           {profile.wikiUrl && (
             <a
               href={profile.wikiUrl}
@@ -216,67 +260,41 @@ export function DowntownDetail({
           </div>
         )}
 
-        <div className="grid gap-4 md:grid-cols-3 border-t border-[var(--dt-line)] pt-4">
+        <div className="grid gap-5 md:grid-cols-3 border-t border-[var(--dt-line)] pt-5">
           <div>
-            <div
-              className="text-[0.65rem] uppercase tracking-[0.12em]"
-              style={{ color: "var(--dt-muted)" }}
-            >
-              Primary corridors
-            </div>
-            <ul className="mt-2 space-y-1 text-sm">
+            <div className="downtown-meta-label">Primary corridors</div>
+            <ul className="mt-2 space-y-1 text-sm leading-relaxed">
               {profile.primaryCorridors.map((c) => (
                 <li key={c}>· {c}</li>
               ))}
             </ul>
           </div>
           <div>
-            <div
-              className="text-[0.65rem] uppercase tracking-[0.12em]"
-              style={{ color: "var(--dt-muted)" }}
-            >
-              Landmarks / anchors
-            </div>
-            <ul className="mt-2 space-y-1 text-sm">
+            <div className="downtown-meta-label">Landmarks / anchors</div>
+            <ul className="mt-2 space-y-1 text-sm leading-relaxed">
               {profile.landmarks.map((c) => (
                 <li key={c}>· {c}</li>
               ))}
             </ul>
           </div>
           <div>
-            <div
-              className="text-[0.65rem] uppercase tracking-[0.12em]"
-              style={{ color: "var(--dt-muted)" }}
-            >
-              Market notes
-            </div>
+            <div className="downtown-meta-label">Market notes</div>
             <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--dt-muted)" }}>
               {profile.marketNotes}
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      {/* 2. History + demographics */}
+      <section className="grid gap-5 lg:grid-cols-2">
         <div className="downtown-panel p-5">
-          <h2
-            className="text-[0.65rem] uppercase tracking-[0.14em]"
-            style={{ color: "var(--dt-accent)" }}
-          >
-            Town history
-          </h2>
-          <p className="mt-3 text-sm leading-relaxed whitespace-pre-line">
-            {profile.history || "History notes will appear after the intel cache is built."}
-          </p>
+          <SectionLabel>Town history</SectionLabel>
+          <ExpandableText text={historyText} className="mt-3" />
         </div>
         <div className="downtown-panel p-5 space-y-4">
-          <h2
-            className="text-[0.65rem] uppercase tracking-[0.14em]"
-            style={{ color: "var(--dt-accent)" }}
-          >
-            Current demographics
-          </h2>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          <SectionLabel>Current demographics</SectionLabel>
+          <div className="grid grid-cols-2 gap-px overflow-hidden border border-[var(--dt-line)] bg-[var(--dt-line)] sm:grid-cols-3">
             {[
               {
                 label: "Pop. 2023",
@@ -309,20 +327,19 @@ export function DowntownDetail({
                   : "—",
               },
             ].map((stat) => (
-              <div key={stat.label} className="border border-[var(--dt-line)] p-3">
-                <div
-                  className="text-[0.65rem] uppercase tracking-[0.12em]"
-                  style={{ color: "var(--dt-muted)" }}
-                >
-                  {stat.label}
-                </div>
-                <div className="downtown-stat mt-1 text-lg">{stat.value}</div>
+              <div key={stat.label} className="bg-[var(--dt-panel)] px-3 py-2.5">
+                <div className="downtown-meta-label">{stat.label}</div>
+                <div className="downtown-stat mt-0.5 text-base">{stat.value}</div>
               </div>
             ))}
           </div>
-          <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: "var(--dt-muted)" }}>
-            {profile.demographicsNarrative}
-          </p>
+          {profile.demographicsNarrative?.trim() && (
+            <ExpandableText
+              text={profile.demographicsNarrative}
+              limit={360}
+              className="text-[var(--dt-muted)]"
+            />
+          )}
           {profile.demographics?.source && (
             <p className="text-[0.65rem]" style={{ color: "var(--dt-muted)" }}>
               Source: {profile.demographics.source}
@@ -330,45 +347,70 @@ export function DowntownDetail({
             </p>
           )}
         </div>
-      </div>
+      </section>
 
-      {youtube?.videoId ? (
-        <div className="downtown-panel p-5 space-y-3">
-          <h2
-            className="text-[0.65rem] uppercase tracking-[0.14em]"
-            style={{ color: "var(--dt-accent)" }}
-          >
-            Town history on video
-          </h2>
-          <div className="relative w-full overflow-hidden border border-[var(--dt-line)] bg-black/40 aspect-video">
-            <iframe
-              title={youtube.title || "Town history video"}
-              src={`https://www.youtube-nocookie.com/embed/${youtube.videoId}`}
-              className="absolute inset-0 h-full w-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="strict-origin-when-cross-origin"
-            />
+      {/* 3. KPIs */}
+      <section className="downtown-panel downtown-kpi-strip">
+        <div className="downtown-kpi">
+          <div className="downtown-meta-label">Vibrancy</div>
+          <div className="downtown-stat mt-1.5 text-2xl" style={{ color: "var(--dt-good)" }}>
+            {metrics.vibrancy}
           </div>
-          <p className="text-sm leading-snug">
-            {youtube.title}
-            {youtube.channelTitle ? (
-              <span style={{ color: "var(--dt-muted)" }}> · {youtube.channelTitle}</span>
-            ) : null}
+          <div className="downtown-bar mt-2.5">
+            <span style={{ width: `${metrics.vibrancy}%` }} />
+          </div>
+        </div>
+        <div className="downtown-kpi">
+          <div className="downtown-meta-label">Vacancy estimate</div>
+          <div className="downtown-stat mt-1.5 text-2xl" style={{ color: "var(--dt-warn)" }}>
+            {metrics.vacancyEstimate}%
+          </div>
+          <p className="mt-2 text-xs" style={{ color: "var(--dt-muted)" }}>
+            Density / mix estimate — not a lease survey.
           </p>
         </div>
-      ) : null}
+        <div className="downtown-kpi">
+          <div className="downtown-meta-label">Directory listings</div>
+          <div className="downtown-stat mt-1.5 text-2xl">{businesses.length}</div>
+          <p className="mt-2 text-xs" style={{ color: "var(--dt-muted)" }}>
+            Named businesses in this CBD snapshot
+          </p>
+        </div>
+      </section>
 
-      {documents.length > 0 ? (
-        <div className="downtown-panel p-5 space-y-4">
-          <h2
-            className="text-[0.65rem] uppercase tracking-[0.14em]"
-            style={{ color: "var(--dt-accent)" }}
-          >
-            Documents & scans
-          </h2>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {/* 4. YouTube */}
+      <section>
+        <SectionLabel>Town history on video</SectionLabel>
+        {youtube?.videoId ? (
+          <div className="mt-3 space-y-2.5">
+            <div className="relative w-full overflow-hidden border border-[var(--dt-line)] bg-black/40 aspect-video">
+              <iframe
+                title={youtube.title || "Town history video"}
+                src={`https://www.youtube-nocookie.com/embed/${youtube.videoId}`}
+                className="absolute inset-0 h-full w-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="strict-origin-when-cross-origin"
+              />
+            </div>
+            <p className="text-sm leading-snug">
+              {youtube.title}
+              {youtube.channelTitle ? (
+                <span style={{ color: "var(--dt-muted)" }}> · {youtube.channelTitle}</span>
+              ) : null}
+            </p>
+          </div>
+        ) : (
+          <p className="downtown-empty mt-2">No history video curated for this downtown yet.</p>
+        )}
+      </section>
+
+      {/* 5. Documents & scans */}
+      <section>
+        <SectionLabel>Documents & scans</SectionLabel>
+        {documents.length > 0 ? (
+          <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {documents.map((doc) => (
               <a
                 key={`${doc.url}-${doc.title}`}
@@ -395,68 +437,34 @@ export function DowntownDetail({
                     {doc.year ? <span className="downtown-chip">{doc.year}</span> : null}
                   </div>
                   <div className="text-sm leading-snug line-clamp-2">{doc.title}</div>
-                  <div className="text-[0.65rem] uppercase tracking-[0.1em]" style={{ color: "var(--dt-muted)" }}>
+                  <div
+                    className="text-[0.65rem] uppercase tracking-[0.1em]"
+                    style={{ color: "var(--dt-muted)" }}
+                  >
                     {doc.source}
                   </div>
                 </div>
               </a>
             ))}
           </div>
-        </div>
-      ) : null}
-
-      <div className="downtown-panel p-5">
-        <h2
-          className="text-[0.65rem] uppercase tracking-[0.14em]"
-          style={{ color: "var(--dt-accent)" }}
-        >
-          CBD isolation
-        </h2>
-        <p className="mt-2 max-w-3xl text-sm leading-relaxed">{profile.isolationBrief}</p>
-      </div>
-
-      <div className="grid gap-3 sm:grid-cols-3">
-        <div className="downtown-panel p-4">
-          <div className="text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--dt-muted)" }}>
-            Vibrancy
-          </div>
-          <div className="downtown-stat mt-2 text-3xl" style={{ color: "var(--dt-good)" }}>
-            {metrics.vibrancy}
-          </div>
-          <div className="downtown-bar mt-3">
-            <span style={{ width: `${metrics.vibrancy}%` }} />
-          </div>
-        </div>
-        <div className="downtown-panel p-4">
-          <div className="text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--dt-muted)" }}>
-            Vacancy estimate
-          </div>
-          <div className="downtown-stat mt-2 text-3xl" style={{ color: "var(--dt-warn)" }}>
-            {metrics.vacancyEstimate}%
-          </div>
-          <p className="mt-2 text-xs" style={{ color: "var(--dt-muted)" }}>
-            Estimate from density / mix — not a lease survey.
+        ) : (
+          <p className="downtown-empty mt-2">
+            No founding maps, Sanborns, or plan scans linked for this downtown yet.
           </p>
-        </div>
-        <div className="downtown-panel p-4">
-          <div className="text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--dt-muted)" }}>
-            Directory listings
-          </div>
-          <div className="downtown-stat mt-2 text-3xl">{businesses.length}</div>
-          <p className="mt-2 text-xs" style={{ color: "var(--dt-muted)" }}>
-            Named businesses in this CBD snapshot
-          </p>
-        </div>
-      </div>
+        )}
+      </section>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      {/* 6. Mix / peers / directory */}
+      <section className="grid gap-5 lg:grid-cols-2">
         <div className="downtown-panel p-4">
-          <h2 className="mb-3 text-sm font-medium">Business type mix</h2>
-          <MixBars mix={metrics.mix} />
+          <SectionLabel>Business type mix</SectionLabel>
+          <div className="mt-3">
+            <MixBars mix={metrics.mix} />
+          </div>
         </div>
         <div className="downtown-panel p-4">
-          <h2 className="mb-3 text-sm font-medium">Compared to US peer downtowns</h2>
-          <ul className="space-y-2 text-sm">
+          <SectionLabel>Compared to US peer downtowns</SectionLabel>
+          <ul className="mt-3 space-y-2 text-sm">
             {peers.map((p) => (
               <li
                 key={p.id}
@@ -477,20 +485,20 @@ export function DowntownDetail({
             ))}
           </ul>
         </div>
-      </div>
+      </section>
 
-      <div className="downtown-panel overflow-hidden">
+      <section className="downtown-panel overflow-hidden">
         <div className="border-b border-[var(--dt-line)] p-4">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <h2 className="text-sm font-medium">Business directory</h2>
-              <p className="text-xs" style={{ color: "var(--dt-muted)" }}>
+              <SectionLabel>Business directory</SectionLabel>
+              <p className="mt-1 text-xs" style={{ color: "var(--dt-muted)" }}>
                 Names, streets, and notes for this isolation
                 {metrics.dataSource === "osm" ? " (OpenStreetMap enriched)" : " (baseline sample)"}
               </p>
             </div>
             <input
-              className="downtown-input max-w-xs"
+              className="downtown-input downtown-input-compact max-w-xs"
               placeholder="Filter businesses…"
               value={bizQ}
               onChange={(e) => setBizQ(e.target.value)}
@@ -516,7 +524,10 @@ export function DowntownDetail({
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div>
                   <div className="font-medium">{p.name}</div>
-                  <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs" style={{ color: "var(--dt-muted)" }}>
+                  <div
+                    className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs"
+                    style={{ color: "var(--dt-muted)" }}
+                  >
                     <span className="uppercase tracking-wide">{p.category}</span>
                     {p.street && <span>{p.street}</span>}
                     {p.cuisine && <span>Cuisine: {p.cuisine}</span>}
@@ -555,7 +566,7 @@ export function DowntownDetail({
             </li>
           )}
         </ul>
-      </div>
+      </section>
     </div>
   );
 }
