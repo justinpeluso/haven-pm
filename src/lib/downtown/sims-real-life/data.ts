@@ -23,8 +23,9 @@ export const REQUIRED_WIN_TRAINING = 20;
 export const DOG_TRAINING_WIN = REQUIRED_WIN_TRAINING;
 export const DOG_CUES_WIN = REQUIRED_WIN_CUES.length;
 
-export const TDEE_MIN = 2200;
-export const TDEE_MAX = 2600;
+/** Soft maintenance band — 3–4 solid meals should clear surplus on a lifting day. */
+export const TDEE_MIN = 2000;
+export const TDEE_MAX = 2400;
 
 export const NOT_MEDICAL_ADVICE =
   "Educational game fiction only — not medical, veterinary, or nutrition advice. Talk to qualified professionals before changing diet, training, or pet care.";
@@ -38,8 +39,8 @@ export const MEALS: Meal[] = [
     calories: 520,
     proteinG: 32,
     cost: 4,
-    energyCost: 4,
-    tags: ["breakfast", "high-protein"],
+    energyCost: 1,
+    tags: ["breakfast", "high-protein", "surplus"],
   },
   {
     id: "chicken-rice",
@@ -49,9 +50,9 @@ export const MEALS: Meal[] = [
     calories: 680,
     proteinG: 48,
     cost: 7,
-    energyCost: 5,
+    energyCost: 2,
     mealPrepBonus: 1,
-    tags: ["lunch", "dinner", "meal-prep"],
+    tags: ["lunch", "dinner", "meal-prep", "surplus"],
   },
   {
     id: "greek-yogurt-bowl",
@@ -61,7 +62,7 @@ export const MEALS: Meal[] = [
     calories: 380,
     proteinG: 28,
     cost: 5,
-    energyCost: 2,
+    energyCost: 0,
     tags: ["snack", "high-protein"],
   },
   {
@@ -72,8 +73,8 @@ export const MEALS: Meal[] = [
     calories: 720,
     proteinG: 42,
     cost: 11,
-    energyCost: 6,
-    tags: ["dinner"],
+    energyCost: 2,
+    tags: ["dinner", "surplus"],
   },
   {
     id: "shake-pb",
@@ -83,8 +84,8 @@ export const MEALS: Meal[] = [
     calories: 450,
     proteinG: 36,
     cost: 6,
-    energyCost: 1,
-    tags: ["snack", "shake"],
+    energyCost: 0,
+    tags: ["snack", "shake", "surplus"],
   },
   {
     id: "meal-prep-box",
@@ -94,8 +95,8 @@ export const MEALS: Meal[] = [
     calories: 640,
     proteinG: 45,
     cost: 0,
-    energyCost: 2,
-    tags: ["meal-prep", "lunch", "dinner"],
+    energyCost: 1,
+    tags: ["meal-prep", "lunch", "dinner", "surplus"],
   },
   {
     id: "burger-fries",
@@ -105,8 +106,19 @@ export const MEALS: Meal[] = [
     calories: 900,
     proteinG: 28,
     cost: 14,
-    energyCost: 3,
-    tags: ["dinner", "convenience"],
+    energyCost: 1,
+    tags: ["dinner", "convenience", "surplus"],
+  },
+  {
+    id: "pasta-meat",
+    name: "Guildhall Pasta",
+    subtitle: "Pasta & meat sauce",
+    blurb: "Comfort carbs with enough protein to keep the surplus honest.",
+    calories: 700,
+    proteinG: 35,
+    cost: 8,
+    energyCost: 1,
+    tags: ["dinner", "surplus", "comfort"],
   },
 ];
 
@@ -311,10 +323,10 @@ export const DOG_ACTIONS: DogAction[] = [
 
 export const DOG_CUES: DogCue[] = [
   { id: "sit", name: "Sit", blurb: "Default polite pause.", trainingRequired: 0 },
-  { id: "stay", name: "Stay", blurb: "Hold position until released.", trainingRequired: 8 },
-  { id: "come", name: "Come", blurb: "Reliable recall.", trainingRequired: 18 },
-  { id: "heel", name: "Heel", blurb: "Walk with you, not through you.", trainingRequired: 28 },
-  { id: "place", name: "Place", blurb: "Settle on a mat — house manners gold.", trainingRequired: 36 },
+  { id: "stay", name: "Stay", blurb: "Hold position until released.", trainingRequired: 6 },
+  { id: "come", name: "Come", blurb: "Reliable recall.", trainingRequired: 12 },
+  { id: "heel", name: "Heel", blurb: "Walk with you, not through you.", trainingRequired: 20 },
+  { id: "place", name: "Place", blurb: "Settle on a mat — house manners gold.", trainingRequired: 28 },
 ];
 
 export const NUTRITION_TIPS: Tip[] = [
@@ -322,7 +334,7 @@ export const NUTRITION_TIPS: Tip[] = [
     id: "surplus",
     title: "The Surplus Engine",
     subtitle: "Calorie surplus",
-    body: "To gain weight you need consistent calories above maintenance. Game model uses a fictional TDEE band (~2200–2600 kcal) — real needs vary.",
+    body: "To gain weight you need consistent calories above maintenance. Game model uses a fictional TDEE band (~2000–2400 kcal) — real needs vary.",
     source: "General sports-nutrition consensus (ISSN position stands on energy surplus for hypertrophy).",
   },
   {

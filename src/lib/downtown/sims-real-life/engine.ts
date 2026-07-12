@@ -104,7 +104,7 @@ function clamp(n: number, lo: number, hi: number): number {
 export function estimateTdee(save: PlayerSave): number {
   const con = save.stats.constitution;
   const weightFactor = (save.weightLb - 150) * 8;
-  const raw = 2350 + (con - 12) * 40 + weightFactor;
+  const raw = 2200 + (con - 12) * 35 + weightFactor;
   return clamp(Math.round(raw), TDEE_MIN, TDEE_MAX);
 }
 
@@ -162,10 +162,15 @@ function countFlagPrefix(save: PlayerSave, prefix: string): number {
   return max;
 }
 
+/** Primary win: hit campaign target weight (150 → 170). */
 export function checkVictory(save: PlayerSave): boolean {
   if (save.graduated) return true;
-  const cuesOk = REQUIRED_WIN_CUES.every((c) => save.dog.cuesLearned.includes(c));
-  return save.weightLb >= WIN_WEIGHT_LB && save.dog.training >= REQUIRED_WIN_TRAINING && cuesOk;
+  return save.weightLb >= WIN_WEIGHT_LB;
+}
+
+/** Optional mastery ribbon — deeper partnership than the soft win cues. */
+export function checkDogMastery(save: PlayerSave): boolean {
+  return save.dog.training >= 40 && save.dog.cuesLearned.length >= 3;
 }
 
 export function dogWinProgress(save: PlayerSave): { cuesHave: number; cuesNeed: number; training: number; trainingNeed: number } {

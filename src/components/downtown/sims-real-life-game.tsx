@@ -20,6 +20,7 @@ import {
   abilityMod,
   acknowledgeQuestStep,
   advanceDay,
+  checkDogMastery,
   checkVictory,
   currentQuestStep,
   dogCare,
@@ -62,6 +63,15 @@ type ActionTab = "feed" | "train" | "dog" | "camp" | "tips";
 
 type RollDrama = NonNullable<LastRoll> & { message: string };
 
+type Floater = { id: number; text: string; kind: "xp" | "bond" | "weight" | "cue" };
+type Fanfare = {
+  kind: "weight" | "cue" | "quest" | "grad";
+  title: string;
+  body: string;
+} | null;
+
+type NextHint = { title: string; body: string; tab: ActionTab; cta: string };
+
 const STAT_SHORT: Record<StatKey, string> = {
   strength: "STR",
   dexterity: "DEX",
@@ -74,11 +84,69 @@ const STAT_SHORT: Record<StatKey, string> = {
 };
 
 const START_WEIGHT = 150;
+const MID_WEIGHT = 158;
 const DICE_DRAMA_MS = 1500;
 
 function weightProgressPct(weightLb: number, target: number) {
   const span = Math.max(1, target - START_WEIGHT);
   return Math.round(Math.min(100, Math.max(0, ((weightLb - START_WEIGHT) / span) * 100)));
+}
+
+function computeNextHint(save: PlayerSave, tdee: number, hasNarrative: boolean): NextHint {
+  if (hasNarrative) {
+    return {
+      title: "Quest scroll open",
+      body: "Read the journal parchment, then continue — the campaign won’t advance until you do.",
+      tab: "tips",
+      cta: "Open journal",
+    };
+  }
+  if (!save.dog.fedToday) {
+    return {
+      title: "Hound needs supper",
+      body: `${save.dog.name} is a 1½-year-old female GS — feed her before the day frays.`,
+      tab: "dog",
+      cta: "Care for her",
+    };
+  }
+  if (save.dayCalories < tdee) {
+    return {
+      title: "Surplus still empty",
+      body: `Stack Daybreak Rations / feast cards past ~${tdee} kcal so tonight’s weigh-in climbs.`,
+      tab: "feed",
+      cta: "Open Feast",
+    };
+  }
+  if (!save.dayResistance) {
+    return {
+      title: "Trial of Iron awaits",
+      body: "Resistance multiplies surplus into lean scale ticks. One compound session seals the day.",
+      tab: "train",
+      cta: "Enter Trials",
+    };
+  }
+  if (!save.dog.walkedToday) {
+    return {
+      title: "Patrol with her",
+      body: `Walk ${save.dog.name} — adolescent drive needs miles and nose work.`,
+      tab: "dog",
+      cta: "Hound tab",
+    };
+  }
+  if (save.energy < 18) {
+    return {
+      title: "Camp for stamina",
+      body: "Short rest or Circle of Clarity, then end the day for the campfire weigh-in.",
+      tab: "camp",
+      cta: "Open Camp",
+    };
+  }
+  return {
+    title: "Campfire weigh-in ready",
+    body: "Surplus + iron + hound cared — end the day for a Perfect Day banner and weight tick.",
+    tab: "camp",
+    cta: "End the day",
+  };
 }
 
 function Meter({
@@ -206,6 +274,40 @@ function DiceDramaOverlay({ drama, onDone }: { drama: RollDrama; onDone: () => v
   );
 }
 
+function FanfareOverlay({
+  fanfare,
+  onDone,
+}: {
+  fanfare: NonNullable<Fanfare>;
+  onDone: () => void;
+}) {
+  useEffect(() => {
+    const t = window.setTimeout(onDone, 2800);
+    return () => window.clearTimeout(t);
+  }, [fanfare, onDone]);
+
+  return (
+    <button type="button" className="sims-fanfare" aria-label="Milestone" onClick={onDone}>
+      <div className="sims-fanfare-card" data-kind={fanfare.kind}>
+        <p className="sims-fanfare-eyebrow">
+          {fanfare.kind === "grad"
+            ? "Campaign complete"
+            : fanfare.kind === "quest"
+              ? "Chapter cleared"
+              : fanfare.kind === "cue"
+                ? "Cue mastered"
+                : "Scale milestone"}
+        </p>
+        <h2 className="sims-fanfare-title">{fanfare.title}</h2>
+        <p className="sims-fanfare-body">{fanfare.body}</p>
+        <p className="pt-3 text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--dt-accent)" }}>
+          Tap to continue
+        </p>
+      </div>
+    </button>
+  );
+}
+
 export function SimsRealLifeGame() {
   const [phase, setPhase] = useState<UiPhase>("boot");
   const [save, setSave] = useState<PlayerSave | null>(null);
@@ -215,7 +317,17 @@ export function SimsRealLifeGame() {
   const [rollDrama, setRollDrama] = useState<RollDrama | null>(null);
   const [dogNameDraft, setDogNameDraft] = useState(DEFAULT_DOG_NAME);
   const [flavorIdx, setFlavorIdx] = useState(0);
+  const [floaters, setFloaters] = useState<Floater[]>([]);
+  const [fanfare, setFanfare] = useState<Fanfare>(null);
   const pendingResult = useRef<{ save: PlayerSave; message: string } | null>(null);
+  const prevSnap = useRef<{
+    xp: number;
+    weight: number;
+    cues: string[];
+    quests: string[];
+    bond: number;
+  } | null>(null);
+  const floaterSeq = useRef(0);
   const [, startTransition] = useTransition();
 
   useEffect(() => {
@@ -223,6 +335,13 @@ export function SimsRealLifeGame() {
     if (existing) {
       setSave(existing);
       setDogNameDraft(existing.dog.name);
+      prevSnap.current = {
+        xp: existing.xp,
+        weight: existing.weightLb,
+        cues: [...existing.dog.cuesLearned],
+        quests: [...existing.completedQuestIds],
+        bond: existing.dog.bond,
+      };
       setPhase(
         existing.graduated
           ? "graduated"
@@ -243,9 +362,86 @@ export function SimsRealLifeGame() {
     return () => window.clearInterval(id);
   }, [phase]);
 
+  useEffect(() => {
+    if (!flash) return;
+    const t = window.setTimeout(() => setFlash(null), 4200);
+    return () => window.clearTimeout(t);
+  }, [flash]);
+
+  function pushFloater(text: string, kind: Floater["kind"]) {
+    const id = ++floaterSeq.current;
+    setFloaters((f) => [...f.slice(-2), { id, text, kind }]);
+    window.setTimeout(() => {
+      setFloaters((f) => f.filter((x) => x.id !== id));
+    }, 1400);
+  }
+
+  function celebrate(next: PlayerSave) {
+    const prev = prevSnap.current;
+    prevSnap.current = {
+      xp: next.xp,
+      weight: next.weightLb,
+      cues: [...next.dog.cuesLearned],
+      quests: [...next.completedQuestIds],
+      bond: next.dog.bond,
+    };
+    if (!prev) return;
+
+    const xpDelta = next.xp - prev.xp;
+    if (xpDelta > 0) pushFloater(`+${xpDelta} XP`, "xp");
+
+    const bondDelta = next.dog.bond - prev.bond;
+    if (bondDelta > 0) pushFloater(`Bond +${bondDelta}`, "bond");
+
+    const newCues = next.dog.cuesLearned.filter((c) => !prev.cues.includes(c));
+    if (newCues.length > 0) {
+      const cueName = DOG_CUES.find((c) => c.id === newCues[0])?.name ?? newCues[0];
+      pushFloater(`${cueName}!`, "cue");
+      setFanfare({
+        kind: "cue",
+        title: `${next.dog.name} learned ${cueName}`,
+        body: `She holds the cue like a banner. Keep short, reward-based sessions — adolescent GS energy is a feature, not a bug.`,
+      });
+      return;
+    }
+
+    const newQuests = next.completedQuestIds.filter((q) => !prev.quests.includes(q));
+    if (newQuests.length > 0) {
+      const q = getQuest(newQuests[newQuests.length - 1]);
+      setFanfare({
+        kind: next.graduated ? "grad" : "quest",
+        title: q?.title ?? "Chapter cleared",
+        body: q?.tagline ?? "The journal turns. Keep surplus, iron, and partnership.",
+      });
+      return;
+    }
+
+    if (prev.weight < MID_WEIGHT && next.weightLb >= MID_WEIGHT) {
+      pushFloater(`${next.weightLb.toFixed(1)} lb`, "weight");
+      setFanfare({
+        kind: "weight",
+        title: "Midland Milestone — 158 lb",
+        body: "Proof the routine works. Keep Daybreak Rations and Trials of Iron; walk her so the win stays kind.",
+      });
+      return;
+    }
+
+    if (prev.weight < WIN_WEIGHT_LB && next.weightLb >= WIN_WEIGHT_LB) {
+      pushFloater(`${WIN_WEIGHT_LB} lb!`, "weight");
+      setFanfare({
+        kind: "grad",
+        title: `Heroes’ Threshold — ${WIN_WEIGHT_LB} lb`,
+        body: next.graduated
+          ? "Banner rises — 150 became 170. Scout thumps her tail like a war drum."
+          : `Scale hit ${WIN_WEIGHT_LB}. The campaign graduates on weight; her cues are optional mastery glory.`,
+      });
+    }
+  }
+
   function persist(next: PlayerSave) {
     writeSave(next);
     setSave(next);
+    celebrate(next);
     if (next.graduated) setPhase("graduated");
   }
 
@@ -271,11 +467,21 @@ export function SimsRealLifeGame() {
 
   function beginRun() {
     const fresh = createNewSave("Justin", dogNameDraft.trim() || DEFAULT_DOG_NAME);
-    persist(fresh);
+    prevSnap.current = {
+      xp: fresh.xp,
+      weight: fresh.weightLb,
+      cues: [...fresh.dog.cuesLearned],
+      quests: [...fresh.completedQuestIds],
+      bond: fresh.dog.bond,
+    };
+    writeSave(fresh);
+    setSave(fresh);
     setPhase("play");
     setFlash(`Day 1. Scale reads 150. Target ${WIN_WEIGHT_LB}. ${fresh.dog.name} is ready.`);
     setIntroDismissed(false);
     setTab("feed");
+    setFanfare(null);
+    setFloaters([]);
   }
 
   function resetRun() {
@@ -286,6 +492,9 @@ export function SimsRealLifeGame() {
     setIntroDismissed(false);
     setTab("feed");
     setDogNameDraft(DEFAULT_DOG_NAME);
+    prevSnap.current = null;
+    setFanfare(null);
+    setFloaters([]);
   }
 
   const quest = useMemo(() => {
@@ -304,8 +513,7 @@ export function SimsRealLifeGame() {
   }, [save, quest]);
 
   const journalStep = useMemo(() => (save ? currentQuestStep(save) : null), [save]);
-  const dogMastery =
-    save != null && save.dog.training >= 40 && save.dog.cuesLearned.length >= 3;
+  const dogMastery = save != null && checkDogMastery(save);
 
   if (phase === "boot") {
     return (
@@ -502,6 +710,16 @@ export function SimsRealLifeGame() {
     <div className="downtown-shell sims-crpg space-y-5">
       <DowntownSubnav active="sims" />
       {rollDrama && <DiceDramaOverlay drama={rollDrama} onDone={finishDiceDrama} />}
+      {fanfare && <FanfareOverlay fanfare={fanfare} onDone={() => setFanfare(null)} />}
+      {floaters.length > 0 && (
+        <div className="sims-floater-stack" aria-live="polite">
+          {floaters.map((f) => (
+            <div key={f.id} className="sims-floater" data-kind={f.kind}>
+              {f.text}
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className={`flex flex-wrap items-end justify-between gap-3 ${SIMS_CLASS.goldBorder} px-4 py-3`}>
         <div className="flex flex-wrap items-center gap-4">
@@ -524,9 +742,14 @@ export function SimsRealLifeGame() {
               Scale closing in
             </span>
           )}
-          {dogWinPct >= 70 && !checkVictory(save) && (
+          {dogWinPct >= 70 && !dogMastery && (
             <span className="downtown-chip text-xs" style={{ color: "var(--dt-accent)", borderColor: "var(--dt-accent)" }}>
               Hound nearly ready
+            </span>
+          )}
+          {dogMastery && !checkVictory(save) && (
+            <span className="downtown-chip text-xs" style={{ color: "var(--dt-good)", borderColor: "var(--dt-good)" }}>
+              Cues ready — keep climbing
             </span>
           )}
           <button type="button" className="downtown-chip text-xs" onClick={resetRun}>
@@ -534,6 +757,31 @@ export function SimsRealLifeGame() {
           </button>
         </div>
       </div>
+
+      {(() => {
+        const hint = computeNextHint(save, tdee, journalStep?.kind === "narrative");
+        return (
+          <div className="sims-next-hint">
+            <div className="min-w-0">
+              <p className="text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--dt-muted)" }}>
+                Next move
+              </p>
+              <strong className="text-sm">{hint.title}</strong>
+              <p className="text-xs mt-0.5" style={{ color: "var(--dt-muted)" }}>
+                {hint.body}
+              </p>
+            </div>
+            <button
+              type="button"
+              className="downtown-chip text-xs shrink-0"
+              style={{ borderColor: "var(--dt-accent)", color: "var(--dt-accent)" }}
+              onClick={() => setTab(hint.tab)}
+            >
+              {hint.cta}
+            </button>
+          </div>
+        );
+      })()}
 
       {showIntroBanner && (
         <div className={`${SIMS_CLASS.parchment} px-4 py-3 space-y-2`}>
@@ -579,25 +827,27 @@ export function SimsRealLifeGame() {
         <aside className="downtown-panel p-4 space-y-4 order-2 xl:order-1">
           <p className="downtown-section-label">Character sheet</p>
 
-          <Meter
-            label={`Weight → ${save.targetWeightLb} lb`}
-            value={save.weightLb}
-            max={save.targetWeightLb}
-            suffix={` / ${save.targetWeightLb} lb`}
-            tone={weightPct >= 100 ? "good" : "default"}
-            bumpKey={save.weightLb}
-          />
-          <div className="downtown-bar h-2.5">
-            <span
-              style={{
-                width: `${weightPct}%`,
-                background: weightPct >= 100 ? "var(--dt-good)" : undefined,
-              }}
+          <div className={`sims-weight-drama space-y-2`} data-hot={save.weightLb >= WIN_WEIGHT_LB - 5 ? "true" : undefined}>
+            <Meter
+              label={`Weight → ${save.targetWeightLb} lb`}
+              value={save.weightLb}
+              max={save.targetWeightLb}
+              suffix={` / ${save.targetWeightLb} lb`}
+              tone={weightPct >= 100 ? "good" : "default"}
+              bumpKey={save.weightLb}
             />
+            <div className="downtown-bar h-2.5">
+              <span
+                style={{
+                  width: `${weightPct}%`,
+                  background: weightPct >= 100 ? "var(--dt-good)" : undefined,
+                }}
+              />
+            </div>
+            <p className="text-[0.65rem]" style={{ color: "var(--dt-muted)" }}>
+              Climb from {START_WEIGHT} · {weightPct}% of the march to {WIN_WEIGHT_LB} · hound mastery is optional glory
+            </p>
           </div>
-          <p className="text-[0.65rem]" style={{ color: "var(--dt-muted)" }}>
-            Climb from {START_WEIGHT} · {weightPct}% · win needs weight + dog milestones
-          </p>
 
           <div className="grid grid-cols-2 gap-3">
             <Meter label="HP" value={save.hp} max={save.maxHp} tone="good" bumpKey={save.hp} />
@@ -876,7 +1126,7 @@ export function SimsRealLifeGame() {
                 </div>
               </div>
               <Meter
-                label={`Win track (need ${DOG_TRAINING_WIN} training · ${DOG_CUES_WIN} cues)`}
+                label={`Optional mastery (${DOG_TRAINING_WIN} training · ${DOG_CUES_WIN} win cues)`}
                 value={dogWinPct}
                 max={100}
                 suffix={` ${dogWinPct}%`}

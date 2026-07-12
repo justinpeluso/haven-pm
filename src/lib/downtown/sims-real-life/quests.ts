@@ -206,15 +206,8 @@ Disclaimer: this is a life-sim, not a care plan.`,
         id: "q5-weight",
         kind: "check",
         title: "Heroes’ Threshold",
-        body: `Reach ${WIN_WEIGHT_LB} lb.`,
+        body: `Reach ${WIN_WEIGHT_LB} lb — that alone raises the victory banner.`,
         checkId: "weight_win",
-      },
-      {
-        id: "q5-dog",
-        kind: "check",
-        title: "Hound at Heel",
-        body: `Scout needs training ≥ ${REQUIRED_WIN_TRAINING} and win cues (${REQUIRED_WIN_CUES.join(", ")}) before the banner rises.`,
-        checkId: "dog_partner_ready",
       },
       {
         id: "q5-grad",
@@ -222,7 +215,7 @@ Disclaimer: this is a life-sim, not a care plan.`,
         title: "Victory Banner",
         body: `${VICTORY_BANNER.body}
 
-Optional mastery: high training + multiple cues grants a graduation bonus.
+Optional mastery ribbon: training ≥ 40 with multiple cues grants a graduation bonus — nice, not required.
 
 This was never medical advice. It was a game about showing up.`,
       },
