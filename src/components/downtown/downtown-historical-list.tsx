@@ -22,14 +22,20 @@ const PLACEHOLDER = "/downtown-placeholder.svg";
 
 function SafeImg({
   src,
+  fallbackSrc,
   alt,
   className,
 }: {
-  src: string;
+  src?: string | null;
+  fallbackSrc?: string | null;
   alt: string;
   className?: string;
 }) {
-  const [current, setCurrent] = useState(src || PLACEHOLDER);
+  const chain = [src, fallbackSrc, PLACEHOLDER].filter(
+    (u, i, arr): u is string => Boolean(u) && arr.indexOf(u) === i
+  );
+  const [idx, setIdx] = useState(0);
+  const current = chain[Math.min(idx, chain.length - 1)] || PLACEHOLDER;
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
@@ -40,7 +46,7 @@ function SafeImg({
       decoding="async"
       referrerPolicy="no-referrer"
       onError={() => {
-        if (current !== PLACEHOLDER) setCurrent(PLACEHOLDER);
+        if (idx < chain.length - 1) setIdx((i) => i + 1);
       }}
     />
   );
@@ -128,10 +134,10 @@ export function DowntownHistoricalList({ properties, generatedAt }: Props) {
         <h1 className="font-serif text-3xl tracking-tight md:text-4xl">
           Deep dossiers for CBD addresses
         </h1>
-        <p className="max-w-2xl text-sm" style={{ color: "var(--dt-muted)" }}>
-          Prefetched public-source histories — structure, plat, Indigenous and fort
-          context, historic district, and citations. Beaver&apos;s Third Street spine
-          and nearby civic landmarks.
+        <p className="max-w-2xl text-sm leading-relaxed" style={{ color: "var(--dt-muted)" }}>
+          Prefetched public-source dossiers covering structure, plat history,
+          Indigenous and fort context, historic-district status, and source citations
+          along Beaver&apos;s Third Street spine and nearby civic landmarks.
           {when ? ` Cache ${when}.` : null}
         </p>
       </header>
@@ -243,7 +249,8 @@ export function DowntownHistoricalList({ properties, generatedAt }: Props) {
                   className="relative aspect-[16/10] block bg-black/40"
                 >
                   <SafeImg
-                    src={p.heroImage?.thumbUrl || p.heroImage?.url || PLACEHOLDER}
+                    src={p.heroImage?.thumbUrl}
+                    fallbackSrc={p.heroImage?.url}
                     alt={p.heroImage?.title || p.name}
                     className="h-full w-full object-cover transition-opacity group-hover:opacity-90"
                   />

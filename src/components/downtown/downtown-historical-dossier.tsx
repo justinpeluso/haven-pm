@@ -25,14 +25,20 @@ const PLACEHOLDER = "/downtown-placeholder.svg";
 
 function SafeImg({
   src,
+  fallbackSrc,
   alt,
   className,
 }: {
-  src: string;
+  src?: string | null;
+  fallbackSrc?: string | null;
   alt: string;
   className?: string;
 }) {
-  const [current, setCurrent] = useState(src || PLACEHOLDER);
+  const chain = [src, fallbackSrc, PLACEHOLDER].filter(
+    (u, i, arr): u is string => Boolean(u) && arr.indexOf(u) === i
+  );
+  const [idx, setIdx] = useState(0);
+  const current = chain[Math.min(idx, chain.length - 1)] || PLACEHOLDER;
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
@@ -43,7 +49,7 @@ function SafeImg({
       decoding="async"
       referrerPolicy="no-referrer"
       onError={() => {
-        if (current !== PLACEHOLDER) setCurrent(PLACEHOLDER);
+        if (idx < chain.length - 1) setIdx((i) => i + 1);
       }}
     />
   );
@@ -163,7 +169,8 @@ export function DowntownHistoricalDossier({ property: p }: Props) {
         </div>
         <div className="relative aspect-[21/9] max-h-[360px] overflow-hidden border border-[var(--dt-line)] bg-black/40">
           <SafeImg
-            src={p.heroImage?.url || PLACEHOLDER}
+            src={p.heroImage?.url}
+            fallbackSrc={p.heroImage?.thumbUrl}
             alt={p.heroImage?.title || p.name}
             className="h-full w-full object-cover"
           />
@@ -214,7 +221,8 @@ export function DowntownHistoricalDossier({ property: p }: Props) {
                 className="relative h-28 w-40 shrink-0 overflow-hidden border border-[var(--dt-line)]"
               >
                 <SafeImg
-                  src={img.thumbUrl || img.url}
+                  src={img.thumbUrl}
+                  fallbackSrc={img.url}
                   alt={img.title}
                   className="h-full w-full object-cover"
                 />

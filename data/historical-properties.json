@@ -10,7 +10,7 @@
       "status": "documented",
       "heroImage": {
         "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/1280px-Downtown_Beaver_Pennsylvania.jpg",
-        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/640px-Downtown_Beaver_Pennsylvania.jpg",
+        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/960px-Downtown_Beaver_Pennsylvania.jpg",
         "title": "Downtown Beaver, Pennsylvania — Third Street corridor",
         "credit": "Wikimedia Commons",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Downtown_Beaver_Pennsylvania.jpg"
@@ -18,7 +18,7 @@
       "images": [
         {
           "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/1280px-Downtown_Beaver_Pennsylvania.jpg",
-          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/640px-Downtown_Beaver_Pennsylvania.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/960px-Downtown_Beaver_Pennsylvania.jpg",
           "title": "Third Street downtown Beaver streetscape",
           "credit": "Wikimedia Commons",
           "kind": "streetscape",
@@ -26,7 +26,7 @@
         },
         {
           "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/1280px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
-          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/640px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/960px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
           "title": "Beaver County Courthouse (Agnew Square / Third & Market)",
           "credit": "Wikimedia Commons",
           "kind": "building",
@@ -34,7 +34,7 @@
         },
         {
           "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/1280px-Fort_McIntosh_Site.jpg",
-          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/640px-Fort_McIntosh_Site.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/960px-Fort_McIntosh_Site.jpg",
           "title": "Fort McIntosh site, River Road bluff, Beaver",
           "credit": "Wikimedia Commons",
           "kind": "historic",
@@ -343,7 +343,7 @@
       "status": "documented",
       "heroImage": {
         "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/1280px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
-        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/640px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
+        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/960px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
         "title": "Beaver County Courthouse, Third Street / Agnew Square",
         "credit": "Wikimedia Commons / Nyttend",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Beaver_County_Courthouse,_Pennsylvania.jpg"
@@ -351,7 +351,7 @@
       "images": [
         {
           "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/1280px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
-          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/640px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/960px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
           "title": "Present courthouse on Agnew Square",
           "credit": "Wikimedia Commons",
           "kind": "building",
@@ -359,7 +359,7 @@
         },
         {
           "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/1280px-Downtown_Beaver_Pennsylvania.jpg",
-          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/640px-Downtown_Beaver_Pennsylvania.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/960px-Downtown_Beaver_Pennsylvania.jpg",
           "title": "Third Street downtown streetscape looking toward the civic core",
           "credit": "Wikimedia Commons",
           "kind": "streetscape",
@@ -367,7 +367,7 @@
         },
         {
           "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/1280px-Fort_McIntosh_Site.jpg",
-          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/640px-Fort_McIntosh_Site.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/960px-Fort_McIntosh_Site.jpg",
           "title": "Fort McIntosh site — earlier strategic landscape south of the CBD",
           "credit": "Wikimedia Commons",
           "kind": "historic",
@@ -625,7 +625,7 @@
       "town": "Beaver",
       "heroImage": {
         "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Matthew_S._Quay_House.jpg/1280px-Matthew_S._Quay_House.jpg",
-        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Matthew_S._Quay_House.jpg/640px-Matthew_S._Quay_House.jpg",
+        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Matthew_S._Quay_House.jpg/960px-Matthew_S._Quay_House.jpg",
         "title": "Matthew S. Quay House, Beaver, Pennsylvania",
         "credit": "Wikimedia Commons",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Matthew_S._Quay_House.jpg",
@@ -634,7 +634,7 @@
       "images": [
         {
           "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Matthew_S._Quay_House.jpg/1280px-Matthew_S._Quay_House.jpg",
-          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Matthew_S._Quay_House.jpg/640px-Matthew_S._Quay_House.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Matthew_S._Quay_House.jpg/960px-Matthew_S._Quay_House.jpg",
           "title": "Streetside view of the Quay House",
           "credit": "Wikimedia Commons",
           "kind": "building",
@@ -642,7 +642,7 @@
         },
         {
           "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/1280px-Downtown_Beaver_Pennsylvania.jpg",
-          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/640px-Downtown_Beaver_Pennsylvania.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/960px-Downtown_Beaver_Pennsylvania.jpg",
           "title": "Third Street downtown Beaver streetscape",
           "credit": "Wikimedia Commons",
           "kind": "streetscape",
@@ -650,7 +650,7 @@
         },
         {
           "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/1280px-Fort_McIntosh_Site.jpg",
-          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/640px-Fort_McIntosh_Site.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/960px-Fort_McIntosh_Site.jpg",
           "title": "Fort McIntosh site, River Road bluff",
           "credit": "Wikimedia Commons",
           "kind": "historic",
@@ -920,7 +920,7 @@
       "status": "documented",
       "heroImage": {
         "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/First_Presbyterian_Church%2C_Beaver.jpg/1280px-First_Presbyterian_Church%2C_Beaver.jpg",
-        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/First_Presbyterian_Church%2C_Beaver.jpg/640px-First_Presbyterian_Church%2C_Beaver.jpg",
+        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/First_Presbyterian_Church%2C_Beaver.jpg/960px-First_Presbyterian_Church%2C_Beaver.jpg",
         "title": "First Presbyterian Church, 252 College Avenue",
         "credit": "Wikimedia Commons / Nyttend",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:First_Presbyterian_Church,_Beaver.jpg"
@@ -928,7 +928,7 @@
       "images": [
         {
           "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/First_Presbyterian_Church%2C_Beaver.jpg/1280px-First_Presbyterian_Church%2C_Beaver.jpg",
-          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/First_Presbyterian_Church%2C_Beaver.jpg/640px-First_Presbyterian_Church%2C_Beaver.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/First_Presbyterian_Church%2C_Beaver.jpg/960px-First_Presbyterian_Church%2C_Beaver.jpg",
           "title": "Richardsonian Romanesque tower and sandstone massing",
           "credit": "Wikimedia Commons",
           "kind": "building",
@@ -936,7 +936,7 @@
         },
         {
           "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Matthew_S._Quay_House.jpg/1280px-Matthew_S._Quay_House.jpg",
-          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Matthew_S._Quay_House.jpg/640px-Matthew_S._Quay_House.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Matthew_S._Quay_House.jpg/960px-Matthew_S._Quay_House.jpg",
           "title": "Nearby Quay House on College Avenue (district context)",
           "credit": "Wikimedia Commons",
           "kind": "building",
@@ -944,7 +944,7 @@
         },
         {
           "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/1280px-Downtown_Beaver_Pennsylvania.jpg",
-          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/640px-Downtown_Beaver_Pennsylvania.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/960px-Downtown_Beaver_Pennsylvania.jpg",
           "title": "Third Street CBD streetscape north of the College Avenue institutional belt",
           "credit": "Wikimedia Commons",
           "kind": "streetscape",
@@ -1176,7 +1176,7 @@
       "town": "Beaver",
       "heroImage": {
         "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/1280px-Fort_McIntosh_Site.jpg",
-        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/640px-Fort_McIntosh_Site.jpg",
+        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/960px-Fort_McIntosh_Site.jpg",
         "title": "Fort McIntosh site, Beaver, Pennsylvania",
         "credit": "Wikimedia Commons",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fort_McIntosh_Site.jpg",
@@ -1185,7 +1185,7 @@
       "images": [
         {
           "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/1280px-Fort_McIntosh_Site.jpg",
-          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/640px-Fort_McIntosh_Site.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/960px-Fort_McIntosh_Site.jpg",
           "title": "Fort McIntosh archaeological site and memorials",
           "credit": "Wikimedia Commons",
           "kind": "historic",
@@ -1193,7 +1193,7 @@
         },
         {
           "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/1280px-Downtown_Beaver_Pennsylvania.jpg",
-          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/640px-Downtown_Beaver_Pennsylvania.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/960px-Downtown_Beaver_Pennsylvania.jpg",
           "title": "Third Street downtown Beaver — upslope from the fort bluff",
           "credit": "Wikimedia Commons",
           "kind": "streetscape",
@@ -1201,7 +1201,7 @@
         },
         {
           "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/1280px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
-          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/640px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/960px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
           "title": "Beaver County Courthouse (Agnew Square)",
           "credit": "Wikimedia Commons",
           "kind": "building",
