@@ -1381,8 +1381,9 @@ export function SimsRealLifeGame() {
                   Between chapters
                 </p>
                 <p className="text-xs leading-relaxed" style={{ color: "var(--dt-muted)" }}>
-                  No active scroll. Keep surplus + resistance, and lock Scout&apos;s win cues (
-                  sit / stay / come) until {WIN_WEIGHT_LB} lb — the finale banner rises when partnership holds.
+                  No active scroll. Keep surplus + Trials of Iron until {WIN_WEIGHT_LB} lb, and lock{" "}
+                  {save.dog.name}&apos;s win cues (sit / stay / come / heel) — she&apos;s a 1½-year-old female GS;
+                  partnership is part of the victory banner.
                 </p>
               </div>
             )}
