@@ -184,7 +184,14 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     setPhase(mySlot ? "create" : "play");
   };
 
+  const leaveToTitle = () => {
+    clearWorld();
+    setWorld(null);
+    setPhase("title");
+  };
+
   const resetCampaign = () => {
+    if (!identity.isDm) return;
     clearWorld();
     setWorld(null);
     setPhase("title");
@@ -339,7 +346,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           setPhase(ready || char.created ? "play" : "create");
           setFlash(ready ? "Party sealed — the Chronicle opens." : "Character sealed. Waiting on the others.");
         }}
-        onBack={resetCampaign}
+        onBack={leaveToTitle}
       />
     );
   }
@@ -379,7 +386,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
               Demon {world.alignment.demon}
             </span>
           </div>
-          <button type="button" className="pc-chip mt-4" onClick={resetCampaign}>
+          <button type="button" className="pc-chip mt-4" onClick={leaveToTitle}>
             Return to Title
           </button>
         </div>
@@ -392,9 +399,15 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
         <DowntownSubnav active="party" />
         <p className="text-sm">Story node missing — reset the campaign.</p>
-        <button type="button" className="pc-chip" onClick={resetCampaign}>
-          Reset
-        </button>
+        {identity.isDm ? (
+          <button type="button" className="pc-chip" onClick={resetCampaign}>
+            Reset
+          </button>
+        ) : (
+          <button type="button" className="pc-chip" onClick={leaveToTitle}>
+            Return to Title
+          </button>
+        )}
       </div>
     );
   }
@@ -430,9 +443,11 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
             Turn {world.turnIndex} · Party ~L{partyAvgLevel(world)} · {progressionHint(partyAvgLevel(world))}
           </p>
         </div>
-        <button type="button" className="pc-chip" onClick={resetCampaign}>
-          Reset
-        </button>
+        {identity.isDm && (
+          <button type="button" className="pc-chip" onClick={resetCampaign}>
+            Reset
+          </button>
+        )}
       </div>
 
       <div className="pc-turn-banner">

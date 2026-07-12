@@ -169,3 +169,39 @@ export function normalizeWorld(world: PartyWorldSave): PartyWorldSave {
     characters,
   };
 }
+
+/**
+ * Merge a client POST into the canonical DB save.
+ * Non-DM clients only receive redacted co-player sheets on GET; without this merge,
+ * their next POST would wipe other characters' inventory, gold, and skills.
+ */
+export function mergeIncomingWorld(
+  existing: PartyWorldSave,
+  incoming: PartyWorldSave,
+  slot: PlayerSlot | null,
+  isDm: boolean
+): PartyWorldSave {
+  if (isDm || !slot) {
+    return normalizeWorld(incoming);
+  }
+
+  const characters = { ...existing.characters };
+  characters[slot] = incoming.characters[slot];
+
+  return normalizeWorld({
+    ...existing,
+    activeSlot: incoming.activeSlot,
+    turnIndex: incoming.turnIndex,
+    campaignNodeId: incoming.campaignNodeId,
+    chapterId: incoming.chapterId,
+    partyFlags: incoming.partyFlags,
+    alignment: incoming.alignment,
+    encounterEnemyHp: incoming.encounterEnemyHp,
+    deckEncounter: incoming.deckEncounter,
+    completedSideQuests: incoming.completedSideQuests,
+    cookedRecipes: incoming.cookedRecipes,
+    log: incoming.log,
+    endingId: incoming.endingId,
+    characters,
+  });
+}

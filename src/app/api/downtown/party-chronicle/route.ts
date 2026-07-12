@@ -5,6 +5,7 @@ import { hasPermission } from "@/lib/permissions";
 import {
   WORLD_SETTING_KEY,
   createNewWorld,
+  mergeIncomingWorld,
   normalizeWorld,
 } from "@/lib/downtown/party-chronicle/persist";
 import { isDmEmail, slotFromEmail } from "@/lib/downtown/party-chronicle/players";
@@ -90,8 +91,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Missing world payload." }, { status: 400 });
   }
 
-  // Merge: non-DM may only mutate their character sheet + shared turn state when it's their turn
-  // (client runs the engine; server trusts staff demo logins for MVP).
-  const saved = await writeWorldDb(normalizeWorld(body.world));
+  if (!isDm && !slot) {
+    return NextResponse.json({ error: "No party slot for this login." }, { status: 403 });
+  }
+
+  const existing = await readWorld();
+  const merged = mergeIncomingWorld(existing, body.world, slot, isDm);
+  const saved = await writeWorldDb(merged);
   return NextResponse.json({ world: redactWorld(saved, slot, isDm) });
 }
