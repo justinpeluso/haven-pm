@@ -218,7 +218,7 @@ export function CodeSchoolGame() {
 
   if (phase === "boot") {
     return (
-      <div className="downtown-shell">
+      <div className="downtown-shell code-school-crpg">
         <DowntownSubnav active="code-school" />
         <p className="text-sm" style={{ color: "var(--dt-muted)" }}>
           Loading save…
@@ -229,7 +229,7 @@ export function CodeSchoolGame() {
 
   if (phase === "title" || !save) {
     return (
-      <div className="downtown-shell space-y-6">
+      <div className="downtown-shell code-school-crpg space-y-6">
         <DowntownSubnav active="code-school" />
         <header className="relative overflow-hidden border border-[var(--dt-line)] p-6 md:p-10">
           <div
@@ -300,7 +300,7 @@ export function CodeSchoolGame() {
 
   if (phase === "graduated" && save) {
     return (
-      <div className="downtown-shell space-y-6">
+      <div className="downtown-shell code-school-crpg space-y-6">
         <DowntownSubnav active="code-school" />
         <header className="border border-[var(--dt-line)] p-6 md:p-10 space-y-4">
           <p className="text-[0.7rem] uppercase tracking-[0.2em]" style={{ color: "var(--dt-good)" }}>
@@ -334,7 +334,7 @@ export function CodeSchoolGame() {
 
   // play
   return (
-    <div className="downtown-shell space-y-5">
+    <div className="downtown-shell code-school-crpg space-y-5">
       <DowntownSubnav active="code-school" />
 
       <div className="flex flex-wrap items-end justify-between gap-3 border-b border-[var(--dt-line)] pb-4">

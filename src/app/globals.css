@@ -328,3 +328,67 @@
   font-weight: 500;
 }
 
+/* Code School by JP — CRPG parchment / gold HUD (BG / Skyrim / HoMM family) */
+.downtown-shell.code-school-crpg {
+  --dt-ink: #1a120c;
+  --dt-panel: #2a2118;
+  --dt-line: #8a7348;
+  --dt-muted: #b9a88a;
+  --dt-accent: #d4b45a;
+  --dt-good: #6a9a5a;
+  --dt-warn: #c47a3d;
+  --dt-fg: #f0e6d0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(212, 180, 90, 0.12), transparent 55%),
+    linear-gradient(180deg, #1c140e 0%, #120e0a 100%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 31px,
+      rgba(138, 115, 72, 0.12) 32px
+    );
+}
+
+.downtown-shell.code-school-crpg .downtown-panel {
+  background:
+    linear-gradient(165deg, rgba(58, 44, 28, 0.95), rgba(32, 24, 16, 0.98));
+  border: 1px solid var(--dt-line);
+  box-shadow:
+    inset 0 0 0 1px rgba(212, 180, 90, 0.22),
+    0 0 0 1px rgba(20, 12, 8, 0.65),
+    0 8px 24px rgba(0, 0, 0, 0.35);
+  border-radius: 2px;
+}
+
+.downtown-shell.code-school-crpg .downtown-section-label {
+  letter-spacing: 0.16em;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.55);
+}
+
+.downtown-shell.code-school-crpg .downtown-bar {
+  background: rgba(20, 12, 8, 0.7);
+  border: 1px solid rgba(138, 115, 72, 0.45);
+}
+
+.downtown-shell.code-school-crpg .downtown-bar > span {
+  background: linear-gradient(90deg, #8a6a28, var(--dt-accent), #f0d78a);
+}
+
+.downtown-shell.code-school-crpg .downtown-chip {
+  border-color: rgba(138, 115, 72, 0.75);
+  background: rgba(32, 24, 16, 0.85);
+  color: var(--dt-fg);
+}
+
+.downtown-shell.code-school-crpg .downtown-chip[data-active="true"],
+.downtown-shell.code-school-crpg .downtown-chip:hover {
+  border-color: var(--dt-accent);
+  color: var(--dt-accent);
+  box-shadow: inset 0 0 0 1px rgba(212, 180, 90, 0.25);
+}
+
+.downtown-shell.code-school-crpg h1,
+.downtown-shell.code-school-crpg h2 {
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.45);
+}
+
