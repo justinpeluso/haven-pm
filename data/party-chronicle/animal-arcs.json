@@ -1,0 +1,396 @@
+{
+  "arcs": [
+    {
+      "id": "arc-pip-soft-path",
+      "npcId": "npc-fox-pip",
+      "title": "The Soft Path",
+      "leans": "animal",
+      "acts": [
+        "act-1",
+        "act-3",
+        "act-5",
+        "act-9"
+      ],
+      "estimatedMinutes": 120,
+      "beats": [
+        {
+          "id": "pip-1",
+          "actId": "act-1",
+          "title": "Crumbs",
+          "body": "Pip trades a soft-path around Frostford for kindness. She names moss as one future's smell.",
+          "flagsAdd": [
+            "pip-met",
+            "foreshadow-wild-crown"
+          ],
+          "alignment": {
+            "animal": 1
+          },
+          "artId": "art-fox-pip",
+          "sceneId": "scene-pine-hollow"
+        },
+        {
+          "id": "pip-2",
+          "actId": "act-3",
+          "title": "Ember Shadows",
+          "body": "In Ember Hold alleys Pip warns that dragon-coal halls forget soft feet. She asks you to leave a window for wild things.",
+          "flagsAdd": [
+            "pip-ember"
+          ],
+          "alignment": {
+            "animal": 1
+          },
+          "artId": "art-fox-pip",
+          "sceneId": "scene-ember-hall"
+        },
+        {
+          "id": "pip-3",
+          "actId": "act-5",
+          "title": "Fog Thief",
+          "body": "Mist steals names; Pip steals them back \u2014 if you still listen to foxes.",
+          "flagsAdd": [
+            "pip-mist"
+          ],
+          "alignment": {
+            "animal": 2
+          },
+          "artId": "art-fox-pip",
+          "sceneId": "scene-misty-bridge"
+        },
+        {
+          "id": "pip-4",
+          "actId": "act-9",
+          "title": "Moss Crown",
+          "body": "At Last Council Pip places a moss circlet at your feet. Not a throne \u2014 a reminder.",
+          "flagsAdd": [
+            "pip-finale",
+            "ending-lean-animal"
+          ],
+          "alignment": {
+            "animal": 3
+          },
+          "artId": "art-fox-pip",
+          "sceneId": "scene-last-council"
+        }
+      ]
+    },
+    {
+      "id": "arc-corv-oaths",
+      "npcId": "npc-raven-corv",
+      "title": "Names on the Road",
+      "leans": "human",
+      "acts": [
+        "act-2",
+        "act-5",
+        "act-7",
+        "act-9"
+      ],
+      "estimatedMinutes": 130,
+      "beats": [
+        {
+          "id": "corv-1",
+          "actId": "act-2",
+          "title": "Count the Living",
+          "body": "Corv lists every traveler the Goblin Road failed. Holds need heroes, he caws.",
+          "flagsAdd": [
+            "corv-met",
+            "foreshadow-hearth-crown"
+          ],
+          "alignment": {
+            "human": 1
+          },
+          "artId": "art-raven-corv",
+          "sceneId": "scene-raven-perch"
+        },
+        {
+          "id": "corv-2",
+          "actId": "act-5",
+          "title": "Bridge Census",
+          "body": "At Misty Crossing Corv refuses to lose another name to fog.",
+          "flagsAdd": [
+            "corv-mist"
+          ],
+          "alignment": {
+            "human": 2
+          },
+          "artId": "art-raven-corv",
+          "sceneId": "scene-misty-bridge"
+        },
+        {
+          "id": "corv-3",
+          "actId": "act-7",
+          "title": "Strain Watch",
+          "body": "When fellowship frays, Corv nests above camp and croaks: people built this road.",
+          "flagsAdd": [
+            "corv-strain"
+          ],
+          "alignment": {
+            "human": 2
+          },
+          "artId": "art-raven-corv",
+          "sceneId": "scene-fellowship-camp"
+        },
+        {
+          "id": "corv-4",
+          "actId": "act-9",
+          "title": "Hearth Ballot",
+          "body": "Corv drops a crow-coin into the council circle \u2014 vote for the living.",
+          "flagsAdd": [
+            "corv-finale",
+            "ending-lean-human"
+          ],
+          "alignment": {
+            "human": 3
+          },
+          "artId": "art-raven-corv",
+          "sceneId": "scene-last-council"
+        }
+      ]
+    },
+    {
+      "id": "arc-ulfric-pack",
+      "npcId": "npc-wolf-ulfric",
+      "title": "Pack Before Crown",
+      "leans": "animal",
+      "acts": [
+        "act-4",
+        "act-7",
+        "act-10"
+      ],
+      "estimatedMinutes": 110,
+      "beats": [
+        {
+          "id": "ulfric-1",
+          "actId": "act-4",
+          "title": "Moon Trial",
+          "body": "Ulfric offers kinship. Your dogs already know the old song.",
+          "flagsAdd": [
+            "ulfric-met",
+            "foreshadow-wild-crown"
+          ],
+          "alignment": {
+            "animal": 2
+          },
+          "artId": "art-wolf-ulfric",
+          "sceneId": "scene-wolf-ridge"
+        },
+        {
+          "id": "ulfric-2",
+          "actId": "act-7",
+          "title": "Guard the Camp",
+          "body": "Under strain Ulfric teaches Watchful Guard \u2014 pack before pride.",
+          "flagsAdd": [
+            "ulfric-strain"
+          ],
+          "alignment": {
+            "animal": 2
+          },
+          "artId": "art-wolf-ulfric",
+          "sceneId": "scene-fellowship-camp"
+        },
+        {
+          "id": "ulfric-3",
+          "actId": "act-10",
+          "title": "Wild Howl Finale",
+          "body": "Against the World-Eater Ulfric howls the pack into history \u2014 if you chose moss over ash.",
+          "flagsAdd": [
+            "ulfric-finale"
+          ],
+          "alignment": {
+            "animal": 3
+          },
+          "artId": "art-wolf-ulfric",
+          "sceneId": "scene-wild-crown"
+        }
+      ]
+    },
+    {
+      "id": "arc-aelwyn-steward",
+      "npcId": "npc-stag-aelwyn",
+      "title": "Steward of Quiet Glades",
+      "leans": "human",
+      "acts": [
+        "act-5",
+        "act-8",
+        "act-10"
+      ],
+      "estimatedMinutes": 115,
+      "beats": [
+        {
+          "id": "aelwyn-1",
+          "actId": "act-5",
+          "title": "Antler Cathedral",
+          "body": "Aelwyn speaks of balance: power without pity is winter without spring.",
+          "flagsAdd": [
+            "aelwyn-met",
+            "foreshadow-hearth-crown"
+          ],
+          "alignment": {
+            "human": 2
+          },
+          "artId": "art-stag-aelwyn",
+          "sceneId": "scene-stag-glade"
+        },
+        {
+          "id": "aelwyn-2",
+          "actId": "act-8",
+          "title": "Gate Blessing",
+          "body": "Before the World-Eater Gate Aelwyn blesses stewardship, not conquest.",
+          "flagsAdd": [
+            "aelwyn-gate"
+          ],
+          "alignment": {
+            "human": 2
+          },
+          "artId": "art-stag-aelwyn",
+          "sceneId": "scene-worldeater-gate"
+        },
+        {
+          "id": "aelwyn-3",
+          "actId": "act-10",
+          "title": "Hearth Horizon",
+          "body": "If your path stays human, Aelwyn crowns no king \u2014 only keepers.",
+          "flagsAdd": [
+            "aelwyn-finale"
+          ],
+          "alignment": {
+            "human": 3
+          },
+          "artId": "art-stag-aelwyn",
+          "sceneId": "scene-hearth-crown"
+        }
+      ]
+    },
+    {
+      "id": "arc-bruna-keep",
+      "npcId": "npc-bear-bruna",
+      "title": "What Do You Keep?",
+      "leans": "animal",
+      "acts": [
+        "act-3",
+        "act-6",
+        "act-9"
+      ],
+      "estimatedMinutes": 100,
+      "beats": [
+        {
+          "id": "bruna-1",
+          "actId": "act-3",
+          "title": "Honey Strength",
+          "body": "Bruna hits hard, hugs harder \u2014 then asks what you keep.",
+          "flagsAdd": [
+            "bruna-met",
+            "foreshadow-wild-crown"
+          ],
+          "alignment": {
+            "animal": 1
+          },
+          "artId": "art-bear-bruna",
+          "sceneId": "scene-ember-hall"
+        },
+        {
+          "id": "bruna-2",
+          "actId": "act-6",
+          "title": "Cave Before Conquest",
+          "body": "Near the Crown of Ash Bruna growls: cave first. Conquest later.",
+          "flagsAdd": [
+            "bruna-ash"
+          ],
+          "alignment": {
+            "animal": 2,
+            "demon": -1
+          },
+          "artId": "art-bear-bruna",
+          "sceneId": "scene-ash-crown"
+        },
+        {
+          "id": "bruna-3",
+          "actId": "act-9",
+          "title": "Cub Law",
+          "body": "At council Bruna votes with silence and a paw on the moss circlet.",
+          "flagsAdd": [
+            "bruna-finale"
+          ],
+          "alignment": {
+            "animal": 2
+          },
+          "artId": "art-bear-bruna",
+          "sceneId": "scene-last-council"
+        }
+      ]
+    },
+    {
+      "id": "arc-nyx-keys",
+      "npcId": "npc-serpent-nyx",
+      "title": "Keys to Soft Cages",
+      "leans": "demon",
+      "acts": [
+        "act-4",
+        "act-6",
+        "act-8",
+        "act-10"
+      ],
+      "estimatedMinutes": 140,
+      "beats": [
+        {
+          "id": "nyx-1",
+          "actId": "act-4",
+          "title": "Want More Than Crumbs",
+          "body": "Nyx hisses at the Whisper Vale: laws are cages. She has keys.",
+          "flagsAdd": [
+            "nyx-met",
+            "foreshadow-ash-throne"
+          ],
+          "alignment": {
+            "demon": 2
+          },
+          "artId": "art-serpent-nyx",
+          "sceneId": "scene-dragon-ruin"
+        },
+        {
+          "id": "nyx-2",
+          "actId": "act-6",
+          "title": "Ash Remembers",
+          "body": "Under the Crown Nyx tastes your kind lies and smiles.",
+          "flagsAdd": [
+            "nyx-ash"
+          ],
+          "alignment": {
+            "demon": 3
+          },
+          "artId": "art-serpent-nyx",
+          "sceneId": "scene-ash-crown"
+        },
+        {
+          "id": "nyx-3",
+          "actId": "act-8",
+          "title": "Maw Bargain",
+          "body": "At the Gate Nyx offers to teach the World-Eater your name \u2014 for a price.",
+          "flagsAdd": [
+            "nyx-gate"
+          ],
+          "alignment": {
+            "demon": 2
+          },
+          "artId": "art-serpent-nyx",
+          "sceneId": "scene-worldeater-gate"
+        },
+        {
+          "id": "nyx-4",
+          "actId": "act-10",
+          "title": "Ash Throne Coil",
+          "body": "If demon leads, Nyx coils beneath your throne and calls it mercy.",
+          "flagsAdd": [
+            "nyx-finale",
+            "ending-lean-demon"
+          ],
+          "alignment": {
+            "demon": 4
+          },
+          "artId": "art-serpent-nyx",
+          "sceneId": "scene-ash-throne"
+        }
+      ]
+    }
+  ],
+  "version": 1
+}

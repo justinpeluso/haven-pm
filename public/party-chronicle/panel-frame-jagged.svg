@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="280" viewBox="0 0 400 280" fill="none">
+  <!-- Action / combat panel with jagged ink border -->
+  <path
+    d="M20 16 L60 8 L110 18 L160 6 L220 16 L280 8 L340 18 L380 10 L392 40 L386 80 L394 130 L384 180 L392 230 L380 268 L320 274 L260 264 L200 274 L140 266 L80 274 L24 266 L8 220 L16 170 L6 120 L14 70 L8 36 Z"
+    fill="#120a0c"
+    stroke="#0a0e14"
+    stroke-width="6"
+  />
+  <path
+    d="M28 28 L64 22 L112 30 L162 20 L222 28 L278 22 L336 30 L372 24 L380 48 L376 84 L382 132 L374 178 L380 224 L370 256 L318 260 L262 252 L202 260 L144 254 L86 260 L36 254 L22 218 L28 172 L20 124 L26 78 L22 44 Z"
+    fill="none"
+    stroke="#e85d4c"
+    stroke-width="2"
+  />
+  <path
+    d="M36 36 L68 32 L116 38 L166 30 L224 36 L274 32 L330 38 L364 34"
+    stroke="#f5d547"
+    stroke-width="1.25"
+    opacity="0.7"
+  />
+</svg>

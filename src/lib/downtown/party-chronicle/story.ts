@@ -1,7 +1,7 @@
 import { endingNodeIdForPath, ENDING_BY_ID, ENDING_DEFS, resolveEndingId } from "./alignment";
 import type { ChapterDef, EndingDef, StoryNode } from "./types";
 
-export { ENDING_DEFS, resolveEndingId, endingNodeIdForPath };
+export { ENDING_BY_ID, ENDING_DEFS, resolveEndingId, endingNodeIdForPath };
 
 /**
  * Party Chronicle branching story — comic panel keys on every major beat.

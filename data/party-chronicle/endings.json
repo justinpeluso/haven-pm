@@ -1,0 +1,70 @@
+{
+  "endings": [
+    {
+      "id": "ending-animal",
+      "path": "animal",
+      "title": "The Wild Crown",
+      "tone": "bond",
+      "splashArtId": "splash-ending-animal",
+      "sceneId": "scene-wild-crown",
+      "artId": "art-ending-animal",
+      "blurb": "Pack and glen answer your call. The holds stand \u2014 but the wild writes the law.",
+      "foreshadowFlags": [
+        "foreshadow-wild-crown",
+        "ulfric-pack",
+        "bruna-ally",
+        "pip-finale"
+      ],
+      "body": "The World-Eater folds like a night without stars.\n\nJustin, Rusty, and Elisha do not raise a throne of stone. They raise a howl \u2014 three voices and three hounds \u2014 and the ridges answer. Pip places moss where a crown might have sat. Ulfric's pack pours over the broken gate like living ink. Bruna sets her bulk between the holds and the hunger, a mountain that chose kinship over conquest.\n\nThe roads remain. The halls remain. But law softens at the treeline: no hunter takes more than winter needs; no jarl fences a glen without asking the stag; no serpent's key opens a cage without three walkers hearing the lock.\n\nScout, Copper, and Lumen sleep at the edge of firelight where wild and hearth share a border. Songs call you **Wardens of the Soft Path**. Not kings. Kin.\n\nThe chronicle closes on moss, moon, and the smell of rain on fur.",
+      "epilogueLines": [
+        "Pip: \"Told you. One future smelled like moss.\"",
+        "Ulfric: \"Pack before crown. You remembered.\"",
+        "Bruna: \"You kept cubs. The mountain keeps you.\""
+      ]
+    },
+    {
+      "id": "ending-human",
+      "path": "human",
+      "title": "The Hearth Crown",
+      "tone": "glory",
+      "splashArtId": "splash-ending-human",
+      "sceneId": "scene-hearth-crown",
+      "artId": "art-ending-human",
+      "blurb": "Oaths, roads, and shared bread. You bind beast and hold in one fellowship.",
+      "foreshadowFlags": [
+        "foreshadow-hearth-crown",
+        "aelwyn-steward",
+        "got-cloak-fellowship",
+        "corv-finale"
+      ],
+      "body": "The World-Eater falters when names are spoken louder than hunger.\n\nCorv wheels above the breach, counting every soul who still answers. Aelwyn steps into the ash-wind and plants a hearth-stone where conquest wanted a throne. The Cloak of Fellowship \u2014 woven from Justin's counsel, Rusty's trail-sense, Elisha's ley-hum \u2014 flares like a third dawn.\n\nYou do not exile the wild. You invite it to council. Foxes sit where banners once stood. Wolves run the outer roads as wardens, not weapons. Even Nyx is offered a seat and a law she did not write \u2014 and for once, the key stays sheathed.\n\nHolds rebuild with windows for birds. Recipes pass from cookfire to cookfire: Fellowship Loaf, Raven Tea, Glen Salad. Level 100 is not a pedestal; it is a table long enough for three players, three dogs, and every name Corv refused to forget.\n\nThe chronicle closes on bread, oath-salt, and roads that remember kindness.",
+      "epilogueLines": [
+        "Corv: \"Crown the living. You did.\"",
+        "Aelwyn: \"Stewards. Not sovereigns of ash.\"",
+        "Narrator: \"Three names. One hearth. A chronicle that feeds.\""
+      ]
+    },
+    {
+      "id": "ending-demon",
+      "path": "demon",
+      "title": "The Ash Throne",
+      "tone": "shadow",
+      "splashArtId": "splash-ending-demon",
+      "sceneId": "scene-ash-throne",
+      "artId": "art-ending-demon",
+      "blurb": "Power without pity. The World-Eater yields \u2014 and something hungrier wears your face.",
+      "foreshadowFlags": [
+        "foreshadow-ash-throne",
+        "nyx-met",
+        "got-crown-ash",
+        "nyx-finale"
+      ],
+      "body": "The World-Eater kneels. Or perhaps it recognizes a peer.\n\nNyx uncoils around the Crown of Ash and whispers that hesitation was the only true cage. You sit. Dragon-glass bites the brow. Justin's map becomes a weapon. Rusty's trails become supply lines. Elisha's ley-lines become chains of light that bind what used to roam free.\n\nHolds cheer \u2014 briefly \u2014 because the maw is gone. Then they learn the cost of kind lies: every mercy that skipped a vote, every key turned \"for their own good,\" every feast flavored with ash wine. Pip's soft path grows thorns. Corv's list of names becomes a ledger of debts. Ulfric's pack scatters rather than kneel.\n\nScout, Copper, and Lumen still love you. That is the cruelest magic left. They sleep closer to the throne than to the wild, tails uncertain.\n\nThe chronicle closes on cooled glass, a serpent's smile, and a silence where birdsong used to be. Power answered. Pity did not.",
+      "epilogueLines": [
+        "Nyx: \"Ash remembers. So will they.\"",
+        "Narrator: \"The World-Eater yields. Hunger learns your face.\"",
+        "A distant fox: \"\u2026crumbs?\" *(no answer)*"
+      ]
+    }
+  ]
+}

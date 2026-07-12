@@ -1,0 +1,1401 @@
+{
+  "decks": [
+    {
+      "id": "deck-act-1",
+      "actId": "act-1",
+      "levelMin": 1,
+      "levelMax": 10,
+      "entries": [
+        {
+          "id": "goblin-scout",
+          "name": "Goblin Scout",
+          "artId": "art-goblin-scout",
+          "enemyArtId": "art-goblin-scout",
+          "hp": 18,
+          "power": 4,
+          "lootIds": [
+            "trail-rations"
+          ],
+          "xp": 12,
+          "gold": 4,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "frost-warg-pup",
+          "name": "Frost Warg Pup",
+          "artId": "art-wolf-ulfric",
+          "enemyArtId": "art-wolf-ulfric",
+          "hp": 22,
+          "power": 5,
+          "lootIds": [
+            "hound-treat"
+          ],
+          "xp": 14,
+          "gold": 4,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "bandit-cutpurse",
+          "name": "Bandit Cutpurse",
+          "artId": "art-goblin-scout",
+          "enemyArtId": "art-goblin-scout",
+          "hp": 20,
+          "power": 5,
+          "lootIds": [
+            "copper-ring"
+          ],
+          "xp": 13,
+          "gold": 4,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "mire-slime",
+          "name": "Mire Slime",
+          "artId": "art-goblin-scout",
+          "enemyArtId": "art-goblin-scout",
+          "hp": 16,
+          "power": 3,
+          "lootIds": [
+            "healing-potion"
+          ],
+          "xp": 10,
+          "gold": 3,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "crow-swarm",
+          "name": "Crow Swarm",
+          "artId": "art-raven-corv",
+          "enemyArtId": "art-raven-corv",
+          "hp": 14,
+          "power": 4,
+          "lootIds": [],
+          "xp": 11,
+          "gold": 3,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "bridge-trollkin",
+          "name": "Bridge Trollkin",
+          "artId": "art-bear-bruna",
+          "enemyArtId": "art-bear-bruna",
+          "hp": 28,
+          "power": 6,
+          "lootIds": [
+            "wood-shield"
+          ],
+          "xp": 18,
+          "gold": 6,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "pine-sprite-mad",
+          "name": "Mad Pine Sprite",
+          "artId": "art-fox-pip",
+          "enemyArtId": "art-fox-pip",
+          "hp": 12,
+          "power": 3,
+          "lootIds": [
+            "mana-draught"
+          ],
+          "xp": 12,
+          "gold": 4,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "boss-frostford-warg",
+          "name": "Frostford Warg",
+          "artId": "art-wolf-ulfric",
+          "enemyArtId": "art-wolf-ulfric",
+          "hp": 55,
+          "power": 9,
+          "lootIds": [
+            "hide-jerkin",
+            "healing-potion"
+          ],
+          "xp": 40,
+          "gold": 13,
+          "tags": [
+            "boss"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-2",
+      "actId": "act-2",
+      "levelMin": 11,
+      "levelMax": 20,
+      "entries": [
+        {
+          "id": "goblin-archer",
+          "name": "Goblin Archer",
+          "artId": "art-goblin-scout",
+          "enemyArtId": "art-goblin-scout",
+          "hp": 26,
+          "power": 7,
+          "lootIds": [
+            "hunting-bow"
+          ],
+          "xp": 18,
+          "gold": 6,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "road-reaver",
+          "name": "Road Reaver",
+          "artId": "art-goblin-scout",
+          "enemyArtId": "art-goblin-scout",
+          "hp": 32,
+          "power": 8,
+          "lootIds": [
+            "iron-sword"
+          ],
+          "xp": 20,
+          "gold": 6,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "raven-cultist",
+          "name": "Raven Cultist",
+          "artId": "art-raven-corv",
+          "enemyArtId": "art-raven-corv",
+          "hp": 28,
+          "power": 7,
+          "lootIds": [
+            "mana-draught"
+          ],
+          "xp": 19,
+          "gold": 6,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "snare-spider",
+          "name": "Snare Spider",
+          "artId": "art-serpent-nyx",
+          "enemyArtId": "art-serpent-nyx",
+          "hp": 24,
+          "power": 6,
+          "lootIds": [
+            "travel-gloves"
+          ],
+          "xp": 17,
+          "gold": 5,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "stolen-mule-golem",
+          "name": "Stolen Mule Golem",
+          "artId": "art-ember-thane",
+          "enemyArtId": "art-ember-thane",
+          "hp": 40,
+          "power": 9,
+          "lootIds": [
+            "hide-jerkin"
+          ],
+          "xp": 24,
+          "gold": 8,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "green-eye-shaman",
+          "name": "Green-Eye Shaman",
+          "artId": "art-goblin-scout",
+          "enemyArtId": "art-goblin-scout",
+          "hp": 30,
+          "power": 9,
+          "lootIds": [
+            "oak-staff"
+          ],
+          "xp": 22,
+          "gold": 7,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "ambush-captain",
+          "name": "Ambush Captain",
+          "artId": "art-goblin-scout",
+          "enemyArtId": "art-goblin-scout",
+          "hp": 38,
+          "power": 10,
+          "lootIds": [
+            "leather-cap"
+          ],
+          "xp": 26,
+          "gold": 8,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "boss-goblin-king",
+          "name": "Goblin King of the Road",
+          "artId": "art-goblin-scout",
+          "enemyArtId": "art-goblin-scout",
+          "hp": 90,
+          "power": 14,
+          "lootIds": [
+            "frostbite-blade"
+          ],
+          "xp": 55,
+          "gold": 18,
+          "tags": [
+            "boss"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-3",
+      "actId": "act-3",
+      "levelMin": 21,
+      "levelMax": 30,
+      "entries": [
+        {
+          "id": "ember-guard",
+          "name": "Ember Guard",
+          "artId": "art-ember-thane",
+          "enemyArtId": "art-ember-thane",
+          "hp": 42,
+          "power": 11,
+          "lootIds": [
+            "mail-of-rivendell"
+          ],
+          "xp": 28,
+          "gold": 9,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "coal-imp",
+          "name": "Coal Imp",
+          "artId": "art-demon-herald",
+          "enemyArtId": "art-demon-herald",
+          "hp": 30,
+          "power": 10,
+          "lootIds": [
+            "mana-draught"
+          ],
+          "xp": 24,
+          "gold": 8,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "drake-hatchling",
+          "name": "Drake Hatchling",
+          "artId": "art-dragon-silhouette",
+          "enemyArtId": "art-dragon-silhouette",
+          "hp": 48,
+          "power": 13,
+          "lootIds": [
+            "staff-of-embers"
+          ],
+          "xp": 32,
+          "gold": 10,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "thane-duelist",
+          "name": "Thane's Duelist",
+          "artId": "art-ember-thane",
+          "enemyArtId": "art-ember-thane",
+          "hp": 44,
+          "power": 12,
+          "lootIds": [
+            "iron-sword"
+          ],
+          "xp": 30,
+          "gold": 10,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "honey-thief-bear",
+          "name": "Honey-Thief Bear",
+          "artId": "art-bear-bruna",
+          "enemyArtId": "art-bear-bruna",
+          "hp": 55,
+          "power": 12,
+          "lootIds": [
+            "trail-rations"
+          ],
+          "xp": 34,
+          "gold": 11,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "ash-acolyte",
+          "name": "Ash Acolyte",
+          "artId": "art-demon-herald",
+          "enemyArtId": "art-demon-herald",
+          "hp": 36,
+          "power": 11,
+          "lootIds": [
+            "amulet-of-warding"
+          ],
+          "xp": 27,
+          "gold": 9,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "forge-specter",
+          "name": "Forge Specter",
+          "artId": "art-ember-thane",
+          "enemyArtId": "art-ember-thane",
+          "hp": 40,
+          "power": 12,
+          "lootIds": [],
+          "xp": 29,
+          "gold": 9,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "boss-ember-drake",
+          "name": "Ember Hold Drake",
+          "artId": "art-dragon-silhouette",
+          "enemyArtId": "art-dragon-silhouette",
+          "hp": 140,
+          "power": 18,
+          "lootIds": [
+            "staff-of-embers",
+            "amulet-of-warding"
+          ],
+          "xp": 70,
+          "gold": 23,
+          "tags": [
+            "boss"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-4",
+      "actId": "act-4",
+      "levelMin": 31,
+      "levelMax": 40,
+      "entries": [
+        {
+          "id": "whisper-cultist",
+          "name": "Whisper Cultist",
+          "artId": "art-demon-herald",
+          "enemyArtId": "art-demon-herald",
+          "hp": 48,
+          "power": 14,
+          "lootIds": [
+            "mana-draught"
+          ],
+          "xp": 36,
+          "gold": 12,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "scale-scavenger",
+          "name": "Scale Scavenger",
+          "artId": "art-goblin-scout",
+          "enemyArtId": "art-goblin-scout",
+          "hp": 50,
+          "power": 13,
+          "lootIds": [
+            "elven-bow"
+          ],
+          "xp": 38,
+          "gold": 12,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "moon-wolf",
+          "name": "Moon Wolf",
+          "artId": "art-wolf-ulfric",
+          "enemyArtId": "art-wolf-ulfric",
+          "hp": 52,
+          "power": 14,
+          "lootIds": [
+            "hound-treat"
+          ],
+          "xp": 40,
+          "gold": 13,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "vale-harpy",
+          "name": "Vale Harpy",
+          "artId": "art-raven-corv",
+          "enemyArtId": "art-raven-corv",
+          "hp": 46,
+          "power": 15,
+          "lootIds": [],
+          "xp": 37,
+          "gold": 12,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "whisper-knight",
+          "name": "Whisper Knight",
+          "artId": "art-ember-thane",
+          "enemyArtId": "art-ember-thane",
+          "hp": 60,
+          "power": 16,
+          "lootIds": [
+            "frostbite-blade"
+          ],
+          "xp": 44,
+          "gold": 14,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "wyrm-echo",
+          "name": "Wyrm Echo",
+          "artId": "art-dragon-silhouette",
+          "enemyArtId": "art-dragon-silhouette",
+          "hp": 58,
+          "power": 17,
+          "lootIds": [
+            "staff-of-embers"
+          ],
+          "xp": 42,
+          "gold": 14,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "pack-challenger",
+          "name": "Pack Challenger",
+          "artId": "art-wolf-ulfric",
+          "enemyArtId": "art-wolf-ulfric",
+          "hp": 54,
+          "power": 15,
+          "lootIds": [],
+          "xp": 39,
+          "gold": 13,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "boss-whisper-wyrm",
+          "name": "Whisper Wyrm",
+          "artId": "art-dragon-silhouette",
+          "enemyArtId": "art-dragon-silhouette",
+          "hp": 200,
+          "power": 22,
+          "lootIds": [
+            "elven-bow",
+            "mail-of-rivendell"
+          ],
+          "xp": 90,
+          "gold": 30,
+          "tags": [
+            "boss"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-5",
+      "actId": "act-5",
+      "levelMin": 41,
+      "levelMax": 50,
+      "entries": [
+        {
+          "id": "mist-wraith",
+          "name": "Mist Wraith",
+          "artId": "art-demon-herald",
+          "enemyArtId": "art-demon-herald",
+          "hp": 60,
+          "power": 16,
+          "lootIds": [
+            "mana-draught"
+          ],
+          "xp": 48,
+          "gold": 16,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "name-thief",
+          "name": "Name-Thief",
+          "artId": "art-serpent-nyx",
+          "enemyArtId": "art-serpent-nyx",
+          "hp": 55,
+          "power": 17,
+          "lootIds": [],
+          "xp": 46,
+          "gold": 15,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "bridge-guardian",
+          "name": "Bridge Guardian",
+          "artId": "art-stag-aelwyn",
+          "enemyArtId": "art-stag-aelwyn",
+          "hp": 70,
+          "power": 18,
+          "lootIds": [
+            "wood-shield"
+          ],
+          "xp": 52,
+          "gold": 17,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "fog-bandit",
+          "name": "Fog Bandit",
+          "artId": "art-goblin-scout",
+          "enemyArtId": "art-goblin-scout",
+          "hp": 58,
+          "power": 16,
+          "lootIds": [
+            "healing-potion"
+          ],
+          "xp": 47,
+          "gold": 15,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "lost-caravan-ghost",
+          "name": "Lost Caravan Ghost",
+          "artId": "art-party-arrive",
+          "enemyArtId": "art-party-arrive",
+          "hp": 52,
+          "power": 15,
+          "lootIds": [],
+          "xp": 45,
+          "gold": 15,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "mirror-hound",
+          "name": "Mirror Hound",
+          "artId": "art-wolf-ulfric",
+          "enemyArtId": "art-wolf-ulfric",
+          "hp": 62,
+          "power": 17,
+          "lootIds": [
+            "hound-treat"
+          ],
+          "xp": 50,
+          "gold": 16,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "glen-sentinel",
+          "name": "Glen Sentinel",
+          "artId": "art-stag-aelwyn",
+          "enemyArtId": "art-stag-aelwyn",
+          "hp": 68,
+          "power": 18,
+          "lootIds": [
+            "amulet-of-warding"
+          ],
+          "xp": 51,
+          "gold": 17,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "boss-mist-warden",
+          "name": "Mist Warden",
+          "artId": "art-stag-aelwyn",
+          "enemyArtId": "art-stag-aelwyn",
+          "hp": 240,
+          "power": 24,
+          "lootIds": [
+            "cloak-of-fellowship"
+          ],
+          "xp": 100,
+          "gold": 33,
+          "tags": [
+            "boss"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-6",
+      "actId": "act-6",
+      "levelMin": 51,
+      "levelMax": 60,
+      "entries": [
+        {
+          "id": "ash-knight-squire",
+          "name": "Ash Knight Squire",
+          "artId": "art-demon-herald",
+          "enemyArtId": "art-demon-herald",
+          "hp": 72,
+          "power": 19,
+          "lootIds": [
+            "iron-sword"
+          ],
+          "xp": 58,
+          "gold": 19,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "serpent-whisperer",
+          "name": "Serpent Whisperer",
+          "artId": "art-serpent-nyx",
+          "enemyArtId": "art-serpent-nyx",
+          "hp": 66,
+          "power": 20,
+          "lootIds": [
+            "mana-draught"
+          ],
+          "xp": 56,
+          "gold": 18,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "crown-shade",
+          "name": "Crown Shade",
+          "artId": "art-demon-herald",
+          "enemyArtId": "art-demon-herald",
+          "hp": 80,
+          "power": 21,
+          "lootIds": [],
+          "xp": 62,
+          "gold": 20,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "lie-eater",
+          "name": "Lie-Eater",
+          "artId": "art-serpent-nyx",
+          "enemyArtId": "art-serpent-nyx",
+          "hp": 70,
+          "power": 20,
+          "lootIds": [],
+          "xp": 59,
+          "gold": 19,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "vault-golem",
+          "name": "Vault Golem",
+          "artId": "art-ember-thane",
+          "enemyArtId": "art-ember-thane",
+          "hp": 95,
+          "power": 22,
+          "lootIds": [
+            "mail-of-rivendell"
+          ],
+          "xp": 68,
+          "gold": 22,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "temptation-echo",
+          "name": "Temptation Echo",
+          "artId": "art-three-paths",
+          "enemyArtId": "art-three-paths",
+          "hp": 64,
+          "power": 19,
+          "lootIds": [],
+          "xp": 55,
+          "gold": 18,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "ash-hound",
+          "name": "Ash Hound",
+          "artId": "art-wolf-ulfric",
+          "enemyArtId": "art-wolf-ulfric",
+          "hp": 74,
+          "power": 20,
+          "lootIds": [
+            "hound-treat"
+          ],
+          "xp": 60,
+          "gold": 20,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "boss-ash-knight",
+          "name": "Ash Knight",
+          "artId": "art-demon-herald",
+          "enemyArtId": "art-demon-herald",
+          "hp": 280,
+          "power": 28,
+          "lootIds": [
+            "crown-of-ash"
+          ],
+          "xp": 120,
+          "gold": 40,
+          "tags": [
+            "boss"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-7",
+      "actId": "act-7",
+      "levelMin": 61,
+      "levelMax": 70,
+      "entries": [
+        {
+          "id": "betrayer-scout",
+          "name": "Betrayer Scout",
+          "artId": "art-goblin-scout",
+          "enemyArtId": "art-goblin-scout",
+          "hp": 78,
+          "power": 21,
+          "lootIds": [],
+          "xp": 66,
+          "gold": 22,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "doubt-specter",
+          "name": "Doubt Specter",
+          "artId": "art-three-paths",
+          "enemyArtId": "art-three-paths",
+          "hp": 70,
+          "power": 20,
+          "lootIds": [],
+          "xp": 64,
+          "gold": 21,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "fractured-mirror",
+          "name": "Fractured Mirror",
+          "artId": "art-party-arrive",
+          "enemyArtId": "art-party-arrive",
+          "hp": 85,
+          "power": 22,
+          "lootIds": [],
+          "xp": 70,
+          "gold": 23,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "oathbreaker",
+          "name": "Oathbreaker",
+          "artId": "art-ember-thane",
+          "enemyArtId": "art-ember-thane",
+          "hp": 90,
+          "power": 23,
+          "lootIds": [
+            "frostbite-blade"
+          ],
+          "xp": 72,
+          "gold": 24,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "silent-camp-raider",
+          "name": "Silent Camp Raider",
+          "artId": "art-goblin-scout",
+          "enemyArtId": "art-goblin-scout",
+          "hp": 76,
+          "power": 21,
+          "lootIds": [
+            "healing-potion"
+          ],
+          "xp": 65,
+          "gold": 21,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "jealousy-wisp",
+          "name": "Jealousy Wisp",
+          "artId": "art-fox-pip",
+          "enemyArtId": "art-fox-pip",
+          "hp": 60,
+          "power": 19,
+          "lootIds": [],
+          "xp": 58,
+          "gold": 19,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "strain-captain",
+          "name": "Strain Captain",
+          "artId": "art-ember-thane",
+          "enemyArtId": "art-ember-thane",
+          "hp": 100,
+          "power": 24,
+          "lootIds": [
+            "amulet-of-warding"
+          ],
+          "xp": 78,
+          "gold": 26,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "boss-betrayer-captain",
+          "name": "Betrayer Captain",
+          "artId": "art-demon-herald",
+          "enemyArtId": "art-demon-herald",
+          "hp": 300,
+          "power": 30,
+          "lootIds": [
+            "cloak-of-fellowship"
+          ],
+          "xp": 130,
+          "gold": 43,
+          "tags": [
+            "boss"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-8",
+      "actId": "act-8",
+      "levelMin": 71,
+      "levelMax": 80,
+      "entries": [
+        {
+          "id": "gate-spawn",
+          "name": "Gate Spawn",
+          "artId": "art-demon-herald",
+          "enemyArtId": "art-demon-herald",
+          "hp": 95,
+          "power": 24,
+          "lootIds": [],
+          "xp": 80,
+          "gold": 26,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "chronicle-moth",
+          "name": "Chronicle Moth",
+          "artId": "art-raven-corv",
+          "enemyArtId": "art-raven-corv",
+          "hp": 70,
+          "power": 22,
+          "lootIds": [
+            "mana-draught"
+          ],
+          "xp": 72,
+          "gold": 24,
+          "tags": [
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "buried-hold-wight",
+          "name": "Buried Hold Wight",
+          "artId": "art-ember-thane",
+          "enemyArtId": "art-ember-thane",
+          "hp": 110,
+          "power": 25,
+          "lootIds": [
+            "mail-of-rivendell"
+          ],
+          "xp": 88,
+          "gold": 29,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "maw-tendril",
+          "name": "Maw Tendril",
+          "artId": "art-serpent-nyx",
+          "enemyArtId": "art-serpent-nyx",
+          "hp": 100,
+          "power": 26,
+          "lootIds": [],
+          "xp": 85,
+          "gold": 28,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "worldscar-cultist",
+          "name": "Worldscar Cultist",
+          "artId": "art-demon-herald",
+          "enemyArtId": "art-demon-herald",
+          "hp": 98,
+          "power": 25,
+          "lootIds": [],
+          "xp": 82,
+          "gold": 27,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "legend-thief",
+          "name": "Legend Thief",
+          "artId": "art-goblin-scout",
+          "enemyArtId": "art-goblin-scout",
+          "hp": 105,
+          "power": 24,
+          "lootIds": [
+            "elven-bow"
+          ],
+          "xp": 86,
+          "gold": 28,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "gate-sentinel",
+          "name": "Gate Sentinel",
+          "artId": "art-dragon-silhouette",
+          "enemyArtId": "art-dragon-silhouette",
+          "hp": 120,
+          "power": 27,
+          "lootIds": [
+            "staff-of-embers"
+          ],
+          "xp": 92,
+          "gold": 30,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "boss-gate-warden",
+          "name": "Gate Warden",
+          "artId": "art-demon-herald",
+          "enemyArtId": "art-demon-herald",
+          "hp": 360,
+          "power": 34,
+          "lootIds": [
+            "sword-of-the-chronicle"
+          ],
+          "xp": 150,
+          "gold": 50,
+          "tags": [
+            "boss"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-9",
+      "actId": "act-9",
+      "levelMin": 81,
+      "levelMax": 90,
+      "entries": [
+        {
+          "id": "council-shade-animal",
+          "name": "Council Shade (Wild)",
+          "artId": "art-wolf-ulfric",
+          "enemyArtId": "art-wolf-ulfric",
+          "hp": 120,
+          "power": 28,
+          "lootIds": [],
+          "xp": 100,
+          "gold": 33,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "council-shade-human",
+          "name": "Council Shade (Hearth)",
+          "artId": "art-stag-aelwyn",
+          "enemyArtId": "art-stag-aelwyn",
+          "hp": 120,
+          "power": 28,
+          "lootIds": [],
+          "xp": 100,
+          "gold": 33,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "council-shade-demon",
+          "name": "Council Shade (Ash)",
+          "artId": "art-serpent-nyx",
+          "enemyArtId": "art-serpent-nyx",
+          "hp": 120,
+          "power": 28,
+          "lootIds": [],
+          "xp": 100,
+          "gold": 33,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "avatar-echo",
+          "name": "Avatar Echo",
+          "artId": "art-three-paths",
+          "enemyArtId": "art-three-paths",
+          "hp": 140,
+          "power": 30,
+          "lootIds": [],
+          "xp": 110,
+          "gold": 36,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "last-arguer",
+          "name": "Last Arguer",
+          "artId": "art-party-arrive",
+          "enemyArtId": "art-party-arrive",
+          "hp": 110,
+          "power": 27,
+          "lootIds": [],
+          "xp": 95,
+          "gold": 31,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "destiny-knight",
+          "name": "Destiny Knight",
+          "artId": "art-ember-thane",
+          "enemyArtId": "art-ember-thane",
+          "hp": 130,
+          "power": 29,
+          "lootIds": [
+            "crown-of-ash"
+          ],
+          "xp": 108,
+          "gold": 36,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "finale-herald",
+          "name": "Finale Herald",
+          "artId": "art-demon-herald",
+          "enemyArtId": "art-demon-herald",
+          "hp": 125,
+          "power": 28,
+          "lootIds": [],
+          "xp": 102,
+          "gold": 34,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "boss-council-avatar",
+          "name": "Council Avatar",
+          "artId": "art-three-paths",
+          "enemyArtId": "art-three-paths",
+          "hp": 400,
+          "power": 36,
+          "lootIds": [
+            "crown-of-ash",
+            "cloak-of-fellowship"
+          ],
+          "xp": 180,
+          "gold": 60,
+          "tags": [
+            "boss"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-10",
+      "actId": "act-10",
+      "levelMin": 91,
+      "levelMax": 100,
+      "entries": [
+        {
+          "id": "world-eater-tooth",
+          "name": "World-Eater Tooth",
+          "artId": "art-dragon-silhouette",
+          "enemyArtId": "art-dragon-silhouette",
+          "hp": 150,
+          "power": 32,
+          "lootIds": [],
+          "xp": 120,
+          "gold": 40,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "hunger-echo",
+          "name": "Hunger Echo",
+          "artId": "art-demon-herald",
+          "enemyArtId": "art-demon-herald",
+          "hp": 140,
+          "power": 31,
+          "lootIds": [],
+          "xp": 115,
+          "gold": 38,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "chronicle-guardian",
+          "name": "Chronicle Guardian",
+          "artId": "art-party-arrive",
+          "enemyArtId": "art-party-arrive",
+          "hp": 160,
+          "power": 33,
+          "lootIds": [
+            "sword-of-the-chronicle"
+          ],
+          "xp": 130,
+          "gold": 43,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "final-temptation",
+          "name": "Final Temptation",
+          "artId": "art-serpent-nyx",
+          "enemyArtId": "art-serpent-nyx",
+          "hp": 145,
+          "power": 32,
+          "lootIds": [],
+          "xp": 118,
+          "gold": 39,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "pack-memory",
+          "name": "Pack Memory",
+          "artId": "art-wolf-ulfric",
+          "enemyArtId": "art-wolf-ulfric",
+          "hp": 130,
+          "power": 30,
+          "lootIds": [
+            "hound-treat"
+          ],
+          "xp": 110,
+          "gold": 36,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "hearth-memory",
+          "name": "Hearth Memory",
+          "artId": "art-stag-aelwyn",
+          "enemyArtId": "art-stag-aelwyn",
+          "hp": 130,
+          "power": 30,
+          "lootIds": [
+            "healing-potion"
+          ],
+          "xp": 110,
+          "gold": 36,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "ash-memory",
+          "name": "Ash Memory",
+          "artId": "art-demon-herald",
+          "enemyArtId": "art-demon-herald",
+          "hp": 130,
+          "power": 30,
+          "lootIds": [
+            "mana-draught"
+          ],
+          "xp": 110,
+          "gold": 36,
+          "tags": [
+            "elite"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "boss-world-eater",
+          "name": "The World-Eater",
+          "artId": "art-dragon-silhouette",
+          "enemyArtId": "art-dragon-silhouette",
+          "hp": 500,
+          "power": 40,
+          "lootIds": [
+            "sword-of-the-chronicle",
+            "crown-of-ash",
+            "cloak-of-fellowship"
+          ],
+          "xp": 250,
+          "gold": 83,
+          "tags": [
+            "boss"
+          ],
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "version": 1
+}

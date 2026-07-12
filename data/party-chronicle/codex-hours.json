@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "designSoloHours": 50,
+  "threePlayerMultiplierNote": "Justin\u2192Rusty\u2192Elisha turn order roughly multiplies decision time; expect 1.6\u20132.2\u00d7 wall-clock vs solo estimates when all three play every beat.",
+  "acts": [
+    {
+      "actId": "act-1",
+      "title": "First Torch at Frostford",
+      "estimatedHours": 6,
+      "levelMin": 1,
+      "levelMax": 10,
+      "bossId": "boss-frostford-warg",
+      "focus": "Onboarding, Pip, first bonds"
+    },
+    {
+      "actId": "act-2",
+      "title": "Goblin Road & Raven Oaths",
+      "estimatedHours": 5,
+      "levelMin": 11,
+      "levelMax": 20,
+      "bossId": "boss-goblin-king",
+      "focus": "Road war, Corv, cooking unlock"
+    },
+    {
+      "actId": "act-3",
+      "title": "Hold of Embers",
+      "estimatedHours": 5,
+      "levelMin": 21,
+      "levelMax": 30,
+      "bossId": "boss-ember-drake",
+      "focus": "Bruna, magic gear, court intrigue"
+    },
+    {
+      "actId": "act-4",
+      "title": "Dragon Whisper Vale",
+      "estimatedHours": 5.5,
+      "levelMin": 31,
+      "levelMax": 40,
+      "bossId": "boss-whisper-wyrm",
+      "focus": "Ulfric pack, Nyx foreshadow"
+    },
+    {
+      "actId": "act-5",
+      "title": "Misty Crossing",
+      "estimatedHours": 5.5,
+      "levelMin": 41,
+      "levelMax": 50,
+      "bossId": "boss-mist-warden",
+      "focus": "Aelwyn, Cloak of Fellowship"
+    },
+    {
+      "actId": "act-6",
+      "title": "Crown of Ash",
+      "estimatedHours": 5,
+      "levelMin": 51,
+      "levelMax": 60,
+      "bossId": "boss-ash-knight",
+      "focus": "Temptation, Heroes' Feast"
+    },
+    {
+      "actId": "act-7",
+      "title": "Fellowship Strain",
+      "estimatedHours": 5,
+      "levelMin": 61,
+      "levelMax": 70,
+      "bossId": "boss-betrayer-captain",
+      "focus": "Party conflict, legend hounds"
+    },
+    {
+      "actId": "act-8",
+      "title": "World-Eater Gate",
+      "estimatedHours": 4.5,
+      "levelMin": 71,
+      "levelMax": 80,
+      "bossId": "boss-gate-warden",
+      "focus": "Sword of the Chronicle, buried hold"
+    },
+    {
+      "actId": "act-9",
+      "title": "Last Council",
+      "estimatedHours": 4,
+      "levelMin": 81,
+      "levelMax": 90,
+      "bossId": "boss-council-avatar",
+      "focus": "Destiny debate, Crown of Ash"
+    },
+    {
+      "actId": "act-10",
+      "title": "Chronicle's End",
+      "estimatedHours": 4.5,
+      "levelMin": 91,
+      "levelMax": 100,
+      "bossId": "boss-world-eater",
+      "focus": "World-Eater + Animal/Human/Demon finales"
+    }
+  ],
+  "longevitySystems": [
+    "10 acts \u00d7 bosses + encounter decks (8 foes each)",
+    "21 side quests (~18h if all cleared)",
+    "6 talking-animal arcs with multi-act payoffs",
+    "20 cooking recipes including ending feasts",
+    "Gear tiers common/magic/legendary with hunt quests",
+    "Alignment foreshadow \u2192 three full endings",
+    "3-player turn rotation + private slot convos"
+  ],
+  "totalHours": 50.0
+}

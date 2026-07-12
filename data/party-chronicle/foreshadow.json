@@ -1,0 +1,115 @@
+{
+  "beats": [
+    {
+      "id": "fs-moss-future",
+      "flag": "foreshadow-wild-crown",
+      "path": "animal",
+      "actIntroduced": "act-1",
+      "payoffAct": "act-10",
+      "hook": "Pip smells a future like moss.",
+      "payoff": "The Wild Crown smells of moss and pack-song; Pip was right.",
+      "artId": "art-fox-pip",
+      "endingArtId": "art-ending-animal"
+    },
+    {
+      "id": "fs-crow-coin",
+      "flag": "foreshadow-hearth-crown",
+      "path": "human",
+      "actIntroduced": "act-2",
+      "payoffAct": "act-10",
+      "hook": "Corv drops crow-coins for the living.",
+      "payoff": "The Hearth Crown is minted in remembered names.",
+      "artId": "art-raven-corv",
+      "endingArtId": "art-ending-human"
+    },
+    {
+      "id": "fs-pack-song",
+      "flag": "ulfric-pack",
+      "path": "animal",
+      "actIntroduced": "act-4",
+      "payoffAct": "act-10",
+      "hook": "Dogs know the old song.",
+      "payoff": "Three hounds lead the wild law into the World-Eater's silence.",
+      "artId": "art-wolf-ulfric",
+      "endingArtId": "art-ending-animal"
+    },
+    {
+      "id": "fs-steward",
+      "flag": "aelwyn-steward",
+      "path": "human",
+      "actIntroduced": "act-5",
+      "payoffAct": "act-10",
+      "hook": "Be steward \u2014 not sovereign of ash.",
+      "payoff": "No single king; keepers of road and glen.",
+      "artId": "art-stag-aelwyn",
+      "endingArtId": "art-ending-human"
+    },
+    {
+      "id": "fs-kind-lies",
+      "flag": "foreshadow-ash-throne",
+      "path": "demon",
+      "actIntroduced": "act-4",
+      "payoffAct": "act-10",
+      "hook": "Ash remembers every kind lie.",
+      "payoff": "The Ash Throne is built from every shortcut you called mercy.",
+      "artId": "art-serpent-nyx",
+      "endingArtId": "art-ending-demon"
+    },
+    {
+      "id": "fs-temptation-key",
+      "flag": "nyx-met",
+      "path": "demon",
+      "actIntroduced": "act-6",
+      "payoffAct": "act-10",
+      "hook": "Nyx offers keys to cages called laws.",
+      "payoff": "You unlock the world \u2014 and lock yourself inside the hunger.",
+      "artId": "art-serpent-nyx",
+      "endingArtId": "art-ending-demon"
+    },
+    {
+      "id": "fs-fellowship-cloak",
+      "flag": "got-cloak-fellowship",
+      "path": "human",
+      "actIntroduced": "act-5",
+      "payoffAct": "act-10",
+      "hook": "Three walkers never lose each other's trail.",
+      "payoff": "Even at the end the cloak holds Justin, Rusty, and Elisha together.",
+      "artId": "art-party-arrive",
+      "endingArtId": "art-ending-human"
+    },
+    {
+      "id": "fs-crown-weight",
+      "flag": "got-crown-ash",
+      "path": "demon",
+      "actIntroduced": "act-9",
+      "payoffAct": "act-10",
+      "hook": "Dragon-glass circlet, heavy with choice.",
+      "payoff": "Worn or refused \u2014 the Crown of Ash still shapes who sits the end.",
+      "artId": "art-demon-herald",
+      "endingArtId": "art-ending-demon"
+    },
+    {
+      "id": "fs-bruna-keep",
+      "flag": "bruna-ally",
+      "path": "animal",
+      "actIntroduced": "act-3",
+      "payoffAct": "act-10",
+      "hook": "What do you keep?",
+      "payoff": "You kept cubs, kin, and cave \u2014 and the wild kept you.",
+      "artId": "art-bear-bruna",
+      "endingArtId": "art-ending-animal"
+    },
+    {
+      "id": "fs-three-paths",
+      "flag": "trio-private-finale",
+      "path": "human",
+      "actIntroduced": "act-9",
+      "payoffAct": "act-10",
+      "hook": "Three private roads before one ending.",
+      "payoff": "Private logs become public destiny \u2014 Animal, Human, or Demon.",
+      "artId": "art-three-paths",
+      "endingArtId": "art-ending-human"
+    }
+  ],
+  "version": 1
+}

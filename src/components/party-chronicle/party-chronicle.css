@@ -1,0 +1,881 @@
+/**
+ * Party Chronicle — SNES / early-PC RPG × comic-book visual system.
+ * Roots: `.party-comic` · `.party-rpg90s` · `.party-chronicle` (alias for game shell)
+ *
+ *   import "@/components/party-chronicle/party-chronicle.css";
+ *   <div className="downtown-shell party-comic party-rpg90s">…</div>
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Bangers&family=Oxanium:wght@500;700&family=IBM+Plex+Sans:wght@400;600&display=swap");
+
+.party-comic,
+.party-rpg90s,
+.party-chronicle {
+  --pc-ink: #0a1018;
+  --pc-panel: #121c28;
+  --pc-panel-lit: #1a2836;
+  --pc-line: #2a3a4a;
+  --pc-border: #0a0e14;
+  --pc-paper: #f4efe4;
+  --pc-muted: #8aa0ad;
+  --pc-accent: #f5d547;
+  --pc-cyan: #2ec4d4;
+  --pc-magenta: #e85d4c; /* coral punch — not violet */
+  --pc-kraft: #c4a35a;
+  --pc-kraft-light: #e8d4a8;
+  --pc-kraft-dark: #5a6a78;
+  --pc-hp: #e85d4c;
+  --pc-stamina: #f5d547;
+  --pc-mana: #2ec4d4;
+  --pc-good: #3d9a7a;
+  --pc-warn: #c47a3d;
+  --pc-fg: #e8eef2;
+  --pc-shadow: rgba(0, 0, 0, 0.5);
+  --pc-display: "Bangers", "Impact", "Arial Black", sans-serif;
+  --pc-hud: "Oxanium", "Segoe UI", system-ui, sans-serif;
+  --pc-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+
+  --dt-ink: var(--pc-ink);
+  --dt-panel: var(--pc-panel);
+  --dt-line: var(--pc-line);
+  --dt-muted: var(--pc-muted);
+  --dt-accent: var(--pc-accent);
+  --dt-good: var(--pc-good);
+  --dt-warn: var(--pc-warn);
+  --dt-fg: var(--pc-fg);
+
+  color: var(--pc-fg);
+  font-family: var(--pc-body);
+  background-color: var(--pc-ink);
+  background-image:
+    url("/party-chronicle/halftone.svg"),
+    radial-gradient(ellipse at 18% 0%, rgba(46, 196, 212, 0.16), transparent 48%),
+    radial-gradient(ellipse at 92% 8%, rgba(232, 93, 76, 0.1), transparent 40%),
+    linear-gradient(180deg, #0e1620 0%, #0a1018 55%, #080c12 100%);
+  background-size: 64px 64px, auto, auto, auto;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+  animation: pc-halftone-drift 14s linear infinite;
+  min-height: 100%;
+}
+
+@keyframes pc-halftone-drift {
+  from {
+    background-position: 0 0, center, center, 0 0;
+  }
+  to {
+    background-position: 64px 32px, center, center, 0 0;
+  }
+}
+
+.party-comic a,
+.party-rpg90s a,
+.party-chronicle a {
+  color: inherit;
+}
+
+/* ——— Titles ——— */
+.party-comic .pc-title,
+.party-rpg90s .pc-title,
+.party-chronicle .pc-title {
+  font-family: var(--pc-display);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pc-paper);
+  text-shadow:
+    3px 3px 0 var(--pc-border),
+    -1px 0 0 var(--pc-cyan),
+    1px 0 0 var(--pc-magenta);
+}
+
+.party-comic .pc-eyebrow,
+.party-rpg90s .pc-eyebrow,
+.party-chronicle .pc-eyebrow,
+.party-comic .pc-section-label,
+.party-rpg90s .pc-section-label,
+.party-chronicle .pc-section-label {
+  font-family: var(--pc-hud);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pc-accent);
+}
+
+.party-comic .pc-subtitle,
+.party-rpg90s .pc-subtitle,
+.party-chronicle .pc-subtitle {
+  font-family: var(--pc-hud);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pc-muted);
+  font-size: 0.75rem;
+}
+
+/* ——— Comic / RPG panels ——— */
+.party-comic .pc-panel,
+.party-rpg90s .pc-panel,
+.party-chronicle .pc-panel,
+.party-comic .downtown-panel,
+.party-rpg90s .downtown-panel,
+.party-chronicle .downtown-panel {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(165deg, rgba(26, 40, 54, 0.96), rgba(12, 18, 28, 0.98)),
+    url("/party-chronicle/halftone.svg");
+  background-size: auto, 48px 48px;
+  border: 4px solid var(--pc-border);
+  border-radius: 2px;
+  box-shadow:
+    inset 0 0 0 2px rgba(244, 239, 228, 0.55),
+    inset 0 0 0 3px rgba(46, 196, 212, 0.3),
+    0 10px 28px var(--pc-shadow);
+  animation: pc-panel-in 0.4s ease-out both;
+}
+
+@keyframes pc-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.party-comic .pc-panel::before,
+.party-rpg90s .pc-panel::before,
+.party-chronicle .pc-panel::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background-image: url("/party-chronicle/panel-frame.svg");
+  background-size: 100% 100%;
+  opacity: 0.4;
+  mix-blend-mode: soft-light;
+  z-index: 0;
+}
+
+.party-comic .pc-panel > *,
+.party-rpg90s .pc-panel > *,
+.party-chronicle .pc-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.party-comic .pc-panel-jagged,
+.party-rpg90s .pc-panel-jagged,
+.party-chronicle .pc-panel-jagged {
+  position: relative;
+  border: 0;
+  background:
+    url("/party-chronicle/panel-frame-jagged.svg") center / 100% 100% no-repeat,
+    linear-gradient(165deg, #1a1014, #0c0a10);
+  box-shadow: 0 12px 32px var(--pc-shadow);
+  filter: drop-shadow(3px 3px 0 var(--pc-border));
+}
+
+/* ——— Header / turn ——— */
+.party-comic .pc-header-bar,
+.party-rpg90s .pc-header-bar,
+.party-chronicle .pc-header-bar,
+.party-comic .pc-header-band,
+.party-rpg90s .pc-header-band,
+.party-chronicle .pc-header-band {
+  position: relative;
+  overflow: hidden;
+  border: 4px solid var(--pc-border);
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(46, 196, 212, 0.22), transparent 50%),
+    radial-gradient(ellipse at 88% 20%, rgba(232, 93, 76, 0.14), transparent 45%),
+    linear-gradient(165deg, #1a2836, #0c121a);
+  box-shadow: 0 8px 24px var(--pc-shadow);
+}
+
+.party-comic .pc-header-bar::before,
+.party-rpg90s .pc-header-bar::before,
+.party-chronicle .pc-header-bar::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: url("/party-chronicle/speed-lines.svg") right center / 200px no-repeat;
+  opacity: 0.28;
+}
+
+.party-comic .pc-turn-banner,
+.party-rpg90s .pc-turn-banner,
+.party-chronicle .pc-turn-banner {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--pc-cyan),
+    var(--pc-cyan) 8px,
+    var(--pc-accent) 8px,
+    var(--pc-accent) 16px
+  );
+  border: 3px solid var(--pc-border);
+  padding: 0.35rem 0.75rem;
+  font-family: var(--pc-display);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--pc-ink);
+  text-align: center;
+  box-shadow: 3px 3px 0 var(--pc-border);
+}
+
+/* ——— Comic art frame ——— */
+.party-comic .pc-comic-frame,
+.party-rpg90s .pc-comic-frame,
+.party-chronicle .pc-comic-frame {
+  position: relative;
+  border: 4px solid var(--pc-border);
+  overflow: hidden;
+  background: #0d1520;
+  box-shadow: 6px 6px 0 var(--pc-border);
+  aspect-ratio: 16 / 9;
+}
+
+.party-comic .pc-comic-frame img,
+.party-rpg90s .pc-comic-frame img,
+.party-chronicle .pc-comic-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.party-comic .pc-speed-lines,
+.party-rpg90s .pc-speed-lines,
+.party-chronicle .pc-speed-lines {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: url("/party-chronicle/speed-lines.svg") right center / cover no-repeat;
+  opacity: 0.35;
+  mix-blend-mode: screen;
+  animation: pc-speed-pulse 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes pc-speed-pulse {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 0.45;
+  }
+}
+
+.party-comic .pc-action-burst,
+.party-rpg90s .pc-action-burst,
+.party-chronicle .pc-action-burst,
+.party-comic .pc-burst,
+.party-rpg90s .pc-burst,
+.party-chronicle .pc-burst {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 4rem;
+  height: 4rem;
+  background: url("/party-chronicle/action-burst.svg") center / contain no-repeat;
+  pointer-events: none;
+  animation: pc-pulse 0.6s ease infinite alternate;
+}
+
+@keyframes pc-pulse {
+  from {
+    transform: scale(1) rotate(-5deg);
+    opacity: 0.85;
+  }
+  to {
+    transform: scale(1.08) rotate(5deg);
+    opacity: 1;
+  }
+}
+
+/* ——— Speech balloons ——— */
+.party-comic .pc-balloon,
+.party-rpg90s .pc-balloon,
+.party-chronicle .pc-balloon {
+  position: relative;
+  min-height: 4.5rem;
+  padding: 1rem 1.2rem 1.25rem;
+  color: var(--pc-ink);
+  background:
+    linear-gradient(180deg, #fffaf0 0%, var(--pc-paper) 100%),
+    url("/party-chronicle/speech-balloon.svg") center / 100% 100% no-repeat;
+  border: 4px solid var(--pc-border);
+  border-radius: 1.25rem 1.25rem 1.25rem 0.35rem;
+  box-shadow: 4px 4px 0 var(--pc-border);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  animation: pc-balloon-pop 0.35s cubic-bezier(0.2, 1.2, 0.4, 1) both;
+}
+
+@keyframes pc-balloon-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.party-comic .pc-balloon[data-thought="true"],
+.party-rpg90s .pc-balloon[data-thought="true"],
+.party-chronicle .pc-balloon[data-thought="true"],
+.party-comic .pc-balloon[data-kind="thought"],
+.party-rpg90s .pc-balloon[data-kind="thought"],
+.party-chronicle .pc-balloon[data-kind="thought"] {
+  border-radius: 50% / 45%;
+  background-image:
+    linear-gradient(180deg, #fffaf0 0%, var(--pc-paper) 100%),
+    url("/party-chronicle/thought-balloon.svg");
+  background-size: auto, 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.party-comic .pc-balloon-speaker,
+.party-rpg90s .pc-balloon-speaker,
+.party-chronicle .pc-balloon-speaker,
+.party-comic .pc-speaker,
+.party-rpg90s .pc-speaker,
+.party-chronicle .pc-speaker {
+  display: block;
+  font-family: var(--pc-hud);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pc-magenta);
+  margin-bottom: 0.35rem;
+}
+
+.party-comic .pc-dialogue,
+.party-rpg90s .pc-dialogue,
+.party-chronicle .pc-dialogue {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: end;
+}
+
+.party-comic .pc-balloon-tail,
+.party-rpg90s .pc-balloon-tail,
+.party-chronicle .pc-balloon-tail {
+  position: absolute;
+  left: 1.25rem;
+  bottom: -12px;
+  width: 18px;
+  height: 18px;
+  background: var(--pc-paper);
+  border-right: 4px solid var(--pc-border);
+  border-bottom: 4px solid var(--pc-border);
+  transform: rotate(45deg);
+}
+
+/* ——— Portraits ——— */
+.party-comic .pc-portrait,
+.party-rpg90s .pc-portrait,
+.party-chronicle .pc-portrait {
+  position: relative;
+  width: 3.5rem;
+  height: 4rem;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: url("/party-chronicle/portrait-frame.svg") center / 100% 100% no-repeat;
+  font-family: var(--pc-display);
+  font-size: 1.1rem;
+  color: var(--pc-accent);
+  text-shadow: 1px 1px 0 var(--pc-border);
+}
+
+.party-comic .pc-portrait[data-active="true"],
+.party-rpg90s .pc-portrait[data-active="true"],
+.party-chronicle .pc-portrait[data-active="true"] {
+  background-image: url("/party-chronicle/portrait-frame-hero.svg");
+  filter: drop-shadow(0 0 6px rgba(46, 196, 212, 0.55));
+}
+
+.party-comic .pc-portrait-lg,
+.party-rpg90s .pc-portrait-lg,
+.party-chronicle .pc-portrait-lg {
+  width: 8.5rem;
+  height: 10rem;
+}
+
+.party-comic .pc-portrait-fill,
+.party-rpg90s .pc-portrait-fill,
+.party-chronicle .pc-portrait-fill {
+  position: absolute;
+  inset: 12% 12% 20% 12%;
+  display: grid;
+  place-items: center;
+}
+
+.party-comic .pc-portrait-name,
+.party-rpg90s .pc-portrait-name,
+.party-chronicle .pc-portrait-name {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.15rem;
+  font-family: var(--pc-hud);
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  background: rgba(10, 14, 20, 0.9);
+  color: var(--pc-paper);
+}
+
+/* ——— Chapter splash ——— */
+.party-comic .pc-chapter-splash,
+.party-rpg90s .pc-chapter-splash,
+.party-chronicle .pc-chapter-splash {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 12rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background: url("/party-chronicle/chapter-splash.svg") center / cover no-repeat;
+  border: 4px solid var(--pc-border);
+  box-shadow: 0 12px 36px var(--pc-shadow);
+  overflow: hidden;
+}
+
+.party-comic .pc-chapter-num,
+.party-rpg90s .pc-chapter-num,
+.party-chronicle .pc-chapter-num {
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-bottom: 0.65rem;
+  border-radius: 999px;
+  background: var(--pc-accent);
+  color: var(--pc-ink);
+  font-family: var(--pc-display);
+  font-size: 1.35rem;
+  border: 4px solid var(--pc-border);
+  box-shadow: 3px 3px 0 var(--pc-border);
+}
+
+/* ——— Chips / choices ——— */
+.party-comic .pc-chip,
+.party-rpg90s .pc-chip,
+.party-chronicle .pc-chip,
+.party-comic .pc-choice,
+.party-rpg90s .pc-choice,
+.party-chronicle .pc-choice,
+.party-comic .pc-primary-btn,
+.party-rpg90s .pc-primary-btn,
+.party-chronicle .pc-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  font-family: var(--pc-hud);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pc-paper);
+  background: linear-gradient(180deg, var(--pc-panel-lit), var(--pc-ink));
+  border: 3px solid var(--pc-border);
+  box-shadow: 3px 3px 0 var(--pc-border);
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.party-comic .pc-chip:hover:not(:disabled),
+.party-rpg90s .pc-chip:hover:not(:disabled),
+.party-chronicle .pc-chip:hover:not(:disabled),
+.party-comic .pc-choice:hover:not(:disabled),
+.party-rpg90s .pc-choice:hover:not(:disabled),
+.party-chronicle .pc-choice:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, #243448, var(--pc-panel-lit));
+  border-color: var(--pc-accent);
+}
+
+.party-comic .pc-chip[data-active="true"],
+.party-rpg90s .pc-chip[data-active="true"],
+.party-chronicle .pc-chip[data-active="true"] {
+  background: var(--pc-cyan);
+  color: var(--pc-ink);
+}
+
+.party-comic .pc-chip[data-turn="true"],
+.party-rpg90s .pc-chip[data-turn="true"],
+.party-chronicle .pc-chip[data-turn="true"] {
+  border-color: var(--pc-magenta);
+  box-shadow: 0 0 0 2px var(--pc-magenta), 2px 2px 0 var(--pc-border);
+}
+
+.party-comic .pc-chip:disabled,
+.party-rpg90s .pc-chip:disabled,
+.party-chronicle .pc-chip:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.party-comic .pc-primary-btn,
+.party-rpg90s .pc-primary-btn,
+.party-chronicle .pc-primary-btn {
+  font-family: var(--pc-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  color: var(--pc-ink);
+  background: var(--pc-accent);
+}
+
+/* ——— HUD meters ——— */
+.party-comic .pc-hud,
+.party-rpg90s .pc-hud,
+.party-chronicle .pc-hud {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.75rem;
+  background: rgba(6, 10, 16, 0.75);
+  border: 3px solid var(--pc-border);
+}
+
+.party-comic .pc-meter,
+.party-rpg90s .pc-meter,
+.party-chronicle .pc-meter,
+.party-comic .pc-bar,
+.party-rpg90s .pc-bar,
+.party-chronicle .pc-bar {
+  position: relative;
+  height: 0.85rem;
+  background: #060a10;
+  border: 2px solid var(--pc-border);
+  overflow: hidden;
+}
+
+.party-comic .pc-meter > span,
+.party-rpg90s .pc-meter > span,
+.party-chronicle .pc-meter > span,
+.party-comic .pc-bar > span,
+.party-rpg90s .pc-bar > span,
+.party-chronicle .pc-bar > span {
+  display: block;
+  height: 100%;
+  transition: width 0.35s ease-out;
+  background: linear-gradient(90deg, var(--pc-hp), #ff8a6a);
+}
+
+.party-comic .pc-meter[data-tone="hp"] > span,
+.party-rpg90s .pc-meter[data-tone="hp"] > span,
+.party-chronicle .pc-meter[data-tone="hp"] > span,
+.party-comic .pc-bar[data-kind="hp"] > span,
+.party-rpg90s .pc-bar[data-kind="hp"] > span,
+.party-chronicle .pc-bar[data-kind="hp"] > span {
+  background: linear-gradient(90deg, var(--pc-hp), #ff8a6a);
+}
+
+.party-comic .pc-meter[data-tone="stamina"] > span,
+.party-rpg90s .pc-meter[data-tone="stamina"] > span,
+.party-chronicle .pc-meter[data-tone="stamina"] > span,
+.party-comic .pc-bar[data-kind="stamina"] > span,
+.party-rpg90s .pc-bar[data-kind="stamina"] > span,
+.party-chronicle .pc-bar[data-kind="stamina"] > span {
+  background: linear-gradient(90deg, #c4a018, var(--pc-stamina));
+}
+
+.party-comic .pc-meter[data-tone="mana"] > span,
+.party-rpg90s .pc-meter[data-tone="mana"] > span,
+.party-chronicle .pc-meter[data-tone="mana"] > span,
+.party-comic .pc-bar[data-kind="mana"] > span,
+.party-rpg90s .pc-bar[data-kind="mana"] > span,
+.party-chronicle .pc-bar[data-kind="mana"] > span {
+  background: linear-gradient(90deg, #1a8a98, var(--pc-mana));
+}
+
+.party-comic .pc-meter[data-tone="enemy"] > span,
+.party-rpg90s .pc-meter[data-tone="enemy"] > span,
+.party-chronicle .pc-meter[data-tone="enemy"] > span {
+  background: linear-gradient(90deg, #8a3040, var(--pc-magenta));
+}
+
+.party-comic .pc-meter[data-tone="xp"] > span,
+.party-rpg90s .pc-meter[data-tone="xp"] > span,
+.party-chronicle .pc-meter[data-tone="xp"] > span {
+  background: linear-gradient(90deg, #5a4a2a, var(--pc-accent));
+}
+
+.party-comic .pc-stat-pill,
+.party-rpg90s .pc-stat-pill,
+.party-chronicle .pc-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.5rem;
+  font-family: var(--pc-hud);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--pc-ink);
+  border: 2px solid var(--pc-border);
+  box-shadow: 2px 2px 0 var(--pc-cyan);
+}
+
+/* ——— Hotbar skill comic boxes ——— */
+.party-comic .pc-hotbar,
+.party-rpg90s .pc-hotbar,
+.party-chronicle .pc-hotbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding: 0.5rem;
+  background: rgba(6, 10, 16, 0.75);
+  border: 3px solid var(--pc-border);
+  box-shadow: inset 0 0 0 1px rgba(46, 196, 212, 0.25);
+}
+
+.party-comic .pc-hotbar-slot,
+.party-rpg90s .pc-hotbar-slot,
+.party-chronicle .pc-hotbar-slot {
+  position: relative;
+  width: 3.5rem;
+  height: 3.5rem;
+  display: grid;
+  place-items: center;
+  padding: 0.35rem;
+  background: url("/party-chronicle/hotbar-box.svg") center / 100% 100% no-repeat;
+  border: 0;
+  cursor: pointer;
+  color: var(--pc-paper);
+  font-family: var(--pc-hud);
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.15;
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+
+.party-comic .pc-hotbar-slot:hover:not(:disabled),
+.party-rpg90s .pc-hotbar-slot:hover:not(:disabled),
+.party-chronicle .pc-hotbar-slot:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.04);
+  filter: brightness(1.12);
+}
+
+.party-comic .pc-hotbar-slot:disabled,
+.party-rpg90s .pc-hotbar-slot:disabled,
+.party-chronicle .pc-hotbar-slot:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.party-comic .pc-hotbar-slot[data-ready="true"],
+.party-rpg90s .pc-hotbar-slot[data-ready="true"],
+.party-chronicle .pc-hotbar-slot[data-ready="true"],
+.party-comic .pc-hotbar-slot[data-active="true"],
+.party-rpg90s .pc-hotbar-slot[data-active="true"],
+.party-chronicle .pc-hotbar-slot[data-active="true"] {
+  filter: drop-shadow(0 0 5px var(--pc-cyan));
+}
+
+.party-comic .pc-hotbar-slot .pc-slot-num,
+.party-rpg90s .pc-hotbar-slot .pc-slot-num,
+.party-chronicle .pc-hotbar-slot .pc-slot-num,
+.party-comic .pc-hotbar-key,
+.party-rpg90s .pc-hotbar-key,
+.party-chronicle .pc-hotbar-key {
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  font-size: 0.55rem;
+  color: var(--pc-accent);
+}
+
+.party-comic .pc-skill-glyph,
+.party-rpg90s .pc-skill-glyph,
+.party-chronicle .pc-skill-glyph {
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  font-family: var(--pc-display);
+  font-size: 0.95rem;
+  background: url("/party-chronicle/skill-icon-frame.svg") center / contain no-repeat;
+}
+
+/* ——— Inventory ——— */
+.party-comic .pc-inv-slot,
+.party-rpg90s .pc-inv-slot,
+.party-chronicle .pc-inv-slot {
+  aspect-ratio: 1;
+  min-height: 3rem;
+  display: grid;
+  place-items: center;
+  background: url("/party-chronicle/inventory-slot.svg") center / 100% 100% no-repeat;
+  border: 0;
+  font-family: var(--pc-hud);
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: var(--pc-muted);
+  text-transform: uppercase;
+  padding: 0.35rem;
+  text-align: center;
+}
+
+.party-comic .pc-inv-slot[data-equipped="true"],
+.party-rpg90s .pc-inv-slot[data-equipped="true"],
+.party-chronicle .pc-inv-slot[data-equipped="true"],
+.party-comic .pc-inv-slot[data-filled="true"],
+.party-rpg90s .pc-inv-slot[data-filled="true"],
+.party-chronicle .pc-inv-slot[data-filled="true"] {
+  color: var(--pc-paper);
+  outline: 2px solid var(--pc-cyan);
+}
+
+.party-comic .pc-inv-grid,
+.party-rpg90s .pc-inv-grid,
+.party-chronicle .pc-inv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(3.25rem, 1fr));
+  gap: 0.4rem;
+}
+
+/* ——— Stats / codex / log ——— */
+.party-comic .pc-stat-grid,
+.party-rpg90s .pc-stat-grid,
+.party-chronicle .pc-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.35rem;
+}
+
+.party-comic .pc-stat-box,
+.party-rpg90s .pc-stat-box,
+.party-chronicle .pc-stat-box {
+  background: rgba(6, 10, 16, 0.85);
+  border: 2px solid var(--pc-border);
+  box-shadow: inset 0 0 0 1px rgba(46, 196, 212, 0.25);
+  padding: 0.25rem 0.4rem;
+  text-align: center;
+  font-size: 0.7rem;
+}
+
+.party-comic .pc-stat-box strong,
+.party-rpg90s .pc-stat-box strong,
+.party-chronicle .pc-stat-box strong {
+  display: block;
+  font-family: var(--pc-display);
+  color: var(--pc-accent);
+  letter-spacing: 0.04em;
+}
+
+.party-comic .pc-log,
+.party-rpg90s .pc-log,
+.party-chronicle .pc-log {
+  max-height: 8rem;
+  overflow-y: auto;
+  font-family: var(--pc-hud);
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: var(--pc-muted);
+  border-top: 2px dashed var(--pc-kraft-dark);
+  padding-top: 0.5rem;
+}
+
+.party-comic .pc-codex-row,
+.party-rpg90s .pc-codex-row,
+.party-chronicle .pc-codex-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 2px dotted var(--pc-kraft-dark);
+  padding: 0.35rem 0;
+  font-size: 0.8rem;
+}
+
+.party-comic .pc-codex-row strong,
+.party-rpg90s .pc-codex-row strong,
+.party-chronicle .pc-codex-row strong {
+  font-family: var(--pc-display);
+  color: var(--pc-cyan);
+  text-shadow: 1px 1px 0 var(--pc-border);
+}
+
+/* ——— Ending splash ——— */
+.party-comic .pc-ending,
+.party-rpg90s .pc-ending,
+.party-chronicle .pc-ending {
+  text-align: center;
+  padding: 2rem 1rem;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(245, 213, 71, 0.2), transparent 55%),
+    linear-gradient(180deg, var(--pc-ink) 0%, #121820 50%, var(--pc-ink) 100%);
+  color: var(--pc-paper);
+  border: 4px solid var(--pc-accent);
+  box-shadow: 0 0 24px rgba(46, 196, 212, 0.25);
+}
+
+.party-comic .pc-ending .pc-title,
+.party-rpg90s .pc-ending .pc-title,
+.party-chronicle .pc-ending .pc-title {
+  font-size: 2.5rem;
+}
+
+/* ——— Character create ——— */
+.party-comic .pc-create-form label,
+.party-rpg90s .pc-create-form label,
+.party-chronicle .pc-create-form label {
+  display: block;
+  font-family: var(--pc-hud);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pc-magenta);
+  margin-bottom: 0.2rem;
+}
+
+.party-comic .pc-create-form input,
+.party-rpg90s .pc-create-form input,
+.party-chronicle .pc-create-form input,
+.party-comic .pc-create-form select,
+.party-rpg90s .pc-create-form select,
+.party-chronicle .pc-create-form select {
+  width: 100%;
+  border: 2px solid var(--pc-border);
+  background: var(--pc-paper);
+  color: var(--pc-ink);
+  padding: 0.4rem 0.5rem;
+  font-family: var(--pc-body);
+  margin-bottom: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .party-comic,
+  .party-rpg90s,
+  .party-chronicle,
+  .party-comic .pc-panel,
+  .party-rpg90s .pc-panel,
+  .party-chronicle .pc-panel,
+  .party-comic .pc-balloon,
+  .party-rpg90s .pc-balloon,
+  .party-chronicle .pc-balloon,
+  .party-comic .pc-speed-lines,
+  .party-rpg90s .pc-speed-lines,
+  .party-chronicle .pc-speed-lines,
+  .party-comic .pc-action-burst,
+  .party-rpg90s .pc-action-burst,
+  .party-chronicle .pc-action-burst {
+    animation: none !important;
+  }
+}

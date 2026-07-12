@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" fill="none">
+  <defs>
+    <radialGradient id="burst" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#f5d547" stop-opacity="0.55"/>
+      <stop offset="45%" stop-color="#2ec4d4" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#0d1520" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="csht" width="10" height="10" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#f4efe4" fill-opacity="0.08"/>
+    </pattern>
+  </defs>
+  <rect width="640" height="360" fill="#0a1018"/>
+  <rect width="640" height="360" fill="url(#csht)"/>
+  <rect width="640" height="360" fill="url(#burst)"/>
+  <!-- Speed rays -->
+  <g stroke="#f5d547" stroke-width="2" opacity="0.35">
+    <line x1="320" y1="180" x2="40" y2="40"/>
+    <line x1="320" y1="180" x2="120" y2="20"/>
+    <line x1="320" y1="180" x2="520" y2="30"/>
+    <line x1="320" y1="180" x2="600" y2="60"/>
+    <line x1="320" y1="180" x2="40" y2="300"/>
+    <line x1="320" y1="180" x2="600" y2="310"/>
+  </g>
+  <!-- Comic title plate -->
+  <rect x="80" y="118" width="480" height="124" fill="#0d1520" stroke="#0a0e14" stroke-width="8"/>
+  <rect x="92" y="130" width="456" height="100" fill="none" stroke="#f5d547" stroke-width="3"/>
+  <rect x="100" y="138" width="440" height="84" fill="none" stroke="#2ec4d4" stroke-width="1.5" opacity="0.6"/>
+  <!-- Corner bolts -->
+  <rect x="86" y="124" width="16" height="16" fill="#e85d4c" stroke="#0a0e14" stroke-width="2"/>
+  <rect x="538" y="124" width="16" height="16" fill="#e85d4c" stroke="#0a0e14" stroke-width="2"/>
+  <rect x="86" y="220" width="16" height="16" fill="#2ec4d4" stroke="#0a0e14" stroke-width="2"/>
+  <rect x="538" y="220" width="16" height="16" fill="#2ec4d4" stroke="#0a0e14" stroke-width="2"/>
+  <!-- Chapter number badge -->
+  <circle cx="320" cy="64" r="28" fill="#f5d547" stroke="#0a0e14" stroke-width="5"/>
+  <circle cx="320" cy="64" r="20" fill="none" stroke="#0d1520" stroke-width="2"/>
+</svg>

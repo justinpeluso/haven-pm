@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180" fill="none">
+  <defs>
+    <filter id="ink" x="-4%" y="-4%" width="108%" height="112%">
+      <feDropShadow dx="0" dy="2" stdDeviation="0" flood-color="#0a0e14" flood-opacity="1"/>
+    </filter>
+  </defs>
+  <!-- Balloon body -->
+  <path
+    d="M28 18 H268 C292 18 304 30 304 52 V108 C304 130 292 142 268 142 H118 L78 168 L88 142 H52 C28 142 16 130 16 108 V52 C16 30 28 18 52 18 Z"
+    fill="#f4efe4"
+    stroke="#0a0e14"
+    stroke-width="5"
+    filter="url(#ink)"
+  />
+  <!-- Inner print line -->
+  <path
+    d="M34 26 H262 C280 26 292 36 292 52 V106 C292 122 280 132 262 132 H122 L92 150 L98 132 H56 C38 132 28 122 28 106 V52 C28 36 38 26 56 26 Z"
+    fill="none"
+    stroke="#2ec4d4"
+    stroke-width="1.25"
+    opacity="0.55"
+  />
+</svg>

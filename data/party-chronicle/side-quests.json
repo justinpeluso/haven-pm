@@ -1,0 +1,643 @@
+{
+  "sideQuests": [
+    {
+      "id": "sq-hound-first-bond",
+      "actId": "act-1",
+      "title": "First Whistle",
+      "estimatedMinutes": 35,
+      "kind": "hound",
+      "summary": "Teach Scout, Copper, and Lumen the party whistle before the ford.",
+      "steps": [
+        "Find quiet pine hollow",
+        "Whistle once each",
+        "Share hound treats",
+        "Hear Pip comment on your bond"
+      ],
+      "rewards": {
+        "xp": 40,
+        "gold": 15,
+        "itemIds": [
+          "hound-treat"
+        ],
+        "flagsAdd": [
+          "hound-first-bond"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-wolf-ulfric",
+      "sceneId": "scene-pine-hollow",
+      "npcId": "npc-fox-pip"
+    },
+    {
+      "id": "sq-pip-crumbs",
+      "actId": "act-1",
+      "title": "Crumbs for Pip",
+      "estimatedMinutes": 40,
+      "kind": "animal",
+      "summary": "Trade trail crumbs for a soft-path secret around Frostford.",
+      "steps": [
+        "Meet Pip in the hollow",
+        "Offer trail rations",
+        "Listen to soft-path tip",
+        "Choose kindness or shiny-bit greed"
+      ],
+      "rewards": {
+        "xp": 45,
+        "gold": 10,
+        "itemIds": [
+          "copper-ring"
+        ],
+        "flagsAdd": [
+          "pip-friend",
+          "foreshadow-wild-crown"
+        ],
+        "alignment": {
+          "animal": 2
+        }
+      },
+      "artId": "art-fox-pip",
+      "sceneId": "scene-pine-hollow",
+      "npcId": "npc-fox-pip"
+    },
+    {
+      "id": "sq-rusty-private",
+      "actId": "act-1",
+      "title": "Rusty's Trail Aside",
+      "estimatedMinutes": 25,
+      "kind": "private",
+      "summary": "Rusty and Copper speak of home trails \u2014 private slot conversation.",
+      "steps": [
+        "Wait for Rusty's turn",
+        "Walk the treeline",
+        "Share a memory of Misty Hills",
+        "Log choice privately"
+      ],
+      "rewards": {
+        "xp": 30,
+        "gold": 5,
+        "itemIds": [],
+        "flagsAdd": [
+          "rusty-private-1"
+        ],
+        "alignment": {
+          "human": 1
+        },
+        "slot": "rusty"
+      },
+      "artId": "art-party-arrive",
+      "sceneId": "scene-frostford-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-cooking-trail-stew",
+      "actId": "act-2",
+      "title": "First Proper Stew",
+      "estimatedMinutes": 45,
+      "kind": "cooking",
+      "summary": "Cook Campfire Stew on the Goblin Road and feed the fellowship.",
+      "steps": [
+        "Gather forage",
+        "Unlock Campfire Stew recipe",
+        "Cook at roadside fire",
+        "Feed party + hounds"
+      ],
+      "rewards": {
+        "xp": 55,
+        "gold": 20,
+        "itemIds": [
+          "healing-potion"
+        ],
+        "flagsAdd": [
+          "unlocked-rec-camp-stew",
+          "cook-trail-stew"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-party-arrive",
+      "sceneId": "scene-goblin-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-corv-watchtower",
+      "actId": "act-2",
+      "title": "Corv's Watchtower",
+      "estimatedMinutes": 50,
+      "kind": "animal",
+      "summary": "Climb the raven perch and swear an oath to keep the road for people.",
+      "steps": [
+        "Ascend watchtower",
+        "Hear Corv count names",
+        "Choose hold-law or wild-law",
+        "Receive crow-coin token"
+      ],
+      "rewards": {
+        "xp": 60,
+        "gold": 25,
+        "itemIds": [
+          "copper-ring"
+        ],
+        "flagsAdd": [
+          "corv-oath",
+          "foreshadow-hearth-crown"
+        ],
+        "alignment": {
+          "human": 2
+        }
+      },
+      "artId": "art-raven-corv",
+      "sceneId": "scene-raven-perch",
+      "npcId": "npc-raven-corv"
+    },
+    {
+      "id": "sq-elisha-private",
+      "actId": "act-2",
+      "title": "Elisha's Ley Hum",
+      "estimatedMinutes": 25,
+      "kind": "private",
+      "summary": "Elisha and Lumen feel a ley-line singing toward Ember Hold.",
+      "steps": [
+        "Elisha's turn",
+        "Kneel at ley stone",
+        "Choose to follow or mute the hum",
+        "Private log"
+      ],
+      "rewards": {
+        "xp": 35,
+        "gold": 8,
+        "itemIds": [
+          "mana-draught"
+        ],
+        "flagsAdd": [
+          "elisha-private-1"
+        ],
+        "alignment": {
+          "human": 1
+        },
+        "slot": "elisha"
+      },
+      "artId": "art-party-arrive",
+      "sceneId": "scene-goblin-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-bruna-honey-cave",
+      "actId": "act-3",
+      "title": "Honey Cave Trial",
+      "estimatedMinutes": 55,
+      "kind": "animal",
+      "summary": "Bruna tests strength, then asks what you protect with it.",
+      "steps": [
+        "Find Ember Slopes cave",
+        "Wrestle Bruna (or persuade)",
+        "Bake honey cakes",
+        "Answer: what do you keep?"
+      ],
+      "rewards": {
+        "xp": 80,
+        "gold": 40,
+        "itemIds": [
+          "hide-jerkin"
+        ],
+        "flagsAdd": [
+          "bruna-ally",
+          "foreshadow-wild-crown"
+        ],
+        "alignment": {
+          "animal": 2
+        }
+      },
+      "artId": "art-bear-bruna",
+      "sceneId": "scene-ember-hall",
+      "npcId": "npc-bear-bruna"
+    },
+    {
+      "id": "sq-legend-frostbite",
+      "actId": "act-3",
+      "title": "Hunt for Frostbite",
+      "estimatedMinutes": 60,
+      "kind": "gear",
+      "summary": "Track the rimed blade through Ember Hold basements.",
+      "steps": [
+        "Bribe forge-master",
+        "Clear coal imps",
+        "Claim Frostbite Blade",
+        "Temper at starlight"
+      ],
+      "rewards": {
+        "xp": 90,
+        "gold": 50,
+        "itemIds": [
+          "frostbite-blade"
+        ],
+        "flagsAdd": [
+          "got-frostbite-blade"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-ember-thane",
+      "sceneId": "scene-ember-hall",
+      "npcId": null
+    },
+    {
+      "id": "sq-justin-private",
+      "actId": "act-3",
+      "title": "Justin's DM Counsel",
+      "estimatedMinutes": 30,
+      "kind": "private",
+      "summary": "Justin speaks as trail-guide, not king \u2014 private weight of the chronicle.",
+      "steps": [
+        "Justin's turn",
+        "Campfire counsel",
+        "Choose steel / lore / mercy tone",
+        "Private log"
+      ],
+      "rewards": {
+        "xp": 40,
+        "gold": 10,
+        "itemIds": [],
+        "flagsAdd": [
+          "justin-private-1"
+        ],
+        "alignment": {
+          "human": 1
+        },
+        "slot": "justin"
+      },
+      "artId": "art-party-arrive",
+      "sceneId": "scene-ember-hall",
+      "npcId": null
+    },
+    {
+      "id": "sq-dragon-scale-hunt",
+      "actId": "act-4",
+      "title": "Scale of the Whisper",
+      "estimatedMinutes": 70,
+      "kind": "gear",
+      "summary": "Harvest a shed scale for armor or for Nyx's later bargain.",
+      "steps": [
+        "Track shed trail",
+        "Avoid cultists",
+        "Claim scale",
+        "Decide: forge / sell / gift to serpent"
+      ],
+      "rewards": {
+        "xp": 110,
+        "gold": 60,
+        "itemIds": [
+          "amulet-of-warding"
+        ],
+        "flagsAdd": [
+          "dragon-scale",
+          "foreshadow-ash-throne"
+        ],
+        "alignment": {
+          "demon": 1
+        }
+      },
+      "artId": "art-dragon-silhouette",
+      "sceneId": "scene-dragon-ruin",
+      "npcId": "npc-serpent-nyx"
+    },
+    {
+      "id": "sq-ulfric-pack-trial",
+      "actId": "act-4",
+      "title": "Moon Ridge Pack Trial",
+      "estimatedMinutes": 65,
+      "kind": "animal",
+      "summary": "Run with Ulfric's pack under the moon \u2014 or refuse and keep the hold's law.",
+      "steps": [
+        "Climb moon ridge",
+        "Race the pack",
+        "Share Moon Marrow Soup",
+        "Accept or decline kinship"
+      ],
+      "rewards": {
+        "xp": 100,
+        "gold": 35,
+        "itemIds": [
+          "hound-treat"
+        ],
+        "flagsAdd": [
+          "ulfric-pack",
+          "foreshadow-wild-crown"
+        ],
+        "alignment": {
+          "animal": 3
+        }
+      },
+      "artId": "art-wolf-ulfric",
+      "sceneId": "scene-wolf-ridge",
+      "npcId": "npc-wolf-ulfric"
+    },
+    {
+      "id": "sq-aelwyn-glade",
+      "actId": "act-5",
+      "title": "Quiet Glade Stewardship",
+      "estimatedMinutes": 55,
+      "kind": "animal",
+      "summary": "Aelwyn asks you to be steward \u2014 not sovereign of ash.",
+      "steps": [
+        "Enter stag glade",
+        "Clear name-thieves from mist",
+        "Plant a hearth-stone",
+        "Hear foreshadow of three crowns"
+      ],
+      "rewards": {
+        "xp": 120,
+        "gold": 45,
+        "itemIds": [
+          "healing-potion"
+        ],
+        "flagsAdd": [
+          "aelwyn-steward",
+          "foreshadow-hearth-crown"
+        ],
+        "alignment": {
+          "human": 3
+        }
+      },
+      "artId": "art-stag-aelwyn",
+      "sceneId": "scene-stag-glade",
+      "npcId": "npc-stag-aelwyn"
+    },
+    {
+      "id": "sq-cloak-fellowship-hunt",
+      "actId": "act-5",
+      "title": "Cloak of Fellowship",
+      "estimatedMinutes": 80,
+      "kind": "gear",
+      "summary": "Weave a legendary cloak so three walkers never lose each other's trail.",
+      "steps": [
+        "Gather mist-thread",
+        "Ask each player for a memory",
+        "Weave at Misty Crossing",
+        "Equip Cloak of Fellowship"
+      ],
+      "rewards": {
+        "xp": 140,
+        "gold": 70,
+        "itemIds": [
+          "cloak-of-fellowship"
+        ],
+        "flagsAdd": [
+          "got-cloak-fellowship"
+        ],
+        "alignment": {
+          "human": 2
+        }
+      },
+      "artId": "art-party-arrive",
+      "sceneId": "scene-misty-bridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-nyx-whisper",
+      "actId": "act-6",
+      "title": "Nyx Under the Ash",
+      "estimatedMinutes": 60,
+      "kind": "animal",
+      "summary": "The serpent offers keys to cages called laws.",
+      "steps": [
+        "Descend ash vault",
+        "Sip Ash Wine (optional)",
+        "Hear three lies about power",
+        "Take or refuse the key"
+      ],
+      "rewards": {
+        "xp": 130,
+        "gold": 80,
+        "itemIds": [
+          "mana-draught"
+        ],
+        "flagsAdd": [
+          "nyx-met",
+          "foreshadow-ash-throne"
+        ],
+        "alignment": {
+          "demon": 3
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-ash-crown",
+      "npcId": "npc-serpent-nyx"
+    },
+    {
+      "id": "sq-heroes-feast-cookoff",
+      "actId": "act-6",
+      "title": "Heroes' Feast Cook-Off",
+      "estimatedMinutes": 50,
+      "kind": "cooking",
+      "summary": "Cook the legendary feast before the Ash Knight wakes.",
+      "steps": [
+        "Gather all ingredients",
+        "Cook Heroes' Feast",
+        "Feed party",
+        "Gain ward vs temptation"
+      ],
+      "rewards": {
+        "xp": 125,
+        "gold": 40,
+        "itemIds": [
+          "healing-potion",
+          "mana-draught"
+        ],
+        "flagsAdd": [
+          "unlocked-rec-heroes-feast",
+          "ward-temptation"
+        ],
+        "alignment": {
+          "human": 2
+        }
+      },
+      "artId": "art-party-arrive",
+      "sceneId": "scene-ash-crown",
+      "npcId": null
+    },
+    {
+      "id": "sq-party-lay-song",
+      "actId": "act-7",
+      "title": "Lay of the Party",
+      "estimatedMinutes": 40,
+      "kind": "exploration",
+      "summary": "Compose the fellowship song that steadies hearts under strain.",
+      "steps": [
+        "Each player adds a verse",
+        "Sing at campfire",
+        "Mend a crack in trust",
+        "Unlock party buff flag"
+      ],
+      "rewards": {
+        "xp": 110,
+        "gold": 30,
+        "itemIds": [],
+        "flagsAdd": [
+          "party-lay-sung",
+          "fellowship-mended"
+        ],
+        "alignment": {
+          "human": 2
+        }
+      },
+      "artId": "art-party-arrive",
+      "sceneId": "scene-fellowship-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hound-legend-bond",
+      "actId": "act-7",
+      "title": "Legendary Companions",
+      "estimatedMinutes": 55,
+      "kind": "hound",
+      "summary": "Bond deep enough that dogs face dragons beside you.",
+      "steps": [
+        "Train flank and guard",
+        "Share fellowship loaf with hounds",
+        "Face a mirror-hound trial",
+        "Flag legendary companion"
+      ],
+      "rewards": {
+        "xp": 135,
+        "gold": 35,
+        "itemIds": [
+          "hound-treat"
+        ],
+        "flagsAdd": [
+          "legend-hound-bond"
+        ],
+        "alignment": {
+          "animal": 2
+        }
+      },
+      "artId": "art-wolf-ulfric",
+      "sceneId": "scene-fellowship-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-sword-chronicle-hunt",
+      "actId": "act-8",
+      "title": "Sword of the Chronicle",
+      "estimatedMinutes": 90,
+      "kind": "gear",
+      "summary": "Forge the blade named for Justin, Rusty, Elisha and their hounds.",
+      "steps": [
+        "Enter buried hold",
+        "Defeat Gate Sentinel",
+        "Temper steel with three names",
+        "Claim Sword of the Chronicle"
+      ],
+      "rewards": {
+        "xp": 180,
+        "gold": 100,
+        "itemIds": [
+          "sword-of-the-chronicle"
+        ],
+        "flagsAdd": [
+          "got-sword-chronicle"
+        ],
+        "alignment": {
+          "human": 2
+        }
+      },
+      "artId": "art-party-arrive",
+      "sceneId": "scene-worldeater-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-explore-buried-hold",
+      "actId": "act-8",
+      "title": "Buried Hold Maps",
+      "estimatedMinutes": 70,
+      "kind": "exploration",
+      "summary": "Map the Worldscar underways before the maw opens wider.",
+      "steps": [
+        "Survey three chambers",
+        "Rescue a lost name",
+        "Copy World-Eater graffiti",
+        "Return with charts"
+      ],
+      "rewards": {
+        "xp": 150,
+        "gold": 55,
+        "itemIds": [
+          "mana-draught"
+        ],
+        "flagsAdd": [
+          "mapped-buried-hold"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-demon-herald",
+      "sceneId": "scene-worldeater-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-crown-ash-hunt",
+      "actId": "act-9",
+      "title": "Crown of Ash Recovered",
+      "estimatedMinutes": 75,
+      "kind": "gear",
+      "summary": "The circlet of dragon-glass waits \u2014 heavy with choice.",
+      "steps": [
+        "Council vault puzzle",
+        "Face destiny knight",
+        "Claim Crown of Ash",
+        "Choose whether to wear it"
+      ],
+      "rewards": {
+        "xp": 170,
+        "gold": 90,
+        "itemIds": [
+          "crown-of-ash"
+        ],
+        "flagsAdd": [
+          "got-crown-ash",
+          "foreshadow-ash-throne"
+        ],
+        "alignment": {
+          "demon": 2
+        }
+      },
+      "artId": "art-demon-herald",
+      "sceneId": "scene-last-council",
+      "npcId": "npc-serpent-nyx"
+    },
+    {
+      "id": "sq-final-private-trio",
+      "actId": "act-9",
+      "title": "Three Private Roads",
+      "estimatedMinutes": 45,
+      "kind": "private",
+      "summary": "Each player logs a private ending lean before the finale.",
+      "steps": [
+        "Justin private",
+        "Rusty private",
+        "Elisha private",
+        "Compare flags without spoiling"
+      ],
+      "rewards": {
+        "xp": 100,
+        "gold": 20,
+        "itemIds": [],
+        "flagsAdd": [
+          "trio-private-finale"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-three-paths",
+      "sceneId": "scene-last-council",
+      "npcId": null
+    }
+  ],
+  "version": 1,
+  "totalEstimatedMinutes": 1120
+}

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="280" viewBox="0 0 400 280" fill="none">
+  <!-- Comic panel: thick ink border + inner print gutter -->
+  <rect x="4" y="4" width="392" height="272" fill="#0d1520" stroke="#0a0e14" stroke-width="8"/>
+  <rect x="12" y="12" width="376" height="256" fill="none" stroke="#f4efe4" stroke-width="2.5"/>
+  <rect x="18" y="18" width="364" height="244" fill="none" stroke="#2ec4d4" stroke-width="1" opacity="0.55"/>
+  <!-- Corner staples -->
+  <rect x="10" y="10" width="14" height="14" fill="#f5d547" stroke="#0a0e14" stroke-width="2"/>
+  <rect x="376" y="10" width="14" height="14" fill="#f5d547" stroke="#0a0e14" stroke-width="2"/>
+  <rect x="10" y="256" width="14" height="14" fill="#f5d547" stroke="#0a0e14" stroke-width="2"/>
+  <rect x="376" y="256" width="14" height="14" fill="#f5d547" stroke="#0a0e14" stroke-width="2"/>
+  <!-- Speed-line accent top-right -->
+  <g stroke="#f4efe4" stroke-width="1.25" opacity="0.35">
+    <line x1="300" y1="28" x2="370" y2="28"/>
+    <line x1="310" y1="34" x2="370" y2="34"/>
+    <line x1="320" y1="40" x2="370" y2="40"/>
+  </g>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="240" viewBox="0 0 200 240" fill="none">
+  <defs>
+    <linearGradient id="hg" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#f5d547"/>
+      <stop offset="100%" stop-color="#c4a018"/>
+    </linearGradient>
+    <pattern id="hht" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="0.9" fill="#2ec4d4" fill-opacity="0.25"/>
+    </pattern>
+  </defs>
+  <rect x="6" y="10" width="188" height="220" fill="#0d1520" stroke="#0a0e14" stroke-width="7"/>
+  <rect x="14" y="18" width="172" height="204" fill="#152232"/>
+  <rect x="14" y="18" width="172" height="204" fill="url(#hht)"/>
+  <rect x="14" y="18" width="172" height="204" fill="none" stroke="url(#hg)" stroke-width="3"/>
+  <rect x="20" y="24" width="160" height="192" fill="none" stroke="#f4efe4" stroke-width="1.5" opacity="0.7"/>
+  <!-- Crest tab -->
+  <path d="M70 10 L100 2 L130 10 L118 22 L82 22 Z" fill="#0a0e14" stroke="#f5d547" stroke-width="2"/>
+  <circle cx="100" cy="12" r="4" fill="#2ec4d4" stroke="#0a0e14" stroke-width="1.5"/>
+  <!-- Bottom caption plate -->
+  <rect x="20" y="188" width="160" height="28" fill="#0a0e14" opacity="0.9"/>
+  <rect x="20" y="188" width="160" height="3" fill="#e85d4c"/>
+</svg>

@@ -1,0 +1,513 @@
+{
+  "recipes": [
+    {
+      "id": "rec-camp-stew",
+      "name": "Campfire Stew",
+      "blurb": "Root, scrap meat, and patience. Knits the road into your bones.",
+      "tier": "common",
+      "actMin": 1,
+      "ingredients": [
+        "trail-rations"
+      ],
+      "heal": 18,
+      "cookBonus": 1,
+      "staminaRestore": 6,
+      "manaRestore": 0,
+      "flagsAdd": [
+        "cooked-camp-stew"
+      ],
+      "artId": "art-party-arrive",
+      "tags": [
+        "cook",
+        "heal"
+      ]
+    },
+    {
+      "id": "rec-hound-biscuit",
+      "name": "Hound's Biscuit",
+      "blurb": "Liver-flour cakes that make tails write hymns.",
+      "tier": "common",
+      "actMin": 1,
+      "ingredients": [
+        "hound-treat",
+        "trail-rations"
+      ],
+      "heal": 0,
+      "cookBonus": 1,
+      "staminaRestore": 0,
+      "manaRestore": 0,
+      "bondRestore": 15,
+      "flagsAdd": [
+        "cooked-hound-biscuit"
+      ],
+      "artId": "art-wolf-ulfric",
+      "tags": [
+        "cook",
+        "dog"
+      ]
+    },
+    {
+      "id": "rec-frostford-broth",
+      "name": "Frostford Broth",
+      "blurb": "Ice-clear soup that wakes the will.",
+      "tier": "common",
+      "actMin": 1,
+      "ingredients": [
+        "healing-potion",
+        "trail-rations"
+      ],
+      "heal": 28,
+      "cookBonus": 2,
+      "staminaRestore": 8,
+      "manaRestore": 0,
+      "flagsAdd": [
+        "cooked-frostford-broth"
+      ],
+      "artId": "art-party-arrive",
+      "tags": [
+        "cook",
+        "heal"
+      ]
+    },
+    {
+      "id": "rec-trail-pie",
+      "name": "Trail Pie",
+      "blurb": "Crust sealed with road-dust and hope.",
+      "tier": "common",
+      "actMin": 2,
+      "ingredients": [
+        "trail-rations",
+        "trail-rations"
+      ],
+      "heal": 22,
+      "cookBonus": 2,
+      "staminaRestore": 10,
+      "manaRestore": 0,
+      "flagsAdd": [
+        "cooked-trail-pie"
+      ],
+      "artId": "art-party-arrive",
+      "tags": [
+        "cook",
+        "heal"
+      ]
+    },
+    {
+      "id": "rec-raven-tea",
+      "name": "Raven Watch Tea",
+      "blurb": "Bitter leaves Corv swears keep oaths sharp.",
+      "tier": "magic",
+      "actMin": 2,
+      "ingredients": [
+        "mana-draught"
+      ],
+      "heal": 8,
+      "cookBonus": 1,
+      "staminaRestore": 4,
+      "manaRestore": 16,
+      "flagsAdd": [
+        "cooked-raven-tea"
+      ],
+      "artId": "art-raven-corv",
+      "tags": [
+        "cook",
+        "mana",
+        "speech"
+      ]
+    },
+    {
+      "id": "rec-ember-char",
+      "name": "Ember-Char Steak",
+      "blurb": "Seared on dragon-coal; strength tastes like thunder.",
+      "tier": "magic",
+      "actMin": 3,
+      "ingredients": [
+        "trail-rations",
+        "healing-potion"
+      ],
+      "heal": 35,
+      "cookBonus": 3,
+      "staminaRestore": 14,
+      "manaRestore": 0,
+      "flagsAdd": [
+        "cooked-ember-char"
+      ],
+      "artId": "art-ember-thane",
+      "tags": [
+        "cook",
+        "heal",
+        "buff"
+      ]
+    },
+    {
+      "id": "rec-honey-cave",
+      "name": "Bruna's Honey Cakes",
+      "blurb": "Sweet enough to bribe a mountain.",
+      "tier": "magic",
+      "actMin": 3,
+      "ingredients": [
+        "trail-rations",
+        "hound-treat"
+      ],
+      "heal": 30,
+      "cookBonus": 2,
+      "staminaRestore": 8,
+      "manaRestore": 8,
+      "bondRestore": 10,
+      "flagsAdd": [
+        "cooked-honey-cakes",
+        "bruna-favor"
+      ],
+      "artId": "art-bear-bruna",
+      "tags": [
+        "cook",
+        "animal"
+      ]
+    },
+    {
+      "id": "rec-moon-marrow",
+      "name": "Moon Marrow Soup",
+      "blurb": "Ulfric's pack recipe \u2014 bone-deep kinship.",
+      "tier": "magic",
+      "actMin": 4,
+      "ingredients": [
+        "hound-treat",
+        "healing-potion"
+      ],
+      "heal": 40,
+      "cookBonus": 3,
+      "staminaRestore": 12,
+      "manaRestore": 0,
+      "bondRestore": 20,
+      "flagsAdd": [
+        "cooked-moon-marrow",
+        "ulfric-kin"
+      ],
+      "artId": "art-wolf-ulfric",
+      "tags": [
+        "cook",
+        "animal",
+        "dog"
+      ]
+    },
+    {
+      "id": "rec-dragon-spice",
+      "name": "Dragon-Spice Roast",
+      "blurb": "Scale-pepper heat that steels the tongue against fear.",
+      "tier": "magic",
+      "actMin": 4,
+      "ingredients": [
+        "trail-rations",
+        "mana-draught"
+      ],
+      "heal": 32,
+      "cookBonus": 3,
+      "staminaRestore": 10,
+      "manaRestore": 14,
+      "flagsAdd": [
+        "cooked-dragon-spice"
+      ],
+      "artId": "art-dragon-silhouette",
+      "tags": [
+        "cook",
+        "fire"
+      ]
+    },
+    {
+      "id": "rec-mist-cordial",
+      "name": "Mist Cordial",
+      "blurb": "Clears fog from mind and crossing alike.",
+      "tier": "magic",
+      "actMin": 5,
+      "ingredients": [
+        "mana-draught",
+        "healing-potion"
+      ],
+      "heal": 25,
+      "cookBonus": 2,
+      "staminaRestore": 6,
+      "manaRestore": 20,
+      "flagsAdd": [
+        "cooked-mist-cordial",
+        "mist-cleared"
+      ],
+      "artId": "art-stag-aelwyn",
+      "tags": [
+        "cook",
+        "ward"
+      ]
+    },
+    {
+      "id": "rec-glen-salad",
+      "name": "Aelwyn's Glen Salad",
+      "blurb": "Leaves that remember birdsong.",
+      "tier": "magic",
+      "actMin": 5,
+      "ingredients": [
+        "trail-rations"
+      ],
+      "heal": 20,
+      "cookBonus": 2,
+      "staminaRestore": 8,
+      "manaRestore": 8,
+      "flagsAdd": [
+        "cooked-glen-salad",
+        "aelwyn-favor"
+      ],
+      "artId": "art-stag-aelwyn",
+      "tags": [
+        "cook",
+        "human"
+      ]
+    },
+    {
+      "id": "rec-ash-wine",
+      "name": "Ash Wine",
+      "blurb": "Nyx's gift \u2014 sweet power, bitter aftertaste.",
+      "tier": "magic",
+      "actMin": 6,
+      "ingredients": [
+        "mana-draught",
+        "mana-draught"
+      ],
+      "heal": 10,
+      "cookBonus": 1,
+      "staminaRestore": 4,
+      "manaRestore": 28,
+      "flagsAdd": [
+        "cooked-ash-wine",
+        "nyx-sip"
+      ],
+      "artId": "art-serpent-nyx",
+      "tags": [
+        "cook",
+        "demon",
+        "mana"
+      ]
+    },
+    {
+      "id": "rec-temptation-tart",
+      "name": "Temptation Tart",
+      "blurb": "One bite and limits feel like suggestions.",
+      "tier": "legendary",
+      "actMin": 6,
+      "ingredients": [
+        "mana-draught",
+        "healing-potion",
+        "trail-rations"
+      ],
+      "heal": 45,
+      "cookBonus": 4,
+      "staminaRestore": 16,
+      "manaRestore": 16,
+      "flagsAdd": [
+        "cooked-temptation-tart"
+      ],
+      "artId": "art-serpent-nyx",
+      "tags": [
+        "cook",
+        "demon",
+        "legendary"
+      ]
+    },
+    {
+      "id": "rec-fellowship-loaf",
+      "name": "Fellowship Loaf",
+      "blurb": "Three bakers, one loaf \u2014 Justin, Rusty, Elisha.",
+      "tier": "legendary",
+      "actMin": 7,
+      "ingredients": [
+        "trail-rations",
+        "trail-rations",
+        "hound-treat"
+      ],
+      "heal": 50,
+      "cookBonus": 5,
+      "staminaRestore": 20,
+      "manaRestore": 12,
+      "bondRestore": 25,
+      "partyHeal": 40,
+      "flagsAdd": [
+        "cooked-fellowship-loaf",
+        "fellowship-mended"
+      ],
+      "artId": "art-party-arrive",
+      "tags": [
+        "cook",
+        "party",
+        "legendary",
+        "human"
+      ]
+    },
+    {
+      "id": "rec-heroes-feast",
+      "name": "Heroes' Feast",
+      "blurb": "A table that could feed a hold \u2014 or a destiny.",
+      "tier": "legendary",
+      "actMin": 7,
+      "ingredients": [
+        "healing-potion",
+        "mana-draught",
+        "trail-rations",
+        "hound-treat"
+      ],
+      "heal": 60,
+      "cookBonus": 6,
+      "staminaRestore": 24,
+      "manaRestore": 24,
+      "bondRestore": 20,
+      "partyHeal": 55,
+      "flagsAdd": [
+        "cooked-heroes-feast"
+      ],
+      "artId": "art-party-arrive",
+      "tags": [
+        "cook",
+        "party",
+        "legendary"
+      ]
+    },
+    {
+      "id": "rec-gate-broth",
+      "name": "Gateward Broth",
+      "blurb": "Bitter root against World-Eater breath.",
+      "tier": "legendary",
+      "actMin": 8,
+      "ingredients": [
+        "healing-potion",
+        "mana-draught",
+        "healing-potion"
+      ],
+      "heal": 55,
+      "cookBonus": 4,
+      "staminaRestore": 18,
+      "manaRestore": 18,
+      "flagsAdd": [
+        "cooked-gate-broth",
+        "ward-vs-maw"
+      ],
+      "artId": "art-dragon-silhouette",
+      "tags": [
+        "cook",
+        "ward",
+        "legendary"
+      ]
+    },
+    {
+      "id": "rec-last-supper",
+      "name": "Last Council Supper",
+      "blurb": "Shared before the three roads argue.",
+      "tier": "legendary",
+      "actMin": 9,
+      "ingredients": [
+        "trail-rations",
+        "healing-potion",
+        "mana-draught",
+        "hound-treat"
+      ],
+      "heal": 70,
+      "cookBonus": 6,
+      "staminaRestore": 30,
+      "manaRestore": 30,
+      "bondRestore": 30,
+      "partyHeal": 70,
+      "flagsAdd": [
+        "cooked-last-supper"
+      ],
+      "artId": "art-three-paths",
+      "tags": [
+        "cook",
+        "party",
+        "legendary"
+      ]
+    },
+    {
+      "id": "rec-wild-crown-feast",
+      "name": "Wild Crown Feast",
+      "blurb": "Moss, marrow, and moon \u2014 pack law on a plate.",
+      "tier": "legendary",
+      "actMin": 10,
+      "ingredients": [
+        "hound-treat",
+        "trail-rations",
+        "healing-potion"
+      ],
+      "heal": 80,
+      "cookBonus": 7,
+      "staminaRestore": 28,
+      "manaRestore": 10,
+      "bondRestore": 40,
+      "partyHeal": 60,
+      "flagsAdd": [
+        "cooked-wild-crown",
+        "ending-prep-animal"
+      ],
+      "artId": "art-ending-animal",
+      "tags": [
+        "cook",
+        "animal",
+        "legendary",
+        "ending"
+      ]
+    },
+    {
+      "id": "rec-hearth-crown-feast",
+      "name": "Hearth Crown Feast",
+      "blurb": "Bread, oath-salt, and shared wine.",
+      "tier": "legendary",
+      "actMin": 10,
+      "ingredients": [
+        "trail-rations",
+        "healing-potion",
+        "mana-draught"
+      ],
+      "heal": 80,
+      "cookBonus": 7,
+      "staminaRestore": 24,
+      "manaRestore": 24,
+      "bondRestore": 20,
+      "partyHeal": 70,
+      "flagsAdd": [
+        "cooked-hearth-crown",
+        "ending-prep-human"
+      ],
+      "artId": "art-ending-human",
+      "tags": [
+        "cook",
+        "human",
+        "legendary",
+        "ending"
+      ]
+    },
+    {
+      "id": "rec-ash-throne-feast",
+      "name": "Ash Throne Feast",
+      "blurb": "Coal-fruit and silence. Power eats first.",
+      "tier": "legendary",
+      "actMin": 10,
+      "ingredients": [
+        "mana-draught",
+        "mana-draught",
+        "healing-potion"
+      ],
+      "heal": 50,
+      "cookBonus": 5,
+      "staminaRestore": 20,
+      "manaRestore": 40,
+      "bondRestore": 0,
+      "partyHeal": 40,
+      "flagsAdd": [
+        "cooked-ash-throne",
+        "ending-prep-demon"
+      ],
+      "artId": "art-ending-demon",
+      "tags": [
+        "cook",
+        "demon",
+        "legendary",
+        "ending"
+      ]
+    }
+  ],
+  "version": 1
+}

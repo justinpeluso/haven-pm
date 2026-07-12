@@ -310,19 +310,25 @@ export function applyStoryChoice(
 
 export function acknowledgeNarrative(world: PartyWorldSave, slot: PlayerSlot): PartyWorldSave {
   const node = getStoryNode(world.campaignNodeId);
-  if (!node || node.kind !== "narrative") return world;
+  if (!node || (node.kind !== "narrative" && node.kind !== "montage")) return world;
   const partyFlags = mergeFlags(world.partyFlags, node.flagsAdd);
   let nextId = node.next;
   let endingId = world.endingId;
+  let characters = world.characters;
   // Cumulative path → finale splash when trusting the chronicle.
   if (node.id === "node-finale-resolve") {
     nextId = resolveFinaleNodeId(world.alignment ?? { animal: 0, human: 0, demon: 0 });
+  }
+  if (node.kind === "montage" && node.xpGrant > 0) {
+    const char = applyXp(characters[slot], node.xpGrant);
+    characters = { ...characters, [slot]: char };
   }
   const ch = chapterForNode(nextId);
   const nextNode = getStoryNode(nextId);
   if (nextNode?.kind === "ending") endingId = nextNode.endingId;
   return advanceTurn({
     ...world,
+    characters,
     partyFlags,
     campaignNodeId: nextId,
     chapterId: ch?.id ?? world.chapterId,
