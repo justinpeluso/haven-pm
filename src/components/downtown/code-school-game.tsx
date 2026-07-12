@@ -839,31 +839,47 @@ export function CodeSchoolGame() {
               <p className="text-sm" style={{ color: "var(--dt-muted)" }}>
                 Pick an unlocked chapter to continue the Lunar Foundry arc.
               </p>
-              <div className="space-y-2">
-                {unlocked.map((q) => {
-                  const done = save.completedQuestIds.includes(q.id);
-                  return (
-                    <button
-                      key={q.id}
-                      type="button"
-                      className="cs-action-row w-full text-left p-3"
-                      onClick={() => startQuest(q)}
-                    >
-                      <span
-                        className="text-[0.65rem] uppercase tracking-[0.14em]"
-                        style={{ color: "var(--dt-accent)" }}
+              {unlocked.length === 0 ? (
+                <div className="cs-parchment space-y-3 p-4">
+                  <p className="text-sm" style={{ color: "var(--dt-muted)" }}>
+                    No chapters unlocked on this sheet — the P2S bench is cold.
+                  </p>
+                  <button
+                    type="button"
+                    className="downtown-chip cs-primary-btn px-4 py-2 text-sm"
+                    style={{ borderColor: "var(--dt-accent)", color: "var(--dt-accent)" }}
+                    onClick={() => startTransition(() => beginCampaign())}
+                  >
+                    Begin Chapter 1
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {unlocked.map((q) => {
+                    const done = save.completedQuestIds.includes(q.id);
+                    return (
+                      <button
+                        key={q.id}
+                        type="button"
+                        className="cs-action-row w-full text-left p-3"
+                        onClick={() => startQuest(q)}
                       >
-                        Ch. {q.chapter}
-                        {done ? " · cleared" : ""}
-                      </span>
-                      <span className="block font-medium">{q.title}</span>
-                      <span className="block text-xs" style={{ color: "var(--dt-muted)" }}>
-                        {q.tagline}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
+                        <span
+                          className="text-[0.65rem] uppercase tracking-[0.14em]"
+                          style={{ color: "var(--dt-accent)" }}
+                        >
+                          Ch. {q.chapter}
+                          {done ? " · cleared" : ""}
+                        </span>
+                        <span className="block font-medium">{q.title}</span>
+                        <span className="block text-xs" style={{ color: "var(--dt-muted)" }}>
+                          {q.tagline}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           ) : (
             <div className="space-y-5 cs-stage-enter" key={`${quest.id}-${save.stepIndex}-${stageKey}`}>
