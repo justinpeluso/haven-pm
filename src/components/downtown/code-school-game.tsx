@@ -190,7 +190,6 @@ export function CodeSchoolGame() {
   const [log, setLog] = useState<LogEntry[]>([]);
   const [floaters, setFloaters] = useState<Floater[]>([]);
   const [fanfare, setFanfare] = useState<Fanfare>(null);
-  const [fanfareQueue, setFanfareQueue] = useState<Fanfare[]>([]);
   const [stageKey, setStageKey] = useState(0);
   const [hasExistingSave, setHasExistingSave] = useState(false);
   const [sparks, setSparks] = useState<Spark[]>([]);
@@ -203,6 +202,7 @@ export function CodeSchoolGame() {
   const rollTimer = useRef<ReturnType<typeof setInterval> | null>(null);
   const revealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const saveRef = useRef<PlayerSave | null>(null);
+  const fanfareQueueRef = useRef<Exclude<Fanfare, null>[]>([]);
   const toastTitleId = useId();
 
   useEffect(() => {
@@ -233,25 +233,23 @@ export function CodeSchoolGame() {
 
   function enqueueFanfare(next: Exclude<Fanfare, null>) {
     setFanfare((current) => {
-      if (!current) return next;
-      setFanfareQueue((q) => [...q, next]);
-      return current;
+      if (current) {
+        fanfareQueueRef.current = [...fanfareQueueRef.current, next];
+        return current;
+      }
+      return next;
     });
   }
 
   function dismissFanfare() {
-    const current = fanfare;
-    // Side effects only — queue advances the overlay.
-    if (current) {
+    setFanfare((current) => {
+      if (!current) return null;
       const cb = current.onDismiss;
-      setFanfareQueue((q) => {
-        const [head, ...rest] = q;
-        setFanfare(head ?? null);
-        return rest;
-      });
-      // Run after paint so queue swap isn't stomped by onDismiss.
       window.setTimeout(() => cb(), 0);
-    }
+      const [head, ...rest] = fanfareQueueRef.current;
+      fanfareQueueRef.current = rest;
+      return head ?? null;
+    });
   }
 
   function burstSparks(count: number, hue: Spark["hue"] = "gold") {
@@ -350,7 +348,7 @@ export function CodeSchoolGame() {
     setChoiceResolved(null);
     setPendingRoll(null);
     setFanfare(null);
-    setFanfareQueue([]);
+    fanfareQueueRef.current = [];
     setSparks([]);
     setShake(null);
     setStageKey((k) => k + 1);
@@ -369,7 +367,7 @@ export function CodeSchoolGame() {
     setChoiceResolved(null);
     setPendingRoll(null);
     setFanfare(null);
-    setFanfareQueue([]);
+    fanfareQueueRef.current = [];
     setSparks([]);
     setShake(null);
     setLog([]);
@@ -823,7 +821,10 @@ export function CodeSchoolGame() {
   }
 
   return (
-    <div className="downtown-shell code-school-crpg space-y-5">
+    <div
+      className="downtown-shell code-school-crpg space-y-5"
+      data-shake={shake ?? undefined}
+    >
       <DowntownSubnav active="code-school" />
 
       <div className="cs-floater-layer" aria-hidden>
@@ -835,13 +836,25 @@ export function CodeSchoolGame() {
             </span>
           </span>
         ))}
+        {sparks.map((s) => (
+          <span
+            key={s.id}
+            className="cs-spark"
+            data-hue={s.hue}
+            style={{ left: `${s.x}%`, top: `${s.y}%`, animationDelay: `${s.delay}s` }}
+          />
+        ))}
       </div>
 
       {fanfare && (
         <div className="cs-fanfare" role="dialog" aria-labelledby={toastTitleId}>
           <div className="cs-fanfare-card" data-kind={fanfare.kind}>
             <p className="cs-moon-badge mb-2">
-              {fanfare.kind === "grad" ? "Lunar Foundry" : "Chapter cleared"}
+              {fanfare.kind === "grad"
+                ? "Lunar Foundry"
+                : fanfare.kind === "level"
+                  ? "Level up"
+                  : "Chapter cleared"}
             </p>
             <h2 id={toastTitleId} className="font-serif text-2xl md:text-3xl mb-2">
               {fanfare.title}
@@ -854,15 +867,19 @@ export function CodeSchoolGame() {
               type="button"
               className="downtown-chip cs-primary-btn px-5 py-2 text-sm"
               style={{ borderColor: "var(--dt-accent)", color: "var(--dt-accent)" }}
-              onClick={fanfare.onDismiss}
+              onClick={dismissFanfare}
             >
-              {fanfare.kind === "grad" ? "Receive diploma" : "Advance"}
+              {fanfare.kind === "grad"
+                ? "Receive diploma"
+                : fanfare.kind === "level"
+                  ? "Claim level"
+                  : "Advance"}
             </button>
           </div>
         </div>
       )}
 
-      <div className="flex flex-wrap items-end justify-between gap-3 border-b border-[var(--dt-line)] pb-4">
+      <div className="cs-char-banner flex flex-wrap items-end justify-between gap-3 pb-4">
         <div>
           <p className="cs-moon-badge mb-1">Code School by JP · P2S / Lunar Foundry</p>
           <h1 className="font-serif text-2xl md:text-3xl">{save.name}</h1>
@@ -907,7 +924,7 @@ export function CodeSchoolGame() {
         </div>
       )}
 
-      <div className="cs-next-action" data-urgent={hint.urgent ? "true" : "false"}>
+      <div className="cs-next-action cs-next-action-sticky" data-urgent={hint.urgent ? "true" : "false"}>
         <div>
           <p className="text-[0.65rem] uppercase tracking-[0.16em]" style={{ color: "var(--dt-accent)" }}>
             Next action · {hint.label}
@@ -916,6 +933,17 @@ export function CodeSchoolGame() {
             {hint.detail}
           </p>
         </div>
+        {!(step?.type === "choice" && !choiceResolved && !pendingRoll) && (
+          <button
+            type="button"
+            className="downtown-chip cs-primary-btn px-4 py-2 text-sm"
+            style={{ borderColor: "var(--dt-accent)", color: "var(--dt-accent)" }}
+            disabled={!primaryReady}
+            onClick={runPrimaryAction}
+          >
+            {hint.label}
+          </button>
+        )}
       </div>
 
       {toasts.length > 0 && (
@@ -937,7 +965,7 @@ export function CodeSchoolGame() {
             ))}
           </div>
           {progress && (
-            <div className="space-y-1 pt-2 border-t border-[var(--dt-line)]">
+            <div className="space-y-1 pt-2 border-t border-[var(--dt-line)]" data-xp-pulse={xpPulse ? "true" : undefined}>
               <div
                 className="flex justify-between text-[0.65rem] uppercase tracking-[0.12em]"
                 style={{ color: "var(--dt-muted)" }}
@@ -947,7 +975,7 @@ export function CodeSchoolGame() {
                   {progress.into}/{progress.need}
                 </span>
               </div>
-              <div className="downtown-bar h-1.5">
+              <div className="downtown-bar h-1.5 cs-xp-bar">
                 <span style={{ width: `${progress.pct}%` }} />
               </div>
             </div>
@@ -1301,7 +1329,14 @@ function ChoicePanel({
       </p>
 
       {pendingRoll && (
-        <div className="cs-roll-stage">
+        <div className="cs-roll-stage" data-result={pendingRoll.revealed ? flavor ?? undefined : undefined}>
+          <div className="cs-die-orbit" aria-hidden>
+            {(flavor === "crit" || flavor === "fail") && pendingRoll.revealed
+              ? Array.from({ length: 8 }).map((_, i) => (
+                  <span key={i} className="cs-die-spark" data-i={i} data-result={flavor} />
+                ))
+              : null}
+          </div>
           <div
             className="cs-die"
             data-spinning={pendingRoll.spinning ? "true" : "false"}
