@@ -541,9 +541,9 @@ export const STARTER_GEAR_BY_CLASS: Record<string, string[]> = {
 /** Level-1 weapon picks at character create. */
 export const CREATE_WEAPONS_BY_CLASS: Record<string, string[]> = {
   warrior: ["iron-sword", "hunting-bow", "oak-staff"],
-  ranger: ["hunting-bow", "iron-sword"],
-  mage: ["oak-staff", "iron-sword"],
-  healer: ["oak-staff", "iron-sword"],
-  bard: ["oak-staff", "hunting-bow", "iron-sword"],
-  rogue: ["iron-sword", "hunting-bow"],
+  ranger: ["hunting-bow", "iron-sword", "bronze-dagger"],
+  mage: ["oak-staff", "sling-of-pebbles"],
+  healer: ["oak-staff", "bronze-dagger"],
+  bard: ["oak-staff", "hunting-bow", "bronze-dagger"],
+  rogue: ["bronze-dagger", "iron-sword", "sling-of-pebbles"],
 };

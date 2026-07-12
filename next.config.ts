@@ -7,6 +7,25 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "10mb",
     },
   },
+  async redirects() {
+    return [
+      {
+        source: "/downtown/party-chronicle",
+        destination: "/downtown/neverworld",
+        permanent: false,
+      },
+      {
+        source: "/downtown/code-school",
+        destination: "/downtown",
+        permanent: false,
+      },
+      {
+        source: "/downtown/sims-real-life",
+        destination: "/downtown",
+        permanent: false,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "**" },
