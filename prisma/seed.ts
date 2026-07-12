@@ -139,6 +139,26 @@ async function main() {
     },
   });
 
+  await prisma.user.create({
+    data: {
+      email: "justin@havenpm.com",
+      name: "Justin Peluso",
+      passwordHash,
+      role: UserRole.ADMINISTRATOR,
+      phone: "(412) 555-0105",
+    },
+  });
+
+  await prisma.user.create({
+    data: {
+      email: "michelle@havenpm.com",
+      name: "Michelle Turcan",
+      passwordHash,
+      role: UserRole.ADMINISTRATOR,
+      phone: "(412) 555-0106",
+    },
+  });
+
   const manager = await prisma.user.create({
     data: {
       email: "manager@havenpm.com",
@@ -868,7 +888,8 @@ async function main() {
   console.log(`  Showings:    ${showingsCreated.length} (Jul 15–31, 2026)`);
   console.log(`  Vendors:     ${VENDORS.length}`);
   console.log("\nDemo logins (password: password123):");
-  console.log("  admin@havenpm.com / manager@havenpm.com / office@havenpm.com");
+  console.log("  admin@havenpm.com / justin@havenpm.com / michelle@havenpm.com");
+  console.log("  manager@havenpm.com / office@havenpm.com");
   console.log("  agent@havenpm.com / agent2@havenpm.com / agent3@havenpm.com");
   console.log("  maintenance@havenpm.com");
   console.log("  tenant@havenpm.com … tenant10@havenpm.com");

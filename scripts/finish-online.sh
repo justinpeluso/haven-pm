@@ -102,5 +102,5 @@ curl -s -o /dev/null -w "local_root:%{http_code}\n" "http://localhost:3000/" || 
 
 echo ""
 echo "DONE — Haven is live at: $PROD_URL"
-echo "Demo login: admin@havenpm.com / password123"
+echo "Demo login: admin@ / justin@ / michelle@havenpm.com / password123"
 echo "Log: $LOG"

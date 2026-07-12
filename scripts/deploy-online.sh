@@ -84,4 +84,4 @@ npm run db:seed
 rm -f .env.vercel
 echo ""
 echo "DONE — Haven is live at: $URL"
-echo "Demo login: admin@havenpm.com / password123"
+echo "Demo login: admin@ / justin@ / michelle@havenpm.com / password123"

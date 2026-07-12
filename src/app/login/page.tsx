@@ -83,7 +83,9 @@ export default function LoginPage() {
           <div className="mt-6 rounded-lg bg-muted p-4 text-xs text-muted-foreground">
             <p className="font-medium mb-2">Demo accounts (password: password123)</p>
             <ul className="space-y-1">
-              <li>admin@havenpm.com — Administrator</li>
+              <li>admin@havenpm.com — Alex (Administrator)</li>
+              <li>justin@havenpm.com — Justin Peluso (Administrator)</li>
+              <li>michelle@havenpm.com — Michelle Turcan (Administrator)</li>
               <li>manager@havenpm.com — Property Manager</li>
               <li>agent@havenpm.com / agent2@ / agent3@ — Agents</li>
               <li>maintenance@havenpm.com — Maintenance Staff</li>
