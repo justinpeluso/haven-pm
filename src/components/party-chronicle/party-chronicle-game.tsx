@@ -12,7 +12,19 @@ import {
   STAT_POINT_BUY_POOL,
   slotFromEmail,
 } from "@/lib/downtown/party-chronicle/players";
-import { getAbility } from "@/lib/downtown/party-chronicle/skills";
+import { getAbility, SKILL_TREES, unlockSkillNode } from "@/lib/downtown/party-chronicle/skills";
+import {
+  START_CHAPTER_ID,
+  START_NODE_ID,
+  STORY_NODE_BY_ID,
+} from "@/lib/downtown/party-chronicle/story";
+import {
+  createNewWorld as createLibWorld,
+  clearWorld,
+  loadWorld as loadLibWorld,
+  writeWorld as writeLibWorld,
+  SAVE_KEY as LIB_SAVE_KEY,
+} from "@/lib/downtown/party-chronicle/persist";
 import {
   CLASS_IDS,
   EQUIP_SLOTS,
@@ -26,14 +38,13 @@ import {
   type PlayerIdentity,
   type PlayerSlot,
   type StatKey,
-  type StoryNode,
 } from "@/lib/downtown/party-chronicle/types";
 import "@/components/party-chronicle/party-chronicle.css";
 
 type UiPhase = "boot" | "title" | "create" | "play" | "ending";
-type MainTab = "story" | "inventory" | "codex" | "party";
+type MainTab = "story" | "skills" | "inventory" | "codex" | "party";
 
-const SAVE_KEY = "haven-pm-party-chronicle-v1";
+const SAVE_KEY = LIB_SAVE_KEY;
 
 const STAT_LABELS: Record<StatKey, string> = {
   strength: "STR",
@@ -66,160 +77,8 @@ const CODEX_ACTS: { act: number; title: string; hours: number; chapter: string }
   { act: 10, title: "Chronicle's End", hours: 4, chapter: "ch10-endings" },
 ];
 
-/** Inline starter story — swap when lib/story.ts lands. */
-const STARTER_STORY: Record<string, StoryNode> = {
-  "node-intro": {
-    id: "node-intro",
-    kind: "narrative",
-    title: "Frostford Gate",
-    body: "Three travelers and three hounds stand before the frost-bitten gate. The Chronicle opens — Justin leads, Rusty watches the treeline, Elisha reads the wind.",
-    sceneId: "scene-frostford-gate",
-    artId: "art-party-arrive",
-    next: "node-pip",
-  },
-  "node-pip": {
-    id: "node-pip",
-    kind: "conversation",
-    title: "Fox in the Hollow",
-    body: "Psst. Two-legs. Got crumbs? Got courage? The wild remembers who listens.",
-    speaker: "Pip",
-    balloon: true,
-    npcId: "npc-fox-pip",
-    sceneId: "scene-pine-hollow",
-    artId: "art-fox-pip",
-    choices: [
-      {
-        id: "pip-kind",
-        label: "Share trail rations — earn the fox's trust",
-        approach: "kindness",
-        outcome: {
-          text: "Pip's tail flashes like a banner. She points toward the goblin smoke.",
-          alignment: { animal: 2 },
-          nextNodeId: "node-path",
-        },
-      },
-      {
-        id: "pip-bold",
-        label: "Demand directions — steel voice",
-        approach: "authority",
-        outcome: {
-          text: "Corv caws approval from a distant perch. The road answers to names.",
-          alignment: { human: 2 },
-          nextNodeId: "node-path",
-        },
-      },
-    ],
-  },
-  "node-path": {
-    id: "node-path",
-    kind: "path",
-    title: "Three Roads",
-    body: "A fork: moss-soft wild path, a maintained hold-road, and ash-scented darkness under the ridge.",
-    sceneId: "scene-stag-glade",
-    artId: "art-three-paths",
-    choices: [
-      {
-        id: "path-wild",
-        label: "Take the wild path",
-        approach: "animal",
-        outcome: { text: "Ulfric's howl echoes approval.", alignment: { animal: 3 }, nextNodeId: "node-goblin" },
-      },
-      {
-        id: "path-hold",
-        label: "March the hold-road",
-        approach: "human",
-        outcome: { text: "Aelwyn's antlers gleam — stewardship chosen.", alignment: { human: 3 }, nextNodeId: "node-goblin" },
-      },
-      {
-        id: "path-ash",
-        label: "Descend toward ash",
-        approach: "demon",
-        outcome: { text: "Nyx hisses: laws are cages.", alignment: { demon: 3 }, nextNodeId: "node-goblin" },
-      },
-    ],
-  },
-  "node-goblin": {
-    id: "node-goblin",
-    kind: "encounter",
-    title: "Goblin Scout",
-    body: "A goblin scout blocks the pass — crude blade, cruel grin.",
-    enemy: "Goblin Scout",
-    enemyHp: 24,
-    enemyPower: 6,
-    enemyArtId: "art-goblin-scout",
-    sceneId: "scene-goblin-camp",
-    artId: "art-goblin-scout",
-    choices: [
-      {
-        id: "goblin-win",
-        label: "Press the victory",
-        approach: "finish",
-        outcome: { text: "The scout flees. XP and spoils!", xp: 40, gold: 12, nextNodeId: "node-council" },
-      },
-    ],
-  },
-  "node-council": {
-    id: "node-council",
-    kind: "conversation",
-    title: "Last Whisper",
-    body: "Choose the crown the world will wear.",
-    speaker: "Corv",
-    balloon: true,
-    npcId: "npc-raven-corv",
-    sceneId: "scene-last-council",
-    artId: "art-raven-corv",
-    choices: [
-      {
-        id: "finale-animal",
-        label: "Crown the Wild",
-        approach: "animal",
-        outcome: { text: "Pack and glen answer your call.", alignment: { animal: 5 }, endingId: "ending-animal" },
-      },
-      {
-        id: "finale-human",
-        label: "Crown the Hearth",
-        approach: "human",
-        outcome: { text: "Oaths and bread bind beast and hold.", alignment: { human: 5 }, endingId: "ending-human" },
-      },
-      {
-        id: "finale-demon",
-        label: "Take the Ash Throne",
-        approach: "demon",
-        outcome: { text: "Power without pity.", alignment: { demon: 5 }, endingId: "ending-demon" },
-      },
-    ],
-  },
-  "node-finale-animal": {
-    id: "node-finale-animal",
-    kind: "ending",
-    title: "The Wild Crown",
-    body: "Pack and glen answer your call. The holds stand — but the wild writes the law.",
-    endingId: "ending-animal",
-    splashArtId: "splash-ending-animal",
-    sceneId: "scene-wild-crown",
-    artId: "art-ending-animal",
-  },
-  "node-finale-human": {
-    id: "node-finale-human",
-    kind: "ending",
-    title: "The Hearth Crown",
-    body: "Oaths, roads, and shared bread. You bind beast and hold in one fellowship.",
-    endingId: "ending-human",
-    splashArtId: "splash-ending-human",
-    sceneId: "scene-hearth-crown",
-    artId: "art-ending-human",
-  },
-  "node-finale-demon": {
-    id: "node-finale-demon",
-    kind: "ending",
-    title: "The Ash Throne",
-    body: "Power without pity. The World-Eater yields — and something hungrier wears your face.",
-    endingId: "ending-demon",
-    splashArtId: "splash-ending-demon",
-    sceneId: "scene-ash-throne",
-    artId: "art-ending-demon",
-  },
-};
+/** Full campaign nodes from lib (branching chapters + finales). */
+const STARTER_STORY = STORY_NODE_BY_ID;
 
 function endingNodeId(endingId: string): string {
   if (endingId === "ending-animal") return "node-finale-animal";
@@ -307,8 +166,8 @@ function createNewWorld(): PartyWorldSave {
     version: 1,
     activeSlot: "justin",
     turnIndex: 0,
-    campaignNodeId: "node-intro",
-    chapterId: "ch1-frostford",
+    campaignNodeId: START_NODE_ID,
+    chapterId: START_CHAPTER_ID,
     partyFlags: [],
     alignment: { ...EMPTY_ALIGNMENT },
     encounterEnemyHp: null,
@@ -410,16 +269,33 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   }, [world, isSpectator, mappedSlot, isAdmin, adminSlot]);
 
   useEffect(() => {
-    const existing = loadWorld();
-    if (existing) {
-      setWorld(existing);
-      const allCreated = PLAYER_SLOT_ORDER.every((s) => existing.characters[s].created);
-      if (existing.endingId) setPhase("ending");
-      else if (allCreated) setPhase("play");
-      else setPhase("create");
-    } else {
-      setPhase("title");
-    }
+    let cancelled = false;
+    (async () => {
+      let existing = loadWorld();
+      try {
+        const res = await fetch("/api/downtown/party-chronicle");
+        if (res.ok) {
+          const data = (await res.json()) as { world: PartyWorldSave };
+          existing = data.world;
+          writeWorld(data.world);
+        }
+      } catch {
+        /* local fallback */
+      }
+      if (cancelled) return;
+      if (existing) {
+        setWorld(existing);
+        const allCreated = PLAYER_SLOT_ORDER.every((s) => existing!.characters[s].created);
+        if (existing.endingId) setPhase("ending");
+        else if (allCreated) setPhase("play");
+        else setPhase("create");
+      } else {
+        setPhase("title");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -431,6 +307,11 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const persist = useCallback((next: PartyWorldSave) => {
     const saved = writeWorld(next);
     setWorld(saved);
+    void fetch("/api/downtown/party-chronicle", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ world: saved }),
+    }).catch(() => undefined);
     return saved;
   }, []);
 
@@ -453,6 +334,11 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     localStorage.removeItem(SAVE_KEY);
     setWorld(null);
     setPhase("title");
+    void fetch("/api/downtown/party-chronicle", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reset: true }),
+    }).catch(() => undefined);
   }
 
   function applyStoryOutcome(outcome: {
@@ -826,6 +712,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
             {(
               [
                 ["story", "Comic"],
+                ["skills", "Skills"],
                 ["inventory", "Gear"],
                 ["codex", "Codex"],
                 ["party", "Sheets"],
