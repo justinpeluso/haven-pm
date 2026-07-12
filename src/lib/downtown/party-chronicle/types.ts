@@ -1,0 +1,323 @@
+/** Party Chronicle — Skyrim / Middle-earth party RPG types */
+
+export const STAT_KEYS = ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"] as const;
+export type StatKey = (typeof STAT_KEYS)[number];
+export type Stats = Record<StatKey, number>;
+
+export const PLAYER_SLOT_ORDER = ["justin", "rusty", "elisha"] as const;
+export type PlayerSlot = (typeof PLAYER_SLOT_ORDER)[number];
+
+export const CLASS_IDS = ["warrior", "ranger", "mage", "rogue", "paladin"] as const;
+export type ClassId = (typeof CLASS_IDS)[number];
+
+export const EQUIP_SLOTS = ["head", "chest", "hands", "legs", "weapon", "offhand", "accessory"] as const;
+export type EquipSlot = (typeof EQUIP_SLOTS)[number];
+
+export type GearTier = "common" | "magic" | "legendary";
+
+export type SkillTreeId = "combat" | "magic" | "survival" | "speech" | "beastmaster";
+
+export type AbilityKind = "skill" | "spell" | "shout" | "cook" | "heal" | "hound";
+
+export type AbilityCost = { stamina?: number; mana?: number };
+
+export type AbilityTarget =
+  | "enemy"
+  | "self"
+  | "ally"
+  | "party"
+  | "dog"
+  | "aoe";
+
+export type AbilityDef = {
+  id: string;
+  name: string;
+  tree: SkillTreeId;
+  kind: AbilityKind;
+  blurb: string;
+  /** Skill-tree node that unlocks this hotbar ability */
+  nodeId: string;
+  cost?: AbilityCost;
+  power: number;
+  tags: string[];
+  /** Optional explicit target; otherwise inferred from tags/kind. */
+  target?: AbilityTarget;
+};
+
+/** Payload fired when a combat hotbar slot is used (UI + encounter engine). */
+export type CombatUsePayload = {
+  abilityId: string;
+  slotIndex: number;
+  name: string;
+  kind: AbilityKind;
+  tree: SkillTreeId;
+  blurb: string;
+  cost: AbilityCost;
+  power: number;
+  tags: string[];
+  target: AbilityTarget;
+  /** Flavor line for combat log / juice. */
+  flavor: string;
+};
+
+export type SkillNode = {
+  id: string;
+  tree: SkillTreeId;
+  name: string;
+  blurb: string;
+  cost: number;
+  /** Node ids that must be unlocked first */
+  requires: string[];
+  /** Level gate */
+  minLevel: number;
+  grantsAbilityId?: string;
+  statBump?: Partial<Stats>;
+};
+
+export type SkillTreeDef = {
+  id: SkillTreeId;
+  name: string;
+  blurb: string;
+  nodes: SkillNode[];
+};
+
+export type GearItem = {
+  id: string;
+  name: string;
+  blurb: string;
+  tier: GearTier;
+  slot: EquipSlot | "consumable" | "misc";
+  power?: number;
+  armor?: number;
+  heal?: number;
+  cookBonus?: number;
+  tags: string[];
+};
+
+export type DogCompanion = {
+  name: string;
+  breed: string;
+  bond: number;
+  hp: number;
+  maxHp: number;
+};
+
+export type HotbarSlot = string | null;
+
+export const HOTBAR_SIZE = 4;
+
+export type CharacterSave = {
+  slot: PlayerSlot;
+  name: string;
+  classId: ClassId;
+  level: number;
+  xp: number;
+  skillPoints: number;
+  stats: Stats;
+  hp: number;
+  maxHp: number;
+  stamina: number;
+  maxStamina: number;
+  mana: number;
+  maxMana: number;
+  dog: DogCompanion;
+  /** Unlocked skill node ids */
+  unlockedNodes: string[];
+  /** Ability ids learned */
+  abilities: string[];
+  /** Hotbar: ≥3 slots (we use 4) */
+  hotbar: HotbarSlot[];
+  inventory: string[];
+  equipped: Partial<Record<EquipSlot, string | null>>;
+  gold: number;
+  flags: string[];
+  /** Private conversation / path choices logged */
+  choiceLog: { nodeId: string; choiceId: string; at: string }[];
+  created: boolean;
+};
+
+/** Destiny tracks steered by path choices → finale endings. */
+export const ALIGNMENT_PATHS = ["animal", "human", "demon"] as const;
+export type AlignmentPath = (typeof ALIGNMENT_PATHS)[number];
+
+export type AlignmentScores = Record<AlignmentPath, number>;
+
+/** Comic-panel / illustration key for the 90s RPG UI. */
+export type ComicArtRef = {
+  /** Scene plate id (full panel background / establishing shot). */
+  sceneId: string;
+  /** Foreground illustration / portrait / splash id. */
+  artId: string;
+};
+
+export type StoryChoice = {
+  id: string;
+  label: string;
+  approach: string;
+  /** Optional skill check */
+  stat?: StatKey;
+  dc?: number;
+  /** Required ability or flag */
+  requireFlag?: string;
+  requireAbility?: string;
+  /** Skill-check success branch (optional if `outcome` is set). */
+  success?: StoryOutcome;
+  fail?: StoryOutcome;
+  /** Always apply (no check) */
+  outcome?: StoryOutcome;
+};
+
+export type StoryOutcome = {
+  text: string;
+  xp?: number;
+  gold?: number;
+  flagsAdd?: string[];
+  flagsRemove?: string[];
+  itemId?: string;
+  nextNodeId?: string;
+  endingId?: string;
+  healParty?: number;
+  damage?: number;
+  /** Cumulative destiny deltas (Animal / Human / Demon). */
+  alignment?: Partial<AlignmentScores>;
+  /** Optional reaction panel after the choice resolves. */
+  artId?: string;
+  sceneId?: string;
+};
+
+type StoryArtFields = {
+  /** Establishing / panel background key for comic UI. */
+  sceneId?: string;
+  /** Portrait, creature plate, or splash illustration key. */
+  artId?: string;
+};
+
+export type StoryNode =
+  | ({
+      id: string;
+      kind: "narrative";
+      title: string;
+      body: string;
+      speaker?: string;
+      next: string;
+      flagsAdd?: string[];
+    } & StoryArtFields)
+  | ({
+      id: string;
+      kind: "conversation";
+      title: string;
+      body: string;
+      speaker: string;
+      /** Talking beasts → render body in a speech balloon. */
+      balloon?: boolean;
+      npcId?: string;
+      choices: StoryChoice[];
+    } & StoryArtFields)
+  | ({
+      id: string;
+      kind: "path";
+      title: string;
+      body: string;
+      choices: StoryChoice[];
+    } & StoryArtFields)
+  | ({
+      id: string;
+      kind: "encounter";
+      title: string;
+      body: string;
+      enemy: string;
+      enemyHp: number;
+      enemyPower: number;
+      enemyArtId?: string;
+      /** Victory / flee / special */
+      choices: StoryChoice[];
+    } & StoryArtFields)
+  | ({
+      id: string;
+      kind: "ending";
+      title: string;
+      body: string;
+      endingId: string;
+      /** Full-bleed finale splash for comic UI. */
+      splashArtId?: string;
+    } & StoryArtFields)
+  | ({
+      id: string;
+      kind: "montage";
+      title: string;
+      body: string;
+      /** Compressed travel / training — still awards meaningful XP via next choice or auto. */
+      xpGrant: number;
+      next: string;
+      flagsAdd?: string[];
+    } & StoryArtFields);
+
+export type ChapterDef = {
+  id: string;
+  chapter: number;
+  /** Approximate level band this chapter is designed for */
+  levelMin: number;
+  levelMax: number;
+  title: string;
+  tagline: string;
+  startNodeId: string;
+  nodeIds: string[];
+  /** Chapter title splash panel. */
+  splashArtId?: string;
+  sceneId?: string;
+  /** Estimated solo play hours for this act (3-player turns multiply). */
+  estimatedHours?: number;
+};
+
+export type EndingDef = {
+  id: string;
+  title: string;
+  blurb: string;
+  tone: "glory" | "shadow" | "bond" | "crown" | "exile";
+  path?: AlignmentPath;
+  /** Full-bleed comic splash for this finale. */
+  splashArtId?: string;
+  sceneId?: string;
+  artId?: string;
+};
+
+/** Named speaking beast NPC for dialogue + quest hooks. */
+export type AnimalNpcDef = {
+  id: string;
+  name: string;
+  species: string;
+  title: string;
+  blurb: string;
+  /** Default portrait / panel art. */
+  artId: string;
+  sceneId: string;
+  /** Primary destiny this beast steers toward. */
+  leans: AlignmentPath;
+  /** Short lines that fit speech balloons (≤ ~90 chars preferred). */
+  balloonLines: string[];
+};
+
+export type PartyWorldSave = {
+  version: 1;
+  /** Whose turn in rotation */
+  activeSlot: PlayerSlot;
+  turnIndex: number;
+  campaignNodeId: string;
+  chapterId: string;
+  partyFlags: string[];
+  /** Running Animal / Human / Demon scores from path choices. */
+  alignment: AlignmentScores;
+  encounterEnemyHp: number | null;
+  log: string[];
+  endingId: string | null;
+  characters: Record<PlayerSlot, CharacterSave>;
+  updatedAt: string;
+  startedAt: string;
+};
+
+export type PlayerIdentity = {
+  email: string;
+  name: string | null;
+  slot: PlayerSlot | null;
+  isDm: boolean;
+};
