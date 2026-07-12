@@ -111,14 +111,15 @@
     url("/sims-real-life/corner-tr.svg"),
     url("/sims-real-life/corner-bl.svg"),
     url("/sims-real-life/corner-br.svg");
-  background-size: 36px 36px;
+  /* Keep ≤ panel p-4 gutter so ornaments never cover feast/sheet text */
+  background-size: 14px 14px;
   background-position:
-    top 2px left 2px,
-    top 2px right 2px,
-    bottom 2px left 2px,
-    bottom 2px right 2px;
+    top 3px left 3px,
+    top 3px right 3px,
+    bottom 3px left 3px,
+    bottom 3px right 3px;
   background-repeat: no-repeat;
-  opacity: 0.85;
+  opacity: 0.9;
   z-index: 1;
 }
 
@@ -427,12 +428,12 @@
     url("/sims-real-life/corner-tr.svg"),
     url("/sims-real-life/corner-bl.svg"),
     url("/sims-real-life/corner-br.svg");
-  background-size: 36px 36px;
+  background-size: 14px 14px;
   background-position:
-    top 2px left 2px,
-    top 2px right 2px,
-    bottom 2px left 2px,
-    bottom 2px right 2px;
+    top 3px left 3px,
+    top 3px right 3px,
+    bottom 3px left 3px,
+    bottom 3px right 3px;
   background-repeat: no-repeat;
   opacity: 0.7;
 }
@@ -502,12 +503,12 @@
     url("/sims-real-life/corner-tr.svg"),
     url("/sims-real-life/corner-bl.svg"),
     url("/sims-real-life/corner-br.svg");
-  background-size: 36px 36px;
+  background-size: 14px 14px;
   background-position:
-    top 2px left 2px,
-    top 2px right 2px,
-    bottom 2px left 2px,
-    bottom 2px right 2px;
+    top 3px left 3px,
+    top 3px right 3px,
+    bottom 3px left 3px,
+    bottom 3px right 3px;
   background-repeat: no-repeat;
   opacity: 0.75;
 }
