@@ -1,8 +1,8 @@
 import {
   DOG_CUES,
-  DOG_CUES_WIN,
-  DOG_TRAINING_WIN,
   NOT_MEDICAL_ADVICE,
+  REQUIRED_WIN_CUES,
+  REQUIRED_WIN_TRAINING,
   TDEE_MAX,
   TDEE_MIN,
   WIN_WEIGHT_LB,
@@ -132,22 +132,22 @@ export function computeWeightDelta(save: PlayerSave): { delta: number; note: str
     };
   }
 
-  // Surplus → gain; game-feel slightly faster than pure 3500 kcal/lb when optimized
-  let gain = (surplus / 3200) * proteinFactor;
+  // Surplus → gain; campaign-paced (~14–20 good days for 150→170 when optimized)
+  let gain = (surplus / 2600) * proteinFactor;
   if (save.dayResistance) {
-    gain *= 1.35;
+    gain *= 1.55;
   } else if (save.dayCardioOnly) {
     gain *= 0.75;
   }
 
-  const lo = save.dayResistance && proteinFactor >= 1 ? 0.15 : 0.08;
-  const hi = save.dayResistance && surplus > 400 ? 0.8 : 0.45;
+  const lo = save.dayResistance && proteinFactor >= 1 ? 0.28 : 0.1;
+  const hi = save.dayResistance && surplus > 350 ? 1.15 : 0.55;
   const delta = clamp(gain, lo, hi);
 
   return {
     delta,
     note: save.dayResistance
-      ? `Surplus + lifting — lean-ish gain ~${delta.toFixed(2)} lb.`
+      ? `Surplus + iron — the scale climbs ~${delta.toFixed(2)} lb.`
       : `Surplus logged — gain ~${delta.toFixed(2)} lb (lift to improve quality).`,
   };
 }
@@ -164,11 +164,18 @@ function countFlagPrefix(save: PlayerSave, prefix: string): number {
 
 export function checkVictory(save: PlayerSave): boolean {
   if (save.graduated) return true;
-  return (
-    save.weightLb >= WIN_WEIGHT_LB &&
-    save.dog.training >= DOG_TRAINING_WIN &&
-    save.dog.cuesLearned.length >= DOG_CUES_WIN
-  );
+  const cuesOk = REQUIRED_WIN_CUES.every((c) => save.dog.cuesLearned.includes(c));
+  return save.weightLb >= WIN_WEIGHT_LB && save.dog.training >= REQUIRED_WIN_TRAINING && cuesOk;
+}
+
+export function dogWinProgress(save: PlayerSave): { cuesHave: number; cuesNeed: number; training: number; trainingNeed: number } {
+  const cuesHave = REQUIRED_WIN_CUES.filter((c) => save.dog.cuesLearned.includes(c)).length;
+  return {
+    cuesHave,
+    cuesNeed: REQUIRED_WIN_CUES.length,
+    training: save.dog.training,
+    trainingNeed: REQUIRED_WIN_TRAINING,
+  };
 }
 
 function applyQuestRewards(save: PlayerSave, quest: Quest): PlayerSave {
@@ -190,7 +197,7 @@ function applyQuestRewards(save: PlayerSave, quest: Quest): PlayerSave {
         xp: next.xp + xp,
         dog: { ...next.dog, bond: next.dog.bond + bond },
       };
-      next = pushLog(next, `Dog mastery bonus: +${xp} XP, Scout bond +${bond}.`);
+      next = pushLog(next, `Dog mastery bonus: +${xp} XP, ${next.dog.name}'s bond +${bond}.`);
     }
   }
 
@@ -208,7 +215,7 @@ function applyQuestRewards(save: PlayerSave, quest: Quest): PlayerSave {
 }
 
 function stepSatisfied(save: PlayerSave, step: Quest["steps"][number]): boolean {
-  if (step.kind === "narrative") return true;
+  if (step.kind === "narrative") return save.flags.includes(`read_${step.id}`);
   if (step.kind === "flag") return hasFlags(save, step.requireFlags);
   if (step.kind === "check" && step.checkId) return questCheckPasses(save, step.checkId);
   return false;
@@ -435,6 +442,7 @@ export function dogCare(save: PlayerSave, actionId: string): ActionResult {
     };
   }
 
+  const bondBefore = dog.bond;
   dog.energy = clamp(dog.energy - action.dogEnergyCost, 0, dog.maxEnergy);
   dog.bond = Math.max(0, dog.bond + action.bondDelta);
   dog.training = Math.max(0, dog.training + action.trainingDelta);
@@ -467,6 +475,14 @@ export function dogCare(save: PlayerSave, actionId: string): ActionResult {
     }
   }
 
+  if (dog.bond >= 40 && bondBefore < 40) {
+    msg += ` Bond moment: ${dog.name} leans into your hip — she chooses you.`;
+  } else if (dog.bond >= 60 && bondBefore < 60) {
+    msg += ` Bond moment: her eyes track you across the room like a loyal radar.`;
+  } else if (dog.bond >= 80 && bondBefore < 80) {
+    msg += ` Bond moment: partnership sealed — ${dog.name} is your Hound of the North.`;
+  }
+
   next = { ...next, dog, xp: next.xp + xpGain };
 
   if (dog.fedToday && dog.walkedToday && !next.flags.includes("dog_care_today")) {
@@ -489,7 +505,7 @@ export function rest(save: PlayerSave): ActionResult {
       energy: Math.min(save.dog.maxEnergy, save.dog.energy + 20),
     },
   };
-  return afterAction(next, `Rest break. Energy +${recover}. Scout dozes.`, true);
+  return afterAction(next, `Rest break. Energy +${recover}. ${save.dog.name} dozes beside you.`, true);
 }
 
 export function advanceDay(save: PlayerSave): ActionResult {
@@ -501,11 +517,24 @@ export function advanceDay(save: PlayerSave): ActionResult {
     fedStreak = countFlagPrefix(save, "fed_day") + 1;
   }
 
+  const stipend = 14 + Math.max(0, abilityMod(save.stats.computer)) * 4;
+  const weightDrama =
+    newWeight >= WIN_WEIGHT_LB
+      ? " Banner weight."
+      : newWeight >= 165
+        ? " Finale air — the scale trembles."
+        : newWeight >= 158
+          ? " Midroad cleared."
+          : delta >= 0.7
+            ? " Juicy tick!"
+            : "";
+
   let next: PlayerSave = {
     ...save,
     day: save.day + 1,
     turn: save.turn + 1,
     weightLb: newWeight,
+    money: save.money + stipend,
     energy: save.maxEnergy,
     hp: Math.min(save.maxHp, save.hp + 3),
     dayCalories: 0,
@@ -537,7 +566,7 @@ export function advanceDay(save: PlayerSave): ActionResult {
     };
   }
 
-  const msg = `Day ${next.day}. ${note} Weight now ${newWeight.toFixed(1)} lb. Energy restored.`;
+  const msg = `Day ${next.day}. ${note} Weight now ${newWeight.toFixed(1)} lb.${weightDrama} Pay stub +$${stipend}. Energy restored.`;
   next = pushLog(next, msg);
   next = advanceQuest(next);
 
@@ -571,6 +600,90 @@ export function setActiveQuest(save: PlayerSave, questId: string): PlayerSave {
     questStepIndex: 0,
     phase: quest.phase === "graduated" ? save.phase : quest.phase,
   };
+}
+
+const SOCIAL_VIGNETTES = [
+  {
+    ok: "Coffee-shop banter lands. Someone buys you a pastry — surplus by friendship.",
+    fail: "You ramble. They smile anyway and gift a protein bar. Fail-forward calories.",
+  },
+  {
+    ok: "Gym desk chat unlocks a free guest day. Charisma paid the toll.",
+    fail: "Awkward small talk — still got a tip about progressive overload on a napkin.",
+  },
+  {
+    ok: "Neighbor praises her leash manners. Bond vibes spill onto you.",
+    fail: "She invents a zoomie mid-hello. You apologize, laugh, learn.",
+  },
+];
+
+export function socialOuting(save: PlayerSave): ActionResult {
+  const spent = spendEnergy(save, 8);
+  if (!spent.ok) return { save, message: spent.message!, success: false };
+
+  const check = skillCheck(spent.save.stats, "charisma", 11);
+  const roll: NonNullable<LastRoll> = {
+    ...check,
+    success: check.success,
+    stat: "charisma",
+    label: "Downtown charm",
+  };
+  const vignette = SOCIAL_VIGNETTES[Math.floor(Math.random() * SOCIAL_VIGNETTES.length)]!;
+  let next: PlayerSave = {
+    ...spent.save,
+    xp: spent.save.xp + (check.success ? 10 : 4),
+    money: spent.save.money + (check.success ? 6 : 2),
+    dayCalories: spent.save.dayCalories + (check.success ? 180 : 90),
+    dayProteinG: spent.save.dayProteinG + (check.success ? 8 : 6),
+    stats: applyStatBump(spent.save.stats, check.success && Math.random() > 0.75 ? { charisma: 1 } : undefined),
+  };
+  return afterAction(
+    next,
+    `${check.success ? vignette.ok : vignette.fail} (d20 ${check.d20}+${check.mod}=${check.total})`,
+    check.success,
+    roll
+  );
+}
+
+export function magicFocus(save: PlayerSave): ActionResult {
+  const spent = spendEnergy(save, 6);
+  if (!spent.ok) return { save, message: spent.message!, success: false };
+
+  const check = skillCheck(spent.save.stats, "magic", 10);
+  const roll: NonNullable<LastRoll> = {
+    ...check,
+    success: check.success,
+    stat: "magic",
+    label: "Circle of Clarity",
+  };
+  const recover = check.success ? 22 : 12;
+  const next: PlayerSave = {
+    ...spent.save,
+    energy: Math.min(spent.save.maxEnergy, spent.save.energy + recover),
+    xp: spent.save.xp + (check.success ? 8 : 4),
+    stats: applyStatBump(
+      spent.save.stats,
+      check.success ? { magic: 1 } : { wisdom: 1 }
+    ),
+    hp: Math.min(spent.save.maxHp, spent.save.hp + 1),
+  };
+  const msg = check.success
+    ? `Focus ritual clears the static. Energy +${recover}. Magic feels like a warm HUD glow.`
+    : `Mind wanders — you still breathe. Energy +${recover}. Fail-forward calm.`;
+  return afterAction(next, `${msg} (d20 ${check.d20}+${check.mod}=${check.total})`, check.success, roll);
+}
+
+/** Player dismisses the current narrative journal step. */
+export function acknowledgeQuestStep(save: PlayerSave): ActionResult {
+  const step = currentQuestStep(save);
+  if (!step || step.kind !== "narrative") {
+    return { save, message: "No journal page waiting.", success: false };
+  }
+  if (save.flags.includes(`read_${step.id}`)) {
+    return { save, message: "Already read.", success: false };
+  }
+  const next = addFlag(save, `read_${step.id}`);
+  return afterAction(next, `Journal — ${step.title}`, true);
 }
 
 /** Current step for UI, or null if no active quest / past end. */

@@ -1,4 +1,10 @@
-import { DEFAULT_DOG_NAME, WIN_WEIGHT_LB } from "./data";
+import {
+  DEFAULT_DOG_AGE_YEARS,
+  DEFAULT_DOG_NAME,
+  DEFAULT_DOG_SEX,
+  DOG_LIFE_STAGE,
+  WIN_WEIGHT_LB,
+} from "./data";
 import { INTRO_QUEST_ID, STARTING_STATS } from "./quests";
 import type { DogSave, PlayerSave, Stats } from "./types";
 
@@ -10,7 +16,10 @@ const START_DOG_MAX_ENERGY = 100;
 
 export function createStartingDog(name = DEFAULT_DOG_NAME): DogSave {
   return {
-    name,
+    name: name.trim() || DEFAULT_DOG_NAME,
+    sex: DEFAULT_DOG_SEX,
+    ageYears: DEFAULT_DOG_AGE_YEARS,
+    lifeStage: DOG_LIFE_STAGE,
     energy: START_DOG_MAX_ENERGY,
     maxEnergy: START_DOG_MAX_ENERGY,
     bond: 20,
@@ -21,8 +30,9 @@ export function createStartingDog(name = DEFAULT_DOG_NAME): DogSave {
   };
 }
 
-export function createNewSave(name = "Justin"): PlayerSave {
+export function createNewSave(name = "Justin", dogName = DEFAULT_DOG_NAME): PlayerSave {
   const now = new Date().toISOString();
+  const pup = createStartingDog(dogName);
   return {
     version: 1,
     name,
@@ -37,11 +47,11 @@ export function createNewSave(name = "Justin"): PlayerSave {
     maxEnergy: START_MAX_ENERGY,
     money: 80,
     mealPrep: 0,
-    dog: createStartingDog(),
+    dog: pup,
     stats: { ...STARTING_STATS },
     xp: 0,
     log: [
-      "Day 1. Scale reads 150. Target 170. Scout — female German Shepherd, 1½ years — waits by the door.",
+      `Day 1. Scale reads 150. Target 170. ${pup.name} — female German Shepherd, 1½ years — waits by the door, tail thumping like a war drum.`,
     ],
     completedQuestIds: [],
     activeQuestId: INTRO_QUEST_ID,
@@ -77,14 +87,19 @@ function normalizeDog(dog: Partial<DogSave> | undefined): DogSave {
   return {
     ...fresh,
     ...dog,
-    name: dog.name || DEFAULT_DOG_NAME,
+    name: (dog.name || DEFAULT_DOG_NAME).trim() || DEFAULT_DOG_NAME,
+    sex: "female",
+    ageYears: DEFAULT_DOG_AGE_YEARS,
+    lifeStage: DOG_LIFE_STAGE,
     energy: Math.max(0, Math.min(fresh.maxEnergy, dog.energy ?? fresh.energy)),
     maxEnergy: dog.maxEnergy ?? fresh.maxEnergy,
     bond: Math.max(0, dog.bond ?? fresh.bond),
     training: Math.max(0, dog.training ?? fresh.training),
     fedToday: Boolean(dog.fedToday),
     walkedToday: Boolean(dog.walkedToday),
-    cuesLearned: Array.isArray(dog.cuesLearned) ? dog.cuesLearned.filter((c) => typeof c === "string") : [],
+    cuesLearned: Array.isArray(dog.cuesLearned)
+      ? dog.cuesLearned.filter((c) => typeof c === "string")
+      : [],
   };
 }
 
@@ -129,4 +144,12 @@ export function writeSave(save: PlayerSave): void {
 export function clearSave(): void {
   if (typeof window === "undefined") return;
   window.localStorage.removeItem(SAVE_KEY);
+}
+
+export function renameDog(save: PlayerSave, name: string): PlayerSave {
+  const cleaned = name.trim().slice(0, 24) || DEFAULT_DOG_NAME;
+  return {
+    ...save,
+    dog: { ...save.dog, name: cleaned, sex: "female", ageYears: DEFAULT_DOG_AGE_YEARS, lifeStage: DOG_LIFE_STAGE },
+  };
 }

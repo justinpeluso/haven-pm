@@ -54,11 +54,14 @@ export const RESEARCH_SOURCES: ResearchSource[] = [
 export const GSD_COMPANION_PROFILE = {
   breed: "German Shepherd Dog",
   defaultName: "Scout",
+  sex: "female" as const,
+  ageYears: 1.5,
+  lifeStage: "adolescent" as const,
   adultWeightBandLb: { min: 50, max: 90 },
   energy: "high",
   blurb:
-    "A loyal, brainy working breed. Wins come from routine: food, walks, " +
-    "training games, and downtime — not endless treadmill punishment.",
+    "Scout is a 1½-year-old female German Shepherd — past puppy chaos, still high drive. " +
+    "Wins come from routine: food, walks, training games, and downtime — not endless treadmill punishment.",
 } as const;
 
 /**
