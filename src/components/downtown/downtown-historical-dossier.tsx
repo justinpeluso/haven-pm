@@ -12,9 +12,13 @@ import {
   Users,
   Building2,
   ScrollText,
+  Clock,
 } from "lucide-react";
 import { DowntownSubnav } from "./downtown-subnav";
-import type { HistoricalProperty } from "@/lib/downtown/historical-properties";
+import {
+  historicalPropertyTown,
+  type HistoricalProperty,
+} from "@/lib/downtown/historical-properties";
 
 const PLACEHOLDER = "/downtown-placeholder.svg";
 
@@ -86,11 +90,39 @@ function BulletList({ items }: { items: string[] }) {
   );
 }
 
+function MetaGrid({ rows }: { rows: [string, string][] }) {
+  return (
+    <dl className="grid gap-3 sm:grid-cols-2">
+      {rows.map(([k, v]) => (
+        <div key={k} className="space-y-1">
+          <dt
+            className="text-[0.65rem] uppercase tracking-[0.12em]"
+            style={{ color: "var(--dt-muted)" }}
+          >
+            {k}
+          </dt>
+          <dd>{v}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+function sourceHost(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return "Source";
+  }
+}
+
 type Props = {
   property: HistoricalProperty;
 };
 
 export function DowntownHistoricalDossier({ property: p }: Props) {
+  const town = historicalPropertyTown(p);
+
   return (
     <div className="downtown-shell space-y-6">
       <DowntownSubnav active="historical" />
@@ -102,8 +134,9 @@ export function DowntownHistoricalDossier({ property: p }: Props) {
         </Link>
         <span className="downtown-chip" data-active="true">
           <Landmark className="h-3 w-3" />
-          {p.id}
+          {town}
         </span>
+        <span className="downtown-chip">{p.status}</span>
       </div>
 
       <header className="space-y-4 border-b border-[var(--dt-line)] pb-6">
@@ -120,67 +153,100 @@ export function DowntownHistoricalDossier({ property: p }: Props) {
           </p>
           <p className="flex flex-wrap items-center gap-2 text-sm" style={{ color: "var(--dt-muted)" }}>
             <MapPin className="h-4 w-4" style={{ color: "var(--dt-accent)" }} />
-            {p.address.street}, {p.address.borough}, {p.address.county}, {p.address.state}{" "}
-            {p.address.zip}
+            {p.address.street}
+            {p.address.streetAlt ? ` · ${p.address.streetAlt}` : null}
+            {" · "}
+            {p.address.borough}, {p.address.county}, {p.address.state} {p.address.zip}
           </p>
         </div>
-        <div className="relative aspect-[21/9] max-h-[320px] overflow-hidden border border-[var(--dt-line)] bg-black/40">
+        <div className="relative aspect-[21/9] max-h-[360px] overflow-hidden border border-[var(--dt-line)] bg-black/40">
           <SafeImg
             src={p.heroImage?.url || PLACEHOLDER}
             alt={p.heroImage?.title || p.name}
             className="h-full w-full object-cover"
           />
-          {p.heroImage?.credit && (
+          {(p.heroImage?.credit || p.heroImage?.title) && (
             <span
-              className="absolute bottom-2 right-2 downtown-chip"
+              className="absolute bottom-2 right-2 downtown-chip max-w-[80%] truncate"
               style={{ background: "rgba(14,20,25,0.85)" }}
             >
-              {p.heroImage.credit}
+              {p.heroImage.credit || p.heroImage.title}
             </span>
           )}
         </div>
       </header>
 
-      {p.images.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto pb-1">
-          {p.images.map((img) => (
-            <div
-              key={img.url}
-              className="relative h-24 w-36 shrink-0 overflow-hidden border border-[var(--dt-line)]"
+      <div
+        className="grid gap-3 border border-[var(--dt-line)] p-4 sm:grid-cols-3"
+        style={{ background: "rgba(0,0,0,0.22)" }}
+      >
+        {[
+          ["Build era", p.structureHistory.buildEra],
+          ["Original use", p.structureHistory.originalUse],
+          ["Current use", p.structureHistory.currentUse],
+        ].map(([label, value]) => (
+          <div key={label} className="space-y-1">
+            <p
+              className="text-[0.65rem] uppercase tracking-[0.12em]"
+              style={{ color: "var(--dt-muted)" }}
             >
-              <SafeImg
-                src={img.thumbUrl || img.url}
-                alt={img.title}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          ))}
-        </div>
+              {label}
+            </p>
+            <p className="text-sm font-medium">{value}</p>
+          </div>
+        ))}
+      </div>
+
+      {p.images.length > 1 && (
+        <section className="space-y-3">
+          <p
+            className="text-[0.7rem] uppercase tracking-[0.18em]"
+            style={{ color: "var(--dt-accent)" }}
+          >
+            Gallery
+          </p>
+          <div className="flex gap-2 overflow-x-auto pb-1">
+            {p.images.map((img) => (
+              <figure
+                key={img.url}
+                className="relative h-28 w-40 shrink-0 overflow-hidden border border-[var(--dt-line)]"
+              >
+                <SafeImg
+                  src={img.thumbUrl || img.url}
+                  alt={img.title}
+                  className="h-full w-full object-cover"
+                />
+                <figcaption
+                  className="absolute inset-x-0 bottom-0 truncate px-1.5 py-1 text-[0.6rem]"
+                  style={{
+                    background: "rgba(14,20,25,0.82)",
+                    color: "var(--dt-muted)",
+                  }}
+                >
+                  {img.kind || img.credit || "Photo"}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
       )}
 
       <Section eyebrow="Identity" title="Address & parcel identity" icon={<Building2 className="h-3.5 w-3.5" />}>
         <p>{p.parcelIdentity.summary}</p>
-        <dl className="grid gap-3 sm:grid-cols-2">
-          {[
+        <MetaGrid
+          rows={[
             ["Municipality", p.parcelIdentity.municipality],
             ["CBD corridor", p.parcelIdentity.cbdCorridor],
             ["Historic district", p.parcelIdentity.historicDistrict],
             ["ZIP", `${p.address.zip} (${p.address.city}, ${p.address.state})`],
-          ].map(([k, v]) => (
-            <div key={k} className="space-y-1">
-              <dt className="text-[0.65rem] uppercase tracking-[0.12em]" style={{ color: "var(--dt-muted)" }}>
-                {k}
-              </dt>
-              <dd>{v}</dd>
-            </div>
-          ))}
-        </dl>
+          ]}
+        />
         {p.address.zipNote && (
           <p
             className="border border-[var(--dt-line)] p-3 text-xs leading-relaxed"
             style={{ color: "var(--dt-warn)", background: "rgba(196,122,61,0.08)" }}
           >
-            ZIP note: {p.address.zipNote}
+            Address note: {p.address.zipNote}
           </p>
         )}
         {p.parcelIdentity.localHarb && (
@@ -205,28 +271,33 @@ export function DowntownHistoricalDossier({ property: p }: Props) {
           </div>
         )}
         {p.parcelIdentity.caveats && p.parcelIdentity.caveats.length > 0 && (
-          <BulletList items={p.parcelIdentity.caveats} />
+          <div className="space-y-2">
+            <p className="text-[0.65rem] uppercase tracking-[0.12em]" style={{ color: "var(--dt-muted)" }}>
+              Caveats
+            </p>
+            <BulletList items={p.parcelIdentity.caveats} />
+          </div>
         )}
       </Section>
 
       <Section eyebrow="Structure" title="Structure history" icon={<Landmark className="h-3.5 w-3.5" />}>
-        <dl className="grid gap-3 sm:grid-cols-3">
-          {[
+        <MetaGrid
+          rows={[
             ["Build era", p.structureHistory.buildEra],
             ["Original use", p.structureHistory.originalUse],
             ["Current use", p.structureHistory.currentUse],
-          ].map(([k, v]) => (
-            <div key={k} className="space-y-1">
-              <dt className="text-[0.65rem] uppercase tracking-[0.12em]" style={{ color: "var(--dt-muted)" }}>
-                {k}
-              </dt>
-              <dd>{v}</dd>
-            </div>
-          ))}
-        </dl>
+          ]}
+        />
         <p>{p.structureHistory.styleNotes}</p>
-        {p.structureHistory.districtFabric && <p style={{ color: "var(--dt-muted)" }}>{p.structureHistory.districtFabric}</p>}
-        <BulletList items={p.structureHistory.alterations} />
+        {p.structureHistory.districtFabric && (
+          <p style={{ color: "var(--dt-muted)" }}>{p.structureHistory.districtFabric}</p>
+        )}
+        <div className="space-y-2">
+          <p className="text-[0.65rem] uppercase tracking-[0.12em]" style={{ color: "var(--dt-muted)" }}>
+            Alterations & treatments
+          </p>
+          <BulletList items={p.structureHistory.alterations} />
+        </div>
       </Section>
 
       <Section eyebrow="Land" title="Lot, plat & CBD context" icon={<ScrollText className="h-3.5 w-3.5" />}>
@@ -309,22 +380,15 @@ export function DowntownHistoricalDossier({ property: p }: Props) {
         </div>
       </Section>
 
-      <Section eyebrow="District" title="Beaver Historic District" icon={<Landmark className="h-3.5 w-3.5" />}>
-        <dl className="grid gap-3 sm:grid-cols-2">
-          {[
+      <Section eyebrow="District" title={p.historicDistrict.name} icon={<Landmark className="h-3.5 w-3.5" />}>
+        <MetaGrid
+          rows={[
             ["Name", p.historicDistrict.name],
             ["NRHP ref", p.historicDistrict.nrhpRef],
             ["Listed", p.historicDistrict.listed],
             ["Area", `${p.historicDistrict.areaAcres} acres`],
-          ].map(([k, v]) => (
-            <div key={k} className="space-y-1">
-              <dt className="text-[0.65rem] uppercase tracking-[0.12em]" style={{ color: "var(--dt-muted)" }}>
-                {k}
-              </dt>
-              <dd>{v}</dd>
-            </div>
-          ))}
-        </dl>
+          ]}
+        />
         <p>{p.historicDistrict.periodOfSignificance}</p>
         <p style={{ color: "var(--dt-muted)" }}>{p.historicDistrict.resources}</p>
         <p style={{ color: "var(--dt-muted)" }}>{p.historicDistrict.boundariesNote}</p>
@@ -339,12 +403,12 @@ export function DowntownHistoricalDossier({ property: p }: Props) {
         <p>{p.historicDistrict.relevanceToProperty}</p>
       </Section>
 
-      <Section eyebrow="Chronology" title="Timeline" icon={<BookOpen className="h-3.5 w-3.5" />}>
+      <Section eyebrow="Chronology" title="Timeline" icon={<Clock className="h-3.5 w-3.5" />}>
         <ol className="space-y-0">
           {p.timeline.map((row) => (
             <li
               key={`${row.year}-${row.event.slice(0, 24)}`}
-              className="grid grid-cols-[7rem_1fr] gap-4 border-b border-[var(--dt-line)] py-3 last:border-0"
+              className="grid grid-cols-[7.5rem_1fr] gap-4 border-b border-[var(--dt-line)] py-3 last:border-0"
             >
               <span className="downtown-stat text-xs" style={{ color: "var(--dt-accent)" }}>
                 {row.year}
@@ -356,26 +420,35 @@ export function DowntownHistoricalDossier({ property: p }: Props) {
       </Section>
 
       <Section eyebrow="Citations" title="Sources" icon={<BookOpen className="h-3.5 w-3.5" />}>
+        <p className="text-xs" style={{ color: "var(--dt-muted)" }}>
+          Public secondary sources cached for this dossier. Titles link out; raw URLs are not
+          shown as primary UI.
+        </p>
         <ul className="space-y-3">
           {p.sources.map((s) => (
             <li key={s.url} className="border border-[var(--dt-line)] p-3">
-              <a
-                href={s.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-start gap-2 font-medium hover:underline"
-                style={{ color: "var(--dt-accent)" }}
-              >
-                {s.title}
-                <ExternalLink className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-              </a>
-              {s.publisher && (
-                <p className="mt-1 text-xs" style={{ color: "var(--dt-muted)" }}>
-                  {s.publisher}
-                </p>
-              )}
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div className="min-w-0 space-y-1">
+                  <p className="font-medium" style={{ color: "var(--dt-fg)" }}>
+                    {s.title}
+                  </p>
+                  <p className="text-xs" style={{ color: "var(--dt-muted)" }}>
+                    {[s.publisher, sourceHost(s.url)].filter(Boolean).join(" · ")}
+                  </p>
+                </div>
+                <a
+                  href={s.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="downtown-chip shrink-0"
+                  data-active="true"
+                >
+                  Open
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </a>
+              </div>
               {s.notes && (
-                <p className="mt-1.5 text-xs leading-relaxed" style={{ color: "var(--dt-muted)" }}>
+                <p className="mt-2 text-xs leading-relaxed" style={{ color: "var(--dt-muted)" }}>
                   {s.notes}
                 </p>
               )}
@@ -383,6 +456,14 @@ export function DowntownHistoricalDossier({ property: p }: Props) {
           ))}
         </ul>
       </Section>
+
+      <div className="flex flex-wrap gap-2 pb-4">
+        {p.tags.map((t) => (
+          <span key={t} className="downtown-chip">
+            {t}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }

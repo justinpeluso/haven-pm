@@ -22,6 +22,8 @@ export type HistoricalProperty = {
   name: string;
   subtitle: string;
   status: string;
+  /** Borough / town label for filters (defaults to address.city). */
+  town?: string;
   heroImage: HistoricalImage;
   images: HistoricalImage[];
   address: {
@@ -115,4 +117,31 @@ export function getHistoricalProperty(id: string): HistoricalProperty | null {
 
 export function historicalPropertiesGeneratedAt(): string {
   return data.generatedAt;
+}
+
+export function historicalPropertyTown(p: HistoricalProperty): string {
+  return p.town || p.address.city;
+}
+
+export function listHistoricalPropertyTowns(): string[] {
+  const towns = new Set(
+    listHistoricalProperties().map((p) => historicalPropertyTown(p))
+  );
+  return Array.from(towns).sort((a, b) => a.localeCompare(b));
+}
+
+/** Coarse CBD / neighborhood chip for list filters. */
+export function historicalPropertyCorridor(p: HistoricalProperty): string {
+  const raw = `${p.parcelIdentity.cbdCorridor} ${p.address.street}`.toLowerCase();
+  if (raw.includes("third street") || raw.includes("agnew")) return "Third Street CBD";
+  if (raw.includes("college")) return "College Avenue";
+  if (raw.includes("river") || raw.includes("fort mcintosh")) return "River Road bluff";
+  return p.parcelIdentity.cbdCorridor;
+}
+
+export function listHistoricalPropertyCorridors(): string[] {
+  const set = new Set(
+    listHistoricalProperties().map((p) => historicalPropertyCorridor(p))
+  );
+  return Array.from(set).sort((a, b) => a.localeCompare(b));
 }

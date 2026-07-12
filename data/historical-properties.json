@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-11T22:00:00.000Z",
-  "count": 1,
+  "generatedAt": "2026-07-12T19:57:58.771Z",
+  "count": 5,
   "properties": [
     {
       "id": "1147-third-st-beaver-pa",
@@ -170,7 +170,13 @@
         "listed": "1996-10-24",
         "areaAcres": 317,
         "periodOfSignificance": "Primarily mid-19th century through mid-20th century building stock; community plan roots in 1792",
-        "styles": ["Italianate", "Queen Anne", "American Foursquare", "Neo-Classical Revival", "Art Deco (1933 courthouse)"],
+        "styles": [
+          "Italianate",
+          "Queen Anne",
+          "American Foursquare",
+          "Neo-Classical Revival",
+          "Art Deco (1933 courthouse)"
+        ],
         "resources": "NR materials cite ~1,456 resources; ~1,258 contributing; Fort McIntosh site called out among the most significant contributing properties",
         "boundariesNote": "Roughly bounded by P&LE Railroad tracks, Fair Ave., 5th St., 3rd St., and Sassafras Ln. (Wikipedia / NR summary); encompasses most of the borough and the entire 1792 plat core",
         "phmcMarker": "Pennsylvania Historical & Museum Commission marker designation noted for the district (1946 context in secondary summaries)",
@@ -326,6 +332,1137 @@
         "pre-Civil War",
         "NRHP",
         "Ohio Country"
+      ],
+      "town": "Beaver"
+    },
+    {
+      "id": "beaver-county-courthouse-beaver-pa",
+      "slug": "beaver-county-courthouse-beaver-pa",
+      "name": "Beaver County Courthouse",
+      "subtitle": "County seat civic core at Third & Market — successive courthouses on Agnew Square since the early 1800s",
+      "status": "documented",
+      "heroImage": {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/1280px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
+        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/640px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
+        "title": "Beaver County Courthouse, Third Street / Agnew Square",
+        "credit": "Wikimedia Commons / Nyttend",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Beaver_County_Courthouse,_Pennsylvania.jpg"
+      },
+      "images": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/1280px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/640px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
+          "title": "Present courthouse on Agnew Square",
+          "credit": "Wikimedia Commons",
+          "kind": "building",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Beaver_County_Courthouse,_Pennsylvania.jpg"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/1280px-Downtown_Beaver_Pennsylvania.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/640px-Downtown_Beaver_Pennsylvania.jpg",
+          "title": "Third Street downtown streetscape looking toward the civic core",
+          "credit": "Wikimedia Commons",
+          "kind": "streetscape",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Downtown_Beaver_Pennsylvania.jpg"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/1280px-Fort_McIntosh_Site.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/640px-Fort_McIntosh_Site.jpg",
+          "title": "Fort McIntosh site — earlier strategic landscape south of the CBD",
+          "credit": "Wikimedia Commons",
+          "kind": "historic",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fort_McIntosh_Site.jpg"
+        }
+      ],
+      "address": {
+        "street": "810 Third Street",
+        "streetAlt": "810 3rd St / Market Street",
+        "city": "Beaver",
+        "borough": "Beaver Borough",
+        "county": "Beaver County",
+        "state": "PA",
+        "zip": "15009",
+        "coordinates": {
+          "lat": 40.6952,
+          "lon": -80.3048,
+          "precision": "cbd_site_approx"
+        }
+      },
+      "parcelIdentity": {
+        "summary": "County government seat on Agnew Square (formerly Gibson Square) at Third Street and Market Street — the civic heart of Beaver’s Third Street historic commercial district. The present 2002–2003 courthouse replaces earlier buildings on the same reserved public square, including the 1875/1877 Renaissance-style courthouse damaged by fire in 1932 and later demolished.",
+        "municipality": "Beaver Borough",
+        "cbdCorridor": "Third Street historic commercial district (Agnew Square)",
+        "historicDistrict": "Beaver Historic District (NRHP #96001201) — courthouse site / park counted among district civic resources",
+        "localHarb": "Public square and surrounding CBD fabric fall within the local historic district / HARB review area",
+        "knownOccupants": [
+          {
+            "name": "Beaver County Court of Common Pleas (36th Judicial District)",
+            "role": "County courthouse / judicial offices",
+            "era": "1800–present (successive buildings)"
+          },
+          {
+            "name": "Wallover, Mitchell & Bontempo Architects",
+            "role": "Architects of the present courthouse",
+            "era": "2002–2003"
+          },
+          {
+            "name": "Thomas Boyd (Pittsburgh)",
+            "role": "Architect of the 1875 courthouse generation",
+            "era": "1875"
+          }
+        ],
+        "caveats": [
+          "The present building is modern (2003) and is documented here primarily for continuous civic use of the Agnew Square site and its role in the Third Street CBD / NR district narrative.",
+          "Saved Art Deco / concrete reliefs from earlier fabric are displayed in interior courtyards of the new building per secondary architectural summaries.",
+          "Do not treat Google Maps or private listing-site parcel scrapes as sources."
+        ]
+      },
+      "structureHistory": {
+        "buildEra": "Present building 2002–2003 (site occupied by successive courthouses since early 1800s; major 1875 generation; fire 1932; razed for replacement)",
+        "originalUse": "County courthouse / public square civic complex",
+        "currentUse": "Beaver County Courthouse",
+        "styleNotes": "Present building: two-story buff stone, concrete, and glass with projected wings, glass-enclosed atrium/tower with clock, and a curved pavilion connecting the wings — described in county-seat architectural surveys as a modern composition with Art Moderne echoes. Earlier 1875 Renaissance-style courthouse by Thomas Boyd was renovated after the 1932 fire (Edward J. Carlisle / Harry P. Sharrer) and later demolished. A nearly exact replica Victorian clock tower (dedicated 2002) commemorates the 1877 tower cupola nearby in the CBD streetscape.",
+        "alterations": [
+          "1803 and 1810 early courthouse generations on the county-seat site",
+          "1875/1877 Boyd courthouse; 1932 fire; 1933 renovation; 1974 addition",
+          "2002–2003 demolition and replacement by current courthouse",
+          "2002 Victorian clock-tower replica and CBD streetscape restoration nearby (Heritage Foundation advisory role)"
+        ],
+        "districtFabric": "NR district materials call out five churches and the county courthouse among the most prominent non-residential buildings, even though most district resources are residential. Agnew Square and McIntosh Square (Soldiers and Sailors Monument, 1900) form the ceremonial civic pair across Third Street."
+      },
+      "landLotPlat": {
+        "summary": "The property sits on Beaver’s planned 1792 town plat, surveyed by Deputy Surveyor Daniel Leet under a 1791 Pennsylvania Act authorizing the community. The original grid used 100-foot major rights-of-way and 25-foot secondary streets, with eight reserved public squares.",
+        "platYear": 1792,
+        "surveyor": "Daniel Leet",
+        "lotTypes": "Original plan distinguished interior “in-lots” (rectangular building lots within 300′ × 360′ squares) and larger eastern “out-lots.” Later 19th–early 20th-century subdivision reduced many parcels.",
+        "publicSquaresNearby": [
+          "Agnew Square (formerly Gibson) — Beaver County Courthouse at Third & Market",
+          "McIntosh Square — Soldiers and Sailors Monument (1900)",
+          "Corner squares named for Clark, Bouquet, Wayne, and Brodhead/Linn honor regional military figures"
+        ],
+        "cbdEvolution": [
+          "1837 directories show a small service-center mix (merchants, trades, innkeepers) on Third Street",
+          "By 1876, lawyers and physicians lined Third Street as industrial valley towns grew elsewhere",
+          "By 1921, auto garages, gas stations, restaurants, and professional offices had largely replaced older craft trades",
+          "1924 tornado damaged the Third & Market area (documented in local photographic history)"
+        ],
+        "thirdStreetRole": "Third Street is the borough’s primary commercial and transportation corridor (PA 68). Agnew Square sits at Third & Market as the county-seat civic node; NRHP materials place this Third Street spine at the core of the Beaver Historic District."
+      },
+      "earlyOwnersOccupants": {
+        "summary": "As a reserved public square and county seat, the site’s ‘owners’ are governmental rather than private deed chains. Public architectural chronologies document four courthouse generations culminating in the 2003 building. Across Third Street, McIntosh Square’s 1900 Soldiers and Sailors Monument reinforces the civic memorial landscape.",
+        "notableContextOccupantsOnCorridor": [
+          "Beaver County government and courts have anchored professional office demand on Third Street since the early 19th century.",
+          "Beaver Area Heritage Foundation notes a 2002 CBD streetscape restoration and clock-tower replica keyed to the lost 1877 courthouse tower."
+        ],
+        "researchGaps": [
+          "Full construction drawings and cost records for each courthouse generation",
+          "Inventory of architectural fragments retained from the 1875/1933 fabric",
+          "Sanborn map sequences for Agnew / Gibson Square footprints"
+        ]
+      },
+      "indigenousPeoples": {
+        "summary": "Before European-American permanent settlement, the Ohio–Beaver confluence was a significant Indigenous meeting and habitation landscape in the Ohio Country — not a blank wilderness. This section describes regional peoples and places; it does not invent a private deed claim tying this address to a specific Indigenous owner.",
+        "peoples": [
+          {
+            "name": "Shawnee",
+            "notes": "Present in the broader Ohio Country; regional histories note Shawnee presence around the Beaver area before mid-18th century displacement pressures."
+          },
+          {
+            "name": "Lenape (Delaware)",
+            "notes": "Major presence in western Pennsylvania and the Ohio Country after eastward dispossession; parties to the Treaty of Fort McIntosh (1785)."
+          },
+          {
+            "name": "Mingoes (Ohio Iroquoians / Seneca-affiliated communities)",
+            "notes": "Mingo bands are repeatedly named among peoples gathering at the confluence villages in mid-18th-century accounts."
+          },
+          {
+            "name": "Wyandot, Ojibwe (Chippewa), Odawa (Ottawa)",
+            "notes": "Signatory nations at the Treaty of Fort McIntosh (1785), which imposed cessions covering large parts of the Ohio Country."
+          }
+        ],
+        "placesAndNames": [
+          "Sawcunk / Beaver’s Town / Shingas’ Old Town — Indigenous settlement names associated with the confluence zone",
+          "SAH Archipedia notes French-allied square-log houses with stone chimneys here in the 1750s; Native habitation in the immediate area is described as ending after the 1763 Bushy Run campaign context"
+        ],
+        "ethicalNote": "Treaties at Fort Stanwix (1784) and Fort McIntosh (1785) were coercive instruments of U.S. and Pennsylvania land acquisition. Many Ohio Country nations rejected Fort McIntosh’s legitimacy — feeding the Western Confederacy and Northwest Indian War (to Greenville, 1795)."
+      },
+      "fortsAndWars": {
+        "summary": "Beaver’s river bluff is one of the most strategically charged Revolutionary–early Federal landscapes in western Pennsylvania. Fort McIntosh (1778) stood south of today’s Third Street CBD on the Ohio River bank; its archaeological site is both individually listed (NRHP 1975) and a key contributing resource of the Beaver Historic District.",
+        "frenchAndIndianWar": [
+          "The Ohio Country — including the Beaver–Ohio confluence — was contested among French, British, and Indigenous nations.",
+          "Col. Henry Bouquet’s campaigns (including the 1763 Bushy Run victory) are commemorated in local square naming and regional military memory."
+        ],
+        "revolutionaryWarFrontier": [
+          "Fort McIntosh built 1778 under Gen. Lachlan McIntosh; designed with French engineer Cambray-Digny; first U.S. fort north of the Ohio River.",
+          "Trapezoidal log fort with bastions, ditch, barracks, and river access — base for western Continental operations.",
+          "Treaty of Fort McIntosh signed 21 January 1785 with Wyandot, Delaware, Chippewa, and Ottawa representatives.",
+          "Fort declined as the frontier moved west; abandoned by the early 1790s; archaeological excavation 1970s recovered extensive material culture."
+        ],
+        "nearby": [
+          "Legionville (nearby) — winter quarters of Gen. Anthony Wayne’s Legion of the United States, 1792–93",
+          "Fort Pitt (Pittsburgh) — upstream command node for the western theater"
+        ]
+      },
+      "historicDistrict": {
+        "name": "Beaver Historic District",
+        "nrhpRef": "96001201",
+        "listed": "1996-10-24",
+        "areaAcres": 317,
+        "periodOfSignificance": "Primarily mid-19th century through mid-20th century building stock; community plan roots in 1792; Fort McIntosh era begins 1778",
+        "styles": [
+          "Italianate",
+          "Queen Anne",
+          "American Foursquare",
+          "Neo-Classical Revival",
+          "Richardsonian Romanesque",
+          "Art Deco (1933 courthouse fabric)"
+        ],
+        "resources": "NR materials cite ~1,456 resources; ~1,258 contributing; Fort McIntosh site and Quay House called out among the most significant contributing properties",
+        "boundariesNote": "Roughly bounded by P&LE Railroad tracks, Fair Ave., 5th St., 3rd St., and Sassafras Ln.; encompasses most of the borough and the entire 1792 plat core",
+        "phmcMarker": "Pennsylvania Historical & Museum Commission marker designation noted for the district (1946 context in secondary summaries)",
+        "localOrdinance": "Beaver administers a local historic district ordinance (Historic District Act / Act 167) requiring certificates of appropriateness for demolitions within boundaries coterminous with the NR district",
+        "relevanceToProperty": "The courthouse site on Agnew Square is the governmental anchor of the Third Street commercial core that the NRHP nomination treats as the district’s heart. Even the modern replacement building sits on a continuously civic reserved square whose earlier architecture and 1932 fire/rebuild story are central to local CBD memory."
+      },
+      "timeline": [
+        {
+          "year": "1791–1792",
+          "event": "Leet surveys Beaver’s grid and reserved public squares; future courthouse square reserved in the plan."
+        },
+        {
+          "year": "1800–1804",
+          "event": "Beaver becomes county seat; early courts established."
+        },
+        {
+          "year": "1803 / 1810",
+          "event": "First and second courthouse generations erected on the county-seat site."
+        },
+        {
+          "year": "1875–1877",
+          "event": "Thomas Boyd Renaissance-style courthouse built on Gibson/Agnew Square."
+        },
+        {
+          "year": "1900",
+          "event": "Soldiers and Sailors Monument erected in McIntosh Square across Third Street."
+        },
+        {
+          "year": "1924",
+          "event": "Tornado damages the Third & Market commercial area."
+        },
+        {
+          "year": "1932–1933",
+          "event": "Courthouse fire; renovation of surviving fabric under Carlisle / Sharrer."
+        },
+        {
+          "year": "1996",
+          "event": "Beaver Historic District listed on the National Register."
+        },
+        {
+          "year": "2002–2003",
+          "event": "CBD streetscape restoration and Victorian clock-tower replica; present courthouse dedicated."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Beaver County Courthouse — American Courthouses",
+          "url": "https://courthouses.co/us-states/o-u/pennsylvania/beaver-county/",
+          "publisher": "American Courthouses",
+          "notes": "Building chronology (1803–2003), architects, contractors, style notes for present and prior courthouses."
+        },
+        {
+          "title": "Directions to the Courthouse",
+          "url": "https://www.beavercountypa.gov/county-pages/about-us/directions-to-courthouse",
+          "publisher": "Beaver County",
+          "notes": "Official address: 810 Third Street, Beaver, PA 15009."
+        },
+        {
+          "title": "Community Character — Beaver Area Heritage Foundation",
+          "url": "https://beaverheritage.org/community-character/",
+          "publisher": "Beaver Area Heritage Foundation",
+          "notes": "2002 streetscape restoration, Victorian clock-tower replica of the 1877 courthouse cupola, NR district advocacy."
+        },
+        {
+          "title": "Beaver Historic District",
+          "url": "https://en.wikipedia.org/wiki/Beaver_Historic_District",
+          "publisher": "Wikipedia",
+          "notes": "District summary naming the courthouse among prominent buildings."
+        },
+        {
+          "title": "Beaver Historic District (Living Places / NR adaptation)",
+          "url": "https://www.livingplaces.com/PA/Beaver_County/Beaver_Borough/Beaver_Historic_District.html",
+          "publisher": "Living Places",
+          "notes": "Plat, Third Street CBD, and civic/religious landmarks overview."
+        },
+        {
+          "title": "County Seats & Courthouses — Beaver",
+          "url": "https://www.mapsofpa.com/countyseatsa.htm",
+          "publisher": "Maps of PA",
+          "notes": "Site continuity notes; Art Deco reliefs retained in new courtyards; 2003 dedication context."
+        },
+        {
+          "title": "Wikimedia — Beaver County Courthouse, Pennsylvania",
+          "url": "https://commons.wikimedia.org/wiki/File:Beaver_County_Courthouse,_Pennsylvania.jpg",
+          "publisher": "Wikimedia Commons",
+          "notes": "Hero exterior photograph."
+        }
+      ],
+      "tags": [
+        "Beaver PA",
+        "Third Street",
+        "courthouse",
+        "Agnew Square",
+        "county seat",
+        "Beaver Historic District",
+        "NRHP"
+      ],
+      "town": "Beaver"
+    },
+    {
+      "id": "matthew-s-quay-house-beaver-pa",
+      "slug": "matthew-s-quay-house-beaver-pa",
+      "name": "Matthew S. Quay House",
+      "subtitle": "National Historic Landmark home of U.S. Senator Matthew Stanley Quay — College Avenue edge of the Beaver CBD",
+      "status": "documented",
+      "town": "Beaver",
+      "heroImage": {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Matthew_S._Quay_House.jpg/1280px-Matthew_S._Quay_House.jpg",
+        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Matthew_S._Quay_House.jpg/640px-Matthew_S._Quay_House.jpg",
+        "title": "Matthew S. Quay House, Beaver, Pennsylvania",
+        "credit": "Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Matthew_S._Quay_House.jpg",
+        "kind": "building"
+      },
+      "images": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Matthew_S._Quay_House.jpg/1280px-Matthew_S._Quay_House.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Matthew_S._Quay_House.jpg/640px-Matthew_S._Quay_House.jpg",
+          "title": "Streetside view of the Quay House",
+          "credit": "Wikimedia Commons",
+          "kind": "building",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Matthew_S._Quay_House.jpg"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/1280px-Downtown_Beaver_Pennsylvania.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/640px-Downtown_Beaver_Pennsylvania.jpg",
+          "title": "Third Street downtown Beaver streetscape",
+          "credit": "Wikimedia Commons",
+          "kind": "streetscape",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Downtown_Beaver_Pennsylvania.jpg"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/1280px-Fort_McIntosh_Site.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/640px-Fort_McIntosh_Site.jpg",
+          "title": "Fort McIntosh site, River Road bluff",
+          "credit": "Wikimedia Commons",
+          "kind": "historic",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fort_McIntosh_Site.jpg"
+        }
+      ],
+      "address": {
+        "street": "205 College Avenue",
+        "streetAlt": "205 College Ave",
+        "city": "Beaver",
+        "borough": "Beaver Borough",
+        "county": "Beaver County",
+        "state": "PA",
+        "zip": "15009",
+        "coordinates": {
+          "lat": 40.69361111,
+          "lon": -80.30416667,
+          "precision": "nrhp_coordinates"
+        }
+      },
+      "parcelIdentity": {
+        "summary": "National Historic Landmark residence at the northwest corner of College Avenue and 2nd Street, just south of Beaver’s Third Street commercial spine. Individually listed NHL (1975) and a contributing property within the Beaver Historic District.",
+        "municipality": "Beaver Borough",
+        "cbdCorridor": "College Avenue / Second Street edge of Third Street CBD",
+        "historicDistrict": "Beaver Historic District (NRHP #96001201); individually NHL #75001615",
+        "localHarb": "Subject to Beaver Borough HARB / Act 167 local historic district review",
+        "knownOccupants": [
+          {
+            "name": "Matthew Stanley Quay (1833–1904)",
+            "role": "U.S. Senator; Republican Party boss; primary residence from purchase until death",
+            "era": "1874–1904"
+          },
+          {
+            "name": "J.T. Anderson Funeral Home",
+            "role": "Later adaptive reuse as funeral home (cited in public secondary sources)",
+            "era": "20th century"
+          },
+          {
+            "name": "Covenant Financial Advisors",
+            "role": "Current office occupancy cited in Wikipedia summary",
+            "era": "21st century"
+          }
+        ],
+        "caveats": [
+          "Construction year is approximate (c. 1865 / post–Civil War); architect not identified in NHL summaries consulted.",
+          "Do not treat Google Maps or private listing-site parcel scrapes as sources."
+        ]
+      },
+      "structureHistory": {
+        "buildEra": "c. 1865 (post–Civil War; NHL summaries)",
+        "originalUse": "Private residence",
+        "currentUse": "Professional offices (financial advisors, per public summaries)",
+        "styleNotes": "2½-story painted-brick masonry house with hip roof, single-story front porch on brick columns, carved wooden bracketed eaves, and hip-roofed dormers. Small north ell and longer rear ell (latter a probable Quay-era alteration).",
+        "alterations": [
+          "Rear ell expansion attributed to Quay occupancy",
+          "Later adaptive reuse as funeral home, then professional offices",
+          "Painted brick finish retained in modern streetscape views"
+        ],
+        "districtFabric": "Sits on the residential fringe of the Third Street commercial core — typical of Beaver’s county-seat mix of professional housing near the CBD."
+      },
+      "landLotPlat": {
+        "summary": "The address sits within Beaver’s planned 1792 town plat, surveyed by Deputy Surveyor Daniel Leet under a 1791 Pennsylvania Act authorizing the community. The original grid used 100-foot major rights-of-way and 25-foot secondary streets, with eight reserved public squares.",
+        "platYear": 1792,
+        "surveyor": "Daniel Leet",
+        "lotTypes": "Original plan distinguished interior “in-lots” and larger eastern “out-lots.” Later 19th–early 20th-century subdivision reduced many parcels.",
+        "thirdStreetRole": "Third Street is the borough’s primary commercial and transportation corridor (today PA 68), unusually wide in the CBD and lined with historic commercial fabric. NRHP materials place Third Street at the core of the Beaver Historic District.",
+        "publicSquaresNearby": [
+          "Agnew Square (formerly Gibson) — Beaver County Courthouse at Third & Market",
+          "McIntosh Square — Soldiers and Sailors Monument (1900)",
+          "Corner squares named for Clark, Bouquet, Wayne, and Brodhead/Linn honor regional military figures"
+        ],
+        "cbdEvolution": [
+          "1837 directories show a small service-center mix (merchants, trades, innkeepers) on Third Street",
+          "By 1876, lawyers and physicians lined Third Street as industrial valley towns grew elsewhere",
+          "By 1921, auto garages, gas stations, restaurants, and professional offices had largely replaced older craft trades",
+          "1924 tornado damaged the Third & Market area (documented in local photographic history)"
+        ]
+      },
+      "earlyOwnersOccupants": {
+        "summary": "Purchased by Matthew S. Quay in 1874 and remaining his primary residence until 1904. Quay was a Union Army Medal of Honor recipient (Fredericksburg), Pennsylvania Republican machine leader, U.S. Senator (from 1887), and 1888 presidential campaign chair for Benjamin Harrison. Specific pre-Quay deed owners were not confirmed from free primary indexes in this build.",
+        "notableContextOccupantsOnCorridor": [
+          "College Avenue and nearby Third Street housed attorneys, physicians, and political figures typical of a 19th-century county seat.",
+          "Quay’s statewide patronage politics made this Beaver address a node in Pennsylvania Republican organization."
+        ],
+        "researchGaps": [
+          "Pre-1874 chain of title from Beaver County Recorder of Deeds",
+          "Full NHL nomination architectural description PDF cross-check",
+          "Sanborn map footprint evolution for College & 2nd"
+        ]
+      },
+      "indigenousPeoples": {
+        "summary": "Before European-American permanent settlement, the Ohio–Beaver confluence was a significant Indigenous meeting and habitation landscape in the Ohio Country. This section describes regional peoples and places; it does not invent a private deed claim for this parcel.",
+        "peoples": [
+          {
+            "name": "Shawnee",
+            "notes": "Present in the broader Ohio Country around the Beaver area before mid-18th-century displacement pressures."
+          },
+          {
+            "name": "Lenape (Delaware)",
+            "notes": "Major presence in western Pennsylvania and the Ohio Country; parties to the Treaty of Fort McIntosh (1785)."
+          },
+          {
+            "name": "Mingoes (Ohio Iroquoians / Seneca-affiliated communities)",
+            "notes": "Repeatedly named among peoples gathering at confluence villages in mid-18th-century accounts."
+          },
+          {
+            "name": "Wyandot, Ojibwe (Chippewa), Odawa (Ottawa)",
+            "notes": "Signatory nations at the Treaty of Fort McIntosh (1785)."
+          }
+        ],
+        "placesAndNames": [
+          "Sawcunk / Beaver’s Town / Shingas’ Old Town — Indigenous settlement names associated with the confluence zone",
+          "SAH Archipedia notes French-allied square-log houses with stone chimneys here in the 1750s"
+        ],
+        "ethicalNote": "Treaties at Fort Stanwix (1784) and Fort McIntosh (1785) were coercive instruments of U.S. and Pennsylvania land acquisition. Many Ohio Country nations rejected Fort McIntosh’s legitimacy."
+      },
+      "fortsAndWars": {
+        "summary": "Beaver’s river bluff is one of the most strategically charged Revolutionary–early Federal landscapes in western Pennsylvania. Fort McIntosh (1778) stood on the Ohio River bank south of today’s Third Street CBD.",
+        "frenchAndIndianWar": [
+          "The Ohio Country — including the Beaver–Ohio confluence — was contested among French, British, and Indigenous nations.",
+          "Col. Henry Bouquet’s campaigns (including Bushy Run, 1763) mark the collapse of sustained Indigenous village life at the confluence after Pontiac’s War-era fighting."
+        ],
+        "revolutionaryWarFrontier": [
+          "Fort McIntosh built 1778 under Gen. Lachlan McIntosh; designed with French engineer Cambray-Digny; first U.S. fort north of the Ohio River.",
+          "Treaty of Fort McIntosh signed 21 January 1785 with Wyandot, Delaware, Chippewa, and Ottawa representatives.",
+          "Fort declined as the frontier moved west; abandoned by the early 1790s; archaeological excavation 1970s."
+        ],
+        "nearby": [
+          "Legionville (nearby) — winter quarters of Gen. Anthony Wayne’s Legion, 1792–93",
+          "Fort Pitt (Pittsburgh) — upstream command node for the western theater"
+        ]
+      },
+      "historicDistrict": {
+        "name": "Beaver Historic District",
+        "nrhpRef": "96001201",
+        "listed": "1996-10-24",
+        "areaAcres": 317,
+        "periodOfSignificance": "Primarily mid-19th century through mid-20th century building stock; community plan roots in 1792",
+        "styles": [
+          "Italianate",
+          "Queen Anne",
+          "American Foursquare",
+          "Neo-Classical Revival",
+          "Art Deco (1933 courthouse)"
+        ],
+        "resources": "NR materials cite ~1,456 resources; ~1,258 contributing; Fort McIntosh site and Quay House called out among significant properties",
+        "boundariesNote": "Roughly bounded by P&LE Railroad tracks, Fair Ave., 5th St., 3rd St., and Sassafras Ln.; encompasses most of the borough and the 1792 plat core",
+        "phmcMarker": "Pennsylvania Historical & Museum Commission marker designation noted for the district in secondary summaries",
+        "localOrdinance": "Beaver administers a local historic district ordinance (Act 167) requiring certificates of appropriateness for demolitions within boundaries coterminous with the NR district",
+        "relevanceToProperty": "The Quay House is both an individually designated National Historic Landmark (1975) and a contributing property called out in Beaver Historic District materials. It anchors the district’s political and residential significance south of Third Street."
+      },
+      "timeline": [
+        {
+          "year": "c. 1730–1763",
+          "event": "Indigenous meeting towns at the Ohio–Beaver confluence."
+        },
+        {
+          "year": "1778–1785",
+          "event": "Fort McIntosh constructed; Treaty of Fort McIntosh signed."
+        },
+        {
+          "year": "1791–1792",
+          "event": "Pennsylvania Act authorizes Beaver; Daniel Leet surveys the grid-and-squares plan."
+        },
+        {
+          "year": "c. 1865",
+          "event": "House built (approximate; post–Civil War NHL dating)."
+        },
+        {
+          "year": "1874",
+          "event": "Matthew S. Quay purchases the house as primary residence."
+        },
+        {
+          "year": "1887–1904",
+          "event": "Quay serves as U.S. Senator; dies 1904 while still associated with this residence."
+        },
+        {
+          "year": "1975",
+          "event": "House designated a National Historic Landmark / listed on the National Register."
+        },
+        {
+          "year": "1996",
+          "event": "Beaver Historic District listed; Quay House remains a highlighted contributing property."
+        },
+        {
+          "year": "21st century",
+          "event": "Adaptive reuse as professional offices (Covenant Financial Advisors cited publicly)."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Matthew S. Quay House",
+          "url": "https://en.wikipedia.org/wiki/Matthew_S._Quay_House",
+          "publisher": "Wikipedia",
+          "notes": "NHL description, address, Quay biography, later funeral-home and office occupancy."
+        },
+        {
+          "title": "Matthew S. Quay House — Wikimedia Commons",
+          "url": "https://commons.wikimedia.org/wiki/File:Matthew_S._Quay_House.jpg",
+          "publisher": "Wikimedia Commons",
+          "notes": "Hero building photograph."
+        },
+        {
+          "title": "Preservation Planning in Beaver Borough — PA SHPO",
+          "url": "https://pahistoricpreservation.com/preservation-planning-beaver-borough/",
+          "publisher": "Pennsylvania Historic Preservation (PA SHPO)",
+          "notes": "NR district, Quay NHL, Fort McIntosh, local Act 167 ordinance."
+        },
+        {
+          "title": "Beaver Historic District",
+          "url": "https://en.wikipedia.org/wiki/Beaver_Historic_District",
+          "publisher": "Wikipedia",
+          "notes": "NRHP listing summary, boundaries, Quay House and Fort McIntosh context."
+        },
+        {
+          "title": "Beaver, Pennsylvania",
+          "url": "https://en.wikipedia.org/wiki/Beaver,_Pennsylvania",
+          "publisher": "Wikipedia",
+          "notes": "Borough history, ZIP 15009, Indigenous displacement summary, Fort McIntosh, historic district."
+        },
+        {
+          "title": "Beaver Historic District (Living Places / NR adaptation)",
+          "url": "https://www.livingplaces.com/PA/Beaver_County/Beaver_Borough/Beaver_Historic_District.html",
+          "publisher": "Living Places (adapted from NR nomination)",
+          "notes": "Detailed plat, Third Street CBD description, contributing resources, Leet plan."
+        },
+        {
+          "title": "National Register nomination — Beaver Historic District (NARA catalog)",
+          "url": "https://catalog.archives.gov/id/71995307",
+          "publisher": "National Archives (Taylor, David S., 1996)",
+          "notes": "Authoritative NR registration form."
+        },
+        {
+          "title": "Borough of Beaver Historic Preservation Plan (2022)",
+          "url": "https://beaverpa.us/wp-content/uploads/2022/02/Beaver-Boro-Preservation-Plan-2022.pdf",
+          "publisher": "Beaver Borough",
+          "notes": "Local preservation planning context for HARB / district."
+        },
+        {
+          "title": "Third Street — Beaver County History online",
+          "url": "https://www.bcpahistory.org/beavercounty/BeaverTown/Town.ThirdStreet.html",
+          "publisher": "Beaver County PA History",
+          "notes": "1837 / 1876 / 1921 directory evolution; 1924 tornado photographic notes."
+        },
+        {
+          "title": "Beaver and Vicinity — SAH Archipedia",
+          "url": "https://sah-archipedia.org/essays/PA-01-0002-0001-0001",
+          "publisher": "Society of Architectural Historians",
+          "notes": "Indigenous town names, Fort McIntosh, Third Street corridor characterization."
+        }
+      ],
+      "tags": [
+        "Beaver PA",
+        "College Avenue",
+        "National Historic Landmark",
+        "Matthew Quay",
+        "Beaver Historic District",
+        "NRHP",
+        "adaptive reuse"
+      ]
+    },
+    {
+      "id": "first-presbyterian-church-252-college-ave",
+      "slug": "first-presbyterian-church-252-college-ave",
+      "name": "First Presbyterian Church",
+      "subtitle": "1890–92 Richardsonian Romanesque landmark by James P. Bailey — skyline tower at College & Corporation",
+      "status": "documented",
+      "heroImage": {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/First_Presbyterian_Church%2C_Beaver.jpg/1280px-First_Presbyterian_Church%2C_Beaver.jpg",
+        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/First_Presbyterian_Church%2C_Beaver.jpg/640px-First_Presbyterian_Church%2C_Beaver.jpg",
+        "title": "First Presbyterian Church, 252 College Avenue",
+        "credit": "Wikimedia Commons / Nyttend",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:First_Presbyterian_Church,_Beaver.jpg"
+      },
+      "images": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/First_Presbyterian_Church%2C_Beaver.jpg/1280px-First_Presbyterian_Church%2C_Beaver.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/First_Presbyterian_Church%2C_Beaver.jpg/640px-First_Presbyterian_Church%2C_Beaver.jpg",
+          "title": "Richardsonian Romanesque tower and sandstone massing",
+          "credit": "Wikimedia Commons",
+          "kind": "building",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:First_Presbyterian_Church,_Beaver.jpg"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Matthew_S._Quay_House.jpg/1280px-Matthew_S._Quay_House.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Matthew_S._Quay_House.jpg/640px-Matthew_S._Quay_House.jpg",
+          "title": "Nearby Quay House on College Avenue (district context)",
+          "credit": "Wikimedia Commons",
+          "kind": "building",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Matthew_S._Quay_House.jpg"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/1280px-Downtown_Beaver_Pennsylvania.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/640px-Downtown_Beaver_Pennsylvania.jpg",
+          "title": "Third Street CBD streetscape north of the College Avenue institutional belt",
+          "credit": "Wikimedia Commons",
+          "kind": "streetscape",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Downtown_Beaver_Pennsylvania.jpg"
+        }
+      ],
+      "address": {
+        "street": "252 College Avenue",
+        "streetAlt": "College Avenue & Corporation Street",
+        "city": "Beaver",
+        "borough": "Beaver Borough",
+        "county": "Beaver County",
+        "state": "PA",
+        "zip": "15009",
+        "coordinates": {
+          "lat": 40.69477,
+          "lon": -80.30369,
+          "precision": "commons_camera_location"
+        }
+      },
+      "parcelIdentity": {
+        "summary": "Gray rock-faced sandstone Richardsonian Romanesque church at College Avenue and Corporation Street — one of five historic churches called out as prominent landmarks in Beaver Historic District literature. Built 1890–92 to designs by regional architect James P. Bailey; Wikipedia’s district article uses this building as its lead illustration.",
+        "municipality": "Beaver Borough",
+        "cbdCorridor": "College Avenue (institutional belt adjacent to Third Street CBD)",
+        "historicDistrict": "Beaver Historic District (NRHP #96001201) — contributing ecclesiastical landmark",
+        "localHarb": "Subject to Beaver Borough HARB / Act 167 local historic district review",
+        "knownOccupants": [
+          {
+            "name": "First Presbyterian Church (PCUSA)",
+            "role": "Congregation / continuous ecclesiastical use",
+            "era": "1890–present (building)"
+          },
+          {
+            "name": "James P. Bailey",
+            "role": "Architect",
+            "era": "1890–1892"
+          }
+        ],
+        "caveats": [
+          "NR district inventory resource numbers in secondary adaptations (e.g. #979) are cited from nomination materials; verify against the NARA registration form for formal citations.",
+          "Do not treat Google Maps or private listing-site parcel scrapes as sources."
+        ]
+      },
+      "structureHistory": {
+        "buildEra": "1890–1892",
+        "originalUse": "Presbyterian church",
+        "currentUse": "Presbyterian church (with later educational wing)",
+        "styleNotes": "Richardsonian Romanesque: intersecting gable roof system, prominent square corner tower dominating the local skyline, gray rock-faced sandstone with foliated and geometric stone carving. SAH Archipedia notes Bailey’s debt to H. H. Richardson’s Allegheny County Courthouse vocabulary (arches, tower rhythm, carved capitals). A large educational wing north of the church is executed in compatible stone.",
+        "alterations": [
+          "Educational wing added north of the sanctuary in a compatible stone style (date varies by secondary source; fabric remains complementary)",
+          "Ongoing maintenance typical of a continuously used sanctuary within a local HARB district"
+        ],
+        "districtFabric": "NR / Living Places materials describe Beaver’s historic churches as spanning roughly forty years of ecclesiastical design; First Presbyterian (1890–92) is called the earliest of that prominent set, followed by other College/Commerce corridor churches in Late Gothic and Romanesque Revival idioms."
+      },
+      "landLotPlat": {
+        "summary": "The property sits on Beaver’s planned 1792 town plat, surveyed by Deputy Surveyor Daniel Leet under a 1791 Pennsylvania Act authorizing the community. The original grid used 100-foot major rights-of-way and 25-foot secondary streets, with eight reserved public squares.",
+        "platYear": 1792,
+        "surveyor": "Daniel Leet",
+        "lotTypes": "Original plan distinguished interior “in-lots” (rectangular building lots within 300′ × 360′ squares) and larger eastern “out-lots.” Later 19th–early 20th-century subdivision reduced many parcels.",
+        "publicSquaresNearby": [
+          "Agnew Square (formerly Gibson) — Beaver County Courthouse at Third & Market",
+          "McIntosh Square — Soldiers and Sailors Monument (1900)",
+          "Corner squares named for Clark, Bouquet, Wayne, and Brodhead/Linn honor regional military figures"
+        ],
+        "cbdEvolution": [
+          "1837 directories show a small service-center mix (merchants, trades, innkeepers) on Third Street",
+          "By 1876, lawyers and physicians lined Third Street as industrial valley towns grew elsewhere",
+          "By 1921, auto garages, gas stations, restaurants, and professional offices had largely replaced older craft trades",
+          "1924 tornado damaged the Third & Market area (documented in local photographic history)"
+        ],
+        "thirdStreetRole": "College Avenue and Corporation Street sit in the institutional belt immediately tied to the Third Street commercial spine. The church tower is a skyline marker for visitors approaching the CBD and for the residential neighborhoods that make up most of the NR district’s contributing resources."
+      },
+      "earlyOwnersOccupants": {
+        "summary": "Public architectural histories emphasize Bailey’s design and the congregation’s late-19th-century building campaign rather than a deep private deed narrative. The building has remained in ecclesiastical use, which simplifies occupancy history relative to commercial adaptive-reuse properties on Third Street.",
+        "notableContextOccupantsOnCorridor": [
+          "James P. Bailey also designed Old Main at Geneva College (Beaver Falls) and the 1886 Butler County Courthouse — placing this church in a regional late-Victorian practice.",
+          "NR district writings group First Presbyterian with Park United Presbyterian, First Christian, United Methodist, and SS. Peter and Paul as the five prominent historic churches."
+        ],
+        "researchGaps": [
+          "Congregation building-committee minutes and contractor contracts for 1890–92",
+          "Exact educational-wing construction date from primary records",
+          "Sanborn map footprint growth over the 20th century"
+        ]
+      },
+      "indigenousPeoples": {
+        "summary": "Before European-American permanent settlement, the Ohio–Beaver confluence was a significant Indigenous meeting and habitation landscape in the Ohio Country — not a blank wilderness. This section describes regional peoples and places; it does not invent a private deed claim tying this address to a specific Indigenous owner.",
+        "peoples": [
+          {
+            "name": "Shawnee",
+            "notes": "Present in the broader Ohio Country; regional histories note Shawnee presence around the Beaver area before mid-18th century displacement pressures."
+          },
+          {
+            "name": "Lenape (Delaware)",
+            "notes": "Major presence in western Pennsylvania and the Ohio Country after eastward dispossession; parties to the Treaty of Fort McIntosh (1785)."
+          },
+          {
+            "name": "Mingoes (Ohio Iroquoians / Seneca-affiliated communities)",
+            "notes": "Mingo bands are repeatedly named among peoples gathering at the confluence villages in mid-18th-century accounts."
+          },
+          {
+            "name": "Wyandot, Ojibwe (Chippewa), Odawa (Ottawa)",
+            "notes": "Signatory nations at the Treaty of Fort McIntosh (1785), which imposed cessions covering large parts of the Ohio Country."
+          }
+        ],
+        "placesAndNames": [
+          "Sawcunk / Beaver’s Town / Shingas’ Old Town — Indigenous settlement names associated with the confluence zone",
+          "SAH Archipedia notes French-allied square-log houses with stone chimneys here in the 1750s; Native habitation in the immediate area is described as ending after the 1763 Bushy Run campaign context"
+        ],
+        "ethicalNote": "Treaties at Fort Stanwix (1784) and Fort McIntosh (1785) were coercive instruments of U.S. and Pennsylvania land acquisition. Many Ohio Country nations rejected Fort McIntosh’s legitimacy — feeding the Western Confederacy and Northwest Indian War (to Greenville, 1795)."
+      },
+      "fortsAndWars": {
+        "summary": "Beaver’s river bluff is one of the most strategically charged Revolutionary–early Federal landscapes in western Pennsylvania. Fort McIntosh (1778) stood south of today’s Third Street CBD on the Ohio River bank; its archaeological site is both individually listed (NRHP 1975) and a key contributing resource of the Beaver Historic District.",
+        "frenchAndIndianWar": [
+          "The Ohio Country — including the Beaver–Ohio confluence — was contested among French, British, and Indigenous nations.",
+          "Col. Henry Bouquet’s campaigns (including the 1763 Bushy Run victory) are commemorated in local square naming and regional military memory."
+        ],
+        "revolutionaryWarFrontier": [
+          "Fort McIntosh built 1778 under Gen. Lachlan McIntosh; designed with French engineer Cambray-Digny; first U.S. fort north of the Ohio River.",
+          "Trapezoidal log fort with bastions, ditch, barracks, and river access — base for western Continental operations.",
+          "Treaty of Fort McIntosh signed 21 January 1785 with Wyandot, Delaware, Chippewa, and Ottawa representatives.",
+          "Fort declined as the frontier moved west; abandoned by the early 1790s; archaeological excavation 1970s recovered extensive material culture."
+        ],
+        "nearby": [
+          "Legionville (nearby) — winter quarters of Gen. Anthony Wayne’s Legion of the United States, 1792–93",
+          "Fort Pitt (Pittsburgh) — upstream command node for the western theater"
+        ]
+      },
+      "historicDistrict": {
+        "name": "Beaver Historic District",
+        "nrhpRef": "96001201",
+        "listed": "1996-10-24",
+        "areaAcres": 317,
+        "periodOfSignificance": "Primarily mid-19th century through mid-20th century building stock; community plan roots in 1792; Fort McIntosh era begins 1778",
+        "styles": [
+          "Italianate",
+          "Queen Anne",
+          "American Foursquare",
+          "Neo-Classical Revival",
+          "Richardsonian Romanesque",
+          "Art Deco (1933 courthouse fabric)"
+        ],
+        "resources": "NR materials cite ~1,456 resources; ~1,258 contributing; Fort McIntosh site and Quay House called out among the most significant contributing properties",
+        "boundariesNote": "Roughly bounded by P&LE Railroad tracks, Fair Ave., 5th St., 3rd St., and Sassafras Ln.; encompasses most of the borough and the entire 1792 plat core",
+        "phmcMarker": "Pennsylvania Historical & Museum Commission marker designation noted for the district (1946 context in secondary summaries)",
+        "localOrdinance": "Beaver administers a local historic district ordinance (Historic District Act / Act 167) requiring certificates of appropriateness for demolitions within boundaries coterminous with the NR district",
+        "relevanceToProperty": "First Presbyterian is the lead photograph on Wikipedia’s Beaver Historic District page and is explicitly named in NR-adapted descriptions as the earliest of the district’s five prominent historic churches — a skyline-defining Richardsonian Romanesque landmark on the College Avenue institutional edge of the Third Street CBD."
+      },
+      "timeline": [
+        {
+          "year": "1791–1792",
+          "event": "Leet surveys Beaver’s grid; College Avenue corridor takes shape within the reserved town plan."
+        },
+        {
+          "year": "1870s–1900",
+          "event": "James P. Bailey practices architecture in the region (Geneva College Old Main; Butler County Courthouse)."
+        },
+        {
+          "year": "1890–1892",
+          "event": "First Presbyterian Church built in Richardsonian Romanesque sandstone with corner tower."
+        },
+        {
+          "year": "1903–1906",
+          "event": "Companion historic churches rise nearby (First Christian; Park United Presbyterian; Methodist Episcopal), defining the ecclesiastical skyline set."
+        },
+        {
+          "year": "1996",
+          "event": "Beaver Historic District listed; church counted among prominent contributing ecclesiastical landmarks."
+        },
+        {
+          "year": "2009",
+          "event": "Widely reused public-domain exterior photograph by Nyttend documents the College Avenue elevation."
+        }
+      ],
+      "sources": [
+        {
+          "title": "First Presbyterian Church — SAH Archipedia",
+          "url": "https://sah-archipedia.org/buildings/PA-01-BE5",
+          "publisher": "Society of Architectural Historians",
+          "notes": "Bailey attribution, Richardson comparison, sandstone / tower description, educational wing note."
+        },
+        {
+          "title": "Beaver Historic District",
+          "url": "https://en.wikipedia.org/wiki/Beaver_Historic_District",
+          "publisher": "Wikipedia",
+          "notes": "District overview; uses First Presbyterian as lead image."
+        },
+        {
+          "title": "Beaver Historic District (Living Places / NR adaptation)",
+          "url": "https://www.livingplaces.com/PA/Beaver_County/Beaver_Borough/Beaver_Historic_District.html",
+          "publisher": "Living Places",
+          "notes": "Detailed paragraph on the 1890–92 church at College and Corporation Streets and the five-church set."
+        },
+        {
+          "title": "Borough of Beaver Historic Preservation Plan (2022)",
+          "url": "https://beaverpa.us/wp-content/uploads/2022/02/Beaver-Boro-Preservation-Plan-2022.pdf",
+          "publisher": "Beaver Borough",
+          "notes": "Local preservation planning context for the NR district and HARB."
+        },
+        {
+          "title": "Wikimedia — First Presbyterian Church, Beaver",
+          "url": "https://commons.wikimedia.org/wiki/File:First_Presbyterian_Church,_Beaver.jpg",
+          "publisher": "Wikimedia Commons",
+          "notes": "Hero exterior photograph (public domain); camera location near College Avenue."
+        },
+        {
+          "title": "Beaver, Pennsylvania",
+          "url": "https://en.wikipedia.org/wiki/Beaver,_Pennsylvania",
+          "publisher": "Wikipedia",
+          "notes": "Borough / ZIP / historic district framing."
+        }
+      ],
+      "tags": [
+        "Beaver PA",
+        "College Avenue",
+        "Richardsonian Romanesque",
+        "church",
+        "James P. Bailey",
+        "Beaver Historic District",
+        "NRHP"
+      ],
+      "town": "Beaver"
+    },
+    {
+      "id": "fort-mcintosh-site-beaver-pa",
+      "slug": "fort-mcintosh-site-beaver-pa",
+      "name": "Fort McIntosh Site",
+      "subtitle": "1778 Revolutionary War fort on the Ohio bluff — NRHP site and key Beaver Historic District resource",
+      "status": "documented",
+      "town": "Beaver",
+      "heroImage": {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/1280px-Fort_McIntosh_Site.jpg",
+        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/640px-Fort_McIntosh_Site.jpg",
+        "title": "Fort McIntosh site, Beaver, Pennsylvania",
+        "credit": "Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fort_McIntosh_Site.jpg",
+        "kind": "historic"
+      },
+      "images": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/1280px-Fort_McIntosh_Site.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fort_McIntosh_Site.jpg/640px-Fort_McIntosh_Site.jpg",
+          "title": "Fort McIntosh archaeological site and memorials",
+          "credit": "Wikimedia Commons",
+          "kind": "historic",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fort_McIntosh_Site.jpg"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/1280px-Downtown_Beaver_Pennsylvania.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Downtown_Beaver_Pennsylvania.jpg/640px-Downtown_Beaver_Pennsylvania.jpg",
+          "title": "Third Street downtown Beaver — upslope from the fort bluff",
+          "credit": "Wikimedia Commons",
+          "kind": "streetscape",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Downtown_Beaver_Pennsylvania.jpg"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/1280px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
+          "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Beaver_County_Courthouse%2C_Pennsylvania.jpg/640px-Beaver_County_Courthouse%2C_Pennsylvania.jpg",
+          "title": "Beaver County Courthouse (Agnew Square)",
+          "credit": "Wikimedia Commons",
+          "kind": "building",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Beaver_County_Courthouse,_Pennsylvania.jpg"
+        }
+      ],
+      "address": {
+        "street": "River Road",
+        "streetAlt": "Fort McIntosh Site (Ohio River bluff)",
+        "city": "Beaver",
+        "borough": "Beaver Borough",
+        "county": "Beaver County",
+        "state": "PA",
+        "zip": "15009",
+        "coordinates": {
+          "lat": 40.69138889,
+          "lon": -80.30256667,
+          "precision": "nrhp_coordinates"
+        }
+      },
+      "parcelIdentity": {
+        "summary": "Archaeological site and memorialized fort ground on the Ohio River bluff at Beaver, south of the Third Street CBD. Individually listed on the National Register (1975) and called out among the most significant contributing properties of the Beaver Historic District.",
+        "municipality": "Beaver Borough",
+        "cbdCorridor": "River Road bluff below Third Street / county-seat core",
+        "historicDistrict": "Beaver Historic District (NRHP #96001201); individually NRHP (1975)",
+        "localHarb": "Protected historic site stewarded with Beaver Area Heritage Foundation involvement; within local historic district context",
+        "knownOccupants": [
+          {
+            "name": "Continental Army / Western Department",
+            "role": "Frontier fort garrison under Gen. Lachlan McIntosh",
+            "era": "1778–c. 1791"
+          },
+          {
+            "name": "First American Regiment",
+            "role": "Post-Revolution garrison association cited in public histories",
+            "era": "late 18th century"
+          },
+          {
+            "name": "Beaver Area Heritage Foundation",
+            "role": "Site protection, monuments, interpretation",
+            "era": "late 20th–21st century"
+          }
+        ],
+        "caveats": [
+          "Above-grade fort fabric does not survive; interpretation relies on excavated footers, monuments, and plaques.",
+          "Do not treat Google Maps or private listing-site parcel scrapes as sources."
+        ]
+      },
+      "structureHistory": {
+        "buildEra": "1778 (abandoned early 1790s; archaeological recovery 1970s)",
+        "originalUse": "U.S. frontier fort (first north of the Ohio River)",
+        "currentUse": "Memorialized archaeological park / heritage site",
+        "styleNotes": "Trapezoidal log fort with bastions, ditch, barracks, warehouses, officers’ quarters, forge, kitchen, and powder magazines; ~150 feet per side; river-side slope defense; underground supply passage to the Ohio. Extant features today are stone footers, granite/sandstone memorials, and bronze plaques.",
+        "alterations": [
+          "Abandonment and decay by the 1790s (roofs gone by 1795 per secondary accounts)",
+          "1974–78 University of Pittsburgh / Carnegie Museum excavations (~80,000 identifiable artifacts)",
+          "1978 bicentennial dedication; later granite/sandstone memorial donated c. 2010"
+        ],
+        "districtFabric": "The fort site is the Revolutionary-era substrate beneath Beaver’s later county-seat grid; McIntosh Square in the 1792 plat commemorates the fort by name."
+      },
+      "landLotPlat": {
+        "summary": "The fort predates the 1792 Leet plat. When Beaver was laid out, the river bluff fort site remained a distinct military/heritage landscape south of the commercial Third Street grid and public squares (including McIntosh Square).",
+        "platYear": 1792,
+        "surveyor": "Daniel Leet",
+        "lotTypes": "Original plan distinguished interior “in-lots” and larger eastern “out-lots.” Later 19th–early 20th-century subdivision reduced many parcels.",
+        "thirdStreetRole": "Third Street developed upslope as the civilian commercial spine after the fort’s military purpose faded; the fort site remains the foundational frontier landmark for the borough’s origin story.",
+        "publicSquaresNearby": [
+          "Agnew Square (formerly Gibson) — Beaver County Courthouse at Third & Market",
+          "McIntosh Square — Soldiers and Sailors Monument (1900)",
+          "Corner squares named for Clark, Bouquet, Wayne, and Brodhead/Linn honor regional military figures"
+        ],
+        "cbdEvolution": [
+          "1837 directories show a small service-center mix (merchants, trades, innkeepers) on Third Street",
+          "By 1876, lawyers and physicians lined Third Street as industrial valley towns grew elsewhere",
+          "By 1921, auto garages, gas stations, restaurants, and professional offices had largely replaced older craft trades",
+          "1924 tornado damaged the Third & Market area (documented in local photographic history)"
+        ]
+      },
+      "earlyOwnersOccupants": {
+        "summary": "Military occupation under Continental / early U.S. Army command rather than private deed ownership during the fort’s active years. Treaty diplomacy at the site in 1785 shaped Ohio Country land title. Modern stewardship involves municipal and heritage-foundation partners.",
+        "notableContextOccupantsOnCorridor": [
+          "Gen. Lachlan McIntosh moved ~1,500 men from Pittsburgh to Beaver after fort completion (fall 1778).",
+          "Treaty of Fort McIntosh (1785) parties: Wyandot, Delaware, Chippewa, Ottawa — widely regarded as an imposed cession."
+        ],
+        "researchGaps": [
+          "Full excavation reports beyond popular summaries",
+          "Precise mapped relationship of fort footprint to modern River Road parcels",
+          "Detailed artifact catalog access if not already open"
+        ]
+      },
+      "indigenousPeoples": {
+        "summary": "Before European-American permanent settlement, the Ohio–Beaver confluence was a significant Indigenous meeting and habitation landscape in the Ohio Country. This section describes regional peoples and places; it does not invent a private deed claim for this parcel.",
+        "peoples": [
+          {
+            "name": "Shawnee",
+            "notes": "Present in the broader Ohio Country around the Beaver area before mid-18th-century displacement pressures."
+          },
+          {
+            "name": "Lenape (Delaware)",
+            "notes": "Major presence in western Pennsylvania and the Ohio Country; parties to the Treaty of Fort McIntosh (1785)."
+          },
+          {
+            "name": "Mingoes (Ohio Iroquoians / Seneca-affiliated communities)",
+            "notes": "Repeatedly named among peoples gathering at confluence villages in mid-18th-century accounts."
+          },
+          {
+            "name": "Wyandot, Ojibwe (Chippewa), Odawa (Ottawa)",
+            "notes": "Signatory nations at the Treaty of Fort McIntosh (1785)."
+          }
+        ],
+        "placesAndNames": [
+          "Sawcunk / Beaver’s Town / Shingas’ Old Town — Indigenous settlement names associated with the confluence zone",
+          "SAH Archipedia notes French-allied square-log houses with stone chimneys here in the 1750s"
+        ],
+        "ethicalNote": "Treaties at Fort Stanwix (1784) and Fort McIntosh (1785) were coercive instruments of U.S. and Pennsylvania land acquisition. Many Ohio Country nations rejected Fort McIntosh’s legitimacy."
+      },
+      "fortsAndWars": {
+        "summary": "This is the Fort McIntosh site itself: first U.S. fort north of the Ohio (1778), Western Department base, and locus of the 1785 Treaty of Fort McIntosh.",
+        "frenchAndIndianWar": [
+          "The Ohio Country — including the Beaver–Ohio confluence — was contested among French, British, and Indigenous nations.",
+          "Col. Henry Bouquet’s campaigns (including Bushy Run, 1763) mark the collapse of sustained Indigenous village life at the confluence after Pontiac’s War-era fighting."
+        ],
+        "revolutionaryWarFrontier": [
+          "Fort McIntosh built 1778 under Gen. Lachlan McIntosh; designed with French engineer Cambray-Digny; first U.S. fort north of the Ohio River.",
+          "Treaty of Fort McIntosh signed 21 January 1785 with Wyandot, Delaware, Chippewa, and Ottawa representatives.",
+          "Fort declined as the frontier moved west; abandoned by the early 1790s; archaeological excavation 1970s."
+        ],
+        "nearby": [
+          "Legionville (nearby) — winter quarters of Gen. Anthony Wayne’s Legion, 1792–93",
+          "Fort Pitt (Pittsburgh) — upstream command node for the western theater"
+        ]
+      },
+      "historicDistrict": {
+        "name": "Beaver Historic District",
+        "nrhpRef": "96001201",
+        "listed": "1996-10-24",
+        "areaAcres": 317,
+        "periodOfSignificance": "Primarily mid-19th century through mid-20th century building stock; community plan roots in 1792",
+        "styles": [
+          "Italianate",
+          "Queen Anne",
+          "American Foursquare",
+          "Neo-Classical Revival",
+          "Art Deco (1933 courthouse)"
+        ],
+        "resources": "NR materials cite ~1,456 resources; ~1,258 contributing; Fort McIntosh site and Quay House called out among significant properties",
+        "boundariesNote": "Roughly bounded by P&LE Railroad tracks, Fair Ave., 5th St., 3rd St., and Sassafras Ln.; encompasses most of the borough and the 1792 plat core",
+        "phmcMarker": "Pennsylvania Historical & Museum Commission marker designation noted for the district in secondary summaries",
+        "localOrdinance": "Beaver administers a local historic district ordinance (Act 167) requiring certificates of appropriateness for demolitions within boundaries coterminous with the NR district",
+        "relevanceToProperty": "Individually NRHP-listed in 1975; when the Beaver Historic District was listed in 1996, the fort site was singled out as one of the most significant of roughly 1,250 contributing properties."
+      },
+      "timeline": [
+        {
+          "year": "1778",
+          "event": "Fort McIntosh constructed under Gen. Lachlan McIntosh / engineer Cambray-Digny."
+        },
+        {
+          "year": "1785",
+          "event": "Treaty of Fort McIntosh signed (Jan 21)."
+        },
+        {
+          "year": "1791–1795",
+          "event": "Fort abandoned; roofs decay; western wing last standing remnant."
+        },
+        {
+          "year": "1792",
+          "event": "Beaver town plat surveyed; McIntosh Square commemorates the fort."
+        },
+        {
+          "year": "1974–1978",
+          "event": "Archaeological excavation; bicentennial dedication with Gen. Westmoreland."
+        },
+        {
+          "year": "1975",
+          "event": "Fort McIntosh site listed on the National Register."
+        },
+        {
+          "year": "1996",
+          "event": "Beaver Historic District listed; fort called a primary contributing resource."
+        },
+        {
+          "year": "c. 2010",
+          "event": "Granite and sandstone memorial added with local donor support."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Fort McIntosh (Pennsylvania)",
+          "url": "https://en.wikipedia.org/wiki/Fort_McIntosh_(Pennsylvania)",
+          "publisher": "Wikipedia",
+          "notes": "Construction, treaty, archaeology, NRHP, heritage stewardship."
+        },
+        {
+          "title": "Treaty of Fort McIntosh",
+          "url": "https://en.wikipedia.org/wiki/Treaty_of_Fort_McIntosh",
+          "publisher": "Wikipedia",
+          "notes": "1785 treaty parties, Ohio Country cessions, aftermath."
+        },
+        {
+          "title": "Treaty of Fort McIntosh — Beaver Area Heritage Foundation",
+          "url": "https://beaverheritage.org/treaty-of-fort-mcintosh/",
+          "publisher": "Beaver Area Heritage Foundation",
+          "notes": "Local interpretation of Stanwix/McIntosh sequence."
+        },
+        {
+          "title": "Fort McIntosh Site — Wikimedia Commons",
+          "url": "https://commons.wikimedia.org/wiki/File:Fort_McIntosh_Site.jpg",
+          "publisher": "Wikimedia Commons",
+          "notes": "Hero site photograph."
+        },
+        {
+          "title": "Beaver Historic District",
+          "url": "https://en.wikipedia.org/wiki/Beaver_Historic_District",
+          "publisher": "Wikipedia",
+          "notes": "NRHP listing summary, boundaries, Quay House and Fort McIntosh context."
+        },
+        {
+          "title": "Beaver, Pennsylvania",
+          "url": "https://en.wikipedia.org/wiki/Beaver,_Pennsylvania",
+          "publisher": "Wikipedia",
+          "notes": "Borough history, ZIP 15009, Indigenous displacement summary, Fort McIntosh, historic district."
+        },
+        {
+          "title": "Beaver Historic District (Living Places / NR adaptation)",
+          "url": "https://www.livingplaces.com/PA/Beaver_County/Beaver_Borough/Beaver_Historic_District.html",
+          "publisher": "Living Places (adapted from NR nomination)",
+          "notes": "Detailed plat, Third Street CBD description, contributing resources, Leet plan."
+        },
+        {
+          "title": "National Register nomination — Beaver Historic District (NARA catalog)",
+          "url": "https://catalog.archives.gov/id/71995307",
+          "publisher": "National Archives (Taylor, David S., 1996)",
+          "notes": "Authoritative NR registration form."
+        },
+        {
+          "title": "Borough of Beaver Historic Preservation Plan (2022)",
+          "url": "https://beaverpa.us/wp-content/uploads/2022/02/Beaver-Boro-Preservation-Plan-2022.pdf",
+          "publisher": "Beaver Borough",
+          "notes": "Local preservation planning context for HARB / district."
+        },
+        {
+          "title": "Third Street — Beaver County History online",
+          "url": "https://www.bcpahistory.org/beavercounty/BeaverTown/Town.ThirdStreet.html",
+          "publisher": "Beaver County PA History",
+          "notes": "1837 / 1876 / 1921 directory evolution; 1924 tornado photographic notes."
+        },
+        {
+          "title": "Beaver and Vicinity — SAH Archipedia",
+          "url": "https://sah-archipedia.org/essays/PA-01-0002-0001-0001",
+          "publisher": "Society of Architectural Historians",
+          "notes": "Indigenous town names, Fort McIntosh, Third Street corridor characterization."
+        }
+      ],
+      "tags": [
+        "Beaver PA",
+        "Fort McIntosh",
+        "Revolutionary War",
+        "Ohio Country",
+        "NRHP",
+        "River Road",
+        "Beaver Historic District"
       ]
     }
   ]
