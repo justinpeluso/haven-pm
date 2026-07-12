@@ -433,7 +433,7 @@ export function SimsRealLifeGame() {
         title: `Heroes’ Threshold — ${WIN_WEIGHT_LB} lb`,
         body: next.graduated
           ? "Banner rises — 150 became 170. Scout thumps her tail like a war drum."
-          : `Scale hit ${WIN_WEIGHT_LB}. You graduate on weight — finish sit/stay/come for optional mastery glory.`,
+          : `Scale hit ${WIN_WEIGHT_LB}. Finish her win cues (sit / stay / come / heel) and training to graduate.`,
       });
     }
   }
@@ -845,7 +845,7 @@ export function SimsRealLifeGame() {
               />
             </div>
             <p className="text-[0.65rem]" style={{ color: "var(--dt-muted)" }}>
-              Climb from {START_WEIGHT} · {weightPct}% · win needs {WIN_WEIGHT_LB} lb + her cues (sit / stay / come)
+              Climb from {START_WEIGHT} · {weightPct}% · win needs {WIN_WEIGHT_LB} lb + her cues (sit / stay / come / heel)
             </p>
           </div>
 
@@ -1381,8 +1381,9 @@ export function SimsRealLifeGame() {
                   Between chapters
                 </p>
                 <p className="text-xs leading-relaxed" style={{ color: "var(--dt-muted)" }}>
-                  No active scroll. Keep surplus + Trials of Iron until {WIN_WEIGHT_LB} lb. Walk and train{" "}
-                  {save.dog.name} (1½y ♀ GS) for the optional mastery ribbon — weight alone raises the banner.
+                  No active scroll. Keep surplus + Trials of Iron until {WIN_WEIGHT_LB} lb, and lock{" "}
+                  {save.dog.name}&apos;s win cues (sit / stay / come / heel) — she&apos;s a 1½-year-old female GS;
+                  partnership is part of the victory banner.
                 </p>
               </div>
             )}

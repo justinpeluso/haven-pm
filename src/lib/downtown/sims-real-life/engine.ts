@@ -162,16 +162,16 @@ function countFlagPrefix(save: PlayerSave, prefix: string): number {
   return max;
 }
 
-/** Primary win: hit 170 lb. Dog partnership is an optional mastery bonus. */
+/** Primary win: 170 lb + required hound cues / training (product ship bar). */
 export function checkVictory(save: PlayerSave): boolean {
   if (save.graduated) return true;
-  return save.weightLb >= WIN_WEIGHT_LB;
+  const cuesOk = REQUIRED_WIN_CUES.every((c) => save.dog.cuesLearned.includes(c));
+  return save.weightLb >= WIN_WEIGHT_LB && save.dog.training >= REQUIRED_WIN_TRAINING && cuesOk;
 }
 
-/** Optional mastery ribbon — training + win cues (sit/stay/come). */
+/** Deeper partnership ribbon beyond the graduation gate. */
 export function checkDogMastery(save: PlayerSave): boolean {
-  const cuesOk = REQUIRED_WIN_CUES.every((c) => save.dog.cuesLearned.includes(c));
-  return save.dog.training >= REQUIRED_WIN_TRAINING && cuesOk;
+  return save.dog.training >= 40 && save.dog.cuesLearned.length >= 3;
 }
 
 export function dogWinProgress(save: PlayerSave): {
