@@ -352,6 +352,19 @@ export function SimsRealLifeGame() {
         <aside className="downtown-panel p-4 space-y-4 order-2 xl:order-1">
           <p className="downtown-section-label">Character sheet</p>
 
+          <div className="flex items-center gap-3">
+            <div className={SIMS_CLASS.portrait} aria-hidden>
+              <div className={SIMS_CLASS.portraitFill} />
+            </div>
+            <div className="min-w-0 space-y-1">
+              <p className="font-serif text-lg leading-tight">{save.name}</p>
+              <p className="text-[0.65rem] uppercase tracking-[0.12em]" style={{ color: "var(--dt-muted)" }}>
+                Age {save.age} · Day {save.day}
+              </p>
+              <hr className={SIMS_CLASS.divider} />
+            </div>
+          </div>
+
           <div className="space-y-2">
             <Meter
               label={`Weight → ${save.targetWeightLb} lb`}
