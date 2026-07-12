@@ -433,7 +433,7 @@ export function SimsRealLifeGame() {
         title: `Heroes’ Threshold — ${WIN_WEIGHT_LB} lb`,
         body: next.graduated
           ? "Banner rises — 150 became 170. Scout thumps her tail like a war drum."
-          : `Scale hit ${WIN_WEIGHT_LB}. Finish her win cues (sit / stay / come / heel) and training to graduate.`,
+          : `Scale hit ${WIN_WEIGHT_LB}. Banner can rise on weight — her cues are optional mastery glory.`,
       });
     }
   }
@@ -845,7 +845,7 @@ export function SimsRealLifeGame() {
               />
             </div>
             <p className="text-[0.65rem]" style={{ color: "var(--dt-muted)" }}>
-              Climb from {START_WEIGHT} · {weightPct}% · win needs {WIN_WEIGHT_LB} lb + her cues (sit / stay / come / heel)
+              Climb from {START_WEIGHT} · {weightPct}% of the march to {WIN_WEIGHT_LB} · her cues are optional mastery
             </p>
           </div>
 
@@ -1126,7 +1126,7 @@ export function SimsRealLifeGame() {
                 </div>
               </div>
               <Meter
-                label={`Win track (need ${DOG_TRAINING_WIN} training · ${DOG_CUES_WIN} cues)`}
+                label={`Optional mastery (${DOG_TRAINING_WIN} training · ${DOG_CUES_WIN} cues)`}
                 value={dogWinPct}
                 max={100}
                 suffix={` ${dogWinPct}%`}
