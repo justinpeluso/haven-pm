@@ -5,9 +5,8 @@ import Link from "next/link";
 export function DowntownSubnav({
   active,
 }: {
-  active: "intel" | "gallery" | "news" | "historical" | "party" | "neverworld";
+  active: "intel" | "gallery" | "news" | "historical" | "neverworld";
 }) {
-  const neverworldActive = active === "neverworld" || active === "party";
   return (
     <div className="mb-5 flex flex-wrap items-center gap-2 border-b border-[var(--dt-line)] pb-4">
       <Link href="/downtown" className="downtown-chip" data-active={active === "intel"}>
@@ -16,7 +15,7 @@ export function DowntownSubnav({
       <Link
         href="/downtown/neverworld"
         className="downtown-chip"
-        data-active={neverworldActive}
+        data-active={active === "neverworld"}
       >
         Neverworld
       </Link>
