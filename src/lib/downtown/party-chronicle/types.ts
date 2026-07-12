@@ -297,6 +297,17 @@ export type AnimalNpcDef = {
   balloonLines: string[];
 };
 
+/** Mid-act road fight from encounter decks (not authored story nodes). */
+export type DeckEncounterState = {
+  id: string;
+  name: string;
+  maxHp: number;
+  xp: number;
+  gold: number;
+  lootIds: string[];
+  artId?: string;
+};
+
 export type PartyWorldSave = {
   version: 1;
   /** Whose turn in rotation */
@@ -308,6 +319,12 @@ export type PartyWorldSave = {
   /** Running Animal / Human / Demon scores from path choices. */
   alignment: AlignmentScores;
   encounterEnemyHp: number | null;
+  /** Active mid-act deck fight (null when idle / story-node fight). */
+  deckEncounter: DeckEncounterState | null;
+  /** Completed side-quest ids. */
+  completedSideQuests: string[];
+  /** Recipe ids cooked at least once. */
+  cookedRecipes: string[];
   log: string[];
   endingId: string | null;
   characters: Record<PlayerSlot, CharacterSave>;

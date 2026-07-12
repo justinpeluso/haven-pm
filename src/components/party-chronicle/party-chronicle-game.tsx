@@ -16,6 +16,14 @@ import {
   spendSkillPoint,
   useHotbarAbility,
 } from "@/lib/downtown/party-chronicle/engine";
+import {
+  availableSideQuests,
+  completeSideQuest,
+  cookRecipe,
+  cookableRecipes,
+  fleeRoadEncounter,
+  startRoadEncounter,
+} from "@/lib/downtown/party-chronicle/midgame";
 import { getGear } from "@/lib/downtown/party-chronicle/gear";
 import { describeHotbar, listAssignableAbilities } from "@/lib/downtown/party-chronicle/hotbar";
 import {
@@ -35,6 +43,7 @@ import {
 import { canUnlockNode, getAbility, SKILL_TREES } from "@/lib/downtown/party-chronicle/skills";
 import {
   chapterForNode,
+  getChapter,
   getEnding,
   getStoryNode,
   progressionHint,
@@ -57,7 +66,7 @@ import {
 import "@/components/party-chronicle/party-chronicle.css";
 
 type UiPhase = "boot" | "title" | "create" | "play" | "ending";
-type MainTab = "story" | "skills" | "gear" | "codex" | "party";
+type MainTab = "story" | "camp" | "skills" | "gear" | "codex" | "party";
 
 const STAT_LABELS: Record<StatKey, string> = {
   strength: "STR",
@@ -217,6 +226,35 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     });
   };
 
+  const onRoadAmbush = () => {
+    if (!world || !mySlot || !acting) return;
+    const result = startRoadEncounter(world, mySlot);
+    persist(result.world);
+    setFlash(result.message);
+    setTab("story");
+  };
+
+  const onFleeRoad = () => {
+    if (!world || !mySlot || !acting) return;
+    const result = fleeRoadEncounter(world, mySlot);
+    persist(result.world);
+    setFlash(result.message);
+  };
+
+  const onSideQuest = (questId: string) => {
+    if (!world || !mySlot || !acting) return;
+    const result = completeSideQuest(world, mySlot, questId);
+    persist(result.world);
+    setFlash(result.message);
+  };
+
+  const onCook = (recipeId: string) => {
+    if (!world || !mySlot || !acting) return;
+    const result = cookRecipe(world, mySlot, recipeId);
+    persist(result.world);
+    setFlash(result.message);
+  };
+
   const onUnlock = (nodeId: string) => {
     if (!world || !mySlot) return;
     const result = spendSkillPoint(world, mySlot, nodeId);
@@ -244,6 +282,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     }
     persist({ ...world, characters: { ...world.characters, [mySlot]: result } });
   };
+
 
   if (phase === "boot") {
     return (
@@ -360,10 +399,17 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     );
   }
 
-  const inEncounter =
+  const roadFoe = world.deckEncounter;
+  const inRoadFight =
+    !!world.deckEncounter && world.encounterEnemyHp != null && world.encounterEnemyHp > 0;
+  const inStoryFight =
     storyNode.kind === "encounter" && world.encounterEnemyHp != null && world.encounterEnemyHp > 0;
+  const inEncounter = inStoryFight || inRoadFight;
   const hasChoices =
     storyNode.kind === "conversation" || storyNode.kind === "path" || storyNode.kind === "encounter";
+  const sideQuests = availableSideQuests(world);
+  const actNum = getChapter(world.chapterId)?.chapter ?? 1;
+  const campRecipes = mySlot ? cookableRecipes(world, mySlot) : [];
 
   return (
     <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
@@ -441,6 +487,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
             {(
               [
                 ["story", "Comic"],
+                ["camp", "Camp"],
                 ["skills", "Skills"],
                 ["gear", "Gear"],
                 ["codex", "Codex"],
@@ -504,6 +551,19 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                 </div>
               )}
 
+              {inRoadFight && roadFoe && (
+                <div className="space-y-2">
+                  <p className="pc-eyebrow">Road fight — {roadFoe.name}</p>
+                  <Meter
+                    label="Enemy HP"
+                    value={world.encounterEnemyHp ?? 0}
+                    max={roadFoe.maxHp}
+                    tone="enemy"
+                  />
+                  <p className="text-[0.65rem] opacity-70">Use hotbar to strike. Open Camp to flee.</p>
+                </div>
+              )}
+
               {(storyNode.kind === "narrative" || storyNode.kind === "montage") && (
                 <button type="button" className="pc-choice" disabled={!acting} onClick={onContinue}>
                   {storyNode.kind === "montage"
@@ -526,6 +586,94 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                     <span className="block text-[0.65rem] opacity-70">{choice.approach}</span>
                   </button>
                 ))}
+            </div>
+          )}
+
+          {tab === "camp" && (
+            <div className="space-y-4">
+              <p className="pc-eyebrow">Camp · Roads · Side quests</p>
+              <p className="text-xs opacity-70">
+                Mid-act filler for {world.chapterId}. Packs: encounters + side quests + cooking.
+              </p>
+
+              <div className="space-y-2">
+                <p className="pc-eyebrow text-[0.65rem]">Road encounter</p>
+                {inRoadFight && roadFoe ? (
+                  <>
+                    <p className="text-sm font-bold">{roadFoe.name}</p>
+                    <Meter
+                      label="Enemy HP"
+                      value={world.encounterEnemyHp ?? 0}
+                      max={roadFoe.maxHp}
+                      tone="enemy"
+                    />
+                    <button
+                      type="button"
+                      className="pc-chip"
+                      disabled={!acting}
+                      onClick={onFleeRoad}
+                    >
+                      Flee road fight
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    className="pc-choice"
+                    disabled={!acting || inStoryFight}
+                    onClick={onRoadAmbush}
+                  >
+                    Roll road ambush →
+                  </button>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <p className="pc-eyebrow text-[0.65rem]">
+                  Side quests ({sideQuests.length} open · {(world.completedSideQuests ?? []).length}{" "}
+                  done)
+                </p>
+                {sideQuests.length === 0 && (
+                  <p className="text-xs opacity-70">No open side quests for this chapter.</p>
+                )}
+                {sideQuests.map((q) => (
+                  <button
+                    key={q.id}
+                    type="button"
+                    className="pc-choice block w-full text-left"
+                    disabled={!acting || inRoadFight}
+                    onClick={() => onSideQuest(q.id)}
+                  >
+                    <strong>{q.title}</strong>
+                    <span className="block text-[0.65rem] opacity-70">
+                      {q.kind} · {q.estimatedMinutes}m · +{q.rewards.xp} XP · {q.summary}
+                    </span>
+                  </button>
+                ))}
+              </div>
+
+              <div className="space-y-2">
+                <p className="pc-eyebrow text-[0.65rem]">Campfire cook (act ≤{actNum})</p>
+                {campRecipes.slice(0, 8).map((r) => {
+                  const canCook = r.ingredients.every((id) => me?.inventory.includes(id));
+                  return (
+                    <button
+                      key={r.id}
+                      type="button"
+                      className="pc-chip block w-full text-left text-xs"
+                      disabled={!acting || !canCook || inRoadFight}
+                      onClick={() => onCook(r.id)}
+                      title={r.blurb}
+                    >
+                      <strong>{r.name}</strong>
+                      <span className="block opacity-70">
+                        Need {r.ingredients.join(", ") || "nothing"} · heal {r.heal}
+                        {(world.cookedRecipes ?? []).includes(r.id) ? " · cooked" : ""}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
 

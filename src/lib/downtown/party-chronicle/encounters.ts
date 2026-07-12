@@ -120,13 +120,23 @@ export function getEncounter(id: string): EncounterTemplate | undefined {
   return ENCOUNTER_DECK.find((e) => e.id === id);
 }
 
+/** Map chapter id (`ch1-frostford`) → pack deck (`deck-act-1` / `act-1`). */
+export function deckIdForChapter(chapterId: string): string {
+  const m = /^ch(\d+)/.exec(chapterId);
+  const n = m ? Number(m[1]) : 1;
+  return `deck-act-${Math.min(10, Math.max(1, n))}`;
+}
+
 export function rollEncounter(
   actIdOrDeckId: string,
   rng: () => number = Math.random
 ): EncounterTemplate {
+  const mapped =
+    actIdOrDeckId.startsWith("ch") ? deckIdForChapter(actIdOrDeckId) : actIdOrDeckId;
   const deck =
+    ACT_DECK_BY_ID[mapped] ??
     ACT_DECK_BY_ID[actIdOrDeckId] ??
-    ACT_ENCOUNTER_DECKS.find((d) => d.actId === actIdOrDeckId) ??
+    ACT_ENCOUNTER_DECKS.find((d) => d.actId === mapped || d.actId === actIdOrDeckId) ??
     ACT_ENCOUNTER_DECKS[0]!;
   const pool = deck.entries.filter((e) => !e.tags.includes("boss"));
   const weighted = pool.length ? pool : deck.entries;

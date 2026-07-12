@@ -2,6 +2,7 @@ import { mergeAlignment } from "./alignment";
 import { getAbility, getNode } from "./skills";
 import { buildCombatUsePayload } from "./hotbar";
 import { getGear } from "./gear";
+import { resolveActiveEncounterIfDead } from "./midgame";
 import {
   chapterForNode,
   getStoryNode,
@@ -184,14 +185,20 @@ export function useHotbarAbility(
     }
   }
 
-  const characters = { ...world.characters, [slot]: nextChar };
+  let nextWorld: PartyWorldSave = {
+    ...world,
+    characters: { ...world.characters, [slot]: nextChar },
+    encounterEnemyHp: enemyHp,
+    log: [logLine, ...world.log].slice(0, 80),
+  };
+
+  if (world.deckEncounter && enemyHp === 0 && world.encounterEnemyHp != null && world.encounterEnemyHp > 0) {
+    nextWorld = resolveActiveEncounterIfDead(nextWorld, slot);
+    logLine = `${logLine} Road clear.`;
+  }
+
   return {
-    world: {
-      ...world,
-      characters,
-      encounterEnemyHp: enemyHp,
-      log: [logLine, ...world.log].slice(0, 80),
-    },
+    world: nextWorld,
     message: logLine,
     payload,
   };
@@ -283,6 +290,7 @@ export function applyStoryChoice(
       encounterEnemyHp = node.enemyHp;
     } else if (node?.kind === "ending") {
       endingId = node.endingId;
+      encounterEnemyHp = null;
     } else {
       encounterEnemyHp = null;
     }
@@ -298,6 +306,7 @@ export function applyStoryChoice(
     chapterId,
     endingId,
     encounterEnemyHp,
+    deckEncounter: encounterEnemyHp == null ? null : world.deckEncounter,
     log: [o.text, ...world.log].slice(0, 80),
   });
 

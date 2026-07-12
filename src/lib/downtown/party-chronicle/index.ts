@@ -20,6 +20,7 @@ export * from "./campaign";
 export * from "./encounters";
 export * from "./side-quests";
 export * from "./recipes";
+export * from "./midgame";
 export * from "./animal-arcs";
 export * from "./foreshadow";
 export * from "./endings";

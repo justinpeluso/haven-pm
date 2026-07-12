@@ -72,6 +72,9 @@ export function createNewWorld(): PartyWorldSave {
     partyFlags: [],
     alignment: { ...EMPTY_ALIGNMENT },
     encounterEnemyHp: null,
+    deckEncounter: null,
+    completedSideQuests: [],
+    cookedRecipes: [],
     log: ["The Party Chronicle unrolls. Justin's turn begins."],
     endingId: null,
     characters,
@@ -160,6 +163,9 @@ export function normalizeWorld(world: PartyWorldSave): PartyWorldSave {
     alignment: world.alignment ?? { ...EMPTY_ALIGNMENT },
     campaignNodeId: world.campaignNodeId || START_NODE_ID,
     chapterId: world.chapterId || START_CHAPTER_ID,
+    deckEncounter: world.deckEncounter ?? null,
+    completedSideQuests: world.completedSideQuests ?? [],
+    cookedRecipes: world.cookedRecipes ?? [],
     characters,
   };
 }
