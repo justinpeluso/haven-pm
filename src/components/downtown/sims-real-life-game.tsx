@@ -533,6 +533,24 @@ export function SimsRealLifeGame() {
         </div>
       )}
 
+      {journalStep?.kind === "narrative" && (
+        <div className={`${SIMS_CLASS.parchment} px-4 py-4 space-y-3 sims-roll-pop`}>
+          <p className="text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--dt-accent)" }}>
+            Quest scroll · read to advance
+          </p>
+          <h2 className={`text-xl ${SIMS_CLASS.title}`}>{journalStep.title}</h2>
+          <RichText text={journalStep.body} />
+          <button
+            type="button"
+            className="downtown-chip px-4 py-2 text-sm"
+            style={{ borderColor: "var(--dt-accent)", color: "var(--dt-accent)" }}
+            onClick={() => applyResult(acknowledgeQuestStep(save))}
+          >
+            Continue reading
+          </button>
+        </div>
+      )}
+
       {flash && <div className={`${SIMS_CLASS.flash} px-3 py-2 text-xs`}>{flash}</div>}
 
       <div className="grid gap-4 xl:grid-cols-[17rem_1fr_15rem]">
@@ -1056,9 +1074,15 @@ export function SimsRealLifeGame() {
                 )}
               </div>
             ) : (
-              <p className="text-xs" style={{ color: "var(--dt-muted)" }}>
-                No active quest — keep the routine until {WIN_WEIGHT_LB} lb + dog milestones.
-              </p>
+              <div className={`${SIMS_CLASS.parchment} p-3 space-y-2`}>
+                <p className="text-sm font-medium" style={{ color: "var(--dt-accent)" }}>
+                  Between chapters
+                </p>
+                <p className="text-xs leading-relaxed" style={{ color: "var(--dt-muted)" }}>
+                  No active scroll. Keep surplus + resistance, and lock Scout&apos;s win cues (
+                  sit / stay / come) until {WIN_WEIGHT_LB} lb — the finale banner rises when partnership holds.
+                </p>
+              </div>
             )}
           </div>
 
