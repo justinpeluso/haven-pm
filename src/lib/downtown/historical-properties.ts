@@ -132,10 +132,32 @@ export function listHistoricalPropertyTowns(): string[] {
 
 /** Coarse CBD / neighborhood chip for list filters. */
 export function historicalPropertyCorridor(p: HistoricalProperty): string {
-  const raw = `${p.parcelIdentity.cbdCorridor} ${p.address.street}`.toLowerCase();
-  if (raw.includes("third street") || raw.includes("agnew")) return "Third Street CBD";
-  if (raw.includes("college")) return "College Avenue";
-  if (raw.includes("river") || raw.includes("fort mcintosh")) return "River Road bluff";
+  const street = p.address.street.toLowerCase();
+  const corridor = p.parcelIdentity.cbdCorridor.toLowerCase();
+  const blob = `${street} ${corridor} ${p.name}`.toLowerCase();
+
+  // Prefer specific corridors before Third Street (many blurbs mention the spine).
+  if (
+    street.includes("college") ||
+    corridor.startsWith("college") ||
+    blob.includes("college avenue")
+  ) {
+    return "College Avenue";
+  }
+  if (
+    street.includes("river") ||
+    corridor.includes("river") ||
+    blob.includes("fort mcintosh")
+  ) {
+    return "River Road bluff";
+  }
+  if (
+    street.includes("third") ||
+    corridor.includes("third street") ||
+    corridor.includes("agnew")
+  ) {
+    return "Third Street CBD";
+  }
   return p.parcelIdentity.cbdCorridor;
 }
 

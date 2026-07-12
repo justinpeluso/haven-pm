@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { DowntownSubnav } from "./downtown-subnav";
 import {
+  historicalPropertyCorridor,
   historicalPropertyTown,
   type HistoricalProperty,
 } from "@/lib/downtown/historical-properties";
@@ -53,6 +54,7 @@ type Props = {
 export function DowntownHistoricalList({ properties, generatedAt }: Props) {
   const [q, setQ] = useState("");
   const [town, setTown] = useState<string>("ALL");
+  const [corridor, setCorridor] = useState<string>("ALL");
   const [, startTransition] = useTransition();
   const deferredQ = useDeferredValue(q);
 
@@ -61,10 +63,18 @@ export function DowntownHistoricalList({ properties, generatedAt }: Props) {
     return Array.from(set).sort((a, b) => a.localeCompare(b));
   }, [properties]);
 
+  const corridors = useMemo(() => {
+    const set = new Set(properties.map((p) => historicalPropertyCorridor(p)));
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, [properties]);
+
   const filtered = useMemo(() => {
     let list = properties;
     if (town !== "ALL") {
       list = list.filter((p) => historicalPropertyTown(p) === town);
+    }
+    if (corridor !== "ALL") {
+      list = list.filter((p) => historicalPropertyCorridor(p) === corridor);
     }
     const query = deferredQ.trim().toLowerCase();
     if (query) {
@@ -77,6 +87,8 @@ export function DowntownHistoricalList({ properties, generatedAt }: Props) {
           p.address.borough,
           p.address.county,
           historicalPropertyTown(p),
+          historicalPropertyCorridor(p),
+          p.parcelIdentity.cbdCorridor,
           p.structureHistory.buildEra,
           p.structureHistory.currentUse,
           p.historicDistrict.name,
@@ -88,7 +100,7 @@ export function DowntownHistoricalList({ properties, generatedAt }: Props) {
       );
     }
     return list;
-  }, [properties, town, deferredQ]);
+  }, [properties, town, corridor, deferredQ]);
 
   const when = generatedAt
     ? new Date(generatedAt).toLocaleDateString(undefined, {
@@ -161,27 +173,52 @@ export function DowntownHistoricalList({ properties, generatedAt }: Props) {
           </span>{" "}
           {properties.length === 1 ? "dossier" : "dossiers"}
         </p>
-        <div className="flex flex-wrap gap-2.5">
-          <button
-            type="button"
-            className="downtown-chip"
-            data-active={town === "ALL"}
-            onClick={() => resetAndFilter(() => setTown("ALL"))}
-          >
-            All towns
-          </button>
-          {towns.map((t) => (
+        {towns.length > 1 && (
+          <div className="flex flex-wrap gap-2.5">
             <button
-              key={t}
               type="button"
               className="downtown-chip"
-              data-active={town === t}
-              onClick={() => resetAndFilter(() => setTown(t))}
+              data-active={town === "ALL"}
+              onClick={() => resetAndFilter(() => setTown("ALL"))}
             >
-              {t}
+              All towns
             </button>
-          ))}
-        </div>
+            {towns.map((t) => (
+              <button
+                key={t}
+                type="button"
+                className="downtown-chip"
+                data-active={town === t}
+                onClick={() => resetAndFilter(() => setTown(t))}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+        )}
+        {corridors.length > 1 && (
+          <div className="flex flex-wrap gap-2.5">
+            <button
+              type="button"
+              className="downtown-chip"
+              data-active={corridor === "ALL"}
+              onClick={() => resetAndFilter(() => setCorridor("ALL"))}
+            >
+              All corridors
+            </button>
+            {corridors.map((c) => (
+              <button
+                key={c}
+                type="button"
+                className="downtown-chip"
+                data-active={corridor === c}
+                onClick={() => resetAndFilter(() => setCorridor(c))}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {filtered.length === 0 ? (
@@ -195,6 +232,7 @@ export function DowntownHistoricalList({ properties, generatedAt }: Props) {
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {filtered.map((p) => {
             const townLabel = historicalPropertyTown(p);
+            const corridorLabel = historicalPropertyCorridor(p);
             return (
               <article
                 key={p.id}
@@ -214,7 +252,7 @@ export function DowntownHistoricalList({ properties, generatedAt }: Props) {
                     style={{ background: "rgba(14,20,25,0.85)" }}
                   >
                     <Landmark className="h-3 w-3" />
-                    Dossier
+                    {corridorLabel}
                   </span>
                   <span
                     className="absolute bottom-2 right-2 downtown-chip"
@@ -233,7 +271,7 @@ export function DowntownHistoricalList({ properties, generatedAt }: Props) {
                       {p.name}
                     </Link>
                     <p
-                      className="text-xs leading-relaxed"
+                      className="line-clamp-3 text-xs leading-relaxed"
                       style={{ color: "var(--dt-muted)" }}
                     >
                       {p.subtitle}
@@ -266,7 +304,9 @@ export function DowntownHistoricalList({ properties, generatedAt }: Props) {
                         >
                           Era
                         </p>
-                        <p className="leading-snug">{p.structureHistory.buildEra}</p>
+                        <p className="line-clamp-2 leading-snug">
+                          {p.structureHistory.buildEra}
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-1.5">
@@ -281,7 +321,9 @@ export function DowntownHistoricalList({ properties, generatedAt }: Props) {
                         >
                           Use
                         </p>
-                        <p className="leading-snug">{p.structureHistory.currentUse}</p>
+                        <p className="line-clamp-2 leading-snug">
+                          {p.structureHistory.currentUse}
+                        </p>
                       </div>
                     </div>
                   </div>

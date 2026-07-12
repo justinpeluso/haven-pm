@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { DowntownSubnav } from "./downtown-subnav";
 import {
+  historicalPropertyCorridor,
   historicalPropertyTown,
   type HistoricalProperty,
 } from "@/lib/downtown/historical-properties";
@@ -122,6 +123,7 @@ type Props = {
 
 export function DowntownHistoricalDossier({ property: p }: Props) {
   const town = historicalPropertyTown(p);
+  const corridor = historicalPropertyCorridor(p);
 
   return (
     <div className="downtown-shell space-y-6">
@@ -136,7 +138,7 @@ export function DowntownHistoricalDossier({ property: p }: Props) {
           <Landmark className="h-3 w-3" />
           {town}
         </span>
-        <span className="downtown-chip">{p.status}</span>
+        <span className="downtown-chip">{corridor}</span>
       </div>
 
       <header className="space-y-4 border-b border-[var(--dt-line)] pb-6">
