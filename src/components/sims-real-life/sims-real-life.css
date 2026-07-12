@@ -1,0 +1,300 @@
+/**
+ * Sims Real Life — CRPG HUD (Baldur's Gate / HoMM / Skyrim menu family).
+ * Scope ALL rules under `.sims-crpg` so downtown globals stay untouched.
+ *
+ * Import from the game shell:
+ *   import "@/components/sims-real-life/sims-real-life.css";
+ *   <div className="downtown-shell sims-crpg">…</div>
+ */
+
+.sims-crpg {
+  --sims-ink: #1a120c;
+  --sims-panel: #2a2118;
+  --sims-panel-lit: #3a2c1c;
+  --sims-line: #8a7348;
+  --sims-line-soft: rgba(138, 115, 72, 0.55);
+  --sims-muted: #b9a88a;
+  --sims-accent: #d4b45a;
+  --sims-accent-bright: #f0d78a;
+  --sims-good: #6a9a5a;
+  --sims-warn: #c47a3d;
+  --sims-fg: #f0e6d0;
+  --sims-shadow: rgba(0, 0, 0, 0.45);
+
+  /* Bridge downtown tokens when nested in .downtown-shell */
+  --dt-ink: var(--sims-ink);
+  --dt-panel: var(--sims-panel);
+  --dt-line: var(--sims-line);
+  --dt-muted: var(--sims-muted);
+  --dt-accent: var(--sims-accent);
+  --dt-good: var(--sims-good);
+  --dt-warn: var(--sims-warn);
+  --dt-fg: var(--sims-fg);
+
+  color: var(--sims-fg);
+  background-color: var(--sims-ink);
+  background-image:
+    url("/sims-real-life/hex-pattern.svg"),
+    url("/sims-real-life/parchment.svg"),
+    radial-gradient(ellipse at 50% 0%, rgba(212, 180, 90, 0.14), transparent 55%),
+    linear-gradient(180deg, #1c140e 0%, #120e0a 100%);
+  background-size: 84px 48px, cover, auto, auto;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+  background-blend-mode: soft-light, normal, normal, normal;
+}
+
+.sims-crpg a {
+  color: inherit;
+}
+
+/* ——— Ornate panel ——— */
+.sims-crpg .sims-panel,
+.sims-crpg .downtown-panel {
+  position: relative;
+  background:
+    linear-gradient(165deg, rgba(58, 44, 28, 0.96), rgba(32, 24, 16, 0.98));
+  border: 1px solid var(--sims-line);
+  border-radius: 2px;
+  box-shadow:
+    inset 0 0 0 1px rgba(212, 180, 90, 0.22),
+    0 0 0 1px rgba(20, 12, 8, 0.65),
+    0 10px 28px var(--sims-shadow);
+}
+
+.sims-crpg .sims-panel::before,
+.sims-crpg .downtown-panel::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("/sims-real-life/corner-set.svg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: 0.85;
+  z-index: 1;
+}
+
+.sims-crpg .sims-panel > *,
+.sims-crpg .downtown-panel > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Gold double-border utility (no corner art) */
+.sims-crpg .sims-gold-border {
+  border: 1px solid var(--sims-line);
+  box-shadow:
+    inset 0 0 0 1px rgba(212, 180, 90, 0.28),
+    0 0 0 1px rgba(20, 12, 8, 0.7);
+  border-radius: 2px;
+}
+
+.sims-crpg .sims-gold-border-strong {
+  border: 1px solid var(--sims-accent);
+  box-shadow:
+    inset 0 0 0 1px rgba(240, 215, 138, 0.35),
+    0 0 0 2px rgba(20, 12, 8, 0.75),
+    0 0 18px rgba(212, 180, 90, 0.12);
+  border-radius: 2px;
+}
+
+/* ——— Portrait frame ——— */
+.sims-crpg .sims-portrait {
+  position: relative;
+  display: inline-block;
+  width: 7.5rem;
+  aspect-ratio: 5 / 6;
+  padding: 0.55rem;
+  background:
+    url("/sims-real-life/portrait-frame.svg") center / 100% 100% no-repeat,
+    linear-gradient(180deg, var(--sims-panel-lit), var(--sims-ink));
+  box-shadow: 0 8px 20px var(--sims-shadow);
+}
+
+.sims-crpg .sims-portrait > img,
+.sims-crpg .sims-portrait > .sims-portrait-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: linear-gradient(160deg, #4a3824, #1a120c);
+  border: 1px solid rgba(138, 115, 72, 0.4);
+}
+
+.sims-crpg .sims-portrait-lg {
+  width: 10rem;
+}
+
+/* ——— Section labels / typography ——— */
+.sims-crpg .downtown-section-label,
+.sims-crpg .sims-section-label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--sims-accent);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.55);
+}
+
+.sims-crpg h1,
+.sims-crpg h2,
+.sims-crpg .sims-title {
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.45);
+  color: var(--sims-fg);
+}
+
+.sims-crpg .sims-subtitle {
+  color: var(--sims-muted);
+  letter-spacing: 0.04em;
+}
+
+.sims-crpg .sims-divider {
+  display: block;
+  width: 100%;
+  max-width: 20rem;
+  height: 1rem;
+  margin: 0.35rem 0 0.75rem;
+  background: url("/sims-real-life/divider.svg") center / contain no-repeat;
+  border: 0;
+}
+
+/* ——— Bars / chips (downtown class names, sims look) ——— */
+.sims-crpg .downtown-bar,
+.sims-crpg .sims-bar {
+  height: 6px;
+  background: rgba(20, 12, 8, 0.72);
+  border: 1px solid var(--sims-line-soft);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.sims-crpg .downtown-bar > span,
+.sims-crpg .sims-bar > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #8a6a28, var(--sims-accent), var(--sims-accent-bright));
+}
+
+.sims-crpg .downtown-chip,
+.sims-crpg .sims-chip {
+  border-color: rgba(138, 115, 72, 0.75);
+  background: rgba(32, 24, 16, 0.88);
+  color: var(--sims-fg);
+  transition: border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sims-crpg .downtown-chip[data-active="true"],
+.sims-crpg .downtown-chip:hover,
+.sims-crpg .sims-chip[data-active="true"],
+.sims-crpg .sims-chip:hover {
+  border-color: var(--sims-accent);
+  color: var(--sims-accent);
+  box-shadow: inset 0 0 0 1px rgba(212, 180, 90, 0.25);
+}
+
+/* ——— Map / hex surface ——— */
+.sims-crpg .sims-map-surface {
+  position: relative;
+  background:
+    url("/sims-real-life/hex-pattern.svg"),
+    linear-gradient(180deg, rgba(42, 33, 24, 0.92), rgba(26, 18, 12, 0.96));
+  background-size: 84px 48px, auto;
+  border: 1px solid var(--sims-line);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.35);
+  border-radius: 2px;
+}
+
+.sims-crpg .sims-map-surface::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(18, 12, 8, 0.55) 100%);
+}
+
+/* ——— Quest / dialogue parchment inset ——— */
+.sims-crpg .sims-parchment {
+  background:
+    linear-gradient(180deg, rgba(240, 230, 208, 0.08), transparent 40%),
+    url("/sims-real-life/parchment.svg") center / cover;
+  border: 1px solid var(--sims-line);
+  box-shadow:
+    inset 0 0 0 1px rgba(212, 180, 90, 0.18),
+    inset 0 0 28px rgba(0, 0, 0, 0.25);
+  color: var(--sims-fg);
+  border-radius: 2px;
+}
+
+/* ——— Stat cell ——— */
+.sims-crpg .sims-stat-cell {
+  border: 1px solid var(--sims-line-soft);
+  background: rgba(20, 12, 8, 0.45);
+  text-align: center;
+  padding: 0.35rem 0.25rem;
+  border-radius: 2px;
+}
+
+.sims-crpg .sims-stat-cell[data-highlight="true"] {
+  border-color: var(--sims-accent);
+  box-shadow: inset 0 0 0 1px rgba(212, 180, 90, 0.2);
+}
+
+/* ——— Flash / toast ——— */
+.sims-crpg .sims-flash {
+  border: 1px solid var(--sims-accent);
+  background: rgba(42, 33, 24, 0.95);
+  color: var(--sims-accent-bright);
+  box-shadow: 0 0 0 1px rgba(20, 12, 8, 0.7), 0 8px 24px var(--sims-shadow);
+}
+
+/* ——— Ornate header band ——— */
+.sims-crpg .sims-header-band {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--sims-line);
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(196, 163, 90, 0.22), transparent 55%),
+    radial-gradient(ellipse at 80% 100%, rgba(106, 154, 90, 0.1), transparent 50%),
+    linear-gradient(165deg, rgba(58, 44, 28, 0.95), rgba(26, 18, 12, 0.98));
+  box-shadow:
+    inset 0 0 0 1px rgba(212, 180, 90, 0.2),
+    0 8px 24px var(--sims-shadow);
+  border-radius: 2px;
+}
+
+.sims-crpg .sims-header-band::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background-image: url("/sims-real-life/corner-set.svg");
+  background-size: 100% 100%;
+  opacity: 0.7;
+}
+
+.sims-crpg .sims-header-band > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ——— Action list rows ——— */
+.sims-crpg .sims-action-row {
+  border: 1px solid var(--sims-line-soft);
+  background: rgba(20, 12, 8, 0.35);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.sims-crpg .sims-action-row:hover {
+  border-color: var(--sims-accent);
+  background: rgba(58, 44, 28, 0.45);
+}
+
+/* Reduce motion: keep look, drop soft transitions */
+@media (prefers-reduced-motion: reduce) {
+  .sims-crpg .downtown-chip,
+  .sims-crpg .sims-chip,
+  .sims-crpg .sims-action-row {
+    transition: none;
+  }
+}
