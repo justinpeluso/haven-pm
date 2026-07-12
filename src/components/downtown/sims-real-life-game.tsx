@@ -433,7 +433,7 @@ export function SimsRealLifeGame() {
         title: `Heroes’ Threshold — ${WIN_WEIGHT_LB} lb`,
         body: next.graduated
           ? "Banner rises — 150 became 170. Scout thumps her tail like a war drum."
-          : `Scale hit ${WIN_WEIGHT_LB}. The campaign graduates on weight; her cues are optional mastery glory.`,
+          : `Scale hit ${WIN_WEIGHT_LB}. You graduate on weight — finish sit/stay/come for optional mastery glory.`,
       });
     }
   }
@@ -845,7 +845,7 @@ export function SimsRealLifeGame() {
               />
             </div>
             <p className="text-[0.65rem]" style={{ color: "var(--dt-muted)" }}>
-              Climb from {START_WEIGHT} · {weightPct}% of the march to {WIN_WEIGHT_LB} · hound mastery is optional glory
+              Climb from {START_WEIGHT} · {weightPct}% · win needs {WIN_WEIGHT_LB} lb + her cues (sit / stay / come)
             </p>
           </div>
 
@@ -1126,7 +1126,7 @@ export function SimsRealLifeGame() {
                 </div>
               </div>
               <Meter
-                label={`Optional mastery (${DOG_TRAINING_WIN} training · ${DOG_CUES_WIN} win cues)`}
+                label={`Win track (need ${DOG_TRAINING_WIN} training · ${DOG_CUES_WIN} cues)`}
                 value={dogWinPct}
                 max={100}
                 suffix={` ${dogWinPct}%`}
@@ -1381,9 +1381,8 @@ export function SimsRealLifeGame() {
                   Between chapters
                 </p>
                 <p className="text-xs leading-relaxed" style={{ color: "var(--dt-muted)" }}>
-                  No active scroll. Keep surplus + Trials of Iron until {WIN_WEIGHT_LB} lb, and lock{" "}
-                  {save.dog.name}&apos;s win cues (sit / stay / come / heel) — she&apos;s a 1½-year-old female GS;
-                  partnership is part of the victory banner.
+                  No active scroll. Keep surplus + Trials of Iron until {WIN_WEIGHT_LB} lb. Walk and train{" "}
+                  {save.dog.name} (1½y ♀ GS) for the optional mastery ribbon — weight alone raises the banner.
                 </p>
               </div>
             )}
