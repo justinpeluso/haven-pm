@@ -1,0 +1,44 @@
+{
+  "title": "Sims Real Life",
+  "flavor": "Baldur's Gate / HoMM / 2D Skyrim CRPG veneer",
+  "disclaimer": "Educational game fiction only — not medical or veterinary advice.",
+  "hero": {
+    "name": "Justin",
+    "age": 38,
+    "startWeightLb": 150,
+    "winWeightLb": 170,
+    "stats": {
+      "strength": 12,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 12,
+      "wisdom": 16,
+      "charisma": 16,
+      "computer": 17,
+      "magic": 16
+    }
+  },
+  "companion": {
+    "name": "Scout",
+    "fantasyTitle": "Hound of the North",
+    "breed": "German Shepherd",
+    "sex": "female",
+    "ageYears": 1.5,
+    "lifeStage": "adolescent"
+  },
+  "balance": {
+    "tdeeBandKcal": { "min": 2200, "mid": 2400, "max": 2600 },
+    "surplusTargetsKcal": { "lean": 350, "standard": 500, "aggressive": 750 },
+    "proteinTargetsG": { "at150lb": 130, "at170lb": 150, "helpfulFloor": 110 },
+    "weightTickLb": { "leanDay": 0.25, "optimizedDay": 0.55, "hardCap": 0.8 }
+  },
+  "campaign": [
+    { "chapter": 1, "id": "q1-intro", "title": "Scroll of First Light", "subtitle": "Intro — wake-up & pact" },
+    { "chapter": 2, "id": "q2-routine-fuel", "title": "Daybreak Rations Chronicle", "subtitle": "Fuel the surplus" },
+    { "chapter": 3, "id": "q3-iron-habit", "title": "Trials of Iron", "subtitle": "Resistance habit" },
+    { "chapter": 4, "id": "q4-scout-partner", "title": "Hound of the North Training Grounds", "subtitle": "Scout partnership" },
+    { "chapter": 5, "id": "q5-finale", "title": "Ascension of the Scale", "subtitle": "Finale — hit 170", "win": "weightLb >= 170" }
+  ],
+  "contentPack": "src/lib/sims-real-life/",
+  "runtimeLib": "src/lib/downtown/sims-real-life/"
+}

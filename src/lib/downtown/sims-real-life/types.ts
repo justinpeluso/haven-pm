@@ -83,7 +83,10 @@ export type DogActionId = string;
 
 export type Meal = {
   id: MealId;
+  /** Fantasy CRPG name shown as the primary label. */
   name: string;
+  /** Plain English subtitle for clarity. */
+  subtitle?: string;
   blurb: string;
   calories: number;
   proteinG: number;
@@ -96,6 +99,7 @@ export type Meal = {
 export type Exercise = {
   id: ExerciseId;
   name: string;
+  subtitle?: string;
   blurb: string;
   kind: "resistance" | "cardio" | "hybrid";
   energyCost: number;
@@ -109,6 +113,7 @@ export type Exercise = {
 export type DogAction = {
   id: DogActionId;
   name: string;
+  subtitle?: string;
   blurb: string;
   kind: "feed" | "walk" | "train" | "play" | "rest";
   energyCost: number;
@@ -124,6 +129,7 @@ export type DogAction = {
 export type Tip = {
   id: string;
   title: string;
+  subtitle?: string;
   body: string;
   source: string;
 };
@@ -131,6 +137,7 @@ export type Tip = {
 export type DogCue = {
   id: string;
   name: string;
+  subtitle?: string;
   blurb: string;
   trainingRequired: number;
 };
@@ -141,6 +148,8 @@ export type QuestStep = {
   id: string;
   kind: QuestStepKind;
   title: string;
+  /** Plain English subtitle under fantasy step titles. */
+  subtitle?: string;
   body: string;
   /** When kind is "flag", all listed flags must be present. */
   requireFlags?: string[];
@@ -152,6 +161,8 @@ export type Quest = {
   id: string;
   chapter: number;
   title: string;
+  /** Plain English chapter subtitle. */
+  subtitle?: string;
   tagline: string;
   synopsis: string;
   phase: GamePhase;
