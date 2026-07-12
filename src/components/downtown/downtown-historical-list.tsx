@@ -203,7 +203,7 @@ export function DowntownHistoricalList({ properties, generatedAt }: Props) {
           No dossiers match that search. Try a street name, era, or clear filters.
         </div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {filtered.map((p) => {
             const townLabel = historicalPropertyTown(p);
             const corridorLabel = historicalPropertyCorridor(p);

@@ -132,33 +132,40 @@ export function listHistoricalPropertyTowns(): string[] {
 
 /** Coarse CBD / neighborhood chip for list filters. */
 export function historicalPropertyCorridor(p: HistoricalProperty): string {
+  const labeled = (p.parcelIdentity.cbdCorridor || "").trim();
+  const town = historicalPropertyTown(p).toLowerCase();
   const street = p.address.street.toLowerCase();
-  const corridor = p.parcelIdentity.cbdCorridor.toLowerCase();
+  const corridor = labeled.toLowerCase();
   const blob = `${street} ${corridor} ${p.name}`.toLowerCase();
 
-  // Prefer specific corridors before Third Street (many blurbs mention the spine).
-  if (
-    street.includes("college") ||
-    corridor.startsWith("college") ||
-    blob.includes("college avenue")
-  ) {
-    return "College Avenue";
+  // Beaver Borough: keep the original Third Street / College / River chips.
+  if (town === "beaver") {
+    if (
+      street.includes("college") ||
+      corridor.startsWith("college") ||
+      blob.includes("college avenue")
+    ) {
+      return "College Avenue";
+    }
+    if (
+      street.includes("river") ||
+      corridor.includes("river") ||
+      blob.includes("fort mcintosh")
+    ) {
+      return "River Road bluff";
+    }
+    if (
+      street.includes("third") ||
+      corridor.includes("third street") ||
+      corridor.includes("agnew")
+    ) {
+      return "Third Street CBD";
+    }
   }
-  if (
-    street.includes("river") ||
-    corridor.includes("river") ||
-    blob.includes("fort mcintosh")
-  ) {
-    return "River Road bluff";
-  }
-  if (
-    street.includes("third") ||
-    corridor.includes("third street") ||
-    corridor.includes("agnew")
-  ) {
-    return "Third Street CBD";
-  }
-  return p.parcelIdentity.cbdCorridor;
+
+  // Multi-town hybrids: trust the dossier corridor label when present.
+  if (labeled) return labeled;
+  return "Regional landmark";
 }
 
 export function listHistoricalPropertyCorridors(): string[] {
