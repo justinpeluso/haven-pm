@@ -40,11 +40,13 @@ type Toast = { id: number; text: string; kind: ToastKind };
 type LogEntry = { id: number; text: string; kind: ToastKind; at: number };
 type Floater = { id: number; text: string; kind: "xp" | "level" };
 type Fanfare = {
-  kind: "chapter" | "grad";
+  kind: "chapter" | "grad" | "level";
   title: string;
   subtitle: string;
   onDismiss: () => void;
 } | null;
+type Spark = { id: number; x: number; y: number; delay: number; hue: "gold" | "moon" | "ember" };
+type ShakeKind = "crit" | "fail" | null;
 
 type PendingRoll = {
   option: ChoiceOption;
@@ -188,8 +190,12 @@ export function CodeSchoolGame() {
   const [log, setLog] = useState<LogEntry[]>([]);
   const [floaters, setFloaters] = useState<Floater[]>([]);
   const [fanfare, setFanfare] = useState<Fanfare>(null);
+  const [fanfareQueue, setFanfareQueue] = useState<Fanfare[]>([]);
   const [stageKey, setStageKey] = useState(0);
   const [hasExistingSave, setHasExistingSave] = useState(false);
+  const [sparks, setSparks] = useState<Spark[]>([]);
+  const [shake, setShake] = useState<ShakeKind>(null);
+  const [xpPulse, setXpPulse] = useState(false);
   const [, startTransition] = useTransition();
   const seq = useRef(0);
   const prevXp = useRef<number | null>(null);
@@ -222,7 +228,51 @@ export function CodeSchoolGame() {
     setFloaters((f) => [...f, { id, text, kind }]);
     window.setTimeout(() => {
       setFloaters((f) => f.filter((x) => x.id !== id));
-    }, 1200);
+    }, 1400);
+  }
+
+  function enqueueFanfare(next: Exclude<Fanfare, null>) {
+    setFanfare((current) => {
+      if (!current) return next;
+      setFanfareQueue((q) => [...q, next]);
+      return current;
+    });
+  }
+
+  function dismissFanfare() {
+    const current = fanfare;
+    // Side effects only — queue advances the overlay.
+    if (current) {
+      const cb = current.onDismiss;
+      setFanfareQueue((q) => {
+        const [head, ...rest] = q;
+        setFanfare(head ?? null);
+        return rest;
+      });
+      // Run after paint so queue swap isn't stomped by onDismiss.
+      window.setTimeout(() => cb(), 0);
+    }
+  }
+
+  function burstSparks(count: number, hue: Spark["hue"] = "gold") {
+    const batch: Spark[] = Array.from({ length: count }, () => ({
+      id: nextId(),
+      x: 42 + Math.random() * 16,
+      y: 38 + Math.random() * 18,
+      delay: Math.random() * 0.25,
+      hue,
+    }));
+    setSparks((s) => [...s, ...batch]);
+    window.setTimeout(() => {
+      const ids = new Set(batch.map((b) => b.id));
+      setSparks((s) => s.filter((x) => !ids.has(x.id)));
+    }, 1100);
+  }
+
+  function triggerShake(kind: ShakeKind) {
+    if (!kind) return;
+    setShake(kind);
+    window.setTimeout(() => setShake(null), 420);
   }
 
   function clearRollTimers() {
@@ -256,12 +306,24 @@ export function CodeSchoolGame() {
     if (gained > 0) {
       spawnFloater(`+${gained} XP`, "xp");
       pushToast(label ? `${label} · +${gained} XP` : `+${gained} XP`, "xp");
+      setXpPulse(true);
+      window.setTimeout(() => setXpPulse(false), 700);
+      if (gained >= 20) burstSparks(8, "gold");
     }
     const beforeLevel = levelFromXp(before.xp);
     const afterLevel = levelFromXp(after.xp);
     if (afterLevel > beforeLevel) {
       spawnFloater(`LEVEL ${afterLevel}`, "level");
       pushToast(`Level up — you are now Level ${afterLevel}. Lunar Foundry noticed.`, "crit");
+      burstSparks(14, "moon");
+      enqueueFanfare({
+        kind: "level",
+        title: `Level ${afterLevel}`,
+        subtitle: `The character sheet glows. ${STAT_LABELS.logic} circuits hum — Lunar Foundry recruiters just bookmarked your name.`,
+        onDismiss: () => {
+          pushToast(`Level ${afterLevel} locked in. Keep shipping.`, "good");
+        },
+      });
     }
     prevXp.current = after.xp;
     prevLevel.current = afterLevel;
@@ -288,6 +350,9 @@ export function CodeSchoolGame() {
     setChoiceResolved(null);
     setPendingRoll(null);
     setFanfare(null);
+    setFanfareQueue([]);
+    setSparks([]);
+    setShake(null);
     setStageKey((k) => k + 1);
     pushToast("Enrollment stamped. Chapter 1 unlocked — P2S + people skills go first.", "good");
   }
@@ -304,6 +369,9 @@ export function CodeSchoolGame() {
     setChoiceResolved(null);
     setPendingRoll(null);
     setFanfare(null);
+    setFanfareQueue([]);
+    setSparks([]);
+    setShake(null);
     setLog([]);
     setToasts([]);
     pushToast("Save cleared. Fresh character sheet ready.", "warn");
@@ -327,6 +395,49 @@ export function CodeSchoolGame() {
     Boolean(pendingRoll && !pendingRoll.revealed)
   );
 
+  const primaryReady =
+    !fanfare &&
+    !(pendingRoll && !pendingRoll.revealed) &&
+    !(step?.type === "choice" && !choiceResolved) &&
+    !(step?.type === "challenge" && !challengeResolved && !challengePick);
+
+  function runPrimaryAction() {
+    if (!save || fanfare || (pendingRoll && !pendingRoll.revealed)) return;
+    if (!quest || !step) {
+      const next = unlocked.find((q) => !save.completedQuestIds.includes(q.id)) ?? unlocked[0];
+      if (next) startQuest(next);
+      else beginCampaign();
+      return;
+    }
+    if (step.type === "narrative" || step.type === "graduation") {
+      advance(save);
+      return;
+    }
+    if (step.type === "choice") {
+      if (choiceResolved && pendingRoll?.revealed) continueAfterChoice();
+      return;
+    }
+    if (step.type === "challenge") {
+      if (!challengeResolved) {
+        if (challengePick) onChallengeSubmit(step);
+        return;
+      }
+      advance(save);
+      return;
+    }
+    if (step.type === "loot") {
+      const before = save;
+      const next = {
+        ...save,
+        xp: save.xp + (step.xp ?? 0),
+        inventory: grantItem(save.inventory, step.itemId),
+      };
+      noteXpDelta(before, next, "Loot");
+      pushToast(`Pocketed ${getItem(step.itemId)?.name ?? "relic"}.`, "good");
+      advance(next);
+    }
+  }
+
   function bumpStage() {
     setStageKey((k) => k + 1);
   }
@@ -347,13 +458,13 @@ export function CodeSchoolGame() {
         setChallengeResolved(false);
         setChoiceResolved(null);
         setPendingRoll(null);
-        setFanfare({
+        enqueueFanfare({
           kind: "chapter",
           title: `Chapter ${quest.chapter} complete`,
           subtitle: `Unlocked: ${following.title}. The moon-shop blueprint gains a page.`,
           onDismiss: () => {
-            setFanfare(null);
             bumpStage();
+            burstSparks(10, "gold");
             pushToast(`Now playing: ${following.title}`, "good");
           },
         });
@@ -365,14 +476,14 @@ export function CodeSchoolGame() {
         setChallengeResolved(false);
         setChoiceResolved(null);
         setPendingRoll(null);
-        setFanfare({
+        enqueueFanfare({
           kind: "grad",
           title: "Graduation — Lunar Foundry track",
           subtitle: "Offer letter stowed. Pittsburgh’s moon-robot shop has a new apprentice.",
           onDismiss: () => {
-            setFanfare(null);
             setPhase("graduated");
             bumpStage();
+            burstSparks(18, "moon");
             pushToast("Campaign complete — you graduated.", "crit");
           },
         });
@@ -476,10 +587,15 @@ export function CodeSchoolGame() {
       noteXpDelta(before, next);
 
       if (flavor === "crit") {
+        burstSparks(16, "gold");
+        triggerShake("crit");
         pushToast(pick(CRIT_SUCCESS_QUIPS), "crit");
       } else if (flavor === "fail") {
+        burstSparks(10, "ember");
+        triggerShake("fail");
         pushToast(`${pick(CRIT_FAIL_QUIPS)} ${pick(FAIL_FORWARD_QUIPS)}`, "fail");
       } else if (check.success) {
+        burstSparks(6, "gold");
         pushToast(
           `Success — d20 ${check.d20} ${check.mod >= 0 ? "+" : ""}${check.mod} = ${check.total} vs DC ${option.dc}`,
           "good"
@@ -610,26 +726,45 @@ export function CodeSchoolGame() {
   }
 
   if (phase === "graduated" && save) {
+    const relics = save.inventory
+      .map((id) => getItem(id) ?? INVENTORY_CATALOG.find((i) => i.id === id))
+      .filter(Boolean);
     return (
       <div className="downtown-shell code-school-crpg space-y-6">
         <DowntownSubnav active="code-school" />
-        <header className="cs-header-band cs-grad-burst p-6 md:p-10 space-y-4">
-          <p className="cs-moon-badge">Win state · Pittsburgh moon track</p>
-          <h1 className="font-serif text-3xl md:text-4xl">Graduation — Lunar Foundry apprentice</h1>
+        <div className="cs-floater-layer" aria-hidden>
+          {sparks.map((s) => (
+            <span
+              key={s.id}
+              className="cs-spark"
+              data-hue={s.hue}
+              style={{ left: `${s.x}%`, top: `${s.y}%`, animationDelay: `${s.delay}s` }}
+            />
+          ))}
+        </div>
+        <header className="cs-header-band cs-grad-burst cs-diploma p-6 md:p-10 space-y-5">
+          <div className="cs-diploma-seal" aria-hidden />
+          <p className="cs-moon-badge">Official diploma · Pittsburgh moon track</p>
+          <h1 className="font-serif text-3xl md:text-5xl tracking-tight">Code School by JP</h1>
+          <p className="text-sm uppercase tracking-[0.22em]" style={{ color: "var(--cs-moon)" }}>
+            hereby certifies
+          </p>
+          <p className="font-serif text-2xl md:text-3xl" style={{ color: "var(--dt-accent)" }}>
+            {save.name}
+          </p>
           <hr className="cs-divider" />
           <p className="max-w-2xl text-sm leading-relaxed" style={{ color: "var(--dt-muted)" }}>
-            {save.name} cleared Code School by JP. Title:{" "}
-            <span style={{ color: "var(--dt-accent)" }}>{save.title}</span>. XP {save.xp}. Inventory{" "}
-            {save.inventory.length} relics. The P2S hums; the offer letter is stowed; the moon-robot shop has your
-            name on a locker.
+            as a <span style={{ color: "var(--dt-accent)" }}>{save.title}</span>. You cleared all eight chapters,
+            pocketed {save.inventory.length} relics, and earned {save.xp} XP. The P2S still hums under Downtown’s
+            sodium glow — Lunar Foundry has a locker with your name on it.
           </p>
-          <div className="grid gap-3 sm:grid-cols-3 max-w-2xl pt-2">
+          <div className="grid gap-3 sm:grid-cols-3 max-w-2xl pt-1">
             {[
               { k: "Level", v: String(xpProgress(save.xp).level) },
               { k: "Chapters", v: `${campaignProgress(save).done}/${QUESTS.length}` },
               { k: "Relics", v: String(save.inventory.length) },
             ].map((stat) => (
-              <div key={stat.k} className="border border-[var(--dt-line)] px-3 py-2 text-center">
+              <div key={stat.k} className="cs-diploma-stat">
                 <p className="text-[0.6rem] uppercase tracking-[0.14em]" style={{ color: "var(--dt-muted)" }}>
                   {stat.k}
                 </p>
@@ -639,22 +774,48 @@ export function CodeSchoolGame() {
               </div>
             ))}
           </div>
-          <div className="flex flex-wrap gap-3 pt-2">
-            <button type="button" className="downtown-chip cs-primary-btn px-4 py-2" onClick={resetCampaign}>
-              New run
-            </button>
-            <button
-              type="button"
-              className="downtown-chip cs-primary-btn px-4 py-2"
-              onClick={() => {
-                setPhase("play");
-                const q = QUESTS[QUESTS.length - 1];
-                persist({ ...save, currentQuestId: q.id, stepIndex: q.steps.length - 1 });
-                bumpStage();
-              }}
-            >
-              Revisit finale
-            </button>
+          {relics.length > 0 && (
+            <div className="cs-relic-parade">
+              <p className="text-[0.65rem] uppercase tracking-[0.16em] mb-2" style={{ color: "var(--dt-accent)" }}>
+                Relic parade
+              </p>
+              <ul className="flex flex-wrap gap-2">
+                {relics.map((item) =>
+                  item ? (
+                    <li key={item.id} className="cs-relic-chip">
+                      {item.name}
+                    </li>
+                  ) : null
+                )}
+              </ul>
+            </div>
+          )}
+          <div className="cs-next-action" data-urgent="false">
+            <div>
+              <p className="text-[0.65rem] uppercase tracking-[0.16em]" style={{ color: "var(--dt-accent)" }}>
+                Next action · Celebrate
+              </p>
+              <p className="text-sm" style={{ color: "var(--dt-fg)" }}>
+                Frame this sheet — or roll a fresh apprentice.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <button type="button" className="downtown-chip cs-primary-btn px-4 py-2" onClick={resetCampaign}>
+                New run
+              </button>
+              <button
+                type="button"
+                className="downtown-chip cs-primary-btn px-4 py-2"
+                onClick={() => {
+                  setPhase("play");
+                  const q = QUESTS[QUESTS.length - 1];
+                  persist({ ...save, currentQuestId: q.id, stepIndex: q.steps.length - 1 });
+                  bumpStage();
+                }}
+              >
+                Revisit finale
+              </button>
+            </div>
           </div>
         </header>
       </div>
