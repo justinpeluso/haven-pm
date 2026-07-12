@@ -162,16 +162,19 @@ function countFlagPrefix(save: PlayerSave, prefix: string): number {
   return max;
 }
 
-/** Primary win: 170 lb + required hound cues / training (product ship bar). */
+/**
+ * Product win condition (boss): graduate when weight >= 170 lb.
+ * Dog cues / training are an OPTIONAL mastery bonus — do not gate graduation.
+ */
 export function checkVictory(save: PlayerSave): boolean {
   if (save.graduated) return true;
-  const cuesOk = REQUIRED_WIN_CUES.every((c) => save.dog.cuesLearned.includes(c));
-  return save.weightLb >= WIN_WEIGHT_LB && save.dog.training >= REQUIRED_WIN_TRAINING && cuesOk;
+  return save.weightLb >= WIN_WEIGHT_LB;
 }
 
-/** Deeper partnership ribbon beyond the graduation gate. */
+/** Optional mastery ribbon — training + sit/stay/come. Not required to graduate. */
 export function checkDogMastery(save: PlayerSave): boolean {
-  return save.dog.training >= 40 && save.dog.cuesLearned.length >= 3;
+  const cuesOk = REQUIRED_WIN_CUES.every((c) => save.dog.cuesLearned.includes(c));
+  return save.dog.training >= REQUIRED_WIN_TRAINING && cuesOk;
 }
 
 export function dogWinProgress(save: PlayerSave): {
