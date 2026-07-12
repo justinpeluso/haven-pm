@@ -117,16 +117,33 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const acting = !!(world && mySlot && canAct(world, mySlot, identity.isDm));
 
   useEffect(() => {
-    const existing = loadWorld();
-    if (existing) {
-      setWorld(existing);
-      if (existing.endingId) setPhase("ending");
-      else if (mySlot && !existing.characters[mySlot].created) setPhase("create");
-      else if (PLAYER_SLOT_ORDER.every((s) => existing.characters[s].created)) setPhase("play");
-      else setPhase(mySlot ? "create" : "play");
-    } else {
-      setPhase("title");
-    }
+    let cancelled = false;
+    (async () => {
+      let existing = loadWorld();
+      try {
+        const res = await fetch("/api/downtown/party-chronicle");
+        if (res.ok) {
+          const data = (await res.json()) as { world: PartyWorldSave };
+          existing = data.world;
+          writeWorld(data.world);
+        }
+      } catch {
+        /* local fallback */
+      }
+      if (cancelled) return;
+      if (existing) {
+        setWorld(existing);
+        if (existing.endingId) setPhase("ending");
+        else if (mySlot && !existing.characters[mySlot].created) setPhase("create");
+        else if (PLAYER_SLOT_ORDER.every((s) => existing.characters[s].created)) setPhase("play");
+        else setPhase(mySlot ? "create" : "play");
+      } else {
+        setPhase("title");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, [mySlot]);
 
   useEffect(() => {
@@ -139,6 +156,11 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     writeWorld(next);
     setWorld(next);
     if (next.endingId) setPhase("ending");
+    void fetch("/api/downtown/party-chronicle", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ world: next }),
+    }).catch(() => undefined);
   }, []);
 
   const storyNode = world ? getStoryNode(world.campaignNodeId) : null;
@@ -157,6 +179,11 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     clearWorld();
     setWorld(null);
     setPhase("title");
+    void fetch("/api/downtown/party-chronicle", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reset: true }),
+    }).catch(() => undefined);
   };
 
   const onChoice = (choice: StoryChoice) => {
