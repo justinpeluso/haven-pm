@@ -10,7 +10,6 @@ import {
   acknowledgeNarrative,
   applyStoryChoice,
   canAct,
-  chapterForNode,
   equipItem as engineEquip,
   partyAvgLevel,
   setHotbarSlot,
@@ -35,6 +34,7 @@ import {
 } from "@/lib/downtown/party-chronicle/persist";
 import { canUnlockNode, getAbility, SKILL_TREES } from "@/lib/downtown/party-chronicle/skills";
 import {
+  chapterForNode,
   getEnding,
   getStoryNode,
   progressionHint,
