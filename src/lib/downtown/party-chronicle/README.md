@@ -23,10 +23,15 @@ Estimates assume three players rotating turns. Solo play compresses ~30–40%.
 ## Systems that make 50h credible
 
 - Levels 1→100 with skill-tree unlocks every few levels
-- Procedural encounter decks (see `data/party-chronicle/encounters.json`) between authored beats
-- Side quests: cooking, hound bonding, legendary gear, private slot dialogues
-- Alignment scores steer Animal / Human / Demon endings
+- **10 act encounter decks** (~80 foes + bosses) in `data/party-chronicle/encounters.json`
+- **34 side quests** (~27h if fully cleared) — cooking, hounds, legendary hunts, private slots
+- **20 cooking recipes** including Wild/Hearth/Ash ending feasts
+- **6 talking-animal arcs** (Pip, Corv, Ulfric, Aelwyn, Bruna, Nyx) with multi-act payoffs
+- **10 foreshadow beats** that echo in the finales
+- Gear tiers: common / magic / legendary (expanded catalog)
+- Alignment scores steer **Animal / Human / Demon** full endings
 - Mid-game montages grant XP without empty grind
+- 3-player turn order (Justin → Rusty → Elisha) multiplies wall-clock ~1.6–2.2×
 
 ## How to play (local)
 

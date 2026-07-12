@@ -1,3 +1,4 @@
+import { UserRole } from "@prisma/client";
 import { requirePermission } from "@/lib/auth/session";
 import { PartyChronicleGame } from "@/components/party-chronicle/party-chronicle-game";
 import { isDmEmail, slotFromEmail } from "@/lib/downtown/party-chronicle/players";
@@ -10,7 +11,7 @@ export default async function PartyChroniclePage() {
     email,
     name: session.user.name ?? null,
     slot: slotFromEmail(email),
-    isDm: isDmEmail(email),
+    isDm: isDmEmail(email) || session.user.role === UserRole.ADMINISTRATOR,
   };
   return <PartyChronicleGame identity={identity} />;
 }
