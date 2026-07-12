@@ -127,6 +127,7 @@ async function main() {
   await clearDatabase();
 
   const passwordHash = await bcrypt.hash("password123", 12);
+  const partyPasswordHash = await bcrypt.hash("password67", 12);
 
   // ─── Core staff ──────────────────────────────────────────────────────────
   const admin = await prisma.user.create({
@@ -156,6 +157,35 @@ async function main() {
       passwordHash,
       role: UserRole.ADMINISTRATOR,
       phone: "(412) 555-0106",
+    },
+  });
+
+  // ─── Sims Real Life party players (login email; display name = character) ─
+  await prisma.user.create({
+    data: {
+      email: "player1@havenpm.com",
+      name: "Justin",
+      passwordHash: partyPasswordHash,
+      role: UserRole.ADMINISTRATOR, // DM
+      phone: "(412) 555-0161",
+    },
+  });
+  await prisma.user.create({
+    data: {
+      email: "player2@havenpm.com",
+      name: "Rusty",
+      passwordHash: partyPasswordHash,
+      role: UserRole.OFFICE_STAFF,
+      phone: "(412) 555-0162",
+    },
+  });
+  await prisma.user.create({
+    data: {
+      email: "player3@havenpm.com",
+      name: "Elisha",
+      passwordHash: partyPasswordHash,
+      role: UserRole.OFFICE_STAFF,
+      phone: "(412) 555-0163",
     },
   });
 
@@ -219,7 +249,7 @@ async function main() {
     },
   });
 
-  console.log("✓ Staff + 3 leasing agents created");
+  console.log("✓ Staff + 3 leasing agents + 3 party players created");
 
   // ─── Settings (incl. vendor directory for testing) ───────────────────────
   await prisma.setting.createMany({
@@ -893,6 +923,10 @@ async function main() {
   console.log("  agent@havenpm.com / agent2@havenpm.com / agent3@havenpm.com");
   console.log("  maintenance@havenpm.com");
   console.log("  tenant@havenpm.com … tenant10@havenpm.com");
+  console.log("\nParty game logins (password: password67):");
+  console.log("  player1@havenpm.com → Justin (DM)");
+  console.log("  player2@havenpm.com → Rusty");
+  console.log("  player3@havenpm.com → Elisha");
   console.log("\nVendors:");
   for (const v of VENDORS) {
     console.log(`  • ${v.name} (${v.category}) — ${v.phone}`);
