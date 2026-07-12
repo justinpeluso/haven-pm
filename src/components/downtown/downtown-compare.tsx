@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { DowntownSubnav } from "./downtown-subnav";
+import { DowntownSafeImg } from "./downtown-safe-img";
 import type { GalleryImage } from "@/lib/downtown/gallery";
 
 type CompareDowntown = {
@@ -97,22 +98,14 @@ export function DowntownCompare({ ids }: { ids: string[] }) {
               {d.images
                 .filter((img) => img.kind !== "map" || d.images.length === 1)
                 .map((img) => {
-                  const src = (img.thumbUrl || img.url).startsWith("//")
-                    ? `https:${img.thumbUrl || img.url}`
-                    : img.thumbUrl || img.url;
+                  const primary = img.thumbUrl || img.url;
                   return (
                     <figure key={img.url + img.title} className="space-y-1.5">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={src.startsWith("data:") ? "/downtown-placeholder.svg" : src}
+                      <DowntownSafeImg
+                        src={primary}
+                        fallbackSrc={img.thumbUrl ? img.url : undefined}
                         alt={img.title}
                         className="w-full rounded-sm object-cover aspect-[4/3] border border-[var(--dt-line)]"
-                        loading="lazy"
-                        decoding="async"
-                        referrerPolicy="no-referrer"
-                        onError={(e) => {
-                          e.currentTarget.src = "/downtown-placeholder.svg";
-                        }}
                       />
                       <figcaption
                         className="text-[0.65rem] leading-relaxed"

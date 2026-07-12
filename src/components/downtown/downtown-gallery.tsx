@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search, X, Columns2, Check } from "lucide-react";
 import { DowntownSubnav } from "./downtown-subnav";
+import { DowntownSafeImg } from "./downtown-safe-img";
 import type { GalleryImage } from "@/lib/downtown/gallery";
 
 export type GalleryCard = {
@@ -24,44 +25,6 @@ type Props = {
 };
 
 const PAGE_SIZE = 36;
-const PLACEHOLDER = "/downtown-placeholder.svg";
-
-function absHttps(u: string) {
-  if (!u) return PLACEHOLDER;
-  if (u.startsWith("//")) return `https:${u}`;
-  if (u.startsWith("http://")) return `https://${u.slice(7)}`;
-  if (u.startsWith("data:")) return PLACEHOLDER;
-  return u;
-}
-
-function SafeImg({
-  src,
-  alt,
-  className,
-  fallback = PLACEHOLDER,
-}: {
-  src: string;
-  alt: string;
-  className?: string;
-  fallback?: string;
-}) {
-  const [current, setCurrent] = useState(() => absHttps(src));
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={current}
-      alt={alt}
-      className={className}
-      loading="lazy"
-      decoding="async"
-      referrerPolicy="no-referrer"
-      onError={() => {
-        const fb = absHttps(fallback);
-        if (current !== fb) setCurrent(fb);
-      }}
-    />
-  );
-}
 
 export function DowntownGallery({ initial }: Props) {
   const router = useRouter();
@@ -200,8 +163,9 @@ export function DowntownGallery({ initial }: Props) {
             <article key={d.id} className="downtown-panel overflow-hidden">
               <div className="relative aspect-[16/10] bg-black/40">
                 {hero && (
-                  <SafeImg
+                  <DowntownSafeImg
                     src={hero.thumbUrl || hero.url}
+                    fallbackSrc={hero.thumbUrl ? hero.url : undefined}
                     alt={hero.title}
                     className="h-full w-full object-cover"
                   />
@@ -242,9 +206,10 @@ export function DowntownGallery({ initial }: Props) {
                 {thumbs.length > 1 && (
                   <div className="flex gap-1.5 overflow-x-auto pb-1">
                     {thumbs.slice(1, 4).map((img) => (
-                      <SafeImg
+                      <DowntownSafeImg
                         key={img.url + img.title}
                         src={img.thumbUrl || img.url}
+                        fallbackSrc={img.thumbUrl ? img.url : undefined}
                         alt={img.title}
                         className="h-14 w-20 shrink-0 rounded-sm object-cover border border-[var(--dt-line)]"
                       />

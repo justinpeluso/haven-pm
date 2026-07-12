@@ -434,7 +434,7 @@ async function searchCommons(d: Downtown): Promise<DowntownDocument[]> {
       gsrlimit: "12",
       prop: "imageinfo",
       iiprop: "url|mime|size|timestamp",
-      iiurlwidth: "480",
+      iiurlwidth: "960",
     });
     const json = await fetchJson(`https://commons.wikimedia.org/w/api.php?${params}`);
     await sleep(100 + Math.floor(Math.random() * 80));

@@ -12,6 +12,7 @@ import type { DowntownProfile } from "@/lib/downtown/profiles";
 import type { DowntownYoutube } from "@/lib/downtown/youtube";
 import type { DowntownDocument } from "@/lib/downtown/documents";
 import { DowntownSubnav } from "./downtown-subnav";
+import { DowntownSafeImg } from "./downtown-safe-img";
 
 type DowntownInfo = {
   id: string;
@@ -420,13 +421,10 @@ export function DowntownDetail({
                 className="group block border border-[var(--dt-line)] transition hover:border-[var(--dt-accent)]"
               >
                 <div className="relative aspect-[4/3] overflow-hidden bg-black/35">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <DowntownSafeImg
                     src={doc.thumbUrl}
                     alt=""
                     className="h-full w-full object-cover opacity-90 transition group-hover:opacity-100"
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
                   />
                 </div>
                 <div className="space-y-2 p-3">

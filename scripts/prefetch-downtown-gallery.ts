@@ -177,7 +177,7 @@ async function geoImages(d: Downtown, radius: number): Promise<GalleryImage[]> {
     ggsnamespace: "6",
     prop: "imageinfo",
     iiprop: "url|mime|size|timestamp",
-    iiurlwidth: "640",
+    iiurlwidth: "960",
   });
   const json = await fetchJson(`https://commons.wikimedia.org/w/api.php?${params}`);
   return pagesToImages(Object.values(json?.query?.pages ?? {}) as ApiPage[], "Wikimedia Commons");
@@ -197,7 +197,7 @@ async function searchFileImages(queries: string[]): Promise<GalleryImage[]> {
       gsrlimit: "12",
       prop: "imageinfo",
       iiprop: "url|mime|size|timestamp",
-      iiurlwidth: "640",
+      iiurlwidth: "960",
     });
     const json = await fetchJson(`https://commons.wikimedia.org/w/api.php?${params}`);
     for (const img of pagesToImages(
@@ -261,7 +261,7 @@ async function wikipediaImages(d: Downtown): Promise<GalleryImage[]> {
         titles: fileTitles.join("|"),
         prop: "imageinfo",
         iiprop: "url|mime|size|timestamp",
-        iiurlwidth: "640",
+        iiurlwidth: "960",
       });
       const json = await fetchJson(`https://commons.wikimedia.org/w/api.php?${params}`);
       for (const img of pagesToImages(

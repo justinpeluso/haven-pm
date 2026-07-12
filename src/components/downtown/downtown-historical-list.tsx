@@ -12,45 +12,12 @@ import {
   Calendar,
 } from "lucide-react";
 import { DowntownSubnav } from "./downtown-subnav";
+import { DowntownSafeImg } from "./downtown-safe-img";
 import {
   historicalPropertyCorridor,
   historicalPropertyTown,
   type HistoricalProperty,
 } from "@/lib/downtown/historical-properties";
-
-const PLACEHOLDER = "/downtown-placeholder.svg";
-
-function SafeImg({
-  src,
-  fallbackSrc,
-  alt,
-  className,
-}: {
-  src?: string | null;
-  fallbackSrc?: string | null;
-  alt: string;
-  className?: string;
-}) {
-  const chain = [src, fallbackSrc, PLACEHOLDER].filter(
-    (u, i, arr): u is string => Boolean(u) && arr.indexOf(u) === i
-  );
-  const [idx, setIdx] = useState(0);
-  const current = chain[Math.min(idx, chain.length - 1)] || PLACEHOLDER;
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={current}
-      alt={alt}
-      className={className}
-      loading="lazy"
-      decoding="async"
-      referrerPolicy="no-referrer"
-      onError={() => {
-        if (idx < chain.length - 1) setIdx((i) => i + 1);
-      }}
-    />
-  );
-}
 
 type Props = {
   properties: HistoricalProperty[];
@@ -135,9 +102,10 @@ export function DowntownHistoricalList({ properties, generatedAt }: Props) {
           Deep dossiers for CBD addresses
         </h1>
         <p className="max-w-2xl text-sm leading-relaxed" style={{ color: "var(--dt-muted)" }}>
-          Prefetched public-source dossiers covering structure, plat history,
-          Indigenous and fort context, historic-district status, and source citations
-          along Beaver&apos;s Third Street spine and nearby civic landmarks.
+          Prefetched public-source dossiers within about 25 miles of Beaver&apos;s
+          Third Street CBD — rich hand-built Beaver landmarks plus shorter hybrid
+          fills for NRHP and civic sites across the river towns. Structure, plat
+          notes, Indigenous and fort context, district status, and citations.
           {when ? ` Cache ${when}.` : null}
         </p>
       </header>
@@ -248,7 +216,7 @@ export function DowntownHistoricalList({ properties, generatedAt }: Props) {
                   href={`/downtown/historical-properties/${p.id}`}
                   className="relative aspect-[16/10] block bg-black/40"
                 >
-                  <SafeImg
+                  <DowntownSafeImg
                     src={p.heroImage?.thumbUrl}
                     fallbackSrc={p.heroImage?.url}
                     alt={p.heroImage?.title || p.name}

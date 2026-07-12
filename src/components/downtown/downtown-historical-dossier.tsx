@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -15,45 +15,12 @@ import {
   Clock,
 } from "lucide-react";
 import { DowntownSubnav } from "./downtown-subnav";
+import { DowntownSafeImg } from "./downtown-safe-img";
 import {
   historicalPropertyCorridor,
   historicalPropertyTown,
   type HistoricalProperty,
 } from "@/lib/downtown/historical-properties";
-
-const PLACEHOLDER = "/downtown-placeholder.svg";
-
-function SafeImg({
-  src,
-  fallbackSrc,
-  alt,
-  className,
-}: {
-  src?: string | null;
-  fallbackSrc?: string | null;
-  alt: string;
-  className?: string;
-}) {
-  const chain = [src, fallbackSrc, PLACEHOLDER].filter(
-    (u, i, arr): u is string => Boolean(u) && arr.indexOf(u) === i
-  );
-  const [idx, setIdx] = useState(0);
-  const current = chain[Math.min(idx, chain.length - 1)] || PLACEHOLDER;
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={current}
-      alt={alt}
-      className={className}
-      loading="lazy"
-      decoding="async"
-      referrerPolicy="no-referrer"
-      onError={() => {
-        if (idx < chain.length - 1) setIdx((i) => i + 1);
-      }}
-    />
-  );
-}
 
 function Section({
   eyebrow,
@@ -168,7 +135,7 @@ export function DowntownHistoricalDossier({ property: p }: Props) {
           </p>
         </div>
         <div className="relative aspect-[21/9] max-h-[360px] overflow-hidden border border-[var(--dt-line)] bg-black/40">
-          <SafeImg
+          <DowntownSafeImg
             src={p.heroImage?.url}
             fallbackSrc={p.heroImage?.thumbUrl}
             alt={p.heroImage?.title || p.name}
@@ -220,7 +187,7 @@ export function DowntownHistoricalDossier({ property: p }: Props) {
                 key={img.url}
                 className="relative h-28 w-40 shrink-0 overflow-hidden border border-[var(--dt-line)]"
               >
-                <SafeImg
+                <DowntownSafeImg
                   src={img.thumbUrl}
                   fallbackSrc={img.url}
                   alt={img.title}
