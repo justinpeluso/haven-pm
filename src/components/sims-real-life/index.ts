@@ -10,6 +10,10 @@ export const SIMS_ASSETS = {
   portraitFrame: "/sims-real-life/portrait-frame.svg",
   divider: "/sims-real-life/divider.svg",
   cornerSet: "/sims-real-life/corner-set.svg",
+  cornerTl: "/sims-real-life/corner-tl.svg",
+  cornerTr: "/sims-real-life/corner-tr.svg",
+  cornerBl: "/sims-real-life/corner-bl.svg",
+  cornerBr: "/sims-real-life/corner-br.svg",
 } as const;
 
 /** Root wrapper classes — nest inside or as `downtown-shell sims-crpg`. */

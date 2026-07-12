@@ -76,6 +76,7 @@
 .sims-crpg .sims-panel,
 .sims-crpg .downtown-panel {
   position: relative;
+  overflow: hidden;
   background: linear-gradient(165deg, rgba(58, 44, 28, 0.96), rgba(32, 24, 16, 0.98));
   border: 1px solid var(--sims-line);
   border-radius: 2px;
@@ -97,6 +98,7 @@
   }
 }
 
+/* Fixed-size corner ornaments — never stretch to panel aspect ratio */
 .sims-crpg .sims-panel::before,
 .sims-crpg .downtown-panel::before {
   content: "";
@@ -104,8 +106,17 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background-image: url("/sims-real-life/corner-set.svg");
-  background-size: 100% 100%;
+  background-image:
+    url("/sims-real-life/corner-tl.svg"),
+    url("/sims-real-life/corner-tr.svg"),
+    url("/sims-real-life/corner-bl.svg"),
+    url("/sims-real-life/corner-br.svg");
+  background-size: 36px 36px;
+  background-position:
+    top 2px left 2px,
+    top 2px right 2px,
+    bottom 2px left 2px,
+    bottom 2px right 2px;
   background-repeat: no-repeat;
   opacity: 0.85;
   z-index: 1;
@@ -411,8 +422,18 @@
   pointer-events: none;
   position: absolute;
   inset: 0;
-  background-image: url("/sims-real-life/corner-set.svg");
-  background-size: 100% 100%;
+  background-image:
+    url("/sims-real-life/corner-tl.svg"),
+    url("/sims-real-life/corner-tr.svg"),
+    url("/sims-real-life/corner-bl.svg"),
+    url("/sims-real-life/corner-br.svg");
+  background-size: 36px 36px;
+  background-position:
+    top 2px left 2px,
+    top 2px right 2px,
+    bottom 2px left 2px,
+    bottom 2px right 2px;
+  background-repeat: no-repeat;
   opacity: 0.7;
 }
 
@@ -476,8 +497,18 @@
   pointer-events: none;
   position: absolute;
   inset: 0;
-  background-image: url("/sims-real-life/corner-set.svg");
-  background-size: 100% 100%;
+  background-image:
+    url("/sims-real-life/corner-tl.svg"),
+    url("/sims-real-life/corner-tr.svg"),
+    url("/sims-real-life/corner-bl.svg"),
+    url("/sims-real-life/corner-br.svg");
+  background-size: 36px 36px;
+  background-position:
+    top 2px left 2px,
+    top 2px right 2px,
+    bottom 2px left 2px,
+    bottom 2px right 2px;
+  background-repeat: no-repeat;
   opacity: 0.75;
 }
 
