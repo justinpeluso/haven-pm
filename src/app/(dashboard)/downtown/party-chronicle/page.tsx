@@ -1,5 +1,5 @@
 import { requirePermission } from "@/lib/auth/session";
-import { PartyChronicleGame } from "@/components/downtown/party-chronicle-game";
+import { PartyChronicleGame } from "@/components/party-chronicle/party-chronicle-game";
 import { isDmEmail, slotFromEmail } from "@/lib/downtown/party-chronicle/players";
 import type { PlayerIdentity } from "@/lib/downtown/party-chronicle/types";
 
