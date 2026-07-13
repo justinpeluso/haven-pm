@@ -4,7 +4,8 @@ import { useCallback, useEffect, useMemo, useState, useTransition } from "react"
 import { DowntownSubnav } from "@/components/downtown/downtown-subnav";
 import { ENDING_BY_ID } from "@/lib/downtown/party-chronicle/alignment";
 import { getAnimalNpc } from "@/lib/downtown/party-chronicle/animals";
-import { comicArtSrc } from "@/lib/downtown/party-chronicle/art";
+import { comicArtSrc, getComicArt } from "@/lib/downtown/party-chronicle/art";
+import { journeyTrail } from "@/lib/downtown/party-chronicle/journey";
 import { hoursSummary } from "@/lib/downtown/party-chronicle/campaign";
 import {
   acknowledgeNarrative,
@@ -122,6 +123,77 @@ function Meter({
 function sceneSrc(node: { sceneId?: string; artId?: string; splashArtId?: string } | null) {
   const id = node?.sceneId ?? node?.artId ?? node?.splashArtId ?? "scene-frostford-gate";
   return comicArtSrc(id);
+}
+
+function portraitSrc(node: { artId?: string; sceneId?: string } | null) {
+  if (!node?.artId) return null;
+  if (node.sceneId && node.artId === node.sceneId) return null;
+  const entry = getComicArt(node.artId);
+  if (!entry) return null;
+  if (entry.kind === "scene" || entry.kind === "chapter") return null;
+  return comicArtSrc(node.artId);
+}
+
+function JourneyMinimap({ world }: { world: PartyWorldSave }) {
+  const { stops, here } = journeyTrail(world);
+  const points = stops.map((s) => `${s.x},${s.y}`).join(" ");
+  return (
+    <div className="pc-panel p-3 space-y-2">
+      <div className="flex items-end justify-between gap-2">
+        <p className="pc-eyebrow text-[0.65rem]">Realm map</p>
+        <p className="text-[0.65rem] font-bold" style={{ color: "var(--pc-accent)" }}>
+          {here ? `Here: ${here.short}` : "Charting…"}
+        </p>
+      </div>
+      <div className="pc-journey-map" aria-label="Journey minimap">
+        <svg viewBox="0 0 100 100" className="pc-journey-svg" role="img">
+          <defs>
+            <linearGradient id="journeyTrail" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#5ecf9a" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="#e8c96a" stopOpacity="0.9" />
+            </linearGradient>
+          </defs>
+          <rect width="100" height="100" rx="2" fill="#0a1410" />
+          {/* soft hills */}
+          <path d="M0 70 Q25 55 50 68 T100 60 L100 100 L0 100Z" fill="#163828" opacity="0.9" />
+          <path d="M0 82 Q40 72 70 80 T100 75 L100 100 L0 100Z" fill="#1a4030" opacity="0.8" />
+          <polyline
+            points={points}
+            fill="none"
+            stroke="url(#journeyTrail)"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            opacity="0.85"
+          />
+          {stops.map((s) => (
+            <g key={s.chapterId}>
+              <circle
+                cx={s.x}
+                cy={s.y}
+                r={s.state === "here" ? 3.6 : 2.4}
+                className={`pc-journey-node pc-journey-node--${s.state}`}
+              />
+              {s.state === "here" && (
+                <circle cx={s.x} cy={s.y} r="5.5" className="pc-journey-pulse" />
+              )}
+            </g>
+          ))}
+        </svg>
+        <ol className="pc-journey-legend">
+          {stops.map((s) => (
+            <li key={s.chapterId} data-state={s.state}>
+              <span className="pc-journey-dot" />
+              <span>
+                {s.chapter}. {s.short}
+                {s.state === "here" ? " ← you" : s.state === "visited" ? "" : ""}
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  );
 }
 
 export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
@@ -853,16 +925,31 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           {tab === "story" && (
             <div className="space-y-4">
               <div className="pc-comic-frame relative">
-                <div className="pc-speed-lines" />
                 <img
                   src={sceneSrc(storyNode)}
-                  alt=""
+                  alt={getComicArt(storyNode.sceneId ?? "")?.label ?? storyNode.title}
+                  className="pc-scene-art"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = "/party-chronicle/chapter-splash.svg";
+                    (e.target as HTMLImageElement).src = "/party-chronicle/scenes/missing.svg";
                   }}
                 />
+                {portraitSrc(storyNode) && (
+                  <div className="pc-portrait-overlay">
+                    <img
+                      src={portraitSrc(storyNode)!}
+                      alt={getComicArt(storyNode.artId ?? "")?.label ?? ""}
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.display = "none";
+                      }}
+                    />
+                  </div>
+                )}
+                <div className="pc-speed-lines" />
                 {inEncounter && <div className="pc-action-burst" />}
+                <p className="pc-scene-caption">{storyNode.title}</p>
               </div>
+
+              <JourneyMinimap world={world} />
 
               {storyNode.kind === "conversation" && storyNode.balloon ? (
                 <div

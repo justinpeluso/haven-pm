@@ -1,4 +1,5 @@
 import { mergeAlignment } from "./alignment";
+import { markChapterVisited } from "./journey";
 import { getAbility, getNode } from "./skills";
 import { buildCombatUsePayload } from "./hotbar";
 import { getGear } from "./gear";
@@ -322,7 +323,7 @@ export function applyStoryChoice(
   });
 
   return {
-    world: advanced,
+    world: markChapterVisited(advanced, chapterId),
     message: o.text,
     roll: applied.roll,
   };
@@ -348,7 +349,7 @@ export function acknowledgeNarrative(world: PartyWorldSave, slot: PlayerSlot): P
   if (nextNode?.kind === "ending") endingId = nextNode.endingId;
   // Do NOT advance the turn here — Continue only flips the panel so the same
   // player can take the next choice (Pip / path forks). Turn burns on choices & combat.
-  return {
+  return markChapterVisited({
     ...world,
     characters,
     partyFlags,
@@ -357,7 +358,7 @@ export function acknowledgeNarrative(world: PartyWorldSave, slot: PlayerSlot): P
     endingId,
     encounterEnemyHp: nextNode?.kind === "encounter" ? nextNode.enemyHp : null,
     log: [`${world.characters[slot].name} continues the chronicle.`, ...world.log].slice(0, 80),
-  };
+  });
 }
 
 export function spendSkillPoint(world: PartyWorldSave, slot: PlayerSlot, nodeId: string) {

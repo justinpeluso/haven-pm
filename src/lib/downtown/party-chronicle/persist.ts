@@ -8,6 +8,7 @@ import {
 import { CLASS_DEFS, SLOT_DEFAULTS } from "./players";
 import { STARTER_GEAR_BY_CLASS } from "./gear";
 import { createEmptyHotbar } from "./hotbar";
+import { visitedFlag } from "./journey";
 import { STARTER_SKILL_POINTS } from "./skills";
 import { START_CHAPTER_ID, START_NODE_ID } from "./story";
 import type {
@@ -92,7 +93,7 @@ export function createNewWorld(): PartyWorldSave {
     turnIndex: 1,
     campaignNodeId: START_NODE_ID,
     chapterId: START_CHAPTER_ID,
-    partyFlags: [],
+    partyFlags: [visitedFlag(START_CHAPTER_ID)],
     alignment: { ...EMPTY_ALIGNMENT },
     encounterEnemyHp: null,
     deckEncounter: null,
