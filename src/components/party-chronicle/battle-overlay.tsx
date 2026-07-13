@@ -1,12 +1,15 @@
 "use client";
 
 import {
+  battleRemainingMs,
   battleSpellIds,
   foodItemIds,
   hpPotionIds,
   manaPotionIds,
+  turnIdleRemainingMs,
   type BattleActionOpts,
 } from "@/lib/downtown/party-chronicle/battle";
+import { useEffect, useState } from "react";
 import { getAbility } from "@/lib/downtown/party-chronicle/skills";
 import { getSpellbookAbility } from "@/lib/downtown/party-chronicle/bestiary";
 import { comicArtSrc } from "@/lib/downtown/party-chronicle/art";
@@ -70,11 +73,23 @@ export function BattleOverlay({
   onDismiss: () => void;
 }) {
   const battle = world.battle;
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    if (!battle || battle.status !== "active") return;
+    const id = window.setInterval(() => setNow(Date.now()), 250);
+    return () => window.clearInterval(id);
+  }, [battle?.status, battle?.id]);
+
   if (!battle) return null;
 
   if (battle.status === "victory" || battle.status === "defeat") {
     return <BattleSummaryScreen battle={battle} onDismiss={onDismiss} />;
   }
+
+  const battleLeft = Math.ceil(battleRemainingMs(battle, now) / 1000);
+  const idleLeft = Math.ceil(turnIdleRemainingMs(battle, now) / 1000);
+  const battleMin = Math.floor(battleLeft / 60);
+  const battleSec = battleLeft % 60;
 
   const activeHero = battle.heroes.find((h) => h.id === battle.activeId);
   const isMyTurn = !!mySlot && battle.activeId === mySlot && canAct;
@@ -98,6 +113,12 @@ export function BattleOverlay({
             {battle.enemy.name}
           </h2>
           <p className="text-xs opacity-80">{battle.enemy.blurb}</p>
+          <p className="text-[0.65rem] mt-2 font-bold" style={{ color: "var(--pc-accent)" }}>
+            Battle clock {battleMin}:{String(battleSec).padStart(2, "0")} left
+            {battle.activeId !== "enemy"
+              ? ` · Act in ${idleLeft}s or foe strikes`
+              : " · Enemy turn"}
+          </p>
         </div>
 
         <div className="pc-battle-stage">

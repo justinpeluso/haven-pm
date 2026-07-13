@@ -431,6 +431,73 @@ for (const { tier, rarity, count } of TIERS_2) {
   }
 }
 
+// ── Wave 3: +500 weapons & armor for main characters ────────
+const ARMOR_WEAPON_SLOTS = ["head", "chest", "hands", "legs", "weapon", "offhand"];
+const ADJECTIVES_3 = [
+  "Quarry", "Summit", "Harbor", "Lantern", "Twilight", "Aurora", "Meadow", "Coral",
+  "Nettle", "Sapphire", "Granite", "Cedar", "Basalt", "Maple", "Onyx", "Jade",
+  "Crimson", "Pale", "Keen", "Stout", "Swift", "Grim", "Kind", "Loyal", "Bold",
+  "Silent", "Thunder", "Woven", "Forged", "Carved", "Blessed", "Cursed", "Lucky",
+  "Trailworn", "Roadwise", "Campfire", "Moonlit", "Sunlit", "Fogbound", "Stormcut",
+  "Rootdeep", "Skylark", "Wolfmark", "Bearhide", "Foxglove", "Raventhorn", "Drakebone",
+];
+const NOUNS_3 = {
+  head: ["Helm", "Hood", "Circlet", "Mask", "Coif", "Crown", "Cap", "Visor"],
+  chest: ["Cuirass", "Hauberk", "Jerkin", "Plate", "Mail", "Coat", "Vest", "Brigandine"],
+  hands: ["Gauntlets", "Gloves", "Grips", "Bracers", "Wraps", "Mitts", "Claws"],
+  legs: ["Greaves", "Boots", "Leggings", "Sabatons", "Chaps", "Treads", "Guards"],
+  weapon: [
+    "Longsword", "Shortsword", "Claymore", "Rapier", "Axe", "Hatchet", "Mace", "Flail",
+    "Spear", "Halberd", "Bow", "Longbow", "Crossbow", "Staff", "Wand", "Dagger",
+    "Dirk", "Sling", "Hammer", "Glaive", "Scimitar", "Trident",
+  ],
+  offhand: ["Shield", "Buckler", "Tome", "Focus", "Orb", "Lantern", "Parry Blade", "Quiver"],
+};
+const BLURBS_3 = [
+  "Found under a fallen mile-marker.",
+  "Still dusty from a roadside cache.",
+  "Smells of dug earth and old coin.",
+  "A chest hinge squeaked when this came free.",
+  "Trail-worn, luck-blessed.",
+  "Fits Justin, Rusty, or Elisha without complaint.",
+  "Comic-panel gleam under canopy light.",
+  "Heavy enough to mean business.",
+  "Light enough for a midnight dash.",
+  "The Misty Hills approve.",
+  "Whispers jokes mid-boss-fight.",
+  "Marked with a crooked fellowship rune.",
+];
+
+const TIERS_3 = [
+  { tier: "common", rarity: "common", count: 180 },
+  { tier: "magic", rarity: "magic", count: 160 },
+  { tier: "rare", rarity: "rare", count: 100 },
+  { tier: "legendary", rarity: "legendary", count: 60 },
+];
+
+let n3 = 20_000;
+for (const { tier, rarity, count } of TIERS_3) {
+  for (let i = 0; i < count; i++) {
+    const slot = pick(ARMOR_WEAPON_SLOTS, n3 + i * 7);
+    const adj = pick(ADJECTIVES_3, n3 + i * 3);
+    const noun = pick(NOUNS_3[slot], n3 + i * 11);
+    const id = `gen3-${tier}-${slot}-${i}`;
+    addItem({
+      id,
+      name: `${adj} ${noun}`,
+      blurb: pick(BLURBS_3, n3 + i),
+      tier,
+      rarity,
+      slot,
+      power: powerFor(tier, slot, n3 + i),
+      armor: armorFor(tier, slot, n3 + i * 2),
+      tags: [slot, tier, "wave3", "hero", adj.toLowerCase()],
+      properties: makeProps(n3 * 5 + i, tier, slot),
+    });
+    n3++;
+  }
+}
+
 // ── Consumables ─────────────────────────────────────────────
 const CONSUMABLES = [
   { id: "berry-tonic", name: "Berry Tonic", blurb: "Wild raspberry and trail mint.", heal: 15, tags: ["potion", "heal", "food"] },

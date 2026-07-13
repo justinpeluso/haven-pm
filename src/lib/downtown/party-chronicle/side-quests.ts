@@ -4,6 +4,7 @@
  */
 
 import pack from "../../../../data/party-chronicle/side-quests.json";
+import expandedPack from "../../../../data/party-chronicle/side-quests-expanded.json";
 import type { AlignmentScores, PlayerSlot } from "./types";
 
 export type SideQuestKind = "animal" | "cooking" | "gear" | "hound" | "private" | "exploration";
@@ -32,7 +33,16 @@ export type SideQuestDef = {
   npcId: string | null;
 };
 
-export const SIDE_QUESTS: SideQuestDef[] = pack.sideQuests as SideQuestDef[];
+const authoredSideQuests = pack.sideQuests as SideQuestDef[];
+const expandedSideQuests =
+  (expandedPack as { sideQuests?: SideQuestDef[] }).sideQuests ?? [];
+
+// Generated quests extend the catalog; authored quests win any id collision.
+export const SIDE_QUESTS: SideQuestDef[] = [
+  ...new Map(
+    [...expandedSideQuests, ...authoredSideQuests].map((quest) => [quest.id, quest])
+  ).values(),
+];
 
 export const SIDE_QUEST_BY_ID: Record<string, SideQuestDef> = Object.fromEntries(
   SIDE_QUESTS.map((q) => [q.id, q])

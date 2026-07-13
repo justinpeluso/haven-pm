@@ -289,7 +289,19 @@
         "weapon",
         "melee"
       ],
-      "rarity": "common"
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "constitution",
+          "value": 1,
+          "label": "+1 CON"
+        },
+        {
+          "key": "def",
+          "value": 2,
+          "label": "+2 DEF"
+        }
+      ]
     },
     {
       "id": "hunting-bow",
@@ -302,7 +314,19 @@
         "weapon",
         "ranged"
       ],
-      "rarity": "common"
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "resist",
+          "value": 1,
+          "label": "+1 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 2,
+          "label": "+2 DEX"
+        }
+      ]
     },
     {
       "id": "oak-staff",
@@ -315,7 +339,19 @@
         "weapon",
         "staff"
       ],
-      "rarity": "common"
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "intelligence",
+          "value": 2,
+          "label": "+2 INT"
+        },
+        {
+          "key": "crit",
+          "value": 2,
+          "label": "+2 Crit%"
+        }
+      ]
     },
     {
       "id": "bronze-dagger",
@@ -328,7 +364,19 @@
         "weapon",
         "melee"
       ],
-      "rarity": "common"
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "strength",
+          "value": 1,
+          "label": "+1 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 3,
+          "label": "+3 Max Mana"
+        }
+      ]
     },
     {
       "id": "leather-cap",
@@ -340,7 +388,19 @@
       "tags": [
         "armor"
       ],
-      "rarity": "common"
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "constitution",
+          "value": 3,
+          "label": "+3 CON"
+        },
+        {
+          "key": "intelligence",
+          "value": 1,
+          "label": "+1 INT"
+        }
+      ]
     },
     {
       "id": "hide-jerkin",
@@ -352,7 +412,19 @@
       "tags": [
         "armor"
       ],
-      "rarity": "common"
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "resist",
+          "value": 3,
+          "label": "+3 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 1,
+          "label": "+1 DEX"
+        }
+      ]
     },
     {
       "id": "travel-gloves",
@@ -364,7 +436,19 @@
       "tags": [
         "armor"
       ],
-      "rarity": "common"
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "maxHp",
+          "value": 6,
+          "label": "+6 Max HP"
+        },
+        {
+          "key": "constitution",
+          "value": 2,
+          "label": "+2 CON"
+        }
+      ]
     },
     {
       "id": "wool-trousers",
@@ -376,7 +460,19 @@
       "tags": [
         "armor"
       ],
-      "rarity": "common"
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "constitution",
+          "value": 3,
+          "label": "+3 CON"
+        },
+        {
+          "key": "intelligence",
+          "value": 1,
+          "label": "+1 INT"
+        }
+      ]
     },
     {
       "id": "wood-shield",
@@ -389,7 +485,19 @@
         "armor",
         "shield"
       ],
-      "rarity": "common"
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "charisma",
+          "value": 3,
+          "label": "+3 CHA"
+        },
+        {
+          "key": "def",
+          "value": 1,
+          "label": "+1 DEF"
+        }
+      ]
     },
     {
       "id": "copper-ring",
@@ -400,7 +508,19 @@
       "tags": [
         "accessory"
       ],
-      "rarity": "common"
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "maxMana",
+          "value": 3,
+          "label": "+3 Max Mana"
+        },
+        {
+          "key": "constitution",
+          "value": 2,
+          "label": "+2 CON"
+        }
+      ]
     },
     {
       "id": "iron-greaves",
@@ -412,7 +532,19 @@
       "tags": [
         "armor"
       ],
-      "rarity": "common"
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "charisma",
+          "value": 2,
+          "label": "+2 CHA"
+        },
+        {
+          "key": "def",
+          "value": 3,
+          "label": "+3 DEF"
+        }
+      ]
     },
     {
       "id": "round-buckler",
@@ -425,7 +557,19 @@
         "armor",
         "shield"
       ],
-      "rarity": "common"
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "maxHp",
+          "value": 6,
+          "label": "+6 Max HP"
+        },
+        {
+          "key": "charisma",
+          "value": 2,
+          "label": "+2 CHA"
+        }
+      ]
     },
     {
       "id": "frostbite-blade",
@@ -438,7 +582,34 @@
         "weapon",
         "frost"
       ],
-      "rarity": "magic"
+      "rarity": "magic",
+      "properties": [
+        {
+          "key": "strength",
+          "value": 2,
+          "label": "+2 STR"
+        },
+        {
+          "key": "atk",
+          "value": 4,
+          "label": "+4 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 Crit%"
+        },
+        {
+          "key": "intelligence",
+          "value": 1,
+          "label": "+1 INT"
+        },
+        {
+          "key": "maxHp",
+          "value": 8,
+          "label": "+8 Max HP"
+        }
+      ]
     },
     {
       "id": "elven-bow",
@@ -451,7 +622,34 @@
         "weapon",
         "ranged"
       ],
-      "rarity": "magic"
+      "rarity": "magic",
+      "properties": [
+        {
+          "key": "charisma",
+          "value": 3,
+          "label": "+3 CHA"
+        },
+        {
+          "key": "atk",
+          "value": 6,
+          "label": "+6 ATK"
+        },
+        {
+          "key": "constitution",
+          "value": 2,
+          "label": "+2 CON"
+        },
+        {
+          "key": "def",
+          "value": 3,
+          "label": "+3 DEF"
+        },
+        {
+          "key": "maxHp",
+          "value": 10,
+          "label": "+10 Max HP"
+        }
+      ]
     },
     {
       "id": "staff-of-embers",
@@ -464,7 +662,34 @@
         "weapon",
         "fire"
       ],
-      "rarity": "magic"
+      "rarity": "magic",
+      "properties": [
+        {
+          "key": "crit",
+          "value": 2,
+          "label": "+2 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 9,
+          "label": "+9 Max Mana"
+        },
+        {
+          "key": "dexterity",
+          "value": 3,
+          "label": "+3 DEX"
+        },
+        {
+          "key": "wisdom",
+          "value": 4,
+          "label": "+4 WIS"
+        }
+      ]
     },
     {
       "id": "mail-of-rivendell",
@@ -476,7 +701,34 @@
       "tags": [
         "armor"
       ],
-      "rarity": "magic"
+      "rarity": "magic",
+      "properties": [
+        {
+          "key": "constitution",
+          "value": 4,
+          "label": "+4 CON"
+        },
+        {
+          "key": "intelligence",
+          "value": 2,
+          "label": "+2 INT"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 7,
+          "label": "+7 Max Mana"
+        }
+      ]
     },
     {
       "id": "amulet-of-warding",
@@ -488,7 +740,34 @@
       "tags": [
         "accessory"
       ],
-      "rarity": "magic"
+      "rarity": "magic",
+      "properties": [
+        {
+          "key": "constitution",
+          "value": 2,
+          "label": "+2 CON"
+        },
+        {
+          "key": "resist",
+          "value": 4,
+          "label": "+4 Resist"
+        },
+        {
+          "key": "maxHp",
+          "value": 12,
+          "label": "+12 Max HP"
+        },
+        {
+          "key": "wisdom",
+          "value": 2,
+          "label": "+2 WIS"
+        },
+        {
+          "key": "def",
+          "value": 2,
+          "label": "+2 DEF"
+        }
+      ]
     },
     {
       "id": "moonsteel-saber",
@@ -500,7 +779,34 @@
       "tags": [
         "weapon"
       ],
-      "rarity": "magic"
+      "rarity": "magic",
+      "properties": [
+        {
+          "key": "resist",
+          "value": 4,
+          "label": "+4 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 2,
+          "label": "+2 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 4,
+          "label": "+4 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 2,
+          "label": "+2 Crit%"
+        },
+        {
+          "key": "charisma",
+          "value": 2,
+          "label": "+2 CHA"
+        }
+      ]
     },
     {
       "id": "storm-javelin",
@@ -512,7 +818,34 @@
       "tags": [
         "weapon"
       ],
-      "rarity": "magic"
+      "rarity": "magic",
+      "properties": [
+        {
+          "key": "crit",
+          "value": 2,
+          "label": "+2 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 2,
+          "label": "+2 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 9,
+          "label": "+9 Max Mana"
+        },
+        {
+          "key": "dexterity",
+          "value": 4,
+          "label": "+4 DEX"
+        },
+        {
+          "key": "wisdom",
+          "value": 2,
+          "label": "+2 WIS"
+        }
+      ]
     },
     {
       "id": "wardens-helm",
@@ -524,7 +857,34 @@
       "tags": [
         "armor"
       ],
-      "rarity": "magic"
+      "rarity": "magic",
+      "properties": [
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 8,
+          "label": "+8 Max Mana"
+        },
+        {
+          "key": "resist",
+          "value": 3,
+          "label": "+3 Resist"
+        },
+        {
+          "key": "wisdom",
+          "value": 4,
+          "label": "+4 WIS"
+        },
+        {
+          "key": "constitution",
+          "value": 2,
+          "label": "+2 CON"
+        }
+      ]
     },
     {
       "id": "pack-leather",
@@ -536,7 +896,34 @@
       "tags": [
         "armor"
       ],
-      "rarity": "magic"
+      "rarity": "magic",
+      "properties": [
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 3,
+          "label": "+3 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 4,
+          "label": "+4 ATK"
+        },
+        {
+          "key": "maxHp",
+          "value": 12,
+          "label": "+12 Max HP"
+        },
+        {
+          "key": "charisma",
+          "value": 3,
+          "label": "+3 CHA"
+        }
+      ]
     },
     {
       "id": "ember-gauntlets",
@@ -549,7 +936,34 @@
       "tags": [
         "armor"
       ],
-      "rarity": "magic"
+      "rarity": "magic",
+      "properties": [
+        {
+          "key": "maxMana",
+          "value": 9,
+          "label": "+9 Max Mana"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 Resist"
+        },
+        {
+          "key": "wisdom",
+          "value": 3,
+          "label": "+3 WIS"
+        },
+        {
+          "key": "def",
+          "value": 4,
+          "label": "+4 DEF"
+        },
+        {
+          "key": "dexterity",
+          "value": 2,
+          "label": "+2 DEX"
+        }
+      ]
     },
     {
       "id": "mist-striders",
@@ -561,7 +975,34 @@
       "tags": [
         "armor"
       ],
-      "rarity": "magic"
+      "rarity": "magic",
+      "properties": [
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 3,
+          "label": "+3 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 4,
+          "label": "+4 ATK"
+        },
+        {
+          "key": "maxHp",
+          "value": 9,
+          "label": "+9 Max HP"
+        },
+        {
+          "key": "charisma",
+          "value": 3,
+          "label": "+3 CHA"
+        }
+      ]
     },
     {
       "id": "serpent-buckler",
@@ -573,7 +1014,34 @@
       "tags": [
         "armor"
       ],
-      "rarity": "magic"
+      "rarity": "magic",
+      "properties": [
+        {
+          "key": "crit",
+          "value": 2,
+          "label": "+2 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 8,
+          "label": "+8 Max Mana"
+        },
+        {
+          "key": "resist",
+          "value": 3,
+          "label": "+3 Resist"
+        },
+        {
+          "key": "wisdom",
+          "value": 4,
+          "label": "+4 WIS"
+        }
+      ]
     },
     {
       "id": "ring-of-oaths",
@@ -585,7 +1053,34 @@
       "tags": [
         "accessory"
       ],
-      "rarity": "magic"
+      "rarity": "magic",
+      "properties": [
+        {
+          "key": "charisma",
+          "value": 3,
+          "label": "+3 CHA"
+        },
+        {
+          "key": "wisdom",
+          "value": 2,
+          "label": "+2 WIS"
+        },
+        {
+          "key": "maxMana",
+          "value": 10,
+          "label": "+10 Max Mana"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 Resist"
+        },
+        {
+          "key": "def",
+          "value": 1,
+          "label": "+1 DEF"
+        }
+      ]
     },
     {
       "id": "fang-amulet",
@@ -597,7 +1092,34 @@
       "tags": [
         "accessory"
       ],
-      "rarity": "magic"
+      "rarity": "magic",
+      "properties": [
+        {
+          "key": "resist",
+          "value": 4,
+          "label": "+4 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 2,
+          "label": "+2 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 3,
+          "label": "+3 ATK"
+        },
+        {
+          "key": "charisma",
+          "value": 4,
+          "label": "+4 CHA"
+        },
+        {
+          "key": "def",
+          "value": 2,
+          "label": "+2 DEF"
+        }
+      ]
     },
     {
       "id": "ash-philter",
@@ -622,7 +1144,34 @@
         "weapon",
         "frost"
       ],
-      "rarity": "rare"
+      "rarity": "rare",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 7,
+          "label": "+7 ATK"
+        },
+        {
+          "key": "constitution",
+          "value": 4,
+          "label": "+4 CON"
+        },
+        {
+          "key": "def",
+          "value": 5,
+          "label": "+5 DEF"
+        },
+        {
+          "key": "maxHp",
+          "value": 14,
+          "label": "+14 Max HP"
+        },
+        {
+          "key": "maxMana",
+          "value": 10,
+          "label": "+10 Max Mana"
+        }
+      ]
     },
     {
       "id": "swamp-walker-boots",
@@ -634,7 +1183,34 @@
       "tags": [
         "armor"
       ],
-      "rarity": "rare"
+      "rarity": "rare",
+      "properties": [
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 10,
+          "label": "+10 Max Mana"
+        },
+        {
+          "key": "resist",
+          "value": 3,
+          "label": "+3 Resist"
+        },
+        {
+          "key": "wisdom",
+          "value": 4,
+          "label": "+4 WIS"
+        }
+      ]
     },
     {
       "id": "peak-climber-axe",
@@ -646,7 +1222,34 @@
       "tags": [
         "weapon"
       ],
-      "rarity": "rare"
+      "rarity": "rare",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 7,
+          "label": "+7 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        },
+        {
+          "key": "charisma",
+          "value": 4,
+          "label": "+4 CHA"
+        },
+        {
+          "key": "intelligence",
+          "value": 5,
+          "label": "+5 INT"
+        },
+        {
+          "key": "constitution",
+          "value": 3,
+          "label": "+3 CON"
+        }
+      ]
     },
     {
       "id": "gloomwood-cloak",
@@ -658,7 +1261,34 @@
       "tags": [
         "accessory"
       ],
-      "rarity": "rare"
+      "rarity": "rare",
+      "properties": [
+        {
+          "key": "dexterity",
+          "value": 3,
+          "label": "+3 DEX"
+        },
+        {
+          "key": "wisdom",
+          "value": 2,
+          "label": "+2 WIS"
+        },
+        {
+          "key": "resist",
+          "value": 3,
+          "label": "+3 Resist"
+        },
+        {
+          "key": "crit",
+          "value": 2,
+          "label": "+2 Crit%"
+        },
+        {
+          "key": "maxHp",
+          "value": 10,
+          "label": "+10 Max HP"
+        }
+      ]
     },
     {
       "id": "ley-touched-ring",
@@ -670,7 +1300,34 @@
       "tags": [
         "accessory"
       ],
-      "rarity": "rare"
+      "rarity": "rare",
+      "properties": [
+        {
+          "key": "intelligence",
+          "value": 3,
+          "label": "+3 INT"
+        },
+        {
+          "key": "maxMana",
+          "value": 15,
+          "label": "+15 Max Mana"
+        },
+        {
+          "key": "wisdom",
+          "value": 2,
+          "label": "+2 WIS"
+        },
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 Crit%"
+        },
+        {
+          "key": "atk",
+          "value": 2,
+          "label": "+2 ATK"
+        }
+      ]
     },
     {
       "id": "dragon-scale-shard",
@@ -693,7 +1350,34 @@
       "tags": [
         "weapon"
       ],
-      "rarity": "rare"
+      "rarity": "rare",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 6,
+          "label": "+6 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        },
+        {
+          "key": "charisma",
+          "value": 3,
+          "label": "+3 CHA"
+        },
+        {
+          "key": "constitution",
+          "value": 4,
+          "label": "+4 CON"
+        },
+        {
+          "key": "dexterity",
+          "value": 5,
+          "label": "+5 DEX"
+        }
+      ]
     },
     {
       "id": "mire-witch-hood",
@@ -705,7 +1389,34 @@
       "tags": [
         "armor"
       ],
-      "rarity": "rare"
+      "rarity": "rare",
+      "properties": [
+        {
+          "key": "wisdom",
+          "value": 4,
+          "label": "+4 WIS"
+        },
+        {
+          "key": "resist",
+          "value": 5,
+          "label": "+5 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 3,
+          "label": "+3 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 4,
+          "label": "+4 ATK"
+        },
+        {
+          "key": "maxHp",
+          "value": 16,
+          "label": "+16 Max HP"
+        }
+      ]
     },
     {
       "id": "bow-of-three-names",
@@ -718,7 +1429,34 @@
         "weapon",
         "legendary"
       ],
-      "rarity": "legendary"
+      "rarity": "legendary",
+      "properties": [
+        {
+          "key": "strength",
+          "value": 5,
+          "label": "+5 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 15,
+          "label": "+15 Max Mana"
+        },
+        {
+          "key": "dexterity",
+          "value": 4,
+          "label": "+4 DEX"
+        },
+        {
+          "key": "wisdom",
+          "value": 5,
+          "label": "+5 WIS"
+        },
+        {
+          "key": "resist",
+          "value": 6,
+          "label": "+6 Resist"
+        }
+      ]
     },
     {
       "id": "staff-of-ley-hounds",
@@ -731,7 +1469,34 @@
         "weapon",
         "legendary"
       ],
-      "rarity": "legendary"
+      "rarity": "legendary",
+      "properties": [
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        },
+        {
+          "key": "charisma",
+          "value": 5,
+          "label": "+5 CHA"
+        },
+        {
+          "key": "atk",
+          "value": 9,
+          "label": "+9 ATK"
+        },
+        {
+          "key": "constitution",
+          "value": 4,
+          "label": "+4 CON"
+        },
+        {
+          "key": "def",
+          "value": 5,
+          "label": "+5 DEF"
+        }
+      ]
     },
     {
       "id": "helm-of-the-soft-path",
@@ -745,7 +1510,34 @@
         "armor",
         "legendary"
       ],
-      "rarity": "legendary"
+      "rarity": "legendary",
+      "properties": [
+        {
+          "key": "dexterity",
+          "value": 6,
+          "label": "+6 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 4,
+          "label": "+4 ATK"
+        },
+        {
+          "key": "maxHp",
+          "value": 18,
+          "label": "+18 Max HP"
+        },
+        {
+          "key": "charisma",
+          "value": 6,
+          "label": "+6 CHA"
+        },
+        {
+          "key": "def",
+          "value": 4,
+          "label": "+4 DEF"
+        }
+      ]
     },
     {
       "id": "plate-of-the-hearth",
@@ -758,7 +1550,34 @@
         "armor",
         "legendary"
       ],
-      "rarity": "legendary"
+      "rarity": "legendary",
+      "properties": [
+        {
+          "key": "charisma",
+          "value": 6,
+          "label": "+6 CHA"
+        },
+        {
+          "key": "def",
+          "value": 4,
+          "label": "+4 DEF"
+        },
+        {
+          "key": "constitution",
+          "value": 5,
+          "label": "+5 CON"
+        },
+        {
+          "key": "intelligence",
+          "value": 6,
+          "label": "+6 INT"
+        },
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        }
+      ]
     },
     {
       "id": "sword-of-the-chronicle",
@@ -771,7 +1590,34 @@
         "weapon",
         "legendary"
       ],
-      "rarity": "legendary"
+      "rarity": "legendary",
+      "properties": [
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 15,
+          "label": "+15 Max Mana"
+        },
+        {
+          "key": "dexterity",
+          "value": 6,
+          "label": "+6 DEX"
+        },
+        {
+          "key": "wisdom",
+          "value": 4,
+          "label": "+4 WIS"
+        }
+      ]
     },
     {
       "id": "crown-of-ash",
@@ -785,7 +1631,34 @@
         "armor",
         "legendary"
       ],
-      "rarity": "legendary"
+      "rarity": "legendary",
+      "properties": [
+        {
+          "key": "def",
+          "value": 4,
+          "label": "+4 DEF"
+        },
+        {
+          "key": "strength",
+          "value": 5,
+          "label": "+5 STR"
+        },
+        {
+          "key": "maxHp",
+          "value": 16,
+          "label": "+16 Max HP"
+        },
+        {
+          "key": "constitution",
+          "value": 4,
+          "label": "+4 CON"
+        },
+        {
+          "key": "intelligence",
+          "value": 5,
+          "label": "+5 INT"
+        }
+      ]
     },
     {
       "id": "cloak-of-fellowship",
@@ -798,7 +1671,34 @@
         "accessory",
         "legendary"
       ],
-      "rarity": "legendary"
+      "rarity": "legendary",
+      "properties": [
+        {
+          "key": "charisma",
+          "value": 4,
+          "label": "+4 CHA"
+        },
+        {
+          "key": "constitution",
+          "value": 3,
+          "label": "+3 CON"
+        },
+        {
+          "key": "maxHp",
+          "value": 20,
+          "label": "+20 Max HP"
+        },
+        {
+          "key": "resist",
+          "value": 4,
+          "label": "+4 Resist"
+        },
+        {
+          "key": "def",
+          "value": 3,
+          "label": "+3 DEF"
+        }
+      ]
     },
     {
       "id": "elixir-of-destiny",
@@ -1048,7 +1948,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "frostford-warg"
+      "bossId": "frostford-warg",
+      "properties": [
+        {
+          "key": "charisma",
+          "value": 5,
+          "label": "+5 CHA"
+        },
+        {
+          "key": "maxMana",
+          "value": 12,
+          "label": "+12 Max Mana"
+        },
+        {
+          "key": "constitution",
+          "value": 4,
+          "label": "+4 CON"
+        },
+        {
+          "key": "def",
+          "value": 5,
+          "label": "+5 DEF"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        }
+      ]
     },
     {
       "id": "road-kings-crown",
@@ -1063,7 +1990,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "goblin-king-road"
+      "bossId": "goblin-king-road",
+      "properties": [
+        {
+          "key": "dexterity",
+          "value": 5,
+          "label": "+5 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 3,
+          "label": "+3 ATK"
+        },
+        {
+          "key": "maxHp",
+          "value": 12,
+          "label": "+12 Max HP"
+        },
+        {
+          "key": "charisma",
+          "value": 5,
+          "label": "+5 CHA"
+        },
+        {
+          "key": "def",
+          "value": 3,
+          "label": "+3 DEF"
+        }
+      ]
     },
     {
       "id": "hag-queen-talisman",
@@ -1078,7 +2032,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "mire-hag-queen"
+      "bossId": "mire-hag-queen",
+      "properties": [
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 10,
+          "label": "+10 Max Mana"
+        },
+        {
+          "key": "wisdom",
+          "value": 3,
+          "label": "+3 WIS"
+        },
+        {
+          "key": "dexterity",
+          "value": 4,
+          "label": "+4 DEX"
+        }
+      ]
     },
     {
       "id": "bruins-toll-club",
@@ -1093,7 +2074,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "bridge-troll-bruin"
+      "bossId": "bridge-troll-bruin",
+      "properties": [
+        {
+          "key": "charisma",
+          "value": 3,
+          "label": "+3 CHA"
+        },
+        {
+          "key": "atk",
+          "value": 7,
+          "label": "+7 ATK"
+        },
+        {
+          "key": "constitution",
+          "value": 5,
+          "label": "+5 CON"
+        },
+        {
+          "key": "def",
+          "value": 3,
+          "label": "+3 DEF"
+        },
+        {
+          "key": "maxHp",
+          "value": 16,
+          "label": "+16 Max HP"
+        }
+      ]
     },
     {
       "id": "raven-priest-mask",
@@ -1108,7 +2116,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "raven-cult-high-priest"
+      "bossId": "raven-cult-high-priest",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 3,
+          "label": "+3 ATK"
+        },
+        {
+          "key": "maxHp",
+          "value": 13,
+          "label": "+13 Max HP"
+        },
+        {
+          "key": "charisma",
+          "value": 5,
+          "label": "+5 CHA"
+        },
+        {
+          "key": "def",
+          "value": 3,
+          "label": "+3 DEF"
+        },
+        {
+          "key": "constitution",
+          "value": 4,
+          "label": "+4 CON"
+        }
+      ]
     },
     {
       "id": "ember-captains-gorget",
@@ -1123,7 +2158,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "ember-hold-captain"
+      "bossId": "ember-hold-captain",
+      "properties": [
+        {
+          "key": "resist",
+          "value": 4,
+          "label": "+4 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 5,
+          "label": "+5 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 3,
+          "label": "+3 ATK"
+        },
+        {
+          "key": "maxHp",
+          "value": 16,
+          "label": "+16 Max HP"
+        },
+        {
+          "key": "charisma",
+          "value": 5,
+          "label": "+5 CHA"
+        }
+      ]
     },
     {
       "id": "heartwood-branch",
@@ -1138,7 +2200,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "ancient-treant"
+      "bossId": "ancient-treant",
+      "properties": [
+        {
+          "key": "wisdom",
+          "value": 4,
+          "label": "+4 WIS"
+        },
+        {
+          "key": "resist",
+          "value": 5,
+          "label": "+5 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 3,
+          "label": "+3 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 9,
+          "label": "+9 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        }
+      ]
     },
     {
       "id": "wyrm-nest-scale",
@@ -1153,7 +2242,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "sky-wyrm-nest-guardian"
+      "bossId": "sky-wyrm-nest-guardian",
+      "properties": [
+        {
+          "key": "intelligence",
+          "value": 5,
+          "label": "+5 INT"
+        },
+        {
+          "key": "resist",
+          "value": 3,
+          "label": "+3 Resist"
+        },
+        {
+          "key": "crit",
+          "value": 5,
+          "label": "+5 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 5,
+          "label": "+5 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 12,
+          "label": "+12 Max Mana"
+        }
+      ]
     },
     {
       "id": "leviathan-tooth",
@@ -1168,7 +2284,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "bog-leviathan"
+      "bossId": "bog-leviathan",
+      "properties": [
+        {
+          "key": "maxHp",
+          "value": 12,
+          "label": "+12 Max HP"
+        },
+        {
+          "key": "intelligence",
+          "value": 5,
+          "label": "+5 INT"
+        },
+        {
+          "key": "maxMana",
+          "value": 10,
+          "label": "+10 Max Mana"
+        },
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 5,
+          "label": "+5 STR"
+        }
+      ]
     },
     {
       "id": "cairn-wight-blade",
@@ -1183,7 +2326,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "cairn-wight-lord"
+      "bossId": "cairn-wight-lord",
+      "properties": [
+        {
+          "key": "maxHp",
+          "value": 16,
+          "label": "+16 Max HP"
+        },
+        {
+          "key": "strength",
+          "value": 5,
+          "label": "+5 STR"
+        },
+        {
+          "key": "intelligence",
+          "value": 3,
+          "label": "+3 INT"
+        },
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 Crit%"
+        },
+        {
+          "key": "maxMana",
+          "value": 11,
+          "label": "+11 Max Mana"
+        }
+      ]
     },
     {
       "id": "ironwood-plate-shard",
@@ -1198,7 +2368,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "ironwood-champion"
+      "bossId": "ironwood-champion",
+      "properties": [
+        {
+          "key": "wisdom",
+          "value": 3,
+          "label": "+3 WIS"
+        },
+        {
+          "key": "resist",
+          "value": 4,
+          "label": "+4 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 5,
+          "label": "+5 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 3,
+          "label": "+3 ATK"
+        },
+        {
+          "key": "maxHp",
+          "value": 14,
+          "label": "+14 Max HP"
+        }
+      ]
     },
     {
       "id": "storm-eagle-quill",
@@ -1213,7 +2410,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "peak-storm-eagle"
+      "bossId": "peak-storm-eagle",
+      "properties": [
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 3,
+          "label": "+3 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 11,
+          "label": "+11 Max Mana"
+        },
+        {
+          "key": "wisdom",
+          "value": 5,
+          "label": "+5 WIS"
+        },
+        {
+          "key": "charisma",
+          "value": 3,
+          "label": "+3 CHA"
+        }
+      ]
     },
     {
       "id": "revenant-oath-ring",
@@ -1228,7 +2452,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "fen-revenant-knight"
+      "bossId": "fen-revenant-knight",
+      "properties": [
+        {
+          "key": "strength",
+          "value": 3,
+          "label": "+3 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 11,
+          "label": "+11 Max Mana"
+        },
+        {
+          "key": "wisdom",
+          "value": 5,
+          "label": "+5 WIS"
+        },
+        {
+          "key": "atk",
+          "value": 3,
+          "label": "+3 ATK"
+        },
+        {
+          "key": "resist",
+          "value": 4,
+          "label": "+4 Resist"
+        }
+      ]
     },
     {
       "id": "copper-drake-heart",
@@ -1243,7 +2494,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "copper-drake-broodmother"
+      "bossId": "copper-drake-broodmother",
+      "properties": [
+        {
+          "key": "charisma",
+          "value": 3,
+          "label": "+3 CHA"
+        },
+        {
+          "key": "atk",
+          "value": 9,
+          "label": "+9 ATK"
+        },
+        {
+          "key": "constitution",
+          "value": 5,
+          "label": "+5 CON"
+        },
+        {
+          "key": "def",
+          "value": 3,
+          "label": "+3 DEF"
+        },
+        {
+          "key": "maxHp",
+          "value": 13,
+          "label": "+13 Max HP"
+        }
+      ]
     },
     {
       "id": "mist-stalker-cloak",
@@ -1258,7 +2536,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "mist-stalker-alpha"
+      "bossId": "mist-stalker-alpha",
+      "properties": [
+        {
+          "key": "wisdom",
+          "value": 5,
+          "label": "+5 WIS"
+        },
+        {
+          "key": "resist",
+          "value": 3,
+          "label": "+3 Resist"
+        },
+        {
+          "key": "crit",
+          "value": 5,
+          "label": "+5 Crit%"
+        },
+        {
+          "key": "dexterity",
+          "value": 5,
+          "label": "+5 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 3,
+          "label": "+3 ATK"
+        }
+      ]
     },
     {
       "id": "giant-chiefs-girdle",
@@ -1273,7 +2578,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "hill-giant-chieftain"
+      "bossId": "hill-giant-chieftain",
+      "properties": [
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 Crit%"
+        },
+        {
+          "key": "charisma",
+          "value": 3,
+          "label": "+3 CHA"
+        },
+        {
+          "key": "atk",
+          "value": 8,
+          "label": "+8 ATK"
+        },
+        {
+          "key": "constitution",
+          "value": 5,
+          "label": "+5 CON"
+        },
+        {
+          "key": "def",
+          "value": 3,
+          "label": "+3 DEF"
+        }
+      ]
     },
     {
       "id": "coven-mothers-staff",
@@ -1288,7 +2620,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "swamp-witch-coven-mother"
+      "bossId": "swamp-witch-coven-mother",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 9,
+          "label": "+9 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        },
+        {
+          "key": "charisma",
+          "value": 4,
+          "label": "+4 CHA"
+        },
+        {
+          "key": "def",
+          "value": 5,
+          "label": "+5 DEF"
+        },
+        {
+          "key": "constitution",
+          "value": 3,
+          "label": "+3 CON"
+        }
+      ]
     },
     {
       "id": "hollow-oak-acorn",
@@ -1303,7 +2662,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "hollow-oak-spirit"
+      "bossId": "hollow-oak-spirit",
+      "properties": [
+        {
+          "key": "wisdom",
+          "value": 4,
+          "label": "+4 WIS"
+        },
+        {
+          "key": "resist",
+          "value": 5,
+          "label": "+5 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 3,
+          "label": "+3 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 4,
+          "label": "+4 ATK"
+        },
+        {
+          "key": "charisma",
+          "value": 5,
+          "label": "+5 CHA"
+        }
+      ]
     },
     {
       "id": "ash-wolf-pelt",
@@ -1318,7 +2704,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "ash-wolf-pack-leader"
+      "bossId": "ash-wolf-pack-leader",
+      "properties": [
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 12,
+          "label": "+12 Max Mana"
+        },
+        {
+          "key": "wisdom",
+          "value": 3,
+          "label": "+3 WIS"
+        },
+        {
+          "key": "maxHp",
+          "value": 12,
+          "label": "+12 Max HP"
+        }
+      ]
     },
     {
       "id": "granite-golem-core",
@@ -1333,7 +2746,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "granite-golem-warden"
+      "bossId": "granite-golem-warden",
+      "properties": [
+        {
+          "key": "intelligence",
+          "value": 3,
+          "label": "+3 INT"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 5,
+          "label": "+5 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 11,
+          "label": "+11 Max Mana"
+        },
+        {
+          "key": "wisdom",
+          "value": 4,
+          "label": "+4 WIS"
+        }
+      ]
     },
     {
       "id": "void-moth-antenna",
@@ -1348,7 +2788,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "void-moth-oracle"
+      "bossId": "void-moth-oracle",
+      "properties": [
+        {
+          "key": "wisdom",
+          "value": 4,
+          "label": "+4 WIS"
+        },
+        {
+          "key": "resist",
+          "value": 5,
+          "label": "+5 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 3,
+          "label": "+3 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 4,
+          "label": "+4 ATK"
+        },
+        {
+          "key": "charisma",
+          "value": 5,
+          "label": "+5 CHA"
+        }
+      ]
     },
     {
       "id": "exile-frost-axe",
@@ -1363,7 +2830,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "frost-giant-exile"
+      "bossId": "frost-giant-exile",
+      "properties": [
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 3,
+          "label": "+3 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 10,
+          "label": "+10 Max Mana"
+        },
+        {
+          "key": "dexterity",
+          "value": 5,
+          "label": "+5 DEX"
+        },
+        {
+          "key": "wisdom",
+          "value": 3,
+          "label": "+3 WIS"
+        }
+      ]
     },
     {
       "id": "pale-host-banner",
@@ -1378,7 +2872,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "pale-host-commander"
+      "bossId": "pale-host-commander",
+      "properties": [
+        {
+          "key": "def",
+          "value": 5,
+          "label": "+5 DEF"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        },
+        {
+          "key": "maxHp",
+          "value": 16,
+          "label": "+16 Max HP"
+        },
+        {
+          "key": "intelligence",
+          "value": 5,
+          "label": "+5 INT"
+        },
+        {
+          "key": "resist",
+          "value": 3,
+          "label": "+3 Resist"
+        }
+      ]
     },
     {
       "id": "flame-keepers-brand",
@@ -1393,7 +2914,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "ember-cult-flame-keeper"
+      "bossId": "ember-cult-flame-keeper",
+      "properties": [
+        {
+          "key": "charisma",
+          "value": 3,
+          "label": "+3 CHA"
+        },
+        {
+          "key": "intelligence",
+          "value": 4,
+          "label": "+4 INT"
+        },
+        {
+          "key": "maxMana",
+          "value": 10,
+          "label": "+10 Max Mana"
+        },
+        {
+          "key": "constitution",
+          "value": 3,
+          "label": "+3 CON"
+        },
+        {
+          "key": "def",
+          "value": 4,
+          "label": "+4 DEF"
+        }
+      ]
     },
     {
       "id": "lurker-brood-sac",
@@ -1408,7 +2956,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "deep-forest-lurker-brood"
+      "bossId": "deep-forest-lurker-brood",
+      "properties": [
+        {
+          "key": "intelligence",
+          "value": 3,
+          "label": "+3 INT"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 5,
+          "label": "+5 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 10,
+          "label": "+10 Max Mana"
+        },
+        {
+          "key": "wisdom",
+          "value": 4,
+          "label": "+4 WIS"
+        }
+      ]
     },
     {
       "id": "moonlit-stalker-crown",
@@ -1423,7 +2998,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "moonlit-stalker-queen"
+      "bossId": "moonlit-stalker-queen",
+      "properties": [
+        {
+          "key": "maxHp",
+          "value": 16,
+          "label": "+16 Max HP"
+        },
+        {
+          "key": "charisma",
+          "value": 3,
+          "label": "+3 CHA"
+        },
+        {
+          "key": "def",
+          "value": 4,
+          "label": "+4 DEF"
+        },
+        {
+          "key": "constitution",
+          "value": 5,
+          "label": "+5 CON"
+        },
+        {
+          "key": "atk",
+          "value": 3,
+          "label": "+3 ATK"
+        }
+      ]
     },
     {
       "id": "obsidian-drake-horn",
@@ -1438,7 +3040,34 @@
         "legendary"
       ],
       "rarity": "legendary",
-      "bossId": "obsidian-drake-elder"
+      "bossId": "obsidian-drake-elder",
+      "properties": [
+        {
+          "key": "strength",
+          "value": 6,
+          "label": "+6 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 14,
+          "label": "+14 Max Mana"
+        },
+        {
+          "key": "wisdom",
+          "value": 5,
+          "label": "+5 WIS"
+        },
+        {
+          "key": "intelligence",
+          "value": 6,
+          "label": "+6 INT"
+        },
+        {
+          "key": "resist",
+          "value": 4,
+          "label": "+4 Resist"
+        }
+      ]
     },
     {
       "id": "summit-wraith-shroud",
@@ -1453,7 +3082,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "summit-wraith"
+      "bossId": "summit-wraith",
+      "properties": [
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 5,
+          "label": "+5 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 10,
+          "label": "+10 Max Mana"
+        },
+        {
+          "key": "wisdom",
+          "value": 4,
+          "label": "+4 WIS"
+        },
+        {
+          "key": "charisma",
+          "value": 5,
+          "label": "+5 CHA"
+        }
+      ]
     },
     {
       "id": "archfey-court-scepter",
@@ -1468,7 +3124,34 @@
         "legendary"
       ],
       "rarity": "legendary",
-      "bossId": "neverwood-archfey-courtier"
+      "bossId": "neverwood-archfey-courtier",
+      "properties": [
+        {
+          "key": "def",
+          "value": 6,
+          "label": "+6 DEF"
+        },
+        {
+          "key": "crit",
+          "value": 5,
+          "label": "+5 Crit%"
+        },
+        {
+          "key": "maxHp",
+          "value": 18,
+          "label": "+18 Max HP"
+        },
+        {
+          "key": "intelligence",
+          "value": 6,
+          "label": "+6 INT"
+        },
+        {
+          "key": "constitution",
+          "value": 4,
+          "label": "+4 CON"
+        }
+      ]
     },
     {
       "id": "mire-sovereign-crown",
@@ -1483,7 +3166,34 @@
         "legendary"
       ],
       "rarity": "legendary",
-      "bossId": "mire-sovereign"
+      "bossId": "mire-sovereign",
+      "properties": [
+        {
+          "key": "def",
+          "value": 5,
+          "label": "+5 DEF"
+        },
+        {
+          "key": "strength",
+          "value": 6,
+          "label": "+6 STR"
+        },
+        {
+          "key": "maxHp",
+          "value": 18,
+          "label": "+18 Max HP"
+        },
+        {
+          "key": "constitution",
+          "value": 5,
+          "label": "+5 CON"
+        },
+        {
+          "key": "intelligence",
+          "value": 6,
+          "label": "+6 INT"
+        }
+      ]
     },
     {
       "id": "chronicle-wraith-quill",
@@ -1498,7 +3208,34 @@
         "legendary"
       ],
       "rarity": "legendary",
-      "bossId": "chronicle-wraith"
+      "bossId": "chronicle-wraith",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 5,
+          "label": "+5 ATK"
+        },
+        {
+          "key": "charisma",
+          "value": 6,
+          "label": "+6 CHA"
+        },
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 12,
+          "label": "+12 Max Mana"
+        },
+        {
+          "key": "constitution",
+          "value": 6,
+          "label": "+6 CON"
+        }
+      ]
     },
     {
       "id": "ash-titan-plate",
@@ -1513,7 +3250,34 @@
         "legendary"
       ],
       "rarity": "legendary",
-      "bossId": "ash-titan-sentinel"
+      "bossId": "ash-titan-sentinel",
+      "properties": [
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        },
+        {
+          "key": "maxHp",
+          "value": 19,
+          "label": "+19 Max HP"
+        },
+        {
+          "key": "constitution",
+          "value": 6,
+          "label": "+6 CON"
+        },
+        {
+          "key": "intelligence",
+          "value": 4,
+          "label": "+4 INT"
+        },
+        {
+          "key": "crit",
+          "value": 5,
+          "label": "+5 Crit%"
+        }
+      ]
     },
     {
       "id": "ley-storm-core",
@@ -1528,7 +3292,34 @@
         "legendary"
       ],
       "rarity": "legendary",
-      "bossId": "ley-storm-elemental-lord"
+      "bossId": "ley-storm-elemental-lord",
+      "properties": [
+        {
+          "key": "maxMana",
+          "value": 12,
+          "label": "+12 Max Mana"
+        },
+        {
+          "key": "constitution",
+          "value": 6,
+          "label": "+6 CON"
+        },
+        {
+          "key": "def",
+          "value": 4,
+          "label": "+4 DEF"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        },
+        {
+          "key": "maxHp",
+          "value": 17,
+          "label": "+17 Max HP"
+        }
+      ]
     },
     {
       "id": "pale-dragon-fang",
@@ -1543,7 +3334,34 @@
         "legendary"
       ],
       "rarity": "legendary",
-      "bossId": "pale-dragon-spawn-prince"
+      "bossId": "pale-dragon-spawn-prince",
+      "properties": [
+        {
+          "key": "wisdom",
+          "value": 6,
+          "label": "+6 WIS"
+        },
+        {
+          "key": "resist",
+          "value": 4,
+          "label": "+4 Resist"
+        },
+        {
+          "key": "crit",
+          "value": 6,
+          "label": "+6 Crit%"
+        },
+        {
+          "key": "dexterity",
+          "value": 6,
+          "label": "+6 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 4,
+          "label": "+4 ATK"
+        }
+      ]
     },
     {
       "id": "root-thorn-circlet",
@@ -1558,7 +3376,34 @@
         "legendary"
       ],
       "rarity": "legendary",
-      "bossId": "root-of-all-thorns"
+      "bossId": "root-of-all-thorns",
+      "properties": [
+        {
+          "key": "charisma",
+          "value": 4,
+          "label": "+4 CHA"
+        },
+        {
+          "key": "def",
+          "value": 5,
+          "label": "+5 DEF"
+        },
+        {
+          "key": "constitution",
+          "value": 6,
+          "label": "+6 CON"
+        },
+        {
+          "key": "dexterity",
+          "value": 4,
+          "label": "+4 DEX"
+        },
+        {
+          "key": "strength",
+          "value": 5,
+          "label": "+5 STR"
+        }
+      ]
     },
     {
       "id": "gargoyle-stone-wings",
@@ -1573,7 +3418,34 @@
         "legendary"
       ],
       "rarity": "legendary",
-      "bossId": "cathedral-gargoyle-colossus"
+      "bossId": "cathedral-gargoyle-colossus",
+      "properties": [
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 12,
+          "label": "+12 Max Mana"
+        },
+        {
+          "key": "dexterity",
+          "value": 6,
+          "label": "+6 DEX"
+        },
+        {
+          "key": "wisdom",
+          "value": 4,
+          "label": "+4 WIS"
+        },
+        {
+          "key": "resist",
+          "value": 5,
+          "label": "+5 Resist"
+        }
+      ]
     },
     {
       "id": "bog-emperor-mantle",
@@ -1588,7 +3460,34 @@
         "legendary"
       ],
       "rarity": "legendary",
-      "bossId": "bog-emperor"
+      "bossId": "bog-emperor",
+      "properties": [
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 14,
+          "label": "+14 Max Mana"
+        },
+        {
+          "key": "wisdom",
+          "value": 6,
+          "label": "+6 WIS"
+        },
+        {
+          "key": "atk",
+          "value": 4,
+          "label": "+4 ATK"
+        },
+        {
+          "key": "resist",
+          "value": 5,
+          "label": "+5 Resist"
+        }
+      ]
     },
     {
       "id": "hollow-king-greatsword",
@@ -1603,7 +3502,34 @@
         "legendary"
       ],
       "rarity": "legendary",
-      "bossId": "hollow-king-knight"
+      "bossId": "hollow-king-knight",
+      "properties": [
+        {
+          "key": "resist",
+          "value": 5,
+          "label": "+5 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 6,
+          "label": "+6 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 10,
+          "label": "+10 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        },
+        {
+          "key": "charisma",
+          "value": 6,
+          "label": "+6 CHA"
+        }
+      ]
     },
     {
       "id": "skyfire-wyrm-scale-mail",
@@ -1618,7 +3544,34 @@
         "legendary"
       ],
       "rarity": "legendary",
-      "bossId": "skyfire-wyrm-ancient"
+      "bossId": "skyfire-wyrm-ancient",
+      "properties": [
+        {
+          "key": "maxHp",
+          "value": 19,
+          "label": "+19 Max HP"
+        },
+        {
+          "key": "constitution",
+          "value": 5,
+          "label": "+5 CON"
+        },
+        {
+          "key": "intelligence",
+          "value": 6,
+          "label": "+6 INT"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 5,
+          "label": "+5 STR"
+        }
+      ]
     },
     {
       "id": "stag-kings-antlers",
@@ -1633,7 +3586,34 @@
         "legendary"
       ],
       "rarity": "legendary",
-      "bossId": "wild-law-stag-king"
+      "bossId": "wild-law-stag-king",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 5,
+          "label": "+5 ATK"
+        },
+        {
+          "key": "maxHp",
+          "value": 20,
+          "label": "+20 Max HP"
+        },
+        {
+          "key": "charisma",
+          "value": 4,
+          "label": "+4 CHA"
+        },
+        {
+          "key": "def",
+          "value": 5,
+          "label": "+5 DEF"
+        },
+        {
+          "key": "constitution",
+          "value": 6,
+          "label": "+6 CON"
+        }
+      ]
     },
     {
       "id": "herald-scout-horn",
@@ -1648,7 +3628,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "demon-herald-scout"
+      "bossId": "demon-herald-scout",
+      "properties": [
+        {
+          "key": "maxMana",
+          "value": 12,
+          "label": "+12 Max Mana"
+        },
+        {
+          "key": "wisdom",
+          "value": 4,
+          "label": "+4 WIS"
+        },
+        {
+          "key": "constitution",
+          "value": 5,
+          "label": "+5 CON"
+        },
+        {
+          "key": "resist",
+          "value": 3,
+          "label": "+3 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 4,
+          "label": "+4 DEX"
+        }
+      ]
     },
     {
       "id": "world-eater-tooth",
@@ -1663,7 +3670,34 @@
         "legendary"
       ],
       "rarity": "legendary",
-      "bossId": "world-eater-larva"
+      "bossId": "world-eater-larva",
+      "properties": [
+        {
+          "key": "charisma",
+          "value": 6,
+          "label": "+6 CHA"
+        },
+        {
+          "key": "maxHp",
+          "value": 19,
+          "label": "+19 Max HP"
+        },
+        {
+          "key": "maxMana",
+          "value": 15,
+          "label": "+15 Max Mana"
+        },
+        {
+          "key": "constitution",
+          "value": 6,
+          "label": "+6 CON"
+        },
+        {
+          "key": "def",
+          "value": 4,
+          "label": "+4 DEF"
+        }
+      ]
     },
     {
       "id": "crown-of-ashen-king",
@@ -1678,7 +3712,34 @@
         "legendary"
       ],
       "rarity": "legendary",
-      "bossId": "ashen-king"
+      "bossId": "ashen-king",
+      "properties": [
+        {
+          "key": "resist",
+          "value": 5,
+          "label": "+5 Resist"
+        },
+        {
+          "key": "wisdom",
+          "value": 6,
+          "label": "+6 WIS"
+        },
+        {
+          "key": "maxHp",
+          "value": 19,
+          "label": "+19 Max HP"
+        },
+        {
+          "key": "dexterity",
+          "value": 5,
+          "label": "+5 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 6,
+          "label": "+6 ATK"
+        }
+      ]
     },
     {
       "id": "ashen-kings-scepter",
@@ -1693,7 +3754,34 @@
         "legendary"
       ],
       "rarity": "legendary",
-      "bossId": "ashen-king"
+      "bossId": "ashen-king",
+      "properties": [
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        },
+        {
+          "key": "maxHp",
+          "value": 17,
+          "label": "+17 Max HP"
+        },
+        {
+          "key": "intelligence",
+          "value": 5,
+          "label": "+5 INT"
+        },
+        {
+          "key": "wisdom",
+          "value": 6,
+          "label": "+6 WIS"
+        },
+        {
+          "key": "constitution",
+          "value": 4,
+          "label": "+4 CON"
+        }
+      ]
     },
     {
       "id": "ember-thane-signet",
@@ -1708,7 +3796,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "ember-thane-lord"
+      "bossId": "ember-thane-lord",
+      "properties": [
+        {
+          "key": "intelligence",
+          "value": 4,
+          "label": "+4 INT"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        },
+        {
+          "key": "strength",
+          "value": 3,
+          "label": "+3 STR"
+        },
+        {
+          "key": "maxMana",
+          "value": 9,
+          "label": "+9 Max Mana"
+        },
+        {
+          "key": "wisdom",
+          "value": 5,
+          "label": "+5 WIS"
+        }
+      ]
     },
     {
       "id": "corv-trial-feather",
@@ -1723,7 +3838,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "corv-raven-trial"
+      "bossId": "corv-raven-trial",
+      "properties": [
+        {
+          "key": "wisdom",
+          "value": 4,
+          "label": "+4 WIS"
+        },
+        {
+          "key": "maxMana",
+          "value": 9,
+          "label": "+9 Max Mana"
+        },
+        {
+          "key": "resist",
+          "value": 3,
+          "label": "+3 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 4,
+          "label": "+4 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 5,
+          "label": "+5 ATK"
+        }
+      ]
     },
     {
       "id": "bruna-trial-claw",
@@ -1738,7 +3880,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "bruna-bear-trial"
+      "bossId": "bruna-bear-trial",
+      "properties": [
+        {
+          "key": "charisma",
+          "value": 3,
+          "label": "+3 CHA"
+        },
+        {
+          "key": "maxMana",
+          "value": 9,
+          "label": "+9 Max Mana"
+        },
+        {
+          "key": "constitution",
+          "value": 5,
+          "label": "+5 CON"
+        },
+        {
+          "key": "def",
+          "value": 3,
+          "label": "+3 DEF"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 Crit%"
+        }
+      ]
     },
     {
       "id": "ulfric-trial-fang",
@@ -1753,7 +3922,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "ulfric-wolf-trial"
+      "bossId": "ulfric-wolf-trial",
+      "properties": [
+        {
+          "key": "maxMana",
+          "value": 12,
+          "label": "+12 Max Mana"
+        },
+        {
+          "key": "wisdom",
+          "value": 5,
+          "label": "+5 WIS"
+        },
+        {
+          "key": "maxHp",
+          "value": 13,
+          "label": "+13 Max HP"
+        },
+        {
+          "key": "resist",
+          "value": 4,
+          "label": "+4 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 5,
+          "label": "+5 DEX"
+        }
+      ]
     },
     {
       "id": "nyx-trial-scale",
@@ -1768,7 +3964,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "nyx-serpent-trial"
+      "bossId": "nyx-serpent-trial",
+      "properties": [
+        {
+          "key": "charisma",
+          "value": 4,
+          "label": "+4 CHA"
+        },
+        {
+          "key": "dexterity",
+          "value": 5,
+          "label": "+5 DEX"
+        },
+        {
+          "key": "maxMana",
+          "value": 12,
+          "label": "+12 Max Mana"
+        },
+        {
+          "key": "constitution",
+          "value": 4,
+          "label": "+4 CON"
+        },
+        {
+          "key": "def",
+          "value": 5,
+          "label": "+5 DEF"
+        }
+      ]
     },
     {
       "id": "pip-trial-tail",
@@ -1783,7 +4006,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "pip-fox-trial"
+      "bossId": "pip-fox-trial",
+      "properties": [
+        {
+          "key": "wisdom",
+          "value": 3,
+          "label": "+3 WIS"
+        },
+        {
+          "key": "resist",
+          "value": 4,
+          "label": "+4 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 5,
+          "label": "+5 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 3,
+          "label": "+3 ATK"
+        },
+        {
+          "key": "charisma",
+          "value": 4,
+          "label": "+4 CHA"
+        }
+      ]
     },
     {
       "id": "aelwyn-trial-antler",
@@ -1798,7 +4048,34 @@
         "magic"
       ],
       "rarity": "rare",
-      "bossId": "aelwyn-stag-trial"
+      "bossId": "aelwyn-stag-trial",
+      "properties": [
+        {
+          "key": "resist",
+          "value": 4,
+          "label": "+4 Resist"
+        },
+        {
+          "key": "dexterity",
+          "value": 5,
+          "label": "+5 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 3,
+          "label": "+3 ATK"
+        },
+        {
+          "key": "maxHp",
+          "value": 13,
+          "label": "+13 Max HP"
+        },
+        {
+          "key": "charisma",
+          "value": 5,
+          "label": "+5 CHA"
+        }
+      ]
     }
   ]
 }

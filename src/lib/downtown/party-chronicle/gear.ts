@@ -1,3 +1,4 @@
+import { ensureItemAffixes } from "./affixes";
 import { BATTLE_LOOT_ITEMS, battleLootAsGear, getBattleLootItem, LOOT_POOLS } from "./bestiary";
 import type { ClassId, GearItem } from "./types";
 
@@ -549,6 +550,11 @@ for (const raw of BATTLE_LOOT_ITEMS) {
   }
 }
 
+// Ensure equippable gear has base-stat affixes (battle loot + hand catalog).
+for (const id of Object.keys(GEAR_BY_ID)) {
+  GEAR_BY_ID[id] = ensureItemAffixes(GEAR_BY_ID[id]!);
+}
+
 const GEAR_SET_BY_ID: Record<string, GearSetDef> = Object.fromEntries(
   GEAR_SETS.map((s) => [s.id, s])
 );
@@ -575,7 +581,8 @@ function seedLootPoolsFromCatalog() {
 seedLootPoolsFromCatalog();
 
 export function getGear(id: string): GearItem | undefined {
-  return GEAR_BY_ID[id] ?? getBattleLootItem(id);
+  const found = GEAR_BY_ID[id] ?? getBattleLootItem(id);
+  return found ? ensureItemAffixes(found) : undefined;
 }
 
 export function getGearSet(id: string): GearSetDef | undefined {

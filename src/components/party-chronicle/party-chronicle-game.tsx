@@ -13,6 +13,7 @@ import {
   canAct,
   equipItem as engineEquip,
   partyAvgLevel,
+  rewindFromEnding,
   setHotbarSlot,
   spendSkillPoint,
   unequipSlot as engineUnequip,
@@ -26,6 +27,7 @@ import {
   performBattleAction,
   readSpellbook,
   startRandomBattle,
+  tickBattleTimers,
   tickStoryPlay,
 } from "@/lib/downtown/party-chronicle/battle";
 import {
@@ -35,10 +37,15 @@ import {
   cookableRecipes,
   fleeRoadEncounter,
 } from "@/lib/downtown/party-chronicle/midgame";
+import {
+  digForLoot,
+  stumbleOnChest,
+} from "@/lib/downtown/party-chronicle/exploration";
 import { getGear, gearCatalogStats } from "@/lib/downtown/party-chronicle/gear";
 import { bestiaryStats, isSpellbookItem } from "@/lib/downtown/party-chronicle/bestiary";
-import { describeItemTooltip, formatProperty } from "@/lib/downtown/party-chronicle/stats";
+import { formatProperty, itemProperties } from "@/lib/downtown/party-chronicle/stats";
 import { PaperdollPanel } from "@/components/party-chronicle/paperdoll";
+import { GearTipBody } from "@/components/party-chronicle/gear-hover-tip";
 import { describeHotbar, listAssignableAbilities } from "@/lib/downtown/party-chronicle/hotbar";
 import {
   CLASS_DEFS,
@@ -407,6 +414,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   }, [phase, mySlot, world]);
 
   // Track story/active time → random battles (~30–90s first, then ~2 min).
+  // Also tick battle clocks: 30s idle → foe strikes; 10 min hard cap.
   // DM-only authority (avoids multi-client ambush races). Timer pauses in dialogue/fights.
   useEffect(() => {
     if (phase !== "play") return;
@@ -414,7 +422,21 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     const id = window.setInterval(() => {
       setWorld((prev) => {
         if (!prev || prev.endingId) return prev;
-        if (prev.battle?.status === "active") return prev;
+
+        if (prev.battle?.status === "active") {
+          const ticked = tickBattleTimers(prev);
+          if (ticked.world !== prev) {
+            writeWorld(ticked.world);
+            if (ticked.message) setFlash(ticked.message);
+            void fetch("/api/downtown/party-chronicle", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ world: ticked.world }),
+            }).catch(() => undefined);
+          }
+          return ticked.world;
+        }
+
         if (prev.battle?.status === "victory" || prev.battle?.status === "defeat") return prev;
         if (isAmbushTimerPaused(prev)) return prev;
         const { world: ticked, shouldStartBattle } = tickStoryPlay(prev, 1000);
@@ -503,7 +525,24 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       return;
     }
     enterFromSave(existing);
-    setFlash("Save restored.");
+    setFlash(existing.endingId ? "Finale restored — you can rewind and keep playing." : "Save restored.");
+  };
+
+  const keepPlayingFromEnding = () => {
+    const existing = world ?? titleSave ?? loadWorld();
+    if (!existing) {
+      setFlash("No save found.");
+      return;
+    }
+    const rewound = rewindFromEnding(existing);
+    persist(rewound);
+    setWorld(rewound);
+    setTitleSave(rewound);
+    setPhase("play");
+    setTab("camp");
+    setFlash(
+      "Back at the Last Council. Use Camp (chests, digs, ambushes, side quests) before naming a crown again."
+    );
   };
 
   const leaveToTitle = () => {
@@ -548,7 +587,12 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     if (!world || !storyActor || !canStory || !storyNode) return;
     if (storyNode.kind !== "narrative" && storyNode.kind !== "montage") return;
     startTransition(() => {
-      persist(acknowledgeNarrative(world, storyActor));
+      const next = acknowledgeNarrative(world, storyActor);
+      persist(next);
+      if (next.campaignNodeId === world.campaignNodeId) {
+        setFlash(next.log[0] ?? "The road ahead isn't open yet — try Camp.");
+        setTab("camp");
+      }
     });
   };
 
@@ -616,6 +660,20 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const onCook = (recipeId: string) => {
     if (!world || !mySlot || !acting) return;
     const result = cookRecipe(world, mySlot, recipeId);
+    persist(result.world);
+    setFlash(result.message);
+  };
+
+  const onStumbleChest = () => {
+    if (!world || !mySlot || !acting) return;
+    const result = stumbleOnChest(world, mySlot);
+    persist(result.world);
+    setFlash(result.message);
+  };
+
+  const onDigHole = () => {
+    if (!world || !mySlot || !acting) return;
+    const result = digForLoot(world, mySlot);
     persist(result.world);
     setFlash(result.message);
   };
@@ -714,7 +772,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           <h1 className="pc-title text-4xl md:text-5xl">Neverworld</h1>
           <p className="text-sm leading-relaxed">{NEVERWORLD_HERITAGE.title}</p>
           <p className="text-xs opacity-80">
-            Three heroes, three hounds · Justin → Rusty → Elisha · Pathways (Giver/Taker) · R.O.C. checks
+            Four heroes, four hounds · Justin → Rusty → Elisha → Eric · Pathways (Giver/Taker) · R.O.C. checks
           </p>
           {mySlot && (
             <p className="text-xs font-bold" style={{ color: "var(--pc-magenta)" }}>
@@ -731,6 +789,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                 <li>player1@havenpm.com — Justin (DM)</li>
                 <li>player2@havenpm.com — Rusty</li>
                 <li>player3@havenpm.com — Elisha</li>
+                <li>player4@havenpm.com — Eric Prendergast</li>
               </ul>
             </div>
           )}
@@ -752,8 +811,16 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           )}
           <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-2">
             {canContinue && (
-              <button type="button" className="pc-primary-btn" onClick={continueCampaign}>
-                {mustCreate ? `Create ${SLOT_DEFAULTS[mySlot!].displayName}` : "Continue"}
+              <button
+                type="button"
+                className="pc-primary-btn"
+                onClick={resume?.endingId ? keepPlayingFromEnding : continueCampaign}
+              >
+                {resume?.endingId
+                  ? "Keep Playing"
+                  : mustCreate
+                    ? `Create ${SLOT_DEFAULTS[mySlot!].displayName}`
+                    : "Continue"}
               </button>
             )}
             <button
@@ -852,9 +919,14 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
               Demon {world.alignment.demon}
             </span>
           </div>
-          <button type="button" className="pc-chip mt-4" onClick={leaveToTitle}>
-            Return to Title
-          </button>
+          <div className="flex flex-wrap gap-3 justify-center pt-2">
+            <button type="button" className="pc-primary-btn" onClick={keepPlayingFromEnding}>
+              Keep Playing
+            </button>
+            <button type="button" className="pc-chip" onClick={leaveToTitle}>
+              Return to Title
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -1197,6 +1269,43 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
 
               <div className="space-y-2">
                 <p className="pc-eyebrow text-[0.65rem]">
+                  Trail luck · chests &amp; digging ({world.explorationFinds ?? 0} finds)
+                </p>
+                <p className="text-xs opacity-70">
+                  Stumble on a chest or dig where the dogs paw — real catalog loot, gold, and XP.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    className="pc-choice"
+                    disabled={!acting || inRoadFight || inBattle || inStoryFight}
+                    onClick={onStumbleChest}
+                  >
+                    Stumble on a treasure chest →
+                  </button>
+                  <button
+                    type="button"
+                    className="pc-choice"
+                    disabled={!acting || inRoadFight || inBattle || inStoryFight}
+                    onClick={onDigHole}
+                  >
+                    Dig a hole for loot →
+                  </button>
+                </div>
+                {world.lastExploration && (
+                  <div className="pc-codex-row text-xs">
+                    <strong>{world.lastExploration.title}</strong>
+                    <span className="block opacity-80 mt-1">{world.lastExploration.blurb}</span>
+                    <span className="block opacity-70 mt-1">
+                      {world.lastExploration.itemNames.join(", ") || "empty"} · +
+                      {world.lastExploration.gold}g · +{world.lastExploration.xp} XP
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <p className="pc-eyebrow text-[0.65rem]">
                   Side quests ({sideQuests.length} open · {(world.completedSideQuests ?? []).length}{" "}
                   done)
                 </p>
@@ -1486,7 +1595,7 @@ function InventoryPanel({
           const equippable =
             item.slot !== "consumable" && item.slot !== "misc" && !spellbook;
           const equipped = worn.has(id);
-          const props = item.properties?.slice(0, 5) ?? [];
+          const props = itemProperties(item).slice(0, 3);
           const usable =
             consumable &&
             ((item.heal ?? 0) > 0 ||
@@ -1498,10 +1607,9 @@ function InventoryPanel({
           return (
             <div
               key={`${id}-${idx}`}
-              className="pc-inv-card"
+              className="pc-inv-card pc-gear-hover"
               data-tier={item.tier}
               data-equipped={equipped ? "true" : "false"}
-              title={describeItemTooltip(item)}
             >
               <div className="pc-inv-card-name">
                 {equipped ? "● " : ""}
@@ -1548,6 +1656,7 @@ function InventoryPanel({
                   </button>
                 )}
               </div>
+              <GearTipBody item={item} />
             </div>
           );
         })}

@@ -85,7 +85,8 @@ function addProp(
   deltas[p.key] = (deltas[p.key] ?? 0) + p.value;
 }
 
-function itemProperties(item: GearItem): GearProperty[] {
+/** Affixes shown on hover / tooltips (includes power→ATK and armor→DEF). */
+export function itemProperties(item: GearItem): GearProperty[] {
   const props = item.properties?.length ? [...item.properties] : [];
   const hasAtk = props.some((p) => p.key === "atk");
   const hasDef = props.some((p) => p.key === "def");

@@ -28,6 +28,18 @@ const PLAYERS = [
     role: UserRole.OFFICE_STAFF,
     phone: "(412) 555-0163",
   },
+  {
+    email: "player4@havenpm.com",
+    name: "Eric Prendergast",
+    role: UserRole.OFFICE_STAFF,
+    phone: "(412) 555-0164",
+  },
+  {
+    email: "eric@havenpm.com",
+    name: "Eric Prendergast",
+    role: UserRole.OFFICE_STAFF,
+    phone: "(412) 555-0164",
+  },
 ] as const;
 
 async function main() {

@@ -2,13 +2,13 @@
 
 import {
   computeEffectiveStats,
-  describeItemTooltip,
   formatProperty,
   getSetProgress,
 } from "@/lib/downtown/party-chronicle/stats";
 import { getGear } from "@/lib/downtown/party-chronicle/gear";
 import type { CharacterSave, EquipSlot } from "@/lib/downtown/party-chronicle/types";
 import { EQUIP_SLOTS, STAT_KEYS } from "@/lib/downtown/party-chronicle/types";
+import { GearTipBody } from "./gear-hover-tip";
 
 const SLOT_LABEL: Record<EquipSlot, string> = {
   head: "Head",
@@ -48,23 +48,13 @@ export function PaperdollPanel({
         {EQUIP_SLOTS.map((slot) => {
           const id = char.equipped[slot];
           const item = id ? getGear(id) : null;
-          const tip = item
-            ? [
-                item.name,
-                ...item.properties?.map(formatProperty) ?? [],
-                item.setId ? `Set piece` : "",
-              ]
-                .filter(Boolean)
-                .join(" · ")
-            : `Empty ${SLOT_LABEL[slot]}`;
           return (
             <button
               key={slot}
               type="button"
-              className={`pc-doll-slot pc-doll-slot-${slot}`}
+              className={`pc-doll-slot pc-doll-slot-${slot} pc-gear-hover`}
               data-filled={item ? "true" : "false"}
               data-tier={item?.tier ?? "empty"}
-              title={item ? describeItemTooltip(item) : tip}
               disabled={!canEdit || !item}
               onClick={() => item && onUnequip(slot)}
             >
@@ -72,6 +62,10 @@ export function PaperdollPanel({
               <span className="pc-doll-slot-name">
                 {item ? item.name.slice(0, 14) : "—"}
               </span>
+              <GearTipBody
+                item={item}
+                emptyLabel={`Empty ${SLOT_LABEL[slot]}`}
+              />
             </button>
           );
         })}

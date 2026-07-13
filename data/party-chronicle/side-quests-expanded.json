@@ -1,0 +1,2904 @@
+{
+  "sideQuests": [
+    {
+      "id": "sq-hunt-side-ashen-warg-001",
+      "actId": "act-1",
+      "title": "Hunt: Ashen Warg of Frostford",
+      "estimatedMinutes": 35,
+      "kind": "gear",
+      "summary": "Track and defeat Ashen Warg of Frostford (side-ashen-warg-001), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ashen Warg of Frostford",
+        "Track side-ashen-warg-001 through Frostford",
+        "Defeat Ashen Warg of Frostford",
+        "Record the side-trophy-001 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 59,
+        "gold": 14,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ashen-warg-001",
+          "side-hunt-act-1"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-wolf-ulfric",
+      "sceneId": "scene-frostford-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ashen-myrmidon-002",
+      "actId": "act-1",
+      "title": "Hunt: Ashen Myrmidon of Frostford",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Ashen Myrmidon of Frostford (side-ashen-myrmidon-002), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ashen Myrmidon of Frostford",
+        "Track side-ashen-myrmidon-002 through Frostford",
+        "Defeat Ashen Myrmidon of Frostford",
+        "Record the side-trophy-002 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 73,
+        "gold": 18,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ashen-myrmidon-002",
+          "side-hunt-act-1"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-goblin-scout",
+      "sceneId": "scene-frostford-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ashen-oracle-003",
+      "actId": "act-1",
+      "title": "Hunt: Ashen Oracle of Frostford",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Ashen Oracle of Frostford (side-ashen-oracle-003), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ashen Oracle of Frostford",
+        "Track side-ashen-oracle-003 through Frostford",
+        "Defeat Ashen Oracle of Frostford",
+        "Record the side-trophy-003 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 87,
+        "gold": 22,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ashen-oracle-003",
+          "side-hunt-act-1"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-frostford-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ashen-colossus-004",
+      "actId": "act-1",
+      "title": "Hunt: Ashen Colossus of Frostford",
+      "estimatedMinutes": 65,
+      "kind": "gear",
+      "summary": "Track and defeat Ashen Colossus of Frostford (side-ashen-colossus-004), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ashen Colossus of Frostford",
+        "Track side-ashen-colossus-004 through Frostford",
+        "Defeat Ashen Colossus of Frostford",
+        "Record the side-trophy-004 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 101,
+        "gold": 26,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ashen-colossus-004",
+          "side-hunt-act-1"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-bear-bruna",
+      "sceneId": "scene-frostford-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ashen-harbinger-005",
+      "actId": "act-1",
+      "title": "Hunt: Ashen Harbinger of Frostford",
+      "estimatedMinutes": 35,
+      "kind": "exploration",
+      "summary": "Track and defeat Ashen Harbinger of Frostford (side-ashen-harbinger-005), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ashen Harbinger of Frostford",
+        "Track side-ashen-harbinger-005 through Frostford",
+        "Defeat Ashen Harbinger of Frostford",
+        "Record the side-trophy-005 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 115,
+        "gold": 30,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ashen-harbinger-005",
+          "side-hunt-act-1"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-raven-corv",
+      "sceneId": "scene-frostford-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ashen-reaver-006",
+      "actId": "act-1",
+      "title": "Hunt: Ashen Reaver of Frostford",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Ashen Reaver of Frostford (side-ashen-reaver-006), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ashen Reaver of Frostford",
+        "Track side-ashen-reaver-006 through Frostford",
+        "Defeat Ashen Reaver of Frostford",
+        "Record the side-trophy-006 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 129,
+        "gold": 34,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ashen-reaver-006",
+          "side-hunt-act-1"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-ember-thane",
+      "sceneId": "scene-frostford-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ashen-hart-007",
+      "actId": "act-1",
+      "title": "Hunt: Ashen Hart of Frostford",
+      "estimatedMinutes": 55,
+      "kind": "gear",
+      "summary": "Track and defeat Ashen Hart of Frostford (side-ashen-hart-007), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ashen Hart of Frostford",
+        "Track side-ashen-hart-007 through Frostford",
+        "Defeat Ashen Hart of Frostford",
+        "Record the side-trophy-007 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 143,
+        "gold": 38,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ashen-hart-007",
+          "side-hunt-act-1"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-stag-aelwyn",
+      "sceneId": "scene-frostford-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ashen-drake-008",
+      "actId": "act-1",
+      "title": "Hunt: Ashen Drake of Frostford",
+      "estimatedMinutes": 65,
+      "kind": "exploration",
+      "summary": "Track and defeat Ashen Drake of Frostford (side-ashen-drake-008), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ashen Drake of Frostford",
+        "Track side-ashen-drake-008 through Frostford",
+        "Defeat Ashen Drake of Frostford",
+        "Record the side-trophy-008 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 157,
+        "gold": 42,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ashen-drake-008",
+          "side-hunt-act-1"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-dragon-silhouette",
+      "sceneId": "scene-frostford-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ashen-hydra-009",
+      "actId": "act-1",
+      "title": "Hunt: Ashen Hydra of Frostford",
+      "estimatedMinutes": 35,
+      "kind": "exploration",
+      "summary": "Track and defeat Ashen Hydra of Frostford (side-ashen-hydra-009), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ashen Hydra of Frostford",
+        "Track side-ashen-hydra-009 through Frostford",
+        "Defeat Ashen Hydra of Frostford",
+        "Record the side-trophy-009 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 171,
+        "gold": 46,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ashen-hydra-009",
+          "side-hunt-act-1"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-frostford-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ashen-dreadlord-010",
+      "actId": "act-1",
+      "title": "Hunt: Ashen Dreadlord of Frostford",
+      "estimatedMinutes": 45,
+      "kind": "gear",
+      "summary": "Track and defeat Ashen Dreadlord of Frostford (side-ashen-dreadlord-010), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ashen Dreadlord of Frostford",
+        "Track side-ashen-dreadlord-010 through Frostford",
+        "Defeat Ashen Dreadlord of Frostford",
+        "Record the side-trophy-010 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 185,
+        "gold": 50,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ashen-dreadlord-010",
+          "side-hunt-act-1"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-demon-herald",
+      "sceneId": "scene-frostford-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-briar-warg-011",
+      "actId": "act-2",
+      "title": "Hunt: Briar Warg of Goblin Road",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Briar Warg of Goblin Road (side-briar-warg-011), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Briar Warg of Goblin Road",
+        "Track side-briar-warg-011 through Goblin Road",
+        "Defeat Briar Warg of Goblin Road",
+        "Record the side-trophy-011 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 199,
+        "gold": 54,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-briar-warg-011",
+          "side-hunt-act-2"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-wolf-ulfric",
+      "sceneId": "scene-goblin-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-briar-myrmidon-012",
+      "actId": "act-2",
+      "title": "Hunt: Briar Myrmidon of Goblin Road",
+      "estimatedMinutes": 65,
+      "kind": "exploration",
+      "summary": "Track and defeat Briar Myrmidon of Goblin Road (side-briar-myrmidon-012), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Briar Myrmidon of Goblin Road",
+        "Track side-briar-myrmidon-012 through Goblin Road",
+        "Defeat Briar Myrmidon of Goblin Road",
+        "Record the side-trophy-012 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 213,
+        "gold": 58,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-briar-myrmidon-012",
+          "side-hunt-act-2"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-goblin-scout",
+      "sceneId": "scene-goblin-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-briar-oracle-013",
+      "actId": "act-2",
+      "title": "Hunt: Briar Oracle of Goblin Road",
+      "estimatedMinutes": 35,
+      "kind": "gear",
+      "summary": "Track and defeat Briar Oracle of Goblin Road (side-briar-oracle-013), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Briar Oracle of Goblin Road",
+        "Track side-briar-oracle-013 through Goblin Road",
+        "Defeat Briar Oracle of Goblin Road",
+        "Record the side-trophy-013 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 227,
+        "gold": 62,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-briar-oracle-013",
+          "side-hunt-act-2"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-goblin-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-briar-colossus-014",
+      "actId": "act-2",
+      "title": "Hunt: Briar Colossus of Goblin Road",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Briar Colossus of Goblin Road (side-briar-colossus-014), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Briar Colossus of Goblin Road",
+        "Track side-briar-colossus-014 through Goblin Road",
+        "Defeat Briar Colossus of Goblin Road",
+        "Record the side-trophy-014 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 241,
+        "gold": 66,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-briar-colossus-014",
+          "side-hunt-act-2"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-bear-bruna",
+      "sceneId": "scene-goblin-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-briar-harbinger-015",
+      "actId": "act-2",
+      "title": "Hunt: Briar Harbinger of Goblin Road",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Briar Harbinger of Goblin Road (side-briar-harbinger-015), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Briar Harbinger of Goblin Road",
+        "Track side-briar-harbinger-015 through Goblin Road",
+        "Defeat Briar Harbinger of Goblin Road",
+        "Record the side-trophy-015 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 255,
+        "gold": 70,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-briar-harbinger-015",
+          "side-hunt-act-2"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-raven-corv",
+      "sceneId": "scene-goblin-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-briar-reaver-016",
+      "actId": "act-2",
+      "title": "Hunt: Briar Reaver of Goblin Road",
+      "estimatedMinutes": 65,
+      "kind": "gear",
+      "summary": "Track and defeat Briar Reaver of Goblin Road (side-briar-reaver-016), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Briar Reaver of Goblin Road",
+        "Track side-briar-reaver-016 through Goblin Road",
+        "Defeat Briar Reaver of Goblin Road",
+        "Record the side-trophy-016 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 269,
+        "gold": 74,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-briar-reaver-016",
+          "side-hunt-act-2"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-ember-thane",
+      "sceneId": "scene-goblin-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-briar-hart-017",
+      "actId": "act-2",
+      "title": "Hunt: Briar Hart of Goblin Road",
+      "estimatedMinutes": 35,
+      "kind": "exploration",
+      "summary": "Track and defeat Briar Hart of Goblin Road (side-briar-hart-017), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Briar Hart of Goblin Road",
+        "Track side-briar-hart-017 through Goblin Road",
+        "Defeat Briar Hart of Goblin Road",
+        "Record the side-trophy-017 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 283,
+        "gold": 78,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-briar-hart-017",
+          "side-hunt-act-2"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-stag-aelwyn",
+      "sceneId": "scene-goblin-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-briar-drake-018",
+      "actId": "act-2",
+      "title": "Hunt: Briar Drake of Goblin Road",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Briar Drake of Goblin Road (side-briar-drake-018), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Briar Drake of Goblin Road",
+        "Track side-briar-drake-018 through Goblin Road",
+        "Defeat Briar Drake of Goblin Road",
+        "Record the side-trophy-018 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 297,
+        "gold": 82,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-briar-drake-018",
+          "side-hunt-act-2"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-dragon-silhouette",
+      "sceneId": "scene-goblin-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-briar-hydra-019",
+      "actId": "act-2",
+      "title": "Hunt: Briar Hydra of Goblin Road",
+      "estimatedMinutes": 55,
+      "kind": "gear",
+      "summary": "Track and defeat Briar Hydra of Goblin Road (side-briar-hydra-019), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Briar Hydra of Goblin Road",
+        "Track side-briar-hydra-019 through Goblin Road",
+        "Defeat Briar Hydra of Goblin Road",
+        "Record the side-trophy-019 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 311,
+        "gold": 86,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-briar-hydra-019",
+          "side-hunt-act-2"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-goblin-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-briar-dreadlord-020",
+      "actId": "act-2",
+      "title": "Hunt: Briar Dreadlord of Goblin Road",
+      "estimatedMinutes": 65,
+      "kind": "exploration",
+      "summary": "Track and defeat Briar Dreadlord of Goblin Road (side-briar-dreadlord-020), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Briar Dreadlord of Goblin Road",
+        "Track side-briar-dreadlord-020 through Goblin Road",
+        "Defeat Briar Dreadlord of Goblin Road",
+        "Record the side-trophy-020 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 325,
+        "gold": 90,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-briar-dreadlord-020",
+          "side-hunt-act-2"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-demon-herald",
+      "sceneId": "scene-goblin-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-cinder-warg-021",
+      "actId": "act-3",
+      "title": "Hunt: Cinder Warg of Ember Hall",
+      "estimatedMinutes": 35,
+      "kind": "exploration",
+      "summary": "Track and defeat Cinder Warg of Ember Hall (side-cinder-warg-021), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Cinder Warg of Ember Hall",
+        "Track side-cinder-warg-021 through Ember Hall",
+        "Defeat Cinder Warg of Ember Hall",
+        "Record the side-trophy-021 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 339,
+        "gold": 94,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-cinder-warg-021",
+          "side-hunt-act-3"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-wolf-ulfric",
+      "sceneId": "scene-ember-hall",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-cinder-myrmidon-022",
+      "actId": "act-3",
+      "title": "Hunt: Cinder Myrmidon of Ember Hall",
+      "estimatedMinutes": 45,
+      "kind": "gear",
+      "summary": "Track and defeat Cinder Myrmidon of Ember Hall (side-cinder-myrmidon-022), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Cinder Myrmidon of Ember Hall",
+        "Track side-cinder-myrmidon-022 through Ember Hall",
+        "Defeat Cinder Myrmidon of Ember Hall",
+        "Record the side-trophy-022 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 353,
+        "gold": 98,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-cinder-myrmidon-022",
+          "side-hunt-act-3"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-goblin-scout",
+      "sceneId": "scene-ember-hall",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-cinder-oracle-023",
+      "actId": "act-3",
+      "title": "Hunt: Cinder Oracle of Ember Hall",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Cinder Oracle of Ember Hall (side-cinder-oracle-023), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Cinder Oracle of Ember Hall",
+        "Track side-cinder-oracle-023 through Ember Hall",
+        "Defeat Cinder Oracle of Ember Hall",
+        "Record the side-trophy-023 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 367,
+        "gold": 102,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-cinder-oracle-023",
+          "side-hunt-act-3"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-ember-hall",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-cinder-colossus-024",
+      "actId": "act-3",
+      "title": "Hunt: Cinder Colossus of Ember Hall",
+      "estimatedMinutes": 65,
+      "kind": "exploration",
+      "summary": "Track and defeat Cinder Colossus of Ember Hall (side-cinder-colossus-024), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Cinder Colossus of Ember Hall",
+        "Track side-cinder-colossus-024 through Ember Hall",
+        "Defeat Cinder Colossus of Ember Hall",
+        "Record the side-trophy-024 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 381,
+        "gold": 106,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-cinder-colossus-024",
+          "side-hunt-act-3"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-bear-bruna",
+      "sceneId": "scene-ember-hall",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-cinder-harbinger-025",
+      "actId": "act-3",
+      "title": "Hunt: Cinder Harbinger of Ember Hall",
+      "estimatedMinutes": 35,
+      "kind": "gear",
+      "summary": "Track and defeat Cinder Harbinger of Ember Hall (side-cinder-harbinger-025), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Cinder Harbinger of Ember Hall",
+        "Track side-cinder-harbinger-025 through Ember Hall",
+        "Defeat Cinder Harbinger of Ember Hall",
+        "Record the side-trophy-025 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 395,
+        "gold": 110,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-cinder-harbinger-025",
+          "side-hunt-act-3"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-raven-corv",
+      "sceneId": "scene-ember-hall",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-cinder-reaver-026",
+      "actId": "act-3",
+      "title": "Hunt: Cinder Reaver of Ember Hall",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Cinder Reaver of Ember Hall (side-cinder-reaver-026), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Cinder Reaver of Ember Hall",
+        "Track side-cinder-reaver-026 through Ember Hall",
+        "Defeat Cinder Reaver of Ember Hall",
+        "Record the side-trophy-026 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 409,
+        "gold": 114,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-cinder-reaver-026",
+          "side-hunt-act-3"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-ember-thane",
+      "sceneId": "scene-ember-hall",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-cinder-hart-027",
+      "actId": "act-3",
+      "title": "Hunt: Cinder Hart of Ember Hall",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Cinder Hart of Ember Hall (side-cinder-hart-027), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Cinder Hart of Ember Hall",
+        "Track side-cinder-hart-027 through Ember Hall",
+        "Defeat Cinder Hart of Ember Hall",
+        "Record the side-trophy-027 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 423,
+        "gold": 118,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-cinder-hart-027",
+          "side-hunt-act-3"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-stag-aelwyn",
+      "sceneId": "scene-ember-hall",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-cinder-drake-028",
+      "actId": "act-3",
+      "title": "Hunt: Cinder Drake of Ember Hall",
+      "estimatedMinutes": 65,
+      "kind": "gear",
+      "summary": "Track and defeat Cinder Drake of Ember Hall (side-cinder-drake-028), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Cinder Drake of Ember Hall",
+        "Track side-cinder-drake-028 through Ember Hall",
+        "Defeat Cinder Drake of Ember Hall",
+        "Record the side-trophy-028 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 437,
+        "gold": 122,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-cinder-drake-028",
+          "side-hunt-act-3"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-dragon-silhouette",
+      "sceneId": "scene-ember-hall",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-cinder-hydra-029",
+      "actId": "act-3",
+      "title": "Hunt: Cinder Hydra of Ember Hall",
+      "estimatedMinutes": 35,
+      "kind": "exploration",
+      "summary": "Track and defeat Cinder Hydra of Ember Hall (side-cinder-hydra-029), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Cinder Hydra of Ember Hall",
+        "Track side-cinder-hydra-029 through Ember Hall",
+        "Defeat Cinder Hydra of Ember Hall",
+        "Record the side-trophy-029 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 451,
+        "gold": 126,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-cinder-hydra-029",
+          "side-hunt-act-3"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-ember-hall",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-cinder-dreadlord-030",
+      "actId": "act-3",
+      "title": "Hunt: Cinder Dreadlord of Ember Hall",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Cinder Dreadlord of Ember Hall (side-cinder-dreadlord-030), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Cinder Dreadlord of Ember Hall",
+        "Track side-cinder-dreadlord-030 through Ember Hall",
+        "Defeat Cinder Dreadlord of Ember Hall",
+        "Record the side-trophy-030 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 465,
+        "gold": 130,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-cinder-dreadlord-030",
+          "side-hunt-act-3"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-demon-herald",
+      "sceneId": "scene-ember-hall",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-drowned-warg-031",
+      "actId": "act-4",
+      "title": "Hunt: Drowned Warg of Dragon Ruin",
+      "estimatedMinutes": 55,
+      "kind": "gear",
+      "summary": "Track and defeat Drowned Warg of Dragon Ruin (side-drowned-warg-031), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Drowned Warg of Dragon Ruin",
+        "Track side-drowned-warg-031 through Dragon Ruin",
+        "Defeat Drowned Warg of Dragon Ruin",
+        "Record the side-trophy-031 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 479,
+        "gold": 134,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-drowned-warg-031",
+          "side-hunt-act-4"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-wolf-ulfric",
+      "sceneId": "scene-dragon-ruin",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-drowned-myrmidon-032",
+      "actId": "act-4",
+      "title": "Hunt: Drowned Myrmidon of Dragon Ruin",
+      "estimatedMinutes": 65,
+      "kind": "exploration",
+      "summary": "Track and defeat Drowned Myrmidon of Dragon Ruin (side-drowned-myrmidon-032), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Drowned Myrmidon of Dragon Ruin",
+        "Track side-drowned-myrmidon-032 through Dragon Ruin",
+        "Defeat Drowned Myrmidon of Dragon Ruin",
+        "Record the side-trophy-032 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 493,
+        "gold": 138,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-drowned-myrmidon-032",
+          "side-hunt-act-4"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-goblin-scout",
+      "sceneId": "scene-dragon-ruin",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-drowned-oracle-033",
+      "actId": "act-4",
+      "title": "Hunt: Drowned Oracle of Dragon Ruin",
+      "estimatedMinutes": 35,
+      "kind": "exploration",
+      "summary": "Track and defeat Drowned Oracle of Dragon Ruin (side-drowned-oracle-033), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Drowned Oracle of Dragon Ruin",
+        "Track side-drowned-oracle-033 through Dragon Ruin",
+        "Defeat Drowned Oracle of Dragon Ruin",
+        "Record the side-trophy-033 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 507,
+        "gold": 142,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-drowned-oracle-033",
+          "side-hunt-act-4"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-dragon-ruin",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-drowned-colossus-034",
+      "actId": "act-4",
+      "title": "Hunt: Drowned Colossus of Dragon Ruin",
+      "estimatedMinutes": 45,
+      "kind": "gear",
+      "summary": "Track and defeat Drowned Colossus of Dragon Ruin (side-drowned-colossus-034), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Drowned Colossus of Dragon Ruin",
+        "Track side-drowned-colossus-034 through Dragon Ruin",
+        "Defeat Drowned Colossus of Dragon Ruin",
+        "Record the side-trophy-034 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 521,
+        "gold": 146,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-drowned-colossus-034",
+          "side-hunt-act-4"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-bear-bruna",
+      "sceneId": "scene-dragon-ruin",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-drowned-harbinger-035",
+      "actId": "act-4",
+      "title": "Hunt: Drowned Harbinger of Dragon Ruin",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Drowned Harbinger of Dragon Ruin (side-drowned-harbinger-035), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Drowned Harbinger of Dragon Ruin",
+        "Track side-drowned-harbinger-035 through Dragon Ruin",
+        "Defeat Drowned Harbinger of Dragon Ruin",
+        "Record the side-trophy-035 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 535,
+        "gold": 150,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-drowned-harbinger-035",
+          "side-hunt-act-4"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-raven-corv",
+      "sceneId": "scene-dragon-ruin",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-drowned-reaver-036",
+      "actId": "act-4",
+      "title": "Hunt: Drowned Reaver of Dragon Ruin",
+      "estimatedMinutes": 65,
+      "kind": "exploration",
+      "summary": "Track and defeat Drowned Reaver of Dragon Ruin (side-drowned-reaver-036), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Drowned Reaver of Dragon Ruin",
+        "Track side-drowned-reaver-036 through Dragon Ruin",
+        "Defeat Drowned Reaver of Dragon Ruin",
+        "Record the side-trophy-036 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 549,
+        "gold": 154,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-drowned-reaver-036",
+          "side-hunt-act-4"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-ember-thane",
+      "sceneId": "scene-dragon-ruin",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-drowned-hart-037",
+      "actId": "act-4",
+      "title": "Hunt: Drowned Hart of Dragon Ruin",
+      "estimatedMinutes": 35,
+      "kind": "gear",
+      "summary": "Track and defeat Drowned Hart of Dragon Ruin (side-drowned-hart-037), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Drowned Hart of Dragon Ruin",
+        "Track side-drowned-hart-037 through Dragon Ruin",
+        "Defeat Drowned Hart of Dragon Ruin",
+        "Record the side-trophy-037 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 563,
+        "gold": 158,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-drowned-hart-037",
+          "side-hunt-act-4"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-stag-aelwyn",
+      "sceneId": "scene-dragon-ruin",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-drowned-drake-038",
+      "actId": "act-4",
+      "title": "Hunt: Drowned Drake of Dragon Ruin",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Drowned Drake of Dragon Ruin (side-drowned-drake-038), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Drowned Drake of Dragon Ruin",
+        "Track side-drowned-drake-038 through Dragon Ruin",
+        "Defeat Drowned Drake of Dragon Ruin",
+        "Record the side-trophy-038 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 577,
+        "gold": 162,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-drowned-drake-038",
+          "side-hunt-act-4"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-dragon-silhouette",
+      "sceneId": "scene-dragon-ruin",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-drowned-hydra-039",
+      "actId": "act-4",
+      "title": "Hunt: Drowned Hydra of Dragon Ruin",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Drowned Hydra of Dragon Ruin (side-drowned-hydra-039), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Drowned Hydra of Dragon Ruin",
+        "Track side-drowned-hydra-039 through Dragon Ruin",
+        "Defeat Drowned Hydra of Dragon Ruin",
+        "Record the side-trophy-039 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 591,
+        "gold": 166,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-drowned-hydra-039",
+          "side-hunt-act-4"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-dragon-ruin",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-drowned-dreadlord-040",
+      "actId": "act-4",
+      "title": "Hunt: Drowned Dreadlord of Dragon Ruin",
+      "estimatedMinutes": 65,
+      "kind": "gear",
+      "summary": "Track and defeat Drowned Dreadlord of Dragon Ruin (side-drowned-dreadlord-040), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Drowned Dreadlord of Dragon Ruin",
+        "Track side-drowned-dreadlord-040 through Dragon Ruin",
+        "Defeat Drowned Dreadlord of Dragon Ruin",
+        "Record the side-trophy-040 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 605,
+        "gold": 170,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-drowned-dreadlord-040",
+          "side-hunt-act-4"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-demon-herald",
+      "sceneId": "scene-dragon-ruin",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ebon-warg-041",
+      "actId": "act-5",
+      "title": "Hunt: Ebon Warg of Misty Bridge",
+      "estimatedMinutes": 35,
+      "kind": "exploration",
+      "summary": "Track and defeat Ebon Warg of Misty Bridge (side-ebon-warg-041), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ebon Warg of Misty Bridge",
+        "Track side-ebon-warg-041 through Misty Bridge",
+        "Defeat Ebon Warg of Misty Bridge",
+        "Record the side-trophy-041 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 619,
+        "gold": 174,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ebon-warg-041",
+          "side-hunt-act-5"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-wolf-ulfric",
+      "sceneId": "scene-misty-bridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ebon-myrmidon-042",
+      "actId": "act-5",
+      "title": "Hunt: Ebon Myrmidon of Misty Bridge",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Ebon Myrmidon of Misty Bridge (side-ebon-myrmidon-042), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ebon Myrmidon of Misty Bridge",
+        "Track side-ebon-myrmidon-042 through Misty Bridge",
+        "Defeat Ebon Myrmidon of Misty Bridge",
+        "Record the side-trophy-042 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 633,
+        "gold": 178,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ebon-myrmidon-042",
+          "side-hunt-act-5"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-goblin-scout",
+      "sceneId": "scene-misty-bridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ebon-oracle-043",
+      "actId": "act-5",
+      "title": "Hunt: Ebon Oracle of Misty Bridge",
+      "estimatedMinutes": 55,
+      "kind": "gear",
+      "summary": "Track and defeat Ebon Oracle of Misty Bridge (side-ebon-oracle-043), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ebon Oracle of Misty Bridge",
+        "Track side-ebon-oracle-043 through Misty Bridge",
+        "Defeat Ebon Oracle of Misty Bridge",
+        "Record the side-trophy-043 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 647,
+        "gold": 182,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ebon-oracle-043",
+          "side-hunt-act-5"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-misty-bridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ebon-colossus-044",
+      "actId": "act-5",
+      "title": "Hunt: Ebon Colossus of Misty Bridge",
+      "estimatedMinutes": 65,
+      "kind": "exploration",
+      "summary": "Track and defeat Ebon Colossus of Misty Bridge (side-ebon-colossus-044), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ebon Colossus of Misty Bridge",
+        "Track side-ebon-colossus-044 through Misty Bridge",
+        "Defeat Ebon Colossus of Misty Bridge",
+        "Record the side-trophy-044 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 661,
+        "gold": 186,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ebon-colossus-044",
+          "side-hunt-act-5"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-bear-bruna",
+      "sceneId": "scene-misty-bridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ebon-harbinger-045",
+      "actId": "act-5",
+      "title": "Hunt: Ebon Harbinger of Misty Bridge",
+      "estimatedMinutes": 35,
+      "kind": "exploration",
+      "summary": "Track and defeat Ebon Harbinger of Misty Bridge (side-ebon-harbinger-045), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ebon Harbinger of Misty Bridge",
+        "Track side-ebon-harbinger-045 through Misty Bridge",
+        "Defeat Ebon Harbinger of Misty Bridge",
+        "Record the side-trophy-045 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 675,
+        "gold": 190,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ebon-harbinger-045",
+          "side-hunt-act-5"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-raven-corv",
+      "sceneId": "scene-misty-bridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ebon-reaver-046",
+      "actId": "act-5",
+      "title": "Hunt: Ebon Reaver of Misty Bridge",
+      "estimatedMinutes": 45,
+      "kind": "gear",
+      "summary": "Track and defeat Ebon Reaver of Misty Bridge (side-ebon-reaver-046), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ebon Reaver of Misty Bridge",
+        "Track side-ebon-reaver-046 through Misty Bridge",
+        "Defeat Ebon Reaver of Misty Bridge",
+        "Record the side-trophy-046 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 689,
+        "gold": 194,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ebon-reaver-046",
+          "side-hunt-act-5"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-ember-thane",
+      "sceneId": "scene-misty-bridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ebon-hart-047",
+      "actId": "act-5",
+      "title": "Hunt: Ebon Hart of Misty Bridge",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Ebon Hart of Misty Bridge (side-ebon-hart-047), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ebon Hart of Misty Bridge",
+        "Track side-ebon-hart-047 through Misty Bridge",
+        "Defeat Ebon Hart of Misty Bridge",
+        "Record the side-trophy-047 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 703,
+        "gold": 198,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ebon-hart-047",
+          "side-hunt-act-5"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-stag-aelwyn",
+      "sceneId": "scene-misty-bridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ebon-drake-048",
+      "actId": "act-5",
+      "title": "Hunt: Ebon Drake of Misty Bridge",
+      "estimatedMinutes": 65,
+      "kind": "exploration",
+      "summary": "Track and defeat Ebon Drake of Misty Bridge (side-ebon-drake-048), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ebon Drake of Misty Bridge",
+        "Track side-ebon-drake-048 through Misty Bridge",
+        "Defeat Ebon Drake of Misty Bridge",
+        "Record the side-trophy-048 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 717,
+        "gold": 202,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ebon-drake-048",
+          "side-hunt-act-5"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-dragon-silhouette",
+      "sceneId": "scene-misty-bridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ebon-hydra-049",
+      "actId": "act-5",
+      "title": "Hunt: Ebon Hydra of Misty Bridge",
+      "estimatedMinutes": 35,
+      "kind": "gear",
+      "summary": "Track and defeat Ebon Hydra of Misty Bridge (side-ebon-hydra-049), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ebon Hydra of Misty Bridge",
+        "Track side-ebon-hydra-049 through Misty Bridge",
+        "Defeat Ebon Hydra of Misty Bridge",
+        "Record the side-trophy-049 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 731,
+        "gold": 206,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ebon-hydra-049",
+          "side-hunt-act-5"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-misty-bridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-ebon-dreadlord-050",
+      "actId": "act-5",
+      "title": "Hunt: Ebon Dreadlord of Misty Bridge",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Ebon Dreadlord of Misty Bridge (side-ebon-dreadlord-050), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Ebon Dreadlord of Misty Bridge",
+        "Track side-ebon-dreadlord-050 through Misty Bridge",
+        "Defeat Ebon Dreadlord of Misty Bridge",
+        "Record the side-trophy-050 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 745,
+        "gold": 210,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-ebon-dreadlord-050",
+          "side-hunt-act-5"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-demon-herald",
+      "sceneId": "scene-misty-bridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-frost-warg-051",
+      "actId": "act-6",
+      "title": "Hunt: Frost Warg of Wolf Ridge",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Frost Warg of Wolf Ridge (side-frost-warg-051), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Frost Warg of Wolf Ridge",
+        "Track side-frost-warg-051 through Wolf Ridge",
+        "Defeat Frost Warg of Wolf Ridge",
+        "Record the side-trophy-051 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 759,
+        "gold": 214,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-frost-warg-051",
+          "side-hunt-act-6"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-wolf-ulfric",
+      "sceneId": "scene-wolf-ridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-frost-myrmidon-052",
+      "actId": "act-6",
+      "title": "Hunt: Frost Myrmidon of Wolf Ridge",
+      "estimatedMinutes": 65,
+      "kind": "gear",
+      "summary": "Track and defeat Frost Myrmidon of Wolf Ridge (side-frost-myrmidon-052), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Frost Myrmidon of Wolf Ridge",
+        "Track side-frost-myrmidon-052 through Wolf Ridge",
+        "Defeat Frost Myrmidon of Wolf Ridge",
+        "Record the side-trophy-052 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 773,
+        "gold": 218,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-frost-myrmidon-052",
+          "side-hunt-act-6"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-goblin-scout",
+      "sceneId": "scene-wolf-ridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-frost-oracle-053",
+      "actId": "act-6",
+      "title": "Hunt: Frost Oracle of Wolf Ridge",
+      "estimatedMinutes": 35,
+      "kind": "exploration",
+      "summary": "Track and defeat Frost Oracle of Wolf Ridge (side-frost-oracle-053), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Frost Oracle of Wolf Ridge",
+        "Track side-frost-oracle-053 through Wolf Ridge",
+        "Defeat Frost Oracle of Wolf Ridge",
+        "Record the side-trophy-053 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 787,
+        "gold": 222,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-frost-oracle-053",
+          "side-hunt-act-6"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-wolf-ridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-frost-colossus-054",
+      "actId": "act-6",
+      "title": "Hunt: Frost Colossus of Wolf Ridge",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Frost Colossus of Wolf Ridge (side-frost-colossus-054), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Frost Colossus of Wolf Ridge",
+        "Track side-frost-colossus-054 through Wolf Ridge",
+        "Defeat Frost Colossus of Wolf Ridge",
+        "Record the side-trophy-054 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 801,
+        "gold": 226,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-frost-colossus-054",
+          "side-hunt-act-6"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-bear-bruna",
+      "sceneId": "scene-wolf-ridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-frost-harbinger-055",
+      "actId": "act-6",
+      "title": "Hunt: Frost Harbinger of Wolf Ridge",
+      "estimatedMinutes": 55,
+      "kind": "gear",
+      "summary": "Track and defeat Frost Harbinger of Wolf Ridge (side-frost-harbinger-055), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Frost Harbinger of Wolf Ridge",
+        "Track side-frost-harbinger-055 through Wolf Ridge",
+        "Defeat Frost Harbinger of Wolf Ridge",
+        "Record the side-trophy-055 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 815,
+        "gold": 230,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-frost-harbinger-055",
+          "side-hunt-act-6"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-raven-corv",
+      "sceneId": "scene-wolf-ridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-frost-reaver-056",
+      "actId": "act-6",
+      "title": "Hunt: Frost Reaver of Wolf Ridge",
+      "estimatedMinutes": 65,
+      "kind": "exploration",
+      "summary": "Track and defeat Frost Reaver of Wolf Ridge (side-frost-reaver-056), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Frost Reaver of Wolf Ridge",
+        "Track side-frost-reaver-056 through Wolf Ridge",
+        "Defeat Frost Reaver of Wolf Ridge",
+        "Record the side-trophy-056 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 829,
+        "gold": 234,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-frost-reaver-056",
+          "side-hunt-act-6"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-ember-thane",
+      "sceneId": "scene-wolf-ridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-frost-hart-057",
+      "actId": "act-6",
+      "title": "Hunt: Frost Hart of Wolf Ridge",
+      "estimatedMinutes": 35,
+      "kind": "exploration",
+      "summary": "Track and defeat Frost Hart of Wolf Ridge (side-frost-hart-057), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Frost Hart of Wolf Ridge",
+        "Track side-frost-hart-057 through Wolf Ridge",
+        "Defeat Frost Hart of Wolf Ridge",
+        "Record the side-trophy-057 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 843,
+        "gold": 238,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-frost-hart-057",
+          "side-hunt-act-6"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-stag-aelwyn",
+      "sceneId": "scene-wolf-ridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-frost-drake-058",
+      "actId": "act-6",
+      "title": "Hunt: Frost Drake of Wolf Ridge",
+      "estimatedMinutes": 45,
+      "kind": "gear",
+      "summary": "Track and defeat Frost Drake of Wolf Ridge (side-frost-drake-058), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Frost Drake of Wolf Ridge",
+        "Track side-frost-drake-058 through Wolf Ridge",
+        "Defeat Frost Drake of Wolf Ridge",
+        "Record the side-trophy-058 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 857,
+        "gold": 242,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-frost-drake-058",
+          "side-hunt-act-6"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-dragon-silhouette",
+      "sceneId": "scene-wolf-ridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-frost-hydra-059",
+      "actId": "act-6",
+      "title": "Hunt: Frost Hydra of Wolf Ridge",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Frost Hydra of Wolf Ridge (side-frost-hydra-059), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Frost Hydra of Wolf Ridge",
+        "Track side-frost-hydra-059 through Wolf Ridge",
+        "Defeat Frost Hydra of Wolf Ridge",
+        "Record the side-trophy-059 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 871,
+        "gold": 246,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-frost-hydra-059",
+          "side-hunt-act-6"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-wolf-ridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-frost-dreadlord-060",
+      "actId": "act-6",
+      "title": "Hunt: Frost Dreadlord of Wolf Ridge",
+      "estimatedMinutes": 65,
+      "kind": "exploration",
+      "summary": "Track and defeat Frost Dreadlord of Wolf Ridge (side-frost-dreadlord-060), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Frost Dreadlord of Wolf Ridge",
+        "Track side-frost-dreadlord-060 through Wolf Ridge",
+        "Defeat Frost Dreadlord of Wolf Ridge",
+        "Record the side-trophy-060 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 885,
+        "gold": 250,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-frost-dreadlord-060",
+          "side-hunt-act-6"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-demon-herald",
+      "sceneId": "scene-wolf-ridge",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-gloam-warg-061",
+      "actId": "act-7",
+      "title": "Hunt: Gloam Warg of Ash Crown",
+      "estimatedMinutes": 35,
+      "kind": "gear",
+      "summary": "Track and defeat Gloam Warg of Ash Crown (side-gloam-warg-061), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Gloam Warg of Ash Crown",
+        "Track side-gloam-warg-061 through Ash Crown",
+        "Defeat Gloam Warg of Ash Crown",
+        "Record the side-trophy-061 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 899,
+        "gold": 254,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-gloam-warg-061",
+          "side-hunt-act-7"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-wolf-ulfric",
+      "sceneId": "scene-ash-crown",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-gloam-myrmidon-062",
+      "actId": "act-7",
+      "title": "Hunt: Gloam Myrmidon of Ash Crown",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Gloam Myrmidon of Ash Crown (side-gloam-myrmidon-062), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Gloam Myrmidon of Ash Crown",
+        "Track side-gloam-myrmidon-062 through Ash Crown",
+        "Defeat Gloam Myrmidon of Ash Crown",
+        "Record the side-trophy-062 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 913,
+        "gold": 258,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-gloam-myrmidon-062",
+          "side-hunt-act-7"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-goblin-scout",
+      "sceneId": "scene-ash-crown",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-gloam-oracle-063",
+      "actId": "act-7",
+      "title": "Hunt: Gloam Oracle of Ash Crown",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Gloam Oracle of Ash Crown (side-gloam-oracle-063), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Gloam Oracle of Ash Crown",
+        "Track side-gloam-oracle-063 through Ash Crown",
+        "Defeat Gloam Oracle of Ash Crown",
+        "Record the side-trophy-063 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 927,
+        "gold": 262,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-gloam-oracle-063",
+          "side-hunt-act-7"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-ash-crown",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-gloam-colossus-064",
+      "actId": "act-7",
+      "title": "Hunt: Gloam Colossus of Ash Crown",
+      "estimatedMinutes": 65,
+      "kind": "gear",
+      "summary": "Track and defeat Gloam Colossus of Ash Crown (side-gloam-colossus-064), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Gloam Colossus of Ash Crown",
+        "Track side-gloam-colossus-064 through Ash Crown",
+        "Defeat Gloam Colossus of Ash Crown",
+        "Record the side-trophy-064 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 941,
+        "gold": 266,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-gloam-colossus-064",
+          "side-hunt-act-7"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-bear-bruna",
+      "sceneId": "scene-ash-crown",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-gloam-harbinger-065",
+      "actId": "act-7",
+      "title": "Hunt: Gloam Harbinger of Ash Crown",
+      "estimatedMinutes": 35,
+      "kind": "exploration",
+      "summary": "Track and defeat Gloam Harbinger of Ash Crown (side-gloam-harbinger-065), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Gloam Harbinger of Ash Crown",
+        "Track side-gloam-harbinger-065 through Ash Crown",
+        "Defeat Gloam Harbinger of Ash Crown",
+        "Record the side-trophy-065 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 955,
+        "gold": 270,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-gloam-harbinger-065",
+          "side-hunt-act-7"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-raven-corv",
+      "sceneId": "scene-ash-crown",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-gloam-reaver-066",
+      "actId": "act-7",
+      "title": "Hunt: Gloam Reaver of Ash Crown",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Gloam Reaver of Ash Crown (side-gloam-reaver-066), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Gloam Reaver of Ash Crown",
+        "Track side-gloam-reaver-066 through Ash Crown",
+        "Defeat Gloam Reaver of Ash Crown",
+        "Record the side-trophy-066 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 969,
+        "gold": 274,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-gloam-reaver-066",
+          "side-hunt-act-7"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-ember-thane",
+      "sceneId": "scene-ash-crown",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-gloam-hart-067",
+      "actId": "act-7",
+      "title": "Hunt: Gloam Hart of Ash Crown",
+      "estimatedMinutes": 55,
+      "kind": "gear",
+      "summary": "Track and defeat Gloam Hart of Ash Crown (side-gloam-hart-067), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Gloam Hart of Ash Crown",
+        "Track side-gloam-hart-067 through Ash Crown",
+        "Defeat Gloam Hart of Ash Crown",
+        "Record the side-trophy-067 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 983,
+        "gold": 278,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-gloam-hart-067",
+          "side-hunt-act-7"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-stag-aelwyn",
+      "sceneId": "scene-ash-crown",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-gloam-drake-068",
+      "actId": "act-7",
+      "title": "Hunt: Gloam Drake of Ash Crown",
+      "estimatedMinutes": 65,
+      "kind": "exploration",
+      "summary": "Track and defeat Gloam Drake of Ash Crown (side-gloam-drake-068), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Gloam Drake of Ash Crown",
+        "Track side-gloam-drake-068 through Ash Crown",
+        "Defeat Gloam Drake of Ash Crown",
+        "Record the side-trophy-068 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 997,
+        "gold": 282,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-gloam-drake-068",
+          "side-hunt-act-7"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-dragon-silhouette",
+      "sceneId": "scene-ash-crown",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-gloam-hydra-069",
+      "actId": "act-7",
+      "title": "Hunt: Gloam Hydra of Ash Crown",
+      "estimatedMinutes": 35,
+      "kind": "exploration",
+      "summary": "Track and defeat Gloam Hydra of Ash Crown (side-gloam-hydra-069), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Gloam Hydra of Ash Crown",
+        "Track side-gloam-hydra-069 through Ash Crown",
+        "Defeat Gloam Hydra of Ash Crown",
+        "Record the side-trophy-069 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1011,
+        "gold": 286,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-gloam-hydra-069",
+          "side-hunt-act-7"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-ash-crown",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-gloam-dreadlord-070",
+      "actId": "act-7",
+      "title": "Hunt: Gloam Dreadlord of Ash Crown",
+      "estimatedMinutes": 45,
+      "kind": "gear",
+      "summary": "Track and defeat Gloam Dreadlord of Ash Crown (side-gloam-dreadlord-070), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Gloam Dreadlord of Ash Crown",
+        "Track side-gloam-dreadlord-070 through Ash Crown",
+        "Defeat Gloam Dreadlord of Ash Crown",
+        "Record the side-trophy-070 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1025,
+        "gold": 290,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-gloam-dreadlord-070",
+          "side-hunt-act-7"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-demon-herald",
+      "sceneId": "scene-ash-crown",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-hollow-warg-071",
+      "actId": "act-8",
+      "title": "Hunt: Hollow Warg of Fellowship Camp",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Hollow Warg of Fellowship Camp (side-hollow-warg-071), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Hollow Warg of Fellowship Camp",
+        "Track side-hollow-warg-071 through Fellowship Camp",
+        "Defeat Hollow Warg of Fellowship Camp",
+        "Record the side-trophy-071 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1039,
+        "gold": 294,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-hollow-warg-071",
+          "side-hunt-act-8"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-wolf-ulfric",
+      "sceneId": "scene-fellowship-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-hollow-myrmidon-072",
+      "actId": "act-8",
+      "title": "Hunt: Hollow Myrmidon of Fellowship Camp",
+      "estimatedMinutes": 65,
+      "kind": "exploration",
+      "summary": "Track and defeat Hollow Myrmidon of Fellowship Camp (side-hollow-myrmidon-072), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Hollow Myrmidon of Fellowship Camp",
+        "Track side-hollow-myrmidon-072 through Fellowship Camp",
+        "Defeat Hollow Myrmidon of Fellowship Camp",
+        "Record the side-trophy-072 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1053,
+        "gold": 298,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-hollow-myrmidon-072",
+          "side-hunt-act-8"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-goblin-scout",
+      "sceneId": "scene-fellowship-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-hollow-oracle-073",
+      "actId": "act-8",
+      "title": "Hunt: Hollow Oracle of Fellowship Camp",
+      "estimatedMinutes": 35,
+      "kind": "gear",
+      "summary": "Track and defeat Hollow Oracle of Fellowship Camp (side-hollow-oracle-073), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Hollow Oracle of Fellowship Camp",
+        "Track side-hollow-oracle-073 through Fellowship Camp",
+        "Defeat Hollow Oracle of Fellowship Camp",
+        "Record the side-trophy-073 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1067,
+        "gold": 302,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-hollow-oracle-073",
+          "side-hunt-act-8"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-fellowship-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-hollow-colossus-074",
+      "actId": "act-8",
+      "title": "Hunt: Hollow Colossus of Fellowship Camp",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Hollow Colossus of Fellowship Camp (side-hollow-colossus-074), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Hollow Colossus of Fellowship Camp",
+        "Track side-hollow-colossus-074 through Fellowship Camp",
+        "Defeat Hollow Colossus of Fellowship Camp",
+        "Record the side-trophy-074 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1081,
+        "gold": 306,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-hollow-colossus-074",
+          "side-hunt-act-8"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-bear-bruna",
+      "sceneId": "scene-fellowship-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-hollow-harbinger-075",
+      "actId": "act-8",
+      "title": "Hunt: Hollow Harbinger of Fellowship Camp",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Hollow Harbinger of Fellowship Camp (side-hollow-harbinger-075), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Hollow Harbinger of Fellowship Camp",
+        "Track side-hollow-harbinger-075 through Fellowship Camp",
+        "Defeat Hollow Harbinger of Fellowship Camp",
+        "Record the side-trophy-075 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1095,
+        "gold": 310,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-hollow-harbinger-075",
+          "side-hunt-act-8"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-raven-corv",
+      "sceneId": "scene-fellowship-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-hollow-reaver-076",
+      "actId": "act-8",
+      "title": "Hunt: Hollow Reaver of Fellowship Camp",
+      "estimatedMinutes": 65,
+      "kind": "gear",
+      "summary": "Track and defeat Hollow Reaver of Fellowship Camp (side-hollow-reaver-076), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Hollow Reaver of Fellowship Camp",
+        "Track side-hollow-reaver-076 through Fellowship Camp",
+        "Defeat Hollow Reaver of Fellowship Camp",
+        "Record the side-trophy-076 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1109,
+        "gold": 314,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-hollow-reaver-076",
+          "side-hunt-act-8"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-ember-thane",
+      "sceneId": "scene-fellowship-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-hollow-hart-077",
+      "actId": "act-8",
+      "title": "Hunt: Hollow Hart of Fellowship Camp",
+      "estimatedMinutes": 35,
+      "kind": "exploration",
+      "summary": "Track and defeat Hollow Hart of Fellowship Camp (side-hollow-hart-077), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Hollow Hart of Fellowship Camp",
+        "Track side-hollow-hart-077 through Fellowship Camp",
+        "Defeat Hollow Hart of Fellowship Camp",
+        "Record the side-trophy-077 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1123,
+        "gold": 318,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-hollow-hart-077",
+          "side-hunt-act-8"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-stag-aelwyn",
+      "sceneId": "scene-fellowship-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-hollow-drake-078",
+      "actId": "act-8",
+      "title": "Hunt: Hollow Drake of Fellowship Camp",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Hollow Drake of Fellowship Camp (side-hollow-drake-078), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Hollow Drake of Fellowship Camp",
+        "Track side-hollow-drake-078 through Fellowship Camp",
+        "Defeat Hollow Drake of Fellowship Camp",
+        "Record the side-trophy-078 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1137,
+        "gold": 322,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-hollow-drake-078",
+          "side-hunt-act-8"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-dragon-silhouette",
+      "sceneId": "scene-fellowship-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-hollow-hydra-079",
+      "actId": "act-8",
+      "title": "Hunt: Hollow Hydra of Fellowship Camp",
+      "estimatedMinutes": 55,
+      "kind": "gear",
+      "summary": "Track and defeat Hollow Hydra of Fellowship Camp (side-hollow-hydra-079), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Hollow Hydra of Fellowship Camp",
+        "Track side-hollow-hydra-079 through Fellowship Camp",
+        "Defeat Hollow Hydra of Fellowship Camp",
+        "Record the side-trophy-079 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1151,
+        "gold": 326,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-hollow-hydra-079",
+          "side-hunt-act-8"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-fellowship-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-hollow-dreadlord-080",
+      "actId": "act-8",
+      "title": "Hunt: Hollow Dreadlord of Fellowship Camp",
+      "estimatedMinutes": 65,
+      "kind": "exploration",
+      "summary": "Track and defeat Hollow Dreadlord of Fellowship Camp (side-hollow-dreadlord-080), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Hollow Dreadlord of Fellowship Camp",
+        "Track side-hollow-dreadlord-080 through Fellowship Camp",
+        "Defeat Hollow Dreadlord of Fellowship Camp",
+        "Record the side-trophy-080 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1165,
+        "gold": 330,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-hollow-dreadlord-080",
+          "side-hunt-act-8"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-demon-herald",
+      "sceneId": "scene-fellowship-camp",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-iron-warg-081",
+      "actId": "act-9",
+      "title": "Hunt: Iron Warg of Worldeater Gate",
+      "estimatedMinutes": 35,
+      "kind": "exploration",
+      "summary": "Track and defeat Iron Warg of Worldeater Gate (side-iron-warg-081), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Iron Warg of Worldeater Gate",
+        "Track side-iron-warg-081 through Worldeater Gate",
+        "Defeat Iron Warg of Worldeater Gate",
+        "Record the side-trophy-081 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1179,
+        "gold": 334,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-iron-warg-081",
+          "side-hunt-act-9"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-wolf-ulfric",
+      "sceneId": "scene-worldeater-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-iron-myrmidon-082",
+      "actId": "act-9",
+      "title": "Hunt: Iron Myrmidon of Worldeater Gate",
+      "estimatedMinutes": 45,
+      "kind": "gear",
+      "summary": "Track and defeat Iron Myrmidon of Worldeater Gate (side-iron-myrmidon-082), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Iron Myrmidon of Worldeater Gate",
+        "Track side-iron-myrmidon-082 through Worldeater Gate",
+        "Defeat Iron Myrmidon of Worldeater Gate",
+        "Record the side-trophy-082 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1193,
+        "gold": 338,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-iron-myrmidon-082",
+          "side-hunt-act-9"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-goblin-scout",
+      "sceneId": "scene-worldeater-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-iron-oracle-083",
+      "actId": "act-9",
+      "title": "Hunt: Iron Oracle of Worldeater Gate",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Iron Oracle of Worldeater Gate (side-iron-oracle-083), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Iron Oracle of Worldeater Gate",
+        "Track side-iron-oracle-083 through Worldeater Gate",
+        "Defeat Iron Oracle of Worldeater Gate",
+        "Record the side-trophy-083 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1207,
+        "gold": 342,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-iron-oracle-083",
+          "side-hunt-act-9"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-worldeater-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-iron-colossus-084",
+      "actId": "act-9",
+      "title": "Hunt: Iron Colossus of Worldeater Gate",
+      "estimatedMinutes": 65,
+      "kind": "exploration",
+      "summary": "Track and defeat Iron Colossus of Worldeater Gate (side-iron-colossus-084), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Iron Colossus of Worldeater Gate",
+        "Track side-iron-colossus-084 through Worldeater Gate",
+        "Defeat Iron Colossus of Worldeater Gate",
+        "Record the side-trophy-084 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1221,
+        "gold": 346,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-iron-colossus-084",
+          "side-hunt-act-9"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-bear-bruna",
+      "sceneId": "scene-worldeater-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-iron-harbinger-085",
+      "actId": "act-9",
+      "title": "Hunt: Iron Harbinger of Worldeater Gate",
+      "estimatedMinutes": 35,
+      "kind": "gear",
+      "summary": "Track and defeat Iron Harbinger of Worldeater Gate (side-iron-harbinger-085), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Iron Harbinger of Worldeater Gate",
+        "Track side-iron-harbinger-085 through Worldeater Gate",
+        "Defeat Iron Harbinger of Worldeater Gate",
+        "Record the side-trophy-085 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1235,
+        "gold": 350,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-iron-harbinger-085",
+          "side-hunt-act-9"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-raven-corv",
+      "sceneId": "scene-worldeater-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-iron-reaver-086",
+      "actId": "act-9",
+      "title": "Hunt: Iron Reaver of Worldeater Gate",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Iron Reaver of Worldeater Gate (side-iron-reaver-086), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Iron Reaver of Worldeater Gate",
+        "Track side-iron-reaver-086 through Worldeater Gate",
+        "Defeat Iron Reaver of Worldeater Gate",
+        "Record the side-trophy-086 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1249,
+        "gold": 354,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-iron-reaver-086",
+          "side-hunt-act-9"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-ember-thane",
+      "sceneId": "scene-worldeater-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-iron-hart-087",
+      "actId": "act-9",
+      "title": "Hunt: Iron Hart of Worldeater Gate",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Iron Hart of Worldeater Gate (side-iron-hart-087), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Iron Hart of Worldeater Gate",
+        "Track side-iron-hart-087 through Worldeater Gate",
+        "Defeat Iron Hart of Worldeater Gate",
+        "Record the side-trophy-087 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1263,
+        "gold": 358,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-iron-hart-087",
+          "side-hunt-act-9"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-stag-aelwyn",
+      "sceneId": "scene-worldeater-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-iron-drake-088",
+      "actId": "act-9",
+      "title": "Hunt: Iron Drake of Worldeater Gate",
+      "estimatedMinutes": 65,
+      "kind": "gear",
+      "summary": "Track and defeat Iron Drake of Worldeater Gate (side-iron-drake-088), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Iron Drake of Worldeater Gate",
+        "Track side-iron-drake-088 through Worldeater Gate",
+        "Defeat Iron Drake of Worldeater Gate",
+        "Record the side-trophy-088 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1277,
+        "gold": 362,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-iron-drake-088",
+          "side-hunt-act-9"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-dragon-silhouette",
+      "sceneId": "scene-worldeater-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-iron-hydra-089",
+      "actId": "act-9",
+      "title": "Hunt: Iron Hydra of Worldeater Gate",
+      "estimatedMinutes": 35,
+      "kind": "exploration",
+      "summary": "Track and defeat Iron Hydra of Worldeater Gate (side-iron-hydra-089), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Iron Hydra of Worldeater Gate",
+        "Track side-iron-hydra-089 through Worldeater Gate",
+        "Defeat Iron Hydra of Worldeater Gate",
+        "Record the side-trophy-089 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1291,
+        "gold": 366,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-iron-hydra-089",
+          "side-hunt-act-9"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-worldeater-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-iron-dreadlord-090",
+      "actId": "act-9",
+      "title": "Hunt: Iron Dreadlord of Worldeater Gate",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Iron Dreadlord of Worldeater Gate (side-iron-dreadlord-090), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Iron Dreadlord of Worldeater Gate",
+        "Track side-iron-dreadlord-090 through Worldeater Gate",
+        "Defeat Iron Dreadlord of Worldeater Gate",
+        "Record the side-trophy-090 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1305,
+        "gold": 370,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-iron-dreadlord-090",
+          "side-hunt-act-9"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-demon-herald",
+      "sceneId": "scene-worldeater-gate",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-jade-warg-091",
+      "actId": "act-10",
+      "title": "Hunt: Jade Warg of Last Council",
+      "estimatedMinutes": 55,
+      "kind": "gear",
+      "summary": "Track and defeat Jade Warg of Last Council (side-jade-warg-091), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Jade Warg of Last Council",
+        "Track side-jade-warg-091 through Last Council",
+        "Defeat Jade Warg of Last Council",
+        "Record the side-trophy-091 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1319,
+        "gold": 374,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-jade-warg-091",
+          "side-hunt-act-10"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-wolf-ulfric",
+      "sceneId": "scene-last-council",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-jade-myrmidon-092",
+      "actId": "act-10",
+      "title": "Hunt: Jade Myrmidon of Last Council",
+      "estimatedMinutes": 65,
+      "kind": "exploration",
+      "summary": "Track and defeat Jade Myrmidon of Last Council (side-jade-myrmidon-092), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Jade Myrmidon of Last Council",
+        "Track side-jade-myrmidon-092 through Last Council",
+        "Defeat Jade Myrmidon of Last Council",
+        "Record the side-trophy-092 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1333,
+        "gold": 378,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-jade-myrmidon-092",
+          "side-hunt-act-10"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-goblin-scout",
+      "sceneId": "scene-last-council",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-jade-oracle-093",
+      "actId": "act-10",
+      "title": "Hunt: Jade Oracle of Last Council",
+      "estimatedMinutes": 35,
+      "kind": "exploration",
+      "summary": "Track and defeat Jade Oracle of Last Council (side-jade-oracle-093), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Jade Oracle of Last Council",
+        "Track side-jade-oracle-093 through Last Council",
+        "Defeat Jade Oracle of Last Council",
+        "Record the side-trophy-093 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1347,
+        "gold": 382,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-jade-oracle-093",
+          "side-hunt-act-10"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-last-council",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-jade-colossus-094",
+      "actId": "act-10",
+      "title": "Hunt: Jade Colossus of Last Council",
+      "estimatedMinutes": 45,
+      "kind": "gear",
+      "summary": "Track and defeat Jade Colossus of Last Council (side-jade-colossus-094), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Jade Colossus of Last Council",
+        "Track side-jade-colossus-094 through Last Council",
+        "Defeat Jade Colossus of Last Council",
+        "Record the side-trophy-094 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1361,
+        "gold": 386,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-jade-colossus-094",
+          "side-hunt-act-10"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-bear-bruna",
+      "sceneId": "scene-last-council",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-jade-harbinger-095",
+      "actId": "act-10",
+      "title": "Hunt: Jade Harbinger of Last Council",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Jade Harbinger of Last Council (side-jade-harbinger-095), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Jade Harbinger of Last Council",
+        "Track side-jade-harbinger-095 through Last Council",
+        "Defeat Jade Harbinger of Last Council",
+        "Record the side-trophy-095 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1375,
+        "gold": 390,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-jade-harbinger-095",
+          "side-hunt-act-10"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-raven-corv",
+      "sceneId": "scene-last-council",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-jade-reaver-096",
+      "actId": "act-10",
+      "title": "Hunt: Jade Reaver of Last Council",
+      "estimatedMinutes": 65,
+      "kind": "exploration",
+      "summary": "Track and defeat Jade Reaver of Last Council (side-jade-reaver-096), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Jade Reaver of Last Council",
+        "Track side-jade-reaver-096 through Last Council",
+        "Defeat Jade Reaver of Last Council",
+        "Record the side-trophy-096 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1389,
+        "gold": 394,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-jade-reaver-096",
+          "side-hunt-act-10"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-ember-thane",
+      "sceneId": "scene-last-council",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-jade-hart-097",
+      "actId": "act-10",
+      "title": "Hunt: Jade Hart of Last Council",
+      "estimatedMinutes": 35,
+      "kind": "gear",
+      "summary": "Track and defeat Jade Hart of Last Council (side-jade-hart-097), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Jade Hart of Last Council",
+        "Track side-jade-hart-097 through Last Council",
+        "Defeat Jade Hart of Last Council",
+        "Record the side-trophy-097 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1403,
+        "gold": 398,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-jade-hart-097",
+          "side-hunt-act-10"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-stag-aelwyn",
+      "sceneId": "scene-last-council",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-jade-drake-098",
+      "actId": "act-10",
+      "title": "Hunt: Jade Drake of Last Council",
+      "estimatedMinutes": 45,
+      "kind": "exploration",
+      "summary": "Track and defeat Jade Drake of Last Council (side-jade-drake-098), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Jade Drake of Last Council",
+        "Track side-jade-drake-098 through Last Council",
+        "Defeat Jade Drake of Last Council",
+        "Record the side-trophy-098 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1417,
+        "gold": 402,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-jade-drake-098",
+          "side-hunt-act-10"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-dragon-silhouette",
+      "sceneId": "scene-last-council",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-jade-hydra-099",
+      "actId": "act-10",
+      "title": "Hunt: Jade Hydra of Last Council",
+      "estimatedMinutes": 55,
+      "kind": "exploration",
+      "summary": "Track and defeat Jade Hydra of Last Council (side-jade-hydra-099), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Jade Hydra of Last Council",
+        "Track side-jade-hydra-099 through Last Council",
+        "Defeat Jade Hydra of Last Council",
+        "Record the side-trophy-099 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1431,
+        "gold": 406,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-jade-hydra-099",
+          "side-hunt-act-10"
+        ],
+        "alignment": {
+          "animal": 1
+        }
+      },
+      "artId": "art-serpent-nyx",
+      "sceneId": "scene-last-council",
+      "npcId": null
+    },
+    {
+      "id": "sq-hunt-side-jade-dreadlord-100",
+      "actId": "act-10",
+      "title": "Hunt: Jade Dreadlord of Last Council",
+      "estimatedMinutes": 65,
+      "kind": "gear",
+      "summary": "Track and defeat Jade Dreadlord of Last Council (side-jade-dreadlord-100), then bring proof of the hunt back to camp.",
+      "steps": [
+        "Gather rumors about Jade Dreadlord of Last Council",
+        "Track side-jade-dreadlord-100 through Last Council",
+        "Defeat Jade Dreadlord of Last Council",
+        "Record the side-trophy-100 in the hunting ledger"
+      ],
+      "rewards": {
+        "xp": 1445,
+        "gold": 410,
+        "itemIds": [],
+        "flagsAdd": [
+          "side-boss-felled:side-jade-dreadlord-100",
+          "side-hunt-act-10"
+        ],
+        "alignment": {
+          "human": 1
+        }
+      },
+      "artId": "art-demon-herald",
+      "sceneId": "scene-last-council",
+      "npcId": null
+    }
+  ]
+}

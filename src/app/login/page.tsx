@@ -98,6 +98,7 @@ export default function LoginPage() {
                   { email: "player1@havenpm.com", label: "Justin — DM + Player 1" },
                   { email: "player2@havenpm.com", label: "Rusty — Player 2" },
                   { email: "player3@havenpm.com", label: "Elisha — Player 3" },
+                  { email: "player4@havenpm.com", label: "Eric Prendergast — Player 4" },
                 ].map((p) => (
                   <li key={p.email} className="flex flex-wrap items-center gap-2">
                     <button

@@ -4,7 +4,7 @@ export const STAT_KEYS = ["strength", "dexterity", "constitution", "intelligence
 export type StatKey = (typeof STAT_KEYS)[number];
 export type Stats = Record<StatKey, number>;
 
-export const PLAYER_SLOT_ORDER = ["justin", "rusty", "elisha"] as const;
+export const PLAYER_SLOT_ORDER = ["justin", "rusty", "elisha", "eric"] as const;
 export type PlayerSlot = (typeof PLAYER_SLOT_ORDER)[number];
 
 export const CLASS_IDS = [
@@ -260,6 +260,8 @@ export type BattleState = {
   lastRocLabel?: string | null;
   summary: BattleSummary | null;
   startedAt: string;
+  /** When the current combatant's turn began (idle auto-act). */
+  turnStartedAt?: string;
 };
 
 export type DogCompanion = {
@@ -511,6 +513,18 @@ export type PartyWorldSave = {
   completedSideQuests: string[];
   /** Recipe ids cooked at least once. */
   cookedRecipes: string[];
+  /** Times the party opened a chest or dug a hole. */
+  explorationFinds?: number;
+  /** Last chest / dig result (for Camp UI flash). */
+  lastExploration?: {
+    kind: "chest" | "dig";
+    title: string;
+    blurb: string;
+    gold: number;
+    xp: number;
+    itemIds: string[];
+    itemNames: string[];
+  } | null;
   log: string[];
   endingId: string | null;
   characters: Record<PlayerSlot, CharacterSave>;

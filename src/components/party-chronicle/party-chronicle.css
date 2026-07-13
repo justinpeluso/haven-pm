@@ -1363,7 +1363,7 @@
     linear-gradient(165deg, rgba(18, 42, 28, 0.95), rgba(8, 14, 12, 0.98));
   border: 2px solid var(--pc-border);
   box-shadow: inset 0 0 0 1px rgba(120, 180, 90, 0.2);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .party-comic .pc-paperdoll-silhouette,
@@ -1687,4 +1687,169 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+/* ——— Gear hover tooltips ——— */
+.party-comic .pc-gear-hover,
+.party-rpg90s .pc-gear-hover,
+.party-chronicle .pc-gear-hover {
+  position: relative;
+}
+
+.party-comic .pc-gear-tip,
+.party-rpg90s .pc-gear-tip,
+.party-chronicle .pc-gear-tip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.45rem);
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 14rem;
+  padding: 0.55rem 0.65rem;
+  background: rgba(8, 14, 12, 0.97);
+  border: 2px solid var(--pc-cyan);
+  color: var(--pc-paper);
+  font-family: var(--pc-hud);
+  font-size: 0.62rem;
+  line-height: 1.35;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  z-index: 60;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.12s ease, visibility 0.12s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.party-comic .pc-gear-hover:hover > .pc-gear-tip,
+.party-rpg90s .pc-gear-hover:hover > .pc-gear-tip,
+.party-chronicle .pc-gear-hover:hover > .pc-gear-tip,
+.party-comic .pc-gear-hover:focus-within > .pc-gear-tip,
+.party-rpg90s .pc-gear-hover:focus-within > .pc-gear-tip,
+.party-chronicle .pc-gear-hover:focus-within > .pc-gear-tip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.party-comic .pc-doll-slot.pc-gear-hover:hover > .pc-gear-tip,
+.party-rpg90s .pc-doll-slot.pc-gear-hover:hover > .pc-gear-tip,
+.party-chronicle .pc-doll-slot.pc-gear-hover:hover > .pc-gear-tip {
+  /* Keep tip centered even when slot uses translateX positioning */
+  left: 50%;
+  bottom: calc(100% + 0.35rem);
+}
+
+.party-comic .pc-gear-tip[data-tier="magic"],
+.party-rpg90s .pc-gear-tip[data-tier="magic"],
+.party-chronicle .pc-gear-tip[data-tier="magic"] {
+  border-color: #4ea8de;
+}
+.party-comic .pc-gear-tip[data-tier="rare"],
+.party-rpg90s .pc-gear-tip[data-tier="rare"],
+.party-chronicle .pc-gear-tip[data-tier="rare"] {
+  border-color: #c9a227;
+}
+.party-comic .pc-gear-tip[data-tier="legendary"],
+.party-rpg90s .pc-gear-tip[data-tier="legendary"],
+.party-chronicle .pc-gear-tip[data-tier="legendary"] {
+  border-color: #e07a3d;
+}
+
+.party-comic .pc-gear-tip-head,
+.party-rpg90s .pc-gear-tip-head,
+.party-chronicle .pc-gear-tip-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.party-comic .pc-gear-tip-name,
+.party-rpg90s .pc-gear-tip-name,
+.party-chronicle .pc-gear-tip-name {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--pc-paper);
+}
+
+.party-comic .pc-gear-tip-tier,
+.party-rpg90s .pc-gear-tip-tier,
+.party-chronicle .pc-gear-tip-tier {
+  font-style: normal;
+  font-size: 0.5rem;
+  opacity: 0.75;
+  letter-spacing: 0.04em;
+}
+
+.party-comic .pc-gear-tip-slot,
+.party-rpg90s .pc-gear-tip-slot,
+.party-chronicle .pc-gear-tip-slot {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.52rem;
+  text-transform: uppercase;
+  color: var(--pc-muted);
+}
+
+.party-comic .pc-gear-tip-blurb,
+.party-rpg90s .pc-gear-tip-blurb,
+.party-chronicle .pc-gear-tip-blurb {
+  display: block;
+  margin-top: 0.35rem;
+  color: rgba(232, 240, 234, 0.82);
+  font-size: 0.58rem;
+}
+
+.party-comic .pc-gear-tip-stats,
+.party-rpg90s .pc-gear-tip-stats,
+.party-chronicle .pc-gear-tip-stats {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0.35rem 0 0;
+  border-top: 1px solid rgba(46, 196, 212, 0.35);
+  display: grid;
+  gap: 0.12rem;
+}
+
+.party-comic .pc-gear-tip-stats li,
+.party-rpg90s .pc-gear-tip-stats li,
+.party-chronicle .pc-gear-tip-stats li {
+  color: #9fe870;
+  font-weight: 700;
+  font-size: 0.62rem;
+}
+
+.party-comic .pc-gear-tip-extra,
+.party-rpg90s .pc-gear-tip-extra,
+.party-chronicle .pc-gear-tip-extra {
+  display: block;
+  margin-top: 0.25rem;
+  color: #4ea8de;
+  font-weight: 700;
+}
+
+.party-comic .pc-gear-tip-empty,
+.party-rpg90s .pc-gear-tip-empty,
+.party-chronicle .pc-gear-tip-empty {
+  color: var(--pc-muted);
+  font-size: 0.58rem;
+}
+
+.party-comic .pc-paperdoll-figure,
+.party-rpg90s .pc-paperdoll-figure,
+.party-chronicle .pc-paperdoll-figure,
+.party-comic .pc-inv-grid,
+.party-rpg90s .pc-inv-grid,
+.party-chronicle .pc-inv-grid {
+  overflow: visible;
+}
+
+.party-comic .pc-inv-card.pc-gear-hover,
+.party-rpg90s .pc-inv-card.pc-gear-hover,
+.party-chronicle .pc-inv-card.pc-gear-hover {
+  overflow: visible;
+}
+
 

@@ -7,6 +7,8 @@ export const EMAIL_TO_SLOT: Record<string, PlayerSlot> = {
   "justin@havenpm.com": "justin",
   "player2@havenpm.com": "rusty",
   "player3@havenpm.com": "elisha",
+  "player4@havenpm.com": "eric",
+  "eric@havenpm.com": "eric",
 };
 
 export const SLOT_DEFAULTS: Record<
@@ -36,6 +38,14 @@ export const SLOT_DEFAULTS: Record<
     dogName: "Lumen",
     dogBreed: "Silver-coated shepherd of Rivendell roads",
     suggestedClass: "mage",
+  },
+  eric: {
+    displayName: "Eric Prendergast",
+    isDm: false,
+    email: "player4@havenpm.com",
+    dogName: "Briar",
+    dogBreed: "Bramble-coated mastiff of the ford roads",
+    suggestedClass: "warrior",
   },
 };
 

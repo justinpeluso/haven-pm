@@ -1,6 +1,7 @@
 /**
  * Neverworld turn-based battle engine.
  * Actions: Attack, Power Up, Eat, Spell, Drink HP, Drink Mana.
+ * Clocks: 30s idle → foe strikes; 10 min hard cap → defeat.
  */
 
 import {
@@ -40,6 +41,11 @@ import type {
   PlayerSlot,
 } from "./types";
 import { PLAYER_SLOT_ORDER } from "./types";
+
+/** Hard cap — every battle ends (defeat) after this. */
+export const BATTLE_MAX_MS = 10 * 60 * 1000;
+/** If a hero does nothing this long, the foe strikes. */
+export const TURN_IDLE_MS = 30 * 1000;
 
 const POWER_UP_TURNS = 3;
 const POWER_UP_MULT = 1.5;
@@ -185,10 +191,12 @@ function advanceBattleTurn(battle: BattleState): BattleState {
     if (hero && hero.hp > 0) break;
     idx = (idx + 1) % n;
   }
+  const now = new Date().toISOString();
   return {
     ...battle,
     turnIndex: idx,
     activeId: battle.turnQueue[idx]!,
+    turnStartedAt: now,
   };
 }
 
@@ -285,6 +293,7 @@ export function startRandomBattle(
   const heroes = slots.map((slot) => heroFromChar(slot, world.characters[slot]));
 
   const turnQueue = [...heroes.map((h) => h.id), "enemy"];
+  const startedAt = new Date().toISOString();
   const battle: BattleState = {
     id: `battle-${Date.now()}`,
     status: "active",
@@ -293,11 +302,12 @@ export function startRandomBattle(
     turnQueue,
     turnIndex: 0,
     activeId: turnQueue[0]!,
-    log: [`Ambush! ${enemy.name} bars the path.`],
+    log: [`Ambush! ${enemy.name} bars the path.`, `Idle 30s → foe strikes. Hard cap 10 min.`],
     stats: { damageDealt: 0, damageTaken: 0, turns: 0, bestRoc: 0 },
     lastRocLabel: null,
     summary: null,
-    startedAt: new Date().toISOString(),
+    startedAt,
+    turnStartedAt: startedAt,
   };
 
   return {
@@ -328,6 +338,7 @@ export function startBattleVs(
   const enemy = foeFromRoll(roll);
   const heroes = slots.map((slot) => heroFromChar(slot, world.characters[slot]));
   const turnQueue = [...heroes.map((h) => h.id), "enemy"];
+  const startedAt = new Date().toISOString();
   const battle: BattleState = {
     id: `battle-${Date.now()}`,
     status: "active",
@@ -336,11 +347,12 @@ export function startBattleVs(
     turnQueue,
     turnIndex: 0,
     activeId: turnQueue[0]!,
-    log: [`${enemy.name} challenges the party.`],
+    log: [`${enemy.name} challenges the party.`, `Idle 30s → foe strikes. Hard cap 10 min.`],
     stats: { damageDealt: 0, damageTaken: 0, turns: 0, bestRoc: 0 },
     lastRocLabel: null,
     summary: null,
-    startedAt: new Date().toISOString(),
+    startedAt,
+    turnStartedAt: startedAt,
   };
   void started;
   return {
@@ -458,7 +470,11 @@ function finishVictory(
   };
 }
 
-function finishDefeat(world: PartyWorldSave, battle: BattleState): PartyWorldSave {
+function finishDefeat(
+  world: PartyWorldSave,
+  battle: BattleState,
+  reason?: string
+): PartyWorldSave {
   const characters = { ...world.characters };
   for (const h of battle.heroes) {
     const c = characters[h.slot];
@@ -473,11 +489,12 @@ function finishDefeat(world: PartyWorldSave, battle: BattleState): PartyWorldSav
   }
   const summary = buildSummary(battle, false, [], 0, 0);
   const fought = (world.battlesFought ?? 0) + 1;
+  const line = reason ?? "The party is defeated…";
   return {
     ...world,
     characters,
     battle: {
-      ...pushLog(battle, "The party is defeated…"),
+      ...pushLog(battle, line),
       status: "defeat",
       summary,
     },
@@ -845,6 +862,82 @@ export function dismissBattleSummary(world: PartyWorldSave): PartyWorldSave {
     ...world,
     battle: null,
     log: [`Battle ended — returning to the road.`, ...world.log].slice(0, 80),
+  };
+}
+
+export function battleRemainingMs(battle: BattleState, nowMs = Date.now()): number {
+  const started = Date.parse(battle.startedAt) || nowMs;
+  return Math.max(0, BATTLE_MAX_MS - (nowMs - started));
+}
+
+export function turnIdleRemainingMs(battle: BattleState, nowMs = Date.now()): number {
+  const started = Date.parse(battle.turnStartedAt ?? battle.startedAt) || nowMs;
+  return Math.max(0, TURN_IDLE_MS - (nowMs - started));
+}
+
+/**
+ * DM clock tick during active battle:
+ * - 10 min hard cap → defeat
+ * - 30s idle on a hero turn → skip that hero; foe strikes
+ */
+export function tickBattleTimers(
+  world: PartyWorldSave,
+  nowMs = Date.now(),
+  rng: () => number = Math.random
+): { world: PartyWorldSave; message?: string } {
+  const battle = world.battle;
+  if (!battle || battle.status !== "active") return { world };
+
+  if (battleRemainingMs(battle, nowMs) <= 0) {
+    const next = finishDefeat(
+      world,
+      battle,
+      "Time! The clash hits the 10-minute hard cap — the party breaks."
+    );
+    return { world: next, message: "Battle timed out (10 min)." };
+  }
+
+  // Only idle-skip hero turns (enemy already auto-resolves after player acts).
+  if (battle.activeId === "enemy") return { world };
+
+  if (turnIdleRemainingMs(battle, nowMs) > 0) return { world };
+
+  const hesitator =
+    battle.heroes.find((h) => h.id === battle.activeId)?.name ?? "A hero";
+  let nextWorld: PartyWorldSave = {
+    ...world,
+    battle: pushLog(
+      battle,
+      `${hesitator} hesitates too long — ${battle.enemy.name} seizes the opening!`
+    ),
+  };
+  let nb = advanceBattleTurn(nextWorld.battle!);
+  // Jump to enemy if advance landed on another hero — force foe strike on idle.
+  if (nb.activeId !== "enemy") {
+    const enemyIdx = nb.turnQueue.indexOf("enemy");
+    if (enemyIdx >= 0) {
+      nb = {
+        ...nb,
+        turnIndex: enemyIdx,
+        activeId: "enemy",
+        turnStartedAt: new Date(nowMs).toISOString(),
+      };
+    }
+  }
+  nextWorld = { ...nextWorld, battle: nb };
+  if (nb.activeId === "enemy") {
+    nextWorld = runEnemyTurn(nextWorld, nextWorld.battle!, rng);
+    if (nextWorld.battle?.status === "active") {
+      let cur = nextWorld.battle;
+      if (cur.activeId === "enemy") {
+        cur = advanceBattleTurn(cur);
+        nextWorld = { ...nextWorld, battle: cur };
+      }
+    }
+  }
+  return {
+    world: nextWorld,
+    message: `${battle.enemy.name} strikes while the party idles.`,
   };
 }
 

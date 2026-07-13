@@ -188,6 +188,24 @@ async function main() {
       phone: "(412) 555-0163",
     },
   });
+  await prisma.user.create({
+    data: {
+      email: "player4@havenpm.com",
+      name: "Eric Prendergast",
+      passwordHash: partyPasswordHash,
+      role: UserRole.OFFICE_STAFF,
+      phone: "(412) 555-0164",
+    },
+  });
+  await prisma.user.create({
+    data: {
+      email: "eric@havenpm.com",
+      name: "Eric Prendergast",
+      passwordHash: partyPasswordHash,
+      role: UserRole.OFFICE_STAFF,
+      phone: "(412) 555-0164",
+    },
+  });
 
   const manager = await prisma.user.create({
     data: {
@@ -927,6 +945,7 @@ async function main() {
   console.log("  player1@havenpm.com → Justin (DM)");
   console.log("  player2@havenpm.com → Rusty");
   console.log("  player3@havenpm.com → Elisha");
+  console.log("  player4@havenpm.com / eric@havenpm.com → Eric Prendergast");
   console.log("\nVendors:");
   for (const v of VENDORS) {
     console.log(`  • ${v.name} (${v.category}) — ${v.phone}`);

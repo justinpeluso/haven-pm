@@ -17,6 +17,7 @@ import {
   getStoryNode,
   resolveFinaleNodeId,
 } from "./story";
+import { resolveSpineHandoff } from "./spine";
 import {
   levelFromXp,
   skillPointsForLevelGain,
@@ -58,8 +59,86 @@ export function nextPlayableSlot(world: PartyWorldSave, current: PlayerSlot): Pl
 }
 
 export function partyAvgLevel(world: PartyWorldSave): number {
-  const levels = PLAYER_SLOT_ORDER.map((s) => world.characters[s].level);
+  const levels = PLAYER_SLOT_ORDER.map((s) => world.characters[s]?.level ?? 1);
   return Math.round(levels.reduce((a, b) => a + b, 0) / levels.length);
+}
+
+/** Soft gates so the comic spine can't race to the finale in a dozen clicks. */
+export function progressGateForNode(
+  world: PartyWorldSave,
+  nextNodeId: string
+): { ok: boolean; reason?: string } {
+  const nextCh = chapterForNode(nextNodeId);
+  const curCh = chapterForNode(world.campaignNodeId);
+  if (!nextCh) return { ok: true };
+  if (curCh && nextCh.chapter <= curCh.chapter) return { ok: true };
+
+  const battles = world.battlesFought ?? 0;
+  const sideQuests = world.completedSideQuests?.length ?? 0;
+  const exploration = world.explorationFinds ?? 0;
+  const recipes = world.cookedRecipes?.length ?? 0;
+  const activity = battles + sideQuests * 2 + exploration + recipes;
+  const finaleActivity = battles + sideQuests * 2 + exploration;
+  const lvl = partyAvgLevel(world);
+  const turns = world.turnIndex ?? 0;
+  const isFinale =
+    nextCh.chapter >= 9 ||
+    nextNodeId.startsWith("node-finale") ||
+    nextCh.id === "ch10-endings";
+
+  if (isFinale) {
+    const ok =
+      battles >= 25 ||
+      turns >= 120 ||
+      finaleActivity >= 40 ||
+      lvl >= 35;
+    if (!ok) {
+      return {
+        ok: false,
+        reason:
+          "The Last Council won't open yet — the chronicle needs a lived-in legend. Reach 25 battles, 120 turns, 40 campaign deeds, or party level 35.",
+      };
+    }
+    return { ok: true };
+  }
+
+  if (nextCh.chapter >= 3) {
+    const progress = Math.max(0, nextCh.chapter - 2);
+    const needActivity = Math.min(36, progress * 4);
+    const needTurns = Math.min(108, progress * 12);
+    const needLevel = Math.min(32, Math.max(3, progress * 4));
+    if (lvl >= needLevel || activity >= needActivity || turns >= needTurns) {
+      return { ok: true };
+    }
+    return {
+      ok: false,
+      reason: `${nextCh.title} still lies ahead. Build the chronicle at Camp first (~Lv ${needLevel}, ${needActivity} deeds, or ${needTurns} turns).`,
+    };
+  }
+
+  return { ok: true };
+}
+
+/** Undo an accidental / early finale and resume at the Last Council. */
+export function rewindFromEnding(world: PartyWorldSave): PartyWorldSave {
+  const onEndingChapter = chapterForNode(world.campaignNodeId)?.id === "ch10-endings";
+  if (!world.endingId && !onEndingChapter) return world;
+  return markChapterVisited(
+    {
+      ...world,
+      endingId: null,
+      campaignNodeId: "node-ch9-council",
+      chapterId: "ch9-last-council",
+      encounterEnemyHp: null,
+      deckEncounter: null,
+      log: [
+        "The chronicle unspools — back to the Last Council. Keep exploring Camp before you name a crown.",
+        ...world.log,
+      ].slice(0, 80),
+      updatedAt: new Date().toISOString(),
+    },
+    "ch9-last-council"
+  );
 }
 
 export function canAct(world: PartyWorldSave, slot: PlayerSlot, isDm: boolean): boolean {
@@ -412,10 +491,18 @@ export function applyStoryChoice(
   let encounterEnemyHp = world.encounterEnemyHp;
 
   if (o.nextNodeId) {
-    campaignNodeId = o.nextNodeId;
-    const ch = chapterForNode(o.nextNodeId);
+    const nextNodeId = resolveSpineHandoff(world.campaignNodeId, o.nextNodeId);
+    const gate = progressGateForNode(world, nextNodeId);
+    if (!gate.ok) {
+      return {
+        world,
+        message: gate.reason ?? "The road ahead isn't open yet — try Camp first.",
+      };
+    }
+    campaignNodeId = nextNodeId;
+    const ch = chapterForNode(nextNodeId);
     if (ch) chapterId = ch.id;
-    const node = getStoryNode(o.nextNodeId);
+    const node = getStoryNode(nextNodeId);
     if (node?.kind === "encounter") {
       encounterEnemyHp = node.enemyHp;
     } else if (node?.kind === "ending") {
@@ -425,7 +512,11 @@ export function applyStoryChoice(
       encounterEnemyHp = null;
     }
   }
-  if (o.endingId) endingId = o.endingId;
+  // Don't seal the chronicle unless we actually moved onto an ending node.
+  if (o.endingId && o.nextNodeId) {
+    const landed = getStoryNode(campaignNodeId);
+    if (landed?.kind === "ending") endingId = o.endingId;
+  }
 
   if (applied.roll?.rocTotal && applied.roll.rocTotal >= 700) {
     nextChar = {
@@ -466,6 +557,14 @@ export function acknowledgeNarrative(world: PartyWorldSave, slot: PlayerSlot): P
   // Cumulative path → finale splash when trusting the chronicle.
   if (node.id === "node-finale-resolve") {
     nextId = resolveFinaleNodeId(world.alignment ?? { animal: 0, human: 0, demon: 0 });
+  }
+  nextId = resolveSpineHandoff(node.id, nextId);
+  const gate = progressGateForNode(world, nextId);
+  if (!gate.ok) {
+    return {
+      ...world,
+      log: [gate.reason ?? "The road ahead isn't open yet.", ...world.log].slice(0, 80),
+    };
   }
   if (node.kind === "montage" && node.xpGrant > 0) {
     const char = applyXp(characters[slot], node.xpGrant);

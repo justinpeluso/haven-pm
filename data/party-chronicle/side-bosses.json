@@ -1,0 +1,2904 @@
+{
+  "bosses": [
+    {
+      "id": "side-ashen-warg-001",
+      "name": "Ashen Warg of Frostford",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 1,
+      "levelMax": 9,
+      "hp": 115,
+      "power": 13,
+      "armor": 1,
+      "xp": 92,
+      "gold": 22,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "uniqueSkill": {
+        "id": "side-skill-001",
+        "name": "Rending Howl",
+        "blurb": "Unleashes the signature technique of the ashen hunt.",
+        "power": 18,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-001"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ashen-myrmidon-002",
+      "name": "Ashen Myrmidon of Frostford",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 2,
+      "levelMax": 10,
+      "hp": 135,
+      "power": 15,
+      "armor": 2,
+      "xp": 114,
+      "gold": 28,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "uniqueSkill": {
+        "id": "side-skill-002",
+        "name": "Warband Rush",
+        "blurb": "Unleashes the signature technique of the ashen hunt.",
+        "power": 21,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-002"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ashen-oracle-003",
+      "name": "Ashen Oracle of Frostford",
+      "blurb": "A notorious arcane whose challenge has become a whispered test among hunters.",
+      "levelMin": 3,
+      "levelMax": 11,
+      "hp": 157,
+      "power": 16,
+      "armor": 2,
+      "xp": 136,
+      "gold": 35,
+      "tags": [
+        "boss",
+        "side-boss",
+        "arcane"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-003",
+        "name": "Crooked Prophecy",
+        "blurb": "Unleashes the signature technique of the ashen hunt.",
+        "power": 22,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-003"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ashen-colossus-004",
+      "name": "Ashen Colossus of Frostford",
+      "blurb": "A notorious construct whose challenge has become a whispered test among hunters.",
+      "levelMin": 4,
+      "levelMax": 12,
+      "hp": 179,
+      "power": 18,
+      "armor": 2,
+      "xp": 158,
+      "gold": 41,
+      "tags": [
+        "boss",
+        "side-boss",
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "uniqueSkill": {
+        "id": "side-skill-004",
+        "name": "Faultline Stomp",
+        "blurb": "Unleashes the signature technique of the ashen hunt.",
+        "power": 25,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-004"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ashen-harbinger-005",
+      "name": "Ashen Harbinger of Frostford",
+      "blurb": "A notorious spirit whose challenge has become a whispered test among hunters.",
+      "levelMin": 5,
+      "levelMax": 13,
+      "hp": 202,
+      "power": 20,
+      "armor": 3,
+      "xp": 180,
+      "gold": 48,
+      "tags": [
+        "boss",
+        "side-boss",
+        "spirit"
+      ],
+      "artId": "art-raven-corv",
+      "uniqueSkill": {
+        "id": "side-skill-005",
+        "name": "Doomfeather Gale",
+        "blurb": "Unleashes the signature technique of the ashen hunt.",
+        "power": 28,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-005"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ashen-reaver-006",
+      "name": "Ashen Reaver of Frostford",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 6,
+      "levelMax": 14,
+      "hp": 225,
+      "power": 22,
+      "armor": 3,
+      "xp": 202,
+      "gold": 54,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "side-skill-006",
+        "name": "Scorching Cleave",
+        "blurb": "Unleashes the signature technique of the ashen hunt.",
+        "power": 31,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-006"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ashen-hart-007",
+      "name": "Ashen Hart of Frostford",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 7,
+      "levelMax": 15,
+      "hp": 249,
+      "power": 23,
+      "armor": 3,
+      "xp": 224,
+      "gold": 61,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "uniqueSkill": {
+        "id": "side-skill-007",
+        "name": "Crown of Thorns",
+        "blurb": "Unleashes the signature technique of the ashen hunt.",
+        "power": 32,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-007"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ashen-drake-008",
+      "name": "Ashen Drake of Frostford",
+      "blurb": "A notorious dragon whose challenge has become a whispered test among hunters.",
+      "levelMin": 8,
+      "levelMax": 16,
+      "hp": 272,
+      "power": 25,
+      "armor": 4,
+      "xp": 246,
+      "gold": 67,
+      "tags": [
+        "boss",
+        "side-boss",
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "uniqueSkill": {
+        "id": "side-skill-008",
+        "name": "Skyfire Torrent",
+        "blurb": "Unleashes the signature technique of the ashen hunt.",
+        "power": 35,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-008"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ashen-hydra-009",
+      "name": "Ashen Hydra of Frostford",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 9,
+      "levelMax": 17,
+      "hp": 297,
+      "power": 27,
+      "armor": 4,
+      "xp": 268,
+      "gold": 74,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-009",
+        "name": "Many-Mawed Fury",
+        "blurb": "Unleashes the signature technique of the ashen hunt.",
+        "power": 38,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-009"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ashen-dreadlord-010",
+      "name": "Ashen Dreadlord of Frostford",
+      "blurb": "A notorious demon whose challenge has become a whispered test among hunters.",
+      "levelMin": 10,
+      "levelMax": 18,
+      "hp": 321,
+      "power": 29,
+      "armor": 4,
+      "xp": 290,
+      "gold": 80,
+      "tags": [
+        "boss",
+        "side-boss",
+        "demon"
+      ],
+      "artId": "art-demon-herald",
+      "uniqueSkill": {
+        "id": "side-skill-010",
+        "name": "Abyssal Edict",
+        "blurb": "Unleashes the signature technique of the ashen hunt.",
+        "power": 41,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-010"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-briar-warg-011",
+      "name": "Briar Warg of Goblin Road",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 11,
+      "levelMax": 19,
+      "hp": 346,
+      "power": 30,
+      "armor": 5,
+      "xp": 312,
+      "gold": 87,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "uniqueSkill": {
+        "id": "side-skill-011",
+        "name": "Rending Howl",
+        "blurb": "Unleashes the signature technique of the briar hunt.",
+        "power": 42,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-011"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-briar-myrmidon-012",
+      "name": "Briar Myrmidon of Goblin Road",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 12,
+      "levelMax": 20,
+      "hp": 371,
+      "power": 32,
+      "armor": 5,
+      "xp": 334,
+      "gold": 93,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "uniqueSkill": {
+        "id": "side-skill-012",
+        "name": "Warband Rush",
+        "blurb": "Unleashes the signature technique of the briar hunt.",
+        "power": 45,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-012"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-briar-oracle-013",
+      "name": "Briar Oracle of Goblin Road",
+      "blurb": "A notorious arcane whose challenge has become a whispered test among hunters.",
+      "levelMin": 13,
+      "levelMax": 21,
+      "hp": 396,
+      "power": 34,
+      "armor": 5,
+      "xp": 356,
+      "gold": 100,
+      "tags": [
+        "boss",
+        "side-boss",
+        "arcane"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-013",
+        "name": "Crooked Prophecy",
+        "blurb": "Unleashes the signature technique of the briar hunt.",
+        "power": 48,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-013"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-briar-colossus-014",
+      "name": "Briar Colossus of Goblin Road",
+      "blurb": "A notorious construct whose challenge has become a whispered test among hunters.",
+      "levelMin": 14,
+      "levelMax": 22,
+      "hp": 421,
+      "power": 36,
+      "armor": 5,
+      "xp": 378,
+      "gold": 106,
+      "tags": [
+        "boss",
+        "side-boss",
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "uniqueSkill": {
+        "id": "side-skill-014",
+        "name": "Faultline Stomp",
+        "blurb": "Unleashes the signature technique of the briar hunt.",
+        "power": 50,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-014"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-briar-harbinger-015",
+      "name": "Briar Harbinger of Goblin Road",
+      "blurb": "A notorious spirit whose challenge has become a whispered test among hunters.",
+      "levelMin": 15,
+      "levelMax": 23,
+      "hp": 447,
+      "power": 37,
+      "armor": 6,
+      "xp": 400,
+      "gold": 113,
+      "tags": [
+        "boss",
+        "side-boss",
+        "spirit"
+      ],
+      "artId": "art-raven-corv",
+      "uniqueSkill": {
+        "id": "side-skill-015",
+        "name": "Doomfeather Gale",
+        "blurb": "Unleashes the signature technique of the briar hunt.",
+        "power": 52,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-015"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-briar-reaver-016",
+      "name": "Briar Reaver of Goblin Road",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 16,
+      "levelMax": 24,
+      "hp": 473,
+      "power": 39,
+      "armor": 6,
+      "xp": 422,
+      "gold": 119,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "side-skill-016",
+        "name": "Scorching Cleave",
+        "blurb": "Unleashes the signature technique of the briar hunt.",
+        "power": 55,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-016"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-briar-hart-017",
+      "name": "Briar Hart of Goblin Road",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 17,
+      "levelMax": 25,
+      "hp": 499,
+      "power": 41,
+      "armor": 6,
+      "xp": 444,
+      "gold": 126,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "uniqueSkill": {
+        "id": "side-skill-017",
+        "name": "Crown of Thorns",
+        "blurb": "Unleashes the signature technique of the briar hunt.",
+        "power": 57,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-017"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-briar-drake-018",
+      "name": "Briar Drake of Goblin Road",
+      "blurb": "A notorious dragon whose challenge has become a whispered test among hunters.",
+      "levelMin": 18,
+      "levelMax": 26,
+      "hp": 525,
+      "power": 43,
+      "armor": 7,
+      "xp": 466,
+      "gold": 132,
+      "tags": [
+        "boss",
+        "side-boss",
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "uniqueSkill": {
+        "id": "side-skill-018",
+        "name": "Skyfire Torrent",
+        "blurb": "Unleashes the signature technique of the briar hunt.",
+        "power": 60,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-018"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-briar-hydra-019",
+      "name": "Briar Hydra of Goblin Road",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 19,
+      "levelMax": 27,
+      "hp": 551,
+      "power": 44,
+      "armor": 7,
+      "xp": 488,
+      "gold": 139,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-019",
+        "name": "Many-Mawed Fury",
+        "blurb": "Unleashes the signature technique of the briar hunt.",
+        "power": 62,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-019"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-briar-dreadlord-020",
+      "name": "Briar Dreadlord of Goblin Road",
+      "blurb": "A notorious demon whose challenge has become a whispered test among hunters.",
+      "levelMin": 20,
+      "levelMax": 28,
+      "hp": 578,
+      "power": 46,
+      "armor": 7,
+      "xp": 510,
+      "gold": 145,
+      "tags": [
+        "boss",
+        "side-boss",
+        "demon"
+      ],
+      "artId": "art-demon-herald",
+      "uniqueSkill": {
+        "id": "side-skill-020",
+        "name": "Abyssal Edict",
+        "blurb": "Unleashes the signature technique of the briar hunt.",
+        "power": 64,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-020"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-cinder-warg-021",
+      "name": "Cinder Warg of Ember Hall",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 21,
+      "levelMax": 29,
+      "hp": 604,
+      "power": 48,
+      "armor": 8,
+      "xp": 532,
+      "gold": 152,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "uniqueSkill": {
+        "id": "side-skill-021",
+        "name": "Rending Howl",
+        "blurb": "Unleashes the signature technique of the cinder hunt.",
+        "power": 67,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-021"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-cinder-myrmidon-022",
+      "name": "Cinder Myrmidon of Ember Hall",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 22,
+      "levelMax": 30,
+      "hp": 631,
+      "power": 50,
+      "armor": 8,
+      "xp": 554,
+      "gold": 158,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "uniqueSkill": {
+        "id": "side-skill-022",
+        "name": "Warband Rush",
+        "blurb": "Unleashes the signature technique of the cinder hunt.",
+        "power": 70,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-022"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-cinder-oracle-023",
+      "name": "Cinder Oracle of Ember Hall",
+      "blurb": "A notorious arcane whose challenge has become a whispered test among hunters.",
+      "levelMin": 23,
+      "levelMax": 31,
+      "hp": 658,
+      "power": 51,
+      "armor": 8,
+      "xp": 576,
+      "gold": 165,
+      "tags": [
+        "boss",
+        "side-boss",
+        "arcane"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-023",
+        "name": "Crooked Prophecy",
+        "blurb": "Unleashes the signature technique of the cinder hunt.",
+        "power": 71,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-023"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-cinder-colossus-024",
+      "name": "Cinder Colossus of Ember Hall",
+      "blurb": "A notorious construct whose challenge has become a whispered test among hunters.",
+      "levelMin": 24,
+      "levelMax": 32,
+      "hp": 685,
+      "power": 53,
+      "armor": 9,
+      "xp": 598,
+      "gold": 171,
+      "tags": [
+        "boss",
+        "side-boss",
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "uniqueSkill": {
+        "id": "side-skill-024",
+        "name": "Faultline Stomp",
+        "blurb": "Unleashes the signature technique of the cinder hunt.",
+        "power": 74,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-024"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-cinder-harbinger-025",
+      "name": "Cinder Harbinger of Ember Hall",
+      "blurb": "A notorious spirit whose challenge has become a whispered test among hunters.",
+      "levelMin": 25,
+      "levelMax": 33,
+      "hp": 713,
+      "power": 55,
+      "armor": 9,
+      "xp": 620,
+      "gold": 178,
+      "tags": [
+        "boss",
+        "side-boss",
+        "spirit"
+      ],
+      "artId": "art-raven-corv",
+      "uniqueSkill": {
+        "id": "side-skill-025",
+        "name": "Doomfeather Gale",
+        "blurb": "Unleashes the signature technique of the cinder hunt.",
+        "power": 77,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-025"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-cinder-reaver-026",
+      "name": "Cinder Reaver of Ember Hall",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 26,
+      "levelMax": 34,
+      "hp": 740,
+      "power": 57,
+      "armor": 9,
+      "xp": 642,
+      "gold": 184,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "side-skill-026",
+        "name": "Scorching Cleave",
+        "blurb": "Unleashes the signature technique of the cinder hunt.",
+        "power": 80,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-026"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-cinder-hart-027",
+      "name": "Cinder Hart of Ember Hall",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 27,
+      "levelMax": 35,
+      "hp": 768,
+      "power": 58,
+      "armor": 10,
+      "xp": 664,
+      "gold": 191,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "uniqueSkill": {
+        "id": "side-skill-027",
+        "name": "Crown of Thorns",
+        "blurb": "Unleashes the signature technique of the cinder hunt.",
+        "power": 81,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-027"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-cinder-drake-028",
+      "name": "Cinder Drake of Ember Hall",
+      "blurb": "A notorious dragon whose challenge has become a whispered test among hunters.",
+      "levelMin": 28,
+      "levelMax": 36,
+      "hp": 796,
+      "power": 60,
+      "armor": 10,
+      "xp": 686,
+      "gold": 197,
+      "tags": [
+        "boss",
+        "side-boss",
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "uniqueSkill": {
+        "id": "side-skill-028",
+        "name": "Skyfire Torrent",
+        "blurb": "Unleashes the signature technique of the cinder hunt.",
+        "power": 84,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-028"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-cinder-hydra-029",
+      "name": "Cinder Hydra of Ember Hall",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 29,
+      "levelMax": 37,
+      "hp": 824,
+      "power": 62,
+      "armor": 10,
+      "xp": 708,
+      "gold": 204,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-029",
+        "name": "Many-Mawed Fury",
+        "blurb": "Unleashes the signature technique of the cinder hunt.",
+        "power": 87,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-029"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-cinder-dreadlord-030",
+      "name": "Cinder Dreadlord of Ember Hall",
+      "blurb": "A notorious demon whose challenge has become a whispered test among hunters.",
+      "levelMin": 30,
+      "levelMax": 38,
+      "hp": 852,
+      "power": 64,
+      "armor": 11,
+      "xp": 730,
+      "gold": 210,
+      "tags": [
+        "boss",
+        "side-boss",
+        "demon"
+      ],
+      "artId": "art-demon-herald",
+      "uniqueSkill": {
+        "id": "side-skill-030",
+        "name": "Abyssal Edict",
+        "blurb": "Unleashes the signature technique of the cinder hunt.",
+        "power": 90,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-030"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-drowned-warg-031",
+      "name": "Drowned Warg of Dragon Ruin",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 31,
+      "levelMax": 39,
+      "hp": 880,
+      "power": 65,
+      "armor": 11,
+      "xp": 752,
+      "gold": 217,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "uniqueSkill": {
+        "id": "side-skill-031",
+        "name": "Rending Howl",
+        "blurb": "Unleashes the signature technique of the drowned hunt.",
+        "power": 91,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-031"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-drowned-myrmidon-032",
+      "name": "Drowned Myrmidon of Dragon Ruin",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 32,
+      "levelMax": 40,
+      "hp": 908,
+      "power": 67,
+      "armor": 11,
+      "xp": 774,
+      "gold": 223,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "uniqueSkill": {
+        "id": "side-skill-032",
+        "name": "Warband Rush",
+        "blurb": "Unleashes the signature technique of the drowned hunt.",
+        "power": 94,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-032"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-drowned-oracle-033",
+      "name": "Drowned Oracle of Dragon Ruin",
+      "blurb": "A notorious arcane whose challenge has become a whispered test among hunters.",
+      "levelMin": 33,
+      "levelMax": 41,
+      "hp": 937,
+      "power": 69,
+      "armor": 12,
+      "xp": 796,
+      "gold": 230,
+      "tags": [
+        "boss",
+        "side-boss",
+        "arcane"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-033",
+        "name": "Crooked Prophecy",
+        "blurb": "Unleashes the signature technique of the drowned hunt.",
+        "power": 97,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-033"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-drowned-colossus-034",
+      "name": "Drowned Colossus of Dragon Ruin",
+      "blurb": "A notorious construct whose challenge has become a whispered test among hunters.",
+      "levelMin": 34,
+      "levelMax": 42,
+      "hp": 965,
+      "power": 71,
+      "armor": 12,
+      "xp": 818,
+      "gold": 236,
+      "tags": [
+        "boss",
+        "side-boss",
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "uniqueSkill": {
+        "id": "side-skill-034",
+        "name": "Faultline Stomp",
+        "blurb": "Unleashes the signature technique of the drowned hunt.",
+        "power": 99,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-034"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-drowned-harbinger-035",
+      "name": "Drowned Harbinger of Dragon Ruin",
+      "blurb": "A notorious spirit whose challenge has become a whispered test among hunters.",
+      "levelMin": 35,
+      "levelMax": 43,
+      "hp": 994,
+      "power": 72,
+      "armor": 12,
+      "xp": 840,
+      "gold": 243,
+      "tags": [
+        "boss",
+        "side-boss",
+        "spirit"
+      ],
+      "artId": "art-raven-corv",
+      "uniqueSkill": {
+        "id": "side-skill-035",
+        "name": "Doomfeather Gale",
+        "blurb": "Unleashes the signature technique of the drowned hunt.",
+        "power": 101,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-035"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-drowned-reaver-036",
+      "name": "Drowned Reaver of Dragon Ruin",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 36,
+      "levelMax": 44,
+      "hp": 1022,
+      "power": 74,
+      "armor": 13,
+      "xp": 862,
+      "gold": 249,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "side-skill-036",
+        "name": "Scorching Cleave",
+        "blurb": "Unleashes the signature technique of the drowned hunt.",
+        "power": 104,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-036"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-drowned-hart-037",
+      "name": "Drowned Hart of Dragon Ruin",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 37,
+      "levelMax": 45,
+      "hp": 1051,
+      "power": 76,
+      "armor": 13,
+      "xp": 884,
+      "gold": 256,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "uniqueSkill": {
+        "id": "side-skill-037",
+        "name": "Crown of Thorns",
+        "blurb": "Unleashes the signature technique of the drowned hunt.",
+        "power": 106,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-037"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-drowned-drake-038",
+      "name": "Drowned Drake of Dragon Ruin",
+      "blurb": "A notorious dragon whose challenge has become a whispered test among hunters.",
+      "levelMin": 38,
+      "levelMax": 46,
+      "hp": 1080,
+      "power": 78,
+      "armor": 13,
+      "xp": 906,
+      "gold": 262,
+      "tags": [
+        "boss",
+        "side-boss",
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "uniqueSkill": {
+        "id": "side-skill-038",
+        "name": "Skyfire Torrent",
+        "blurb": "Unleashes the signature technique of the drowned hunt.",
+        "power": 109,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-038"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-drowned-hydra-039",
+      "name": "Drowned Hydra of Dragon Ruin",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 39,
+      "levelMax": 47,
+      "hp": 1109,
+      "power": 79,
+      "armor": 13,
+      "xp": 928,
+      "gold": 269,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-039",
+        "name": "Many-Mawed Fury",
+        "blurb": "Unleashes the signature technique of the drowned hunt.",
+        "power": 111,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-039"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-drowned-dreadlord-040",
+      "name": "Drowned Dreadlord of Dragon Ruin",
+      "blurb": "A notorious demon whose challenge has become a whispered test among hunters.",
+      "levelMin": 40,
+      "levelMax": 48,
+      "hp": 1139,
+      "power": 81,
+      "armor": 14,
+      "xp": 950,
+      "gold": 275,
+      "tags": [
+        "boss",
+        "side-boss",
+        "demon"
+      ],
+      "artId": "art-demon-herald",
+      "uniqueSkill": {
+        "id": "side-skill-040",
+        "name": "Abyssal Edict",
+        "blurb": "Unleashes the signature technique of the drowned hunt.",
+        "power": 113,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-040"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ebon-warg-041",
+      "name": "Ebon Warg of Misty Bridge",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 41,
+      "levelMax": 49,
+      "hp": 1168,
+      "power": 83,
+      "armor": 14,
+      "xp": 972,
+      "gold": 282,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "uniqueSkill": {
+        "id": "side-skill-041",
+        "name": "Rending Howl",
+        "blurb": "Unleashes the signature technique of the ebon hunt.",
+        "power": 116,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-041"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ebon-myrmidon-042",
+      "name": "Ebon Myrmidon of Misty Bridge",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 42,
+      "levelMax": 50,
+      "hp": 1197,
+      "power": 85,
+      "armor": 14,
+      "xp": 994,
+      "gold": 288,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "uniqueSkill": {
+        "id": "side-skill-042",
+        "name": "Warband Rush",
+        "blurb": "Unleashes the signature technique of the ebon hunt.",
+        "power": 119,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-042"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ebon-oracle-043",
+      "name": "Ebon Oracle of Misty Bridge",
+      "blurb": "A notorious arcane whose challenge has become a whispered test among hunters.",
+      "levelMin": 43,
+      "levelMax": 51,
+      "hp": 1227,
+      "power": 86,
+      "armor": 15,
+      "xp": 1016,
+      "gold": 295,
+      "tags": [
+        "boss",
+        "side-boss",
+        "arcane"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-043",
+        "name": "Crooked Prophecy",
+        "blurb": "Unleashes the signature technique of the ebon hunt.",
+        "power": 120,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-043"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ebon-colossus-044",
+      "name": "Ebon Colossus of Misty Bridge",
+      "blurb": "A notorious construct whose challenge has become a whispered test among hunters.",
+      "levelMin": 44,
+      "levelMax": 52,
+      "hp": 1257,
+      "power": 88,
+      "armor": 15,
+      "xp": 1038,
+      "gold": 301,
+      "tags": [
+        "boss",
+        "side-boss",
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "uniqueSkill": {
+        "id": "side-skill-044",
+        "name": "Faultline Stomp",
+        "blurb": "Unleashes the signature technique of the ebon hunt.",
+        "power": 123,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-044"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ebon-harbinger-045",
+      "name": "Ebon Harbinger of Misty Bridge",
+      "blurb": "A notorious spirit whose challenge has become a whispered test among hunters.",
+      "levelMin": 45,
+      "levelMax": 53,
+      "hp": 1286,
+      "power": 90,
+      "armor": 15,
+      "xp": 1060,
+      "gold": 308,
+      "tags": [
+        "boss",
+        "side-boss",
+        "spirit"
+      ],
+      "artId": "art-raven-corv",
+      "uniqueSkill": {
+        "id": "side-skill-045",
+        "name": "Doomfeather Gale",
+        "blurb": "Unleashes the signature technique of the ebon hunt.",
+        "power": 126,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-045"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ebon-reaver-046",
+      "name": "Ebon Reaver of Misty Bridge",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 46,
+      "levelMax": 54,
+      "hp": 1316,
+      "power": 92,
+      "armor": 16,
+      "xp": 1082,
+      "gold": 314,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "side-skill-046",
+        "name": "Scorching Cleave",
+        "blurb": "Unleashes the signature technique of the ebon hunt.",
+        "power": 129,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-046"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ebon-hart-047",
+      "name": "Ebon Hart of Misty Bridge",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 47,
+      "levelMax": 55,
+      "hp": 1346,
+      "power": 93,
+      "armor": 16,
+      "xp": 1104,
+      "gold": 321,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "uniqueSkill": {
+        "id": "side-skill-047",
+        "name": "Crown of Thorns",
+        "blurb": "Unleashes the signature technique of the ebon hunt.",
+        "power": 130,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-047"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ebon-drake-048",
+      "name": "Ebon Drake of Misty Bridge",
+      "blurb": "A notorious dragon whose challenge has become a whispered test among hunters.",
+      "levelMin": 48,
+      "levelMax": 56,
+      "hp": 1376,
+      "power": 95,
+      "armor": 16,
+      "xp": 1126,
+      "gold": 327,
+      "tags": [
+        "boss",
+        "side-boss",
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "uniqueSkill": {
+        "id": "side-skill-048",
+        "name": "Skyfire Torrent",
+        "blurb": "Unleashes the signature technique of the ebon hunt.",
+        "power": 133,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-048"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ebon-hydra-049",
+      "name": "Ebon Hydra of Misty Bridge",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 49,
+      "levelMax": 57,
+      "hp": 1406,
+      "power": 97,
+      "armor": 17,
+      "xp": 1148,
+      "gold": 334,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-049",
+        "name": "Many-Mawed Fury",
+        "blurb": "Unleashes the signature technique of the ebon hunt.",
+        "power": 136,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-049"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-ebon-dreadlord-050",
+      "name": "Ebon Dreadlord of Misty Bridge",
+      "blurb": "A notorious demon whose challenge has become a whispered test among hunters.",
+      "levelMin": 50,
+      "levelMax": 58,
+      "hp": 1437,
+      "power": 99,
+      "armor": 17,
+      "xp": 1170,
+      "gold": 340,
+      "tags": [
+        "boss",
+        "side-boss",
+        "demon"
+      ],
+      "artId": "art-demon-herald",
+      "uniqueSkill": {
+        "id": "side-skill-050",
+        "name": "Abyssal Edict",
+        "blurb": "Unleashes the signature technique of the ebon hunt.",
+        "power": 139,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-050"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-frost-warg-051",
+      "name": "Frost Warg of Wolf Ridge",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 51,
+      "levelMax": 59,
+      "hp": 1467,
+      "power": 100,
+      "armor": 17,
+      "xp": 1192,
+      "gold": 347,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "uniqueSkill": {
+        "id": "side-skill-051",
+        "name": "Rending Howl",
+        "blurb": "Unleashes the signature technique of the frost hunt.",
+        "power": 140,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-051"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-frost-myrmidon-052",
+      "name": "Frost Myrmidon of Wolf Ridge",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 52,
+      "levelMax": 60,
+      "hp": 1497,
+      "power": 102,
+      "armor": 18,
+      "xp": 1214,
+      "gold": 353,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "uniqueSkill": {
+        "id": "side-skill-052",
+        "name": "Warband Rush",
+        "blurb": "Unleashes the signature technique of the frost hunt.",
+        "power": 143,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-052"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-frost-oracle-053",
+      "name": "Frost Oracle of Wolf Ridge",
+      "blurb": "A notorious arcane whose challenge has become a whispered test among hunters.",
+      "levelMin": 53,
+      "levelMax": 61,
+      "hp": 1528,
+      "power": 104,
+      "armor": 18,
+      "xp": 1236,
+      "gold": 360,
+      "tags": [
+        "boss",
+        "side-boss",
+        "arcane"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-053",
+        "name": "Crooked Prophecy",
+        "blurb": "Unleashes the signature technique of the frost hunt.",
+        "power": 146,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-053"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-frost-colossus-054",
+      "name": "Frost Colossus of Wolf Ridge",
+      "blurb": "A notorious construct whose challenge has become a whispered test among hunters.",
+      "levelMin": 54,
+      "levelMax": 62,
+      "hp": 1558,
+      "power": 106,
+      "armor": 18,
+      "xp": 1258,
+      "gold": 366,
+      "tags": [
+        "boss",
+        "side-boss",
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "uniqueSkill": {
+        "id": "side-skill-054",
+        "name": "Faultline Stomp",
+        "blurb": "Unleashes the signature technique of the frost hunt.",
+        "power": 148,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-054"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-frost-harbinger-055",
+      "name": "Frost Harbinger of Wolf Ridge",
+      "blurb": "A notorious spirit whose challenge has become a whispered test among hunters.",
+      "levelMin": 55,
+      "levelMax": 63,
+      "hp": 1589,
+      "power": 107,
+      "armor": 19,
+      "xp": 1280,
+      "gold": 373,
+      "tags": [
+        "boss",
+        "side-boss",
+        "spirit"
+      ],
+      "artId": "art-raven-corv",
+      "uniqueSkill": {
+        "id": "side-skill-055",
+        "name": "Doomfeather Gale",
+        "blurb": "Unleashes the signature technique of the frost hunt.",
+        "power": 150,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-055"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-frost-reaver-056",
+      "name": "Frost Reaver of Wolf Ridge",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 56,
+      "levelMax": 64,
+      "hp": 1620,
+      "power": 109,
+      "armor": 19,
+      "xp": 1302,
+      "gold": 379,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "side-skill-056",
+        "name": "Scorching Cleave",
+        "blurb": "Unleashes the signature technique of the frost hunt.",
+        "power": 153,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-056"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-frost-hart-057",
+      "name": "Frost Hart of Wolf Ridge",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 57,
+      "levelMax": 65,
+      "hp": 1651,
+      "power": 111,
+      "armor": 19,
+      "xp": 1324,
+      "gold": 386,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "uniqueSkill": {
+        "id": "side-skill-057",
+        "name": "Crown of Thorns",
+        "blurb": "Unleashes the signature technique of the frost hunt.",
+        "power": 155,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-057"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-frost-drake-058",
+      "name": "Frost Drake of Wolf Ridge",
+      "blurb": "A notorious dragon whose challenge has become a whispered test among hunters.",
+      "levelMin": 58,
+      "levelMax": 66,
+      "hp": 1682,
+      "power": 113,
+      "armor": 20,
+      "xp": 1346,
+      "gold": 392,
+      "tags": [
+        "boss",
+        "side-boss",
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "uniqueSkill": {
+        "id": "side-skill-058",
+        "name": "Skyfire Torrent",
+        "blurb": "Unleashes the signature technique of the frost hunt.",
+        "power": 158,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-058"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-frost-hydra-059",
+      "name": "Frost Hydra of Wolf Ridge",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 59,
+      "levelMax": 67,
+      "hp": 1713,
+      "power": 114,
+      "armor": 20,
+      "xp": 1368,
+      "gold": 399,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-059",
+        "name": "Many-Mawed Fury",
+        "blurb": "Unleashes the signature technique of the frost hunt.",
+        "power": 160,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-059"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-frost-dreadlord-060",
+      "name": "Frost Dreadlord of Wolf Ridge",
+      "blurb": "A notorious demon whose challenge has become a whispered test among hunters.",
+      "levelMin": 60,
+      "levelMax": 68,
+      "hp": 1744,
+      "power": 116,
+      "armor": 20,
+      "xp": 1390,
+      "gold": 405,
+      "tags": [
+        "boss",
+        "side-boss",
+        "demon"
+      ],
+      "artId": "art-demon-herald",
+      "uniqueSkill": {
+        "id": "side-skill-060",
+        "name": "Abyssal Edict",
+        "blurb": "Unleashes the signature technique of the frost hunt.",
+        "power": 162,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-060"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-gloam-warg-061",
+      "name": "Gloam Warg of Ash Crown",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 61,
+      "levelMax": 69,
+      "hp": 1775,
+      "power": 118,
+      "armor": 21,
+      "xp": 1412,
+      "gold": 412,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "uniqueSkill": {
+        "id": "side-skill-061",
+        "name": "Rending Howl",
+        "blurb": "Unleashes the signature technique of the gloam hunt.",
+        "power": 165,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-061"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-gloam-myrmidon-062",
+      "name": "Gloam Myrmidon of Ash Crown",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 62,
+      "levelMax": 70,
+      "hp": 1806,
+      "power": 120,
+      "armor": 21,
+      "xp": 1434,
+      "gold": 418,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "uniqueSkill": {
+        "id": "side-skill-062",
+        "name": "Warband Rush",
+        "blurb": "Unleashes the signature technique of the gloam hunt.",
+        "power": 168,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-062"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-gloam-oracle-063",
+      "name": "Gloam Oracle of Ash Crown",
+      "blurb": "A notorious arcane whose challenge has become a whispered test among hunters.",
+      "levelMin": 63,
+      "levelMax": 71,
+      "hp": 1838,
+      "power": 121,
+      "armor": 21,
+      "xp": 1456,
+      "gold": 425,
+      "tags": [
+        "boss",
+        "side-boss",
+        "arcane"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-063",
+        "name": "Crooked Prophecy",
+        "blurb": "Unleashes the signature technique of the gloam hunt.",
+        "power": 169,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-063"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-gloam-colossus-064",
+      "name": "Gloam Colossus of Ash Crown",
+      "blurb": "A notorious construct whose challenge has become a whispered test among hunters.",
+      "levelMin": 64,
+      "levelMax": 72,
+      "hp": 1869,
+      "power": 123,
+      "armor": 21,
+      "xp": 1478,
+      "gold": 431,
+      "tags": [
+        "boss",
+        "side-boss",
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "uniqueSkill": {
+        "id": "side-skill-064",
+        "name": "Faultline Stomp",
+        "blurb": "Unleashes the signature technique of the gloam hunt.",
+        "power": 172,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-064"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-gloam-harbinger-065",
+      "name": "Gloam Harbinger of Ash Crown",
+      "blurb": "A notorious spirit whose challenge has become a whispered test among hunters.",
+      "levelMin": 65,
+      "levelMax": 73,
+      "hp": 1900,
+      "power": 125,
+      "armor": 22,
+      "xp": 1500,
+      "gold": 438,
+      "tags": [
+        "boss",
+        "side-boss",
+        "spirit"
+      ],
+      "artId": "art-raven-corv",
+      "uniqueSkill": {
+        "id": "side-skill-065",
+        "name": "Doomfeather Gale",
+        "blurb": "Unleashes the signature technique of the gloam hunt.",
+        "power": 175,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-065"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-gloam-reaver-066",
+      "name": "Gloam Reaver of Ash Crown",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 66,
+      "levelMax": 74,
+      "hp": 1932,
+      "power": 127,
+      "armor": 22,
+      "xp": 1522,
+      "gold": 444,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "side-skill-066",
+        "name": "Scorching Cleave",
+        "blurb": "Unleashes the signature technique of the gloam hunt.",
+        "power": 178,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-066"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-gloam-hart-067",
+      "name": "Gloam Hart of Ash Crown",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 67,
+      "levelMax": 75,
+      "hp": 1964,
+      "power": 128,
+      "armor": 22,
+      "xp": 1544,
+      "gold": 451,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "uniqueSkill": {
+        "id": "side-skill-067",
+        "name": "Crown of Thorns",
+        "blurb": "Unleashes the signature technique of the gloam hunt.",
+        "power": 179,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-067"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-gloam-drake-068",
+      "name": "Gloam Drake of Ash Crown",
+      "blurb": "A notorious dragon whose challenge has become a whispered test among hunters.",
+      "levelMin": 68,
+      "levelMax": 76,
+      "hp": 1995,
+      "power": 130,
+      "armor": 23,
+      "xp": 1566,
+      "gold": 457,
+      "tags": [
+        "boss",
+        "side-boss",
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "uniqueSkill": {
+        "id": "side-skill-068",
+        "name": "Skyfire Torrent",
+        "blurb": "Unleashes the signature technique of the gloam hunt.",
+        "power": 182,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-068"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-gloam-hydra-069",
+      "name": "Gloam Hydra of Ash Crown",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 69,
+      "levelMax": 77,
+      "hp": 2027,
+      "power": 132,
+      "armor": 23,
+      "xp": 1588,
+      "gold": 464,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-069",
+        "name": "Many-Mawed Fury",
+        "blurb": "Unleashes the signature technique of the gloam hunt.",
+        "power": 185,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-069"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-gloam-dreadlord-070",
+      "name": "Gloam Dreadlord of Ash Crown",
+      "blurb": "A notorious demon whose challenge has become a whispered test among hunters.",
+      "levelMin": 70,
+      "levelMax": 78,
+      "hp": 2059,
+      "power": 134,
+      "armor": 23,
+      "xp": 1610,
+      "gold": 470,
+      "tags": [
+        "boss",
+        "side-boss",
+        "demon"
+      ],
+      "artId": "art-demon-herald",
+      "uniqueSkill": {
+        "id": "side-skill-070",
+        "name": "Abyssal Edict",
+        "blurb": "Unleashes the signature technique of the gloam hunt.",
+        "power": 188,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-070"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-hollow-warg-071",
+      "name": "Hollow Warg of Fellowship Camp",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 71,
+      "levelMax": 79,
+      "hp": 2091,
+      "power": 135,
+      "armor": 24,
+      "xp": 1632,
+      "gold": 477,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "uniqueSkill": {
+        "id": "side-skill-071",
+        "name": "Rending Howl",
+        "blurb": "Unleashes the signature technique of the hollow hunt.",
+        "power": 189,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-071"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-hollow-myrmidon-072",
+      "name": "Hollow Myrmidon of Fellowship Camp",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 72,
+      "levelMax": 80,
+      "hp": 2123,
+      "power": 137,
+      "armor": 24,
+      "xp": 1654,
+      "gold": 483,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "uniqueSkill": {
+        "id": "side-skill-072",
+        "name": "Warband Rush",
+        "blurb": "Unleashes the signature technique of the hollow hunt.",
+        "power": 192,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-072"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-hollow-oracle-073",
+      "name": "Hollow Oracle of Fellowship Camp",
+      "blurb": "A notorious arcane whose challenge has become a whispered test among hunters.",
+      "levelMin": 73,
+      "levelMax": 81,
+      "hp": 2155,
+      "power": 139,
+      "armor": 24,
+      "xp": 1676,
+      "gold": 490,
+      "tags": [
+        "boss",
+        "side-boss",
+        "arcane"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-073",
+        "name": "Crooked Prophecy",
+        "blurb": "Unleashes the signature technique of the hollow hunt.",
+        "power": 195,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-073"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-hollow-colossus-074",
+      "name": "Hollow Colossus of Fellowship Camp",
+      "blurb": "A notorious construct whose challenge has become a whispered test among hunters.",
+      "levelMin": 74,
+      "levelMax": 82,
+      "hp": 2187,
+      "power": 141,
+      "armor": 25,
+      "xp": 1698,
+      "gold": 496,
+      "tags": [
+        "boss",
+        "side-boss",
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "uniqueSkill": {
+        "id": "side-skill-074",
+        "name": "Faultline Stomp",
+        "blurb": "Unleashes the signature technique of the hollow hunt.",
+        "power": 197,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-074"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-hollow-harbinger-075",
+      "name": "Hollow Harbinger of Fellowship Camp",
+      "blurb": "A notorious spirit whose challenge has become a whispered test among hunters.",
+      "levelMin": 75,
+      "levelMax": 83,
+      "hp": 2220,
+      "power": 142,
+      "armor": 25,
+      "xp": 1720,
+      "gold": 503,
+      "tags": [
+        "boss",
+        "side-boss",
+        "spirit"
+      ],
+      "artId": "art-raven-corv",
+      "uniqueSkill": {
+        "id": "side-skill-075",
+        "name": "Doomfeather Gale",
+        "blurb": "Unleashes the signature technique of the hollow hunt.",
+        "power": 199,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-075"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-hollow-reaver-076",
+      "name": "Hollow Reaver of Fellowship Camp",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 76,
+      "levelMax": 84,
+      "hp": 2252,
+      "power": 144,
+      "armor": 25,
+      "xp": 1742,
+      "gold": 509,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "side-skill-076",
+        "name": "Scorching Cleave",
+        "blurb": "Unleashes the signature technique of the hollow hunt.",
+        "power": 202,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-076"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-hollow-hart-077",
+      "name": "Hollow Hart of Fellowship Camp",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 77,
+      "levelMax": 85,
+      "hp": 2284,
+      "power": 146,
+      "armor": 26,
+      "xp": 1764,
+      "gold": 516,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "uniqueSkill": {
+        "id": "side-skill-077",
+        "name": "Crown of Thorns",
+        "blurb": "Unleashes the signature technique of the hollow hunt.",
+        "power": 204,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-077"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-hollow-drake-078",
+      "name": "Hollow Drake of Fellowship Camp",
+      "blurb": "A notorious dragon whose challenge has become a whispered test among hunters.",
+      "levelMin": 78,
+      "levelMax": 86,
+      "hp": 2317,
+      "power": 148,
+      "armor": 26,
+      "xp": 1786,
+      "gold": 522,
+      "tags": [
+        "boss",
+        "side-boss",
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "uniqueSkill": {
+        "id": "side-skill-078",
+        "name": "Skyfire Torrent",
+        "blurb": "Unleashes the signature technique of the hollow hunt.",
+        "power": 207,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-078"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-hollow-hydra-079",
+      "name": "Hollow Hydra of Fellowship Camp",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 79,
+      "levelMax": 87,
+      "hp": 2349,
+      "power": 149,
+      "armor": 26,
+      "xp": 1808,
+      "gold": 529,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-079",
+        "name": "Many-Mawed Fury",
+        "blurb": "Unleashes the signature technique of the hollow hunt.",
+        "power": 209,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-079"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-hollow-dreadlord-080",
+      "name": "Hollow Dreadlord of Fellowship Camp",
+      "blurb": "A notorious demon whose challenge has become a whispered test among hunters.",
+      "levelMin": 80,
+      "levelMax": 88,
+      "hp": 2382,
+      "power": 151,
+      "armor": 27,
+      "xp": 1830,
+      "gold": 535,
+      "tags": [
+        "boss",
+        "side-boss",
+        "demon"
+      ],
+      "artId": "art-demon-herald",
+      "uniqueSkill": {
+        "id": "side-skill-080",
+        "name": "Abyssal Edict",
+        "blurb": "Unleashes the signature technique of the hollow hunt.",
+        "power": 211,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-080"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-iron-warg-081",
+      "name": "Iron Warg of Worldeater Gate",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 81,
+      "levelMax": 89,
+      "hp": 2415,
+      "power": 153,
+      "armor": 27,
+      "xp": 1852,
+      "gold": 542,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "uniqueSkill": {
+        "id": "side-skill-081",
+        "name": "Rending Howl",
+        "blurb": "Unleashes the signature technique of the iron hunt.",
+        "power": 214,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-081"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-iron-myrmidon-082",
+      "name": "Iron Myrmidon of Worldeater Gate",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 82,
+      "levelMax": 90,
+      "hp": 2447,
+      "power": 155,
+      "armor": 27,
+      "xp": 1874,
+      "gold": 548,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "uniqueSkill": {
+        "id": "side-skill-082",
+        "name": "Warband Rush",
+        "blurb": "Unleashes the signature technique of the iron hunt.",
+        "power": 217,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-082"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-iron-oracle-083",
+      "name": "Iron Oracle of Worldeater Gate",
+      "blurb": "A notorious arcane whose challenge has become a whispered test among hunters.",
+      "levelMin": 83,
+      "levelMax": 91,
+      "hp": 2480,
+      "power": 156,
+      "armor": 28,
+      "xp": 1896,
+      "gold": 555,
+      "tags": [
+        "boss",
+        "side-boss",
+        "arcane"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-083",
+        "name": "Crooked Prophecy",
+        "blurb": "Unleashes the signature technique of the iron hunt.",
+        "power": 218,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-083"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-iron-colossus-084",
+      "name": "Iron Colossus of Worldeater Gate",
+      "blurb": "A notorious construct whose challenge has become a whispered test among hunters.",
+      "levelMin": 84,
+      "levelMax": 92,
+      "hp": 2513,
+      "power": 158,
+      "armor": 28,
+      "xp": 1918,
+      "gold": 561,
+      "tags": [
+        "boss",
+        "side-boss",
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "uniqueSkill": {
+        "id": "side-skill-084",
+        "name": "Faultline Stomp",
+        "blurb": "Unleashes the signature technique of the iron hunt.",
+        "power": 221,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-084"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-iron-harbinger-085",
+      "name": "Iron Harbinger of Worldeater Gate",
+      "blurb": "A notorious spirit whose challenge has become a whispered test among hunters.",
+      "levelMin": 85,
+      "levelMax": 93,
+      "hp": 2546,
+      "power": 160,
+      "armor": 28,
+      "xp": 1940,
+      "gold": 568,
+      "tags": [
+        "boss",
+        "side-boss",
+        "spirit"
+      ],
+      "artId": "art-raven-corv",
+      "uniqueSkill": {
+        "id": "side-skill-085",
+        "name": "Doomfeather Gale",
+        "blurb": "Unleashes the signature technique of the iron hunt.",
+        "power": 224,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-085"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-iron-reaver-086",
+      "name": "Iron Reaver of Worldeater Gate",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 86,
+      "levelMax": 94,
+      "hp": 2579,
+      "power": 162,
+      "armor": 29,
+      "xp": 1962,
+      "gold": 574,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "side-skill-086",
+        "name": "Scorching Cleave",
+        "blurb": "Unleashes the signature technique of the iron hunt.",
+        "power": 227,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-086"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-iron-hart-087",
+      "name": "Iron Hart of Worldeater Gate",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 87,
+      "levelMax": 95,
+      "hp": 2612,
+      "power": 163,
+      "armor": 29,
+      "xp": 1984,
+      "gold": 581,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "uniqueSkill": {
+        "id": "side-skill-087",
+        "name": "Crown of Thorns",
+        "blurb": "Unleashes the signature technique of the iron hunt.",
+        "power": 228,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-087"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-iron-drake-088",
+      "name": "Iron Drake of Worldeater Gate",
+      "blurb": "A notorious dragon whose challenge has become a whispered test among hunters.",
+      "levelMin": 88,
+      "levelMax": 96,
+      "hp": 2645,
+      "power": 165,
+      "armor": 29,
+      "xp": 2006,
+      "gold": 587,
+      "tags": [
+        "boss",
+        "side-boss",
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "uniqueSkill": {
+        "id": "side-skill-088",
+        "name": "Skyfire Torrent",
+        "blurb": "Unleashes the signature technique of the iron hunt.",
+        "power": 231,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-088"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-iron-hydra-089",
+      "name": "Iron Hydra of Worldeater Gate",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 89,
+      "levelMax": 97,
+      "hp": 2679,
+      "power": 167,
+      "armor": 29,
+      "xp": 2028,
+      "gold": 594,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-089",
+        "name": "Many-Mawed Fury",
+        "blurb": "Unleashes the signature technique of the iron hunt.",
+        "power": 234,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-089"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-iron-dreadlord-090",
+      "name": "Iron Dreadlord of Worldeater Gate",
+      "blurb": "A notorious demon whose challenge has become a whispered test among hunters.",
+      "levelMin": 90,
+      "levelMax": 98,
+      "hp": 2712,
+      "power": 169,
+      "armor": 30,
+      "xp": 2050,
+      "gold": 600,
+      "tags": [
+        "boss",
+        "side-boss",
+        "demon"
+      ],
+      "artId": "art-demon-herald",
+      "uniqueSkill": {
+        "id": "side-skill-090",
+        "name": "Abyssal Edict",
+        "blurb": "Unleashes the signature technique of the iron hunt.",
+        "power": 237,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-090"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-jade-warg-091",
+      "name": "Jade Warg of Last Council",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 91,
+      "levelMax": 99,
+      "hp": 2745,
+      "power": 170,
+      "armor": 30,
+      "xp": 2072,
+      "gold": 607,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "uniqueSkill": {
+        "id": "side-skill-091",
+        "name": "Rending Howl",
+        "blurb": "Unleashes the signature technique of the jade hunt.",
+        "power": 238,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-091"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-jade-myrmidon-092",
+      "name": "Jade Myrmidon of Last Council",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 92,
+      "levelMax": 100,
+      "hp": 2779,
+      "power": 172,
+      "armor": 30,
+      "xp": 2094,
+      "gold": 613,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "uniqueSkill": {
+        "id": "side-skill-092",
+        "name": "Warband Rush",
+        "blurb": "Unleashes the signature technique of the jade hunt.",
+        "power": 241,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-092"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-jade-oracle-093",
+      "name": "Jade Oracle of Last Council",
+      "blurb": "A notorious arcane whose challenge has become a whispered test among hunters.",
+      "levelMin": 93,
+      "levelMax": 100,
+      "hp": 2812,
+      "power": 174,
+      "armor": 31,
+      "xp": 2116,
+      "gold": 620,
+      "tags": [
+        "boss",
+        "side-boss",
+        "arcane"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-093",
+        "name": "Crooked Prophecy",
+        "blurb": "Unleashes the signature technique of the jade hunt.",
+        "power": 244,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-093"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-jade-colossus-094",
+      "name": "Jade Colossus of Last Council",
+      "blurb": "A notorious construct whose challenge has become a whispered test among hunters.",
+      "levelMin": 94,
+      "levelMax": 100,
+      "hp": 2846,
+      "power": 176,
+      "armor": 31,
+      "xp": 2138,
+      "gold": 626,
+      "tags": [
+        "boss",
+        "side-boss",
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "uniqueSkill": {
+        "id": "side-skill-094",
+        "name": "Faultline Stomp",
+        "blurb": "Unleashes the signature technique of the jade hunt.",
+        "power": 246,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-094"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-jade-harbinger-095",
+      "name": "Jade Harbinger of Last Council",
+      "blurb": "A notorious spirit whose challenge has become a whispered test among hunters.",
+      "levelMin": 95,
+      "levelMax": 100,
+      "hp": 2879,
+      "power": 177,
+      "armor": 31,
+      "xp": 2160,
+      "gold": 633,
+      "tags": [
+        "boss",
+        "side-boss",
+        "spirit"
+      ],
+      "artId": "art-raven-corv",
+      "uniqueSkill": {
+        "id": "side-skill-095",
+        "name": "Doomfeather Gale",
+        "blurb": "Unleashes the signature technique of the jade hunt.",
+        "power": 248,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-095"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-jade-reaver-096",
+      "name": "Jade Reaver of Last Council",
+      "blurb": "A notorious humanoid whose challenge has become a whispered test among hunters.",
+      "levelMin": 96,
+      "levelMax": 100,
+      "hp": 2913,
+      "power": 179,
+      "armor": 32,
+      "xp": 2182,
+      "gold": 639,
+      "tags": [
+        "boss",
+        "side-boss",
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "side-skill-096",
+        "name": "Scorching Cleave",
+        "blurb": "Unleashes the signature technique of the jade hunt.",
+        "power": 251,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-096"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-jade-hart-097",
+      "name": "Jade Hart of Last Council",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 97,
+      "levelMax": 100,
+      "hp": 2946,
+      "power": 181,
+      "armor": 32,
+      "xp": 2204,
+      "gold": 646,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "uniqueSkill": {
+        "id": "side-skill-097",
+        "name": "Crown of Thorns",
+        "blurb": "Unleashes the signature technique of the jade hunt.",
+        "power": 253,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-097"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-jade-drake-098",
+      "name": "Jade Drake of Last Council",
+      "blurb": "A notorious dragon whose challenge has become a whispered test among hunters.",
+      "levelMin": 98,
+      "levelMax": 100,
+      "hp": 2980,
+      "power": 183,
+      "armor": 32,
+      "xp": 2226,
+      "gold": 652,
+      "tags": [
+        "boss",
+        "side-boss",
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "uniqueSkill": {
+        "id": "side-skill-098",
+        "name": "Skyfire Torrent",
+        "blurb": "Unleashes the signature technique of the jade hunt.",
+        "power": 256,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-098"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-jade-hydra-099",
+      "name": "Jade Hydra of Last Council",
+      "blurb": "A notorious beast whose challenge has become a whispered test among hunters.",
+      "levelMin": 99,
+      "levelMax": 100,
+      "hp": 3014,
+      "power": 184,
+      "armor": 33,
+      "xp": 2248,
+      "gold": 659,
+      "tags": [
+        "boss",
+        "side-boss",
+        "beast"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "side-skill-099",
+        "name": "Many-Mawed Fury",
+        "blurb": "Unleashes the signature technique of the jade hunt.",
+        "power": 258,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-099"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "side-jade-dreadlord-100",
+      "name": "Jade Dreadlord of Last Council",
+      "blurb": "A notorious demon whose challenge has become a whispered test among hunters.",
+      "levelMin": 100,
+      "levelMax": 100,
+      "hp": 3048,
+      "power": 186,
+      "armor": 33,
+      "xp": 2270,
+      "gold": 665,
+      "tags": [
+        "boss",
+        "side-boss",
+        "demon"
+      ],
+      "artId": "art-demon-herald",
+      "uniqueSkill": {
+        "id": "side-skill-100",
+        "name": "Abyssal Edict",
+        "blurb": "Unleashes the signature technique of the jade hunt.",
+        "power": 260,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "side-trophy-100"
+      ],
+      "weight": 1
+    }
+  ]
+}

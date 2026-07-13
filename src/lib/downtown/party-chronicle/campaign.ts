@@ -1,5 +1,5 @@
 /**
- * 10-act campaign scaffold for ~50 hours of play.
+ * Long-form campaign scaffold targeting 100–300 hours of play.
  * Hours assume 3-player turn rotation (Justin → Rusty → Elisha),
  * side quests, encounter decks, cooking/exploration loops.
  */
@@ -14,17 +14,19 @@ export type ActDef = ChapterDef & {
   sideQuestIds: string[];
 };
 
+export const TARGET_PLAYTIME_HOURS = 300;
+
 const HOURS: Record<string, number> = {
-  "ch1-frostford": 3,
-  "ch2-goblin-road": 4,
-  "ch3-ember-hold": 5,
-  "ch4-dragon-whisper": 5,
-  "ch5-misty-crossing": 6,
-  "ch6-crown-ash": 6,
-  "ch7-fellowship": 5,
-  "ch8-worldeater": 5,
-  "ch9-last-council": 5,
-  "ch10-endings": 6,
+  "ch1-frostford": 18,
+  "ch2-goblin-road": 24,
+  "ch3-ember-hold": 30,
+  "ch4-dragon-whisper": 30,
+  "ch5-misty-crossing": 36,
+  "ch6-crown-ash": 36,
+  "ch7-fellowship": 30,
+  "ch8-worldeater": 30,
+  "ch9-last-council": 30,
+  "ch10-endings": 36,
 };
 
 const BOSSES: Record<string, string> = {
@@ -53,9 +55,15 @@ const SIDE_QUESTS: Record<string, string[]> = {
   "ch10-endings": ["sq-codex-seal"],
 };
 
+const HAS_CHAPTER_ESTIMATES = CHAPTERS.some((chapter) => chapter.estimatedHours != null);
+
 export const ACTS: ActDef[] = CHAPTERS.map((ch) => ({
   ...ch,
-  estimatedHours: HOURS[ch.id] ?? 4,
+  estimatedHours:
+    ch.estimatedHours ??
+    (HAS_CHAPTER_ESTIMATES
+      ? 0 // Authored landmarks occur inside the generated spine's hour budget.
+      : HOURS[ch.id] ?? TARGET_PLAYTIME_HOURS / CHAPTERS.length),
   bossId: BOSSES[ch.id] ?? `boss-${ch.id}`,
   encounterDeckId: `deck-${ch.id}`,
   sideQuestIds: SIDE_QUESTS[ch.id] ?? [],
@@ -89,8 +97,6 @@ export function hoursSummary(): {
     totalHours,
     acts,
     note:
-      "Estimates assume three players rotating Justin → Rusty → Elisha, side quests, cooking, encounter decks, and legendary hunts. Solo skips compress ~30–40%.",
+      "Designed for roughly 100–300 hours. Estimates assume four players rotating Justin → Rusty → Elisha → Eric with side quests, exploration, cooking, encounter decks, and legendary hunts; focused or solo play lands nearer the lower bound.",
   };
 }
-
-export const TARGET_PLAYTIME_HOURS = 50;

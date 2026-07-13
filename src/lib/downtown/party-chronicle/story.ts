@@ -1,4 +1,5 @@
 import { endingNodeIdForPath, ENDING_BY_ID, ENDING_DEFS, resolveEndingId } from "./alignment";
+import { mergeStorySpine } from "./spine";
 import type { ChapterDef, EndingDef, StoryNode } from "./types";
 
 export { ENDING_BY_ID, ENDING_DEFS, resolveEndingId, endingNodeIdForPath };
@@ -8,7 +9,7 @@ export { ENDING_BY_ID, ENDING_DEFS, resolveEndingId, endingNodeIdForPath };
  * Destiny foreshadowing early; Animal / Human / Demon finales at the end.
  */
 
-export const STORY_NODES: StoryNode[] = [
+const AUTHORED_STORY_NODES: StoryNode[] = [
   // ─── Ch 1: Frostford ─────────────────────────────────────────────
   {
     id: "node-ch1-arrive",
@@ -901,11 +902,7 @@ Justin, Rusty, and Elisha end the hesitation. The chronicle closes on a beautifu
   },
 ];
 
-export const STORY_NODE_BY_ID: Record<string, StoryNode> = Object.fromEntries(
-  STORY_NODES.map((n) => [n.id, n])
-);
-
-export const CHAPTERS: ChapterDef[] = [
+const AUTHORED_CHAPTERS: ChapterDef[] = [
   {
     id: "ch1-frostford",
     chapter: 1,
@@ -1027,6 +1024,14 @@ export const CHAPTERS: ChapterDef[] = [
     sceneId: "scene-hearth-crown",
   },
 ];
+
+const MERGED_STORY = mergeStorySpine(AUTHORED_STORY_NODES, AUTHORED_CHAPTERS);
+
+export const STORY_NODES: StoryNode[] = MERGED_STORY.nodes;
+export const CHAPTERS: ChapterDef[] = MERGED_STORY.chapters;
+export const STORY_NODE_BY_ID: Record<string, StoryNode> = Object.fromEntries(
+  STORY_NODES.map((node) => [node.id, node])
+);
 
 export const START_NODE_ID = "node-ch1-arrive";
 export const START_CHAPTER_ID = "ch1-frostford";

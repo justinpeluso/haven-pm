@@ -2,7 +2,7 @@
  * Neverworld journey map — chapter waypoints for the comic minimap.
  */
 
-import { chapterForNode, getChapter } from "./story";
+import { CHAPTERS, chapterForNode, getChapter } from "./story";
 import type { ChapterDef, PartyWorldSave } from "./types";
 
 export type JourneyStop = {
@@ -16,19 +16,35 @@ export type JourneyStop = {
   y: number;
 };
 
-/** Hand-placed trail across a forested realm map. */
-export const JOURNEY_STOPS: JourneyStop[] = [
-  { chapterId: "ch1-frostford", chapter: 1, title: "Frostford Gate", short: "Frostford", sceneId: "scene-frostford-gate", x: 12, y: 72 },
-  { chapterId: "ch2-goblin-road", chapter: 2, title: "Goblin Road", short: "Goblin Rd", sceneId: "scene-goblin-camp", x: 28, y: 58 },
-  { chapterId: "ch3-ember-hold", chapter: 3, title: "Hold of Embers", short: "Embers", sceneId: "scene-ember-hall", x: 42, y: 42 },
-  { chapterId: "ch4-dragon-whisper", chapter: 4, title: "Dragon Whisper", short: "Ruin", sceneId: "scene-dragon-ruin", x: 58, y: 30 },
-  { chapterId: "ch5-misty-crossing", chapter: 5, title: "Misty Crossing", short: "Mist", sceneId: "scene-misty-bridge", x: 72, y: 38 },
-  { chapterId: "ch6-crown-ash", chapter: 6, title: "Crown of Ash", short: "Ash", sceneId: "scene-ash-crown", x: 78, y: 55 },
-  { chapterId: "ch7-fellowship", chapter: 7, title: "Fellowship Strain", short: "Camp", sceneId: "scene-fellowship-camp", x: 62, y: 68 },
-  { chapterId: "ch8-worldeater", chapter: 8, title: "World-Eater Gate", short: "Gate", sceneId: "scene-worldeater-gate", x: 48, y: 78 },
-  { chapterId: "ch9-last-council", chapter: 9, title: "Last Council", short: "Council", sceneId: "scene-last-council", x: 32, y: 85 },
-  { chapterId: "ch10-endings", chapter: 10, title: "The Crowns", short: "Crown", sceneId: "scene-wild-crown", x: 16, y: 88 },
-];
+function shortTitle(title: string): string {
+  const compact = title.replace(/^(the|a|an)\s+/i, "").trim();
+  return compact.length > 15 ? `${compact.slice(0, 14).trimEnd()}…` : compact;
+}
+
+/**
+ * Lay any number of chapters onto a serpentine trail. The row count grows with
+ * the campaign, keeping a 50-chapter spine separated instead of stacking dots.
+ */
+export const JOURNEY_STOPS: JourneyStop[] = CHAPTERS.map((chapter, index, all) => {
+  const columns = Math.max(5, Math.ceil(Math.sqrt(all.length * 1.35)));
+  const rows = Math.max(1, Math.ceil(all.length / columns));
+  const row = Math.floor(index / columns);
+  const column = index % columns;
+  const trailColumn = row % 2 === 0 ? column : columns - 1 - column;
+  const x = 8 + (trailColumn / Math.max(1, columns - 1)) * 84;
+  const baseY = rows === 1 ? 50 : 10 + (row / (rows - 1)) * 80;
+  const curve = Math.sin((trailColumn / Math.max(1, columns - 1)) * Math.PI) * 3;
+
+  return {
+    chapterId: chapter.id,
+    chapter: chapter.chapter,
+    title: chapter.title,
+    short: shortTitle(chapter.title),
+    sceneId: chapter.sceneId ?? `scene-${chapter.id}`,
+    x: Math.round(x * 10) / 10,
+    y: Math.round((baseY + (row % 2 === 0 ? -curve : curve)) * 10) / 10,
+  };
+});
 
 export function visitedFlag(chapterId: string): string {
   return `visited:${chapterId}`;
