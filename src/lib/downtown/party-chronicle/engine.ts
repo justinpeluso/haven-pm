@@ -112,6 +112,10 @@ export function rescueFromStrandedEnding(world: PartyWorldSave): PartyWorldSave 
   if (world.endingId && (battles >= 80 || fromCouncilVote)) return world;
 
   // Early strand: don't dump them on Last Council; send them to Goblin Road.
+  // Tag the rescue so poll/merge prefers the road over a stale ending plate.
+  const rescueFlags = Array.from(
+    new Set([...(world.partyFlags ?? []), "rescued-from-early-ending"])
+  );
   if (battles < 40) {
     return markChapterVisited(
       {
@@ -121,6 +125,7 @@ export function rescueFromStrandedEnding(world: PartyWorldSave): PartyWorldSave 
         chapterId: "ch2-goblin-road",
         encounterEnemyHp: null,
         deckEncounter: null,
+        partyFlags: rescueFlags,
         log: [
           "The chronicle pulls you back to the Goblin Road — that ending plate was early. Keep playing the main road.",
           ...world.log,
@@ -130,7 +135,14 @@ export function rescueFromStrandedEnding(world: PartyWorldSave): PartyWorldSave 
       "ch2-goblin-road"
     );
   }
-  return rewindFromEnding(world);
+  const rewound = rewindFromEnding(world);
+  if (rewound === world) return world;
+  return {
+    ...rewound,
+    partyFlags: Array.from(
+      new Set([...(rewound.partyFlags ?? []), "rescued-from-early-ending"])
+    ),
+  };
 }
 
 export function canAct(world: PartyWorldSave, slot: PlayerSlot, isDm: boolean): boolean {

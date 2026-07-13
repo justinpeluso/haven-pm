@@ -382,6 +382,14 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       setWorld(scheduled);
       setTitleSave(scheduled);
       writeWorld(scheduled);
+      // Push auto-rescue so a stale ending plate cannot win the next poll.
+      if (rescued !== existing) {
+        void fetch("/api/downtown/party-chronicle", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ world: scheduled }),
+        }).catch(() => undefined);
+      }
       if (scheduled.endingId) setPhase("ending");
       else if (mySlot && !scheduled.characters[mySlot]?.created) {
         setPhase("create");
@@ -913,7 +921,10 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     setTab("story");
   };
 
-  const onBattleAction = (action: BattleActionId, opts?: { spellId?: string; itemId?: string; x?: number; y?: number }) => {
+  const onBattleAction = (
+    action: BattleActionId,
+    opts?: { spellId?: string; itemId?: string; x?: number; y?: number; targetId?: string }
+  ) => {
     if (!world || !mySlot) return;
     startTransition(() => {
       const result = performBattleAction(world, mySlot, action, opts);
