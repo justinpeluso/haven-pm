@@ -278,7 +278,7 @@ export function preferBattleState(
     const eAt = Date.parse(opts?.existingUpdatedAt || "") || 0;
     const iAt = Date.parse(opts?.incomingUpdatedAt || "") || 0;
     // Allow dismiss of summary when incoming is at least as new.
-    if (existing.status !== "active" && iAt >= eAt) return null;
+    if (iAt >= eAt) return null;
     return existing;
   }
 
