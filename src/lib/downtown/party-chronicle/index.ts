@@ -31,6 +31,8 @@ export * from "./recipes";
 export * from "./midgame";
 export * from "./quest-run";
 export * from "./exploration";
+export * from "./world-map";
+export * from "./explore-walk";
 export * from "./animal-arcs";
 export * from "./foreshadow";
 export * from "./endings";

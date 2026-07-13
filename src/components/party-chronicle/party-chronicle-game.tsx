@@ -64,7 +64,9 @@ import {
   digForLoot,
   stumbleOnChest,
 } from "@/lib/downtown/party-chronicle/exploration";
+import { ensureExploreState } from "@/lib/downtown/party-chronicle/explore-walk";
 import { SideQuestOverlay } from "@/components/party-chronicle/side-quest-overlay";
+import { WorldMapPanel } from "@/components/party-chronicle/world-map-panel";
 import { getGear, gearCatalogStats } from "@/lib/downtown/party-chronicle/gear";
 import { bestiaryStats, isSpellbookItem } from "@/lib/downtown/party-chronicle/bestiary";
 import { formatProperty, itemProperties } from "@/lib/downtown/party-chronicle/stats";
@@ -90,6 +92,7 @@ import {
   preferActiveSideQuest,
   preferAmbushClocks,
   preferBattleState,
+  preferExploreState,
   saveSummary,
   worldHasProgress,
   writeWorld,
@@ -129,7 +132,7 @@ import { BattleOverlay } from "@/components/party-chronicle/battle-overlay";
 import "@/components/party-chronicle/party-chronicle.css";
 
 type UiPhase = "boot" | "title" | "create" | "play" | "ending";
-type MainTab = "story" | "camp" | "skills" | "gear" | "codex" | "party";
+type MainTab = "map" | "story" | "camp" | "skills" | "gear" | "codex" | "party";
 
 const STAT_LABELS: Record<StatKey, string> = {
   strength: "STR",
@@ -346,7 +349,7 @@ function JourneyMinimap({
 export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const [phase, setPhase] = useState<UiPhase>("boot");
   const [world, setWorld] = useState<PartyWorldSave | null>(null);
-  const [tab, setTab] = useState<MainTab>("story");
+  const [tab, setTab] = useState<MainTab>("map");
   /** Side quest stays on the save; panel can park so the party returns to the main spine. */
   const [questPanelOpen, setQuestPanelOpen] = useState(true);
   const [flash, setFlash] = useState<string | null>(null);
@@ -375,7 +378,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const enterFromSave = useCallback(
     (existing: PartyWorldSave) => {
       const rescued = rescueFromStrandedEnding(existing);
-      const scheduled = ensureEncounterSchedule(rescued);
+      const scheduled = ensureExploreState(ensureEncounterSchedule(rescued));
       setWorld(scheduled);
       setTitleSave(scheduled);
       writeWorld(scheduled);
@@ -516,6 +519,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
             nextEncounterAtMs:
               prev?.nextEncounterAtMs ?? campaignSlice.nextEncounterAtMs,
             battle: prev?.battle ?? campaignSlice.battle,
+            explore: prev?.explore ?? campaignSlice.explore ?? remote.explore,
           };
           const next = mergeBattleAndAmbush(localSeed, remote);
           writeWorld(next);
@@ -628,6 +632,12 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
 
         if (prev.battle?.status === "victory" || prev.battle?.status === "defeat") return prev;
         if (isAmbushTimerPaused(prev)) return prev;
+        // On Map, walking rolls ambushes — only drip the comic clock slowly.
+        if (tab === "map") {
+          const drip = tickStoryPlay(prev, 200);
+          if (drip.world.storyPlayMs !== prev.storyPlayMs) writeWorld(drip.world);
+          return drip.world;
+        }
         const { world: ticked, shouldStartBattle } = tickStoryPlay(prev, 1000);
         if (!shouldStartBattle) {
           if (ticked.storyPlayMs !== prev.storyPlayMs) writeWorld(ticked);
@@ -666,7 +676,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       });
     }, 1000);
     return () => window.clearInterval(id);
-  }, [phase, identity.isDm]);
+  }, [phase, identity.isDm, tab]);
 
   const persistAsync = useCallback(async (next: PartyWorldSave) => {
     const stamped = { ...next, updatedAt: new Date().toISOString() };
@@ -709,6 +719,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
             stamped.activeSideQuest == null
               ? null
               : preferActiveSideQuest(stamped.activeSideQuest, data.world!.activeSideQuest),
+          explore: preferExploreState(stamped.explore, data.world!.explore),
           ...clocks,
           battle,
         };
@@ -724,6 +735,18 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const persist = useCallback((next: PartyWorldSave) => {
     void persistAsync(next).catch(() => undefined);
   }, [persistAsync]);
+
+  const onMapWorld = useCallback(
+    (next: PartyWorldSave, flashMsg?: string, opts?: { switchToStory?: boolean }) => {
+      if (flashMsg) setFlash(flashMsg);
+      if (opts?.switchToStory) setTab("story");
+      if (next.activeSideQuest?.status === "active") setQuestPanelOpen(true);
+      startTransition(() => {
+        persist(next);
+      });
+    },
+    [persist]
+  );
 
   const saveNow = useCallback(async () => {
     if (!world) return;
@@ -1568,7 +1591,8 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           <div className="flex flex-wrap gap-2 border-b-2 border-[var(--pc-border)] pb-2">
             {(
               [
-                ["story", "Comic"],
+                ["map", "Map"],
+                ["story", "Chronicle"],
                 ["camp", "Camp"],
                 ["skills", "Skills"],
                 ["gear", "Gear"],
@@ -1587,6 +1611,17 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
               </button>
             ))}
           </div>
+
+          {tab === "map" && (
+            <WorldMapPanel
+              world={world}
+              mySlot={mySlot}
+              canWalk={acting}
+              isDm={identity.isDm}
+              pending={pending}
+              onWorld={onMapWorld}
+            />
+          )}
 
           {tab === "story" && (
             <div className="space-y-4">

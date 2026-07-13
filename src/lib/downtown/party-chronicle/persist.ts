@@ -115,6 +115,7 @@ export function createNewWorld(): PartyWorldSave {
     activeSideQuest: null,
     cookedRecipes: [],
     campSleeps: [],
+    explore: null,
     log: ["Neverworld unrolls. Justin's turn begins."],
     endingId: null,
     characters,
@@ -285,8 +286,28 @@ export function normalizeWorld(world: PartyWorldSave): PartyWorldSave {
     activeSideQuest: world.activeSideQuest ?? null,
     cookedRecipes: world.cookedRecipes ?? [],
     campSleeps: world.campSleeps ?? [],
+    explore: world.explore ?? null,
     characters,
   };
+}
+
+/**
+ * Prefer farther overworld progress so poll/POST never rewind the map pin.
+ */
+export function preferExploreState(
+  existing: PartyWorldSave["explore"],
+  incoming: PartyWorldSave["explore"]
+): PartyWorldSave["explore"] {
+  if (!existing) return incoming ?? null;
+  if (!incoming) return existing;
+  const eMoves = existing.moves ?? 0;
+  const iMoves = incoming.moves ?? 0;
+  if (iMoves > eMoves) return incoming;
+  if (eMoves > iMoves) return existing;
+  if (incoming.pendingWanderer && !existing.pendingWanderer) return incoming;
+  if (existing.pendingWanderer && !incoming.pendingWanderer) return existing;
+  if (incoming.x !== existing.x || incoming.y !== existing.y) return incoming;
+  return incoming;
 }
 
 /**
@@ -448,6 +469,7 @@ export function mergeBattleAndAmbush(
     existingUpdatedAt: base.updatedAt,
     incomingUpdatedAt: incoming.updatedAt,
   });
+  const explore = preferExploreState(base.explore, incoming.explore);
   const characters = { ...base.characters };
 
   if (actorSlot && incoming.characters[actorSlot]) {
@@ -485,6 +507,7 @@ export function mergeBattleAndAmbush(
     characters,
     battle,
     activeSideQuest,
+    explore,
     ...clocks,
   };
 }
@@ -502,6 +525,7 @@ function takeCampaignSlice(from: PartyWorldSave): Pick<
   | "completedSideQuests"
   | "cookedRecipes"
   | "activeSideQuest"
+  | "explore"
   | "log"
   | "endingId"
   | "activeSlot"
@@ -517,6 +541,7 @@ function takeCampaignSlice(from: PartyWorldSave): Pick<
     completedSideQuests: from.completedSideQuests,
     cookedRecipes: from.cookedRecipes,
     activeSideQuest: from.activeSideQuest,
+    explore: from.explore,
     log: from.log,
     endingId: from.endingId,
     activeSlot: from.activeSlot,
@@ -633,6 +658,7 @@ export function mergeIncomingWorld(
       incomingUpdatedAt: incoming.updatedAt,
     }
   );
+  const explore = preferExploreState(existing.explore, incoming.explore);
   const campaign = takeCampaignSlice(campaignWinner);
 
   return normalizeWorld({
@@ -641,6 +667,7 @@ export function mergeIncomingWorld(
     characters,
     battle,
     activeSideQuest,
+    explore,
     ...clocks,
     partyFlags: unionPartyFlags(existing.partyFlags, incoming.partyFlags),
     turnIndex: Math.max(existing.turnIndex ?? 0, incoming.turnIndex ?? 0),

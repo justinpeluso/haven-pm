@@ -6,6 +6,7 @@
 import type {
   BattleEnemyState,
   BattleHeroState,
+  BattlePetState,
   BattleState,
   BattleTacticalState,
   BattleTacticalUnit,
@@ -14,6 +15,7 @@ import type {
   PartyWorldSave,
   PlayerSlot,
 } from "./types";
+import { PLAYER_SLOT_ORDER } from "./types";
 
 /** Wide enough for 4 heroes west + up to 8 foes east without stacking. */
 export const TACTICAL_COLS = 10;
@@ -55,6 +57,25 @@ export function isEnemyCombatantId(id: string): boolean {
 
 export function enemyUnitIdForIndex(index: number): string {
   return index === 0 ? "enemy" : `enemy-${index}`;
+}
+
+/** Combatant id for a hero's dog companion. */
+export function petUnitId(ownerSlot: PlayerSlot): string {
+  return `pet-${ownerSlot}`;
+}
+
+export function isPetCombatantId(id: string): boolean {
+  return id.startsWith("pet-");
+}
+
+export function ownerSlotOfPetId(id: string): PlayerSlot | null {
+  if (!isPetCombatantId(id)) return null;
+  const slot = id.slice(4) as PlayerSlot;
+  return PLAYER_SLOT_ORDER.includes(slot) ? slot : null;
+}
+
+function petSpeed(bond: number): number {
+  return Math.max(3, Math.min(5, 3 + Math.floor(bond / 40)));
 }
 
 function heroSpeed(char: CharacterSave | undefined): number {
@@ -142,29 +163,87 @@ function eastSlots(
   });
 }
 
+/**
+ * Place a pet one step west of its owner when free; otherwise walk nearby tiles.
+ */
+function placePetNearOwner(
+  owner: BattleTacticalUnit,
+  used: Set<string>,
+  cols = TACTICAL_COLS,
+  rows = TACTICAL_ROWS
+): { x: number; y: number } {
+  const candidates: { x: number; y: number }[] = [
+    { x: owner.x - 1, y: owner.y },
+    { x: owner.x, y: owner.y - 1 },
+    { x: owner.x, y: owner.y + 1 },
+    { x: owner.x - 1, y: owner.y - 1 },
+    { x: owner.x - 1, y: owner.y + 1 },
+    { x: Math.max(0, owner.x - 2), y: owner.y },
+    { x: owner.x + 1, y: owner.y },
+  ];
+  for (const c of candidates) {
+    if (!inBounds(c.x, c.y, cols, rows)) continue;
+    if (used.has(`${c.x},${c.y}`)) continue;
+    return c;
+  }
+  // Fallback: scan west columns.
+  for (let x = 0; x < Math.min(3, cols); x++) {
+    for (let y = 0; y < rows; y++) {
+      if (!used.has(`${x},${y}`)) return { x, y };
+    }
+  }
+  return { x: 0, y: owner.y };
+}
+
 /** Place party on the west edge, foes on the east (no stacked tiles). */
 export function createTacticalState(
   heroes: BattleHeroState[],
   enemyOrPack: BattleState["enemy"] | BattleEnemyState[],
   world: PartyWorldSave,
-  enemiesOpt?: BattleEnemyState[]
+  enemiesOpt?: BattleEnemyState[],
+  petsOpt?: BattlePetState[]
 ): BattleTacticalState {
   const living = heroes.filter((h) => h.hp > 0);
   const units: BattleTacticalUnit[] = [];
+  const used = new Set<string>();
   const heroYs = spacedRows(living.length, TACTICAL_ROWS);
 
   living.forEach((h, i) => {
     const char = world.characters[h.slot];
+    const x = 1;
+    const y = heroYs[i] ?? Math.min(TACTICAL_ROWS - 1, i);
+    used.add(`${x},${y}`);
     units.push({
       id: h.id,
       side: "party",
+      kind: "hero",
       heroSlot: h.slot,
-      x: 1,
-      y: heroYs[i] ?? Math.min(TACTICAL_ROWS - 1, i),
+      x,
+      y,
       speed: heroSpeed(char),
       range: heroRange(char),
     });
   });
+
+  const pets = (petsOpt ?? []).filter((p) => p.hp > 0);
+  for (const pet of pets) {
+    const owner = units.find((u) => u.heroSlot === pet.ownerSlot && u.kind !== "pet");
+    if (!owner) continue;
+    const char = world.characters[pet.ownerSlot];
+    const pos = placePetNearOwner(owner, used);
+    used.add(`${pos.x},${pos.y}`);
+    units.push({
+      id: pet.id,
+      side: "party",
+      kind: "pet",
+      ownerSlot: pet.ownerSlot,
+      heroSlot: pet.ownerSlot,
+      x: pos.x,
+      y: pos.y,
+      speed: petSpeed(char?.dog?.bond ?? 10),
+      range: 1,
+    });
+  }
 
   const pack = Array.isArray(enemyOrPack)
     ? enemyOrPack
@@ -182,6 +261,7 @@ export function createTacticalState(
     units.push({
       id: unitId,
       side: "enemy",
+      kind: "enemy",
       x: slot.x,
       y: slot.y,
       speed: enemySpeed(e.power),
@@ -211,10 +291,12 @@ export function ensureTactical(
     return battle;
   }
   const pack = normalizeEnemies(battle.enemy, battle.enemies);
+  const pets = battle.pets ?? [];
   return {
     ...battle,
     enemies: pack,
-    tactical: createTacticalState(battle.heroes, pack, world),
+    pets,
+    tactical: createTacticalState(battle.heroes, pack, world, undefined, pets),
     log: [
       "The field stretches into a chessboard of grass — choose your steps.",
       ...battle.log,
@@ -380,16 +462,16 @@ export function resetPhaseForTurn(tactical: BattleTacticalState): BattleTactical
   return { ...tactical, phase: "move" };
 }
 
-/** Pick nearest living party unit for AI. */
+/** Pick nearest living party unit (heroes + pets) for AI. */
 export function nearestPartyTarget(
   tactical: BattleTacticalState,
   from: BattleTacticalUnit,
-  livingHeroIds: Set<string>
+  livingPartyIds: Set<string>
 ): BattleTacticalUnit | null {
   let best: BattleTacticalUnit | null = null;
   let bestDist = Infinity;
   for (const u of tactical.units) {
-    if (u.side !== "party" || !livingHeroIds.has(u.id)) continue;
+    if (u.side !== "party" || !livingPartyIds.has(u.id)) continue;
     const d = manhattan(from.x, from.y, u.x, u.y);
     if (d < bestDist) {
       bestDist = d;
@@ -462,9 +544,13 @@ export function applyAiMove(
 
 export function removeDeadHeroUnits(
   tactical: BattleTacticalState,
-  heroes: BattleHeroState[]
+  heroes: BattleHeroState[],
+  pets: BattlePetState[] = []
 ): BattleTacticalState {
-  const living = new Set(heroes.filter((h) => h.hp > 0).map((h) => h.id));
+  const living = new Set([
+    ...heroes.filter((h) => h.hp > 0).map((h) => h.id),
+    ...pets.filter((p) => p.hp > 0).map((p) => p.id),
+  ]);
   return {
     ...tactical,
     units: tactical.units.filter((u) => u.side === "enemy" || living.has(u.id)),

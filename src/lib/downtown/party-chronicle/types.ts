@@ -185,12 +185,16 @@ export type BattleActionId =
 /** HoMM-style battlefield cell. */
 export type BattleGridPos = { x: number; y: number };
 
-/** Unit token on the tactical grid (positions; HP lives on heroes/enemy). */
+/** Unit token on the tactical grid (positions; HP lives on heroes/pets/enemy). */
 export type BattleTacticalUnit = {
   id: string;
   side: "party" | "enemy";
   /** Present for party heroes. */
   heroSlot?: PlayerSlot;
+  /** Dog companion token — HP lives on `BattleState.pets`. */
+  kind?: "hero" | "pet" | "enemy";
+  /** Owner hero slot when `kind === "pet"`. */
+  ownerSlot?: PlayerSlot;
   x: number;
   y: number;
   /** Movement points this turn (HoMM-style steps). */
@@ -252,6 +256,19 @@ export type BattleHeroState = {
   armor: number;
   powerUpTurns: number;
   statuses?: BattleStatus[];
+};
+
+/** Dog companion as a full tactical combatant (weaker than heroes). */
+export type BattlePetState = {
+  /** Combatant id — `pet-<ownerSlot>`. */
+  id: string;
+  ownerSlot: PlayerSlot;
+  name: string;
+  breed: string;
+  hp: number;
+  maxHp: number;
+  power: number;
+  armor: number;
 };
 
 export type BattleEnemyState = {
@@ -322,7 +339,12 @@ export type BattleState = {
    */
   enemies?: BattleEnemyState[];
   heroes: BattleHeroState[];
-  /** Combatant ids in order (hero slots + enemy unit ids). */
+  /**
+   * Dog companions fighting as separate party units.
+   * Absent on legacy saves (hydrate from character dogs when tactical is rebuilt).
+   */
+  pets?: BattlePetState[];
+  /** Combatant ids in order (hero, pet, … then enemy unit ids). */
   turnQueue: string[];
   turnIndex: number;
   activeId: string;
@@ -573,6 +595,39 @@ export type DeckEncounterState = {
   artId?: string;
 };
 
+/** Procedural overworld — click-to-walk map (Neverworld). */
+export type ExploreWandererOption = {
+  id: string;
+  label: string;
+  kind: "side_quest" | "main_hint" | "trade" | "new_path" | "leave";
+  questId?: string;
+};
+
+export type ExploreWanderer = {
+  id: string;
+  name: string;
+  blurb: string;
+  biomeId: string;
+  options: ExploreWandererOption[];
+};
+
+export type ExploreState = {
+  /** Deterministic world seed (from startedAt). */
+  seed: number;
+  /** Party tile coordinates. */
+  x: number;
+  y: number;
+  biomeId: string;
+  /** Total tiles walked this campaign. */
+  moves: number;
+  movesSinceEncounter: number;
+  movesSinceWanderer: number;
+  /** Optional discovered chunk keys `"cx,cy"` (capped). */
+  discoveredChunks?: string[];
+  /** Active “traveler approaches” overlay. */
+  pendingWanderer?: ExploreWanderer | null;
+};
+
 export type PartyWorldSave = {
   version: 1;
   /** Whose turn in rotation */
@@ -639,6 +694,11 @@ export type PartyWorldSave = {
     itemIds: string[];
     itemNames: string[];
   } | null;
+  /**
+   * Procedural click-to-walk overworld (primary play loop).
+   * Seeded from startedAt; chunks generate as the party walks.
+   */
+  explore?: ExploreState | null;
   log: string[];
   endingId: string | null;
   characters: Record<PlayerSlot, CharacterSave>;

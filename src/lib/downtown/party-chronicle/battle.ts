@@ -42,9 +42,12 @@ import {
   getUnit,
   isEnemyCombatantId,
   isFlanking,
+  isPetCombatantId,
   moveUnit,
   nearestEnemyTarget,
   nearestPartyTarget,
+  ownerSlotOfPetId,
+  petUnitId,
   removeDeadEnemyUnits,
   removeDeadHeroUnits,
   resetPhaseForTurn,
@@ -57,6 +60,7 @@ import type {
   BattleFxEvent,
   BattleFxTone,
   BattleLootDrop,
+  BattlePetState,
   BattleStatus,
   BattleState,
   BattleSummary,
@@ -73,8 +77,11 @@ export {
   getUnit,
   isEnemyCombatantId,
   isFlanking,
+  isPetCombatantId,
   legalMoves,
   nearestEnemyTarget,
+  ownerSlotOfPetId,
+  petUnitId,
   rangeTiles,
   spellStrikeRange,
   threatenedTiles,
@@ -244,6 +251,96 @@ function heroFromChar(slot: PlayerSlot, c: CharacterSave) {
   };
 }
 
+/**
+ * Dog companion combat stats — useful flankers, weaker than heroes.
+ * Scales lightly with owner level + bond.
+ */
+function petFromChar(slot: PlayerSlot, c: CharacterSave): BattlePetState | null {
+  const dog = c.dog;
+  if (!dog || dog.maxHp <= 0) return null;
+  if (dog.hp <= 0) return null;
+  const lvl = Math.max(1, c.level);
+  const bond = Math.max(0, dog.bond ?? 0);
+  const maxHp = Math.max(
+    8,
+    Math.min(dog.maxHp + lvl * 2, Math.floor(dog.maxHp * 1.5) + lvl)
+  );
+  const hp = Math.min(maxHp, Math.max(1, dog.hp + Math.floor(lvl * 0.5)));
+  return {
+    id: petUnitId(slot),
+    ownerSlot: slot,
+    name: dog.name || "Companion",
+    breed: dog.breed || "hound",
+    hp,
+    maxHp,
+    power: Math.max(2, Math.floor(3 + lvl * 0.85 + bond / 25)),
+    armor: Math.max(0, Math.floor(bond / 45) + Math.floor(lvl / 8)),
+  };
+}
+
+function petsForHeroes(
+  heroes: { slot: PlayerSlot }[],
+  world: PartyWorldSave
+): BattlePetState[] {
+  const pets: BattlePetState[] = [];
+  for (const h of heroes) {
+    const char = world.characters[h.slot];
+    if (!char) continue;
+    const pet = petFromChar(h.slot, char);
+    if (pet) pets.push(pet);
+  }
+  return pets;
+}
+
+/** Hero → their dog → next hero… then all foes. */
+function buildTurnQueue(
+  heroes: { id: string; slot: PlayerSlot }[],
+  pets: BattlePetState[],
+  enemies: BattleEnemyState[]
+): string[] {
+  const petByOwner = new Map(pets.map((p) => [p.ownerSlot, p.id]));
+  const party: string[] = [];
+  for (const h of heroes) {
+    party.push(h.id);
+    const petId = petByOwner.get(h.slot);
+    if (petId) party.push(petId);
+  }
+  return [
+    ...party,
+    ...enemies.map((e, i) => e.unitId ?? enemyUnitIdForIndex(i)),
+  ];
+}
+
+export function getPetByUnitId(
+  battle: BattleState,
+  unitId: string
+): BattlePetState | undefined {
+  return (battle.pets ?? []).find((p) => p.id === unitId);
+}
+
+function livingPets(battle: BattleState): BattlePetState[] {
+  return (battle.pets ?? []).filter((p) => p.hp > 0);
+}
+
+function syncDogHpFromBattle(
+  characters: PartyWorldSave["characters"],
+  battle: BattleState
+): PartyWorldSave["characters"] {
+  const next = { ...characters };
+  for (const pet of battle.pets ?? []) {
+    const c = next[pet.ownerSlot];
+    if (!c?.dog) continue;
+    next[pet.ownerSlot] = {
+      ...c,
+      dog: {
+        ...c.dog,
+        hp: Math.max(0, Math.min(c.dog.maxHp, pet.hp)),
+      },
+    };
+  }
+  return next;
+}
+
 function consumeOne(inv: string[], itemId: string): string[] | null {
   const i = inv.indexOf(itemId);
   if (i < 0) return null;
@@ -328,12 +425,15 @@ function advanceBattleTurn(battle: BattleState): BattleState {
   const n = battle.turnQueue.length;
   if (n === 0) return battle;
   let idx = (battle.turnIndex + 1) % n;
-  // Skip dead heroes / fallen foes
+  // Skip dead heroes / pets / fallen foes
   for (let guard = 0; guard < n; guard++) {
     const id = battle.turnQueue[idx]!;
     if (isEnemyCombatantId(id)) {
       const foe = getEnemyByUnitId(battle, id);
       if (foe && foe.hp > 0) break;
+    } else if (isPetCombatantId(id)) {
+      const pet = getPetByUnitId(battle, id);
+      if (pet && pet.hp > 0) break;
     } else {
       const hero = battle.heroes.find((h) => h.id === id);
       if (hero && hero.hp > 0) break;
@@ -342,7 +442,7 @@ function advanceBattleTurn(battle: BattleState): BattleState {
   }
   const now = new Date().toISOString();
   let tactical = battle.tactical
-    ? removeDeadHeroUnits(battle.tactical, battle.heroes)
+    ? removeDeadHeroUnits(battle.tactical, battle.heroes, battle.pets ?? [])
     : battle.tactical;
   if (tactical) {
     tactical = removeDeadEnemyUnits(tactical, battleEnemyPack(battle));
@@ -597,31 +697,33 @@ export function startRandomBattle(
   const enemies = rollEnemyPack(lvl, packSize, rng);
   const lead = enemies[0]!;
   const heroes = slots.map((slot) => heroFromChar(slot, world.characters[slot]));
+  const pets = petsForHeroes(heroes, world);
 
-  const turnQueue = [
-    ...heroes.map((h) => h.id),
-    ...enemies.map((e, i) => e.unitId ?? enemyUnitIdForIndex(i)),
-  ];
+  const turnQueue = buildTurnQueue(heroes, pets, enemies);
   const clocks = freshBattleTimestamps();
   const title = packTitle(enemies);
+  const petNote = pets.length
+    ? ` Companions join: ${pets.map((p) => p.name).join(", ")}.`
+    : "";
   const battle: BattleState = {
     id: `battle-${Date.now()}`,
     status: "active",
     enemy: lead,
     enemies,
     heroes,
+    pets,
     turnQueue,
     turnIndex: 0,
     activeId: turnQueue[0]!,
     log: [
       `Ambush! ${title} bars the path.`,
-      `Tactical field — ${packSize} foe${packSize > 1 ? "s" : ""} vs ${heroes.length} hero${heroes.length > 1 ? "es" : ""}. Idle 30s → foe acts. Cap 10 min.`,
+      `Tactical field — ${packSize} foe${packSize > 1 ? "s" : ""} vs ${heroes.length} hero${heroes.length > 1 ? "es" : ""}${pets.length ? ` + ${pets.length} companion${pets.length > 1 ? "s" : ""}` : ""}. Idle 30s → foe acts. Cap 10 min.${petNote}`,
     ],
     stats: { damageDealt: 0, damageTaken: 0, turns: 0, bestRoc: 0 },
     lastRocLabel: null,
     summary: null,
     fxEvents: [],
-    tactical: createTacticalState(heroes, enemies, world),
+    tactical: createTacticalState(heroes, enemies, world, undefined, pets),
     ...clocks,
   };
 
@@ -664,30 +766,32 @@ export function startBattleVs(
 
   const lead = enemies[0]!;
   const heroes = slots.map((slot) => heroFromChar(slot, world.characters[slot]));
-  const turnQueue = [
-    ...heroes.map((h) => h.id),
-    ...enemies.map((e, i) => e.unitId ?? enemyUnitIdForIndex(i)),
-  ];
+  const pets = petsForHeroes(heroes, world);
+  const turnQueue = buildTurnQueue(heroes, pets, enemies);
   const clocks = freshBattleTimestamps();
   const title = packTitle(enemies);
+  const petNote = pets.length
+    ? ` Companions join: ${pets.map((p) => p.name).join(", ")}.`
+    : "";
   const battle: BattleState = {
     id: `battle-${Date.now()}`,
     status: "active",
     enemy: lead,
     enemies,
     heroes,
+    pets,
     turnQueue,
     turnIndex: 0,
     activeId: turnQueue[0]!,
     log: [
       `${title} challenges the party.`,
-      `Tactical field — ${packSize} foe${packSize > 1 ? "s" : ""} vs ${heroes.length} hero${heroes.length > 1 ? "es" : ""}. Idle 30s → foe acts. Cap 10 min.`,
+      `Tactical field — ${packSize} foe${packSize > 1 ? "s" : ""} vs ${heroes.length} hero${heroes.length > 1 ? "es" : ""}${pets.length ? ` + ${pets.length} companion${pets.length > 1 ? "s" : ""}` : ""}. Idle 30s → foe acts. Cap 10 min.${petNote}`,
     ],
     stats: { damageDealt: 0, damageTaken: 0, turns: 0, bestRoc: 0 },
     lastRocLabel: null,
     summary: null,
     fxEvents: [],
-    tactical: createTacticalState(heroes, enemies, world),
+    tactical: createTacticalState(heroes, enemies, world, undefined, pets),
     ...clocks,
   };
   return {
@@ -791,7 +895,7 @@ function finishVictory(
   char = { ...char, inventory };
 
   // Sync all hero HP/mana from battle (clamp to effective max from gear)
-  const characters = { ...world.characters };
+  let characters = { ...world.characters };
   for (const h of battle.heroes) {
     const c = characters[h.slot];
     if (!c) continue;
@@ -814,6 +918,7 @@ function finishVictory(
     maxHp: char.maxHp,
     maxMana: char.maxMana,
   };
+  characters = syncDogHpFromBattle(characters, battle);
 
   const title = packTitle(pack);
   const summary = buildSummary(battle, true, loot, totalXp, totalGold);
@@ -865,7 +970,7 @@ function finishDefeat(
   battle: BattleState,
   reason?: string
 ): PartyWorldSave {
-  const characters = { ...world.characters };
+  let characters = { ...world.characters };
   for (const h of battle.heroes) {
     const c = characters[h.slot];
     if (!c) continue;
@@ -875,6 +980,19 @@ function finishDefeat(
       ...c,
       hp: Math.max(1, Math.floor(maxHp * 0.25)),
       mana: Math.max(0, Math.floor(maxMana * 0.25)),
+    };
+  }
+  characters = syncDogHpFromBattle(characters, battle);
+  // Soft-heal dogs after a wipe so companions aren't permanently KO'd.
+  for (const pet of battle.pets ?? []) {
+    const c = characters[pet.ownerSlot];
+    if (!c?.dog) continue;
+    characters[pet.ownerSlot] = {
+      ...c,
+      dog: {
+        ...c.dog,
+        hp: Math.max(1, Math.floor(c.dog.maxHp * 0.35)),
+      },
     };
   }
   const summary = buildSummary(battle, false, [], 0, 0);
@@ -923,14 +1041,40 @@ function runEnemyTurn(
   if (!foeState || foeState.hp <= 0) {
     return { ...world, battle: advanceBattleTurn(battle) };
   }
-  const living = battle.heroes.filter((h) => h.hp > 0);
-  if (!living.length) return finishDefeat(world, battle);
+  const livingHeroes = battle.heroes.filter((h) => h.hp > 0);
+  if (!livingHeroes.length) return finishDefeat(world, battle);
+  const petsAlive = livingPets(battle);
+
+  type PartyTarget =
+    | { kind: "hero"; id: string; name: string; armor: number; power: number; maxHp: number; slot: PlayerSlot }
+    | { kind: "pet"; id: string; name: string; armor: number; power: number; maxHp: number; ownerSlot: PlayerSlot };
+
+  const partyTargets: PartyTarget[] = [
+    ...livingHeroes.map((h) => ({
+      kind: "hero" as const,
+      id: h.id,
+      name: h.name,
+      armor: h.armor,
+      power: h.power,
+      maxHp: h.maxHp,
+      slot: h.slot,
+    })),
+    ...petsAlive.map((p) => ({
+      kind: "pet" as const,
+      id: p.id,
+      name: p.name,
+      armor: p.armor,
+      power: p.power,
+      maxHp: p.maxHp,
+      ownerSlot: p.ownerSlot,
+    })),
+  ];
 
   let b = ensureTactical(battle, world);
-  const livingIds = new Set(living.map((h) => h.id));
+  const livingIds = new Set(partyTargets.map((t) => t.id));
   const foeUnit = b.tactical ? getUnit(b.tactical, unitId) : null;
 
-  // Move toward nearest hero when not already in strike range.
+  // Move toward nearest party unit (hero or pet) when not already in strike range.
   if (b.tactical && foeUnit) {
     const targetUnit = nearestPartyTarget(b.tactical, foeUnit, livingIds);
     if (targetUnit) {
@@ -948,13 +1092,17 @@ function runEnemyTurn(
   }
 
   const foeNow = b.tactical ? getUnit(b.tactical, unitId) : null;
-  let target = living[Math.floor(rng() * living.length)]!;
+  let target = partyTargets[Math.floor(rng() * partyTargets.length)]!;
   if (b.tactical && foeNow) {
-    const inRange = living
-      .map((h) => ({ h, u: getUnit(b.tactical!, h.id) }))
+    const inRange = partyTargets
+      .map((t) => ({ t, u: getUnit(b.tactical!, t.id) }))
       .filter(({ u }) => u && canStrike(foeNow, u));
     if (inRange.length) {
-      target = inRange[Math.floor(rng() * inRange.length)]!.h;
+      // Prefer pets slightly (distract) when both in range — 55% chance if any pet in range.
+      const petHits = inRange.filter((x) => x.t.kind === "pet");
+      const pool =
+        petHits.length && rng() < 0.55 ? petHits : inRange;
+      target = pool[Math.floor(rng() * pool.length)]!.t;
     } else {
       // Could not close to attack — end turn after reposition.
       b = {
@@ -968,7 +1116,8 @@ function runEnemyTurn(
     }
   }
 
-  const targetChar = world.characters[target.slot];
+  const ownerSlot = target.kind === "hero" ? target.slot : target.ownerSlot;
+  const targetChar = world.characters[ownerSlot];
   let skillBoost = foeState.power * 2;
   let line = `${foeState.name} strikes ${target.name}`;
   let actingFoe = foeState;
@@ -994,7 +1143,10 @@ function runEnemyTurn(
     rng,
   });
   const defense = resolveRoc({
-    attributeScore: targetChar?.stats.constitution ?? 10,
+    attributeScore:
+      target.kind === "pet"
+        ? 8 + Math.floor((targetChar?.dog?.bond ?? 10) / 20)
+        : targetChar?.stats.constitution ?? 10,
     skillValue: target.armor * 3 + Math.floor(target.power * 0.5),
     situational: livingEnemies(b).length >= 4 ? 3 : 0,
     rng,
@@ -1008,7 +1160,7 @@ function runEnemyTurn(
   // Dense packs act many times per round — cap each swing so they pressure, not wipe.
   const hitCap = Math.max(
     4,
-    Math.floor(target.maxHp * (actingFoe.isBoss ? 0.26 : 0.16))
+    Math.floor(target.maxHp * (actingFoe.isBoss ? 0.26 : target.kind === "pet" ? 0.28 : 0.16))
   );
   const mitigated = Math.min(rawHit, hitCap);
   b = recordRoc(b, offense);
@@ -1016,12 +1168,37 @@ function runEnemyTurn(
   const usedSkill = line.includes("uses ");
   b = pushStrikeVfx(b, unitId, target.id, usedSkill ? "spell" : "melee", !usedSkill);
 
-  const heroes = b.heroes.map((h) =>
-    h.id === target.id ? { ...h, hp: Math.max(0, h.hp - mitigated) } : h
-  );
+  let heroes = b.heroes;
+  let pets = b.pets ?? [];
+  const characters = { ...world.characters };
+
+  if (target.kind === "hero") {
+    heroes = b.heroes.map((h) =>
+      h.id === target.id ? { ...h, hp: Math.max(0, h.hp - mitigated) } : h
+    );
+    const hit = heroes.find((h) => h.id === target.id)!;
+    characters[target.slot] = {
+      ...characters[target.slot]!,
+      hp: hit.hp,
+    };
+  } else {
+    pets = pets.map((p) =>
+      p.id === target.id ? { ...p, hp: Math.max(0, p.hp - mitigated) } : p
+    );
+    const hitPet = pets.find((p) => p.id === target.id)!;
+    const owner = characters[hitPet.ownerSlot];
+    if (owner?.dog) {
+      characters[hitPet.ownerSlot] = {
+        ...owner,
+        dog: { ...owner.dog, hp: Math.max(0, Math.min(owner.dog.maxHp, hitPet.hp)) },
+      };
+    }
+  }
+
   b = {
     ...b,
     heroes,
+    pets,
     stats: {
       ...b.stats,
       damageTaken: b.stats.damageTaken + mitigated,
@@ -1030,7 +1207,7 @@ function runEnemyTurn(
   };
   const targetTok = b.tactical ? getUnit(b.tactical, target.id) : null;
   if (b.tactical) {
-    b = { ...b, tactical: removeDeadHeroUnits(b.tactical, heroes) };
+    b = { ...b, tactical: removeDeadHeroUnits(b.tactical, heroes, pets) };
   }
   if (mitigated > 0) {
     if (isCritTier(offense)) {
@@ -1038,8 +1215,11 @@ function runEnemyTurn(
     } else {
       b = pushFx(b, "damage", mitigated, target.id, { source: unitId, tone: "melee" });
     }
-    const hitHero = heroes.find((h) => h.id === target.id);
-    if (hitHero && hitHero.hp <= 0) {
+    const fallen =
+      target.kind === "hero"
+        ? (heroes.find((h) => h.id === target.id)?.hp ?? 1) <= 0
+        : (pets.find((p) => p.id === target.id)?.hp ?? 1) <= 0;
+    if (fallen) {
       b = pushFx(b, "ko", 0, target.id, {
         source: unitId,
         cellX: targetTok?.x,
@@ -1056,14 +1236,6 @@ function runEnemyTurn(
       : `${line} — ${offense.label} (wiffs).`
   );
 
-  // Sync character HP
-  const characters = { ...world.characters };
-  const hit = heroes.find((h) => h.id === target.id)!;
-  characters[target.slot] = {
-    ...characters[target.slot]!,
-    hp: hit.hp,
-  };
-
   if (heroes.every((h) => h.hp <= 0)) {
     return finishDefeat({ ...world, characters }, b);
   }
@@ -1072,7 +1244,7 @@ function runEnemyTurn(
   return { ...world, characters, battle: b };
 }
 
-/** Auto-resolve consecutive enemy turns until a living hero is active. */
+/** Auto-resolve consecutive enemy turns until a living party combatant is active. */
 function resolveEnemyPhase(
   world: PartyWorldSave,
   battle: BattleState,
@@ -1083,7 +1255,7 @@ function resolveEnemyPhase(
   while (
     nextWorld.battle?.status === "active" &&
     isEnemyCombatantId(nextWorld.battle.activeId) &&
-    guard++ < 12
+    guard++ < 16
   ) {
     nextWorld = runEnemyTurn(nextWorld, nextWorld.battle, rng);
   }
@@ -1112,7 +1284,7 @@ function livingEnemyUnitIds(battle: BattleState): string[] {
 
 function resolveAttackTargetId(
   battle: BattleState,
-  actorSlot: PlayerSlot,
+  actorId: string,
   preferred?: string
 ): string | null {
   const livingIds = livingEnemyUnitIds(battle);
@@ -1121,7 +1293,7 @@ function resolveAttackTargetId(
 
   if (!battle.tactical) return livingIds[0]!;
 
-  const attacker = getUnit(battle.tactical, actorSlot);
+  const attacker = getUnit(battle.tactical, actorId);
   if (!attacker) return livingIds[0]!;
 
   const idSet = new Set(livingIds);
@@ -1147,6 +1319,103 @@ function resolveAllyTargetId(
   return actorSlot;
 }
 
+/** Companion turn — move / bite / wait (owner clicks for their dog). */
+function performPetBattleAction(
+  world: PartyWorldSave,
+  battleIn: BattleState,
+  actorSlot: PlayerSlot,
+  pet: BattlePetState,
+  action: BattleActionId,
+  opts: BattleActionOpts,
+  rng: () => number
+): { world: PartyWorldSave; message: string } {
+  let b = battleIn;
+  const phase = b.tactical?.phase ?? "act";
+  let message = "";
+
+  if (action === "move") {
+    if (phase !== "move") return { world: { ...world, battle: b }, message: "Already moved." };
+    if (opts.x == null || opts.y == null) {
+      return { world: { ...world, battle: b }, message: "Pick a tile." };
+    }
+    if (!b.tactical) return { world, message: "No battlefield." };
+    const nextTac = moveUnit(b.tactical, pet.id, opts.x, opts.y);
+    if (!nextTac) return { world: { ...world, battle: b }, message: "Cannot reach that tile." };
+    b = {
+      ...b,
+      tactical: nextTac,
+      stats: { ...b.stats, turns: b.stats.turns + 1 },
+    };
+    message = `${pet.name} bounds to (${opts.x + 1},${opts.y + 1}).`;
+    b = pushLog(b, message);
+    return { world: { ...world, battle: b }, message };
+  }
+
+  if (action === "wait") {
+    if (phase === "move" && b.tactical) {
+      b = { ...b, tactical: setPhase(b.tactical, "act") };
+      message = `${pet.name} holds, ready to bite.`;
+      b = pushLog(b, message);
+      return { world: { ...world, battle: b }, message };
+    }
+    message = `${pet.name} waits.`;
+    b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
+    b = pushLog(b, message);
+    b = advanceBattleTurn(b);
+    return { world: { ...world, battle: b }, message };
+  }
+
+  if (action === "attack") {
+    const targetId = resolveAttackTargetId(b, pet.id, opts.targetId);
+    if (!targetId) return { world, message: "No foes left." };
+    const foeState = getEnemyByUnitId(b, targetId);
+    if (!foeState || foeState.hp <= 0) {
+      return { world: { ...world, battle: b }, message: "That foe is down." };
+    }
+    const attacker = b.tactical ? getUnit(b.tactical, pet.id) : null;
+    const foeTok = b.tactical ? getUnit(b.tactical, targetId) : null;
+    if (attacker && foeTok && !canStrike(attacker, foeTok)) {
+      return {
+        world: { ...world, battle: b },
+        message: `Out of range — ${pet.name} needs to close in.`,
+      };
+    }
+    const flanking =
+      !!attacker && !!foeTok && b.tactical
+        ? isFlanking(b.tactical, attacker, foeTok)
+        : false;
+    const strike = combatStrikePower(pet.power, false);
+    const damage = clampOutgoingDamage(
+      Math.max(1, Math.floor(strike * (flanking ? 1.12 : 1) * (0.85 + rng() * 0.3))),
+      foeState.maxHp
+    );
+    b = pushStrikeVfx(b, pet.id, targetId, "melee", true);
+    if (flanking) {
+      b = pushFx(b, "flank", 0, targetId, { source: pet.id, tone: "melee" });
+    }
+    const dealt = dealToEnemy(b, damage, targetId, {
+      sourceId: pet.id,
+      floater: "damage",
+      tone: "melee",
+    });
+    b = dealt.battle;
+    message = `${pet.name} bites ${foeState.name}${flanking ? " (flank!)" : ""} for ${dealt.damage}.`;
+    if (dealt.fallen) message += ` ${foeState.name} falls!`;
+    b = pushLog(b, message);
+    b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1, damageDealt: b.stats.damageDealt + dealt.damage } };
+    if (livingEnemyUnitIds(b).length === 0) {
+      return {
+        world: finishVictory({ ...world, battle: b }, b, actorSlot, rng),
+        message,
+      };
+    }
+    b = advanceBattleTurn(b);
+    return { world: { ...world, battle: b }, message };
+  }
+
+  return { world: { ...world, battle: b }, message: `${pet.name} can only move, bite, or wait.` };
+}
+
 export function performBattleAction(
   world: PartyWorldSave,
   actorSlot: PlayerSlot,
@@ -1162,8 +1431,21 @@ export function performBattleAction(
     return { world, message: "Battle starting…" };
   }
   battle = ensureTactical(battle, world);
-  if (battle.activeId !== actorSlot) {
+
+  const activePet =
+    isPetCombatantId(battle.activeId)
+      ? getPetByUnitId(battle, battle.activeId)
+      : undefined;
+  const controllingPet =
+    !!activePet && activePet.ownerSlot === actorSlot && activePet.hp > 0;
+
+  if (battle.activeId !== actorSlot && !controllingPet) {
     return { world, message: "Not your battle turn." };
+  }
+
+  // —— Pet turn: move / bite / wait only ——
+  if (controllingPet && activePet) {
+    return performPetBattleAction(world, battle, actorSlot, activePet, action, opts, rng);
   }
 
   let char = world.characters[actorSlot];
@@ -1617,7 +1899,9 @@ export function tickBattleTimers(
   if (turnIdleRemainingMs(battle, nowMs) > 0) return { world };
 
   const hesitator =
-    battle.heroes.find((h) => h.id === battle.activeId)?.name ?? "A hero";
+    battle.heroes.find((h) => h.id === battle.activeId)?.name ??
+    getPetByUnitId(battle, battle.activeId)?.name ??
+    "A companion";
   const packLabel = packTitle(battleEnemyPack(battle));
   let nextWorld: PartyWorldSave = {
     ...world,
@@ -1627,7 +1911,7 @@ export function tickBattleTimers(
     ),
   };
   let nb = advanceBattleTurn(nextWorld.battle!);
-  // Jump to first living enemy if advance landed on another hero — force foe strike on idle.
+  // Jump to first living enemy if advance landed on another party unit — force foe strike on idle.
   if (!isEnemyCombatantId(nb.activeId)) {
     const enemyIdx = nb.turnQueue.findIndex(
       (id) =>
