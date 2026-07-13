@@ -1470,8 +1470,8 @@
 .party-rpg90s .pc-tactical-board,
 .party-chronicle .pc-tactical-board {
   display: grid;
-  grid-template-columns: repeat(var(--pc-tac-cols, 8), minmax(0, 1fr));
-  grid-template-rows: repeat(var(--pc-tac-rows, 6), minmax(44px, 1fr));
+  grid-template-columns: repeat(var(--pc-tac-cols, 10), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--pc-tac-rows, 8), minmax(40px, 1fr));
   gap: 3px;
   padding: 0.45rem;
   border: 3px solid var(--pc-border);
@@ -1657,7 +1657,7 @@
   .party-chronicle .pc-tactical-board {
     aspect-ratio: auto;
     min-height: 200px;
-    grid-template-rows: repeat(var(--pc-tac-rows, 6), minmax(40px, 48px));
+    grid-template-rows: repeat(var(--pc-tac-rows, 8), minmax(36px, 44px));
   }
 
   .party-comic .pc-battle-roster,

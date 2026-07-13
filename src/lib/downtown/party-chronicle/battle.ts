@@ -89,16 +89,22 @@ const POWER_UP_MULT = 1.25;
  * without 200+ one-shots (sqrt curve, then mild power-up).
  */
 function combatStrikePower(rawAtk: number, poweredUp: boolean): number {
-  const scaled = 5 + Math.round(Math.pow(Math.max(1, rawAtk), 0.62) * 2.4);
+  // Slightly softer curve so 2× foe packs aren't deleted in one hero round.
+  const scaled = 5 + Math.round(Math.pow(Math.max(1, rawAtk), 0.6) * 2.15);
   const mult = poweredUp ? POWER_UP_MULT : 1;
   return Math.max(2, Math.floor(scaled * mult));
 }
 
-/** Cap a single hit so early foes / weak bosses aren't deleted in one swing. */
+/** Cap a single hit — packs need multi-hit clears, not one-shots. */
 function clampOutgoingDamage(damage: number, enemyMaxHp: number): number {
   if (damage <= 0) return 0;
-  const cap = Math.max(14, Math.floor(enemyMaxHp * 0.38));
+  const cap = Math.max(12, Math.floor(enemyMaxHp * 0.34));
   return Math.min(damage, cap);
+}
+
+/** Random ambush / forced fight size: 2 foes per sealed hero (min 2). */
+export function encounterPackSize(sealedHeroCount: number): number {
+  return Math.max(2, sealedHeroCount * 2);
 }
 
 /** Random road ambushes every 90s of eligible story play time. */
@@ -177,8 +183,10 @@ function syncLeadEnemy(battle: BattleState): BattleState {
 
 /**
  * Level-scale bestiary HP/power toward party level within the creature's band,
- * then soften multi-enemy packs so N seals ≠ N full-strength solos.
- * Solo (packSize 1) keeps ~full strength; each extra foe trims HP/power slightly.
+ * then soften dense packs (2 foes / hero) so total threat stays spicy without
+ * wiping the party when 4–8 enemies act in a row.
+ *
+ * Targets (approx): pack 2 → 90% HP / 88% pow; pack 4 → 78% / 78%; pack 8 → 54% / 58%.
  */
 function scaleFoeStats(
   foe: { levelMin: number; levelMax: number; hp: number; power: number; armor: number; xp: number; gold: number },
@@ -189,19 +197,20 @@ function scaleFoeStats(
   const delta = partyLvl - mid;
   const levelHp = 1 + Math.max(-0.25, Math.min(0.55, delta * 0.035));
   const levelPow = 1 + Math.max(-0.2, Math.min(0.45, delta * 0.025));
-  // Pack softening: 2 foes ≈ 78% HP / 85% power each; 4 ≈ 64% / 75%.
   const packHp =
-    packSize <= 1 ? 1 : Math.max(0.62, 0.92 - (packSize - 1) * 0.07);
+    packSize <= 2 ? 0.9 : Math.max(0.5, 0.9 - (packSize - 2) * 0.06);
   const packPow =
-    packSize <= 1 ? 1 : Math.max(0.7, 0.95 - (packSize - 1) * 0.05);
+    packSize <= 2 ? 0.88 : Math.max(0.55, 0.88 - (packSize - 2) * 0.05);
   const packReward =
-    packSize <= 1 ? 1 : Math.max(0.55, 0.85 - (packSize - 1) * 0.08);
+    packSize <= 2 ? 0.95 : Math.max(0.5, 0.9 - (packSize - 2) * 0.05);
+  const packArmor =
+    packSize <= 2 ? 0.95 : Math.max(0.7, 0.95 - (packSize - 2) * 0.04);
   return {
-    hp: Math.max(8, Math.round(foe.hp * levelHp * packHp)),
+    hp: Math.max(10, Math.round(foe.hp * levelHp * packHp)),
     power: Math.max(2, Math.round(foe.power * levelPow * packPow)),
     armor: Math.max(
       0,
-      Math.round((foe.armor ?? 0) * (packSize <= 1 ? 1 : 0.9) * Math.min(1.2, levelPow))
+      Math.round((foe.armor ?? 0) * packArmor * Math.min(1.15, levelPow))
     ),
     xp: Math.max(1, Math.round(foe.xp * Math.max(0.85, levelHp) * packReward)),
     gold: Math.max(0, Math.round(foe.gold * packReward)),
@@ -449,7 +458,7 @@ function foeFromRoll(
   };
 }
 
-/** Spawn one foe per sealed hero; pack softens each unit when N > 1. */
+/** Spawn 2 foes per sealed hero (min 2); pack softens each unit by density. */
 function rollEnemyPack(
   partyLvl: number,
   packSize: number,
@@ -488,7 +497,7 @@ export function startRandomBattle(
   if (!slots.length) return { world, message: "No sealed heroes to fight." };
 
   const lvl = partyLevel(world);
-  const packSize = slots.length;
+  const packSize = encounterPackSize(slots.length);
   const enemies = rollEnemyPack(lvl, packSize, rng);
   const lead = enemies[0]!;
   const heroes = slots.map((slot) => heroFromChar(slot, world.characters[slot]));
@@ -510,7 +519,7 @@ export function startRandomBattle(
     activeId: turnQueue[0]!,
     log: [
       `Ambush! ${title} bars the path.`,
-      `Tactical field — ${packSize} foe${packSize > 1 ? "s" : ""} vs ${packSize} hero${packSize > 1 ? "es" : ""}. Idle 30s → foe acts. Cap 10 min.`,
+      `Tactical field — ${packSize} foe${packSize > 1 ? "s" : ""} vs ${heroes.length} hero${heroes.length > 1 ? "es" : ""}. Idle 30s → foe acts. Cap 10 min.`,
     ],
     stats: { damageDealt: 0, damageTaken: 0, turns: 0, bestRoc: 0 },
     lastRocLabel: null,
@@ -541,7 +550,7 @@ export function startBattleVs(
   if (!slots.length) return { world, message: "No sealed heroes." };
 
   const lvl = partyLevel(world);
-  const packSize = slots.length;
+  const packSize = encounterPackSize(slots.length);
   const leadRoll = boss
     ? ({ kind: "boss" as const, foe: boss })
     : ({ kind: "creature" as const, foe: creature! });
@@ -576,7 +585,7 @@ export function startBattleVs(
     activeId: turnQueue[0]!,
     log: [
       `${title} challenges the party.`,
-      `Tactical field — ${packSize} foe${packSize > 1 ? "s" : ""} vs ${packSize} hero${packSize > 1 ? "es" : ""}. Idle 30s → foe acts. Cap 10 min.`,
+      `Tactical field — ${packSize} foe${packSize > 1 ? "s" : ""} vs ${heroes.length} hero${heroes.length > 1 ? "es" : ""}. Idle 30s → foe acts. Cap 10 min.`,
     ],
     stats: { damageDealt: 0, damageTaken: 0, turns: 0, bestRoc: 0 },
     lastRocLabel: null,
@@ -866,21 +875,27 @@ function runEnemyTurn(
   const offense = resolveRoc({
     attributeScore: 12,
     skillValue: Math.round(skillBoost),
-    situational: actingFoe.isBoss ? 8 : 0,
+    situational: actingFoe.isBoss ? 8 : 2,
     rng,
   });
   const defense = resolveRoc({
     attributeScore: targetChar?.stats.constitution ?? 10,
     skillValue: target.armor * 3 + Math.floor(target.power * 0.5),
-    situational: 0,
+    situational: livingEnemies(b).length >= 4 ? 3 : 0,
     rng,
   });
-  const { damage: mitigated } = rocDamageFromMargin(
+  const { damage: rawHit } = rocDamageFromMargin(
     Math.max(2, actingFoe.power),
     offense,
     defense.total,
     { armor: target.armor, minHit: offense.tier.success ? 1 : 0 }
   );
+  // Dense packs act many times per round — cap each swing so they pressure, not wipe.
+  const hitCap = Math.max(
+    4,
+    Math.floor(target.maxHp * (actingFoe.isBoss ? 0.26 : 0.16))
+  );
+  const mitigated = Math.min(rawHit, hitCap);
   b = recordRoc(b, offense);
 
   const heroes = b.heroes.map((h) =>

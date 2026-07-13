@@ -15,8 +15,9 @@ import type {
   PlayerSlot,
 } from "./types";
 
-export const TACTICAL_COLS = 8;
-export const TACTICAL_ROWS = 6;
+/** Wide enough for 4 heroes west + up to 8 foes east without stacking. */
+export const TACTICAL_COLS = 10;
+export const TACTICAL_ROWS = 8;
 
 const RANGED_CLASSES = new Set<ClassId>([
   "ranger",
@@ -93,7 +94,55 @@ function normalizeEnemies(
   return [{ ...enemy, unitId: enemy.unitId ?? "enemy" }];
 }
 
-/** Place party on the west edge, foes on the east (mirrored stacking). */
+/** Spread `count` units across `rows` without overlapping y when possible. */
+function spacedRows(count: number, rows: number): number[] {
+  if (count <= 0) return [];
+  if (count === 1) return [Math.floor((rows - 1) / 2)];
+  if (count >= rows) return Array.from({ length: count }, (_, i) => i % rows);
+  const out: number[] = [];
+  for (let i = 0; i < count; i++) {
+    out.push(Math.round((i * (rows - 1)) / (count - 1)));
+  }
+  return out;
+}
+
+/**
+ * East-side foe slots: fill the rear column first, then stagger one column west
+ * so up to 8 units never share a tile.
+ */
+function eastSlots(
+  count: number,
+  cols = TACTICAL_COLS,
+  rows = TACTICAL_ROWS
+): { x: number; y: number }[] {
+  const rearX = cols - 2;
+  const frontX = cols - 3;
+  const ys = spacedRows(Math.min(count, rows), rows);
+  const slots: { x: number; y: number }[] = [];
+  for (let i = 0; i < count; i++) {
+    if (i < rows) {
+      slots.push({ x: rearX, y: ys[i] ?? i % rows });
+    } else {
+      // Second wave: stagger west, offset y by 1 when possible for a zigzag.
+      const y = (ys[i - rows] ?? (i - rows) % rows + 1) % rows;
+      slots.push({ x: frontX, y });
+    }
+  }
+  // Deduplicate any collisions by walking north.
+  const used = new Set<string>();
+  return slots.map((s) => {
+    let { x, y } = s;
+    let guard = 0;
+    while (used.has(`${x},${y}`) && guard++ < cols * rows) {
+      y = (y + 1) % rows;
+      if (guard === rows) x = Math.max(cols - 4, x - 1);
+    }
+    used.add(`${x},${y}`);
+    return { x, y };
+  });
+}
+
+/** Place party on the west edge, foes on the east (no stacked tiles). */
 export function createTacticalState(
   heroes: BattleHeroState[],
   enemyOrPack: BattleState["enemy"] | BattleEnemyState[],
@@ -102,16 +151,16 @@ export function createTacticalState(
 ): BattleTacticalState {
   const living = heroes.filter((h) => h.hp > 0);
   const units: BattleTacticalUnit[] = [];
+  const heroYs = spacedRows(living.length, TACTICAL_ROWS);
 
   living.forEach((h, i) => {
     const char = world.characters[h.slot];
-    const y = Math.min(TACTICAL_ROWS - 1, 1 + i);
     units.push({
       id: h.id,
       side: "party",
       heroSlot: h.slot,
       x: 1,
-      y,
+      y: heroYs[i] ?? Math.min(TACTICAL_ROWS - 1, i),
       speed: heroSpeed(char),
       range: heroRange(char),
     });
@@ -121,20 +170,24 @@ export function createTacticalState(
     ? enemyOrPack
     : normalizeEnemies(enemyOrPack, enemiesOpt);
 
-  pack
-    .filter((e) => e.hp > 0)
-    .forEach((e, i) => {
-      const unitId = e.unitId ?? enemyUnitIdForIndex(i);
-      const y = Math.min(TACTICAL_ROWS - 1, 1 + i);
-      units.push({
-        id: unitId,
-        side: "enemy",
-        x: TACTICAL_COLS - 2,
-        y,
-        speed: enemySpeed(e.power),
-        range: enemyRange(e.isBoss, e.power),
-      });
+  const livingFoes = pack.filter((e) => e.hp > 0);
+  const foeSlots = eastSlots(livingFoes.length);
+
+  livingFoes.forEach((e, i) => {
+    const unitId = e.unitId ?? enemyUnitIdForIndex(i);
+    const slot = foeSlots[i] ?? {
+      x: TACTICAL_COLS - 2,
+      y: i % TACTICAL_ROWS,
+    };
+    units.push({
+      id: unitId,
+      side: "enemy",
+      x: slot.x,
+      y: slot.y,
+      speed: enemySpeed(e.power),
+      range: enemyRange(e.isBoss, e.power),
     });
+  });
 
   return {
     cols: TACTICAL_COLS,
