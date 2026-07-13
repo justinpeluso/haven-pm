@@ -325,9 +325,15 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
             </p>
           )}
           {!mySlot && (
-            <p className="text-xs">
-              Log in as player1@ / player2@ / player3@havenpm.com (password67) to claim a seat.
-            </p>
+            <div className="pc-panel p-4 text-left space-y-2 max-w-sm mx-auto">
+              <p className="pc-eyebrow">Party logins</p>
+              <p className="text-xs">Use these at the Haven login screen (password <strong>password67</strong>):</p>
+              <ul className="text-xs font-mono space-y-1">
+                <li>player1@havenpm.com — Justin (DM)</li>
+                <li>player2@havenpm.com — Rusty</li>
+                <li>player3@havenpm.com — Elisha</li>
+              </ul>
+            </div>
           )}
           <button type="button" className="pc-primary-btn" onClick={startCampaign}>
             New Campaign

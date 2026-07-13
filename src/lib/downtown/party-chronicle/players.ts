@@ -4,6 +4,7 @@ import { BLANK_BASE_STATS, CREATE_STAT_POOL } from "./create";
 /** Map login email → party slot. Player1 = Justin (DM). */
 export const EMAIL_TO_SLOT: Record<string, PlayerSlot> = {
   "player1@havenpm.com": "justin",
+  "justin@havenpm.com": "justin",
   "player2@havenpm.com": "rusty",
   "player3@havenpm.com": "elisha",
 };

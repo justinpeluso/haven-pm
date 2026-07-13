@@ -80,18 +80,47 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-6 rounded-lg bg-muted p-4 text-xs text-muted-foreground">
-            <p className="font-medium mb-2">Demo accounts (password: password123)</p>
-            <ul className="space-y-1">
-              <li>admin@havenpm.com — Alex (Administrator)</li>
-              <li>justin@havenpm.com — Justin Peluso (Administrator)</li>
-              <li>michelle@havenpm.com — Michelle Turcan (Administrator)</li>
-              <li>manager@havenpm.com — Property Manager</li>
-              <li>agent@havenpm.com / agent2@ / agent3@ — Agents</li>
-              <li>maintenance@havenpm.com — Maintenance Staff</li>
-              <li>office@havenpm.com — Office Staff</li>
-              <li>tenant@havenpm.com … tenant10@ — Tenants</li>
-            </ul>
+          <div className="mt-6 space-y-3">
+            <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-xs">
+              <p className="font-semibold mb-2 text-amber-900 dark:text-amber-100">
+                Neverworld party logins (password: password67)
+              </p>
+              <ul className="space-y-2 text-muted-foreground">
+                {[
+                  { email: "player1@havenpm.com", label: "Justin — DM + Player 1" },
+                  { email: "player2@havenpm.com", label: "Rusty — Player 2" },
+                  { email: "player3@havenpm.com", label: "Elisha — Player 3" },
+                ].map((p) => (
+                  <li key={p.email} className="flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      className="rounded border border-amber-500/50 bg-background px-2 py-1 font-mono text-[0.7rem] hover:bg-amber-500/15"
+                      onClick={() => {
+                        setEmail(p.email);
+                        setPassword("password67");
+                        setError("");
+                      }}
+                    >
+                      {p.email}
+                    </button>
+                    <span>{p.label}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-lg bg-muted p-4 text-xs text-muted-foreground">
+              <p className="font-medium mb-2">Haven PM demo (password: password123)</p>
+              <ul className="space-y-1">
+                <li>admin@havenpm.com — Alex (Administrator)</li>
+                <li>justin@havenpm.com — Justin Peluso (Administrator)</li>
+                <li>michelle@havenpm.com — Michelle Turcan (Administrator)</li>
+                <li>manager@havenpm.com — Property Manager</li>
+                <li>agent@havenpm.com / agent2@ / agent3@ — Agents</li>
+                <li>maintenance@havenpm.com — Maintenance Staff</li>
+                <li>office@havenpm.com — Office Staff</li>
+                <li>tenant@havenpm.com … tenant10@ — Tenants</li>
+              </ul>
+            </div>
           </div>
         </CardContent>
       </Card>
