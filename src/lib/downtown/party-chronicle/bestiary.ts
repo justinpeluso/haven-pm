@@ -6,6 +6,7 @@ import creaturesPack from "../../../../data/party-chronicle/creatures.json";
 import bossesPack from "../../../../data/party-chronicle/bosses.json";
 import lootPack from "../../../../data/party-chronicle/battle-loot.json";
 import spellbooksPack from "../../../../data/party-chronicle/spellbooks.json";
+import spellbooksWave2 from "../../../../data/party-chronicle/spellbooks-wave2.json";
 import type { AbilityDef, GearItem, GearTier } from "./types";
 
 export type LootPoolId = "trash" | "common" | "magic" | "rare" | "legendary";
@@ -57,7 +58,10 @@ export type SpellbookDef = {
 
 export const CREATURES: CreatureDef[] = (creaturesPack as { creatures: CreatureDef[] }).creatures;
 export const BOSSES: BossDef[] = (bossesPack as { bosses: BossDef[] }).bosses;
-export const SPELLBOOKS: SpellbookDef[] = (spellbooksPack as { spellbooks: SpellbookDef[] }).spellbooks;
+export const SPELLBOOKS: SpellbookDef[] = [
+  ...(spellbooksPack as { spellbooks: SpellbookDef[] }).spellbooks,
+  ...((spellbooksWave2 as { spellbooks?: SpellbookDef[] }).spellbooks ?? []),
+];
 
 const lootRaw = lootPack as {
   pools: Record<string, string[]>;

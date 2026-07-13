@@ -1,0 +1,956 @@
+{
+  "spellbooks": [
+    {
+      "id": "spellbook-w2-pine-needle-dart",
+      "name": "Tome of Pine Needle Dart",
+      "blurb": "Read to learn Pine Needle Dart.",
+      "teachesAbilityId": "spell-w2-pine-needle-dart",
+      "ability": {
+        "id": "spell-w2-pine-needle-dart",
+        "name": "Pine Needle Dart",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Comic-panel shine under forest light.",
+        "nodeId": "magic-w2-pine-needle-dart",
+        "cost": {
+          "mana": 6
+        },
+        "power": 18,
+        "tags": [
+          "spell",
+          "heal"
+        ],
+        "target": "self"
+      }
+    },
+    {
+      "id": "spellbook-w2-fog-step",
+      "name": "Tome of Fog Step",
+      "blurb": "Read to learn Fog Step.",
+      "teachesAbilityId": "spell-w2-fog-step",
+      "ability": {
+        "id": "spell-w2-fog-step",
+        "name": "Fog Step",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Smuggled past three goblin checkpoints.",
+        "nodeId": "magic-w2-fog-step",
+        "cost": {
+          "mana": 7
+        },
+        "power": 11,
+        "tags": [
+          "spell",
+          "damage",
+          "fire"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-ember-bark",
+      "name": "Tome of Ember Bark",
+      "blurb": "Read to learn Ember Bark.",
+      "teachesAbilityId": "spell-w2-ember-bark",
+      "ability": {
+        "id": "spell-w2-ember-bark",
+        "name": "Ember Bark",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Still warm from Ember Hold forges.",
+        "nodeId": "magic-w2-ember-bark",
+        "cost": {
+          "mana": 8
+        },
+        "power": 12,
+        "tags": [
+          "spell",
+          "damage",
+          "nature"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-river-mirror",
+      "name": "Tome of River Mirror",
+      "blurb": "Read to learn River Mirror.",
+      "teachesAbilityId": "spell-w2-river-mirror",
+      "ability": {
+        "id": "spell-w2-river-mirror",
+        "name": "River Mirror",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "A fox would steal this if it could.",
+        "nodeId": "magic-w2-river-mirror",
+        "cost": {
+          "mana": 9
+        },
+        "power": 17,
+        "tags": [
+          "spell",
+          "damage",
+          "arcane"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-thorn-lash",
+      "name": "Tome of Thorn Lash",
+      "blurb": "Read to learn Thorn Lash.",
+      "teachesAbilityId": "spell-w2-thorn-lash",
+      "ability": {
+        "id": "spell-w2-thorn-lash",
+        "name": "Thorn Lash",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Marked with a crooked fellowship rune.",
+        "nodeId": "magic-w2-thorn-lash",
+        "cost": {
+          "mana": 10
+        },
+        "power": 14,
+        "tags": [
+          "spell",
+          "damage",
+          "frost"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-moon-howl",
+      "name": "Tome of Moon Howl",
+      "blurb": "Read to learn Moon Howl.",
+      "teachesAbilityId": "spell-w2-moon-howl",
+      "ability": {
+        "id": "spell-w2-moon-howl",
+        "name": "Moon Howl",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Smells faintly of trail stew.",
+        "nodeId": "magic-w2-moon-howl",
+        "cost": {
+          "mana": 11
+        },
+        "power": 15,
+        "tags": [
+          "spell",
+          "heal"
+        ],
+        "target": "self"
+      }
+    },
+    {
+      "id": "spellbook-w2-campfire-ward",
+      "name": "Tome of Campfire Ward",
+      "blurb": "Read to learn Campfire Ward.",
+      "teachesAbilityId": "spell-w2-campfire-ward",
+      "ability": {
+        "id": "spell-w2-campfire-ward",
+        "name": "Campfire Ward",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Heavy enough to mean business.",
+        "nodeId": "magic-w2-campfire-ward",
+        "cost": {
+          "mana": 12
+        },
+        "power": 20,
+        "tags": [
+          "spell",
+          "damage",
+          "nature"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-goblin-jinx",
+      "name": "Tome of Goblin Jinx",
+      "blurb": "Read to learn Goblin Jinx.",
+      "teachesAbilityId": "spell-w2-goblin-jinx",
+      "ability": {
+        "id": "spell-w2-goblin-jinx",
+        "name": "Goblin Jinx",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Light enough for a midnight dash.",
+        "nodeId": "magic-w2-goblin-jinx",
+        "cost": {
+          "mana": 13
+        },
+        "power": 17,
+        "tags": [
+          "spell",
+          "damage",
+          "arcane"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-ley-spark",
+      "name": "Tome of Ley Spark",
+      "blurb": "Read to learn Ley Spark.",
+      "teachesAbilityId": "spell-w2-ley-spark",
+      "ability": {
+        "id": "spell-w2-ley-spark",
+        "name": "Ley Spark",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "The Misty Hills approve.",
+        "nodeId": "magic-w2-ley-spark",
+        "cost": {
+          "mana": 6
+        },
+        "power": 26,
+        "tags": [
+          "spell",
+          "damage",
+          "frost"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-ash-whisper",
+      "name": "Tome of Ash Whisper",
+      "blurb": "Read to learn Ash Whisper.",
+      "teachesAbilityId": "spell-w2-ash-whisper",
+      "ability": {
+        "id": "spell-w2-ash-whisper",
+        "name": "Ash Whisper",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Whispers jokes mid-boss-fight.",
+        "nodeId": "magic-w2-ash-whisper",
+        "cost": {
+          "mana": 7
+        },
+        "power": 23,
+        "tags": [
+          "spell",
+          "damage",
+          "fire"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-fern-bind",
+      "name": "Tome of Fern Bind",
+      "blurb": "Read to learn Fern Bind.",
+      "teachesAbilityId": "spell-w2-fern-bind",
+      "ability": {
+        "id": "spell-w2-fern-bind",
+        "name": "Fern Bind",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Comic-panel shine under forest light.",
+        "nodeId": "magic-w2-fern-bind",
+        "cost": {
+          "mana": 8
+        },
+        "power": 20,
+        "tags": [
+          "spell",
+          "heal"
+        ],
+        "target": "self"
+      }
+    },
+    {
+      "id": "spellbook-w2-ridge-quake",
+      "name": "Tome of Ridge Quake",
+      "blurb": "Read to learn Ridge Quake.",
+      "teachesAbilityId": "spell-w2-ridge-quake",
+      "ability": {
+        "id": "spell-w2-ridge-quake",
+        "name": "Ridge Quake",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Smuggled past three goblin checkpoints.",
+        "nodeId": "magic-w2-ridge-quake",
+        "cost": {
+          "mana": 9
+        },
+        "power": 21,
+        "tags": [
+          "spell",
+          "damage",
+          "arcane"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-honey-charm",
+      "name": "Tome of Honey Charm",
+      "blurb": "Read to learn Honey Charm.",
+      "teachesAbilityId": "spell-w2-honey-charm",
+      "ability": {
+        "id": "spell-w2-honey-charm",
+        "name": "Honey Charm",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Still warm from Ember Hold forges.",
+        "nodeId": "magic-w2-honey-charm",
+        "cost": {
+          "mana": 10
+        },
+        "power": 14,
+        "tags": [
+          "spell",
+          "damage",
+          "frost"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-crow-call",
+      "name": "Tome of Crow Call",
+      "blurb": "Read to learn Crow Call.",
+      "teachesAbilityId": "spell-w2-crow-call",
+      "ability": {
+        "id": "spell-w2-crow-call",
+        "name": "Crow Call",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "A fox would steal this if it could.",
+        "nodeId": "magic-w2-crow-call",
+        "cost": {
+          "mana": 11
+        },
+        "power": 11,
+        "tags": [
+          "spell",
+          "damage",
+          "fire"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-stag-charge",
+      "name": "Tome of Stag Charge",
+      "blurb": "Read to learn Stag Charge.",
+      "teachesAbilityId": "spell-w2-stag-charge",
+      "ability": {
+        "id": "spell-w2-stag-charge",
+        "name": "Stag Charge",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Marked with a crooked fellowship rune.",
+        "nodeId": "magic-w2-stag-charge",
+        "cost": {
+          "mana": 12
+        },
+        "power": 12,
+        "tags": [
+          "spell",
+          "damage",
+          "nature"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-wisp-veil",
+      "name": "Tome of Wisp Veil",
+      "blurb": "Read to learn Wisp Veil.",
+      "teachesAbilityId": "spell-w2-wisp-veil",
+      "ability": {
+        "id": "spell-w2-wisp-veil",
+        "name": "Wisp Veil",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Smells faintly of trail stew.",
+        "nodeId": "magic-w2-wisp-veil",
+        "cost": {
+          "mana": 13
+        },
+        "power": 17,
+        "tags": [
+          "spell",
+          "heal"
+        ],
+        "target": "self"
+      }
+    },
+    {
+      "id": "spellbook-w2-forge-temper",
+      "name": "Tome of Forge Temper",
+      "blurb": "Read to learn Forge Temper.",
+      "teachesAbilityId": "spell-w2-forge-temper",
+      "ability": {
+        "id": "spell-w2-forge-temper",
+        "name": "Forge Temper",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Heavy enough to mean business.",
+        "nodeId": "magic-w2-forge-temper",
+        "cost": {
+          "mana": 6
+        },
+        "power": 22,
+        "tags": [
+          "spell",
+          "damage",
+          "frost"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-mist-arrow",
+      "name": "Tome of Mist Arrow",
+      "blurb": "Read to learn Mist Arrow.",
+      "teachesAbilityId": "spell-w2-mist-arrow",
+      "ability": {
+        "id": "spell-w2-mist-arrow",
+        "name": "Mist Arrow",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Light enough for a midnight dash.",
+        "nodeId": "magic-w2-mist-arrow",
+        "cost": {
+          "mana": 7
+        },
+        "power": 15,
+        "tags": [
+          "spell",
+          "damage",
+          "fire"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-hearth-hymn",
+      "name": "Tome of Hearth Hymn",
+      "blurb": "Read to learn Hearth Hymn.",
+      "teachesAbilityId": "spell-w2-hearth-hymn",
+      "ability": {
+        "id": "spell-w2-hearth-hymn",
+        "name": "Hearth Hymn",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "The Misty Hills approve.",
+        "nodeId": "magic-w2-hearth-hymn",
+        "cost": {
+          "mana": 8
+        },
+        "power": 20,
+        "tags": [
+          "spell",
+          "damage",
+          "nature"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-quill-strike",
+      "name": "Tome of Quill Strike",
+      "blurb": "Read to learn Quill Strike.",
+      "teachesAbilityId": "spell-w2-quill-strike",
+      "ability": {
+        "id": "spell-w2-quill-strike",
+        "name": "Quill Strike",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Whispers jokes mid-boss-fight.",
+        "nodeId": "magic-w2-quill-strike",
+        "cost": {
+          "mana": 9
+        },
+        "power": 17,
+        "tags": [
+          "spell",
+          "damage",
+          "arcane"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-bramble-cage",
+      "name": "Tome of Bramble Cage",
+      "blurb": "Read to learn Bramble Cage.",
+      "teachesAbilityId": "spell-w2-bramble-cage",
+      "ability": {
+        "id": "spell-w2-bramble-cage",
+        "name": "Bramble Cage",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Comic-panel shine under forest light.",
+        "nodeId": "magic-w2-bramble-cage",
+        "cost": {
+          "mana": 10
+        },
+        "power": 18,
+        "tags": [
+          "spell",
+          "heal"
+        ],
+        "target": "self"
+      }
+    },
+    {
+      "id": "spellbook-w2-star-needle",
+      "name": "Tome of Star Needle",
+      "blurb": "Read to learn Star Needle.",
+      "teachesAbilityId": "spell-w2-star-needle",
+      "ability": {
+        "id": "spell-w2-star-needle",
+        "name": "Star Needle",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Smuggled past three goblin checkpoints.",
+        "nodeId": "magic-w2-star-needle",
+        "cost": {
+          "mana": 11
+        },
+        "power": 23,
+        "tags": [
+          "spell",
+          "damage",
+          "fire"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-mud-slide",
+      "name": "Tome of Mud Slide",
+      "blurb": "Read to learn Mud Slide.",
+      "teachesAbilityId": "spell-w2-mud-slide",
+      "ability": {
+        "id": "spell-w2-mud-slide",
+        "name": "Mud Slide",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Still warm from Ember Hold forges.",
+        "nodeId": "magic-w2-mud-slide",
+        "cost": {
+          "mana": 12
+        },
+        "power": 20,
+        "tags": [
+          "spell",
+          "damage",
+          "nature"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-lantern-flare",
+      "name": "Tome of Lantern Flare",
+      "blurb": "Read to learn Lantern Flare.",
+      "teachesAbilityId": "spell-w2-lantern-flare",
+      "ability": {
+        "id": "spell-w2-lantern-flare",
+        "name": "Lantern Flare",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "A fox would steal this if it could.",
+        "nodeId": "magic-w2-lantern-flare",
+        "cost": {
+          "mana": 13
+        },
+        "power": 21,
+        "tags": [
+          "spell",
+          "damage",
+          "arcane"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-oath-bind",
+      "name": "Tome of Oath Bind",
+      "blurb": "Read to learn Oath Bind.",
+      "teachesAbilityId": "spell-w2-oath-bind",
+      "ability": {
+        "id": "spell-w2-oath-bind",
+        "name": "Oath Bind",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Marked with a crooked fellowship rune.",
+        "nodeId": "magic-w2-oath-bind",
+        "cost": {
+          "mana": 6
+        },
+        "power": 18,
+        "tags": [
+          "spell",
+          "damage",
+          "frost"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-nettle-sting",
+      "name": "Tome of Nettle Sting",
+      "blurb": "Read to learn Nettle Sting.",
+      "teachesAbilityId": "spell-w2-nettle-sting",
+      "ability": {
+        "id": "spell-w2-nettle-sting",
+        "name": "Nettle Sting",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Smells faintly of trail stew.",
+        "nodeId": "magic-w2-nettle-sting",
+        "cost": {
+          "mana": 7
+        },
+        "power": 11,
+        "tags": [
+          "spell",
+          "heal"
+        ],
+        "target": "self"
+      }
+    },
+    {
+      "id": "spellbook-w2-glade-rest",
+      "name": "Tome of Glade Rest",
+      "blurb": "Read to learn Glade Rest.",
+      "teachesAbilityId": "spell-w2-glade-rest",
+      "ability": {
+        "id": "spell-w2-glade-rest",
+        "name": "Glade Rest",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Heavy enough to mean business.",
+        "nodeId": "magic-w2-glade-rest",
+        "cost": {
+          "mana": 8
+        },
+        "power": 12,
+        "tags": [
+          "spell",
+          "damage",
+          "nature"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-summit-cry",
+      "name": "Tome of Summit Cry",
+      "blurb": "Read to learn Summit Cry.",
+      "teachesAbilityId": "spell-w2-summit-cry",
+      "ability": {
+        "id": "spell-w2-summit-cry",
+        "name": "Summit Cry",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Light enough for a midnight dash.",
+        "nodeId": "magic-w2-summit-cry",
+        "cost": {
+          "mana": 9
+        },
+        "power": 17,
+        "tags": [
+          "spell",
+          "damage",
+          "arcane"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-marsh-grasp",
+      "name": "Tome of Marsh Grasp",
+      "blurb": "Read to learn Marsh Grasp.",
+      "teachesAbilityId": "spell-w2-marsh-grasp",
+      "ability": {
+        "id": "spell-w2-marsh-grasp",
+        "name": "Marsh Grasp",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "The Misty Hills approve.",
+        "nodeId": "magic-w2-marsh-grasp",
+        "cost": {
+          "mana": 10
+        },
+        "power": 14,
+        "tags": [
+          "spell",
+          "damage",
+          "frost"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-crystal-shard",
+      "name": "Tome of Crystal Shard",
+      "blurb": "Read to learn Crystal Shard.",
+      "teachesAbilityId": "spell-w2-crystal-shard",
+      "ability": {
+        "id": "spell-w2-crystal-shard",
+        "name": "Crystal Shard",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Whispers jokes mid-boss-fight.",
+        "nodeId": "magic-w2-crystal-shard",
+        "cost": {
+          "mana": 11
+        },
+        "power": 15,
+        "tags": [
+          "spell",
+          "damage",
+          "fire"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-soot-cloud",
+      "name": "Tome of Soot Cloud",
+      "blurb": "Read to learn Soot Cloud.",
+      "teachesAbilityId": "spell-w2-soot-cloud",
+      "ability": {
+        "id": "spell-w2-soot-cloud",
+        "name": "Soot Cloud",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Comic-panel shine under forest light.",
+        "nodeId": "magic-w2-soot-cloud",
+        "cost": {
+          "mana": 12
+        },
+        "power": 20,
+        "tags": [
+          "spell",
+          "heal"
+        ],
+        "target": "self"
+      }
+    },
+    {
+      "id": "spellbook-w2-willow-song",
+      "name": "Tome of Willow Song",
+      "blurb": "Read to learn Willow Song.",
+      "teachesAbilityId": "spell-w2-willow-song",
+      "ability": {
+        "id": "spell-w2-willow-song",
+        "name": "Willow Song",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Smuggled past three goblin checkpoints.",
+        "nodeId": "magic-w2-willow-song",
+        "cost": {
+          "mana": 13
+        },
+        "power": 17,
+        "tags": [
+          "spell",
+          "damage",
+          "arcane"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-coral-spike",
+      "name": "Tome of Coral Spike",
+      "blurb": "Read to learn Coral Spike.",
+      "teachesAbilityId": "spell-w2-coral-spike",
+      "ability": {
+        "id": "spell-w2-coral-spike",
+        "name": "Coral Spike",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Still warm from Ember Hold forges.",
+        "nodeId": "magic-w2-coral-spike",
+        "cost": {
+          "mana": 6
+        },
+        "power": 26,
+        "tags": [
+          "spell",
+          "damage",
+          "frost"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-thunder-pebble",
+      "name": "Tome of Thunder Pebble",
+      "blurb": "Read to learn Thunder Pebble.",
+      "teachesAbilityId": "spell-w2-thunder-pebble",
+      "ability": {
+        "id": "spell-w2-thunder-pebble",
+        "name": "Thunder Pebble",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "A fox would steal this if it could.",
+        "nodeId": "magic-w2-thunder-pebble",
+        "cost": {
+          "mana": 7
+        },
+        "power": 23,
+        "tags": [
+          "spell",
+          "damage",
+          "fire"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-aurora-veil",
+      "name": "Tome of Aurora Veil",
+      "blurb": "Read to learn Aurora Veil.",
+      "teachesAbilityId": "spell-w2-aurora-veil",
+      "ability": {
+        "id": "spell-w2-aurora-veil",
+        "name": "Aurora Veil",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Marked with a crooked fellowship rune.",
+        "nodeId": "magic-w2-aurora-veil",
+        "cost": {
+          "mana": 8
+        },
+        "power": 20,
+        "tags": [
+          "spell",
+          "damage",
+          "nature"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-quarry-slam",
+      "name": "Tome of Quarry Slam",
+      "blurb": "Read to learn Quarry Slam.",
+      "teachesAbilityId": "spell-w2-quarry-slam",
+      "ability": {
+        "id": "spell-w2-quarry-slam",
+        "name": "Quarry Slam",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Smells faintly of trail stew.",
+        "nodeId": "magic-w2-quarry-slam",
+        "cost": {
+          "mana": 9
+        },
+        "power": 21,
+        "tags": [
+          "spell",
+          "heal"
+        ],
+        "target": "self"
+      }
+    },
+    {
+      "id": "spellbook-w2-meadow-lull",
+      "name": "Tome of Meadow Lull",
+      "blurb": "Read to learn Meadow Lull.",
+      "teachesAbilityId": "spell-w2-meadow-lull",
+      "ability": {
+        "id": "spell-w2-meadow-lull",
+        "name": "Meadow Lull",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Heavy enough to mean business.",
+        "nodeId": "magic-w2-meadow-lull",
+        "cost": {
+          "mana": 10
+        },
+        "power": 14,
+        "tags": [
+          "spell",
+          "damage",
+          "frost"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-flint-spark",
+      "name": "Tome of Flint Spark",
+      "blurb": "Read to learn Flint Spark.",
+      "teachesAbilityId": "spell-w2-flint-spark",
+      "ability": {
+        "id": "spell-w2-flint-spark",
+        "name": "Flint Spark",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Light enough for a midnight dash.",
+        "nodeId": "magic-w2-flint-spark",
+        "cost": {
+          "mana": 11
+        },
+        "power": 11,
+        "tags": [
+          "spell",
+          "damage",
+          "fire"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-twilight-cut",
+      "name": "Tome of Twilight Cut",
+      "blurb": "Read to learn Twilight Cut.",
+      "teachesAbilityId": "spell-w2-twilight-cut",
+      "ability": {
+        "id": "spell-w2-twilight-cut",
+        "name": "Twilight Cut",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "The Misty Hills approve.",
+        "nodeId": "magic-w2-twilight-cut",
+        "cost": {
+          "mana": 12
+        },
+        "power": 12,
+        "tags": [
+          "spell",
+          "damage",
+          "nature"
+        ],
+        "target": "enemy"
+      }
+    },
+    {
+      "id": "spellbook-w2-pearl-ward",
+      "name": "Tome of Pearl Ward",
+      "blurb": "Read to learn Pearl Ward.",
+      "teachesAbilityId": "spell-w2-pearl-ward",
+      "ability": {
+        "id": "spell-w2-pearl-ward",
+        "name": "Pearl Ward",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Whispers jokes mid-boss-fight.",
+        "nodeId": "magic-w2-pearl-ward",
+        "cost": {
+          "mana": 13
+        },
+        "power": 17,
+        "tags": [
+          "spell",
+          "damage",
+          "arcane"
+        ],
+        "target": "enemy"
+      }
+    }
+  ]
+}

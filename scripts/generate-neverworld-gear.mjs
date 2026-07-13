@@ -233,6 +233,79 @@ const SETS = [
       { pieces: 6, blurb: "Full Hearthguard — no one fights alone.", properties: [{ key: "constitution", value: 4, label: "+4 CON" }, { key: "def", value: 7, label: "+7 DEF" }, { key: "maxHp", value: 20, label: "+20 Max HP" }] },
     ],
   },
+  {
+    id: "ravenmark",
+    name: "Ravenmark",
+    blurb: "Corv's census inked into steel and feather.",
+    pieces: [
+      { slot: "head", name: "Ravenmark Mask" },
+      { slot: "chest", name: "Ravenmark Mantle" },
+      { slot: "hands", name: "Ravenmark Claws" },
+      { slot: "legs", name: "Ravenmark Treads" },
+      { slot: "weapon", name: "Ravenmark Quillblade" },
+      { slot: "accessory", name: "Ravenmark Signet" },
+    ],
+    bonuses: [
+      { pieces: 2, blurb: "Names stick to memory.", properties: [{ key: "wisdom", value: 3, label: "+3 WIS" }, { key: "crit", value: 3, label: "+3 Crit%" }] },
+      { pieces: 3, blurb: "The ledger protects its clerks.", properties: [{ key: "def", value: 3, label: "+3 DEF" }, { key: "maxMana", value: 12, label: "+12 Max Mana" }] },
+      { pieces: 6, blurb: "Full Ravenmark — the census fights back.", properties: [{ key: "intelligence", value: 3, label: "+3 INT" }, { key: "atk", value: 6, label: "+6 ATK" }, { key: "resist", value: 4, label: "+4 Resist" }] },
+    ],
+  },
+  {
+    id: "goblinroad",
+    name: "Goblinroad",
+    blurb: "Scrap-metal pride from the crooked trail.",
+    pieces: [
+      { slot: "head", name: "Goblinroad Cap" },
+      { slot: "chest", name: "Goblinroad Jacket" },
+      { slot: "hands", name: "Goblinroad Mitts" },
+      { slot: "legs", name: "Goblinroad Pants" },
+      { slot: "weapon", name: "Goblinroad Cleaver" },
+      { slot: "offhand", name: "Goblinroad Lid-Shield" },
+    ],
+    bonuses: [
+      { pieces: 2, blurb: "Cheap tricks, sharp edges.", properties: [{ key: "atk", value: 3, label: "+3 ATK" }, { key: "dexterity", value: 2, label: "+2 DEX" }] },
+      { pieces: 3, blurb: "Loot sticks to sticky fingers.", properties: [{ key: "maxHp", value: 12, label: "+12 Max HP" }, { key: "crit", value: 4, label: "+4 Crit%" }] },
+      { pieces: 6, blurb: "Full Goblinroad — the camp cheers.", properties: [{ key: "strength", value: 3, label: "+3 STR" }, { key: "atk", value: 7, label: "+7 ATK" }, { key: "charisma", value: 2, label: "+2 CHA" }] },
+    ],
+  },
+  {
+    id: "leyhound",
+    name: "Leyhound",
+    blurb: "Arcane leather that hums when dogs howl.",
+    pieces: [
+      { slot: "head", name: "Leyhound Hood" },
+      { slot: "chest", name: "Leyhound Coat" },
+      { slot: "hands", name: "Leyhound Gloves" },
+      { slot: "legs", name: "Leyhound Boots" },
+      { slot: "weapon", name: "Leyhound Crook" },
+      { slot: "accessory", name: "Leyhound Whistle" },
+    ],
+    bonuses: [
+      { pieces: 2, blurb: "Bond deepens.", properties: [{ key: "charisma", value: 2, label: "+2 CHA" }, { key: "maxHp", value: 10, label: "+10 Max HP" }] },
+      { pieces: 3, blurb: "Ley lines tug the leash.", properties: [{ key: "maxMana", value: 15, label: "+15 Max Mana" }, { key: "wisdom", value: 2, label: "+2 WIS" }] },
+      { pieces: 6, blurb: "Full Leyhound — pack and mage as one.", properties: [{ key: "intelligence", value: 3, label: "+3 INT" }, { key: "atk", value: 5, label: "+5 ATK" }, { key: "def", value: 4, label: "+4 DEF" }] },
+    ],
+  },
+  {
+    id: "ashcrown",
+    name: "Ashcrown",
+    blurb: "Cooled dragon-glass for hard choices.",
+    pieces: [
+      { slot: "head", name: "Ashcrown Circlet" },
+      { slot: "chest", name: "Ashcrown Plate" },
+      { slot: "hands", name: "Ashcrown Gauntlets" },
+      { slot: "legs", name: "Ashcrown Greaves" },
+      { slot: "weapon", name: "Ashcrown Scepter" },
+      { slot: "offhand", name: "Ashcrown Mirror" },
+      { slot: "accessory", name: "Ashcrown Shard" },
+    ],
+    bonuses: [
+      { pieces: 2, blurb: "Ash settles into resolve.", properties: [{ key: "constitution", value: 2, label: "+2 CON" }, { key: "resist", value: 3, label: "+3 Resist" }] },
+      { pieces: 3, blurb: "The crown weighs kindly.", properties: [{ key: "def", value: 5, label: "+5 DEF" }, { key: "maxHp", value: 20, label: "+20 Max HP" }] },
+      { pieces: 7, blurb: "Full Ashcrown — destiny clears its throat.", properties: [{ key: "charisma", value: 4, label: "+4 CHA" }, { key: "atk", value: 6, label: "+6 ATK" }, { key: "maxMana", value: 18, label: "+18 Max Mana" }] },
+    ],
+  },
 ];
 
 const items = [];
@@ -276,7 +349,7 @@ for (const set of SETS) {
   });
 }
 
-// ── Procedural equippable gear ──────────────────────────────
+// ── Procedural equippable gear (wave 1) ─────────────────────
 const TIERS = [
   { tier: "common", rarity: "common", count: 160 },
   { tier: "magic", rarity: "magic", count: 140 },
@@ -308,6 +381,56 @@ for (const { tier, rarity, count } of TIERS) {
   }
 }
 
+// ── Wave 2: +500 mix (equip + consumables + tomes) ──────────
+const ADJECTIVES_2 = [
+  "Cobalt", "Amber", "Verdant", "Cinder", "Pearl", "Obsidian", "Ivory", "Rust",
+  "Glimmer", "Thicket", "Summit", "Marsh", "Canyon", "Harbor", "Lantern", "Quill",
+  "Bramble", "Crystal", "Soot", "Honey", "Pebble", "Thunder", "Willow", "Coral",
+  "Nettle", "Sapphire", "Hearth", "Twilight", "Aurora", "Quarry", "Meadow", "Flint",
+];
+const BLURBS_2 = [
+  "Comic-panel shine under forest light.",
+  "Smuggled past three goblin checkpoints.",
+  "Still warm from Ember Hold forges.",
+  "A fox would steal this if it could.",
+  "Marked with a crooked fellowship rune.",
+  "Smells faintly of trail stew.",
+  "Heavy enough to mean business.",
+  "Light enough for a midnight dash.",
+  "The Misty Hills approve.",
+  "Whispers jokes mid-boss-fight.",
+];
+
+const TIERS_2 = [
+  { tier: "common", rarity: "common", count: 180 },
+  { tier: "magic", rarity: "magic", count: 140 },
+  { tier: "rare", rarity: "rare", count: 70 },
+  { tier: "legendary", rarity: "legendary", count: 30 },
+];
+
+let n2 = 10_000;
+for (const { tier, rarity, count } of TIERS_2) {
+  for (let i = 0; i < count; i++) {
+    const slot = pick(SLOTS, n2 + i * 5);
+    const adj = pick(ADJECTIVES_2, n2 + i * 3);
+    const noun = pick(NOUNS[slot], n2 + i * 11);
+    const id = `gen2-${tier}-${slot}-${i}`;
+    addItem({
+      id,
+      name: `${adj} ${noun}`,
+      blurb: pick(BLURBS_2, n2 + i),
+      tier,
+      rarity,
+      slot,
+      power: powerFor(tier, slot, n2 + i),
+      armor: armorFor(tier, slot, n2 + i * 2),
+      tags: [slot, tier, "wave2", adj.toLowerCase()],
+      properties: makeProps(n2 * 3 + i, tier, slot),
+    });
+    n2++;
+  }
+}
+
 // ── Consumables ─────────────────────────────────────────────
 const CONSUMABLES = [
   { id: "berry-tonic", name: "Berry Tonic", blurb: "Wild raspberry and trail mint.", heal: 15, tags: ["potion", "heal", "food"] },
@@ -334,9 +457,9 @@ for (const c of CONSUMABLES) {
 }
 
 // Extra potion/food variants for loot variety
-const HEAL_NAMES = ["Moss Draught", "Fern Philter", "Root Remedy", "Glade Cordial", "Ridge Tonic", "Ford Flask", "Camp Cordial", "Briar Balm"];
-const MANA_NAMES = ["Wisp Vial", "Rune Sip", "Star Philter", "Ley Cordial", "Arc Flask", "Dream Draught", "Silver Mist", "Echo Tonic"];
-const FOOD_NAMES = ["Trail Loaf", "Smoked Trout", "Berry Mash", "Nut Cake", "Mushroom Skewer", "Cheese Wheel Slice", "Apple Chips", "Stew Cup"];
+const HEAL_NAMES = ["Moss Draught", "Fern Philter", "Root Remedy", "Glade Cordial", "Ridge Tonic", "Ford Flask", "Camp Cordial", "Briar Balm", "Thicket Balm", "Summit Flask"];
+const MANA_NAMES = ["Wisp Vial", "Rune Sip", "Star Philter", "Ley Cordial", "Arc Flask", "Dream Draught", "Silver Mist", "Echo Tonic", "Quill Ink", "Aurora Sip"];
+const FOOD_NAMES = ["Trail Loaf", "Smoked Trout", "Berry Mash", "Nut Cake", "Mushroom Skewer", "Cheese Wheel Slice", "Apple Chips", "Stew Cup", "Honey Jerky", "Peppercorn Biscuit"];
 
 for (let i = 0; i < 40; i++) {
   addItem({
@@ -379,7 +502,49 @@ for (let i = 0; i < 30; i++) {
   });
 }
 
-// ── Misc / spellbook-flavored curios (not full spellbooks) ──
+// Wave 2 consumables (+80)
+for (let i = 0; i < 35; i++) {
+  addItem({
+    id: `potion-heal-w2-${i}`,
+    name: `${pick(ADJECTIVES_2, i)} ${pick(HEAL_NAMES, i + 2)}`,
+    blurb: pick(BLURBS_2, i),
+    tier: i % 6 === 0 ? "rare" : i % 3 === 0 ? "magic" : "common",
+    rarity: i % 6 === 0 ? "rare" : i % 3 === 0 ? "magic" : "common",
+    slot: "consumable",
+    heal: 14 + (i % 10) * 6,
+    tags: ["potion", "heal", "wave2"],
+    properties: [],
+  });
+}
+for (let i = 0; i < 25; i++) {
+  addItem({
+    id: `potion-mana-w2-${i}`,
+    name: `${pick(ADJECTIVES_2, i + 8)} ${pick(MANA_NAMES, i)}`,
+    blurb: pick(BLURBS_2, i + 4),
+    tier: i % 5 === 0 ? "rare" : i % 2 === 0 ? "magic" : "common",
+    rarity: i % 5 === 0 ? "rare" : i % 2 === 0 ? "magic" : "common",
+    slot: "consumable",
+    manaRestore: 12 + (i % 8) * 5,
+    tags: ["potion", "mana", "wave2"],
+    properties: [],
+  });
+}
+for (let i = 0; i < 20; i++) {
+  addItem({
+    id: `food-w2-${i}`,
+    name: `${pick(ADJECTIVES_2, i + 14)} ${pick(FOOD_NAMES, i)}`,
+    blurb: pick(BLURBS_2, i + 6),
+    tier: "common",
+    rarity: "common",
+    slot: "consumable",
+    heal: 8 + (i % 12) * 2,
+    cookBonus: 1 + (i % 4),
+    tags: ["food", "wave2"],
+    properties: [],
+  });
+}
+
+// ── Misc / spellbook-flavored curios ────────────────────────
 for (let i = 0; i < 20; i++) {
   addItem({
     id: `curios-${i}`,
@@ -393,11 +558,59 @@ for (let i = 0; i < 20; i++) {
   });
 }
 
+// Spellbook gear stubs (linked abilities live in spellbooks-wave2.json)
+const SPELL_NAMES = [
+  "Pine Needle Dart", "Fog Step", "Ember Bark", "River Mirror", "Thorn Lash",
+  "Moon Howl", "Campfire Ward", "Goblin Jinx", "Ley Spark", "Ash Whisper",
+  "Fern Bind", "Ridge Quake", "Honey Charm", "Crow Call", "Stag Charge",
+  "Wisp Veil", "Forge Temper", "Mist Arrow", "Hearth Hymn", "Quill Strike",
+  "Bramble Cage", "Star Needle", "Mud Slide", "Lantern Flare", "Oath Bind",
+  "Nettle Sting", "Glade Rest", "Summit Cry", "Marsh Grasp", "Crystal Shard",
+  "Soot Cloud", "Willow Song", "Coral Spike", "Thunder Pebble", "Aurora Veil",
+  "Quarry Slam", "Meadow Lull", "Flint Spark", "Twilight Cut", "Pearl Ward",
+];
+const spellbooksOut = [];
+for (let i = 0; i < 40; i++) {
+  const spellName = SPELL_NAMES[i];
+  const slug = spellName.toLowerCase().replace(/\s+/g, "-");
+  const bookId = `spellbook-w2-${slug}`;
+  const abilityId = `spell-w2-${slug}`;
+  const tier = i % 8 === 0 ? "legendary" : i % 3 === 0 ? "rare" : "magic";
+  addItem({
+    id: bookId,
+    name: `Tome of ${spellName}`,
+    blurb: `Read to learn ${spellName} — forest comic magic.`,
+    tier,
+    rarity: tier,
+    slot: "misc",
+    tags: ["spellbook", "tome", "wave2"],
+    properties: [],
+  });
+  spellbooksOut.push({
+    id: bookId,
+    name: `Tome of ${spellName}`,
+    blurb: `Read to learn ${spellName}.`,
+    teachesAbilityId: abilityId,
+    ability: {
+      id: abilityId,
+      name: spellName,
+      tree: "magic",
+      kind: "spell",
+      blurb: pick(BLURBS_2, i),
+      nodeId: `magic-w2-${slug}`,
+      cost: { mana: 6 + (i % 8) },
+      power: 10 + (i % 12) + (tier === "legendary" ? 8 : tier === "rare" ? 4 : 0),
+      tags: i % 5 === 0 ? ["spell", "heal"] : ["spell", "damage", pick(["frost", "fire", "nature", "arcane"], i)],
+      target: i % 5 === 0 ? "self" : "enemy",
+    },
+  });
+}
+
 const equippable = items.filter((i) => !["consumable", "misc"].includes(i.slot));
 const withFive = equippable.filter((i) => (i.properties?.length ?? 0) >= 5);
 
 const pack = {
-  version: 1,
+  version: 2,
   generatedAt: new Date().toISOString(),
   sets: setsOut,
   items,
@@ -407,9 +620,14 @@ const pack = {
     withFiveProperties: withFive.length,
     sets: setsOut.length,
     consumables: items.filter((i) => i.slot === "consumable").length,
+    spellbooks: spellbooksOut.length,
   },
 };
 
+const SPELL_OUT = join(__dirname, "..", "data", "party-chronicle", "spellbooks-wave2.json");
+
 writeFileSync(OUT, JSON.stringify(pack, null, 2));
+writeFileSync(SPELL_OUT, JSON.stringify({ spellbooks: spellbooksOut }, null, 2));
 console.log(`Wrote ${OUT}`);
+console.log(`Wrote ${SPELL_OUT}`);
 console.log(JSON.stringify(pack.stats, null, 2));
