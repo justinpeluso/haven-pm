@@ -153,9 +153,13 @@ export function formatQuestClock(ms: number): string {
 export function startSideQuest(
   world: PartyWorldSave,
   slot: PlayerSlot,
-  questId: string
+  questId: string,
+  opts?: { isDm?: boolean }
 ): { world: PartyWorldSave; message: string } {
-  if (world.activeSlot !== slot) return { world, message: "Not your turn." };
+  // Match UI canAct: DM may start while another seat holds the turn.
+  if (world.activeSlot !== slot && !opts?.isDm) {
+    return { world, message: "Not your turn." };
+  }
   if (world.endingId) return { world, message: "Chronicle already closed." };
   if (world.battle?.status === "active") {
     return { world, message: "Finish the battle first." };
@@ -194,6 +198,8 @@ export function startSideQuest(
   return {
     world: {
       ...world,
+      // Clear victory/defeat summaries so the quest overlay isn't buried under BattleOverlay.
+      battle: null,
       activeSideQuest: active,
       log: [
         `Side quest begun: ${quest.title} (${minutes}m on the clock).`,
@@ -220,9 +226,12 @@ function failQuestTimeout(world: PartyWorldSave): PartyWorldSave {
 
 export function abandonSideQuest(
   world: PartyWorldSave,
-  slot: PlayerSlot
+  slot: PlayerSlot,
+  opts?: { isDm?: boolean }
 ): { world: PartyWorldSave; message: string } {
-  if (world.activeSlot !== slot) return { world, message: "Not your turn." };
+  if (world.activeSlot !== slot && !opts?.isDm) {
+    return { world, message: "Not your turn." };
+  }
   const q = world.activeSideQuest;
   if (!q || q.status !== "active") return { world, message: "No active side quest." };
   if (world.battle?.status === "active") {
@@ -276,9 +285,12 @@ function grantQuestRewards(
 /** Continue / resolve the current quest step. */
 export function advanceSideQuest(
   world: PartyWorldSave,
-  slot: PlayerSlot
+  slot: PlayerSlot,
+  opts?: { isDm?: boolean }
 ): { world: PartyWorldSave; message: string } {
-  if (world.activeSlot !== slot) return { world, message: "Not your turn." };
+  if (world.activeSlot !== slot && !opts?.isDm) {
+    return { world, message: "Not your turn." };
+  }
   const activeQuest = world.activeSideQuest;
   if (!activeQuest || activeQuest.status !== "active") {
     return { world, message: "No active side quest." };
@@ -288,8 +300,9 @@ export function advanceSideQuest(
 
   if (questRemainingMs(q) <= 0) {
     const failed = failQuestTimeout(world);
+    // Keep failed_timeout on the save so SideQuestOverlay can show the fail screen.
     return {
-      world: { ...failed, activeSideQuest: null },
+      world: failed,
       message: `Time’s up — “${q.title}” failed.`,
     };
   }
@@ -404,12 +417,9 @@ export function tickSideQuestTimer(
   if (!q || q.status !== "active") return { world };
   if (questRemainingMs(q, nowMs) > 0) return { world };
   const failed = failQuestTimeout(world);
+  // Keep failed_timeout so the overlay can dismiss — do not null immediately.
   return {
-    world: {
-      ...failed,
-      activeSideQuest: null,
-      // Don't wipe an active fight mid-swing — let it finish, but quest is already failed.
-    },
+    world: failed,
     message: `Trail clock expired — “${q.title}” failed.`,
   };
 }

@@ -74,6 +74,7 @@ import {
   loadWorld,
   mergeBattleAndAmbush,
   pickRicherWorld,
+  preferActiveSideQuest,
   saveSummary,
   worldHasProgress,
   writeWorld,
@@ -370,7 +371,14 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
               (remote.cookedRecipes?.length ?? 0) >= (base.cookedRecipes?.length ?? 0)
                 ? remote.cookedRecipes
                 : base.cookedRecipes,
-            activeSideQuest: campaign.activeSideQuest ?? base.activeSideQuest,
+            activeSideQuest: preferActiveSideQuest(
+              base.activeSideQuest,
+              remote.activeSideQuest,
+              {
+                existingUpdatedAt: base.updatedAt,
+                incomingUpdatedAt: remote.updatedAt,
+              }
+            ),
             log: remote.log?.length ? remote.log : base.log,
             endingId: campaign.endingId ?? base.endingId,
             updatedAt: remote.updatedAt || base.updatedAt,
@@ -523,6 +531,12 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
         partyFlags: unionPartyFlags(stamped.partyFlags, data.world.partyFlags),
         endingId: campaign.endingId ?? data.world.endingId,
         turnIndex: Math.max(stamped.turnIndex ?? 0, data.world.turnIndex ?? 0),
+        // This POST owns the trail: abandon stays cleared; start/advance keep the run
+        // even if a laggy merge reply briefly omitted activeSideQuest.
+        activeSideQuest:
+          stamped.activeSideQuest == null
+            ? null
+            : preferActiveSideQuest(stamped.activeSideQuest, data.world.activeSideQuest),
       };
       writeWorld(merged);
       setWorld(merged);
@@ -703,7 +717,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
 
   const onSideQuest = (questId: string) => {
     if (!world || !mySlot || !acting) return;
-    const result = startSideQuest(world, mySlot, questId);
+    const result = startSideQuest(world, mySlot, questId, { isDm: identity.isDm });
     persist(result.world);
     setFlash(result.message);
     setTab("camp");
@@ -711,7 +725,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
 
   const onQuestAdvance = () => {
     if (!world || !mySlot || !acting) return;
-    const result = advanceSideQuest(world, mySlot);
+    const result = advanceSideQuest(world, mySlot, { isDm: identity.isDm });
     persist(result.world);
     setFlash(result.message);
     if (result.world.battle?.status === "active") setTab("story");
@@ -719,7 +733,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
 
   const onQuestAbandon = () => {
     if (!world || !mySlot || !acting) return;
-    const result = abandonSideQuest(world, mySlot);
+    const result = abandonSideQuest(world, mySlot, { isDm: identity.isDm });
     persist(result.world);
     setFlash(result.message);
   };
@@ -1028,6 +1042,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const inStoryFight =
     storyNode.kind === "encounter" && world.encounterEnemyHp != null && world.encounterEnemyHp > 0;
   const inEncounter = inStoryFight || inRoadFight;
+  const battleActive = world.battle?.status === "active";
   const inBattle = !!world.battle;
   const hasChoices =
     storyNode.kind === "conversation" || storyNode.kind === "path" || storyNode.kind === "encounter";
@@ -1054,7 +1069,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           onDismiss={onDismissBattle}
         />
       )}
-      {world.activeSideQuest && world.battle?.status !== "active" && (
+      {world.activeSideQuest && !battleActive && (
         <SideQuestOverlay
           quest={world.activeSideQuest}
           canAct={acting}
@@ -1064,7 +1079,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           onDismissFailed={onQuestDismissFailed}
         />
       )}
-      {world.activeSideQuest?.status === "active" && world.battle?.status === "active" && (
+      {world.activeSideQuest?.status === "active" && battleActive && (
         <div className="pc-turn-banner" data-forest="true" role="status">
           Quest “{world.activeSideQuest.title}” — trail clock still running during battle
         </div>
@@ -1404,7 +1419,11 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                 {sideQuests.length === 0 && !world.activeSideQuest && (
                   <p className="text-xs opacity-70">No open side quests for this chapter.</p>
                 )}
-                {sideQuests.map((q) => (
+                {sideQuests.map((q) => {
+                  const onTrail =
+                    world.activeSideQuest?.status === "active" &&
+                    world.activeSideQuest.questId === q.id;
+                  return (
                   <button
                     key={q.id}
                     type="button"
@@ -1412,17 +1431,21 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                     disabled={
                       !acting ||
                       inRoadFight ||
-                      inBattle ||
+                      battleActive ||
                       world.activeSideQuest?.status === "active"
                     }
                     onClick={() => onSideQuest(q.id)}
                   >
-                    <strong>{q.title}</strong>
+                    <strong>
+                      {onTrail ? "On trail · " : ""}
+                      {q.title}
+                    </strong>
                     <span className="block text-[0.65rem] opacity-70">
                       {q.kind} · {q.estimatedMinutes}m timed run · +{q.rewards.xp} XP · {q.summary}
                     </span>
                   </button>
-                ))}
+                  );
+                })}
               </div>
 
               <div className="space-y-2">

@@ -3,11 +3,11 @@
  * Authored story spine stays intact — Camp tab fills mid-acts.
  */
 
-import { mergeAlignment } from "./alignment";
 import { rollEncounter } from "./encounters";
 import { levelFromXp, skillPointsForLevelGain } from "./progression";
+import { startSideQuest } from "./quest-run";
 import { getRecipe, recipesForAct, type RecipeDef } from "./recipes";
-import { getSideQuest, sideQuestsForChapter, type SideQuestDef } from "./side-quests";
+import { sideQuestsForChapter, type SideQuestDef } from "./side-quests";
 import { getStoryNode } from "./story";
 import type {
   CharacterSave,
@@ -75,6 +75,8 @@ export function actNumberForChapter(chapterId: string): number {
 
 export function availableSideQuests(world: PartyWorldSave): SideQuestDef[] {
   const done = new Set(world.completedSideQuests ?? []);
+  // Keep the in-progress quest in the Camp list (disabled + "On trail") so it
+  // never looks like it vanished when the run overlay is open or covered.
   return sideQuestsForChapter(world.chapterId).filter((q) => !done.has(q.id));
 }
 
@@ -172,48 +174,17 @@ export function fleeRoadEncounter(
   };
 }
 
+/**
+ * @deprecated Instant-complete path — Camp must use startSideQuest / advanceSideQuest.
+ * Kept as a thin alias so any stale caller opens a playable run instead of wiping the quest.
+ */
 export function completeSideQuest(
   world: PartyWorldSave,
   slot: PlayerSlot,
-  questId: string
+  questId: string,
+  opts?: { isDm?: boolean }
 ): { world: PartyWorldSave; message: string } {
-  if (world.activeSlot !== slot) return { world, message: "Not your turn." };
-  if (world.deckEncounter && (world.encounterEnemyHp ?? 0) > 0) {
-    return { world, message: "Finish or flee the road fight first." };
-  }
-  const quest = getSideQuest(questId);
-  if (!quest) return { world, message: "Unknown side quest." };
-  const done = world.completedSideQuests ?? [];
-  if (done.includes(questId)) return { world, message: "Already completed." };
-
-  const actOk = quest.actId === actIdForChapter(world.chapterId);
-  const chOk = !quest.chapterId || quest.chapterId === world.chapterId;
-  if (!actOk && !chOk) return { world, message: "That quest is for another act." };
-
-  let char = applyXp(world.characters[slot], quest.rewards.xp);
-  char = { ...char, gold: char.gold + quest.rewards.gold };
-  char = grantLoot(char, quest.rewards.itemIds);
-  if (quest.kind === "hound") {
-    char = { ...char, dog: { ...char.dog, bond: Math.min(100, char.dog.bond + 8) } };
-  }
-
-  const partyFlags = [...world.partyFlags];
-  for (const f of quest.rewards.flagsAdd) {
-    if (!partyFlags.includes(f)) partyFlags.push(f);
-  }
-
-  const message = `Side quest complete: ${quest.title} (+${quest.rewards.xp} XP).`;
-  return {
-    world: advanceTurn({
-      ...world,
-      characters: { ...world.characters, [slot]: char },
-      completedSideQuests: [...done, questId],
-      partyFlags,
-      alignment: mergeAlignment(world.alignment, quest.rewards.alignment),
-      log: [message, ...world.log].slice(0, 80),
-    }),
-    message,
-  };
+  return startSideQuest(world, slot, questId, opts);
 }
 
 export function cookRecipe(

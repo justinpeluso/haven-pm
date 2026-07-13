@@ -1860,7 +1860,7 @@
 .party-chronicle .pc-quest-overlay {
   position: fixed;
   inset: 0;
-  z-index: 55;
+  z-index: 70;
   display: grid;
   place-items: center;
   padding: 1rem;
