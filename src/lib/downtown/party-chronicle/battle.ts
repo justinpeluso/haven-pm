@@ -457,10 +457,28 @@ function finishVictory(
     leadingPathway(path) === "taker"
       ? NEVERWORLD_HERITAGE.battleVictoryTaker
       : NEVERWORLD_HERITAGE.battleVictoryGiver;
+
+  // If this fight was a side-quest battle step, mark it won so Continue advances the quest.
+  let activeSideQuest = world.activeSideQuest;
+  if (activeSideQuest?.status === "active") {
+    const step = activeSideQuest.steps[activeSideQuest.stepIndex];
+    if (step?.kind === "battle") {
+      activeSideQuest = {
+        ...activeSideQuest,
+        steps: activeSideQuest.steps.map((s, i) =>
+          i === activeSideQuest!.stepIndex
+            ? { ...s, battleWon: true, battleStarted: true }
+            : s
+        ),
+      };
+    }
+  }
+
   return {
     ...world,
     characters,
     battle: nextBattle,
+    activeSideQuest: activeSideQuest ?? world.activeSideQuest,
     battlesFought: fought,
     nextEncounterAtMs: (world.storyPlayMs ?? 0) + rollNextEncounterThreshold(fought),
     log: [

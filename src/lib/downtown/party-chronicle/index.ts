@@ -29,6 +29,7 @@ export * from "./battle";
 export * from "./side-quests";
 export * from "./recipes";
 export * from "./midgame";
+export * from "./quest-run";
 export * from "./exploration";
 export * from "./animal-arcs";
 export * from "./foreshadow";

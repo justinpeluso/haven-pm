@@ -1853,3 +1853,106 @@
 }
 
 
+
+/* ——— Side quest run overlay ——— */
+.party-comic .pc-quest-overlay,
+.party-rpg90s .pc-quest-overlay,
+.party-chronicle .pc-quest-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(4, 8, 6, 0.72);
+}
+
+.party-comic .pc-quest-frame,
+.party-rpg90s .pc-quest-frame,
+.party-chronicle .pc-quest-frame {
+  width: min(34rem, 100%);
+  max-height: min(90vh, 40rem);
+  overflow: auto;
+  background: linear-gradient(165deg, rgba(14, 28, 20, 0.98), rgba(6, 12, 10, 0.98));
+  border: 2px solid var(--pc-cyan);
+  padding: 1rem 1.1rem 1.15rem;
+  color: var(--pc-paper);
+}
+
+.party-comic .pc-quest-clock,
+.party-rpg90s .pc-quest-clock,
+.party-chronicle .pc-quest-clock {
+  margin-top: 0.35rem;
+  font-family: var(--pc-hud);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--pc-cyan);
+}
+
+.party-comic .pc-quest-clock[data-urgent="true"],
+.party-rpg90s .pc-quest-clock[data-urgent="true"],
+.party-chronicle .pc-quest-clock[data-urgent="true"] {
+  color: #e07a3d;
+}
+
+.party-comic .pc-quest-art,
+.party-rpg90s .pc-quest-art,
+.party-chronicle .pc-quest-art {
+  margin: 0.75rem 0;
+  border: 1px solid var(--pc-border);
+  overflow: hidden;
+  max-height: 8rem;
+}
+
+.party-comic .pc-quest-art img,
+.party-rpg90s .pc-quest-art img,
+.party-chronicle .pc-quest-art img {
+  width: 100%;
+  height: 8rem;
+  object-fit: cover;
+  display: block;
+}
+
+.party-comic .pc-quest-steps,
+.party-rpg90s .pc-quest-steps,
+.party-chronicle .pc-quest-steps {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.party-comic .pc-quest-steps li,
+.party-rpg90s .pc-quest-steps li,
+.party-chronicle .pc-quest-steps li {
+  font-size: 0.72rem;
+  padding: 0.35rem 0.45rem;
+  border: 1px solid transparent;
+  opacity: 0.55;
+}
+
+.party-comic .pc-quest-steps li[data-done="true"],
+.party-rpg90s .pc-quest-steps li[data-done="true"],
+.party-chronicle .pc-quest-steps li[data-done="true"] {
+  opacity: 0.75;
+  text-decoration: line-through;
+}
+
+.party-comic .pc-quest-steps li[data-current="true"],
+.party-rpg90s .pc-quest-steps li[data-current="true"],
+.party-chronicle .pc-quest-steps li[data-current="true"] {
+  opacity: 1;
+  border-color: var(--pc-cyan);
+  background: rgba(46, 196, 212, 0.08);
+  text-decoration: none;
+}
+
+.party-comic .pc-quest-actions,
+.party-rpg90s .pc-quest-actions,
+.party-chronicle .pc-quest-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}

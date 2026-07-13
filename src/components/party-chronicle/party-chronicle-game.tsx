@@ -32,15 +32,22 @@ import {
 } from "@/lib/downtown/party-chronicle/battle";
 import {
   availableSideQuests,
-  completeSideQuest,
   cookRecipe,
   cookableRecipes,
   fleeRoadEncounter,
 } from "@/lib/downtown/party-chronicle/midgame";
 import {
+  abandonSideQuest,
+  advanceSideQuest,
+  dismissFailedQuest,
+  startSideQuest,
+  tickSideQuestTimer,
+} from "@/lib/downtown/party-chronicle/quest-run";
+import {
   digForLoot,
   stumbleOnChest,
 } from "@/lib/downtown/party-chronicle/exploration";
+import { SideQuestOverlay } from "@/components/party-chronicle/side-quest-overlay";
 import { getGear, gearCatalogStats } from "@/lib/downtown/party-chronicle/gear";
 import { bestiaryStats, isSpellbookItem } from "@/lib/downtown/party-chronicle/bestiary";
 import { formatProperty, itemProperties } from "@/lib/downtown/party-chronicle/stats";
@@ -424,17 +431,39 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
         if (!prev || prev.endingId) return prev;
 
         if (prev.battle?.status === "active") {
-          const ticked = tickBattleTimers(prev);
-          if (ticked.world !== prev) {
-            writeWorld(ticked.world);
-            if (ticked.message) setFlash(ticked.message);
+          let cur = prev;
+          const qTick = tickSideQuestTimer(cur);
+          cur = qTick.world;
+          if (qTick.message) setFlash(qTick.message);
+
+          const ticked = tickBattleTimers(cur);
+          cur = ticked.world;
+          if (ticked.message) setFlash(ticked.message);
+
+          if (cur !== prev) {
+            writeWorld(cur);
             void fetch("/api/downtown/party-chronicle", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ world: ticked.world }),
+              body: JSON.stringify({ world: cur }),
             }).catch(() => undefined);
           }
-          return ticked.world;
+          return cur;
+        }
+
+        // Overall side-quest trail clock (runs even between battles).
+        if (prev.activeSideQuest?.status === "active") {
+          const qTick = tickSideQuestTimer(prev);
+          if (qTick.world !== prev) {
+            writeWorld(qTick.world);
+            if (qTick.message) setFlash(qTick.message);
+            void fetch("/api/downtown/party-chronicle", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ world: qTick.world }),
+            }).catch(() => undefined);
+            return qTick.world;
+          }
         }
 
         if (prev.battle?.status === "victory" || prev.battle?.status === "defeat") return prev;
@@ -652,9 +681,30 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
 
   const onSideQuest = (questId: string) => {
     if (!world || !mySlot || !acting) return;
-    const result = completeSideQuest(world, mySlot, questId);
+    const result = startSideQuest(world, mySlot, questId);
     persist(result.world);
     setFlash(result.message);
+    setTab("camp");
+  };
+
+  const onQuestAdvance = () => {
+    if (!world || !mySlot || !acting) return;
+    const result = advanceSideQuest(world, mySlot);
+    persist(result.world);
+    setFlash(result.message);
+    if (result.world.battle?.status === "active") setTab("story");
+  };
+
+  const onQuestAbandon = () => {
+    if (!world || !mySlot || !acting) return;
+    const result = abandonSideQuest(world, mySlot);
+    persist(result.world);
+    setFlash(result.message);
+  };
+
+  const onQuestDismissFailed = () => {
+    if (!world) return;
+    persist(dismissFailedQuest(world));
   };
 
   const onCook = (recipeId: string) => {
@@ -981,6 +1031,21 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           onAction={onBattleAction}
           onDismiss={onDismissBattle}
         />
+      )}
+      {world.activeSideQuest && world.battle?.status !== "active" && (
+        <SideQuestOverlay
+          quest={world.activeSideQuest}
+          canAct={acting}
+          inBattle={false}
+          onAdvance={onQuestAdvance}
+          onAbandon={onQuestAbandon}
+          onDismissFailed={onQuestDismissFailed}
+        />
+      )}
+      {world.activeSideQuest?.status === "active" && world.battle?.status === "active" && (
+        <div className="pc-turn-banner" data-forest="true" role="status">
+          Quest “{world.activeSideQuest.title}” — trail clock still running during battle
+        </div>
       )}
       {flash && (
         <div className="pc-turn-banner" role="status">
@@ -1309,7 +1374,12 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                   Side quests ({sideQuests.length} open · {(world.completedSideQuests ?? []).length}{" "}
                   done)
                 </p>
-                {sideQuests.length === 0 && (
+                {world.activeSideQuest?.status === "active" && (
+                  <p className="text-xs font-bold" style={{ color: "var(--pc-cyan)" }}>
+                    On trail: {world.activeSideQuest.title} — use the quest panel (timer live)
+                  </p>
+                )}
+                {sideQuests.length === 0 && !world.activeSideQuest && (
                   <p className="text-xs opacity-70">No open side quests for this chapter.</p>
                 )}
                 {sideQuests.map((q) => (
@@ -1317,12 +1387,17 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                     key={q.id}
                     type="button"
                     className="pc-choice block w-full text-left"
-                    disabled={!acting || inRoadFight}
+                    disabled={
+                      !acting ||
+                      inRoadFight ||
+                      inBattle ||
+                      world.activeSideQuest?.status === "active"
+                    }
                     onClick={() => onSideQuest(q.id)}
                   >
                     <strong>{q.title}</strong>
                     <span className="block text-[0.65rem] opacity-70">
-                      {q.kind} · {q.estimatedMinutes}m · +{q.rewards.xp} XP · {q.summary}
+                      {q.kind} · {q.estimatedMinutes}m timed run · +{q.rewards.xp} XP · {q.summary}
                     </span>
                   </button>
                 ))}

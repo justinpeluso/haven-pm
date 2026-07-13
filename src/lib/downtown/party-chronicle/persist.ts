@@ -106,6 +106,7 @@ export function createNewWorld(): PartyWorldSave {
     battlesFought: 0,
     nextEncounterAtMs: rollNextEncounterThreshold(0),
     completedSideQuests: [],
+    activeSideQuest: null,
     cookedRecipes: [],
     log: ["Neverworld unrolls. Justin's turn begins."],
     endingId: null,
@@ -270,6 +271,7 @@ export function normalizeWorld(world: PartyWorldSave): PartyWorldSave {
       world.nextEncounterAtMs ??
       (world.storyPlayMs ?? 0) + rollNextEncounterThreshold(world.battlesFought ?? 0),
     completedSideQuests: world.completedSideQuests ?? [],
+    activeSideQuest: world.activeSideQuest ?? null,
     cookedRecipes: world.cookedRecipes ?? [],
     characters,
   };

@@ -511,6 +511,31 @@ export type PartyWorldSave = {
   nextEncounterAtMs: number;
   /** Completed side-quest ids. */
   completedSideQuests: string[];
+  /** In-progress side quest run (Camp → playable steps + overall timer). */
+  activeSideQuest?: {
+    questId: string;
+    title: string;
+    summary: string;
+    kind: string;
+    artId?: string;
+    sceneId?: string;
+    startedAt: string;
+    endsAt: string;
+    estimatedMinutes: number;
+    stepIndex: number;
+    steps: {
+      id: string;
+      kind: "brief" | "travel" | "battle" | "resolve";
+      label: string;
+      blurb: string;
+      done: boolean;
+      foeId?: string;
+      battleStarted?: boolean;
+      battleWon?: boolean;
+    }[];
+    status: "active" | "success" | "failed_timeout";
+    starterSlot: PlayerSlot;
+  } | null;
   /** Recipe ids cooked at least once. */
   cookedRecipes: string[];
   /** Times the party opened a chest or dug a hole. */
