@@ -67,8 +67,10 @@ export function partyAvgLevel(world: PartyWorldSave): number {
 
 /** Undo an accidental / early finale and resume at the Last Council. */
 export function rewindFromEnding(world: PartyWorldSave): PartyWorldSave {
-  const onEndingChapter = chapterForNode(world.campaignNodeId)?.id === "ch10-endings";
-  if (!world.endingId && !onEndingChapter) return world;
+  const ch = chapterForNode(world.campaignNodeId);
+  const onEndingChapter = ch?.id === "ch10-endings";
+  const onEndingNode = getStoryNode(world.campaignNodeId)?.kind === "ending";
+  if (!world.endingId && !onEndingChapter && !onEndingNode) return world;
   return markChapterVisited(
     {
       ...world,
@@ -85,6 +87,46 @@ export function rewindFromEnding(world: PartyWorldSave): PartyWorldSave {
     },
     "ch9-last-council"
   );
+}
+
+/**
+ * If Continue / sync dropped the party on an ending plate mid-campaign,
+ * bounce them back to a playable road node.
+ */
+export function rescueFromStrandedEnding(world: PartyWorldSave): PartyWorldSave {
+  const node = getStoryNode(world.campaignNodeId);
+  const onEnding =
+    !!world.endingId ||
+    node?.kind === "ending" ||
+    chapterForNode(world.campaignNodeId)?.id === "ch10-endings";
+  if (!onEnding) return world;
+  const battles = world.battlesFought ?? 0;
+  const fromCouncilVote = (world.partyFlags ?? []).some(
+    (f) => f.includes("crown") || f.includes("finale") || f.includes("council-vote")
+  );
+  // Legitimate long-run finale — leave it alone.
+  if (world.endingId && (battles >= 80 || fromCouncilVote)) return world;
+
+  // Early strand: don't dump them on Last Council; send them to Goblin Road.
+  if (battles < 40) {
+    return markChapterVisited(
+      {
+        ...world,
+        endingId: null,
+        campaignNodeId: "node-ch2-road",
+        chapterId: "ch2-goblin-road",
+        encounterEnemyHp: null,
+        deckEncounter: null,
+        log: [
+          "The chronicle pulls you back to the Goblin Road — that ending plate was early. Keep playing the main road.",
+          ...world.log,
+        ].slice(0, 80),
+        updatedAt: new Date().toISOString(),
+      },
+      "ch2-goblin-road"
+    );
+  }
+  return rewindFromEnding(world);
 }
 
 export function canAct(world: PartyWorldSave, slot: PlayerSlot, isDm: boolean): boolean {
@@ -147,25 +189,54 @@ export function progressGateForNode(
   const curCh = chapterForNode(world.campaignNodeId);
   if (!nextCh) return { ok: true };
 
-  const curOrd = chapterOrdinal(curCh?.id);
-  const nextOrd = chapterOrdinal(nextCh.id);
-  // Same act or stepping backward along the list — always fine.
-  if (nextOrd <= curOrd) return { ok: true };
-
   const battles = world.battlesFought ?? 0;
   const sideQuests = world.completedSideQuests?.length ?? 0;
   const exploration = world.explorationFinds ?? 0;
   const recipes = world.cookedRecipes?.length ?? 0;
   const deeds = battles + sideQuests * 2 + exploration + recipes;
   const turns = world.turnIndex ?? 0;
+  const nextNode = getStoryNode(nextNodeId);
+  const curId = world.campaignNodeId;
 
-  const isFinale =
-    nextNodeId.startsWith("node-finale") ||
+  // Ending plates are choice-only from the Last Council — never via Continue spam.
+  // Checked before ordinal short-circuit (spine → landmark can look "backward").
+  const isEndingNode =
+    nextNode?.kind === "ending" ||
     nextCh.id === "ch10-endings" ||
+    nextNodeId.startsWith("node-finale-animal") ||
+    nextNodeId.startsWith("node-finale-human") ||
+    nextNodeId.startsWith("node-finale-demon");
+
+  if (isEndingNode) {
+    const fromCouncil =
+      curId === "node-ch9-choose" ||
+      curId === "node-finale-resolve" ||
+      curId === "node-ch9-council";
+    if (!fromCouncil) {
+      return {
+        ok: false,
+        reason:
+          "That crown ending is sealed for later. Stay on the main road — use Camp, battles, and Continue; the Last Council vote comes at the end.",
+      };
+    }
+    const ok = battles >= 13 || (deeds >= 40 && turns >= 120);
+    if (!ok) {
+      return {
+        ok: false,
+        reason:
+          "The crowns won't settle yet. Reach 13 battles, or 40 Camp deeds with 120 turns, then vote at the Last Council.",
+      };
+    }
+    return { ok: true };
+  }
+
+  const isLastCouncil =
     nextCh.id === "ch9-last-council" ||
+    nextNodeId.startsWith("node-ch9-") ||
+    nextNodeId === "node-finale-resolve" ||
     /^spine-(4[8-9]|50)\b/.test(nextCh.id);
 
-  if (isFinale) {
+  if (isLastCouncil) {
     const ok = battles >= 13 || (deeds >= 40 && turns >= 120);
     if (!ok) {
       return {
@@ -174,11 +245,19 @@ export function progressGateForNode(
           "The Last Council won't open yet — live the chronicle first. Reach 13 battles, or 40 Camp deeds with 120 turns.",
       };
     }
-    return { ok: true };
+    // Fall through if already unlocked — still allow ordinal checks for other nodes.
   }
+
+  const curOrd = chapterOrdinal(curCh?.id);
+  const nextOrd = chapterOrdinal(nextCh.id);
+  // Same act or revisiting an earlier list index — fine (except endings handled above).
+  if (nextOrd <= curOrd) return { ok: true };
 
   // First two acts stay open; after that require fights / Camp — not story XP level.
   if (nextOrd <= 2) return { ok: true };
+
+  // Late spine / council already cleared above when battles >= 13.
+  if (isLastCouncil) return { ok: true };
 
   const needBattles = 13;
   const needDeeds = Math.min(40, Math.max(4, Math.ceil(nextOrd * 0.75)));

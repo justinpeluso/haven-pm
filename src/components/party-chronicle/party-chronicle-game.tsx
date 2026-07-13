@@ -19,6 +19,7 @@ import {
   equipItem as engineEquip,
   partyAvgLevel,
   progressGateForNode,
+  rescueFromStrandedEnding,
   rewindFromEnding,
   salvageInventoryItem,
   setHotbarSlot,
@@ -346,7 +347,8 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
 
   const enterFromSave = useCallback(
     (existing: PartyWorldSave) => {
-      const scheduled = ensureEncounterSchedule(existing);
+      const rescued = rescueFromStrandedEnding(existing);
+      const scheduled = ensureEncounterSchedule(rescued);
       setWorld(scheduled);
       setTitleSave(scheduled);
       writeWorld(scheduled);
@@ -356,7 +358,12 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
         setFlash(
           `${SLOT_DEFAULTS[mySlot].displayName} — create your hero to join. Justin already opened the chronicle.`
         );
-      } else setPhase("play");
+      } else {
+        setPhase("play");
+        if (rescued !== existing) {
+          setFlash("Pulled you back onto the main road — that ending plate was early.");
+        }
+      }
     },
     [mySlot]
   );
@@ -689,14 +696,17 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       setFlash("No save found.");
       return;
     }
-    const rewound = rewindFromEnding(existing);
-    persist(rewound);
-    setWorld(rewound);
-    setTitleSave(rewound);
+    const rewound = rescueFromStrandedEnding(existing);
+    const fixed = rewound.endingId ? rewindFromEnding(rewound) : rewound;
+    persist(fixed);
+    setWorld(fixed);
+    setTitleSave(fixed);
     setPhase("play");
-    setTab("camp");
+    setTab("story");
     setFlash(
-      "Back at the Last Council. Use Camp (chests, digs, ambushes, side quests) before naming a crown again."
+      fixed.campaignNodeId === "node-ch2-road"
+        ? "Back on the Goblin Road — keep Continues and Camp going; endings wait for the real finale."
+        : "Back at the Last Council. Use Camp before naming a crown again."
     );
   };
 
@@ -1563,6 +1573,28 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                 </button>
               )}
 
+              {storyNode.kind === "ending" && (
+                <div className="space-y-2">
+                  <p className="text-xs font-bold" style={{ color: "var(--pc-accent)" }}>
+                    This ending plate has no choices — you hit it too early. Jump back to the main
+                    road.
+                  </p>
+                  <button type="button" className="pc-primary-btn" onClick={keepPlayingFromEnding}>
+                    Back to the main road →
+                  </button>
+                </div>
+              )}
+
+              {!hasChoices &&
+                storyNode.kind !== "narrative" &&
+                storyNode.kind !== "montage" &&
+                storyNode.kind !== "ending" &&
+                !inEncounter && (
+                  <button type="button" className="pc-choice" disabled={!canStory} onClick={onContinue}>
+                    Continue →
+                  </button>
+                )}
+
               {hasChoices && !canStory && (
                 <p className="text-xs font-bold" style={{ color: "var(--pc-accent)" }}>
                   Log in as player1 / player2 / player3 to choose.
@@ -1602,11 +1634,21 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                     type="button"
                     className="pc-primary-btn"
                     onClick={() => {
+                      if (
+                        storyNode.kind === "ending" ||
+                        world.endingId ||
+                        chapter?.id === "ch10-endings"
+                      ) {
+                        keepPlayingFromEnding();
+                        return;
+                      }
                       setTab("story");
                       setFlash(`Main quest: ${mainProgress.nodeTitle}`);
                     }}
                   >
-                    Return to main quest →
+                    {storyNode.kind === "ending" || world.endingId
+                      ? "Back to the main road →"
+                      : "Return to main quest →"}
                   </button>
                   {questRunActive && (
                     <button type="button" className="pc-chip" onClick={resumeSideQuestPanel}>
