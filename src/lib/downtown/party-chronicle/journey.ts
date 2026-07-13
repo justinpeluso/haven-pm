@@ -2,7 +2,8 @@
  * Neverworld journey map — chapter waypoints for the comic minimap.
  */
 
-import { CHAPTERS, chapterForNode, getChapter } from "./story";
+import { TARGET_PLAYTIME_HOURS, hoursSummary } from "./campaign";
+import { CHAPTERS, chapterForNode, getChapter, getStoryNode } from "./story";
 import type { ChapterDef, PartyWorldSave } from "./types";
 
 export type JourneyStop = {
@@ -130,4 +131,77 @@ export function journeyTrail(world: PartyWorldSave): {
 
 export function chapterSceneLabel(ch: ChapterDef | null): string {
   return ch?.title ?? "Unknown wilds";
+}
+
+export type CampaignProgressReport = {
+  chapterNum: number;
+  chapterTotal: number;
+  chapterTitle: string;
+  nodeIndex: number;
+  nodeTotal: number;
+  nodeTitle: string;
+  /** 0–100 through the authored chapter spine. */
+  percent: number;
+  hoursDone: number;
+  hoursTarget: number;
+  battlesFought: number;
+  sideQuestsDone: number;
+  explorationFinds: number;
+  label: string;
+  detail: string;
+};
+
+/** Overall main-quest progress for HUD — keeps the party pointed at the spine. */
+export function campaignProgressReport(world: PartyWorldSave): CampaignProgressReport {
+  const chapter = chapterForNode(world.campaignNodeId) ?? getChapter(world.chapterId);
+  const chapterTotal = Math.max(1, CHAPTERS.length);
+  const chapterNum = chapter?.chapter ?? 1;
+  const nodeIds = chapter?.nodeIds ?? [];
+  const nodeTotal = Math.max(1, nodeIds.length);
+  const rawIdx = nodeIds.indexOf(world.campaignNodeId);
+  const nodeIndex = rawIdx >= 0 ? rawIdx + 1 : 1;
+  const node = getStoryNode(world.campaignNodeId);
+  const nodeTitle = node?.title ?? "Unknown beat";
+
+  const chapterShare = 1 / chapterTotal;
+  const within = (nodeIndex - 1) / nodeTotal;
+  const percent = Math.min(
+    100,
+    Math.round(((chapterNum - 1) * chapterShare + within * chapterShare) * 1000) / 10
+  );
+
+  const hours = hoursSummary();
+  const hoursByChapter = new Map(hours.acts.map((a) => [a.id, a.estimatedHours]));
+  let hoursDone = 0;
+  for (const ch of CHAPTERS) {
+    if (ch.chapter < chapterNum) {
+      hoursDone += hoursByChapter.get(ch.id) ?? ch.estimatedHours ?? 0;
+    } else if (ch.chapter === chapterNum) {
+      const budget = hoursByChapter.get(ch.id) ?? ch.estimatedHours ?? 0;
+      hoursDone += budget * ((nodeIndex - 1) / nodeTotal);
+    }
+  }
+  hoursDone = Math.round(hoursDone * 10) / 10;
+  const hoursTarget = Math.max(hours.totalHours, TARGET_PLAYTIME_HOURS);
+
+  const battlesFought = world.battlesFought ?? 0;
+  const sideQuestsDone = world.completedSideQuests?.length ?? 0;
+  const explorationFinds = world.explorationFinds ?? 0;
+
+  return {
+    chapterNum,
+    chapterTotal,
+    chapterTitle: chapter?.title ?? "The road",
+    nodeIndex,
+    nodeTotal,
+    nodeTitle,
+    percent,
+    hoursDone,
+    hoursTarget,
+    battlesFought,
+    sideQuestsDone,
+    explorationFinds,
+    label: `Main quest · Ch ${chapterNum}/${chapterTotal} · ${percent}%`,
+    detail: `${nodeTitle} · ~${hoursDone}h of ~${hoursTarget}h · ${battlesFought} battles · ${sideQuestsDone} side quests`,
+  };
 }

@@ -12,16 +12,20 @@ export function SideQuestOverlay({
   quest,
   canAct,
   inBattle,
+  mainQuestLabel,
   onAdvance,
   onAbandon,
   onDismissFailed,
+  onReturnToMain,
 }: {
   quest: ActiveSideQuest;
   canAct: boolean;
   inBattle: boolean;
+  mainQuestLabel?: string;
   onAdvance: () => void;
   onAbandon: () => void;
   onDismissFailed: () => void;
+  onReturnToMain: () => void;
 }) {
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
@@ -125,12 +129,26 @@ export function SideQuestOverlay({
           <button
             type="button"
             className="pc-chip"
+            disabled={inBattle}
+            onClick={onReturnToMain}
+            title="Park this side quest (timer keeps running) and resume the chronicle"
+          >
+            Return to main quest →
+          </button>
+          <button
+            type="button"
+            className="pc-chip"
             disabled={!canAct || inBattle}
             onClick={onAbandon}
           >
             Abandon quest
           </button>
         </div>
+        {mainQuestLabel && (
+          <p className="text-[0.65rem] opacity-75 mt-2">
+            Main quest waiting: {mainQuestLabel}. Side-trail clock keeps running while you park.
+          </p>
+        )}
       </div>
     </div>
   );

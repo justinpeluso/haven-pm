@@ -1956,3 +1956,61 @@
   gap: 0.5rem;
   margin-top: 0.85rem;
 }
+
+/* ——— Main quest progress ——— */
+.party-comic .pc-main-progress,
+.party-rpg90s .pc-main-progress,
+.party-chronicle .pc-main-progress {
+  max-width: 36rem;
+}
+
+.party-comic .pc-main-progress-meta,
+.party-rpg90s .pc-main-progress-meta,
+.party-chronicle .pc-main-progress-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.35rem 0.75rem;
+  font-family: var(--pc-hud);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pc-ink);
+}
+
+.party-comic .pc-main-progress-track,
+.party-rpg90s .pc-main-progress-track,
+.party-chronicle .pc-main-progress-track {
+  margin-top: 0.3rem;
+  height: 0.55rem;
+  border: 2px solid var(--pc-ink);
+  background: rgba(6, 16, 10, 0.15);
+  overflow: hidden;
+}
+
+.party-comic .pc-main-progress-fill,
+.party-rpg90s .pc-main-progress-fill,
+.party-chronicle .pc-main-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--pc-cyan), var(--pc-accent));
+  min-width: 0.25rem;
+}
+
+.party-comic .pc-main-progress-detail,
+.party-rpg90s .pc-main-progress-detail,
+.party-chronicle .pc-main-progress-detail {
+  margin-top: 0.25rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  opacity: 0.8;
+}
+
+.party-comic .pc-main-quest-card,
+.party-rpg90s .pc-main-quest-card,
+.party-chronicle .pc-main-quest-card {
+  padding: 0.75rem 0.85rem;
+  border: 2px solid var(--pc-cyan);
+  background: linear-gradient(165deg, rgba(14, 28, 20, 0.92), rgba(6, 12, 10, 0.95));
+  color: var(--pc-paper);
+}

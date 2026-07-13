@@ -6,6 +6,7 @@ import { ENDING_BY_ID } from "@/lib/downtown/party-chronicle/alignment";
 import { getAnimalNpc } from "@/lib/downtown/party-chronicle/animals";
 import { comicArtSrc, getComicArt } from "@/lib/downtown/party-chronicle/art";
 import {
+  campaignProgressReport,
   journeyTrail,
   preferCampaignProgress,
   unionPartyFlags,
@@ -17,6 +18,7 @@ import {
   canAct,
   equipItem as engineEquip,
   partyAvgLevel,
+  progressGateForNode,
   rewindFromEnding,
   setHotbarSlot,
   spendSkillPoint,
@@ -173,13 +175,14 @@ function portraitSrc(node: { artId?: string; sceneId?: string } | null) {
 
 function JourneyMinimap({ world }: { world: PartyWorldSave }) {
   const { stops, here } = journeyTrail(world);
+  const progress = campaignProgressReport(world);
   const points = stops.map((s) => `${s.x},${s.y}`).join(" ");
   return (
     <div className="pc-panel p-3 space-y-2">
       <div className="flex items-end justify-between gap-2">
         <p className="pc-eyebrow text-[0.65rem]">Realm map</p>
         <p className="text-[0.65rem] font-bold" style={{ color: "var(--pc-accent)" }}>
-          {here ? `Here: ${here.short}` : "Charting…"}
+          {here ? `Here: ${here.short}` : "Charting…"} · {progress.percent}%
         </p>
       </div>
       <div className="pc-journey-map" aria-label="Journey minimap">
@@ -237,6 +240,8 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const [phase, setPhase] = useState<UiPhase>("boot");
   const [world, setWorld] = useState<PartyWorldSave | null>(null);
   const [tab, setTab] = useState<MainTab>("story");
+  /** Side quest stays on the save; panel can park so the party returns to the main spine. */
+  const [questPanelOpen, setQuestPanelOpen] = useState(true);
   const [flash, setFlash] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
   const [assignIdx, setAssignIdx] = useState<number | null>(null);
@@ -655,8 +660,15 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       const next = acknowledgeNarrative(world, storyActor);
       persist(next);
       if (next.campaignNodeId === world.campaignNodeId) {
-        setFlash(next.log[0] ?? "The road ahead isn't open yet — try Camp.");
+        const gate = progressGateForNode(world, storyNode.next);
+        setFlash(
+          !gate.ok && gate.reason
+            ? gate.reason
+            : (next.log[0] ?? "The road ahead isn't open yet — try Camp, then return via Comic.")
+        );
         setTab("camp");
+      } else {
+        setTab("story");
       }
     });
   };
@@ -725,6 +737,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     const result = startSideQuest(world, mySlot, questId, { isDm: identity.isDm });
     persist(result.world);
     setFlash(result.message);
+    setQuestPanelOpen(true);
     setTab("camp");
   };
 
@@ -734,18 +747,38 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     persist(result.world);
     setFlash(result.message);
     if (result.world.battle?.status === "active") setTab("story");
+    if (!result.world.activeSideQuest) {
+      setQuestPanelOpen(true);
+      setTab("story");
+      setFlash(`${result.message} — back on the main quest.`);
+    }
   };
 
   const onQuestAbandon = () => {
     if (!world || !mySlot || !acting) return;
     const result = abandonSideQuest(world, mySlot, { isDm: identity.isDm });
     persist(result.world);
-    setFlash(result.message);
+    setFlash(`${result.message} — resume the main quest on Comic.`);
+    setQuestPanelOpen(true);
+    setTab("story");
   };
 
   const onQuestDismissFailed = () => {
     if (!world) return;
     persist(dismissFailedQuest(world));
+    setQuestPanelOpen(true);
+    setTab("story");
+  };
+
+  const returnToMainQuest = () => {
+    setQuestPanelOpen(false);
+    setTab("story");
+    setFlash("Main quest open — side trail is parked (clock still runs).");
+  };
+
+  const resumeSideQuestPanel = () => {
+    setQuestPanelOpen(true);
+    setTab("camp");
   };
 
   const onCook = (recipeId: string) => {
@@ -1050,13 +1083,19 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const battleActive = world.battle?.status === "active";
   const inBattle = !!world.battle;
   const questRunActive = world.activeSideQuest?.status === "active";
+  const mainProgress = campaignProgressReport(world);
   // Victory summaries must not bury an active quest panel (battle overlay is z80).
   // Defeat still needs the battle overlay so the party can dismiss and retry.
   const showBattleOverlay =
     !!world.battle &&
     (battleActive || world.battle.status === "defeat" || !questRunActive);
   const showQuestOverlay =
-    !!world.activeSideQuest && !battleActive && world.battle?.status !== "defeat";
+    !!world.activeSideQuest &&
+    questPanelOpen &&
+    !battleActive &&
+    world.battle?.status !== "defeat";
+  const showParkedQuestBanner =
+    questRunActive && !questPanelOpen && !battleActive && world.battle?.status !== "defeat";
   const hasChoices =
     storyNode.kind === "conversation" || storyNode.kind === "path" || storyNode.kind === "encounter";
   const sideQuests = availableSideQuests(world);
@@ -1068,6 +1107,9 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     0,
     Math.ceil(((world.nextEncounterAtMs ?? 0) - (world.storyPlayMs ?? 0)) / 1000)
   );
+  const nextStoryId =
+    storyNode.kind === "narrative" || storyNode.kind === "montage" ? storyNode.next : null;
+  const nextGate = nextStoryId ? progressGateForNode(world, nextStoryId) : { ok: true as const };
 
   return (
     <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
@@ -1087,9 +1129,11 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           quest={world.activeSideQuest}
           canAct={acting}
           inBattle={false}
+          mainQuestLabel={mainProgress.detail}
           onAdvance={onQuestAdvance}
           onAbandon={onQuestAbandon}
           onDismissFailed={onQuestDismissFailed}
+          onReturnToMain={returnToMainQuest}
         />
       )}
       {questRunActive && battleActive && (
@@ -1097,9 +1141,30 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           Quest “{world.activeSideQuest!.title}” — trail clock still running during battle
         </div>
       )}
-      {questRunActive && world.battle?.status === "victory" && (
+      {questRunActive && world.battle?.status === "victory" && questPanelOpen && (
         <div className="pc-turn-banner" data-forest="true" role="status">
           Quest fight won — continue the trail in the quest panel
+        </div>
+      )}
+      {showParkedQuestBanner && world.activeSideQuest && (
+        <div className="pc-turn-banner" data-forest="true" role="status">
+          <span>
+            Side trail parked: {world.activeSideQuest.title} — main quest is live (
+            {mainProgress.label})
+          </span>
+          <button type="button" className="pc-chip ml-2" onClick={resumeSideQuestPanel}>
+            Resume side quest
+          </button>
+          <button
+            type="button"
+            className="pc-chip ml-2"
+            onClick={() => {
+              setTab("story");
+              setFlash(`Main quest: ${mainProgress.nodeTitle}`);
+            }}
+          >
+            Open Comic
+          </button>
         </div>
       )}
       {flash && (
@@ -1109,7 +1174,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       )}
 
       <div className="pc-header-bar px-4 py-3 flex flex-wrap items-end justify-between gap-3">
-        <div>
+        <div className="min-w-0 flex-1">
           <p className="pc-eyebrow text-[0.65rem]" style={{ color: "var(--pc-ink)" }}>
             {chapter ? `Ch ${chapter.chapter} · ${chapter.title}` : "Neverworld"}
           </p>
@@ -1120,6 +1185,21 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
             Story {Math.floor(storySecs / 60)}:{String(storySecs % 60).padStart(2, "0")}
             {!inBattle ? ` · Next ambush ~${untilBattle}s` : " · In battle"}
           </p>
+          <div className="pc-main-progress mt-2" aria-label="Main quest progress">
+            <div className="pc-main-progress-meta">
+              <span>{mainProgress.label}</span>
+              <span>
+                ~{mainProgress.hoursDone}h / ~{mainProgress.hoursTarget}h
+              </span>
+            </div>
+            <div className="pc-main-progress-track">
+              <div
+                className="pc-main-progress-fill"
+                style={{ width: `${mainProgress.percent}%` }}
+              />
+            </div>
+            <p className="pc-main-progress-detail">{mainProgress.detail}</p>
+          </div>
         </div>
         <div className="flex flex-wrap gap-2 items-center">
           <button
@@ -1346,9 +1426,38 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
 
           {tab === "camp" && (
             <div className="space-y-4">
+              <div className="pc-main-quest-card">
+                <p className="pc-eyebrow text-[0.65rem]">Main quest · stay on track</p>
+                <p className="font-bold text-sm">{mainProgress.nodeTitle}</p>
+                <p className="text-[0.65rem] opacity-80 mt-1">{mainProgress.detail}</p>
+                {!nextGate.ok && nextGate.reason && (
+                  <p className="text-[0.65rem] mt-2" style={{ color: "var(--pc-accent)" }}>
+                    Road gate: {nextGate.reason}
+                  </p>
+                )}
+                <div className="flex flex-wrap gap-2 mt-3">
+                  <button
+                    type="button"
+                    className="pc-primary-btn"
+                    onClick={() => {
+                      setTab("story");
+                      setFlash(`Main quest: ${mainProgress.nodeTitle}`);
+                    }}
+                  >
+                    Return to main quest →
+                  </button>
+                  {questRunActive && (
+                    <button type="button" className="pc-chip" onClick={resumeSideQuestPanel}>
+                      Open side quest panel
+                    </button>
+                  )}
+                </div>
+              </div>
+
               <p className="pc-eyebrow">Camp · Roads · Side quests</p>
               <p className="text-xs opacity-70">
-                Mid-act filler for {world.chapterId}. Packs: encounters + side quests + cooking.
+                Side trails help unlock later chapters — park them anytime and resume Comic for the
+                spine. Mid-act filler for {world.chapterId}.
               </p>
 
               <div className="space-y-2">
