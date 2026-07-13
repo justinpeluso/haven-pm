@@ -1184,10 +1184,13 @@
 
 .party-comic .pc-battle-enemy img,
 .party-rpg90s .pc-battle-enemy img,
-.party-chronicle .pc-battle-enemy img {
+.party-chronicle .pc-battle-enemy img,
+.party-comic .pc-battle-foe-art,
+.party-rpg90s .pc-battle-foe-art,
+.party-chronicle .pc-battle-foe-art {
   width: 100%;
-  max-height: 180px;
-  object-fit: cover;
+  max-height: 200px;
+  object-fit: contain;
   border: 3px solid var(--pc-border);
   margin-bottom: 0.5rem;
   background: #0a1410;
@@ -1204,9 +1207,79 @@
 .party-comic .pc-battle-hero,
 .party-rpg90s .pc-battle-hero,
 .party-chronicle .pc-battle-hero {
-  padding: 0.55rem 0.65rem;
+  padding: 0.45rem 0.55rem;
   border: 2px dashed var(--pc-kraft-dark);
   background: rgba(255, 255, 255, 0.55);
+}
+
+.party-comic .pc-battle-hero-row,
+.party-rpg90s .pc-battle-hero-row,
+.party-chronicle .pc-battle-hero-row {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) 52px;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.party-comic .pc-battle-hero-art,
+.party-rpg90s .pc-battle-hero-art,
+.party-chronicle .pc-battle-hero-art {
+  width: 64px;
+  height: 74px;
+  object-fit: cover;
+  border: 2px solid var(--pc-border);
+  background: #0a1410;
+}
+
+.party-comic .pc-battle-hero-stats,
+.party-rpg90s .pc-battle-hero-stats,
+.party-chronicle .pc-battle-hero-stats {
+  min-width: 0;
+}
+
+.party-comic .pc-battle-hero-class,
+.party-rpg90s .pc-battle-hero-class,
+.party-chronicle .pc-battle-hero-class {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin: -0.1rem 0 0.25rem;
+}
+
+.party-comic .pc-battle-pet,
+.party-rpg90s .pc-battle-pet,
+.party-chronicle .pc-battle-pet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.party-comic .pc-battle-pet-art,
+.party-rpg90s .pc-battle-pet-art,
+.party-chronicle .pc-battle-pet-art {
+  width: 48px;
+  height: 56px;
+  object-fit: cover;
+  border: 2px solid var(--pc-kraft-dark);
+  background: #0a1410;
+}
+
+.party-comic .pc-battle-pet-name,
+.party-rpg90s .pc-battle-pet-name,
+.party-chronicle .pc-battle-pet-name {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.1;
+  max-width: 52px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .party-comic .pc-battle-hero[data-active="true"],

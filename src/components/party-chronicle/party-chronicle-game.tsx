@@ -244,7 +244,8 @@ function JourneyMinimap({
     <div className="pc-panel p-3 space-y-2">
       <div className="flex items-end justify-between gap-2">
         <p className="pc-eyebrow text-[0.65rem]">
-          {focusingSide ? "Side trail map" : "Realm map"} · {progress.percent}%
+          {focusingSide ? "Side trail map" : "Realm map"} · lived {progress.percent}% of ~
+          {progress.hoursTarget}h
         </p>
         <p className="text-[0.65rem] font-bold" style={{ color: "var(--pc-accent)" }}>
           {focusingSide && questStop
@@ -260,7 +261,8 @@ function JourneyMinimap({
         </p>
       ) : (
         <p className="text-[0.65rem] opacity-80">
-          {progress.label} · beat {progress.nodeIndex}/{progress.nodeTotal}
+          Played ~{progress.hoursDone}h · {progress.battlesFought} battles · story pin{" "}
+          {progress.storyPercent}% (Act {progress.chapterNum}/{progress.chapterTotal})
         </p>
       )}
       <div className="pc-journey-map" aria-label={focusingSide ? "Side trail map" : "Journey minimap"}>

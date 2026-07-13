@@ -120,9 +120,10 @@ export function journeyTrail(world: PartyWorldSave): {
   stops: Array<JourneyStop & { state: "visited" | "here" | "ahead" }>;
   here: JourneyStop | null;
 } {
-  const here = currentJourneyStop(world);
+  const hereId = chapterIdForWorld(world);
+  const here = JOURNEY_STOPS.find((s) => s.chapterId === hereId) ?? null;
   const stops = JOURNEY_STOPS.map((s) => {
-    if (here && s.chapterId === here.chapterId) return { ...s, state: "here" as const };
+    if (s.chapterId === hereId) return { ...s, state: "here" as const };
     if (isChapterVisited(world, s.chapterId)) return { ...s, state: "visited" as const };
     return { ...s, state: "ahead" as const };
   });
@@ -140,22 +141,33 @@ export type CampaignProgressReport = {
   nodeIndex: number;
   nodeTotal: number;
   nodeTitle: string;
-  /** 0–100 through the authored chapter spine. */
+  /** 0–100 lived progress toward the long chronicle (not Continue-spam). */
   percent: number;
   hoursDone: number;
   hoursTarget: number;
   battlesFought: number;
   sideQuestsDone: number;
   explorationFinds: number;
+  /** Story-pin position 0–100 (can race ahead of lived %). */
+  storyPercent: number;
   label: string;
   detail: string;
 };
 
-/** Overall main-quest progress for HUD — keeps the party pointed at the spine. */
+/** Targets sized for the ~100–300h party test chronicle. */
+const BATTLE_TARGET = 200;
+const TURN_TARGET = 900;
+const DEED_TARGET = 250;
+
+/** Overall main-quest progress for HUD — lived play, not estimated chapter budgets. */
 export function campaignProgressReport(world: PartyWorldSave): CampaignProgressReport {
   const chapter = chapterForNode(world.campaignNodeId) ?? getChapter(world.chapterId);
   const chapterTotal = Math.max(1, CHAPTERS.length);
-  const chapterNum = chapter?.chapter ?? 1;
+  const chapterOrd = Math.max(
+    0,
+    CHAPTERS.findIndex((c) => c.id === chapter?.id)
+  );
+  const chapterNum = chapterOrd >= 0 ? chapterOrd + 1 : chapter?.chapter ?? 1;
   const nodeIds = chapter?.nodeIds ?? [];
   const nodeTotal = Math.max(1, nodeIds.length);
   const rawIdx = nodeIds.indexOf(world.campaignNodeId);
@@ -163,30 +175,30 @@ export function campaignProgressReport(world: PartyWorldSave): CampaignProgressR
   const node = getStoryNode(world.campaignNodeId);
   const nodeTitle = node?.title ?? "Unknown beat";
 
-  const chapterShare = 1 / chapterTotal;
-  const within = (nodeIndex - 1) / nodeTotal;
-  const percent = Math.min(
-    100,
-    Math.round(((chapterNum - 1) * chapterShare + within * chapterShare) * 1000) / 10
-  );
-
   const hours = hoursSummary();
-  const hoursByChapter = new Map(hours.acts.map((a) => [a.id, a.estimatedHours]));
-  let hoursDone = 0;
-  for (const ch of CHAPTERS) {
-    if (ch.chapter < chapterNum) {
-      hoursDone += hoursByChapter.get(ch.id) ?? ch.estimatedHours ?? 0;
-    } else if (ch.chapter === chapterNum) {
-      const budget = hoursByChapter.get(ch.id) ?? ch.estimatedHours ?? 0;
-      hoursDone += budget * ((nodeIndex - 1) / nodeTotal);
-    }
-  }
-  hoursDone = Math.round(hoursDone * 10) / 10;
   const hoursTarget = Math.max(hours.totalHours, TARGET_PLAYTIME_HOURS);
 
   const battlesFought = world.battlesFought ?? 0;
   const sideQuestsDone = world.completedSideQuests?.length ?? 0;
   const explorationFinds = world.explorationFinds ?? 0;
+  const recipes = world.cookedRecipes?.length ?? 0;
+  const turns = world.turnIndex ?? 0;
+  const deeds = battlesFought + sideQuestsDone * 2 + explorationFinds + recipes;
+  const playHours = (world.storyPlayMs ?? 0) / 3_600_000;
+  const hoursDone = Math.round(playHours * 10) / 10;
+
+  const lived = Math.min(
+    1,
+    (playHours / hoursTarget) * 0.35 +
+      (battlesFought / BATTLE_TARGET) * 0.4 +
+      Math.min(1, turns / TURN_TARGET) * 0.15 +
+      Math.min(1, deeds / DEED_TARGET) * 0.1
+  );
+  const percent = Math.min(100, Math.round(lived * 1000) / 10);
+
+  const storyFrac =
+    (chapterOrd + (nodeIndex - 1) / nodeTotal) / chapterTotal;
+  const storyPercent = Math.min(100, Math.round(storyFrac * 1000) / 10);
 
   return {
     chapterNum,
@@ -201,7 +213,8 @@ export function campaignProgressReport(world: PartyWorldSave): CampaignProgressR
     battlesFought,
     sideQuestsDone,
     explorationFinds,
-    label: `Main quest · Ch ${chapterNum}/${chapterTotal} · ${percent}%`,
-    detail: `${nodeTitle} · ~${hoursDone}h of ~${hoursTarget}h · ${battlesFought} battles · ${sideQuestsDone} side quests`,
+    storyPercent,
+    label: `Lived ${percent}% of ~${hoursTarget}h · map pin Act ${chapterNum}/${chapterTotal}`,
+    detail: `${nodeTitle} · played ~${hoursDone}h · ${battlesFought} battles · ${sideQuestsDone} side quests · story pin ${storyPercent}%`,
   };
 }

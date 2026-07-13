@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="280" viewBox="0 0 240 280" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2030"/>
+      <stop offset="100%" stop-color="#0a1010"/>
+    </linearGradient>
+  </defs>
+  <rect width="240" height="280" fill="url(#bg)"/>
+  <ellipse cx="120" cy="232" rx="68" ry="16" fill="#0a1410" opacity="0.45"/>
+
+  <path d="M78 120 L120 95 L162 120 L155 195 L85 195Z" fill="#c8c0a0" stroke="#0a0e14" stroke-width="3"/>
+  <path d="M95 130 L120 110 L145 130 L140 170 L100 170Z" fill="#e8e0c0"/>
+  <circle cx="120" cy="78" r="28" fill="#d4a574" stroke="#0a0e14" stroke-width="3"/>
+  <path d="M92 70 Q120 42 148 70 L148 85 Q120 95 92 85Z" fill="#f5d547" stroke="#0a0e14" stroke-width="2"/>
+  <circle cx="110" cy="78" r="3.5" fill="#0a0e14"/>
+  <circle cx="130" cy="78" r="3.5" fill="#0a0e14"/>
+  <rect x="168" y="70" width="10" height="110" rx="2" fill="#e8eef4" stroke="#0a0e14" stroke-width="2"/>
+  <path d="M173 55 L178 70 L168 70Z" fill="#f5d547" stroke="#0a0e14" stroke-width="2"/>
+  <path d="M55 125 Q48 160 70 190 Q95 170 95 140 Q80 120 55 125Z" fill="#f5d547" stroke="#0a0e14" stroke-width="3"/>
+  <path d="M72 145 L72 165 M62 155 L82 155" stroke="#0a0e14" stroke-width="3"/>
+
+  <rect x="8" y="8" width="224" height="264" fill="none" stroke="#0a0e14" stroke-width="8"/>
+  <rect x="14" y="14" width="212" height="252" fill="none" stroke="#f5d547" stroke-width="3"/>
+  <text x="120" y="258" text-anchor="middle" font-family="Impact, Arial Black, sans-serif" font-size="15"
+    fill="#f4efe4" stroke="#0a0e14" stroke-width="3" paint-order="stroke">PALADIN</text>
+</svg>

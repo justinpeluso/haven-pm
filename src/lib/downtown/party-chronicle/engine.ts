@@ -13,6 +13,7 @@ import { buildCombatUsePayload } from "./hotbar";
 import { getGear } from "./gear";
 import { resolveActiveEncounterIfDead } from "./midgame";
 import {
+  CHAPTERS,
   chapterForNode,
   getStoryNode,
   resolveFinaleNodeId,
@@ -64,62 +65,6 @@ export function partyAvgLevel(world: PartyWorldSave): number {
   return Math.round(levels.reduce((a, b) => a + b, 0) / levels.length);
 }
 
-/** Soft gates so the comic spine can't race to the finale in a dozen clicks. */
-export function progressGateForNode(
-  world: PartyWorldSave,
-  nextNodeId: string
-): { ok: boolean; reason?: string } {
-  const nextCh = chapterForNode(nextNodeId);
-  const curCh = chapterForNode(world.campaignNodeId);
-  if (!nextCh) return { ok: true };
-  if (curCh && nextCh.chapter <= curCh.chapter) return { ok: true };
-
-  const battles = world.battlesFought ?? 0;
-  const sideQuests = world.completedSideQuests?.length ?? 0;
-  const exploration = world.explorationFinds ?? 0;
-  const recipes = world.cookedRecipes?.length ?? 0;
-  const activity = battles + sideQuests * 2 + exploration + recipes;
-  const finaleActivity = battles + sideQuests * 2 + exploration;
-  const lvl = partyAvgLevel(world);
-  const turns = world.turnIndex ?? 0;
-  const isFinale =
-    nextCh.chapter >= 9 ||
-    nextNodeId.startsWith("node-finale") ||
-    nextCh.id === "ch10-endings";
-
-  if (isFinale) {
-    const ok =
-      battles >= 25 ||
-      turns >= 120 ||
-      finaleActivity >= 40 ||
-      lvl >= 35;
-    if (!ok) {
-      return {
-        ok: false,
-        reason:
-          "The Last Council won't open yet — the chronicle needs a lived-in legend. Reach 25 battles, 120 turns, 40 campaign deeds, or party level 35.",
-      };
-    }
-    return { ok: true };
-  }
-
-  if (nextCh.chapter >= 3) {
-    const progress = Math.max(0, nextCh.chapter - 2);
-    const needActivity = Math.min(36, progress * 4);
-    const needTurns = Math.min(108, progress * 12);
-    const needLevel = Math.min(32, Math.max(3, progress * 4));
-    if (lvl >= needLevel || activity >= needActivity || turns >= needTurns) {
-      return { ok: true };
-    }
-    return {
-      ok: false,
-      reason: `${nextCh.title} still lies ahead. Build the chronicle at Camp first (~Lv ${needLevel}, ${needActivity} deeds, or ${needTurns} turns).`,
-    };
-  }
-
-  return { ok: true };
-}
-
 /** Undo an accidental / early finale and resume at the Last Council. */
 export function rewindFromEnding(world: PartyWorldSave): PartyWorldSave {
   const onEndingChapter = chapterForNode(world.campaignNodeId)?.id === "ch10-endings";
@@ -162,6 +107,7 @@ export function advanceTurn(world: PartyWorldSave): PartyWorldSave {
 }
 
 function applyXp(char: CharacterSave, xp: number): CharacterSave {
+  if (xp <= 0) return char;
   const before = char.level;
   const newXp = char.xp + xp;
   const after = levelFromXp(newXp);
@@ -174,6 +120,76 @@ function applyXp(char: CharacterSave, xp: number): CharacterSave {
     skillPoints: char.skillPoints + pts,
     maxHp: char.maxHp + hpBump,
     hp: Math.min(char.maxHp + hpBump, char.hp + hpBump),
+  };
+}
+
+/**
+ * Spine generator overshot XP (often 100–500 per panel). Clamp so Continue
+ * can't teleport the party to finale unlock levels in a few minutes.
+ */
+export function sanitizeStoryXp(raw: number | undefined | null): number {
+  if (raw == null || raw <= 0) return 0;
+  return Math.max(2, Math.min(12, Math.round(raw / 40)));
+}
+
+function chapterOrdinal(chapterId: string | undefined | null): number {
+  if (!chapterId) return 0;
+  const idx = CHAPTERS.findIndex((c) => c.id === chapterId);
+  return idx >= 0 ? idx : 0;
+}
+
+/** Soft gates so the comic spine can't race to the finale in a dozen clicks. */
+export function progressGateForNode(
+  world: PartyWorldSave,
+  nextNodeId: string
+): { ok: boolean; reason?: string } {
+  const nextCh = chapterForNode(nextNodeId);
+  const curCh = chapterForNode(world.campaignNodeId);
+  if (!nextCh) return { ok: true };
+
+  const curOrd = chapterOrdinal(curCh?.id);
+  const nextOrd = chapterOrdinal(nextCh.id);
+  // Same act or stepping backward along the list — always fine.
+  if (nextOrd <= curOrd) return { ok: true };
+
+  const battles = world.battlesFought ?? 0;
+  const sideQuests = world.completedSideQuests?.length ?? 0;
+  const exploration = world.explorationFinds ?? 0;
+  const recipes = world.cookedRecipes?.length ?? 0;
+  const deeds = battles + sideQuests * 2 + exploration + recipes;
+  const turns = world.turnIndex ?? 0;
+
+  const isFinale =
+    nextNodeId.startsWith("node-finale") ||
+    nextCh.id === "ch10-endings" ||
+    nextCh.id === "ch9-last-council" ||
+    /^spine-(4[8-9]|50)\b/.test(nextCh.id);
+
+  if (isFinale) {
+    const ok = battles >= 13 || (deeds >= 40 && turns >= 120);
+    if (!ok) {
+      return {
+        ok: false,
+        reason:
+          "The Last Council won't open yet — live the chronicle first. Reach 13 battles, or 40 Camp deeds with 120 turns.",
+      };
+    }
+    return { ok: true };
+  }
+
+  // First two acts stay open; after that require fights / Camp — not story XP level.
+  if (nextOrd <= 2) return { ok: true };
+
+  const needBattles = 13;
+  const needDeeds = Math.min(40, Math.max(4, Math.ceil(nextOrd * 0.75)));
+  const needTurns = Math.min(120, Math.max(10, nextOrd * 3));
+
+  if (battles >= needBattles) return { ok: true };
+  if (deeds >= needDeeds && turns >= needTurns) return { ok: true };
+
+  return {
+    ok: false,
+    reason: `${nextCh.title} still lies ahead. Win ${needBattles} battles (have ${battles}), or build ${needDeeds} Camp deeds with ${needTurns} turns — story clicks alone won't open the next act.`,
   };
 }
 
@@ -484,7 +500,7 @@ export function applyStoryChoice(
 
   const o = applied.outcome;
   let nextChar = { ...char };
-  if (o.xp) nextChar = applyXp(nextChar, o.xp);
+  if (o.xp) nextChar = applyXp(nextChar, sanitizeStoryXp(o.xp));
   if (o.gold) nextChar = { ...nextChar, gold: nextChar.gold + o.gold };
   if (o.itemId && !nextChar.inventory.includes(o.itemId)) {
     nextChar = { ...nextChar, inventory: [...nextChar.inventory, o.itemId] };
@@ -597,7 +613,7 @@ export function acknowledgeNarrative(world: PartyWorldSave, slot: PlayerSlot): P
     };
   }
   if (node.kind === "montage" && node.xpGrant > 0) {
-    const char = applyXp(characters[slot], node.xpGrant);
+    const char = applyXp(characters[slot], sanitizeStoryXp(node.xpGrant));
     characters = { ...characters, [slot]: char };
   }
   const ch = chapterForNode(nextId);

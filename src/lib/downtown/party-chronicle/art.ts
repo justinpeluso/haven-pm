@@ -3,12 +3,52 @@
  * Keys map to assets under `public/party-chronicle/` (SVG/PNG).
  */
 
+import type { ClassId } from "./types";
+
 export type ComicArtEntry = {
   id: string;
-  kind: "scene" | "portrait" | "enemy" | "splash" | "chapter" | "balloon-bg";
+  kind: "scene" | "portrait" | "enemy" | "splash" | "chapter" | "balloon-bg" | "hero" | "pet";
   label: string;
   /** Relative path under /party-chronicle/ */
   src: string;
+};
+
+/** Battle-stage class plates (simple warrior / mage / etc.). */
+export type BattleClassArtId =
+  | "art-class-warrior"
+  | "art-class-mage"
+  | "art-class-ranger"
+  | "art-class-rogue"
+  | "art-class-healer"
+  | "art-class-bard"
+  | "art-class-paladin"
+  | "art-class-warlock";
+
+const CLASS_BATTLE_ART: Record<ClassId, BattleClassArtId> = {
+  warrior: "art-class-warrior",
+  barbarian: "art-class-warrior",
+  knight: "art-class-warrior",
+  monk: "art-class-warrior",
+  demonhunter: "art-class-warrior",
+  deathknight: "art-class-warrior",
+  mage: "art-class-mage",
+  sorcerer: "art-class-mage",
+  battlemage: "art-class-mage",
+  spellsword: "art-class-mage",
+  evoker: "art-class-mage",
+  necromancer: "art-class-mage",
+  ranger: "art-class-ranger",
+  warden: "art-class-ranger",
+  druid: "art-class-ranger",
+  rogue: "art-class-rogue",
+  assassin: "art-class-rogue",
+  nightblade: "art-class-rogue",
+  healer: "art-class-healer",
+  priest: "art-class-healer",
+  shaman: "art-class-healer",
+  bard: "art-class-bard",
+  paladin: "art-class-paladin",
+  warlock: "art-class-warlock",
 };
 
 /** All illustration keys referenced by story nodes. */
@@ -223,6 +263,62 @@ export const COMIC_ART: Record<string, ComicArtEntry> = {
     src: "portraits/serpent-nyx.svg",
   },
 
+  // --- Hero class battle plates ---
+  "art-class-warrior": {
+    id: "art-class-warrior",
+    kind: "hero",
+    label: "Warrior",
+    src: "heroes/class-warrior.svg",
+  },
+  "art-class-mage": {
+    id: "art-class-mage",
+    kind: "hero",
+    label: "Mage",
+    src: "heroes/class-mage.svg",
+  },
+  "art-class-ranger": {
+    id: "art-class-ranger",
+    kind: "hero",
+    label: "Ranger",
+    src: "heroes/class-ranger.svg",
+  },
+  "art-class-rogue": {
+    id: "art-class-rogue",
+    kind: "hero",
+    label: "Rogue",
+    src: "heroes/class-rogue.svg",
+  },
+  "art-class-healer": {
+    id: "art-class-healer",
+    kind: "hero",
+    label: "Healer",
+    src: "heroes/class-healer.svg",
+  },
+  "art-class-bard": {
+    id: "art-class-bard",
+    kind: "hero",
+    label: "Bard",
+    src: "heroes/class-bard.svg",
+  },
+  "art-class-paladin": {
+    id: "art-class-paladin",
+    kind: "hero",
+    label: "Paladin",
+    src: "heroes/class-paladin.svg",
+  },
+  "art-class-warlock": {
+    id: "art-class-warlock",
+    kind: "hero",
+    label: "Warlock",
+    src: "heroes/class-warlock.svg",
+  },
+  "art-dog-companion": {
+    id: "art-dog-companion",
+    kind: "pet",
+    label: "Dog companion",
+    src: "pets/dog-companion.svg",
+  },
+
   // --- Party / foe plates ---
   "art-party-arrive": {
     id: "art-party-arrive",
@@ -287,4 +383,46 @@ export function comicArtSrc(id: string): string {
 
 export function getComicArt(id: string): ComicArtEntry | null {
   return COMIC_ART[id] ?? null;
+}
+
+/** Class portrait for battle stage (maps subclasses onto simple archetypes). */
+export function battleClassArtSrc(classId: ClassId | undefined | null): string {
+  const id = classId ? CLASS_BATTLE_ART[classId] : undefined;
+  return comicArtSrc(id ?? "art-class-warrior");
+}
+
+export function battlePetArtSrc(): string {
+  return comicArtSrc("art-dog-companion");
+}
+
+/**
+ * Prefer a readable creature plate from name/id keywords so random encounters
+ * don't show a fox portrait for a goblin, etc.
+ */
+export function battleEnemyArtSrc(enemy: {
+  artId?: string;
+  name?: string;
+  id?: string;
+}): string {
+  const key = `${enemy.id ?? ""} ${enemy.name ?? ""}`.toLowerCase();
+  if (/dragon|drake|wyrm|elemental/.test(key)) return comicArtSrc("art-dragon-silhouette");
+  if (/goblin|imp|hobgob|orc|cutpurse|bandit|poacher|witch|hag|troll/.test(key)) {
+    return comicArtSrc("art-goblin-scout");
+  }
+  if (/demon|ghoul|undead|wraith|herald|shade|lich/.test(key)) {
+    return comicArtSrc("art-demon-herald");
+  }
+  if (/wolf|warg|hound|dog/.test(key)) return comicArtSrc("art-wolf-ulfric");
+  if (/bear/.test(key)) return comicArtSrc("art-bear-bruna");
+  if (/stag|deer|elk/.test(key)) return comicArtSrc("art-stag-aelwyn");
+  if (/fox|hare|boar|pup/.test(key)) return comicArtSrc("art-fox-pip");
+  if (/raven|crow|moth|bird|owl/.test(key)) return comicArtSrc("art-raven-corv");
+  if (/serpent|snake|adder|crawler|spider|leech/.test(key)) {
+    return comicArtSrc("art-serpent-nyx");
+  }
+  if (/thane|golem|warden|humanoid|knight|warrior|pilgrim|courier/.test(key)) {
+    return comicArtSrc("art-ember-thane");
+  }
+  if (enemy.artId) return comicArtSrc(enemy.artId);
+  return comicArtSrc("art-goblin-scout");
 }

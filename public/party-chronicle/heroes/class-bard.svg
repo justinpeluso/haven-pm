@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="280" viewBox="0 0 240 280" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#241820"/>
+      <stop offset="100%" stop-color="#0a1010"/>
+    </linearGradient>
+  </defs>
+  <rect width="240" height="280" fill="url(#bg)"/>
+  <ellipse cx="120" cy="232" rx="68" ry="16" fill="#0a1410" opacity="0.45"/>
+
+  <path d="M92 118 L120 102 L148 118 L145 198 L95 198Z" fill="#6b3a5a" stroke="#0a0e14" stroke-width="3"/>
+  <path d="M102 128 L120 114 L138 128 L135 172 L105 172Z" fill="#8a5070"/>
+  <circle cx="120" cy="80" r="26" fill="#d4a574" stroke="#0a0e14" stroke-width="3"/>
+  <path d="M95 72 Q120 52 145 72 L142 85 Q120 78 98 85Z" fill="#f5d547" stroke="#0a0e14" stroke-width="2"/>
+  <circle cx="110" cy="82" r="3.5" fill="#0a0e14"/>
+  <circle cx="130" cy="82" r="3.5" fill="#0a0e14"/>
+  <!-- lute -->
+  <ellipse cx="175" cy="160" rx="28" ry="34" fill="#c47a3d" stroke="#0a0e14" stroke-width="3"/>
+  <circle cx="175" cy="155" r="10" fill="#2a1a10"/>
+  <rect x="170" y="95" width="10" height="40" fill="#8b5a2b" stroke="#0a0e14" stroke-width="2"/>
+  <line x1="172" y1="100" x2="172" y2="155" stroke="#f4efe4" stroke-width="1"/>
+  <line x1="178" y1="100" x2="178" y2="155" stroke="#f4efe4" stroke-width="1"/>
+
+  <rect x="8" y="8" width="224" height="264" fill="none" stroke="#0a0e14" stroke-width="8"/>
+  <rect x="14" y="14" width="212" height="252" fill="none" stroke="#e85d4c" stroke-width="3"/>
+  <text x="120" y="258" text-anchor="middle" font-family="Impact, Arial Black, sans-serif" font-size="15"
+    fill="#f4efe4" stroke="#0a0e14" stroke-width="3" paint-order="stroke">BARD</text>
+</svg>

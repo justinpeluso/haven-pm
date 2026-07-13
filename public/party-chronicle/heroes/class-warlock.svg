@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="280" viewBox="0 0 240 280" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#140818"/>
+      <stop offset="100%" stop-color="#0a1010"/>
+    </linearGradient>
+  </defs>
+  <rect width="240" height="280" fill="url(#bg)"/>
+  <ellipse cx="120" cy="232" rx="68" ry="16" fill="#0a1410" opacity="0.45"/>
+
+  <path d="M90 115 L120 100 L150 115 L155 200 L85 200Z" fill="#4a2060" stroke="#0a0e14" stroke-width="3"/>
+  <path d="M100 125 L120 112 L140 125 L138 175 L102 175Z" fill="#6a3080"/>
+  <circle cx="120" cy="82" r="26" fill="#d4a574" stroke="#0a0e14" stroke-width="3"/>
+  <path d="M85 78 L120 28 L155 78 Z" fill="#2a1040" stroke="#0a0e14" stroke-width="3"/>
+  <ellipse cx="120" cy="78" rx="38" ry="10" fill="#4a2060" stroke="#0a0e14" stroke-width="2"/>
+  <circle cx="110" cy="82" r="3.5" fill="#e85d4c"/>
+  <circle cx="130" cy="82" r="3.5" fill="#e85d4c"/>
+  <rect x="175" y="55" width="8" height="150" rx="2" fill="#2a1a10" stroke="#0a0e14" stroke-width="2"/>
+  <circle cx="179" cy="48" r="14" fill="#e85d4c" stroke="#0a0e14" stroke-width="2"/>
+  <path d="M179 40 L179 56 M171 48 L187 48" stroke="#0a0e14" stroke-width="2"/>
+
+  <rect x="8" y="8" width="224" height="264" fill="none" stroke="#0a0e14" stroke-width="8"/>
+  <rect x="14" y="14" width="212" height="252" fill="none" stroke="#a78bfa" stroke-width="3"/>
+  <text x="120" y="258" text-anchor="middle" font-family="Impact, Arial Black, sans-serif" font-size="15"
+    fill="#f4efe4" stroke="#0a0e14" stroke-width="3" paint-order="stroke">WARLOCK</text>
+</svg>

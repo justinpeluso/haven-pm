@@ -15,7 +15,12 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { getAbility } from "@/lib/downtown/party-chronicle/skills";
 import { getSpellbookAbility } from "@/lib/downtown/party-chronicle/bestiary";
 import { getGear } from "@/lib/downtown/party-chronicle/gear";
-import { comicArtSrc } from "@/lib/downtown/party-chronicle/art";
+import {
+  battleClassArtSrc,
+  battleEnemyArtSrc,
+  battlePetArtSrc,
+} from "@/lib/downtown/party-chronicle/art";
+import { CLASS_DEFS } from "@/lib/downtown/party-chronicle/players";
 import type {
   BattleActionId,
   BattleFxEvent,
@@ -180,9 +185,8 @@ export function BattleOverlay({
   const hpPots = me ? hpPotionIds(me.inventory) : [];
   const manaPots = me ? manaPotionIds(me.inventory) : [];
 
-  const enemyArt = battle.enemy.artId
-    ? comicArtSrc(battle.enemy.artId)
-    : "/party-chronicle/scenes/missing.svg";
+  const enemyArt = battleEnemyArtSrc(battle.enemy);
+  const missingArt = "/party-chronicle/scenes/missing.svg";
 
   return (
     <div className="pc-battle-overlay" role="dialog" aria-label="Battle">
@@ -221,10 +225,11 @@ export function BattleOverlay({
           <div className="pc-battle-enemy pc-battle-fx-anchor">
             <CombatFloaters floaters={floaters} target="enemy" />
             <img
+              className="pc-battle-foe-art"
               src={enemyArt}
               alt={battle.enemy.name}
               onError={(e) => {
-                (e.target as HTMLImageElement).src = "/party-chronicle/scenes/missing.svg";
+                (e.target as HTMLImageElement).src = missingArt;
               }}
             />
             <Meter
@@ -249,23 +254,55 @@ export function BattleOverlay({
           </div>
 
           <div className="pc-battle-party">
-            {battle.heroes.map((h) => (
-              <div
-                key={h.id}
-                className="pc-battle-hero pc-battle-fx-anchor"
-                data-active={battle.activeId === h.id}
-                data-down={h.hp <= 0}
-              >
-                <CombatFloaters floaters={floaters} target={h.id} />
-                <p className="font-bold text-sm">
-                  {h.name}
-                  {h.powerUpTurns > 0 ? ` ▲${h.powerUpTurns}` : ""}
-                  {battle.activeId === h.id ? " ★" : ""}
-                </p>
-                <Meter label="HP" value={h.hp} max={h.maxHp} tone="hp" />
-                <Meter label="Mana" value={h.mana} max={h.maxMana} tone="mana" />
-              </div>
-            ))}
+            {battle.heroes.map((h) => {
+              const char = world.characters[h.slot];
+              const classId = char?.classId;
+              const className = classId ? CLASS_DEFS[classId]?.name : "Hero";
+              const dog = char?.dog;
+              return (
+                <div
+                  key={h.id}
+                  className="pc-battle-hero pc-battle-fx-anchor"
+                  data-active={battle.activeId === h.id}
+                  data-down={h.hp <= 0}
+                >
+                  <CombatFloaters floaters={floaters} target={h.id} />
+                  <div className="pc-battle-hero-row">
+                    <img
+                      className="pc-battle-hero-art"
+                      src={battleClassArtSrc(classId)}
+                      alt={`${h.name} — ${className}`}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = missingArt;
+                      }}
+                    />
+                    <div className="pc-battle-hero-stats">
+                      <p className="font-bold text-sm">
+                        {h.name}
+                        {h.powerUpTurns > 0 ? ` ▲${h.powerUpTurns}` : ""}
+                        {battle.activeId === h.id ? " ★" : ""}
+                      </p>
+                      <p className="pc-battle-hero-class">{className}</p>
+                      <Meter label="HP" value={h.hp} max={h.maxHp} tone="hp" />
+                      <Meter label="Mana" value={h.mana} max={h.maxMana} tone="mana" />
+                    </div>
+                    {dog ? (
+                      <div className="pc-battle-pet" title={`${dog.name} · ${dog.breed}`}>
+                        <img
+                          className="pc-battle-pet-art"
+                          src={battlePetArtSrc()}
+                          alt={dog.name}
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = missingArt;
+                          }}
+                        />
+                        <p className="pc-battle-pet-name">{dog.name}</p>
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
