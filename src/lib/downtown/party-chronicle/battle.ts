@@ -33,6 +33,7 @@ import {
 } from "./roc";
 import type {
   BattleActionId,
+  BattleFxEvent,
   BattleLootDrop,
   BattleState,
   BattleSummary,
@@ -46,6 +47,8 @@ import { PLAYER_SLOT_ORDER } from "./types";
 export const BATTLE_MAX_MS = 10 * 60 * 1000;
 /** If a hero does nothing this long, the foe strikes. */
 export const TURN_IDLE_MS = 30 * 1000;
+/** 3 → 2 → 1 → BATTLE START (~1s each) before combat unlocks. */
+export const BATTLE_INTRO_MS = 4_000;
 
 const POWER_UP_TURNS = 3;
 /** Was 1.5 — too swingy with high ATK + ROC severity. */
@@ -222,6 +225,57 @@ function pushLog(battle: BattleState, line: string): BattleState {
   return { ...battle, log: [line, ...battle.log].slice(0, 40) };
 }
 
+function pushFx(
+  battle: BattleState,
+  kind: BattleFxEvent["kind"],
+  amount: number,
+  target: string
+): BattleState {
+  if (amount <= 0) return battle;
+  const fx: BattleFxEvent = {
+    id: `fx-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    kind,
+    amount: Math.round(amount),
+    target,
+    at: new Date().toISOString(),
+  };
+  return {
+    ...battle,
+    fxEvents: [fx, ...(battle.fxEvents ?? [])].slice(0, 20),
+  };
+}
+
+/** True while the opening countdown is on screen — both sides frozen. */
+export function isBattleIntroActive(
+  battle: BattleState,
+  nowMs = Date.now()
+): boolean {
+  if (!battle.introEndsAt) return false;
+  const end = Date.parse(battle.introEndsAt);
+  if (!Number.isFinite(end)) return false;
+  return nowMs < end;
+}
+
+export function battleIntroRemainingMs(
+  battle: BattleState,
+  nowMs = Date.now()
+): number {
+  if (!battle.introEndsAt) return 0;
+  const end = Date.parse(battle.introEndsAt);
+  if (!Number.isFinite(end)) return 0;
+  return Math.max(0, end - nowMs);
+}
+
+function freshBattleTimestamps(nowMs = Date.now()): {
+  startedAt: string;
+  turnStartedAt: string;
+  introEndsAt: string;
+} {
+  const introEndsAt = new Date(nowMs + BATTLE_INTRO_MS).toISOString();
+  // Combat clocks start when the intro ends so idle / hard-cap don't burn during countdown.
+  return { startedAt: introEndsAt, turnStartedAt: introEndsAt, introEndsAt };
+}
+
 function buildSummary(
   battle: BattleState,
   victory: boolean,
@@ -311,7 +365,7 @@ export function startRandomBattle(
   const heroes = slots.map((slot) => heroFromChar(slot, world.characters[slot]));
 
   const turnQueue = [...heroes.map((h) => h.id), "enemy"];
-  const startedAt = new Date().toISOString();
+  const clocks = freshBattleTimestamps();
   const battle: BattleState = {
     id: `battle-${Date.now()}`,
     status: "active",
@@ -324,8 +378,8 @@ export function startRandomBattle(
     stats: { damageDealt: 0, damageTaken: 0, turns: 0, bestRoc: 0 },
     lastRocLabel: null,
     summary: null,
-    startedAt,
-    turnStartedAt: startedAt,
+    fxEvents: [],
+    ...clocks,
   };
 
   return {
@@ -356,7 +410,7 @@ export function startBattleVs(
   const enemy = foeFromRoll(roll);
   const heroes = slots.map((slot) => heroFromChar(slot, world.characters[slot]));
   const turnQueue = [...heroes.map((h) => h.id), "enemy"];
-  const startedAt = new Date().toISOString();
+  const clocks = freshBattleTimestamps();
   const battle: BattleState = {
     id: `battle-${Date.now()}`,
     status: "active",
@@ -369,8 +423,8 @@ export function startBattleVs(
     stats: { damageDealt: 0, damageTaken: 0, turns: 0, bestRoc: 0 },
     lastRocLabel: null,
     summary: null,
-    startedAt,
-    turnStartedAt: startedAt,
+    fxEvents: [],
+    ...clocks,
   };
   void started;
   return {
@@ -385,18 +439,17 @@ function dealToEnemy(
 ): { battle: BattleState; damage: number } {
   const damage = Math.max(1, raw - battle.enemy.armor);
   const hp = Math.max(0, battle.enemy.hp - damage);
-  return {
-    damage,
-    battle: {
-      ...battle,
-      enemy: { ...battle.enemy, hp },
-      stats: {
-        ...battle.stats,
-        damageDealt: battle.stats.damageDealt + damage,
-        turns: battle.stats.turns + 1,
-      },
+  let next: BattleState = {
+    ...battle,
+    enemy: { ...battle.enemy, hp },
+    stats: {
+      ...battle.stats,
+      damageDealt: battle.stats.damageDealt + damage,
+      turns: battle.stats.turns + 1,
     },
   };
+  next = pushFx(next, "damage", damage, "enemy");
+  return { damage, battle: next };
 }
 
 function finishVictory(
@@ -617,6 +670,7 @@ function runEnemyTurn(
       turns: b.stats.turns + 1,
     },
   };
+  if (mitigated > 0) b = pushFx(b, "damage", mitigated, target.id);
   b = pushLog(
     b,
     mitigated > 0
@@ -656,6 +710,9 @@ export function performBattleAction(
   const battle = world.battle;
   if (!battle || battle.status !== "active") {
     return { world, message: "No active battle." };
+  }
+  if (isBattleIntroActive(battle)) {
+    return { world, message: "Battle starting…" };
   }
   if (battle.activeId !== actorSlot) {
     return { world, message: "Not your battle turn." };
@@ -703,6 +760,7 @@ export function performBattleAction(
       const self = Math.max(1, Math.round(Math.abs(offense.tier.severity) * 4));
       char = { ...char, hp: Math.max(1, char.hp - self) };
       b = syncHeroFromChar(b, actorSlot, char);
+      b = pushFx(b, "damage", self, actorSlot);
       message = `${char.name} fumbles — ${offense.label} (−${self} HP).`;
     } else {
       message = `${char.name} misses — ${offense.label}.`;
@@ -744,12 +802,14 @@ export function performBattleAction(
     const inv = consumeOne(char.inventory, itemId);
     if (!inv) return { world, message: "Food missing." };
     const heal = gear.heal ?? 8;
+    const beforeHp = char.hp;
     char = {
       ...char,
       inventory: inv,
       hp: Math.min(battleMaxHp(char), char.hp + heal),
     };
     b = syncHeroFromChar(b, actorSlot, char);
+    b = pushFx(b, "heal", char.hp - beforeHp, actorSlot);
     b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
     message = `${char.name} eats ${gear.name} (+${heal} HP).`;
     b = pushLog(b, message);
@@ -762,12 +822,14 @@ export function performBattleAction(
     const inv = consumeOne(char.inventory, itemId);
     if (!inv) return { world, message: "Potion missing." };
     const heal = gear.heal ?? 25;
+    const beforeHp = char.hp;
     char = {
       ...char,
       inventory: inv,
       hp: Math.min(battleMaxHp({ ...char, inventory: inv }), char.hp + heal),
     };
     b = syncHeroFromChar(b, actorSlot, char);
+    b = pushFx(b, "heal", char.hp - beforeHp, actorSlot);
     b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
     message = `${char.name} drinks ${gear.name} (+${heal} HP).`;
     b = pushLog(b, message);
@@ -812,9 +874,11 @@ export function performBattleAction(
         1,
         Math.round(ab.power * Math.max(0.4, roc.tier.severity + 0.3))
       );
+      const beforeHp = char.hp;
       char = { ...char, hp: Math.min(battleMaxHp(char), char.hp + heal) };
       if (roc.tier.xpBonus > 0) char = applyXp(char, roc.tier.xpBonus);
       b = syncHeroFromChar(b, actorSlot, char);
+      b = pushFx(b, "heal", char.hp - beforeHp, actorSlot);
       b = recordRoc(b, roc);
       b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
       message = `${char.name} casts ${ab.name} — ${roc.label} → +${heal} HP.`;
@@ -911,11 +975,13 @@ export function dismissBattleSummary(world: PartyWorldSave): PartyWorldSave {
 
 export function battleRemainingMs(battle: BattleState, nowMs = Date.now()): number {
   const started = Date.parse(battle.startedAt) || nowMs;
+  if (nowMs < started) return BATTLE_MAX_MS;
   return Math.max(0, BATTLE_MAX_MS - (nowMs - started));
 }
 
 export function turnIdleRemainingMs(battle: BattleState, nowMs = Date.now()): number {
   const started = Date.parse(battle.turnStartedAt ?? battle.startedAt) || nowMs;
+  if (nowMs < started) return TURN_IDLE_MS;
   return Math.max(0, TURN_IDLE_MS - (nowMs - started));
 }
 
@@ -931,6 +997,9 @@ export function tickBattleTimers(
 ): { world: PartyWorldSave; message?: string } {
   const battle = world.battle;
   if (!battle || battle.status !== "active") return { world };
+
+  // Freeze both sides during the opening countdown.
+  if (isBattleIntroActive(battle, nowMs)) return { world };
 
   if (battleRemainingMs(battle, nowMs) <= 0) {
     const next = finishDefeat(

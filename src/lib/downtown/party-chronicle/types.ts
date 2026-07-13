@@ -239,6 +239,16 @@ export type BattleEnemyState = {
   };
 };
 
+/** Punchy combat number for the battle overlay (damage / heal floaters). */
+export type BattleFxEvent = {
+  id: string;
+  kind: "damage" | "heal";
+  amount: number;
+  /** `"enemy"` or a hero combatant id. */
+  target: string;
+  at: string;
+};
+
 export type BattleState = {
   id: string;
   status: "active" | "victory" | "defeat";
@@ -262,6 +272,13 @@ export type BattleState = {
   startedAt: string;
   /** When the current combatant's turn began (idle auto-act). */
   turnStartedAt?: string;
+  /**
+   * ISO time when the 3-2-1 intro ends and combat clocks / input unlock.
+   * Absent on legacy battles (intro skipped).
+   */
+  introEndsAt?: string;
+  /** Recent damage/heal pulses for floating combat numbers. */
+  fxEvents?: BattleFxEvent[];
 };
 
 export type DogCompanion = {
