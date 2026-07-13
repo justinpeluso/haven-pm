@@ -1336,26 +1336,106 @@
 .party-rpg90s .pc-battle-turn,
 .party-chronicle .pc-battle-turn {
   font-family: var(--pc-hud);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--pc-accent);
-  margin: 0.35rem 0 0.65rem;
+  margin: 0.2rem 0 0.35rem;
+}
+
+.party-comic .pc-battle-chrome,
+.party-rpg90s .pc-battle-chrome,
+.party-chronicle .pc-battle-chrome {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.15rem 0 0.25rem;
 }
 
 .party-comic .pc-battle-actions,
 .party-rpg90s .pc-battle-actions,
 .party-chronicle .pc-battle-actions {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 0.45rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.party-comic .pc-battle-chip,
+.party-rpg90s .pc-battle-chip,
+.party-chronicle .pc-battle-chip {
+  margin: 0;
+  padding: 0.28rem 0.55rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  box-shadow: 2px 2px 0 var(--pc-border);
+  border-width: 2px;
+  gap: 0.25rem;
+  min-height: 1.85rem;
+}
+
+.party-comic .pc-battle-chip-meta,
+.party-rpg90s .pc-battle-chip-meta,
+.party-chronicle .pc-battle-chip-meta {
+  font-size: 0.58rem;
+  letter-spacing: 0.02em;
+  opacity: 0.78;
+  font-weight: 700;
+  text-transform: none;
+}
+
+.party-comic .pc-battle-picker,
+.party-rpg90s .pc-battle-picker,
+.party-chronicle .pc-battle-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.28rem;
+  align-items: center;
+  max-height: 5.5rem;
+  overflow: auto;
+  padding: 0.35rem 0.4rem;
+  border: 2px dashed var(--pc-kraft-dark);
+  background:
+    linear-gradient(180deg, rgba(255, 250, 240, 0.92), rgba(232, 240, 228, 0.88)),
+    var(--pc-paper);
+  box-shadow: inset 0 0 0 1px rgba(10, 14, 20, 0.06);
 }
 
 .party-comic .pc-battle-action,
 .party-rpg90s .pc-battle-action,
 .party-chronicle .pc-battle-action {
   margin: 0;
+}
+
+.party-comic .pc-battle-action--confirm,
+.party-rpg90s .pc-battle-action--confirm,
+.party-chronicle .pc-battle-action--confirm {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.05rem;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.72rem;
+  line-height: 1.15;
+}
+
+.party-comic .pc-battle-action--confirm span,
+.party-rpg90s .pc-battle-action--confirm span,
+.party-chronicle .pc-battle-action--confirm span {
+  font-size: 0.58rem;
+  opacity: 0.72;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.party-comic .pc-battle-target-hint,
+.party-rpg90s .pc-battle-target-hint,
+.party-chronicle .pc-battle-target-hint {
+  margin: 0;
+  font-size: 0.65rem;
+  text-align: center;
+  opacity: 0.8;
 }
 
 .party-comic .pc-battle-spell-row,
@@ -1367,11 +1447,11 @@
 .party-comic .pc-battle-log,
 .party-rpg90s .pc-battle-log,
 .party-chronicle .pc-battle-log {
-  margin-top: 0.85rem;
-  padding-top: 0.65rem;
+  margin-top: 0.45rem;
+  padding-top: 0.4rem;
   border-top: 2px dashed var(--pc-kraft-dark);
-  font-size: 0.78rem;
-  max-height: 7rem;
+  font-size: 0.72rem;
+  max-height: 4.5rem;
   overflow: auto;
 }
 
@@ -1484,9 +1564,9 @@
 .party-chronicle .pc-battle-tactical-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(140px, 200px);
-  gap: 0.75rem;
+  gap: 0.65rem;
   align-items: start;
-  margin: 0.65rem 0 0.4rem;
+  margin: 0.4rem 0 0.25rem;
 }
 
 .party-comic .pc-tactical-board,
@@ -2295,10 +2375,10 @@
 .party-chronicle .pc-confirm-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.35rem;
   align-items: center;
-  justify-content: center;
-  margin: 0.35rem 0 0.15rem;
+  justify-content: flex-start;
+  margin: 0.2rem 0 0.1rem;
 }
 
 .party-comic .pc-battle-coach,
@@ -2453,6 +2533,9 @@
 .party-comic .pc-battle-frame[data-intro="true"] .pc-battle-actions,
 .party-rpg90s .pc-battle-frame[data-intro="true"] .pc-battle-actions,
 .party-chronicle .pc-battle-frame[data-intro="true"] .pc-battle-actions,
+.party-comic .pc-battle-frame[data-intro="true"] .pc-battle-chrome,
+.party-rpg90s .pc-battle-frame[data-intro="true"] .pc-battle-chrome,
+.party-chronicle .pc-battle-frame[data-intro="true"] .pc-battle-chrome,
 .party-comic .pc-battle-frame[data-intro="true"] .pc-battle-spell-row,
 .party-rpg90s .pc-battle-frame[data-intro="true"] .pc-battle-spell-row,
 .party-chronicle .pc-battle-frame[data-intro="true"] .pc-battle-spell-row {

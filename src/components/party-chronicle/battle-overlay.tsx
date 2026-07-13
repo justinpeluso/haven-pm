@@ -777,6 +777,7 @@ export function BattleOverlay({
   const [boardVfx, setBoardVfx] = useState<BoardVfx[]>([]);
   const [targeting, setTargeting] = useState<TargetingMode>(null);
   const [pendingConfirm, setPendingConfirm] = useState<PendingConfirm>(null);
+  const [actionTray, setActionTray] = useState<"eat" | "spell" | "potion" | null>(null);
   const [inspectId, setInspectId] = useState<string | null>(null);
   const [shake, setShake] = useState(false);
   const [enemyBanner, setEnemyBanner] = useState(false);
@@ -962,6 +963,7 @@ export function BattleOverlay({
     if (prevActive.current && prevActive.current !== battle.activeId) {
       setTargeting(null);
       setPendingConfirm(null);
+      setActionTray(null);
     }
     prevActive.current = battle.activeId;
   }, [battle?.activeId, battle?.status]);
@@ -1129,8 +1131,13 @@ export function BattleOverlay({
     setPendingConfirm(null);
   };
 
+  const toggleActionTray = (tray: "eat" | "spell" | "potion") => {
+    setActionTray((cur) => (cur === tray ? null : tray));
+  };
+
   const beginAttackTargeting = () => {
     if (!foeInRange) return;
+    setActionTray(null);
     setPendingConfirm(null);
     setTargeting({ kind: "attack" });
     dismissHint();
@@ -1141,6 +1148,7 @@ export function BattleOverlay({
     if (!ab) return;
     const role = battleAbilityRole(ab);
     setPendingConfirm(null);
+    setActionTray("spell");
     if (role === "heal" || role === "buff") {
       setTargeting({ kind: "spell-support", spellId, role });
     } else {
@@ -1444,75 +1452,119 @@ export function BattleOverlay({
           <div className="pc-confirm-bar">
             <button
               type="button"
-              className="pc-choice pc-battle-action"
+              className="pc-choice pc-battle-action pc-battle-action--confirm"
               disabled={pending}
               onClick={confirmPending}
             >
               <strong>{pendingConfirm.label}</strong>
-              <span className="block text-[0.65rem] opacity-70">Tap to confirm</span>
+              <span>Confirm</span>
             </button>
-            <button type="button" className="pc-chip" disabled={pending} onClick={clearTargeting}>
+            <button type="button" className="pc-chip pc-battle-chip" disabled={pending} onClick={clearTargeting}>
               Cancel
             </button>
           </div>
         ) : null}
 
-        <div className="pc-battle-actions">
-          <button
-            type="button"
-            className="pc-choice pc-battle-action"
-            disabled={!isMyTurn || pending || !foeInRange}
-            data-armed={targeting?.kind === "attack" ? "true" : "false"}
-            title={
-              !foeInRange
-                ? "Out of range — move closer first"
-                : phase === "move"
-                  ? "Attack ends your move — pick a foe"
-                  : "Pick a foe to strike"
-            }
-            onClick={beginAttackTargeting}
-          >
-            <strong>{isPetTurn ? "Bite" : "Attack"}</strong>
-            <span className="block text-[0.65rem] opacity-70">
-              {foeInRange ? "Choose a foe" : "Out of range"}
-            </span>
-          </button>
-          {!isPetTurn ? (
-          <button
-            type="button"
-            className="pc-choice pc-battle-action"
-            disabled={!isMyTurn || pending}
-            title="+25% damage for 3 turns"
-            onClick={() => {
-              clearTargeting();
-              onAction("powerUp");
-            }}
-          >
-            <strong>Power Up</strong>
-            <span className="block text-[0.65rem] opacity-70">+25% dmg, 3 turns</span>
-          </button>
-          ) : null}
-          <button
-            type="button"
-            className="pc-choice pc-battle-action"
-            disabled={!isMyTurn || pending}
-            title={phase === "move" ? "Skip movement" : "End turn"}
-            onClick={() => {
-              clearTargeting();
-              onAction("wait");
-            }}
-          >
-            <strong>Wait</strong>
-            <span className="block text-[0.65rem] opacity-70">
-              {phase === "move" ? "Skip move → act" : "End turn"}
-            </span>
-          </button>
-        </div>
+        <div className="pc-battle-chrome">
+          <div className="pc-battle-actions" role="toolbar" aria-label="Battle actions">
+            <button
+              type="button"
+              className="pc-chip pc-battle-chip"
+              disabled={!isMyTurn || pending || !foeInRange}
+              data-armed={targeting?.kind === "attack" ? "true" : "false"}
+              title={
+                !foeInRange
+                  ? "Out of range — move closer first"
+                  : phase === "move"
+                    ? "Attack ends your move — pick a foe"
+                    : "Pick a foe to strike"
+              }
+              onClick={beginAttackTargeting}
+            >
+              {isPetTurn ? "Bite" : "Attack"}
+            </button>
+            {!isPetTurn ? (
+              <button
+                type="button"
+                className="pc-chip pc-battle-chip"
+                disabled={!isMyTurn || pending}
+                title="+25% damage for 3 turns"
+                onClick={() => {
+                  clearTargeting();
+                  setActionTray(null);
+                  onAction("powerUp");
+                }}
+              >
+                Power Up
+              </button>
+            ) : null}
+            <button
+              type="button"
+              className="pc-chip pc-battle-chip"
+              disabled={!isMyTurn || pending}
+              title={phase === "move" ? "Skip movement" : "End turn"}
+              onClick={() => {
+                clearTargeting();
+                setActionTray(null);
+                onAction("wait");
+              }}
+            >
+              Wait
+            </button>
+            {isMyTurn && !isPetTurn && foods.length > 0 ? (
+              <button
+                type="button"
+                className="pc-chip pc-battle-chip"
+                disabled={pending}
+                data-active={actionTray === "eat" ? "true" : "false"}
+                title="Eat food to heal"
+                onClick={() => {
+                  clearTargeting();
+                  toggleActionTray("eat");
+                }}
+              >
+                Eat{foods.length > 1 ? ` (${foods.length})` : ""}
+              </button>
+            ) : null}
+            {isMyTurn && !isPetTurn && spells.length > 0 ? (
+              <button
+                type="button"
+                className="pc-chip pc-battle-chip"
+                disabled={pending}
+                data-active={actionTray === "spell" ? "true" : "false"}
+                data-armed={
+                  targeting?.kind === "spell-damage" || targeting?.kind === "spell-support"
+                    ? "true"
+                    : "false"
+                }
+                title="Open spell list"
+                onClick={() => toggleActionTray("spell")}
+              >
+                Spell{spells.length > 1 ? ` (${spells.length})` : ""}
+              </button>
+            ) : null}
+            {isMyTurn && !isPetTurn && (hpPots.length > 0 || manaPots.length > 0) ? (
+              <button
+                type="button"
+                className="pc-chip pc-battle-chip"
+                disabled={pending}
+                data-active={actionTray === "potion" ? "true" : "false"}
+                title="Drink potions"
+                onClick={() => {
+                  clearTargeting();
+                  toggleActionTray("potion");
+                }}
+              >
+                Potions
+                {hpPots.length + manaPots.length > 1
+                  ? ` (${hpPots.length + manaPots.length})`
+                  : ""}
+              </button>
+            ) : null}
+          </div>
 
-        {isMyTurn && !isPetTurn && foods.length > 0 && (
-          <div className="pc-battle-spell-row">
-            <p className="pc-eyebrow text-[0.65rem]">Eat</p>
-            <div className="flex flex-wrap gap-2">
+          {isMyTurn && !isPetTurn && actionTray === "eat" && foods.length > 0 ? (
+            <div className="pc-battle-picker" role="listbox" aria-label="Food">
               {countIds(foods).map(({ id, count }) => {
                 const gear = getGear(id);
                 const heal = gear?.heal ?? 8;
@@ -1520,86 +1572,27 @@ export function BattleOverlay({
                   <button
                     key={id}
                     type="button"
-                    className="pc-chip"
-                    disabled={!isMyTurn || pending}
+                    className="pc-chip pc-battle-chip"
+                    role="option"
+                    disabled={pending}
                     title={`Eat ${itemLabel(id)} (+${heal} HP)`}
                     onClick={() => {
                       clearTargeting();
+                      setActionTray(null);
                       onAction("eat", { itemId: id });
                     }}
                   >
                     {itemLabel(id)}
                     {count > 1 ? ` ×${count}` : ""}
-                    {` (+${heal} HP)`}
+                    <span className="pc-battle-chip-meta">+{heal}</span>
                   </button>
                 );
               })}
             </div>
-          </div>
-        )}
+          ) : null}
 
-        {isMyTurn && !isPetTurn && hpPots.length > 0 && (
-          <div className="pc-battle-spell-row">
-            <p className="pc-eyebrow text-[0.65rem]">HP potions</p>
-            <div className="flex flex-wrap gap-2">
-              {countIds(hpPots).map(({ id, count }) => {
-                const gear = getGear(id);
-                const heal = gear?.heal ?? 25;
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    className="pc-chip"
-                    disabled={!isMyTurn || pending}
-                    title={`Drink ${itemLabel(id)} (+${heal} HP)`}
-                    onClick={() => {
-                      clearTargeting();
-                      onAction("drinkHp", { itemId: id });
-                    }}
-                  >
-                    {itemLabel(id)}
-                    {count > 1 ? ` ×${count}` : ""}
-                    {` (+${heal} HP)`}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {isMyTurn && !isPetTurn && manaPots.length > 0 && (
-          <div className="pc-battle-spell-row">
-            <p className="pc-eyebrow text-[0.65rem]">Mana potions</p>
-            <div className="flex flex-wrap gap-2">
-              {countIds(manaPots).map(({ id, count }) => {
-                const gear = getGear(id);
-                const restore = gear?.manaRestore ?? 20;
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    className="pc-chip"
-                    disabled={!isMyTurn || pending}
-                    title={`Drink ${itemLabel(id)} (+${restore} Mana)`}
-                    onClick={() => {
-                      clearTargeting();
-                      onAction("drinkMana", { itemId: id });
-                    }}
-                  >
-                    {itemLabel(id)}
-                    {count > 1 ? ` ×${count}` : ""}
-                    {` (+${restore} MP)`}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {isMyTurn && !isPetTurn && spells.length > 0 && (
-          <div className="pc-battle-spell-row">
-            <p className="pc-eyebrow text-[0.65rem]">Spells</p>
-            <div className="flex flex-wrap gap-2">
+          {isMyTurn && !isPetTurn && actionTray === "spell" && spells.length > 0 ? (
+            <div className="pc-battle-picker" role="listbox" aria-label="Spells">
               {spells.map((id) => {
                 const ab = getAbility(id) ?? getSpellbookAbility(id);
                 const cost = ab?.cost?.mana ?? 0;
@@ -1612,9 +1605,10 @@ export function BattleOverlay({
                   <button
                     key={id}
                     type="button"
-                    className="pc-chip"
+                    className="pc-chip pc-battle-chip"
+                    role="option"
                     data-armed={armed ? "true" : "false"}
-                    disabled={!isMyTurn || pending || !canCast}
+                    disabled={pending || !canCast}
                     title={
                       !canCast
                         ? "Not enough mana"
@@ -1625,30 +1619,81 @@ export function BattleOverlay({
                     onClick={() => beginSpellTargeting(id)}
                   >
                     {ab?.name ?? id}
-                    {cost ? ` (${cost} MP)` : ""}
-                    {ab && isBattleSupportAbility(ab)
-                      ? " · ally"
-                      : ab && isBattleDamageAbility(ab)
-                        ? " · foe"
-                        : ""}
+                    {cost ? <span className="pc-battle-chip-meta">{cost} MP</span> : null}
+                    {ab && isBattleSupportAbility(ab) ? (
+                      <span className="pc-battle-chip-meta">ally</span>
+                    ) : ab && isBattleDamageAbility(ab) ? (
+                      <span className="pc-battle-chip-meta">foe</span>
+                    ) : null}
                   </button>
                 );
               })}
             </div>
-          </div>
-        )}
+          ) : null}
 
-        {targeting ? (
-          <p className="text-[0.7rem] text-center mt-1 opacity-80">
-            Targeting mode —{" "}
-            <button type="button" className="underline" onClick={clearTargeting}>
-              cancel
-            </button>
-          </p>
-        ) : null}
+          {isMyTurn && !isPetTurn && actionTray === "potion" && (hpPots.length > 0 || manaPots.length > 0) ? (
+            <div className="pc-battle-picker" role="listbox" aria-label="Potions">
+              {countIds(hpPots).map(({ id, count }) => {
+                const gear = getGear(id);
+                const heal = gear?.heal ?? 25;
+                return (
+                  <button
+                    key={`hp-${id}`}
+                    type="button"
+                    className="pc-chip pc-battle-chip"
+                    role="option"
+                    disabled={pending}
+                    title={`Drink ${itemLabel(id)} (+${heal} HP)`}
+                    onClick={() => {
+                      clearTargeting();
+                      setActionTray(null);
+                      onAction("drinkHp", { itemId: id });
+                    }}
+                  >
+                    {itemLabel(id)}
+                    {count > 1 ? ` ×${count}` : ""}
+                    <span className="pc-battle-chip-meta">+{heal} HP</span>
+                  </button>
+                );
+              })}
+              {countIds(manaPots).map(({ id, count }) => {
+                const gear = getGear(id);
+                const restore = gear?.manaRestore ?? 20;
+                return (
+                  <button
+                    key={`mp-${id}`}
+                    type="button"
+                    className="pc-chip pc-battle-chip"
+                    role="option"
+                    disabled={pending}
+                    title={`Drink ${itemLabel(id)} (+${restore} Mana)`}
+                    onClick={() => {
+                      clearTargeting();
+                      setActionTray(null);
+                      onAction("drinkMana", { itemId: id });
+                    }}
+                  >
+                    {itemLabel(id)}
+                    {count > 1 ? ` ×${count}` : ""}
+                    <span className="pc-battle-chip-meta">+{restore} MP</span>
+                  </button>
+                );
+              })}
+            </div>
+          ) : null}
+
+          {targeting ? (
+            <p className="pc-battle-target-hint">
+              Targeting —{" "}
+              <button type="button" className="underline" onClick={clearTargeting}>
+                cancel
+              </button>
+            </p>
+          ) : null}
+        </div>
 
         <div className="pc-battle-log">
-          {battle.log.slice(0, 6).map((line, i) => (
+          {battle.log.slice(0, 4).map((line, i) => (
             <p key={`${i}-${line.slice(0, 16)}`} style={{ opacity: i === 0 ? 1 : 0.65 }}>
               {line}
             </p>
