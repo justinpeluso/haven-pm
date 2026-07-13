@@ -279,8 +279,12 @@ export function advanceSideQuest(
   slot: PlayerSlot
 ): { world: PartyWorldSave; message: string } {
   if (world.activeSlot !== slot) return { world, message: "Not your turn." };
-  let q = world.activeSideQuest;
-  if (!q || q.status !== "active") return { world, message: "No active side quest." };
+  const activeQuest = world.activeSideQuest;
+  if (!activeQuest || activeQuest.status !== "active") {
+    return { world, message: "No active side quest." };
+  }
+  // Narrowed copy: `let` keeps ActiveSideQuest so map callbacks don't lose null-checks.
+  let q: ActiveSideQuest = activeQuest;
 
   if (questRemainingMs(q) <= 0) {
     const failed = failQuestTimeout(world);
