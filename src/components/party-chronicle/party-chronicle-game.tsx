@@ -39,6 +39,8 @@ import {
 } from "@/lib/downtown/party-chronicle/battle";
 import {
   availableSideQuests,
+  buyFromCampMerchant,
+  campMerchantStock,
   campSleepsRemaining,
   CAMP_SLEEP_MAX,
   CAMP_SLEEP_WINDOW_MS,
@@ -815,6 +817,13 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     setFlash(result.message);
   };
 
+  const onBuyMerchant = (itemId: string) => {
+    if (!world || !mySlot || !acting) return;
+    const result = buyFromCampMerchant(world, mySlot, itemId, { isDm: identity.isDm });
+    persist(result.world);
+    setFlash(result.message);
+  };
+
   const onSideQuest = (questId: string) => {
     if (!world || !mySlot || !acting) return;
     const result = startSideQuest(world, mySlot, questId, { isDm: identity.isDm });
@@ -1285,6 +1294,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
             {" · "}
             Story {Math.floor(storySecs / 60)}:{String(storySecs % 60).padStart(2, "0")}
             {!inBattle ? ` · Next ambush ~${untilBattle}s` : " · In battle"}
+            {me ? ` · ${me.gold}g` : ""}
           </p>
           <div className="pc-main-progress mt-2" aria-label="Main quest progress">
             <div className="pc-main-progress-meta">
@@ -1303,6 +1313,11 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           </div>
         </div>
         <div className="flex flex-wrap gap-2 items-center">
+          {me && (
+            <span className="pc-chip" aria-label="Gold" title="Your gold">
+              {me.gold}g
+            </span>
+          )}
           <button
             type="button"
             className="pc-chip"
@@ -1601,6 +1616,39 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
 
               <div className="space-y-2">
                 <p className="pc-eyebrow text-[0.65rem]">
+                  Camp merchant · your purse {me?.gold ?? 0}g
+                </p>
+                <p className="text-xs opacity-70">
+                  A traveling peddler — potions, rations, and a few weapons for coin.
+                </p>
+                <div className="space-y-2">
+                  {campMerchantStock().map((offer) => (
+                    <button
+                      key={offer.itemId}
+                      type="button"
+                      className="pc-choice block w-full text-left"
+                      disabled={
+                        !acting ||
+                        inRoadFight ||
+                        battleActive ||
+                        inStoryFight ||
+                        (me?.gold ?? 0) < offer.price
+                      }
+                      onClick={() => onBuyMerchant(offer.itemId)}
+                    >
+                      <strong>
+                        {offer.name} — {offer.price}g
+                      </strong>
+                      <span className="block text-[0.65rem] opacity-70">
+                        {offer.tier} · {offer.blurb}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <p className="pc-eyebrow text-[0.65rem]">
                   Road battle · Bestiary {bestiary.creatures}+{bestiary.bosses} bosses
                 </p>
                 {inBattle ? (
@@ -1813,6 +1861,9 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                 tone="stamina"
               />
               <Meter label="Mana" value={activeChar.mana} max={activeChar.maxMana} tone="mana" />
+              <p className="text-sm font-bold mt-1" style={{ color: "var(--pc-accent)" }}>
+                Gold {activeChar.gold}g
+              </p>
               <p className="pc-eyebrow text-[0.65rem] pt-2">Hotbar ({HOTBAR_SIZE})</p>
               <div className="pc-hotbar">
                 {hotbarView.map((slot) => (

@@ -4,6 +4,7 @@
  */
 
 import { rollEncounter } from "./encounters";
+import { getGear } from "./gear";
 import { levelFromXp, skillPointsForLevelGain } from "./progression";
 import { startSideQuest } from "./quest-run";
 import { getRecipe, recipesForAct, type RecipeDef } from "./recipes";
@@ -337,6 +338,92 @@ export function sleepAtCamp(
       ...world,
       characters: { ...world.characters, [slot]: char },
       campSleeps,
+      log: [message, ...world.log].slice(0, 80),
+    }),
+    message,
+  };
+}
+
+export type CampMerchantOffer = {
+  itemId: string;
+  name: string;
+  blurb: string;
+  price: number;
+  tier: string;
+};
+
+const MERCHANT_STOCK: { itemId: string; price: number }[] = [
+  { itemId: "trail-rations", price: 6 },
+  { itemId: "healing-potion", price: 18 },
+  { itemId: "mana-draught", price: 22 },
+  { itemId: "hound-treat", price: 8 },
+  { itemId: "greater-mana", price: 55 },
+  { itemId: "bronze-dagger", price: 28 },
+  { itemId: "iron-sword", price: 35 },
+  { itemId: "oak-staff", price: 32 },
+];
+
+/** Camp traveling merchant — fixed prices, curated stock. */
+export function campMerchantStock(): CampMerchantOffer[] {
+  return MERCHANT_STOCK.map((row) => {
+    const gear = getGear(row.itemId);
+    return {
+      itemId: row.itemId,
+      name: gear?.name ?? row.itemId,
+      blurb: gear?.blurb ?? "Trail goods.",
+      price: row.price,
+      tier: gear?.tier ?? "common",
+    };
+  });
+}
+
+/** Buy one item from the Camp merchant with the acting hero's gold. */
+export function buyFromCampMerchant(
+  world: PartyWorldSave,
+  slot: PlayerSlot,
+  itemId: string,
+  opts?: { isDm?: boolean }
+): { world: PartyWorldSave; message: string } {
+  if (world.activeSlot !== slot && !opts?.isDm) {
+    return { world, message: "Not your turn." };
+  }
+  if (world.endingId) return { world, message: "Chronicle already closed." };
+  if (world.battle?.status === "active") {
+    return { world, message: "Finish the battle first." };
+  }
+
+  const offer = campMerchantStock().find((o) => o.itemId === itemId);
+  if (!offer) return { world, message: "The merchant doesn't sell that." };
+
+  const buyer = world.characters[slot];
+  if (!buyer?.created) return { world, message: "Seal your hero first." };
+  if (buyer.gold < offer.price) {
+    return { world, message: `Need ${offer.price}g — you have ${buyer.gold}g.` };
+  }
+  if (buyer.inventory.includes(itemId) && offer.tier !== "common") {
+    // Allow duplicate consumables; block duplicate unique-ish gear
+    const gear = getGear(itemId);
+    if (gear && gear.slot !== "consumable") {
+      return { world, message: `You already carry ${offer.name}.` };
+    }
+  }
+
+  const inventory = [...buyer.inventory];
+  if (!inventory.includes(itemId) || getGear(itemId)?.slot === "consumable") {
+    inventory.push(itemId);
+  }
+
+  const char: CharacterSave = {
+    ...buyer,
+    gold: buyer.gold - offer.price,
+    inventory,
+  };
+  const message = `${char.name} buys ${offer.name} for ${offer.price}g (${char.gold}g left).`;
+
+  return {
+    world: advanceTurn({
+      ...world,
+      characters: { ...world.characters, [slot]: char },
       log: [message, ...world.log].slice(0, 80),
     }),
     message,
