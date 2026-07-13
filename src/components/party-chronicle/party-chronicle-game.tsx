@@ -173,19 +173,89 @@ function portraitSrc(node: { artId?: string; sceneId?: string } | null) {
   return comicArtSrc(node.artId);
 }
 
-function JourneyMinimap({ world }: { world: PartyWorldSave }) {
+function shortMapLabel(title: string): string {
+  const compact = title.replace(/^(the|a|an)\s+/i, "").trim();
+  return compact.length > 15 ? `${compact.slice(0, 14).trimEnd()}…` : compact;
+}
+
+function JourneyMinimap({
+  world,
+  sideQuest,
+  focusSideQuest,
+}: {
+  world: PartyWorldSave;
+  sideQuest?: {
+    questId: string;
+    title: string;
+    sceneId?: string;
+  } | null;
+  focusSideQuest?: boolean;
+}) {
   const { stops, here } = journeyTrail(world);
   const progress = campaignProgressReport(world);
-  const points = stops.map((s) => `${s.x},${s.y}`).join(" ");
+  const focusingSide = Boolean(focusSideQuest && sideQuest);
+
+  const questStop = focusingSide
+    ? (() => {
+        const byScene = sideQuest!.sceneId
+          ? stops.find((s) => s.sceneId === sideQuest!.sceneId)
+          : undefined;
+        if (byScene) {
+          return {
+            ...byScene,
+            title: sideQuest!.title,
+            short: shortMapLabel(sideQuest!.title),
+            state: "here" as const,
+          };
+        }
+        const anchor = here ?? stops[0];
+        return {
+          chapterId: `side:${sideQuest!.questId}`,
+          chapter: anchor?.chapter ?? 0,
+          title: sideQuest!.title,
+          short: shortMapLabel(sideQuest!.title),
+          sceneId: sideQuest!.sceneId ?? anchor?.sceneId ?? "scene-frostford-gate",
+          x: Math.min(92, (anchor?.x ?? 50) + 10),
+          y: Math.max(10, (anchor?.y ?? 50) - 10),
+          state: "here" as const,
+        };
+      })()
+    : null;
+
+  const mapStops = focusingSide
+    ? [
+        ...stops.map((s) =>
+          s.state === "here" ? { ...s, state: "visited" as const } : s
+        ),
+        ...(questStop ? [questStop] : []),
+      ]
+    : stops;
+  const points = mapStops.map((s) => `${s.x},${s.y}`).join(" ");
+
   return (
     <div className="pc-panel p-3 space-y-2">
       <div className="flex items-end justify-between gap-2">
-        <p className="pc-eyebrow text-[0.65rem]">Realm map</p>
+        <p className="pc-eyebrow text-[0.65rem]">
+          {focusingSide ? "Side trail map" : "Realm map"} · {progress.percent}%
+        </p>
         <p className="text-[0.65rem] font-bold" style={{ color: "var(--pc-accent)" }}>
-          {here ? `Here: ${here.short}` : "Charting…"} · {progress.percent}%
+          {focusingSide && questStop
+            ? `Here: ${questStop.short}`
+            : here
+              ? `Here: ${here.short}`
+              : "Charting…"}
         </p>
       </div>
-      <div className="pc-journey-map" aria-label="Journey minimap">
+      {focusingSide && here ? (
+        <p className="text-[0.65rem] opacity-80">
+          Side quest: {sideQuest!.title} · Main spine: {here.short}
+        </p>
+      ) : (
+        <p className="text-[0.65rem] opacity-80">
+          {progress.label} · beat {progress.nodeIndex}/{progress.nodeTotal}
+        </p>
+      )}
+      <div className="pc-journey-map" aria-label={focusingSide ? "Side trail map" : "Journey minimap"}>
         <svg viewBox="0 0 100 100" className="pc-journey-svg" role="img">
           <defs>
             <linearGradient id="journeyTrail" x1="0" y1="0" x2="1" y2="1">
@@ -194,7 +264,6 @@ function JourneyMinimap({ world }: { world: PartyWorldSave }) {
             </linearGradient>
           </defs>
           <rect width="100" height="100" rx="2" fill="#0a1410" />
-          {/* soft hills */}
           <path d="M0 70 Q25 55 50 68 T100 60 L100 100 L0 100Z" fill="#163828" opacity="0.9" />
           <path d="M0 82 Q40 72 70 80 T100 75 L100 100 L0 100Z" fill="#1a4030" opacity="0.8" />
           <polyline
@@ -206,7 +275,7 @@ function JourneyMinimap({ world }: { world: PartyWorldSave }) {
             strokeLinejoin="round"
             opacity="0.85"
           />
-          {stops.map((s) => (
+          {mapStops.map((s) => (
             <g key={s.chapterId}>
               <circle
                 cx={s.x}
@@ -221,12 +290,14 @@ function JourneyMinimap({ world }: { world: PartyWorldSave }) {
           ))}
         </svg>
         <ol className="pc-journey-legend">
-          {stops.map((s) => (
+          {mapStops.map((s) => (
             <li key={s.chapterId} data-state={s.state}>
               <span className="pc-journey-dot" />
               <span>
-                {s.chapter}. {s.short}
-                {s.state === "here" ? " ← you" : s.state === "visited" ? "" : ""}
+                {focusingSide && s.chapterId.startsWith("side:")
+                  ? `Side · ${s.short}`
+                  : `${s.chapter}. ${s.short}`}
+                {s.state === "here" ? " ← you" : ""}
               </span>
             </li>
           ))}
@@ -1347,7 +1418,19 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                 <p className="pc-scene-caption">{storyNode.title}</p>
               </div>
 
-              <JourneyMinimap world={world} />
+              <JourneyMinimap
+                world={world}
+                sideQuest={
+                  world.activeSideQuest
+                    ? {
+                        questId: world.activeSideQuest.questId,
+                        title: world.activeSideQuest.title,
+                        sceneId: world.activeSideQuest.sceneId,
+                      }
+                    : null
+                }
+                focusSideQuest={questRunActive && questPanelOpen}
+              />
 
               {storyNode.kind === "conversation" && storyNode.balloon ? (
                 <div

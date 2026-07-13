@@ -1153,6 +1153,23 @@
     linear-gradient(180deg, rgba(255, 250, 240, 0.97), rgba(232, 240, 228, 0.96)),
     var(--pc-paper);
   box-shadow: 8px 10px 0 rgba(0, 0, 0, 0.45);
+  color: var(--pc-ink);
+}
+
+.party-comic .pc-battle-frame .pc-title,
+.party-rpg90s .pc-battle-frame .pc-title,
+.party-chronicle .pc-battle-frame .pc-title,
+.party-comic .pc-battle-frame .pc-eyebrow,
+.party-rpg90s .pc-battle-frame .pc-eyebrow,
+.party-chronicle .pc-battle-frame .pc-eyebrow,
+.party-comic .pc-battle-summary,
+.party-rpg90s .pc-battle-summary,
+.party-chronicle .pc-battle-summary,
+.party-comic .pc-battle-summary p,
+.party-rpg90s .pc-battle-summary p,
+.party-chronicle .pc-battle-summary p {
+  color: var(--pc-ink);
+  text-shadow: none;
 }
 
 .party-comic .pc-battle-stage,
@@ -1266,7 +1283,8 @@
   gap: 0.15rem;
   padding: 0.55rem 0.65rem;
   border: 2px solid var(--pc-border);
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--pc-ink);
   font-family: var(--pc-hud);
 }
 
@@ -1276,7 +1294,16 @@
   font-size: 0.62rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  opacity: 0.7;
+  opacity: 0.75;
+  color: var(--pc-ink);
+}
+
+.party-comic .pc-battle-stats span,
+.party-rpg90s .pc-battle-stats span,
+.party-chronicle .pc-battle-stats span {
+  color: var(--pc-ink);
+  font-size: 1rem;
+  font-weight: 800;
 }
 
 .party-comic .pc-battle-loot,
@@ -1298,7 +1325,8 @@
   gap: 0.75rem;
   padding: 0.4rem 0.55rem;
   border: 2px solid var(--pc-border);
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--pc-ink);
   font-size: 0.85rem;
   font-weight: 700;
 }
