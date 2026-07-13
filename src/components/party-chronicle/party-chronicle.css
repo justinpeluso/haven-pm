@@ -2502,6 +2502,85 @@
   opacity: 0.8;
 }
 
+/* ——— Camp merchant purchase floater (battle-damage comic pop) ——— */
+.party-comic .pc-merchant,
+.party-rpg90s .pc-merchant,
+.party-chronicle .pc-merchant {
+  position: relative;
+}
+
+.party-comic .pc-merchant-sold,
+.party-rpg90s .pc-merchant-sold,
+.party-chronicle .pc-merchant-sold {
+  position: absolute;
+  z-index: 6;
+  top: 0.35rem;
+  right: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.12rem;
+  pointer-events: none;
+  transform: skewX(-8deg);
+  animation: pc-merchant-sold-pop 2s cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
+}
+
+.party-comic .pc-merchant-sold-label,
+.party-rpg90s .pc-merchant-sold-label,
+.party-chronicle .pc-merchant-sold-label {
+  font-family: var(--pc-display);
+  font-size: 1.65rem;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  color: var(--pc-accent);
+  text-shadow:
+    2px 2px 0 var(--pc-border),
+    -1px 0 0 rgba(0, 0, 0, 0.55);
+}
+
+.party-comic .pc-merchant-sold-spend,
+.party-rpg90s .pc-merchant-sold-spend,
+.party-chronicle .pc-merchant-sold-spend {
+  font-family: var(--pc-display);
+  font-size: 1.45rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #c23028;
+  text-shadow:
+    2px 2px 0 var(--pc-border),
+    -1px 0 0 #7a120c;
+}
+
+.party-comic .pc-merchant-sold-purse,
+.party-rpg90s .pc-merchant-sold-purse,
+.party-chronicle .pc-merchant-sold-purse {
+  font-family: var(--pc-hud);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--pc-kraft-light);
+  text-shadow: 1px 1px 0 var(--pc-border);
+}
+
+@keyframes pc-merchant-sold-pop {
+  0% {
+    opacity: 0;
+    transform: skewX(-8deg) translateY(10px) scale(0.72);
+  }
+  12% {
+    opacity: 1;
+    transform: skewX(-8deg) translateY(0) scale(1.12);
+  }
+  55% {
+    opacity: 1;
+    transform: skewX(-8deg) translateY(-22px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: skewX(-8deg) translateY(-48px) scale(0.92);
+  }
+}
+
 .party-comic .pc-main-quest-card,
 .party-rpg90s .pc-main-quest-card,
 .party-chronicle .pc-main-quest-card {

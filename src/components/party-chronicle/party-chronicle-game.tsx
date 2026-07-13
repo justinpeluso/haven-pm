@@ -329,6 +329,12 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   /** Side quest stays on the save; panel can park so the party returns to the main spine. */
   const [questPanelOpen, setQuestPanelOpen] = useState(true);
   const [flash, setFlash] = useState<string | null>(null);
+  /** Comic pop when the Camp merchant sale goes through — replace on each buy. */
+  const [merchantSold, setMerchantSold] = useState<{
+    id: number;
+    spent: number;
+    goldLeft: number;
+  } | null>(null);
   const [pending, startTransition] = useTransition();
   const [assignIdx, setAssignIdx] = useState<number | null>(null);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
@@ -509,6 +515,12 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     const t = window.setTimeout(() => setFlash(null), 4200);
     return () => window.clearTimeout(t);
   }, [flash]);
+
+  useEffect(() => {
+    if (!merchantSold) return;
+    const t = window.setTimeout(() => setMerchantSold(null), 2000);
+    return () => window.clearTimeout(t);
+  }, [merchantSold]);
 
   useEffect(() => {
     if (saveStatus !== "saved" && saveStatus !== "error") return;
@@ -859,9 +871,18 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
 
   const onBuyMerchant = (itemId: string) => {
     if (!world || !mySlot || !acting) return;
+    const beforeGold = world.characters[mySlot]?.gold ?? 0;
     const result = buyFromCampMerchant(world, mySlot, itemId, { isDm: identity.isDm });
     persist(result.world);
     setFlash(result.message);
+    const afterGold = result.world.characters[mySlot]?.gold ?? 0;
+    if (afterGold < beforeGold) {
+      setMerchantSold({
+        id: Date.now(),
+        spent: beforeGold - afterGold,
+        goldLeft: afterGold,
+      });
+    }
   };
 
   const onSideQuest = (questId: string) => {
@@ -1712,13 +1733,25 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                 )}
               </div>
 
-              <div className="space-y-2">
+              <div className="pc-merchant relative space-y-2">
                 <p className="pc-eyebrow text-[0.65rem]">
                   Camp merchant · your purse {me?.gold ?? 0}g
                 </p>
                 <p className="text-xs opacity-70">
                   A traveling peddler — potions, rations, and a few weapons for coin.
                 </p>
+                {merchantSold && (
+                  <div
+                    key={merchantSold.id}
+                    className="pc-merchant-sold"
+                    role="status"
+                    aria-live="polite"
+                  >
+                    <span className="pc-merchant-sold-label">SOLD</span>
+                    <span className="pc-merchant-sold-spend">−{merchantSold.spent}g</span>
+                    <span className="pc-merchant-sold-purse">{merchantSold.goldLeft}g left</span>
+                  </div>
+                )}
                 <div className="space-y-2">
                   {campMerchantStock().map((offer) => (
                     <button
