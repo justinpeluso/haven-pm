@@ -1,7 +1,7 @@
 /**
- * Neverworld turn-based battle engine.
- * Actions: Attack, Power Up, Eat, Spell, Drink HP, Drink Mana.
- * Clocks: 30s idle → foe strikes; 10 min hard cap → defeat.
+ * Neverworld turn-based battle engine — HoMM-style grid tactics.
+ * Actions: Move, Attack, Wait, Power Up, Eat, Spell, Drink HP/Mana.
+ * Clocks: 30s idle → foe acts; 10 min hard cap → defeat.
  */
 
 import {
@@ -31,6 +31,18 @@ import {
   rocDamageFromMargin,
   type RocResult,
 } from "./roc";
+import {
+  applyAiMove,
+  canStrike,
+  createTacticalState,
+  ensureTactical,
+  getUnit,
+  moveUnit,
+  nearestPartyTarget,
+  removeDeadHeroUnits,
+  resetPhaseForTurn,
+  setPhase,
+} from "./tactical";
 import type {
   BattleActionId,
   BattleFxEvent,
@@ -42,6 +54,16 @@ import type {
   PlayerSlot,
 } from "./types";
 import { PLAYER_SLOT_ORDER } from "./types";
+
+export {
+  canStrike,
+  ensureTactical,
+  getUnit,
+  legalMoves,
+  unitAt,
+  TACTICAL_COLS,
+  TACTICAL_ROWS,
+} from "./tactical";
 
 /** Hard cap — every battle ends (defeat) after this. */
 export const BATTLE_MAX_MS = 10 * 60 * 1000;
@@ -213,11 +235,16 @@ function advanceBattleTurn(battle: BattleState): BattleState {
     idx = (idx + 1) % n;
   }
   const now = new Date().toISOString();
+  let tactical = battle.tactical
+    ? removeDeadHeroUnits(battle.tactical, battle.heroes)
+    : battle.tactical;
+  if (tactical) tactical = resetPhaseForTurn(tactical);
   return {
     ...battle,
     turnIndex: idx,
     activeId: battle.turnQueue[idx]!,
     turnStartedAt: now,
+    tactical,
   };
 }
 
@@ -374,11 +401,15 @@ export function startRandomBattle(
     turnQueue,
     turnIndex: 0,
     activeId: turnQueue[0]!,
-    log: [`Ambush! ${enemy.name} bars the path.`, `Idle 30s → foe strikes. Hard cap 10 min.`],
+    log: [
+      `Ambush! ${enemy.name} bars the path.`,
+      `Tactical field — move, then strike. Idle 30s → foe acts. Cap 10 min.`,
+    ],
     stats: { damageDealt: 0, damageTaken: 0, turns: 0, bestRoc: 0 },
     lastRocLabel: null,
     summary: null,
     fxEvents: [],
+    tactical: createTacticalState(heroes, enemy, world),
     ...clocks,
   };
 
@@ -419,11 +450,15 @@ export function startBattleVs(
     turnQueue,
     turnIndex: 0,
     activeId: turnQueue[0]!,
-    log: [`${enemy.name} challenges the party.`, `Idle 30s → foe strikes. Hard cap 10 min.`],
+    log: [
+      `${enemy.name} challenges the party.`,
+      `Tactical field — move, then strike. Idle 30s → foe acts. Cap 10 min.`,
+    ],
     stats: { damageDealt: 0, damageTaken: 0, turns: 0, bestRoc: 0 },
     lastRocLabel: null,
     summary: null,
     fxEvents: [],
+    tactical: createTacticalState(heroes, enemy, world),
     ...clocks,
   };
   void started;
@@ -619,8 +654,48 @@ function runEnemyTurn(
   const living = battle.heroes.filter((h) => h.hp > 0);
   if (!living.length) return finishDefeat(world, battle);
 
-  const target = living[Math.floor(rng() * living.length)]!;
-  let b = battle;
+  let b = ensureTactical(battle, world);
+  const livingIds = new Set(living.map((h) => h.id));
+  const foeUnit = b.tactical ? getUnit(b.tactical, "enemy") : null;
+
+  // Move toward nearest hero when not already in strike range.
+  if (b.tactical && foeUnit) {
+    const targetUnit = nearestPartyTarget(b.tactical, foeUnit, livingIds);
+    if (targetUnit) {
+      const before = getUnit(b.tactical, "enemy")!;
+      const nextTac = applyAiMove(b.tactical, "enemy", targetUnit);
+      const after = getUnit(nextTac, "enemy")!;
+      b = { ...b, tactical: nextTac };
+      if (after.x !== before.x || after.y !== before.y) {
+        b = pushLog(
+          b,
+          `${battle.enemy.name} advances to (${after.x + 1},${after.y + 1}).`
+        );
+      }
+    }
+  }
+
+  const foeNow = b.tactical ? getUnit(b.tactical, "enemy") : null;
+  let target = living[Math.floor(rng() * living.length)]!;
+  if (b.tactical && foeNow) {
+    const inRange = living
+      .map((h) => ({ h, u: getUnit(b.tactical!, h.id) }))
+      .filter(({ u }) => u && canStrike(foeNow, u));
+    if (inRange.length) {
+      target = inRange[Math.floor(rng() * inRange.length)]!.h;
+    } else {
+      // Could not close to attack — end turn after reposition.
+      b = {
+        ...b,
+        tactical: b.tactical ? setPhase(b.tactical, "move") : b.tactical,
+        stats: { ...b.stats, turns: b.stats.turns + 1 },
+      };
+      b = pushLog(b, `${battle.enemy.name} watches for an opening…`);
+      b = advanceBattleTurn(b);
+      return { ...world, battle: b };
+    }
+  }
+
   const targetChar = world.characters[target.slot];
   let skillBoost = battle.enemy.power * 2;
   let line = `${battle.enemy.name} strikes ${target.name}`;
@@ -670,6 +745,9 @@ function runEnemyTurn(
       turns: b.stats.turns + 1,
     },
   };
+  if (b.tactical) {
+    b = { ...b, tactical: removeDeadHeroUnits(b.tactical, heroes) };
+  }
   if (mitigated > 0) b = pushFx(b, "damage", mitigated, target.id);
   b = pushLog(
     b,
@@ -691,13 +769,15 @@ function runEnemyTurn(
   }
 
   b = advanceBattleTurn(b);
-  // Tick down power-ups for the hero whose turn just ended is handled on their action
   return { ...world, characters, battle: b };
 }
 
 export type BattleActionOpts = {
   spellId?: string;
   itemId?: string;
+  /** Grid destination for `move`. */
+  x?: number;
+  y?: number;
 };
 
 export function performBattleAction(
@@ -707,13 +787,14 @@ export function performBattleAction(
   opts: BattleActionOpts = {},
   rng: () => number = Math.random
 ): { world: PartyWorldSave; message: string } {
-  const battle = world.battle;
+  let battle = world.battle;
   if (!battle || battle.status !== "active") {
     return { world, message: "No active battle." };
   }
   if (isBattleIntroActive(battle)) {
     return { world, message: "Battle starting…" };
   }
+  battle = ensureTactical(battle, world);
   if (battle.activeId !== actorSlot) {
     return { world, message: "Not your battle turn." };
   }
@@ -723,9 +804,56 @@ export function performBattleAction(
   const hero = b.heroes.find((h) => h.slot === actorSlot);
   if (!hero || hero.hp <= 0) return { world, message: "You cannot act." };
 
+  const phase = b.tactical?.phase ?? "act";
   let message = "";
+  let endTurn = true;
 
-  if (action === "attack") {
+  if (action === "move") {
+    if (phase !== "move") return { world: { ...world, battle: b }, message: "Already moved." };
+    if (opts.x == null || opts.y == null) {
+      return { world: { ...world, battle: b }, message: "Pick a tile." };
+    }
+    if (!b.tactical) return { world, message: "No battlefield." };
+    const nextTac = moveUnit(b.tactical, actorSlot, opts.x, opts.y);
+    if (!nextTac) return { world: { ...world, battle: b }, message: "Cannot reach that tile." };
+    b = {
+      ...b,
+      tactical: nextTac,
+      stats: { ...b.stats, turns: b.stats.turns + 1 },
+    };
+    message = `${char.name} moves to (${opts.x + 1},${opts.y + 1}).`;
+    b = pushLog(b, message);
+    endTurn = false;
+    return {
+      world: { ...world, characters: { ...world.characters, [actorSlot]: char }, battle: b },
+      message,
+    };
+  }
+
+  if (action === "wait") {
+    if (phase === "move" && b.tactical) {
+      // Skip move → act phase (still can attack / use items).
+      b = { ...b, tactical: setPhase(b.tactical, "act") };
+      message = `${char.name} holds position.`;
+      b = pushLog(b, message);
+      endTurn = false;
+      return {
+        world: { ...world, characters: { ...world.characters, [actorSlot]: char }, battle: b },
+        message,
+      };
+    }
+    message = `${char.name} waits.`;
+    b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
+    b = pushLog(b, message);
+  } else if (action === "attack") {
+    const attacker = b.tactical ? getUnit(b.tactical, actorSlot) : null;
+    const foeTok = b.tactical ? getUnit(b.tactical, "enemy") : null;
+    if (attacker && foeTok && !canStrike(attacker, foeTok)) {
+      return {
+        world: { ...world, battle: b },
+        message: `Out of range — close to within ${attacker.range} tile${attacker.range > 1 ? "s" : ""}.`,
+      };
+    }
     const powered = hero.powerUpTurns > 0;
     const strike = combatStrikePower(hero.power, powered);
     const eff = computeEffectiveStats(char);
@@ -862,7 +990,23 @@ export function performBattleAction(
     if (char.mana < manaCost) return { world, message: "Not enough mana." };
     char = { ...char, mana: char.mana - manaCost };
 
-    if (ab.tags.includes("heal") || ab.kind === "heal") {
+    const isHeal = ab.tags.includes("heal") || ab.kind === "heal";
+    if (!isHeal) {
+      const attacker = b.tactical ? getUnit(b.tactical, actorSlot) : null;
+      const foeTok = b.tactical ? getUnit(b.tactical, "enemy") : null;
+      // Spells use +1 range over weapon for casters who closed partially.
+      if (attacker && foeTok) {
+        const spellRange = Math.max(attacker.range, 2);
+        if (Math.max(Math.abs(attacker.x - foeTok.x), Math.abs(attacker.y - foeTok.y)) > spellRange) {
+          return {
+            world: { ...world, battle: b },
+            message: `Spell out of range (need ≤${spellRange} tiles).`,
+          };
+        }
+      }
+    }
+
+    if (isHeal) {
       const eff = computeEffectiveStats(char);
       const roc = resolveRoc({
         attributeScore: eff.stats.wisdom,
@@ -936,6 +1080,13 @@ export function performBattleAction(
     return { world, message: "Unknown action." };
   }
 
+  if (!endTurn) {
+    return {
+      world: { ...world, characters: { ...world.characters, [actorSlot]: char }, battle: b },
+      message,
+    };
+  }
+
   let nextWorld: PartyWorldSave = {
     ...world,
     characters: { ...world.characters, [actorSlot]: char },
@@ -995,11 +1146,16 @@ export function tickBattleTimers(
   nowMs = Date.now(),
   rng: () => number = Math.random
 ): { world: PartyWorldSave; message?: string } {
-  const battle = world.battle;
+  let battle = world.battle;
   if (!battle || battle.status !== "active") return { world };
 
   // Freeze both sides during the opening countdown.
   if (isBattleIntroActive(battle, nowMs)) return { world };
+
+  battle = ensureTactical(battle, world);
+  if (battle !== world.battle) {
+    world = { ...world, battle };
+  }
 
   if (battleRemainingMs(battle, nowMs) <= 0) {
     const next = finishDefeat(

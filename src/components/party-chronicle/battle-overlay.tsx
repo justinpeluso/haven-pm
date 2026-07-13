@@ -4,14 +4,17 @@ import {
   battleIntroRemainingMs,
   battleRemainingMs,
   battleSpellIds,
+  canStrike,
   foodItemIds,
+  getUnit,
   hpPotionIds,
   isBattleIntroActive,
+  legalMoves,
   manaPotionIds,
   turnIdleRemainingMs,
   type BattleActionOpts,
 } from "@/lib/downtown/party-chronicle/battle";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { getAbility } from "@/lib/downtown/party-chronicle/skills";
 import { getSpellbookAbility } from "@/lib/downtown/party-chronicle/bestiary";
 import { getGear } from "@/lib/downtown/party-chronicle/gear";
@@ -29,11 +32,6 @@ import type {
   PartyWorldSave,
   PlayerSlot,
 } from "@/lib/downtown/party-chronicle/types";
-
-const ACTIONS: { id: BattleActionId; label: string; hint: string }[] = [
-  { id: "attack", label: "Attack", hint: "Strike with your weapon" },
-  { id: "powerUp", label: "Power Up", hint: "+25% damage for 3 turns" },
-];
 
 const FLOATER_MS = 2000;
 
@@ -107,6 +105,167 @@ function CombatFloaters({
       ))}
     </div>
   );
+}
+
+function TacticalBoard({
+  battle,
+  world,
+  mySlot,
+  isMyTurn,
+  pending,
+  floaters,
+  onMove,
+  onAttackEnemy,
+}: {
+  battle: BattleState;
+  world: PartyWorldSave;
+  mySlot: PlayerSlot | null;
+  isMyTurn: boolean;
+  pending: boolean;
+  floaters: Floater[];
+  onMove: (x: number, y: number) => void;
+  onAttackEnemy: () => void;
+}) {
+  const tactical = battle.tactical;
+  const missingArt = "/party-chronicle/scenes/missing.svg";
+  const phase = tactical?.phase ?? "move";
+
+  const moves = useMemo(() => {
+    if (!tactical || !isMyTurn || phase !== "move" || !mySlot) return new Set<string>();
+    return new Set(legalMoves(tactical, mySlot).map((m) => `${m.x},${m.y}`));
+  }, [tactical, isMyTurn, phase, mySlot]);
+
+  const attacker = tactical && mySlot ? getUnit(tactical, mySlot) : null;
+  const foe = tactical ? getUnit(tactical, "enemy") : null;
+  const canHit =
+    !!attacker && !!foe && canStrike(attacker, foe) && isMyTurn && !pending;
+
+  if (!tactical) {
+    return (
+      <p className="text-sm opacity-70">Drawing the battlefield…</p>
+    );
+  }
+
+  const cells: { x: number; y: number }[] = [];
+  for (let y = 0; y < tactical.rows; y++) {
+    for (let x = 0; x < tactical.cols; x++) {
+      cells.push({ x, y });
+    }
+  }
+
+  const unitByCell = new Map(tactical.units.map((u) => [`${u.x},${u.y}`, u]));
+
+  return (
+    <div
+      className="pc-tactical-board"
+      style={
+        {
+          "--pc-tac-cols": tactical.cols,
+          "--pc-tac-rows": tactical.rows,
+        } as CSSProperties
+      }
+      role="grid"
+      aria-label="Battle map"
+    >
+      {cells.map(({ x, y }) => {
+        const key = `${x},${y}`;
+        const unit = unitByCell.get(key);
+        const reachable = moves.has(key);
+        const isEnemyCell = unit?.id === "enemy";
+        const isActiveHero = unit?.id === battle.activeId;
+
+        const hero = unit?.heroSlot
+          ? battle.heroes.find((h) => h.slot === unit.heroSlot)
+          : null;
+        const char = unit?.heroSlot ? world.characters[unit.heroSlot] : null;
+
+        return (
+          <button
+            key={key}
+            type="button"
+            role="gridcell"
+            className="pc-tactical-cell"
+            data-reachable={reachable ? "true" : "false"}
+            data-occupied={unit ? "true" : "false"}
+            data-side={unit?.side ?? "empty"}
+            data-active={isActiveHero ? "true" : "false"}
+            data-attackable={isEnemyCell && canHit ? "true" : "false"}
+            disabled={
+              pending ||
+              introLocked(battle) ||
+              (!reachable && !(isEnemyCell && canHit))
+            }
+            aria-label={
+              unit
+                ? unit.side === "enemy"
+                  ? battle.enemy.name
+                  : hero?.name ?? "Hero"
+                : reachable
+                  ? `Move to ${x + 1},${y + 1}`
+                  : `Tile ${x + 1},${y + 1}`
+            }
+            onClick={() => {
+              if (isEnemyCell && canHit) {
+                onAttackEnemy();
+                return;
+              }
+              if (reachable) onMove(x, y);
+            }}
+          >
+            {unit?.side === "enemy" ? (
+              <div className="pc-tactical-token pc-battle-fx-anchor" data-side="enemy">
+                <CombatFloaters floaters={floaters} target="enemy" />
+                <img
+                  src={battleEnemyArtSrc(battle.enemy)}
+                  alt={battle.enemy.name}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = missingArt;
+                  }}
+                />
+                <span className="pc-tactical-hp">
+                  {battle.enemy.hp}/{battle.enemy.maxHp}
+                </span>
+              </div>
+            ) : null}
+            {unit?.side === "party" && hero ? (
+              <div
+                className="pc-tactical-token pc-battle-fx-anchor"
+                data-side="party"
+                data-down={hero.hp <= 0 ? "true" : "false"}
+              >
+                <CombatFloaters floaters={floaters} target={hero.id} />
+                <img
+                  src={battleClassArtSrc(char?.classId)}
+                  alt={hero.name}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = missingArt;
+                  }}
+                />
+                {char?.dog ? (
+                  <img
+                    className="pc-tactical-pet"
+                    src={battlePetArtSrc()}
+                    alt={char.dog.name}
+                    title={char.dog.name}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = missingArt;
+                    }}
+                  />
+                ) : null}
+                <span className="pc-tactical-hp">
+                  {hero.hp}/{hero.maxHp}
+                </span>
+              </div>
+            ) : null}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function introLocked(battle: BattleState): boolean {
+  return isBattleIntroActive(battle);
 }
 
 export function BattleOverlay({
@@ -184,13 +343,23 @@ export function BattleOverlay({
   const foods = me ? foodItemIds(me.inventory) : [];
   const hpPots = me ? hpPotionIds(me.inventory) : [];
   const manaPots = me ? manaPotionIds(me.inventory) : [];
+  const phase = battle.tactical?.phase ?? "move";
 
-  const enemyArt = battleEnemyArtSrc(battle.enemy);
-  const missingArt = "/party-chronicle/scenes/missing.svg";
+  const myUnit = battle.tactical && mySlot ? getUnit(battle.tactical, mySlot) : null;
+  const foeUnit = battle.tactical ? getUnit(battle.tactical, "enemy") : null;
+  const inAttackRange =
+    !!myUnit && !!foeUnit && canStrike(myUnit, foeUnit);
+
+  const phaseHint =
+    phase === "move"
+      ? "Tap a lit tile to move, or Wait to skip movement"
+      : inAttackRange
+        ? "In range — Attack, cast, or Wait"
+        : "Out of range — Wait, heal, or Power Up";
 
   return (
     <div className="pc-battle-overlay" role="dialog" aria-label="Battle">
-      <div className="pc-battle-frame" data-intro={introActive ? "true" : "false"}>
+      <div className="pc-battle-frame pc-battle-frame--tactical" data-intro={introActive ? "true" : "false"}>
         {countdown && (
           <div className="pc-battle-countdown" aria-live="assertive">
             <span
@@ -204,7 +373,7 @@ export function BattleOverlay({
         )}
 
         <div className="pc-battle-header">
-          <p className="pc-eyebrow">Random encounter</p>
+          <p className="pc-eyebrow">Tactical encounter</p>
           <h2 className="pc-title text-xl md:text-2xl">
             {battle.enemy.isBoss ? "Boss — " : ""}
             {battle.enemy.name}
@@ -215,95 +384,73 @@ export function BattleOverlay({
               ? "Locking in — hold for countdown"
               : `Battle clock ${battleMin}:${String(battleSec).padStart(2, "0")} left${
                   battle.activeId !== "enemy"
-                    ? ` · Act in ${idleLeft}s or foe strikes`
+                    ? ` · Act in ${idleLeft}s or foe moves`
                     : " · Enemy turn"
                 }`}
           </p>
         </div>
 
-        <div className="pc-battle-stage">
-          <div className="pc-battle-enemy pc-battle-fx-anchor">
-            <CombatFloaters floaters={floaters} target="enemy" />
-            <img
-              className="pc-battle-foe-art"
-              src={enemyArt}
-              alt={battle.enemy.name}
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = missingArt;
-              }}
-            />
-            <Meter
-              label={battle.enemy.isBoss ? "Boss HP" : "Enemy HP"}
-              value={battle.enemy.hp}
-              max={battle.enemy.maxHp}
-              tone="enemy"
-            />
-            {battle.enemy.isBoss && battle.enemy.maxMana > 0 && (
-              <Meter
-                label="Enemy Mana"
-                value={battle.enemy.mana}
-                max={battle.enemy.maxMana}
-                tone="mana"
-              />
-            )}
-            {battle.enemy.uniqueSkill && (
-              <p className="text-[0.65rem] mt-1 opacity-70">
-                Unique: {battle.enemy.uniqueSkill.name} — {battle.enemy.uniqueSkill.blurb}
-              </p>
-            )}
-          </div>
+        <div className="pc-battle-tactical-layout">
+          <TacticalBoard
+            battle={battle}
+            world={world}
+            mySlot={mySlot}
+            isMyTurn={isMyTurn}
+            pending={pending}
+            floaters={floaters}
+            onMove={(x, y) => onAction("move", { x, y })}
+            onAttackEnemy={() => onAction("attack")}
+          />
 
-          <div className="pc-battle-party">
+          <aside className="pc-battle-roster">
+            <div className="pc-battle-roster-enemy">
+              <Meter
+                label={battle.enemy.isBoss ? "Boss HP" : "Enemy HP"}
+                value={battle.enemy.hp}
+                max={battle.enemy.maxHp}
+                tone="enemy"
+              />
+              {battle.enemy.isBoss && battle.enemy.maxMana > 0 && (
+                <Meter
+                  label="Enemy Mana"
+                  value={battle.enemy.mana}
+                  max={battle.enemy.maxMana}
+                  tone="mana"
+                />
+              )}
+              {battle.enemy.uniqueSkill && (
+                <p className="text-[0.65rem] mt-1 opacity-70">
+                  Unique: {battle.enemy.uniqueSkill.name}
+                </p>
+              )}
+            </div>
             {battle.heroes.map((h) => {
               const char = world.characters[h.slot];
               const classId = char?.classId;
               const className = classId ? CLASS_DEFS[classId]?.name : "Hero";
-              const dog = char?.dog;
+              const unit = battle.tactical ? getUnit(battle.tactical, h.id) : null;
               return (
                 <div
                   key={h.id}
-                  className="pc-battle-hero pc-battle-fx-anchor"
+                  className="pc-battle-roster-hero"
                   data-active={battle.activeId === h.id}
                   data-down={h.hp <= 0}
                 >
-                  <CombatFloaters floaters={floaters} target={h.id} />
-                  <div className="pc-battle-hero-row">
-                    <img
-                      className="pc-battle-hero-art"
-                      src={battleClassArtSrc(classId)}
-                      alt={`${h.name} — ${className}`}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = missingArt;
-                      }}
-                    />
-                    <div className="pc-battle-hero-stats">
-                      <p className="font-bold text-sm">
-                        {h.name}
-                        {h.powerUpTurns > 0 ? ` ▲${h.powerUpTurns}` : ""}
-                        {battle.activeId === h.id ? " ★" : ""}
-                      </p>
-                      <p className="pc-battle-hero-class">{className}</p>
-                      <Meter label="HP" value={h.hp} max={h.maxHp} tone="hp" />
-                      <Meter label="Mana" value={h.mana} max={h.maxMana} tone="mana" />
-                    </div>
-                    {dog ? (
-                      <div className="pc-battle-pet" title={`${dog.name} · ${dog.breed}`}>
-                        <img
-                          className="pc-battle-pet-art"
-                          src={battlePetArtSrc()}
-                          alt={dog.name}
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = missingArt;
-                          }}
-                        />
-                        <p className="pc-battle-pet-name">{dog.name}</p>
-                      </div>
-                    ) : null}
-                  </div>
+                  <p className="font-bold text-sm">
+                    {h.name}
+                    {h.powerUpTurns > 0 ? ` ▲${h.powerUpTurns}` : ""}
+                    {battle.activeId === h.id ? " ★" : ""}
+                  </p>
+                  <p className="pc-battle-hero-class">
+                    {className}
+                    {unit ? ` · Spd ${unit.speed} · Rng ${unit.range}` : ""}
+                  </p>
+                  <Meter label="HP" value={h.hp} max={h.maxHp} tone="hp" />
+                  <Meter label="Mana" value={h.mana} max={h.maxMana} tone="mana" />
                 </div>
               );
             })}
-          </div>
+          </aside>
         </div>
 
         <p className="pc-battle-turn">
@@ -312,7 +459,7 @@ export function BattleOverlay({
             : battle.activeId === "enemy"
               ? `${battle.enemy.name}'s turn…`
               : isMyTurn
-                ? "Your move — choose an action"
+                ? `Your turn — ${phase === "move" ? "Move" : "Act"}: ${phaseHint}`
                 : `${activeHero?.name ?? "Ally"}'s turn`}
           {battle.lastRocLabel ? (
             <span className="block text-[0.65rem] opacity-80 mt-1 font-normal normal-case tracking-normal">
@@ -322,19 +469,44 @@ export function BattleOverlay({
         </p>
 
         <div className="pc-battle-actions">
-          {ACTIONS.map((a) => (
-            <button
-              key={a.id}
-              type="button"
-              className="pc-choice pc-battle-action"
-              disabled={!isMyTurn || pending}
-              title={a.hint}
-              onClick={() => onAction(a.id)}
-            >
-              <strong>{a.label}</strong>
-              <span className="block text-[0.65rem] opacity-70">{a.hint}</span>
-            </button>
-          ))}
+          <button
+            type="button"
+            className="pc-choice pc-battle-action"
+            disabled={!isMyTurn || pending || !inAttackRange}
+            title={
+              inAttackRange
+                ? "Strike the foe"
+                : "Move adjacent (or into range) first"
+            }
+            onClick={() => onAction("attack")}
+          >
+            <strong>Attack</strong>
+            <span className="block text-[0.65rem] opacity-70">
+              {inAttackRange ? "Strike with your weapon" : "Out of range"}
+            </span>
+          </button>
+          <button
+            type="button"
+            className="pc-choice pc-battle-action"
+            disabled={!isMyTurn || pending}
+            title="+25% damage for 3 turns"
+            onClick={() => onAction("powerUp")}
+          >
+            <strong>Power Up</strong>
+            <span className="block text-[0.65rem] opacity-70">+25% dmg, 3 turns</span>
+          </button>
+          <button
+            type="button"
+            className="pc-choice pc-battle-action"
+            disabled={!isMyTurn || pending}
+            title={phase === "move" ? "Skip movement" : "End turn"}
+            onClick={() => onAction("wait")}
+          >
+            <strong>Wait</strong>
+            <span className="block text-[0.65rem] opacity-70">
+              {phase === "move" ? "Skip move → act" : "End turn"}
+            </span>
+          </button>
         </div>
 
         {isMyTurn && foods.length > 0 && (

@@ -178,7 +178,37 @@ export type BattleActionId =
   | "eat"
   | "spell"
   | "drinkHp"
-  | "drinkMana";
+  | "drinkMana"
+  | "wait"
+  | "move";
+
+/** HoMM-style battlefield cell. */
+export type BattleGridPos = { x: number; y: number };
+
+/** Unit token on the tactical grid (positions; HP lives on heroes/enemy). */
+export type BattleTacticalUnit = {
+  id: string;
+  side: "party" | "enemy";
+  /** Present for party heroes. */
+  heroSlot?: PlayerSlot;
+  x: number;
+  y: number;
+  /** Movement points this turn (HoMM-style steps). */
+  speed: number;
+  /** Attack reach in Chebyshev tiles (1 = melee adjacent). */
+  range: number;
+};
+
+/**
+ * Grid combat layer — optional for legacy saves; engine hydrates if missing.
+ * Phase: move (optional reposition) → act (attack / skills / wait).
+ */
+export type BattleTacticalState = {
+  cols: number;
+  rows: number;
+  units: BattleTacticalUnit[];
+  phase: "move" | "act";
+};
 
 export type BattleLootDrop = {
   itemId: string;
@@ -279,6 +309,8 @@ export type BattleState = {
   introEndsAt?: string;
   /** Recent damage/heal pulses for floating combat numbers. */
   fxEvents?: BattleFxEvent[];
+  /** HoMM-style grid map; hydrated if missing on legacy active battles. */
+  tactical?: BattleTacticalState;
 };
 
 export type DogCompanion = {

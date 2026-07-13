@@ -815,7 +815,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     setTab("story");
   };
 
-  const onBattleAction = (action: BattleActionId, opts?: { spellId?: string; itemId?: string }) => {
+  const onBattleAction = (action: BattleActionId, opts?: { spellId?: string; itemId?: string; x?: number; y?: number }) => {
     if (!world || !mySlot) return;
     startTransition(() => {
       const result = performBattleAction(world, mySlot, action, opts);

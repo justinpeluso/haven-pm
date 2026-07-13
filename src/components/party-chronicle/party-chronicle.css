@@ -1449,6 +1449,232 @@
   }
 }
 
+/* ——— HoMM-style tactical grid ——— */
+.party-comic .pc-battle-frame--tactical,
+.party-rpg90s .pc-battle-frame--tactical,
+.party-chronicle .pc-battle-frame--tactical {
+  width: min(980px, 100%);
+}
+
+.party-comic .pc-battle-tactical-layout,
+.party-rpg90s .pc-battle-tactical-layout,
+.party-chronicle .pc-battle-tactical-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(140px, 200px);
+  gap: 0.75rem;
+  align-items: start;
+  margin: 0.65rem 0 0.4rem;
+}
+
+.party-comic .pc-tactical-board,
+.party-rpg90s .pc-tactical-board,
+.party-chronicle .pc-tactical-board {
+  display: grid;
+  grid-template-columns: repeat(var(--pc-tac-cols, 8), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--pc-tac-rows, 6), minmax(44px, 1fr));
+  gap: 3px;
+  padding: 0.45rem;
+  border: 3px solid var(--pc-border);
+  background:
+    linear-gradient(180deg, rgba(34, 72, 52, 0.92), rgba(18, 42, 30, 0.95)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(232, 201, 106, 0.04) 0 1px,
+      transparent 1px 18px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(94, 207, 154, 0.05) 0 1px,
+      transparent 1px 18px
+    );
+  box-shadow: inset 0 0 0 1px rgba(232, 201, 106, 0.25);
+  min-height: 220px;
+  aspect-ratio: 8 / 5.2;
+}
+
+.party-comic .pc-tactical-cell,
+.party-rpg90s .pc-tactical-cell,
+.party-chronicle .pc-tactical-cell {
+  position: relative;
+  min-height: 44px;
+  padding: 0;
+  margin: 0;
+  border: 1px solid rgba(6, 16, 10, 0.55);
+  background:
+    linear-gradient(145deg, rgba(240, 235, 224, 0.14), rgba(16, 32, 24, 0.35)),
+    rgba(72, 110, 84, 0.45);
+  cursor: default;
+  appearance: none;
+  -webkit-appearance: none;
+  color: inherit;
+  overflow: hidden;
+}
+
+.party-comic .pc-tactical-cell:nth-child(odd),
+.party-rpg90s .pc-tactical-cell:nth-child(odd),
+.party-chronicle .pc-tactical-cell:nth-child(odd) {
+  background:
+    linear-gradient(145deg, rgba(240, 235, 224, 0.1), rgba(16, 32, 24, 0.28)),
+    rgba(58, 92, 70, 0.5);
+}
+
+.party-comic .pc-tactical-cell[data-reachable="true"],
+.party-rpg90s .pc-tactical-cell[data-reachable="true"],
+.party-chronicle .pc-tactical-cell[data-reachable="true"] {
+  cursor: pointer;
+  box-shadow:
+    inset 0 0 0 2px var(--pc-accent),
+    inset 0 0 12px rgba(232, 201, 106, 0.35);
+  background:
+    linear-gradient(145deg, rgba(232, 201, 106, 0.35), rgba(94, 207, 154, 0.2)),
+    rgba(90, 120, 70, 0.65);
+}
+
+.party-comic .pc-tactical-cell[data-attackable="true"],
+.party-rpg90s .pc-tactical-cell[data-attackable="true"],
+.party-chronicle .pc-tactical-cell[data-attackable="true"] {
+  cursor: pointer;
+  box-shadow:
+    inset 0 0 0 2px var(--pc-magenta),
+    inset 0 0 14px rgba(217, 122, 76, 0.45);
+}
+
+.party-comic .pc-tactical-cell[data-active="true"],
+.party-rpg90s .pc-tactical-cell[data-active="true"],
+.party-chronicle .pc-tactical-cell[data-active="true"] {
+  outline: 2px solid var(--pc-cyan);
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+.party-comic .pc-tactical-cell:disabled:not([data-reachable="true"]):not([data-attackable="true"]),
+.party-rpg90s .pc-tactical-cell:disabled:not([data-reachable="true"]):not([data-attackable="true"]),
+.party-chronicle .pc-tactical-cell:disabled:not([data-reachable="true"]):not([data-attackable="true"]) {
+  opacity: 1;
+  cursor: default;
+}
+
+.party-comic .pc-tactical-token,
+.party-rpg90s .pc-tactical-token,
+.party-chronicle .pc-tactical-token {
+  position: absolute;
+  inset: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.party-comic .pc-tactical-token img,
+.party-rpg90s .pc-tactical-token img,
+.party-chronicle .pc-tactical-token img {
+  width: min(100%, 52px);
+  height: min(100%, 52px);
+  object-fit: contain;
+  filter: drop-shadow(1px 2px 0 rgba(0, 0, 0, 0.55));
+}
+
+.party-comic .pc-tactical-pet,
+.party-rpg90s .pc-tactical-pet,
+.party-chronicle .pc-tactical-pet {
+  position: absolute !important;
+  right: 0;
+  bottom: 10px;
+  width: 18px !important;
+  height: 18px !important;
+  opacity: 0.95;
+}
+
+.party-comic .pc-tactical-hp,
+.party-rpg90s .pc-tactical-hp,
+.party-chronicle .pc-tactical-hp {
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  bottom: 1px;
+  font-family: var(--pc-hud);
+  font-size: 0.55rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  color: var(--pc-paper);
+  text-shadow: 1px 1px 0 #06100a;
+  background: rgba(6, 16, 10, 0.72);
+  padding: 1px 2px;
+}
+
+.party-comic .pc-tactical-token[data-down="true"],
+.party-rpg90s .pc-tactical-token[data-down="true"],
+.party-chronicle .pc-tactical-token[data-down="true"] {
+  opacity: 0.35;
+  filter: grayscale(0.8);
+}
+
+.party-comic .pc-battle-roster,
+.party-rpg90s .pc-battle-roster,
+.party-chronicle .pc-battle-roster {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-height: min(52vh, 420px);
+  overflow: auto;
+}
+
+.party-comic .pc-battle-roster-enemy,
+.party-rpg90s .pc-battle-roster-enemy,
+.party-chronicle .pc-battle-roster-enemy,
+.party-comic .pc-battle-roster-hero,
+.party-rpg90s .pc-battle-roster-hero,
+.party-chronicle .pc-battle-roster-hero {
+  padding: 0.45rem 0.5rem;
+  border: 2px solid var(--pc-border);
+  background: rgba(255, 250, 240, 0.55);
+}
+
+.party-comic .pc-battle-roster-hero[data-active="true"],
+.party-rpg90s .pc-battle-roster-hero[data-active="true"],
+.party-chronicle .pc-battle-roster-hero[data-active="true"] {
+  border-color: var(--pc-kraft-dark);
+  box-shadow: 3px 3px 0 rgba(6, 16, 10, 0.25);
+}
+
+.party-comic .pc-battle-roster-hero[data-down="true"],
+.party-rpg90s .pc-battle-roster-hero[data-down="true"],
+.party-chronicle .pc-battle-roster-hero[data-down="true"] {
+  opacity: 0.45;
+}
+
+@media (max-width: 720px) {
+  .party-comic .pc-battle-tactical-layout,
+  .party-rpg90s .pc-battle-tactical-layout,
+  .party-chronicle .pc-battle-tactical-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .party-comic .pc-tactical-board,
+  .party-rpg90s .pc-tactical-board,
+  .party-chronicle .pc-tactical-board {
+    aspect-ratio: auto;
+    min-height: 200px;
+    grid-template-rows: repeat(var(--pc-tac-rows, 6), minmax(40px, 48px));
+  }
+
+  .party-comic .pc-battle-roster,
+  .party-rpg90s .pc-battle-roster,
+  .party-chronicle .pc-battle-roster {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-height: none;
+  }
+
+  .party-comic .pc-battle-roster-enemy,
+  .party-rpg90s .pc-battle-roster-enemy,
+  .party-chronicle .pc-battle-roster-enemy {
+    grid-column: 1 / -1;
+  }
+}
+
 /* ——— Battle intro countdown ——— */
 .party-comic .pc-battle-countdown,
 .party-rpg90s .pc-battle-countdown,
