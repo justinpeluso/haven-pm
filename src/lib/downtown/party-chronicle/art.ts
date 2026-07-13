@@ -378,7 +378,7 @@ export const COMIC_ART: Record<string, ComicArtEntry> = {
 
 export function comicArtSrc(id: string): string {
   const entry = COMIC_ART[id];
-  return entry ? `/party-chronicle/${entry.src}` : `/party-chronicle/scenes/missing.svg`;
+  return entry ? `/party-chronicle/${entry.src}` : `/party-chronicle/chapter-splash.svg`;
 }
 
 export function getComicArt(id: string): ComicArtEntry | null {

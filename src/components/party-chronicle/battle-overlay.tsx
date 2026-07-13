@@ -261,7 +261,7 @@ function TurnOrderStrip({
   inspectId: string | null;
   onInspect: (id: string) => void;
 }) {
-  const missingArt = "/party-chronicle/scenes/missing.svg";
+  const missingArt = "/party-chronicle/chapter-splash.svg";
   return (
     <div className="pc-turn-strip" role="list" aria-label="Turn order">
       {battle.turnQueue.map((id, i) => {
@@ -506,7 +506,7 @@ function TacticalBoard({
   onInspect: (id: string) => void;
 }) {
   const tactical = battle.tactical;
-  const missingArt = "/party-chronicle/scenes/missing.svg";
+  const missingArt = "/party-chronicle/chapter-splash.svg";
   const phase = tactical?.phase ?? "move";
 
   const moves = useMemo(() => {
@@ -786,7 +786,16 @@ export function BattleOverlay({
   const seenFx = useRef<Set<string>>(new Set());
   const floaterBattleId = useRef<string | null>(null);
   const prevActive = useRef<string | null>(null);
-  const prevStatus = useRef<string | null>(null);
+  const killCamTimerRef = useRef<number | null>(null);
+
+  const endKillCam = () => {
+    if (killCamTimerRef.current != null) {
+      window.clearTimeout(killCamTimerRef.current);
+      killCamTimerRef.current = null;
+    }
+    setKillCam(false);
+    setKillCamDone(true);
+  };
 
   useEffect(() => {
     if (!battle || battle.status !== "active") return;
@@ -903,29 +912,50 @@ export function BattleOverlay({
     return () => window.clearInterval(id);
   }, [floaters.length, boardVfx.length]);
 
-  // Kill-cam lite before summary
+  // Kill-cam lite before summary.
+  // Depend on id/status only — world polls rewrite `battle` every few seconds and
+  // must not clear the flourish timer (that soft-locked victory with no Continue).
+  const battleId = battle?.id ?? null;
+  const battleStatus = battle?.status ?? null;
   useEffect(() => {
-    if (!battle) return;
-    if (battle.status === "active") {
+    if (!battleId || !battleStatus) return;
+    if (battleStatus === "active") {
+      if (killCamTimerRef.current != null) {
+        window.clearTimeout(killCamTimerRef.current);
+        killCamTimerRef.current = null;
+      }
+      setKillCam(false);
       setKillCamDone(false);
-      prevStatus.current = "active";
       return;
     }
-    if (
-      (battle.status === "victory" || battle.status === "defeat") &&
-      prevStatus.current === "active" &&
-      !killCamDone
-    ) {
-      setKillCam(true);
-      prevStatus.current = battle.status;
-      const t = window.setTimeout(() => {
-        setKillCam(false);
-        setKillCamDone(true);
-      }, 1200);
-      return () => window.clearTimeout(t);
-    }
-    prevStatus.current = battle.status;
-  }, [battle, killCamDone]);
+    if (battleStatus !== "victory" && battleStatus !== "defeat") return;
+    if (killCamDone) return;
+
+    setKillCam(true);
+    killCamTimerRef.current = window.setTimeout(() => {
+      killCamTimerRef.current = null;
+      setKillCam(false);
+      setKillCamDone(true);
+    }, 1800);
+
+    return () => {
+      if (killCamTimerRef.current != null) {
+        window.clearTimeout(killCamTimerRef.current);
+        killCamTimerRef.current = null;
+      }
+    };
+  }, [battleId, battleStatus, killCamDone]);
+
+  // Hard fallback if the flourish timer is somehow lost.
+  useEffect(() => {
+    if (!killCam) return;
+    if (battleStatus !== "victory" && battleStatus !== "defeat") return;
+    const t = window.setTimeout(() => {
+      setKillCam(false);
+      setKillCamDone(true);
+    }, 3500);
+    return () => window.clearTimeout(t);
+  }, [killCam, battleId, battleStatus]);
 
   useEffect(() => {
     if (!battle || battle.status !== "active") return;
@@ -979,16 +1009,45 @@ export function BattleOverlay({
   if (!battle) return null;
 
   if (killCam && (battle.status === "victory" || battle.status === "defeat")) {
+    const victory = battle.status === "victory";
     return (
-      <div className="pc-battle-overlay" role="dialog" aria-label="Battle flourish">
+      <div
+        className="pc-battle-overlay pc-battle-overlay--flourish"
+        role="dialog"
+        aria-label="Battle flourish"
+        aria-modal="true"
+        onClick={endKillCam}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " " || e.key === "Escape") {
+            e.preventDefault();
+            endKillCam();
+          }
+        }}
+      >
         <div
           className="pc-battle-frame pc-kill-cam"
           data-outcome={battle.status}
+          onClick={(e) => e.stopPropagation()}
         >
-          <p className="pc-eyebrow">{battle.status === "victory" ? "Victory" : "Defeat"}</p>
+          <img
+            className="pc-kill-cam-art"
+            src={battleEnemyArtSrc(battle.enemy)}
+            alt=""
+            aria-hidden
+            onError={(e) => {
+              const el = e.currentTarget;
+              el.onerror = null;
+              el.src = "/party-chronicle/chapter-splash.svg";
+            }}
+          />
+          <p className="pc-eyebrow">{victory ? "Victory" : "Defeat"}</p>
           <h2 className="pc-title text-3xl md:text-4xl">
-            {battle.status === "victory" ? "The field is yours!" : "The line breaks…"}
+            {victory ? "The field is yours!" : "The line breaks…"}
           </h2>
+          <button type="button" className="pc-choice mt-4" onClick={endKillCam}>
+            {victory ? "Loot & continue →" : "Continue →"}
+          </button>
+          <p className="pc-kill-cam-hint">Click anywhere to continue</p>
         </div>
       </div>
     );
@@ -1624,8 +1683,23 @@ function BattleSummaryScreen({
   const s = battle.summary;
   const victory = battle.status === "victory";
   return (
-    <div className="pc-battle-overlay" role="dialog" aria-label="Battle result">
-      <div className="pc-battle-frame pc-battle-summary">
+    <div
+      className="pc-battle-overlay pc-battle-overlay--flourish"
+      role="dialog"
+      aria-label="Battle result"
+      aria-modal="true"
+      onClick={onDismiss}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " " || e.key === "Escape") {
+          e.preventDefault();
+          onDismiss();
+        }
+      }}
+    >
+      <div
+        className="pc-battle-frame pc-battle-summary"
+        onClick={(e) => e.stopPropagation()}
+      >
         <p className="pc-eyebrow">{victory ? "Victory" : "Defeat"}</p>
         <h2 className="pc-title text-2xl md:text-3xl">
           {victory
@@ -1684,6 +1758,7 @@ function BattleSummaryScreen({
         <button type="button" className="pc-choice mt-4" onClick={onDismiss}>
           Continue journey →
         </button>
+        <p className="pc-kill-cam-hint">Click anywhere to continue</p>
       </div>
     </div>
   );

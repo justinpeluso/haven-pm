@@ -1642,7 +1642,8 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                   alt={getComicArt(storyNode.sceneId ?? "")?.label ?? storyNode.title}
                   className="pc-scene-art"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = "/party-chronicle/scenes/missing.svg";
+                    (e.target as HTMLImageElement).src =
+                      "/party-chronicle/chapter-splash.svg";
                   }}
                 />
                 {portraitSrc(storyNode) && (

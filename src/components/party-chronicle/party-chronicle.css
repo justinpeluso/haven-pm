@@ -1154,6 +1154,16 @@
   backdrop-filter: blur(2px);
 }
 
+.party-comic .pc-battle-overlay--flourish,
+.party-rpg90s .pc-battle-overlay--flourish,
+.party-chronicle .pc-battle-overlay--flourish {
+  background:
+    radial-gradient(ellipse at 50% 35%, rgba(232, 201, 106, 0.22), transparent 55%),
+    #060e0a;
+  backdrop-filter: none;
+  cursor: pointer;
+}
+
 .party-comic .pc-battle-frame,
 .party-rpg90s .pc-battle-frame,
 .party-chronicle .pc-battle-frame {
@@ -2378,9 +2388,33 @@
 .party-chronicle .pc-kill-cam {
   display: grid;
   place-items: center;
+  gap: 0.35rem;
   min-height: 40vh;
   text-align: center;
+  cursor: default;
   animation: pc-kill-cam-pop 1.2s ease-out both;
+}
+
+.party-comic .pc-kill-cam-art,
+.party-rpg90s .pc-kill-cam-art,
+.party-chronicle .pc-kill-cam-art {
+  width: min(280px, 55vw);
+  max-height: 160px;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+  border: 3px solid rgba(244, 240, 228, 0.35);
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+}
+
+.party-comic .pc-kill-cam-hint,
+.party-rpg90s .pc-kill-cam-hint,
+.party-chronicle .pc-kill-cam-hint {
+  margin-top: 0.35rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.7;
 }
 
 .party-comic .pc-kill-cam[data-outcome="victory"],
@@ -2410,11 +2444,9 @@
     opacity: 1;
     transform: scale(1);
   }
-  85% {
-    opacity: 1;
-  }
   100% {
-    opacity: 0.85;
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
