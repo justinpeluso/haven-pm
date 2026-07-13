@@ -34,7 +34,15 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/dashboard");
+    const partyEmails = new Set([
+      "player1@havenpm.com",
+      "player2@havenpm.com",
+      "player3@havenpm.com",
+    ]);
+    const dest = partyEmails.has(email.trim().toLowerCase())
+      ? "/downtown/neverworld"
+      : "/dashboard";
+    router.push(dest);
     router.refresh();
   };
 

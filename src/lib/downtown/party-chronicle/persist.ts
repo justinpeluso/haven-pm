@@ -19,6 +19,17 @@ import type {
 } from "./types";
 import { CLASS_IDS, PLAYER_SLOT_ORDER } from "./types";
 
+function nextSealedSlot(world: PartyWorldSave, current: PlayerSlot): PlayerSlot {
+  const sealed = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created);
+  if (sealed.length === 0) {
+    const i = PLAYER_SLOT_ORDER.indexOf(current);
+    return PLAYER_SLOT_ORDER[(i + 1) % PLAYER_SLOT_ORDER.length]!;
+  }
+  const from = sealed.indexOf(current);
+  if (from < 0) return sealed[0]!;
+  return sealed[(from + 1) % sealed.length]!;
+}
+
 export const SAVE_KEY = "haven-party-chronicle-v1";
 /** Postgres Setting.key for shared multiplayer campaign state. */
 export const WORLD_SETTING_KEY = "party_chronicle_world_v1";
@@ -221,8 +232,14 @@ export function normalizeWorld(world: PartyWorldSave): PartyWorldSave {
     }
     characters[slot] = next;
   }
+  let activeSlot = world.activeSlot;
+  const withChars = { ...world, characters };
+  if (!characters[activeSlot]?.created) {
+    activeSlot = nextSealedSlot(withChars, activeSlot);
+  }
   return {
     ...world,
+    activeSlot,
     alignment: world.alignment ?? { ...EMPTY_ALIGNMENT },
     campaignNodeId: world.campaignNodeId || START_NODE_ID,
     chapterId: world.chapterId || START_CHAPTER_ID,
@@ -235,10 +252,9 @@ export function normalizeWorld(world: PartyWorldSave): PartyWorldSave {
 
 /**
  * Merge a client POST into the canonical DB save.
- * Non-DM clients only receive redacted co-player sheets on GET; without this merge,
- * their next POST would wipe other characters' inventory, gold, and skills.
- * DM clients can also be stale mid-session — never downgrade a seat that already
- * sealed a hero on the server to a blank uncreated sheet.
+ * Non-DM clients only patch their own seat — never rewind campaign progress.
+ * DM clients keep any server seat that already sealed a hero (and prefer the
+ * richer sealed sheet when both sides claim created).
  */
 export function mergeIncomingWorld(
   existing: PartyWorldSave,
@@ -248,7 +264,24 @@ export function mergeIncomingWorld(
 ): PartyWorldSave {
   if (!isDm && slot) {
     const characters = { ...existing.characters };
-    characters[slot] = incoming.characters[slot];
+    const incomingChar = incoming.characters[slot];
+    if (incomingChar) {
+      characters[slot] = incomingChar;
+    }
+
+    // Joiners may carry a stale campaign snapshot. Only adopt their campaign
+    // pointer if they are strictly ahead; otherwise keep the live server run.
+    const joinerAhead = (incoming.turnIndex ?? 0) > (existing.turnIndex ?? 0);
+    if (!joinerAhead) {
+      return normalizeWorld({
+        ...existing,
+        characters,
+        log: incomingChar?.created
+          ? [`${incomingChar.name} sealed their hero.`, ...existing.log].slice(0, 80)
+          : existing.log,
+        updatedAt: new Date().toISOString(),
+      });
+    }
 
     return normalizeWorld({
       ...existing,
@@ -268,15 +301,22 @@ export function mergeIncomingWorld(
     });
   }
 
-  // DM (or unknown slot): take incoming campaign state, but keep any seat that
-  // already created on the server if the DM client still has a blank copy.
+  // DM (or unknown slot): take incoming campaign state, but never lose a sealed hero.
   const characters = { ...incoming.characters } as Record<PlayerSlot, CharacterSave>;
   for (const s of PLAYER_SLOT_ORDER) {
     const serverChar = existing.characters?.[s];
     const clientChar = incoming.characters?.[s];
-    if (serverChar?.created && clientChar && !clientChar.created) {
+    if (!serverChar?.created) continue;
+    if (!clientChar?.created) {
       characters[s] = serverChar;
+      continue;
     }
+    // Both sealed — keep the sheet with more play evidence.
+    const serverScore =
+      (serverChar.choiceLog?.length ?? 0) + serverChar.xp + serverChar.level * 10;
+    const clientScore =
+      (clientChar.choiceLog?.length ?? 0) + clientChar.xp + clientChar.level * 10;
+    if (serverScore > clientScore) characters[s] = serverChar;
   }
 
   return normalizeWorld({

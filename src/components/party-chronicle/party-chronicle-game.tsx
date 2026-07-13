@@ -177,8 +177,8 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       }
       if (cancelled) return;
 
-      // Prefer the save with more sealed heroes (server first on ties) so joiners
-      // see Justin's campaign and get routed into create.
+      // Prefer server campaign for multiplayer. Only push local if server is empty
+      // or local is strictly ahead on sealed heroes + turn without missing server seals.
       const progressed = pickRicherWorld(
         worldHasProgress(server) ? server : null,
         worldHasProgress(local) ? local : null
@@ -192,12 +192,15 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
         const serverCreated = server
           ? PLAYER_SLOT_ORDER.filter((s) => server.characters[s]?.created).length
           : 0;
-        if (
-          local &&
-          worldHasProgress(local) &&
-          pickRicherWorld(local, server) === local &&
-          localCreated >= serverCreated
-        ) {
+        const localAhead =
+          !!local &&
+          !!server &&
+          localCreated >= serverCreated &&
+          (local.turnIndex ?? 0) > (server.turnIndex ?? 0) &&
+          PLAYER_SLOT_ORDER.every(
+            (s) => !server.characters[s]?.created || local.characters[s]?.created
+          );
+        if (local && worldHasProgress(local) && (!server || !worldHasProgress(server) || localAhead)) {
           void fetch("/api/downtown/party-chronicle", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -234,13 +237,42 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
               characters[s] = remote.characters[s];
             }
           }
-          const next: PartyWorldSave = { ...base, characters };
+          // Keep live campaign pointer from server when it's ahead.
+          const next: PartyWorldSave = {
+            ...base,
+            characters,
+            activeSlot:
+              (remote.turnIndex ?? 0) >= (base.turnIndex ?? 0) ? remote.activeSlot : base.activeSlot,
+            turnIndex: Math.max(remote.turnIndex ?? 0, base.turnIndex ?? 0),
+            campaignNodeId:
+              (remote.turnIndex ?? 0) >= (base.turnIndex ?? 0)
+                ? remote.campaignNodeId
+                : base.campaignNodeId,
+            chapterId:
+              (remote.turnIndex ?? 0) >= (base.turnIndex ?? 0) ? remote.chapterId : base.chapterId,
+            partyFlags:
+              (remote.turnIndex ?? 0) >= (base.turnIndex ?? 0) ? remote.partyFlags : base.partyFlags,
+            alignment:
+              (remote.turnIndex ?? 0) >= (base.turnIndex ?? 0) ? remote.alignment : base.alignment,
+            encounterEnemyHp:
+              (remote.turnIndex ?? 0) >= (base.turnIndex ?? 0)
+                ? remote.encounterEnemyHp
+                : base.encounterEnemyHp,
+            deckEncounter:
+              (remote.turnIndex ?? 0) >= (base.turnIndex ?? 0)
+                ? remote.deckEncounter
+                : base.deckEncounter,
+            log: remote.log?.length ? remote.log : base.log,
+            endingId: remote.endingId ?? base.endingId,
+          };
           writeWorld(next);
           setTitleSave(next);
           return next;
         });
-        if (mySlot && remote.characters[mySlot] && !remote.characters[mySlot].created) {
-          setPhase("create");
+        if (mySlot) {
+          const sealed = !!remote.characters[mySlot]?.created;
+          if (!sealed) setPhase("create");
+          else if (phase === "create") setPhase(remote.endingId ? "ending" : "play");
         }
       } catch {
         /* ignore */
@@ -289,46 +321,44 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     if (!world.characters[mySlot]?.created) setPhase("create");
   }, [phase, mySlot, world]);
 
-  const persist = useCallback((next: PartyWorldSave) => {
+  const persistAsync = useCallback(async (next: PartyWorldSave) => {
     const stamped = { ...next, updatedAt: new Date().toISOString() };
     writeWorld(stamped);
     setWorld(stamped);
     setTitleSave(stamped);
     if (stamped.endingId) setPhase("ending");
-    void fetch("/api/downtown/party-chronicle", {
+    const res = await fetch("/api/downtown/party-chronicle", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ world: stamped }),
-    }).catch(() => undefined);
+    });
+    if (!res.ok) throw new Error("save failed");
+    const data = (await res.json()) as { world?: PartyWorldSave };
+    if (data.world) {
+      writeWorld(data.world);
+      setWorld(data.world);
+      setTitleSave(data.world);
+      return data.world;
+    }
+    return stamped;
   }, []);
+
+  const persist = useCallback((next: PartyWorldSave) => {
+    void persistAsync(next).catch(() => undefined);
+  }, [persistAsync]);
 
   const saveNow = useCallback(async () => {
     if (!world) return;
     setSaveStatus("saving");
-    const stamped = { ...world, updatedAt: new Date().toISOString() };
-    writeWorld(stamped);
-    setWorld(stamped);
-    setTitleSave(stamped);
     try {
-      const res = await fetch("/api/downtown/party-chronicle", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ world: stamped }),
-      });
-      if (!res.ok) throw new Error("save failed");
-      const data = (await res.json()) as { world?: PartyWorldSave };
-      if (data.world) {
-        writeWorld(data.world);
-        setWorld(data.world);
-        setTitleSave(data.world);
-      }
+      await persistAsync(world);
       setSaveStatus("saved");
       setFlash("Chronicle saved.");
     } catch {
       setSaveStatus("error");
       setFlash("Save failed — kept a local copy on this device.");
     }
-  }, [world]);
+  }, [world, persistAsync]);
 
   const storyNode = world ? getStoryNode(world.campaignNodeId) : null;
   const chapter = world ? chapterForNode(world.campaignNodeId) : null;
@@ -337,6 +367,10 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const hotbarView = activeChar ? describeHotbar(activeChar) : [];
 
   const startCampaign = () => {
+    if (!identity.isDm) {
+      setFlash("Only Justin (DM) can start a new campaign.");
+      return;
+    }
     const has = worldHasProgress(titleSave) || worldHasProgress(loadWorld());
     if (has && !window.confirm("Start a NEW campaign? This erases the current Neverworld save for everyone.")) {
       return;
@@ -550,12 +584,19 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
               type="button"
               className={canContinue ? "pc-chip" : "pc-primary-btn"}
               onClick={startCampaign}
+              disabled={!identity.isDm && canContinue}
+              title={!identity.isDm && canContinue ? "Only Justin (DM) can start a new campaign" : undefined}
             >
               New Campaign
             </button>
           </div>
-          {canContinue && (
+          {canContinue && identity.isDm && (
             <p className="text-[0.65rem] opacity-70">New Campaign asks before erasing the save.</p>
+          )}
+          {canContinue && !identity.isDm && (
+            <p className="text-[0.65rem] opacity-70">
+              Join the live campaign — only Justin can reset/new.
+            </p>
           )}
         </div>
       </div>
@@ -574,18 +615,26 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
             characters: { ...world.characters, [mySlot]: char },
             log: [`${char.name} joins with ${char.dog.name}.`, ...world.log].slice(0, 80),
           };
-          persist(next);
-          const ready = PLAYER_SLOT_ORDER.every((s) => next.characters[s].created);
-          const stillWaiting = PLAYER_SLOT_ORDER.filter((s) => !next.characters[s].created).map(
-            (s) => SLOT_DEFAULTS[s].displayName
-          );
-          setPhase("play");
-          setSaveStatus("saved");
-          setFlash(
-            ready
-              ? "Character saved. Full party sealed — Neverworld is yours."
-              : `Character saved. Still waiting on ${stillWaiting.join(" & ")}. It's ${SLOT_DEFAULTS[next.activeSlot].displayName}'s turn.`
-          );
+          setSaveStatus("saving");
+          void persistAsync(next)
+            .then((saved) => {
+              const ready = PLAYER_SLOT_ORDER.every((s) => saved.characters[s].created);
+              const stillWaiting = PLAYER_SLOT_ORDER.filter((s) => !saved.characters[s].created).map(
+                (s) => SLOT_DEFAULTS[s].displayName
+              );
+              setPhase("play");
+              setSaveStatus("saved");
+              setFlash(
+                ready
+                  ? "Character saved to the party chronicle."
+                  : `Character saved. Still waiting on ${stillWaiting.join(" & ")}. It's ${SLOT_DEFAULTS[saved.activeSlot].displayName}'s turn.`
+              );
+            })
+            .catch(() => {
+              setSaveStatus("error");
+              setFlash("Character kept on this device, but server save failed — hit Save again.");
+              setPhase("play");
+            });
         }}
         onBack={leaveToTitle}
       />

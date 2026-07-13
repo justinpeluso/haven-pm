@@ -37,6 +37,15 @@ export function nextSlot(current: PlayerSlot): PlayerSlot {
   return PLAYER_SLOT_ORDER[(i + 1) % PLAYER_SLOT_ORDER.length]!;
 }
 
+/** Advance to the next seat that has sealed a hero (falls back to normal rotation). */
+export function nextPlayableSlot(world: PartyWorldSave, current: PlayerSlot): PlayerSlot {
+  const sealed = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created);
+  if (sealed.length === 0) return nextSlot(current);
+  const from = sealed.indexOf(current);
+  if (from < 0) return sealed[0]!;
+  return sealed[(from + 1) % sealed.length]!;
+}
+
 export function partyAvgLevel(world: PartyWorldSave): number {
   const levels = PLAYER_SLOT_ORDER.map((s) => world.characters[s].level);
   return Math.round(levels.reduce((a, b) => a + b, 0) / levels.length);
@@ -44,6 +53,7 @@ export function partyAvgLevel(world: PartyWorldSave): number {
 
 export function canAct(world: PartyWorldSave, slot: PlayerSlot, isDm: boolean): boolean {
   if (world.endingId) return false;
+  if (!world.characters[slot]?.created) return false;
   if (world.activeSlot === slot) return true;
   // DM can unstick the chronicle when a seat is AFK (solo / demo play).
   if (isDm) return true;
@@ -51,7 +61,7 @@ export function canAct(world: PartyWorldSave, slot: PlayerSlot, isDm: boolean): 
 }
 
 export function advanceTurn(world: PartyWorldSave): PartyWorldSave {
-  const next = nextSlot(world.activeSlot);
+  const next = nextPlayableSlot(world, world.activeSlot);
   return {
     ...world,
     activeSlot: next,

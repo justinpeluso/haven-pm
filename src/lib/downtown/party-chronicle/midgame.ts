@@ -17,13 +17,19 @@ import type {
 } from "./types";
 import { PLAYER_SLOT_ORDER } from "./types";
 
-function nextSlot(current: PlayerSlot): PlayerSlot {
-  const i = PLAYER_SLOT_ORDER.indexOf(current);
-  return PLAYER_SLOT_ORDER[(i + 1) % PLAYER_SLOT_ORDER.length]!;
+function nextPlayableSlot(world: PartyWorldSave, current: PlayerSlot): PlayerSlot {
+  const sealed = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created);
+  if (sealed.length === 0) {
+    const i = PLAYER_SLOT_ORDER.indexOf(current);
+    return PLAYER_SLOT_ORDER[(i + 1) % PLAYER_SLOT_ORDER.length]!;
+  }
+  const from = sealed.indexOf(current);
+  if (from < 0) return sealed[0]!;
+  return sealed[(from + 1) % sealed.length]!;
 }
 
 function advanceTurn(world: PartyWorldSave): PartyWorldSave {
-  const next = nextSlot(world.activeSlot);
+  const next = nextPlayableSlot(world, world.activeSlot);
   return {
     ...world,
     activeSlot: next,
