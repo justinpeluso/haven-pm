@@ -332,34 +332,40 @@ export function preferBattleState(
   return incoming;
 }
 
-/** Merge ambush clocks — prefer higher battlesFought, else higher storyPlayMs. */
+/**
+ * Merge ambush clocks — prefer higher battlesFought, else higher storyPlayMs.
+ * Never let a stale poll/POST rewind eligible play time when fight counts match.
+ */
 export function preferAmbushClocks(
   existing: PartyWorldSave,
   incoming: PartyWorldSave
 ): Pick<PartyWorldSave, "storyPlayMs" | "battlesFought" | "nextEncounterAtMs"> {
   const eFought = existing.battlesFought ?? 0;
   const iFought = incoming.battlesFought ?? 0;
+  const eMs = existing.storyPlayMs ?? 0;
+  const iMs = incoming.storyPlayMs ?? 0;
   if (iFought > eFought) {
+    const storyPlayMs = Math.max(iMs, eMs);
     return {
       battlesFought: iFought,
-      storyPlayMs: incoming.storyPlayMs ?? existing.storyPlayMs ?? 0,
+      storyPlayMs,
       nextEncounterAtMs:
         incoming.nextEncounterAtMs ??
         existing.nextEncounterAtMs ??
-        (incoming.storyPlayMs ?? 0) + rollNextEncounterThreshold(iFought),
+        storyPlayMs + rollNextEncounterThreshold(iFought),
     };
   }
   if (eFought > iFought) {
+    const storyPlayMs = Math.max(eMs, iMs);
     return {
       battlesFought: eFought,
-      storyPlayMs: existing.storyPlayMs ?? 0,
+      storyPlayMs,
       nextEncounterAtMs:
         existing.nextEncounterAtMs ??
-        (existing.storyPlayMs ?? 0) + rollNextEncounterThreshold(eFought),
+        incoming.nextEncounterAtMs ??
+        storyPlayMs + rollNextEncounterThreshold(eFought),
     };
   }
-  const eMs = existing.storyPlayMs ?? 0;
-  const iMs = incoming.storyPlayMs ?? 0;
   if (iMs > eMs) {
     return {
       battlesFought: eFought,
@@ -367,10 +373,22 @@ export function preferAmbushClocks(
       nextEncounterAtMs: incoming.nextEncounterAtMs ?? existing.nextEncounterAtMs ?? iMs,
     };
   }
+  if (eMs > iMs) {
+    return {
+      battlesFought: eFought,
+      storyPlayMs: eMs,
+      nextEncounterAtMs: existing.nextEncounterAtMs ?? incoming.nextEncounterAtMs ?? eMs,
+    };
+  }
+  // Equal progress — keep the sooner scheduled ambush when both sides have one.
+  const eNext = existing.nextEncounterAtMs;
+  const iNext = incoming.nextEncounterAtMs;
+  let nextEncounterAtMs = eNext ?? iNext ?? eMs;
+  if (eNext != null && iNext != null) nextEncounterAtMs = Math.min(eNext, iNext);
   return {
     battlesFought: eFought,
     storyPlayMs: eMs,
-    nextEncounterAtMs: existing.nextEncounterAtMs ?? incoming.nextEncounterAtMs ?? eMs,
+    nextEncounterAtMs,
   };
 }
 

@@ -29,6 +29,7 @@ import {
   useInventoryConsumable,
 } from "@/lib/downtown/party-chronicle/engine";
 import {
+  AMBUSH_INTERVAL_MS,
   dismissBattleSummary,
   ensureEncounterSchedule,
   isAmbushTimerPaused,
@@ -86,6 +87,8 @@ import {
   mergeBattleAndAmbush,
   pickRicherWorld,
   preferActiveSideQuest,
+  preferAmbushClocks,
+  preferBattleState,
   saveSummary,
   worldHasProgress,
   writeWorld,
@@ -486,7 +489,17 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
             endingId: campaign.endingId,
             updatedAt: remote.updatedAt || base.updatedAt,
           };
-          const next = mergeBattleAndAmbush(campaignSlice, remote);
+          // pickRicherWorld often prefers remote (newer/equal updatedAt) and would
+          // drop local ambush progress — seed clocks + battle from prev first.
+          const localSeed: PartyWorldSave = {
+            ...campaignSlice,
+            storyPlayMs: prev?.storyPlayMs ?? campaignSlice.storyPlayMs,
+            battlesFought: prev?.battlesFought ?? campaignSlice.battlesFought,
+            nextEncounterAtMs:
+              prev?.nextEncounterAtMs ?? campaignSlice.nextEncounterAtMs,
+            battle: prev?.battle ?? campaignSlice.battle,
+          };
+          const next = mergeBattleAndAmbush(localSeed, remote);
           writeWorld(next);
           setTitleSave(next);
           return next;
@@ -600,9 +613,29 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
         const { world: ticked, shouldStartBattle } = tickStoryPlay(prev, 1000);
         if (!shouldStartBattle) {
           if (ticked.storyPlayMs !== prev.storyPlayMs) writeWorld(ticked);
+          // Push ambush clock every ~15s so 6s polls cannot forever replay a stale server clock.
+          const prevBucket = Math.floor((prev.storyPlayMs ?? 0) / 15_000);
+          const nextBucket = Math.floor((ticked.storyPlayMs ?? 0) / 15_000);
+          if (nextBucket > prevBucket) {
+            void fetch("/api/downtown/party-chronicle", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ world: ticked }),
+            }).catch(() => undefined);
+          }
           return ticked;
         }
         const started = startRandomBattle(ticked);
+        if (!started.world.battle) {
+          // Start failed (no heroes / ending) — do not soft-lock on a forever-due clock.
+          const deferred: PartyWorldSave = {
+            ...ticked,
+            nextEncounterAtMs: (ticked.storyPlayMs ?? 0) + AMBUSH_INTERVAL_MS,
+          };
+          writeWorld(deferred);
+          setFlash(started.message || "Ambush failed to start — timer reset.");
+          return deferred;
+        }
         writeWorld(started.world);
         setFlash(started.message);
         setTab("story");
@@ -633,27 +666,39 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     if (data.world) {
       // Keep the further map pin if the round-trip somehow lagged behind Continue.
       const campaign = preferCampaignProgress(stamped, data.world);
-      const merged: PartyWorldSave = {
-        ...data.world,
-        campaignNodeId: campaign.campaignNodeId,
-        chapterId: campaign.chapterId,
-        partyFlags: unionPartyFlags(stamped.partyFlags, data.world.partyFlags),
-        // Null must win when we intentionally cleared an early ending.
-        endingId: campaign.endingId,
-        alignment: campaign.alignment,
-        pathway: campaign.pathway ?? data.world.pathway,
-        turnIndex: Math.max(stamped.turnIndex ?? 0, data.world.turnIndex ?? 0),
-        // This POST owns the trail: abandon stays cleared; start/advance keep the run
-        // even if a laggy merge reply briefly omitted activeSideQuest.
-        activeSideQuest:
-          stamped.activeSideQuest == null
-            ? null
-            : preferActiveSideQuest(stamped.activeSideQuest, data.world.activeSideQuest),
-      };
-      writeWorld(merged);
-      setWorld(merged);
-      setTitleSave(merged);
-      return merged;
+      // Functional update so ticks during the await are not rewound by a staler reply.
+      let mergedOut: PartyWorldSave = data.world;
+      setWorld((prev) => {
+        const live = prev ?? stamped;
+        const clocks = preferAmbushClocks(live, data.world!);
+        const battle = preferBattleState(live.battle, data.world!.battle, {
+          existingUpdatedAt: live.updatedAt,
+          incomingUpdatedAt: data.world!.updatedAt,
+        });
+        mergedOut = {
+          ...data.world!,
+          campaignNodeId: campaign.campaignNodeId,
+          chapterId: campaign.chapterId,
+          partyFlags: unionPartyFlags(stamped.partyFlags, data.world!.partyFlags),
+          // Null must win when we intentionally cleared an early ending.
+          endingId: campaign.endingId,
+          alignment: campaign.alignment,
+          pathway: campaign.pathway ?? data.world!.pathway,
+          turnIndex: Math.max(stamped.turnIndex ?? 0, data.world!.turnIndex ?? 0),
+          // This POST owns the trail: abandon stays cleared; start/advance keep the run
+          // even if a laggy merge reply briefly omitted activeSideQuest.
+          activeSideQuest:
+            stamped.activeSideQuest == null
+              ? null
+              : preferActiveSideQuest(stamped.activeSideQuest, data.world!.activeSideQuest),
+          ...clocks,
+          battle,
+        };
+        return mergedOut;
+      });
+      writeWorld(mergedOut);
+      setTitleSave(mergedOut);
+      return mergedOut;
     }
     return stamped;
   }, []);
