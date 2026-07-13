@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400" fill="none">
+  <rect width="800" height="400" fill="#0a1410"/>
+  <!-- distant mist -->
+  <ellipse cx="400" cy="320" rx="420" ry="80" fill="#1a3a2a" opacity="0.35"/>
+  <!-- far pines -->
+  <g fill="#0f2418" opacity="0.9">
+    <path d="M40 400 L90 140 L140 400Z"/>
+    <path d="M110 400 L160 180 L210 400Z"/>
+    <path d="M180 400 L240 110 L300 400Z"/>
+    <path d="M280 400 L340 160 L400 400Z"/>
+    <path d="M380 400 L450 90 L520 400Z"/>
+    <path d="M500 400 L560 150 L620 400Z"/>
+    <path d="M590 400 L650 120 L710 400Z"/>
+    <path d="M680 400 L740 170 L800 400Z"/>
+  </g>
+  <!-- mid pines -->
+  <g fill="#163528" opacity="0.95">
+    <path d="M0 400 L55 200 L110 400Z"/>
+    <path d="M70 400 L130 150 L190 400Z"/>
+    <path d="M160 400 L220 170 L280 400Z"/>
+    <path d="M250 400 L320 100 L390 400Z"/>
+    <path d="M360 400 L430 130 L500 400Z"/>
+    <path d="M480 400 L550 160 L620 400Z"/>
+    <path d="M600 400 L670 110 L740 400Z"/>
+    <path d="M720 400 L780 190 L840 400Z"/>
+  </g>
+  <!-- near trunks + foliage -->
+  <g fill="#1e4a34">
+    <path d="M20 400 L70 220 L120 400Z"/>
+    <path d="M100 400 L160 180 L220 400Z"/>
+    <path d="M200 400 L270 140 L340 400Z"/>
+    <path d="M320 400 L400 90 L480 400Z"/>
+    <path d="M460 400 L540 150 L620 400Z"/>
+    <path d="M600 400 L680 120 L760 400Z"/>
+  </g>
+  <!-- moss ground -->
+  <path d="M0 360 Q200 340 400 355 T800 350 L800 400 L0 400Z" fill="#1a3326" opacity="0.7"/>
+  <!-- soft light shafts -->
+  <g fill="#c8e6c0" opacity="0.06">
+    <path d="M180 0 L220 0 L160 400 L100 400Z"/>
+    <path d="M420 0 L470 0 L430 400 L360 400Z"/>
+    <path d="M640 0 L690 0 L660 400 L590 400Z"/>
+  </g>
+</svg>

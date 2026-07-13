@@ -105,7 +105,7 @@ export function loadWorld(): PartyWorldSave | null {
     if (!parsed.alignment) {
       parsed.alignment = { ...EMPTY_ALIGNMENT };
     }
-    return parsed;
+    return normalizeWorld(parsed);
   } catch {
     return null;
   }
@@ -120,6 +120,42 @@ export function writeWorld(world: PartyWorldSave): void {
 export function clearWorld(): void {
   if (typeof window === "undefined") return;
   localStorage.removeItem(SAVE_KEY);
+}
+
+/** True when a campaign has real progress worth continuing. */
+export function worldHasProgress(world: PartyWorldSave | null | undefined): boolean {
+  if (!world) return false;
+  if (PLAYER_SLOT_ORDER.some((s) => world.characters?.[s]?.created)) return true;
+  if ((world.turnIndex ?? 0) > 1) return true;
+  if (world.campaignNodeId && world.campaignNodeId !== START_NODE_ID) return true;
+  if ((world.partyFlags?.length ?? 0) > 0) return true;
+  if (world.endingId) return true;
+  return false;
+}
+
+/** Prefer the richer of two saves (characters created, then turn, then updatedAt). */
+export function pickRicherWorld(
+  a: PartyWorldSave | null,
+  b: PartyWorldSave | null
+): PartyWorldSave | null {
+  if (!a) return b;
+  if (!b) return a;
+  const aCreated = PLAYER_SLOT_ORDER.filter((s) => a.characters[s]?.created).length;
+  const bCreated = PLAYER_SLOT_ORDER.filter((s) => b.characters[s]?.created).length;
+  if (aCreated !== bCreated) return aCreated > bCreated ? a : b;
+  if (a.turnIndex !== b.turnIndex) return a.turnIndex > b.turnIndex ? a : b;
+  const aAt = Date.parse(a.updatedAt || a.startedAt || "") || 0;
+  const bAt = Date.parse(b.updatedAt || b.startedAt || "") || 0;
+  return aAt >= bAt ? a : b;
+}
+
+export function saveSummary(world: PartyWorldSave): string {
+  const created = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created)
+    .map((s) => world.characters[s].name)
+    .join(", ");
+  const ch = world.chapterId?.replace(/^ch\d+-/, "") ?? "campaign";
+  const when = world.updatedAt ? new Date(world.updatedAt).toLocaleString() : "unknown";
+  return `${created || "No heroes yet"} · ${ch} · turn ${world.turnIndex} · saved ${when}`;
 }
 
 export function applyPointBuy(base: Stats, bumps: Partial<Stats>, pool: number): Stats | null {

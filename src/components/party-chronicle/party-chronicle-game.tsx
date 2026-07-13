@@ -38,6 +38,9 @@ import {
   createBlankCharacter,
   createNewWorld,
   loadWorld,
+  pickRicherWorld,
+  saveSummary,
+  worldHasProgress,
   writeWorld,
 } from "@/lib/downtown/party-chronicle/persist";
 import {
@@ -128,39 +131,67 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const [flash, setFlash] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
   const [assignIdx, setAssignIdx] = useState<number | null>(null);
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [titleSave, setTitleSave] = useState<PartyWorldSave | null>(null);
 
   const mySlot = identity.slot;
   const acting = !!(world && mySlot && canAct(world, mySlot, identity.isDm));
+  // Story panels are party-shared — any seated player (or DM) can pick so solo play never soft-locks.
+  const canStory = !!(world && !world.endingId && (mySlot || identity.isDm));
+  const storyActor: PlayerSlot | null = mySlot ?? (identity.isDm ? world?.activeSlot ?? "justin" : null);
+
+  const enterFromSave = useCallback(
+    (existing: PartyWorldSave) => {
+      setWorld(existing);
+      setTitleSave(existing);
+      writeWorld(existing);
+      if (existing.endingId) setPhase("ending");
+      else if (mySlot && !existing.characters[mySlot].created) setPhase("create");
+      else setPhase("play");
+    },
+    [mySlot]
+  );
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      let existing = loadWorld();
+      const local = loadWorld();
+      let server: PartyWorldSave | null = null;
       try {
         const res = await fetch("/api/downtown/party-chronicle");
         if (res.ok) {
-          const data = (await res.json()) as { world: PartyWorldSave };
-          existing = data.world;
-          writeWorld(data.world);
+          const data = (await res.json()) as { world: PartyWorldSave | null; hasSave?: boolean };
+          server = data.world;
         }
       } catch {
         /* local fallback */
       }
       if (cancelled) return;
-      if (existing) {
-        setWorld(existing);
-        if (existing.endingId) setPhase("ending");
-        else if (mySlot && !existing.characters[mySlot].created) setPhase("create");
-        else if (PLAYER_SLOT_ORDER.every((s) => existing.characters[s].created)) setPhase("play");
-        else setPhase(mySlot ? "create" : "play");
+
+      const progressed = pickRicherWorld(
+        worldHasProgress(local) ? local : null,
+        worldHasProgress(server) ? server : null
+      );
+      const richer = progressed ?? pickRicherWorld(local, server);
+
+      if (richer) {
+        if (local && pickRicherWorld(local, server) === local && worldHasProgress(local)) {
+          void fetch("/api/downtown/party-chronicle", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ world: local }),
+          }).catch(() => undefined);
+        }
+        enterFromSave(richer);
       } else {
+        setTitleSave(null);
         setPhase("title");
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, [mySlot]);
+  }, [enterFromSave]);
 
   useEffect(() => {
     if (!flash) return;
@@ -168,16 +199,67 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     return () => window.clearTimeout(t);
   }, [flash]);
 
+  useEffect(() => {
+    if (saveStatus !== "saved" && saveStatus !== "error") return;
+    const t = window.setTimeout(() => setSaveStatus("idle"), 2800);
+    return () => window.clearTimeout(t);
+  }, [saveStatus]);
+
+  // Keep a local snapshot if the tab closes mid-session.
+  useEffect(() => {
+    if (!world) return;
+    const flush = () => writeWorld(world);
+    const onHide = () => {
+      if (document.visibilityState === "hidden") flush();
+    };
+    window.addEventListener("beforeunload", flush);
+    document.addEventListener("visibilitychange", onHide);
+    return () => {
+      window.removeEventListener("beforeunload", flush);
+      document.removeEventListener("visibilitychange", onHide);
+    };
+  }, [world]);
+
   const persist = useCallback((next: PartyWorldSave) => {
-    writeWorld(next);
-    setWorld(next);
-    if (next.endingId) setPhase("ending");
+    const stamped = { ...next, updatedAt: new Date().toISOString() };
+    writeWorld(stamped);
+    setWorld(stamped);
+    setTitleSave(stamped);
+    if (stamped.endingId) setPhase("ending");
     void fetch("/api/downtown/party-chronicle", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ world: next }),
+      body: JSON.stringify({ world: stamped }),
     }).catch(() => undefined);
   }, []);
+
+  const saveNow = useCallback(async () => {
+    if (!world) return;
+    setSaveStatus("saving");
+    const stamped = { ...world, updatedAt: new Date().toISOString() };
+    writeWorld(stamped);
+    setWorld(stamped);
+    setTitleSave(stamped);
+    try {
+      const res = await fetch("/api/downtown/party-chronicle", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ world: stamped }),
+      });
+      if (!res.ok) throw new Error("save failed");
+      const data = (await res.json()) as { world?: PartyWorldSave };
+      if (data.world) {
+        writeWorld(data.world);
+        setWorld(data.world);
+        setTitleSave(data.world);
+      }
+      setSaveStatus("saved");
+      setFlash("Chronicle saved.");
+    } catch {
+      setSaveStatus("error");
+      setFlash("Save failed — kept a local copy on this device.");
+    }
+  }, [world]);
 
   const storyNode = world ? getStoryNode(world.campaignNodeId) : null;
   const chapter = world ? chapterForNode(world.campaignNodeId) : null;
@@ -186,21 +268,43 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const hotbarView = activeChar ? describeHotbar(activeChar) : [];
 
   const startCampaign = () => {
+    const has = worldHasProgress(titleSave) || worldHasProgress(loadWorld());
+    if (has && !window.confirm("Start a NEW campaign? This erases the current Neverworld save for everyone.")) {
+      return;
+    }
     const fresh = createNewWorld();
     persist(fresh);
     setPhase(mySlot ? "create" : "play");
   };
 
+  const continueCampaign = () => {
+    const existing = titleSave ?? loadWorld();
+    if (!existing) {
+      setFlash("No save found.");
+      return;
+    }
+    enterFromSave(existing);
+    setFlash("Save restored.");
+  };
+
   const leaveToTitle = () => {
-    clearWorld();
+    // Keep local + server saves — title offers Continue.
+    if (world) {
+      writeWorld(world);
+      setTitleSave(world);
+    } else {
+      setTitleSave(loadWorld());
+    }
     setWorld(null);
     setPhase("title");
   };
 
   const resetCampaign = () => {
     if (!identity.isDm) return;
+    if (!window.confirm("Reset Neverworld for the whole party? This cannot be undone.")) return;
     clearWorld();
     setWorld(null);
+    setTitleSave(null);
     setPhase("title");
     void fetch("/api/downtown/party-chronicle", {
       method: "POST",
@@ -210,9 +314,9 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   };
 
   const onChoice = (choice: StoryChoice) => {
-    if (!world || !mySlot || !acting) return;
+    if (!world || !storyActor || !canStory) return;
     startTransition(() => {
-      const result = applyStoryChoice(world, mySlot, choice);
+      const result = applyStoryChoice(world, storyActor, choice);
       persist(result.world);
       const msg = result.roll
         ? `d20 ${result.roll.d20} → ${result.roll.total} (${result.roll.success ? "hit" : "miss"}). ${result.message}`
@@ -222,10 +326,10 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   };
 
   const onContinue = () => {
-    if (!world || !mySlot || !acting || !storyNode) return;
+    if (!world || !storyActor || !canStory || !storyNode) return;
     if (storyNode.kind !== "narrative" && storyNode.kind !== "montage") return;
     startTransition(() => {
-      persist(acknowledgeNarrative(world, mySlot));
+      persist(acknowledgeNarrative(world, storyActor));
     });
   };
 
@@ -310,9 +414,16 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   }
 
   if (phase === "title") {
+    const resume = titleSave ?? loadWorld();
+    const canContinue = !!resume;
     return (
       <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
         <DowntownSubnav active="neverworld" />
+        {flash && (
+          <div className="pc-turn-banner" role="status">
+            {flash}
+          </div>
+        )}
         <div className="pc-panel-jagged p-8 text-center space-y-4 max-w-lg mx-auto">
           <p className="pc-eyebrow">Haven PM · Downtown</p>
           <h1 className="pc-title text-4xl md:text-5xl">Neverworld</h1>
@@ -327,7 +438,9 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           {!mySlot && (
             <div className="pc-panel p-4 text-left space-y-2 max-w-sm mx-auto">
               <p className="pc-eyebrow">Party logins</p>
-              <p className="text-xs">Use these at the Haven login screen (password <strong>password67</strong>):</p>
+              <p className="text-xs">
+                Use these at the Haven login screen (password <strong>password67</strong>):
+              </p>
               <ul className="text-xs font-mono space-y-1">
                 <li>player1@havenpm.com — Justin (DM)</li>
                 <li>player2@havenpm.com — Rusty</li>
@@ -335,9 +448,29 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
               </ul>
             </div>
           )}
-          <button type="button" className="pc-primary-btn" onClick={startCampaign}>
-            New Campaign
-          </button>
+          {canContinue && resume && (
+            <div className="pc-panel p-3 text-left text-xs space-y-1">
+              <p className="pc-eyebrow text-[0.65rem]">Saved chronicle</p>
+              <p>{saveSummary(resume)}</p>
+            </div>
+          )}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-2">
+            {canContinue && (
+              <button type="button" className="pc-primary-btn" onClick={continueCampaign}>
+                Continue
+              </button>
+            )}
+            <button
+              type="button"
+              className={canContinue ? "pc-chip" : "pc-primary-btn"}
+              onClick={startCampaign}
+            >
+              New Campaign
+            </button>
+          </div>
+          {canContinue && (
+            <p className="text-[0.65rem] opacity-70">New Campaign asks before erasing the save.</p>
+          )}
         </div>
       </div>
     );
@@ -357,7 +490,12 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           persist(next);
           const ready = PLAYER_SLOT_ORDER.every((s) => next.characters[s].created);
           setPhase(ready || char.created ? "play" : "create");
-          setFlash(ready ? "Party sealed — Neverworld opens." : "Character sealed. Waiting on the others.");
+          setSaveStatus("saved");
+          setFlash(
+            ready
+              ? "Character saved. Party sealed — Neverworld opens."
+              : "Character saved. Waiting on the others."
+          );
         }}
         onBack={leaveToTitle}
       />
@@ -456,17 +594,43 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
             Turn {world.turnIndex} · Party ~L{partyAvgLevel(world)} · {progressionHint(partyAvgLevel(world))}
           </p>
         </div>
-        {identity.isDm && (
-          <button type="button" className="pc-chip" onClick={resetCampaign}>
-            Reset
+        <div className="flex flex-wrap gap-2 items-center">
+          <button
+            type="button"
+            className="pc-chip"
+            data-active={saveStatus === "saved"}
+            disabled={saveStatus === "saving"}
+            onClick={() => void saveNow()}
+          >
+            {saveStatus === "saving"
+              ? "Saving…"
+              : saveStatus === "saved"
+                ? "Saved ✓"
+                : saveStatus === "error"
+                  ? "Retry Save"
+                  : "Save"}
           </button>
-        )}
+          <button type="button" className="pc-chip" onClick={leaveToTitle}>
+            Title
+          </button>
+          {identity.isDm && (
+            <button type="button" className="pc-chip" onClick={resetCampaign}>
+              Reset
+            </button>
+          )}
+        </div>
       </div>
 
-      <div className="pc-turn-banner">
-        {acting
-          ? `${SLOT_DEFAULTS[world.activeSlot].displayName}'s turn — your move!`
-          : `${SLOT_DEFAULTS[world.activeSlot].displayName}'s turn — watch the panel`}
+      <div className="pc-turn-banner" data-forest="true">
+        {hasChoices || storyNode.kind === "narrative" || storyNode.kind === "montage"
+          ? canStory
+            ? acting
+              ? `${SLOT_DEFAULTS[world.activeSlot].displayName}'s turn — pick a panel`
+              : `Story open — ${SLOT_DEFAULTS[world.activeSlot].displayName}'s seat, anyone can choose`
+            : "Log in with a party account to choose"
+          : acting
+            ? `${SLOT_DEFAULTS[world.activeSlot].displayName}'s turn — your move!`
+            : `${SLOT_DEFAULTS[world.activeSlot].displayName}'s turn — watch the panel`}
         {pending ? " …" : ""}
       </div>
 
@@ -593,11 +757,17 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
               )}
 
               {(storyNode.kind === "narrative" || storyNode.kind === "montage") && (
-                <button type="button" className="pc-choice" disabled={!acting} onClick={onContinue}>
+                <button type="button" className="pc-choice" disabled={!canStory} onClick={onContinue}>
                   {storyNode.kind === "montage"
                     ? `Train onward (+${storyNode.xpGrant} XP) →`
                     : "Continue →"}
                 </button>
+              )}
+
+              {hasChoices && !canStory && (
+                <p className="text-xs font-bold" style={{ color: "var(--pc-accent)" }}>
+                  Log in as player1 / player2 / player3 to choose.
+                </p>
               )}
 
               {hasChoices &&
@@ -607,7 +777,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                     key={choice.id}
                     type="button"
                     className="pc-choice block w-full text-left mb-2"
-                    disabled={!acting}
+                    disabled={!canStory}
                     onClick={() => onChoice(choice)}
                   >
                     <strong>{choice.label}</strong>

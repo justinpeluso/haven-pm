@@ -34,13 +34,13 @@ function redactWorld(world: PartyWorldSave, viewerSlot: PlayerSlot | null, isDm:
   return { ...world, characters };
 }
 
-async function readWorld(): Promise<PartyWorldSave> {
+async function readWorld(): Promise<PartyWorldSave | null> {
   const row = await db.setting.findUnique({ where: { key: WORLD_SETTING_KEY } });
-  if (!row?.value) return createNewWorld();
+  if (!row?.value) return null;
   try {
     return normalizeWorld(JSON.parse(row.value) as PartyWorldSave);
   } catch {
-    return createNewWorld();
+    return null;
   }
 }
 
@@ -65,7 +65,8 @@ export async function GET() {
   const world = await readWorld();
   return NextResponse.json({
     identity: { email, name: session.user.name ?? null, slot, isDm },
-    world: redactWorld(world, slot, isDm),
+    hasSave: !!world,
+    world: world ? redactWorld(world, slot, isDm) : null,
   });
 }
 
@@ -95,8 +96,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "No party slot for this login." }, { status: 403 });
   }
 
-  const existing = await readWorld();
+  const existing = (await readWorld()) ?? createNewWorld();
   const merged = mergeIncomingWorld(existing, body.world, slot, isDm);
   const saved = await writeWorldDb(merged);
-  return NextResponse.json({ world: redactWorld(saved, slot, isDm) });
+  return NextResponse.json({ world: redactWorld(saved, slot, isDm), hasSave: true });
 }

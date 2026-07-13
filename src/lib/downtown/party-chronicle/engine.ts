@@ -45,7 +45,8 @@ export function partyAvgLevel(world: PartyWorldSave): number {
 export function canAct(world: PartyWorldSave, slot: PlayerSlot, isDm: boolean): boolean {
   if (world.endingId) return false;
   if (world.activeSlot === slot) return true;
-  // DM can always view; advancing only on own turn unless forced
+  // DM can unstick the chronicle when a seat is AFK (solo / demo play).
+  if (isDm) return true;
   return false;
 }
 
@@ -335,7 +336,9 @@ export function acknowledgeNarrative(world: PartyWorldSave, slot: PlayerSlot): P
   const ch = chapterForNode(nextId);
   const nextNode = getStoryNode(nextId);
   if (nextNode?.kind === "ending") endingId = nextNode.endingId;
-  return advanceTurn({
+  // Do NOT advance the turn here — Continue only flips the panel so the same
+  // player can take the next choice (Pip / path forks). Turn burns on choices & combat.
+  return {
     ...world,
     characters,
     partyFlags,
@@ -344,7 +347,7 @@ export function acknowledgeNarrative(world: PartyWorldSave, slot: PlayerSlot): P
     endingId,
     encounterEnemyHp: nextNode?.kind === "encounter" ? nextNode.enemyHp : null,
     log: [`${world.characters[slot].name} continues the chronicle.`, ...world.log].slice(0, 80),
-  });
+  };
 }
 
 export function spendSkillPoint(world: PartyWorldSave, slot: PlayerSlot, nodeId: string) {

@@ -2,38 +2,36 @@
  * Party Chronicle — SNES / early-PC RPG × comic-book visual system.
  * Roots: `.party-comic` · `.party-rpg90s` · `.party-chronicle` (alias for game shell)
  *
- *   import "@/components/party-chronicle/party-chronicle.css";
- *   <div className="downtown-shell party-comic party-rpg90s">…</div>
+ * Fonts loaded from root layout (Bangers / Oxanium / IBM Plex Sans).
  */
-
-@import url("https://fonts.googleapis.com/css2?family=Bangers&family=Oxanium:wght@500;700&family=IBM+Plex+Sans:wght@400;600&display=swap");
 
 .party-comic,
 .party-rpg90s,
 .party-chronicle {
-  --pc-ink: #0a1018;
-  --pc-panel: #121c28;
-  --pc-panel-lit: #1a2836;
-  --pc-line: #2a3a4a;
-  --pc-border: #0a0e14;
-  --pc-paper: #f4efe4;
-  --pc-muted: #8aa0ad;
-  --pc-accent: #f5d547;
-  --pc-cyan: #2ec4d4;
-  --pc-magenta: #e85d4c; /* coral punch — not violet */
+  /* Pine-hollow forest palette — moss, canopy, amber firelight */
+  --pc-ink: #07110c;
+  --pc-panel: #102018;
+  --pc-panel-lit: #183028;
+  --pc-line: #2a4a38;
+  --pc-border: #06100a;
+  --pc-paper: #f0ebe0;
+  --pc-muted: #8aab98;
+  --pc-accent: #e8c96a; /* firelight gold */
+  --pc-cyan: #5ecf9a; /* moss / leaf */
+  --pc-magenta: #d97a4c; /* ember bark — not violet */
   --pc-kraft: #c4a35a;
   --pc-kraft-light: #e8d4a8;
-  --pc-kraft-dark: #5a6a78;
-  --pc-hp: #e85d4c;
-  --pc-stamina: #f5d547;
-  --pc-mana: #2ec4d4;
+  --pc-kraft-dark: #3d5a48;
+  --pc-hp: #d97a4c;
+  --pc-stamina: #e8c96a;
+  --pc-mana: #5ecf9a;
   --pc-good: #3d9a7a;
   --pc-warn: #c47a3d;
-  --pc-fg: #e8eef2;
-  --pc-shadow: rgba(0, 0, 0, 0.5);
-  --pc-display: "Bangers", "Impact", "Arial Black", sans-serif;
-  --pc-hud: "Oxanium", "Segoe UI", system-ui, sans-serif;
-  --pc-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --pc-fg: #e6f0e8;
+  --pc-shadow: rgba(0, 0, 0, 0.55);
+  --pc-display: var(--font-pc-display), "Bangers", "Impact", "Arial Black", sans-serif;
+  --pc-hud: var(--font-pc-hud), "Oxanium", "Segoe UI", system-ui, sans-serif;
+  --pc-body: var(--font-pc-body), "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
 
   --dt-ink: var(--pc-ink);
   --dt-panel: var(--pc-panel);
@@ -48,22 +46,24 @@
   font-family: var(--pc-body);
   background-color: var(--pc-ink);
   background-image:
-    url("/party-chronicle/halftone.svg"),
-    radial-gradient(ellipse at 18% 0%, rgba(46, 196, 212, 0.16), transparent 48%),
-    radial-gradient(ellipse at 92% 8%, rgba(232, 93, 76, 0.1), transparent 40%),
-    linear-gradient(180deg, #0e1620 0%, #0a1018 55%, #080c12 100%);
-  background-size: 64px 64px, auto, auto, auto;
-  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
-  animation: pc-halftone-drift 14s linear infinite;
+    url("/party-chronicle/forest-leaf.svg"),
+    url("/party-chronicle/forest-canopy.svg"),
+    radial-gradient(ellipse at 20% 0%, rgba(94, 207, 154, 0.14), transparent 50%),
+    radial-gradient(ellipse at 88% 12%, rgba(232, 201, 106, 0.1), transparent 42%),
+    linear-gradient(180deg, #0c1a14 0%, #07110c 55%, #050c08 100%);
+  background-size: 72px 72px, 100% 42%, auto, auto, auto;
+  background-position: 0 0, center bottom, center, center, 0 0;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  animation: pc-forest-drift 18s linear infinite;
   min-height: 100%;
 }
 
-@keyframes pc-halftone-drift {
+@keyframes pc-forest-drift {
   from {
-    background-position: 0 0, center, center, 0 0;
+    background-position: 0 0, center bottom, center, center, 0 0;
   }
   to {
-    background-position: 64px 32px, center, center, 0 0;
+    background-position: 48px 24px, center bottom, center, center, 0 0;
   }
 }
 
@@ -122,14 +122,14 @@
   position: relative;
   overflow: hidden;
   background:
-    linear-gradient(165deg, rgba(26, 40, 54, 0.96), rgba(12, 18, 28, 0.98)),
-    url("/party-chronicle/halftone.svg");
-  background-size: auto, 48px 48px;
+    linear-gradient(165deg, rgba(24, 48, 40, 0.96), rgba(10, 20, 16, 0.98)),
+    url("/party-chronicle/forest-leaf.svg");
+  background-size: auto, 56px 56px;
   border: 4px solid var(--pc-border);
   border-radius: 2px;
   box-shadow:
-    inset 0 0 0 2px rgba(244, 239, 228, 0.55),
-    inset 0 0 0 3px rgba(46, 196, 212, 0.3),
+    inset 0 0 0 2px rgba(240, 235, 224, 0.4),
+    inset 0 0 0 3px rgba(94, 207, 154, 0.28),
     0 10px 28px var(--pc-shadow);
   animation: pc-panel-in 0.4s ease-out both;
 }
@@ -189,9 +189,10 @@
   overflow: hidden;
   border: 4px solid var(--pc-border);
   background:
-    radial-gradient(ellipse at 12% 0%, rgba(46, 196, 212, 0.22), transparent 50%),
-    radial-gradient(ellipse at 88% 20%, rgba(232, 93, 76, 0.14), transparent 45%),
-    linear-gradient(165deg, #1a2836, #0c121a);
+    url("/party-chronicle/forest-canopy.svg") center bottom / cover no-repeat,
+    radial-gradient(ellipse at 12% 0%, rgba(94, 207, 154, 0.22), transparent 50%),
+    radial-gradient(ellipse at 88% 20%, rgba(232, 201, 106, 0.14), transparent 45%),
+    linear-gradient(165deg, #1a3024, #0c1610);
   box-shadow: 0 8px 24px var(--pc-shadow);
 }
 
@@ -202,28 +203,65 @@
   pointer-events: none;
   position: absolute;
   inset: 0;
-  background: url("/party-chronicle/speed-lines.svg") right center / 200px no-repeat;
-  opacity: 0.28;
+  background:
+    linear-gradient(90deg, transparent 55%, rgba(232, 201, 106, 0.08)),
+    url("/party-chronicle/forest-leaf.svg") right 12px center / 96px repeat-y;
+  opacity: 0.55;
 }
 
 .party-comic .pc-turn-banner,
 .party-rpg90s .pc-turn-banner,
-.party-chronicle .pc-turn-banner {
-  background: repeating-linear-gradient(
-    -45deg,
-    var(--pc-cyan),
-    var(--pc-cyan) 8px,
-    var(--pc-accent) 8px,
-    var(--pc-accent) 16px
-  );
-  border: 3px solid var(--pc-border);
-  padding: 0.35rem 0.75rem;
+.party-chronicle .pc-turn-banner,
+.party-comic .pc-turn-banner[data-forest="true"],
+.party-rpg90s .pc-turn-banner[data-forest="true"],
+.party-chronicle .pc-turn-banner[data-forest="true"] {
+  background-color: #1e4a38 !important;
+  background-image:
+    url("/party-chronicle/forest-canopy.svg"),
+    linear-gradient(180deg, #3d9a7a 0%, #2a6b52 45%, #1e4a38 100%) !important;
+  background-size: cover, auto !important;
+  background-position: center bottom, center !important;
+  background-repeat: no-repeat, no-repeat !important;
+  border: 3px solid #06100a;
+  border-image: none !important;
+  padding: 0.45rem 1.75rem;
   font-family: var(--pc-display);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--pc-ink);
+  color: #f0ebe0 !important;
   text-align: center;
-  box-shadow: 3px 3px 0 var(--pc-border);
+  text-shadow: 2px 2px 0 #06100a;
+  box-shadow:
+    inset 0 1px 0 rgba(200, 230, 192, 0.25),
+    3px 3px 0 #06100a;
+  position: relative;
+}
+
+.party-comic .pc-turn-banner::before,
+.party-rpg90s .pc-turn-banner::before,
+.party-chronicle .pc-turn-banner::before,
+.party-comic .pc-turn-banner::after,
+.party-rpg90s .pc-turn-banner::after,
+.party-chronicle .pc-turn-banner::after {
+  content: "▲";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.7rem;
+  opacity: 0.55;
+  color: var(--pc-accent);
+}
+
+.party-comic .pc-turn-banner::before,
+.party-rpg90s .pc-turn-banner::before,
+.party-chronicle .pc-turn-banner::before {
+  left: 0.65rem;
+}
+
+.party-comic .pc-turn-banner::after,
+.party-rpg90s .pc-turn-banner::after,
+.party-chronicle .pc-turn-banner::after {
+  right: 0.65rem;
 }
 
 /* ——— Comic art frame ——— */
@@ -233,7 +271,10 @@
   position: relative;
   border: 4px solid var(--pc-border);
   overflow: hidden;
-  background: #0d1520;
+  background:
+    linear-gradient(180deg, rgba(12, 28, 20, 0.2), rgba(7, 17, 12, 0.55)),
+    url("/party-chronicle/forest-canopy.svg") center / cover no-repeat,
+    #0d1a14;
   box-shadow: 6px 6px 0 var(--pc-border);
   aspect-ratio: 16 / 9;
 }
@@ -253,8 +294,10 @@
   pointer-events: none;
   position: absolute;
   inset: 0;
-  background: url("/party-chronicle/speed-lines.svg") right center / cover no-repeat;
-  opacity: 0.35;
+  background:
+    linear-gradient(105deg, transparent 40%, rgba(200, 230, 192, 0.12) 48%, transparent 56%),
+    url("/party-chronicle/forest-leaf.svg") right center / 120px repeat-y;
+  opacity: 0.4;
   mix-blend-mode: screen;
   animation: pc-speed-pulse 2.4s ease-in-out infinite alternate;
 }
@@ -504,7 +547,7 @@
 .party-rpg90s .pc-choice:hover:not(:disabled),
 .party-chronicle .pc-choice:hover:not(:disabled) {
   transform: translateY(-2px);
-  background: linear-gradient(180deg, #243448, var(--pc-panel-lit));
+  background: linear-gradient(180deg, #244838, var(--pc-panel-lit));
   border-color: var(--pc-accent);
 }
 
@@ -524,9 +567,17 @@
 
 .party-comic .pc-chip:disabled,
 .party-rpg90s .pc-chip:disabled,
-.party-chronicle .pc-chip:disabled {
-  opacity: 0.45;
+.party-chronicle .pc-chip:disabled,
+.party-comic .pc-choice:disabled,
+.party-rpg90s .pc-choice:disabled,
+.party-chronicle .pc-choice:disabled,
+.party-comic .pc-primary-btn:disabled,
+.party-rpg90s .pc-primary-btn:disabled,
+.party-chronicle .pc-primary-btn:disabled {
+  opacity: 0.4;
   cursor: not-allowed;
+  transform: none;
+  filter: grayscale(0.35);
 }
 
 .party-comic .pc-primary-btn,
