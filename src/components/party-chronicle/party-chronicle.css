@@ -3186,3 +3186,25 @@
   background: linear-gradient(165deg, rgba(14, 28, 20, 0.92), rgba(6, 12, 10, 0.95));
   color: var(--pc-paper);
 }
+
+
+/* Dog companions as full tactical tokens */
+.party-comic .pc-tactical-token[data-kind="pet"],
+.party-rpg90s .pc-tactical-token[data-kind="pet"],
+.party-chronicle .pc-tactical-token[data-kind="pet"] {
+  transform: scale(0.88);
+}
+.party-comic .pc-battle-roster-pet,
+.party-rpg90s .pc-battle-roster-pet,
+.party-chronicle .pc-battle-roster-pet {
+  margin-top: 0.35rem;
+  margin-left: 0.65rem;
+  opacity: 0.95;
+  border-left: 2px solid color-mix(in srgb, var(--pc-accent) 55%, transparent);
+  padding-left: 0.55rem;
+}
+.party-comic .pc-turn-portrait[data-kind="pet"] img,
+.party-rpg90s .pc-turn-portrait[data-kind="pet"] img,
+.party-chronicle .pc-turn-portrait[data-kind="pet"] img {
+  object-fit: contain;
+}

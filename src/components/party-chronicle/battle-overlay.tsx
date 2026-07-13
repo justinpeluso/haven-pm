@@ -9,13 +9,16 @@ import {
   canStrike,
   foodItemIds,
   getEnemyByUnitId,
+  getPetByUnitId,
   getUnit,
   hpPotionIds,
   isBattleIntroActive,
   isEnemyCombatantId,
   isFlanking,
+  isPetCombatantId,
   legalMoves,
   manaPotionIds,
+  petUnitId,
   rangeTiles,
   spellStrikeRange,
   threatenedTiles,
@@ -264,16 +267,23 @@ function TurnOrderStrip({
       {battle.turnQueue.map((id, i) => {
         const active = battle.activeId === id;
         const enemy = isEnemyCombatantId(id);
+        const pet = isPetCombatantId(id) ? getPetByUnitId(battle, id) : null;
         const foe = enemy ? getEnemyByUnitId(battle, id) : null;
-        const hero = !enemy ? battle.heroes.find((h) => h.id === id) : null;
+        const hero = !enemy && !pet ? battle.heroes.find((h) => h.id === id) : null;
         const char = hero ? world.characters[hero.slot] : null;
-        const down = enemy ? (foe?.hp ?? 0) <= 0 : (hero?.hp ?? 0) <= 0;
+        const down = enemy
+          ? (foe?.hp ?? 0) <= 0
+          : pet
+            ? pet.hp <= 0
+            : (hero?.hp ?? 0) <= 0;
         const src = enemy
           ? foe
             ? battleEnemyArtSrc(foe)
             : missingArt
-          : battleClassArtSrc(char?.classId);
-        const name = enemy ? foe?.name ?? "Foe" : hero?.name ?? "Hero";
+          : pet
+            ? battlePetArtSrc()
+            : battleClassArtSrc(char?.classId);
+        const name = enemy ? foe?.name ?? "Foe" : pet ? pet.name : hero?.name ?? "Hero";
         return (
           <button
             key={`${id}-${i}`}
@@ -282,6 +292,7 @@ function TurnOrderStrip({
             className="pc-turn-portrait"
             data-active={active ? "true" : "false"}
             data-side={enemy ? "enemy" : "party"}
+            data-kind={pet ? "pet" : enemy ? "enemy" : "hero"}
             data-down={down ? "true" : "false"}
             data-inspect={inspectId === id ? "true" : "false"}
             title={`${name}${active ? " · acting" : ""} — tap to examine`}
@@ -314,50 +325,65 @@ function InspectCard({
   onClose: () => void;
 }) {
   const enemy = isEnemyCombatantId(unitId);
+  const pet = isPetCombatantId(unitId) ? getPetByUnitId(battle, unitId) : null;
   const foe = enemy ? getEnemyByUnitId(battle, unitId) : null;
-  const hero = !enemy ? battle.heroes.find((h) => h.id === unitId) : null;
+  const hero = !enemy && !pet ? battle.heroes.find((h) => h.id === unitId) : null;
   const char = hero ? world.characters[hero.slot] : null;
   const className = char?.classId ? CLASS_DEFS[char.classId]?.name : null;
   const unit = battle.tactical ? getUnit(battle.tactical, unitId) : null;
   const statuses = hero?.statuses ?? [];
-  if (!foe && !hero) return null;
+  if (!foe && !hero && !pet) return null;
 
   return (
     <div className="pc-inspect-card" role="dialog" aria-label="Examine combatant">
       <button type="button" className="pc-inspect-close" onClick={onClose} aria-label="Close">
         ×
       </button>
-      <p className="pc-eyebrow text-[0.65rem]">{enemy ? "Enemy" : "Hero"}</p>
-      <h3 className="pc-title text-lg">{enemy ? foe!.name : hero!.name}</h3>
-      {!enemy && className ? (
+      <p className="pc-eyebrow text-[0.65rem]">
+        {enemy ? "Enemy" : pet ? "Companion" : "Hero"}
+      </p>
+      <h3 className="pc-title text-lg">
+        {enemy ? foe!.name : pet ? pet.name : hero!.name}
+      </h3>
+      {!enemy && !pet && className ? (
         <p className="text-[0.7rem] opacity-75 mb-1">{className}</p>
+      ) : null}
+      {pet ? (
+        <p className="text-[0.7rem] opacity-75 mb-1">
+          {pet.breed}
+          {world.characters[pet.ownerSlot]
+            ? ` · ${world.characters[pet.ownerSlot]!.name}'s companion`
+            : ""}
+        </p>
       ) : null}
       {enemy && foe?.blurb ? (
         <p className="text-[0.7rem] opacity-75 mb-2">{foe.blurb}</p>
       ) : null}
       <Meter
         label="HP"
-        value={enemy ? foe!.hp : hero!.hp}
-        max={enemy ? foe!.maxHp : hero!.maxHp}
+        value={enemy ? foe!.hp : pet ? pet.hp : hero!.hp}
+        max={enemy ? foe!.maxHp : pet ? pet.maxHp : hero!.maxHp}
         tone={enemy ? "enemy" : "hp"}
         compact
       />
-      {!enemy ? (
+      {!enemy && !pet ? (
         <Meter label="Mana" value={hero!.mana} max={hero!.maxMana} tone="mana" compact />
       ) : foe && foe.maxMana > 0 ? (
         <Meter label="Mana" value={foe.mana} max={foe.maxMana} tone="mana" compact />
       ) : null}
       <p className="text-[0.7rem] mt-2">
-        <strong>Defense</strong> {enemy ? foe!.armor : hero!.armor} · <strong>Power</strong>{" "}
-        {enemy ? foe!.power : hero!.power}
+        <strong>Defense</strong> {enemy ? foe!.armor : pet ? pet.armor : hero!.armor} ·{" "}
+        <strong>Power</strong> {enemy ? foe!.power : pet ? pet.power : hero!.power}
         {unit ? ` · Spd ${unit.speed} · Rng ${unit.range}` : ""}
       </p>
       {statuses.length > 0 ? (
         <p className="text-[0.7rem] mt-1">
           Status: {statuses.map((s) => `${statusTitle(s.id)} (${s.turns})`).join(", ")}
         </p>
-      ) : (
+      ) : !pet ? (
         <p className="text-[0.7rem] mt-1 opacity-60">No active statuses</p>
+      ) : (
+        <p className="text-[0.7rem] mt-1 opacity-60">Melee bite · flanks with owner</p>
       )}
       {enemy && foe?.uniqueSkill ? (
         <p className="text-[0.65rem] mt-1 opacity-70">Unique: {foe.uniqueSkill.name}</p>
@@ -445,6 +471,7 @@ function TacticalBoard({
   battle,
   world,
   mySlot,
+  controlUnitId,
   isMyTurn,
   pending,
   floaters,
@@ -462,6 +489,8 @@ function TacticalBoard({
   battle: BattleState;
   world: PartyWorldSave;
   mySlot: PlayerSlot | null;
+  /** Hero slot or pet unit id currently under player control. */
+  controlUnitId: string | null;
   isMyTurn: boolean;
   pending: boolean;
   floaters: Floater[];
@@ -481,13 +510,13 @@ function TacticalBoard({
   const phase = tactical?.phase ?? "move";
 
   const moves = useMemo(() => {
-    if (!tactical || !isMyTurn || phase !== "move" || !mySlot || targeting) {
+    if (!tactical || !isMyTurn || phase !== "move" || !controlUnitId || targeting) {
       return new Set<string>();
     }
-    return new Set(legalMoves(tactical, mySlot).map((m) => `${m.x},${m.y}`));
-  }, [tactical, isMyTurn, phase, mySlot, targeting]);
+    return new Set(legalMoves(tactical, controlUnitId).map((m) => `${m.x},${m.y}`));
+  }, [tactical, isMyTurn, phase, controlUnitId, targeting]);
 
-  const attacker = tactical && mySlot ? getUnit(tactical, mySlot) : null;
+  const attacker = tactical && controlUnitId ? getUnit(tactical, controlUnitId) : null;
 
   const attackableEnemyIds = useMemo(() => {
     if (!tactical || !attacker || !isMyTurn || pending) return new Set<string>();
@@ -616,7 +645,9 @@ function TacticalBoard({
               unit
                 ? unit.side === "enemy"
                   ? foeState?.name ?? "Enemy"
-                  : hero?.name ?? "Hero"
+                  : isPetCombatantId(unit.id) || unit.kind === "pet"
+                    ? getPetByUnitId(battle, unit.id)?.name ?? "Companion"
+                    : hero?.name ?? "Hero"
                 : reachable
                   ? `Move to ${x + 1},${y + 1}`
                   : `Tile ${x + 1},${y + 1}`
@@ -658,10 +689,44 @@ function TacticalBoard({
                 </span>
               </div>
             ) : null}
-            {unit?.side === "party" && hero ? (
+            {unit?.side === "party" &&
+            (unit.kind === "pet" || isPetCombatantId(unit.id)) ? (
+              (() => {
+                const pet = getPetByUnitId(battle, unit.id);
+                if (!pet) return null;
+                return (
+                  <div
+                    className="pc-tactical-token pc-battle-fx-anchor"
+                    data-side="party"
+                    data-kind="pet"
+                    data-down={pet.hp <= 0 ? "true" : "false"}
+                    data-swing={swinging.has(unit.id) ? "true" : "false"}
+                    data-buff={buffing.has(unit.id) ? "true" : "false"}
+                  >
+                    <CombatFloaters floaters={floaters} target={pet.id} />
+                    <img
+                      src={battlePetArtSrc()}
+                      alt={pet.name}
+                      title={`${pet.name} (${pet.breed})`}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = missingArt;
+                      }}
+                    />
+                    <span className="pc-tactical-hp">
+                      {pet.hp}/{pet.maxHp}
+                    </span>
+                  </div>
+                );
+              })()
+            ) : null}
+            {unit?.side === "party" &&
+            hero &&
+            unit.kind !== "pet" &&
+            !isPetCombatantId(unit.id) ? (
               <div
                 className="pc-tactical-token pc-battle-fx-anchor"
                 data-side="party"
+                data-kind="hero"
                 data-down={hero.hp <= 0 ? "true" : "false"}
                 data-swing={swinging.has(unit.id) ? "true" : "false"}
                 data-buff={buffing.has(unit.id) ? "true" : "false"}
@@ -675,17 +740,6 @@ function TacticalBoard({
                     (e.target as HTMLImageElement).src = missingArt;
                   }}
                 />
-                {char?.dog ? (
-                  <img
-                    className="pc-tactical-pet"
-                    src={battlePetArtSrc()}
-                    alt={char.dog.name}
-                    title={char.dog.name}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = missingArt;
-                    }}
-                  />
-                ) : null}
                 <span className="pc-tactical-hp">
                   {hero.hp}/{hero.maxHp}
                 </span>
@@ -884,8 +938,19 @@ export function BattleOverlay({
 
   const enemyPack = battle ? battleEnemyPack(battle) : [];
   const phase = battle?.tactical?.phase ?? "move";
+  const myPetId = mySlot ? petUnitId(mySlot) : null;
+  const controllingPetTurn =
+    !!battle && !!myPetId && isPetCombatantId(battle.activeId) && battle.activeId === myPetId;
+  const controlUnitId =
+    battle && mySlot
+      ? controllingPetTurn
+        ? battle.activeId
+        : battle.activeId === mySlot
+          ? mySlot
+          : null
+      : null;
   const myUnit =
-    battle?.tactical && mySlot ? getUnit(battle.tactical, mySlot) : null;
+    battle?.tactical && controlUnitId ? getUnit(battle.tactical, controlUnitId) : null;
 
   const livingEnemyIds = useMemo(() => {
     const s = new Set<string>();
@@ -946,7 +1011,16 @@ export function BattleOverlay({
   const battleSec = battleLeft % 60;
 
   const activeHero = battle.heroes.find((h) => h.id === battle.activeId);
-  const isMyTurn = !!mySlot && battle.activeId === mySlot && canAct && !introActive;
+  const activePet = isPetCombatantId(battle.activeId)
+    ? getPetByUnitId(battle, battle.activeId)
+    : null;
+  const isMyTurn =
+    !!mySlot &&
+    canAct &&
+    !introActive &&
+    (battle.activeId === mySlot ||
+      (controllingPetTurn && activePet?.ownerSlot === mySlot));
+  const isPetTurn = isMyTurn && controllingPetTurn;
   const me = mySlot ? world.characters[mySlot] : null;
   const spells = me ? battleSpellIds(me) : [];
   const foods = me ? foodItemIds(me.inventory) : [];
@@ -1019,12 +1093,12 @@ export function BattleOverlay({
   const onSelectTarget = (targetId: string) => {
     if (!targeting) {
       // Act-phase shortcut: clicking a foe in range arms confirm
-      if (phase === "act" && attackableQuick(battle, mySlot, targetId)) {
+      if (phase === "act" && attackableQuick(battle, controlUnitId, targetId)) {
         const foe = getEnemyByUnitId(battle, targetId);
         setPendingConfirm({
           action: "attack",
           targetId,
-          label: `Strike ${foe?.name ?? "foe"}`,
+          label: `${isPetTurn ? "Bite" : "Strike"} ${foe?.name ?? "foe"}`,
         });
         setTargeting({ kind: "attack" });
       }
@@ -1160,8 +1234,12 @@ export function BattleOverlay({
             {isEnemyCombatantId(battle.activeId)
               ? `${activeFoe?.name ?? "Enemy"}'s turn`
               : isMyTurn
-                ? `Your turn · ${economyLabel}`
-                : `${activeHero?.name ?? "Ally"}'s turn`}
+                ? isPetTurn
+                  ? `${activePet?.name ?? "Companion"} · ${economyLabel}`
+                  : `Your turn · ${economyLabel}`
+                : activePet
+                  ? `${activePet.name}'s turn`
+                  : `${activeHero?.name ?? "Ally"}'s turn`}
           </span>
         </div>
 
@@ -1171,6 +1249,7 @@ export function BattleOverlay({
               battle={battle}
               world={world}
               mySlot={mySlot}
+              controlUnitId={controlUnitId}
               isMyTurn={isMyTurn}
               pending={pending}
               floaters={floaters}
@@ -1237,26 +1316,46 @@ export function BattleOverlay({
               const classId = char?.classId;
               const className = classId ? CLASS_DEFS[classId]?.name : "Hero";
               const unit = battle.tactical ? getUnit(battle.tactical, h.id) : null;
+              const pet = (battle.pets ?? []).find((p) => p.ownerSlot === h.slot);
+              const petUnit = pet && battle.tactical ? getUnit(battle.tactical, pet.id) : null;
               return (
-                <div
-                  key={h.id}
-                  className="pc-battle-roster-hero"
-                  data-active={battle.activeId === h.id}
-                  data-down={h.hp <= 0}
-                >
-                  <p className="font-bold text-sm">
-                    {h.name}
-                    {h.powerUpTurns > 0 ? ` ▲${h.powerUpTurns}` : ""}
-                    {battle.activeId === h.id ? " ★" : ""}
-                  </p>
-                  <p className="pc-battle-hero-class">
-                    {className}
-                    {unit ? ` · Spd ${unit.speed} · Rng ${unit.range}` : ""}
-                  </p>
-                  <Meter label="HP" value={h.hp} max={h.maxHp} tone="hp" />
-                  <Meter label="Mana" value={h.mana} max={h.maxMana} tone="mana" />
-                  {char && <XpMeter xp={char.xp} compact />}
-                  <StatusIcons statuses={h.statuses} />
+                <div key={h.id}>
+                  <div
+                    className="pc-battle-roster-hero"
+                    data-active={battle.activeId === h.id}
+                    data-down={h.hp <= 0}
+                  >
+                    <p className="font-bold text-sm">
+                      {h.name}
+                      {h.powerUpTurns > 0 ? ` ▲${h.powerUpTurns}` : ""}
+                      {battle.activeId === h.id ? " ★" : ""}
+                    </p>
+                    <p className="pc-battle-hero-class">
+                      {className}
+                      {unit ? ` · Spd ${unit.speed} · Rng ${unit.range}` : ""}
+                    </p>
+                    <Meter label="HP" value={h.hp} max={h.maxHp} tone="hp" />
+                    <Meter label="Mana" value={h.mana} max={h.maxMana} tone="mana" />
+                    {char && <XpMeter xp={char.xp} compact />}
+                    <StatusIcons statuses={h.statuses} />
+                  </div>
+                  {pet ? (
+                    <div
+                      className="pc-battle-roster-hero pc-battle-roster-pet"
+                      data-active={battle.activeId === pet.id}
+                      data-down={pet.hp <= 0}
+                    >
+                      <p className="font-bold text-sm">
+                        {pet.name}
+                        {battle.activeId === pet.id ? " ★" : ""}
+                      </p>
+                      <p className="pc-battle-hero-class">
+                        Companion · {pet.breed}
+                        {petUnit ? ` · Spd ${petUnit.speed} · Rng ${petUnit.range}` : ""}
+                      </p>
+                      <Meter label="HP" value={pet.hp} max={pet.maxHp} tone="hp" />
+                    </div>
+                  ) : null}
                 </div>
               );
             })}
@@ -1269,8 +1368,12 @@ export function BattleOverlay({
             : isEnemyCombatantId(battle.activeId)
               ? `${activeFoe?.name ?? battle.enemy.name}'s turn…`
               : isMyTurn
-                ? `Your turn — ${phase === "move" ? "Move" : "Act"}: ${phaseHint}`
-                : `${activeHero?.name ?? "Ally"}'s turn`}
+                ? isPetTurn
+                  ? `${activePet?.name ?? "Companion"} — ${phase === "move" ? "Move" : "Bite"}: ${phaseHint}`
+                  : `Your turn — ${phase === "move" ? "Move" : "Act"}: ${phaseHint}`
+                : activePet
+                  ? `${activePet.name}'s turn`
+                  : `${activeHero?.name ?? "Ally"}'s turn`}
           {battle.lastRocLabel ? (
             <span className="block text-[0.65rem] opacity-80 mt-1 font-normal normal-case tracking-normal">
               {battle.lastRocLabel}
@@ -1310,11 +1413,12 @@ export function BattleOverlay({
             }
             onClick={beginAttackTargeting}
           >
-            <strong>Attack</strong>
+            <strong>{isPetTurn ? "Bite" : "Attack"}</strong>
             <span className="block text-[0.65rem] opacity-70">
               {foeInRange ? "Choose a foe" : "Out of range"}
             </span>
           </button>
+          {!isPetTurn ? (
           <button
             type="button"
             className="pc-choice pc-battle-action"
@@ -1328,6 +1432,7 @@ export function BattleOverlay({
             <strong>Power Up</strong>
             <span className="block text-[0.65rem] opacity-70">+25% dmg, 3 turns</span>
           </button>
+          ) : null}
           <button
             type="button"
             className="pc-choice pc-battle-action"
@@ -1345,7 +1450,7 @@ export function BattleOverlay({
           </button>
         </div>
 
-        {isMyTurn && foods.length > 0 && (
+        {isMyTurn && !isPetTurn && foods.length > 0 && (
           <div className="pc-battle-spell-row">
             <p className="pc-eyebrow text-[0.65rem]">Eat</p>
             <div className="flex flex-wrap gap-2">
@@ -1374,7 +1479,7 @@ export function BattleOverlay({
           </div>
         )}
 
-        {isMyTurn && hpPots.length > 0 && (
+        {isMyTurn && !isPetTurn && hpPots.length > 0 && (
           <div className="pc-battle-spell-row">
             <p className="pc-eyebrow text-[0.65rem]">HP potions</p>
             <div className="flex flex-wrap gap-2">
@@ -1403,7 +1508,7 @@ export function BattleOverlay({
           </div>
         )}
 
-        {isMyTurn && manaPots.length > 0 && (
+        {isMyTurn && !isPetTurn && manaPots.length > 0 && (
           <div className="pc-battle-spell-row">
             <p className="pc-eyebrow text-[0.65rem]">Mana potions</p>
             <div className="flex flex-wrap gap-2">
@@ -1432,7 +1537,7 @@ export function BattleOverlay({
           </div>
         )}
 
-        {isMyTurn && spells.length > 0 && (
+        {isMyTurn && !isPetTurn && spells.length > 0 && (
           <div className="pc-battle-spell-row">
             <p className="pc-eyebrow text-[0.65rem]">Spells</p>
             <div className="flex flex-wrap gap-2">
@@ -1497,11 +1602,11 @@ export function BattleOverlay({
 
 function attackableQuick(
   battle: BattleState,
-  mySlot: PlayerSlot | null,
+  controlUnitId: string | null,
   targetId: string
 ): boolean {
-  if (!mySlot || !battle.tactical) return false;
-  const attacker = getUnit(battle.tactical, mySlot);
+  if (!controlUnitId || !battle.tactical) return false;
+  const attacker = getUnit(battle.tactical, controlUnitId);
   const foe = getUnit(battle.tactical, targetId);
   if (!attacker || !foe || foe.side !== "enemy") return false;
   const st = getEnemyByUnitId(battle, targetId);

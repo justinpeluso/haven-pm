@@ -1333,6 +1333,19 @@ function performPetBattleAction(
   const phase = b.tactical?.phase ?? "act";
   let message = "";
 
+  if (
+    action === "powerUp" ||
+    action === "eat" ||
+    action === "drinkHp" ||
+    action === "drinkMana" ||
+    action === "spell"
+  ) {
+    return {
+      world: { ...world, battle: b },
+      message: `${pet.name} can only move, bite, or wait.`,
+    };
+  }
+
   if (action === "move") {
     if (phase !== "move") return { world: { ...world, battle: b }, message: "Already moved." };
     if (opts.x == null || opts.y == null) {
@@ -1354,18 +1367,14 @@ function performPetBattleAction(
   if (action === "wait") {
     if (phase === "move" && b.tactical) {
       b = { ...b, tactical: setPhase(b.tactical, "act") };
-      message = `${pet.name} holds, ready to bite.`;
+      message = `${pet.name} holds, ears pricked.`;
       b = pushLog(b, message);
       return { world: { ...world, battle: b }, message };
     }
     message = `${pet.name} waits.`;
     b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
     b = pushLog(b, message);
-    b = advanceBattleTurn(b);
-    return { world: { ...world, battle: b }, message };
-  }
-
-  if (action === "attack") {
+  } else if (action === "attack") {
     const targetId = resolveAttackTargetId(b, pet.id, opts.targetId);
     if (!targetId) return { world, message: "No foes left." };
     const foeState = getEnemyByUnitId(b, targetId);
@@ -1385,35 +1394,61 @@ function performPetBattleAction(
         ? isFlanking(b.tactical, attacker, foeTok)
         : false;
     const strike = combatStrikePower(pet.power, false);
-    const damage = clampOutgoingDamage(
-      Math.max(1, Math.floor(strike * (flanking ? 1.12 : 1) * (0.85 + rng() * 0.3))),
-      foeState.maxHp
+    const bond = world.characters[actorSlot]?.dog?.bond ?? 10;
+    const offense = resolveRoc({
+      attributeScore: 10 + Math.floor(bond / 15),
+      skillValue: Math.round(pet.power * 0.9) + (flanking ? 8 : 0),
+      situational: pathwaySituational(world) + (flanking ? 10 : 2),
+      rng,
+    });
+    const defense = resolveDefenseRoc({
+      armor: foeState.armor,
+      power: foeState.power,
+      level: partyLevel(world),
+      rng,
+    });
+    const { damage: rawDmg } = rocDamageFromMargin(
+      strike * (flanking ? 1.2 : 1),
+      offense,
+      defense.total,
+      { armor: foeState.armor, minHit: offense.tier.success ? 1 : 0 }
     );
+    const damage = clampOutgoingDamage(rawDmg, foeState.maxHp);
+    b = recordRoc(b, offense);
     b = pushStrikeVfx(b, pet.id, targetId, "melee", true);
     if (flanking) {
       b = pushFx(b, "flank", 0, targetId, { source: pet.id, tone: "melee" });
     }
-    const dealt = dealToEnemy(b, damage, targetId, {
-      sourceId: pet.id,
-      floater: "damage",
-      tone: "melee",
-    });
-    b = dealt.battle;
-    message = `${pet.name} bites ${foeState.name}${flanking ? " (flank!)" : ""} for ${dealt.damage}.`;
-    if (dealt.fallen) message += ` ${foeState.name} falls!`;
-    b = pushLog(b, message);
-    b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1, damageDealt: b.stats.damageDealt + dealt.damage } };
-    if (livingEnemyUnitIds(b).length === 0) {
-      return {
-        world: finishVictory({ ...world, battle: b }, b, actorSlot, rng),
-        message,
-      };
+    if (damage > 0) {
+      const dealt = dealToEnemy(b, damage, targetId, {
+        sourceId: pet.id,
+        floater: isCritTier(offense) ? "crit" : "damage",
+        tone: "melee",
+      });
+      b = dealt.battle;
+      message = `${pet.name} bites ${foeState.name}${flanking ? " (flank!)" : ""} — ${offense.label} vs DCF ${defense.total} → ${dealt.damage} dmg.`;
+      if (dealt.fallen) message += ` ${foeState.name} falls!`;
+    } else {
+      b = pushFx(b, "miss", 0, targetId, { source: pet.id, tone: "melee" });
+      message = `${pet.name} snaps at air — ${offense.label}.`;
     }
-    b = advanceBattleTurn(b);
-    return { world: { ...world, battle: b }, message };
+    b = pushLog(b, message);
+  } else {
+    return { world: { ...world, battle: b }, message: "Unknown action." };
   }
 
-  return { world: { ...world, battle: b }, message: `${pet.name} can only move, bite, or wait.` };
+  let nextWorld: PartyWorldSave = { ...world, battle: b };
+  nextWorld = maybeResolveEnd(nextWorld, nextWorld.battle!, actorSlot, rng);
+  if (nextWorld.battle?.status !== "active") {
+    return { world: nextWorld, message };
+  }
+
+  let nb = advanceBattleTurn(nextWorld.battle!);
+  nextWorld = { ...nextWorld, battle: nb };
+  if (isEnemyCombatantId(nb.activeId)) {
+    nextWorld = resolveEnemyPhase(nextWorld, nextWorld.battle!, rng);
+  }
+  return { world: nextWorld, message };
 }
 
 export function performBattleAction(

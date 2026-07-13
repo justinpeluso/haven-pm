@@ -282,25 +282,91 @@ export function ensureTactical(
   battle: BattleState,
   world: PartyWorldSave
 ): BattleState {
-  if (
+  const needsPets = battle.pets == null;
+  const pets =
+    battle.pets ??
+    battle.heroes
+      .map((h) => {
+        const c = world.characters[h.slot];
+        if (!c?.dog || c.dog.hp <= 0 || h.hp <= 0) return null;
+        const lvl = Math.max(1, c.level);
+        const bond = Math.max(0, c.dog.bond ?? 0);
+        const maxHp = Math.max(8, Math.min(c.dog.maxHp + lvl * 2, Math.floor(c.dog.maxHp * 1.5) + lvl));
+        return {
+          id: petUnitId(h.slot),
+          ownerSlot: h.slot,
+          name: c.dog.name || "Companion",
+          breed: c.dog.breed || "hound",
+          hp: Math.min(maxHp, Math.max(1, c.dog.hp)),
+          maxHp,
+          power: Math.max(2, Math.floor(3 + lvl * 0.85 + bond / 25)),
+          armor: Math.max(0, Math.floor(bond / 45) + Math.floor(lvl / 8)),
+        } satisfies BattlePetState;
+      })
+      .filter((p): p is BattlePetState => !!p);
+
+  const hasTactical =
     battle.tactical &&
     battle.tactical.cols > 0 &&
     battle.tactical.rows > 0 &&
-    battle.tactical.units?.length
-  ) {
+    battle.tactical.units?.length;
+
+  // If pets were missing from an otherwise valid board, rebuild so dogs appear.
+  const boardMissingPets =
+    !!hasTactical &&
+    pets.length > 0 &&
+    !battle.tactical!.units.some((u) => u.kind === "pet" || isPetCombatantId(u.id));
+
+  if (hasTactical && !boardMissingPets && !needsPets) {
     return battle;
   }
+
   const pack = normalizeEnemies(battle.enemy, battle.enemies);
-  const pets = battle.pets ?? [];
+  let turnQueue = battle.turnQueue;
+  // Inject pet turns after owners when hydrating a legacy queue.
+  if (needsPets && pets.length) {
+    const petByOwner = new Map(pets.map((p) => [p.ownerSlot, p.id]));
+    const rebuilt: string[] = [];
+    const seen = new Set<string>();
+    for (const id of battle.turnQueue) {
+      if (seen.has(id)) continue;
+      rebuilt.push(id);
+      seen.add(id);
+      if (!isEnemyCombatantId(id) && !isPetCombatantId(id)) {
+        const slot = id as PlayerSlot;
+        const petId = petByOwner.get(slot);
+        if (petId && !seen.has(petId)) {
+          rebuilt.push(petId);
+          seen.add(petId);
+        }
+      }
+    }
+    for (const p of pets) {
+      if (!seen.has(p.id)) rebuilt.push(p.id);
+    }
+    turnQueue = rebuilt;
+  }
+
+  const activeId =
+    turnQueue.includes(battle.activeId) ? battle.activeId : turnQueue[0]!;
+  const turnIndex = Math.max(0, turnQueue.indexOf(activeId));
+
   return {
     ...battle,
     enemies: pack,
     pets,
+    turnQueue,
+    turnIndex,
+    activeId,
     tactical: createTacticalState(battle.heroes, pack, world, undefined, pets),
-    log: [
-      "The field stretches into a chessboard of grass — choose your steps.",
-      ...battle.log,
-    ].slice(0, 40),
+    log: boardMissingPets || needsPets
+      ? [
+          pets.length
+            ? `Companions take the field: ${pets.map((p) => p.name).join(", ")}.`
+            : "The field stretches into a chessboard of grass — choose your steps.",
+          ...battle.log,
+        ].slice(0, 40)
+      : battle.log,
   };
 }
 
