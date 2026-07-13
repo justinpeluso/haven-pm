@@ -549,9 +549,9 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     if (!world.characters[mySlot]?.created) setPhase("create");
   }, [phase, mySlot, world]);
 
-  // Track story/active time → random battles (~30–90s first, then ~2 min).
+  // Track story/active time → random battles every 90s of eligible play.
   // Also tick battle clocks: 30s idle → foe strikes; 10 min hard cap.
-  // DM-only authority (avoids multi-client ambush races). Timer pauses in dialogue/fights.
+  // DM-only authority (avoids multi-client ambush races). Timer pauses in fights.
   useEffect(() => {
     if (phase !== "play") return;
     if (!identity.isDm) return;

@@ -101,25 +101,22 @@ function clampOutgoingDamage(damage: number, enemyMaxHp: number): number {
   return Math.min(damage, cap);
 }
 
-/** First encounter: short grace then 30–90s of story time. */
-export const FIRST_ENCOUNTER_MIN_MS = 30_000;
-export const FIRST_ENCOUNTER_MAX_MS = 90_000;
-/** Later encounters: ~2 minutes. */
-export const NEXT_ENCOUNTER_MIN_MS = 100_000;
-export const NEXT_ENCOUNTER_MAX_MS = 140_000;
-
-function rngInt(min: number, max: number, rng: () => number) {
-  return min + Math.floor(rng() * (max - min + 1));
-}
+/** Random road ambushes every 90s of eligible story play time. */
+export const AMBUSH_INTERVAL_MS = 90_000;
+/** @deprecated Use AMBUSH_INTERVAL_MS — kept for older imports. */
+export const FIRST_ENCOUNTER_MIN_MS = AMBUSH_INTERVAL_MS;
+/** @deprecated Use AMBUSH_INTERVAL_MS */
+export const FIRST_ENCOUNTER_MAX_MS = AMBUSH_INTERVAL_MS;
+/** @deprecated Use AMBUSH_INTERVAL_MS */
+export const NEXT_ENCOUNTER_MIN_MS = AMBUSH_INTERVAL_MS;
+/** @deprecated Use AMBUSH_INTERVAL_MS */
+export const NEXT_ENCOUNTER_MAX_MS = AMBUSH_INTERVAL_MS;
 
 export function rollNextEncounterThreshold(
-  battlesFought: number,
-  rng: () => number = Math.random
+  _battlesFought?: number,
+  _rng?: () => number
 ): number {
-  if (battlesFought <= 0) {
-    return rngInt(FIRST_ENCOUNTER_MIN_MS, FIRST_ENCOUNTER_MAX_MS, rng);
-  }
-  return rngInt(NEXT_ENCOUNTER_MIN_MS, NEXT_ENCOUNTER_MAX_MS, rng);
+  return AMBUSH_INTERVAL_MS;
 }
 
 function applyXp(char: CharacterSave, xp: number): CharacterSave {
@@ -1450,28 +1447,41 @@ export function readSpellbook(
 }
 
 export function ensureEncounterSchedule(world: PartyWorldSave): PartyWorldSave {
-  if (world.nextEncounterAtMs != null && world.nextEncounterAtMs > 0) return world;
   const fought = world.battlesFought ?? 0;
+  const storyPlayMs = world.storyPlayMs ?? 0;
+  const nextAt = world.nextEncounterAtMs;
+  // Missing / zero schedule, or leftover waits from older longer cadences → cap at 90s.
+  if (
+    nextAt == null ||
+    nextAt <= 0 ||
+    nextAt - storyPlayMs > AMBUSH_INTERVAL_MS
+  ) {
+    return {
+      ...world,
+      storyPlayMs,
+      battlesFought: fought,
+      nextEncounterAtMs: storyPlayMs + AMBUSH_INTERVAL_MS,
+    };
+  }
   return {
     ...world,
-    storyPlayMs: world.storyPlayMs ?? 0,
+    storyPlayMs,
     battlesFought: fought,
-    nextEncounterAtMs: (world.storyPlayMs ?? 0) + rollNextEncounterThreshold(fought),
   };
 }
 
-/** Pause ambush clock during dialogue / path choices / story fights / deck fights. */
+/**
+ * Pause ambush clock during fights / battle summary — not during conversation or path
+ * choices (those are eligible story play; pausing them starved ambushes after the
+ * dialogue-pause change).
+ */
 export function isAmbushTimerPaused(world: PartyWorldSave): boolean {
   if (world.battle) return true;
   if (world.deckEncounter) return true;
-  if (world.encounterEnemyHp != null) return true;
+  // Only pause while a road/story foe still has HP (0 must not stick the clock).
+  if (world.encounterEnemyHp != null && world.encounterEnemyHp > 0) return true;
   const node = getStoryNode(world.campaignNodeId);
-  if (!node) return false;
-  return (
-    node.kind === "conversation" ||
-    node.kind === "path" ||
-    node.kind === "encounter"
-  );
+  return node?.kind === "encounter";
 }
 
 export function tickStoryPlay(
