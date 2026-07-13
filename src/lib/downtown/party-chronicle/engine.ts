@@ -101,8 +101,12 @@ export function rescueFromStrandedEnding(world: PartyWorldSave): PartyWorldSave 
     chapterForNode(world.campaignNodeId)?.id === "ch10-endings";
   if (!onEnding) return world;
   const battles = world.battlesFought ?? 0;
+  // Exact finale markers only — never match foreshadow like `saw-wild-crown`.
   const fromCouncilVote = (world.partyFlags ?? []).some(
-    (f) => f.includes("crown") || f.includes("finale") || f.includes("council-vote")
+    (f) =>
+      f === "finale-resolving" ||
+      f === "council-vote" ||
+      f.startsWith("council-vote:")
   );
   // Legitimate long-run finale — leave it alone.
   if (world.endingId && (battles >= 80 || fromCouncilVote)) return world;

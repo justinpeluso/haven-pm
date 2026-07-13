@@ -477,7 +477,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
               }
             ),
             log: remote.log?.length ? remote.log : base.log,
-            endingId: campaign.endingId ?? base.endingId,
+            endingId: campaign.endingId,
             updatedAt: remote.updatedAt || base.updatedAt,
           };
           const next = mergeBattleAndAmbush(campaignSlice, remote);
@@ -488,7 +488,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
         if (mySlot) {
           const sealed = !!remote.characters[mySlot]?.created;
           if (!sealed) setPhase("create");
-          else if (phase === "create") setPhase(remote.endingId ? "ending" : "play");
+          else if (phase === "create") setPhase(remote.endingId && (remote.battlesFought ?? 0) >= 80 ? "ending" : "play");
         }
       } catch {
         /* ignore */
@@ -626,7 +626,10 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
         campaignNodeId: campaign.campaignNodeId,
         chapterId: campaign.chapterId,
         partyFlags: unionPartyFlags(stamped.partyFlags, data.world.partyFlags),
-        endingId: campaign.endingId ?? data.world.endingId,
+        // Null must win when we intentionally cleared an early ending.
+        endingId: campaign.endingId,
+        alignment: campaign.alignment,
+        pathway: campaign.pathway ?? data.world.pathway,
         turnIndex: Math.max(stamped.turnIndex ?? 0, data.world.turnIndex ?? 0),
         // This POST owns the trail: abandon stays cleared; start/advance keep the run
         // even if a laggy merge reply briefly omitted activeSideQuest.
@@ -696,18 +699,38 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       setFlash("No save found.");
       return;
     }
-    const rewound = rescueFromStrandedEnding(existing);
-    const fixed = rewound.endingId ? rewindFromEnding(rewound) : rewound;
-    persist(fixed);
-    setWorld(fixed);
-    setTitleSave(fixed);
+    // Force a playable landmark — don't rely on soft rescue that sync can ignore.
+    const flags = Array.from(
+      new Set([...(existing.partyFlags ?? []), "rescued-from-early-ending", "visited:ch2-goblin-road"])
+    );
+    const fixed: PartyWorldSave = {
+      ...existing,
+      endingId: null,
+      campaignNodeId: "node-ch2-road",
+      chapterId: "ch2-goblin-road",
+      encounterEnemyHp: null,
+      deckEncounter: null,
+      partyFlags: flags,
+      updatedAt: new Date().toISOString(),
+      log: [
+        "Back on the Goblin Road — that ending plate was early. Keep playing the main road.",
+        ...existing.log,
+      ].slice(0, 80),
+    };
     setPhase("play");
     setTab("story");
-    setFlash(
-      fixed.campaignNodeId === "node-ch2-road"
-        ? "Back on the Goblin Road — keep Continues and Camp going; endings wait for the real finale."
-        : "Back at the Last Council. Use Camp before naming a crown again."
-    );
+    setFlash("Back on the Goblin Road — choices should appear again.");
+    void persistAsync(fixed)
+      .then((saved) => {
+        setWorld(saved);
+        setTitleSave(saved);
+      })
+      .catch(() => {
+        writeWorld(fixed);
+        setWorld(fixed);
+        setTitleSave(fixed);
+        setFlash("Saved locally — retry Save if the map jumps back.");
+      });
   };
 
   const leaveToTitle = () => {

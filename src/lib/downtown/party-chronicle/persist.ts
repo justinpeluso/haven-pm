@@ -521,7 +521,12 @@ export function mergeIncomingWorld(
 ): PartyWorldSave {
   if (!isDm && slot) {
     const turnAhead = (incoming.turnIndex ?? 0) > (existing.turnIndex ?? 0);
+    const rescuedRoad =
+      (incoming.partyFlags ?? []).includes("rescued-from-early-ending") &&
+      incoming.endingId == null &&
+      !!existing.endingId;
     const campaignAhead =
+      rescuedRoad ||
       campaignProgressScore(incoming) > campaignProgressScore(existing);
     const joinerAhead = turnAhead || campaignAhead;
 

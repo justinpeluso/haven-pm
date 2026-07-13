@@ -59,14 +59,40 @@ export function chapterIdForWorld(world: PartyWorldSave): string {
 /**
  * Rank story-map progress. Narrative "Continue" advances chapter/node without
  * bumping turnIndex, so merges must compare this — not turns alone.
+ *
+ * Early / stranded ending plates must NOT beat a rewind to the road — otherwise
+ * "Back to main road" loses to the DB copy on the next sync.
  */
 export function campaignProgressScore(world: PartyWorldSave): number {
   const ch = chapterForNode(world.campaignNodeId) ?? getChapter(world.chapterId);
   const chapterNum = ch?.chapter ?? 0;
   const nodeIdx = ch ? Math.max(0, ch.nodeIds.indexOf(world.campaignNodeId)) : 0;
-  const visited = (world.partyFlags ?? []).filter((f) => f.startsWith("visited:")).length;
-  const ending = world.endingId ? 1_000_000 : 0;
-  return ending + chapterNum * 10_000 + nodeIdx * 10 + visited;
+  const flags = world.partyFlags ?? [];
+  const visited = flags.filter((f) => f.startsWith("visited:")).length;
+  const node = getStoryNode(world.campaignNodeId);
+  const onEnding =
+    !!world.endingId ||
+    node?.kind === "ending" ||
+    ch?.id === "ch10-endings";
+  const battles = world.battlesFought ?? 0;
+  const rescued = flags.includes("rescued-from-early-ending");
+  // Post-rescue road must beat leftover ending plates in sync — even at 80+ battles.
+  const rescueRoadBonus = rescued && !onEnding ? 3_000_000 : 0;
+  // Still stranded after a rescue attempt: keep ranking behind the road.
+  const strandedAfterRescue = rescued && onEnding ? -2_000_000 : 0;
+  // Lived finale only — never boost an ending the player already fled.
+  const endingBonus = onEnding && battles >= 80 && !rescued ? 1_000_000 : 0;
+  const strandedPenalty =
+    !rescued && onEnding && battles < 80 ? -2_000_000 : 0;
+  return (
+    rescueRoadBonus +
+    strandedAfterRescue +
+    endingBonus +
+    strandedPenalty +
+    chapterNum * 10_000 +
+    nodeIdx * 10 +
+    visited
+  );
 }
 
 /** Prefer the save further along the journey (then newer updatedAt). */
