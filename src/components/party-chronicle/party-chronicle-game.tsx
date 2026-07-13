@@ -244,7 +244,12 @@ function JourneyMinimap({
     <div className="pc-panel p-3 space-y-2">
       <div className="flex items-end justify-between gap-2">
         <p className="pc-eyebrow text-[0.65rem]">
-          {focusingSide ? "Side trail map" : "Realm map"} · {progress.percent}% complete
+          {focusingSide ? "Side trail map" : "Realm map"} · {progress.percent < 0.1 && progress.hoursDone > 0
+            ? "<0.1"
+            : progress.percent < 1
+              ? progress.percent.toFixed(1)
+              : Math.round(progress.percent * 10) / 10}
+          % of ~{progress.hoursTarget}h
         </p>
         <p className="text-[0.65rem] font-bold" style={{ color: "var(--pc-accent)" }}>
           {focusingSide && questStop
@@ -260,8 +265,8 @@ function JourneyMinimap({
         </p>
       ) : (
         <p className="text-[0.65rem] opacity-80">
-          Act {progress.chapterNum} of {progress.chapterTotal} · {progress.battlesFought} battles ·{" "}
-          {progress.sideQuestsDone} side quests
+          Comic page Act {progress.chapterNum} of {progress.chapterTotal} ·{" "}
+          {progress.battlesFought} battles · {progress.sideQuestsDone} side quests
         </p>
       )}
       <div className="pc-journey-map" aria-label={focusingSide ? "Side trail map" : "Journey minimap"}>
@@ -1326,12 +1331,16 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           <div className="pc-main-progress mt-2" aria-label="Main quest progress">
             <div className="pc-main-progress-meta">
               <span>{mainProgress.label}</span>
-              <span>Act {mainProgress.chapterNum}/{mainProgress.chapterTotal}</span>
+              <span>
+                comic Act {mainProgress.chapterNum}/{mainProgress.chapterTotal}
+              </span>
             </div>
             <div className="pc-main-progress-track">
               <div
                 className="pc-main-progress-fill"
-                style={{ width: `${mainProgress.percent}%` }}
+                style={{
+                  width: `${Math.max(mainProgress.percent, mainProgress.percent > 0 ? 0.4 : 0)}%`,
+                }}
               />
             </div>
             <p className="pc-main-progress-detail">{mainProgress.detail}</p>

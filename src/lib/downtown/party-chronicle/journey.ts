@@ -141,7 +141,7 @@ export type CampaignProgressReport = {
   nodeIndex: number;
   nodeTotal: number;
   nodeTitle: string;
-  /** 0–100 lived progress toward the long chronicle. */
+  /** 0–100 of the full ~300h chronicle (playtime-based). */
   percent: number;
   hoursDone: number;
   hoursTarget: number;
@@ -156,18 +156,16 @@ export type CampaignProgressReport = {
   campBlurb: string;
 };
 
-/** Targets sized for the ~100–300h party test chronicle. */
-const BATTLE_TARGET = 200;
-const TURN_TARGET = 900;
-const DEED_TARGET = 250;
-
 function formatPlayTime(hours: number): string {
   if (hours < 0.05) return "just started";
   if (hours < 1) return `~${Math.max(1, Math.round(hours * 60))}m played`;
   return `~${hours}h played`;
 }
 
-/** Overall main-quest progress for HUD — lived play, not estimated chapter budgets. */
+/**
+ * Progress toward the full long chronicle (~100–300h of spine + Camp).
+ * Percent is playtime / target hours — not comic-page skips or battle count.
+ */
 export function campaignProgressReport(world: PartyWorldSave): CampaignProgressReport {
   const chapter = chapterForNode(world.campaignNodeId) ?? getChapter(world.chapterId);
   const chapterTotal = Math.max(1, CHAPTERS.length);
@@ -189,27 +187,26 @@ export function campaignProgressReport(world: PartyWorldSave): CampaignProgressR
   const battlesFought = world.battlesFought ?? 0;
   const sideQuestsDone = world.completedSideQuests?.length ?? 0;
   const explorationFinds = world.explorationFinds ?? 0;
-  const recipes = world.cookedRecipes?.length ?? 0;
-  const turns = world.turnIndex ?? 0;
-  const deeds = battlesFought + sideQuestsDone * 2 + explorationFinds + recipes;
   const playHours = (world.storyPlayMs ?? 0) / 3_600_000;
   const hoursDone = Math.round(playHours * 10) / 10;
   const playLabel = formatPlayTime(hoursDone);
 
-  const lived = Math.min(
-    1,
-    (playHours / hoursTarget) * 0.35 +
-      (battlesFought / BATTLE_TARGET) * 0.4 +
-      Math.min(1, turns / TURN_TARGET) * 0.15 +
-      Math.min(1, deeds / DEED_TARGET) * 0.1
-  );
-  const percent = Math.min(100, Math.round(lived * 1000) / 10);
+  // Full chronicle bar: time on the road vs designed ~300h campaign.
+  const rawPct = hoursTarget > 0 ? (playHours / hoursTarget) * 100 : 0;
+  const percent = Math.min(100, Math.round(rawPct * 100) / 100); // hundredths so early play reads 0.1%
 
   const chapterTitle = chapter?.title ?? "The road";
   const questBits = [
     `${battlesFought} battle${battlesFought === 1 ? "" : "s"}`,
     `${sideQuestsDone} side quest${sideQuestsDone === 1 ? "" : "s"}`,
   ].join(" · ");
+
+  const pctLabel =
+    percent < 0.1 && playHours > 0
+      ? "<0.1%"
+      : percent < 1
+        ? `${percent.toFixed(1)}%`
+        : `${Math.round(percent * 10) / 10}%`;
 
   return {
     chapterNum,
@@ -218,14 +215,14 @@ export function campaignProgressReport(world: PartyWorldSave): CampaignProgressR
     nodeIndex,
     nodeTotal,
     nodeTitle,
-    percent,
+    percent: Math.min(100, Math.max(percent, playHours > 0 ? percent : 0)),
     hoursDone,
     hoursTarget,
     battlesFought,
     sideQuestsDone,
     explorationFinds,
-    label: `${percent}% of the chronicle · Act ${chapterNum} of ${chapterTotal}`,
-    detail: `${nodeTitle} · ${playLabel} · ${questBits}`,
-    campBlurb: `${chapterTitle} · ${questBits}`,
+    label: `${pctLabel} of the ~${hoursTarget}h chronicle`,
+    detail: `${playLabel} · ${questBits} · comic page: ${nodeTitle}`,
+    campBlurb: `Full ~${hoursTarget}h road · now on “${nodeTitle}” · ${questBits}`,
   };
 }
