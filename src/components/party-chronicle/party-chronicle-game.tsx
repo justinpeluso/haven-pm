@@ -244,8 +244,7 @@ function JourneyMinimap({
     <div className="pc-panel p-3 space-y-2">
       <div className="flex items-end justify-between gap-2">
         <p className="pc-eyebrow text-[0.65rem]">
-          {focusingSide ? "Side trail map" : "Realm map"} · lived {progress.percent}% of ~
-          {progress.hoursTarget}h
+          {focusingSide ? "Side trail map" : "Realm map"} · {progress.percent}% complete
         </p>
         <p className="text-[0.65rem] font-bold" style={{ color: "var(--pc-accent)" }}>
           {focusingSide && questStop
@@ -257,12 +256,12 @@ function JourneyMinimap({
       </div>
       {focusingSide && here ? (
         <p className="text-[0.65rem] opacity-80">
-          Side quest: {sideQuest!.title} · Main spine: {here.short}
+          Side quest: {sideQuest!.title} · Main road: {here.short}
         </p>
       ) : (
         <p className="text-[0.65rem] opacity-80">
-          Played ~{progress.hoursDone}h · {progress.battlesFought} battles · story pin{" "}
-          {progress.storyPercent}% (Act {progress.chapterNum}/{progress.chapterTotal})
+          Act {progress.chapterNum} of {progress.chapterTotal} · {progress.battlesFought} battles ·{" "}
+          {progress.sideQuestsDone} side quests
         </p>
       )}
       <div className="pc-journey-map" aria-label={focusingSide ? "Side trail map" : "Journey minimap"}>
@@ -1312,7 +1311,9 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       <div className="pc-header-bar px-4 py-3 flex flex-wrap items-end justify-between gap-3">
         <div className="min-w-0 flex-1">
           <p className="pc-eyebrow text-[0.65rem]" style={{ color: "var(--pc-ink)" }}>
-            {chapter ? `Ch ${chapter.chapter} · ${chapter.title}` : "Neverworld"}
+            {chapter
+              ? `Act ${mainProgress.chapterNum} · ${chapter.title}`
+              : "Neverworld"}
           </p>
           <h1 className="pc-title text-2xl md:text-3xl">{storyNode.title}</h1>
           <p className="text-xs font-bold">
@@ -1325,9 +1326,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           <div className="pc-main-progress mt-2" aria-label="Main quest progress">
             <div className="pc-main-progress-meta">
               <span>{mainProgress.label}</span>
-              <span>
-                ~{mainProgress.hoursDone}h / ~{mainProgress.hoursTarget}h
-              </span>
+              <span>Act {mainProgress.chapterNum}/{mainProgress.chapterTotal}</span>
             </div>
             <div className="pc-main-progress-track">
               <div
@@ -1583,10 +1582,10 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
               <div className="pc-main-quest-card">
                 <p className="pc-eyebrow text-[0.65rem]">Main quest · stay on track</p>
                 <p className="font-bold text-sm">{mainProgress.nodeTitle}</p>
-                <p className="text-[0.65rem] opacity-80 mt-1">{mainProgress.detail}</p>
+                <p className="text-[0.65rem] opacity-80 mt-1">{mainProgress.campBlurb}</p>
                 {!nextGate.ok && nextGate.reason && (
                   <p className="text-[0.65rem] mt-2" style={{ color: "var(--pc-accent)" }}>
-                    Road gate: {nextGate.reason}
+                    {nextGate.reason}
                   </p>
                 )}
                 <div className="flex flex-wrap gap-2 mt-3">

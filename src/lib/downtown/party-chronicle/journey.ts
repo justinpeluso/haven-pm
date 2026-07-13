@@ -141,23 +141,31 @@ export type CampaignProgressReport = {
   nodeIndex: number;
   nodeTotal: number;
   nodeTitle: string;
-  /** 0–100 lived progress toward the long chronicle (not Continue-spam). */
+  /** 0–100 lived progress toward the long chronicle. */
   percent: number;
   hoursDone: number;
   hoursTarget: number;
   battlesFought: number;
   sideQuestsDone: number;
   explorationFinds: number;
-  /** Story-pin position 0–100 (can race ahead of lived %). */
-  storyPercent: number;
+  /** Short HUD line (progress bar caption). */
   label: string;
+  /** One-line status under the bar / in Camp. */
   detail: string;
+  /** Compact Camp blurb without repeating the bar caption. */
+  campBlurb: string;
 };
 
 /** Targets sized for the ~100–300h party test chronicle. */
 const BATTLE_TARGET = 200;
 const TURN_TARGET = 900;
 const DEED_TARGET = 250;
+
+function formatPlayTime(hours: number): string {
+  if (hours < 0.05) return "just started";
+  if (hours < 1) return `~${Math.max(1, Math.round(hours * 60))}m played`;
+  return `~${hours}h played`;
+}
 
 /** Overall main-quest progress for HUD — lived play, not estimated chapter budgets. */
 export function campaignProgressReport(world: PartyWorldSave): CampaignProgressReport {
@@ -186,6 +194,7 @@ export function campaignProgressReport(world: PartyWorldSave): CampaignProgressR
   const deeds = battlesFought + sideQuestsDone * 2 + explorationFinds + recipes;
   const playHours = (world.storyPlayMs ?? 0) / 3_600_000;
   const hoursDone = Math.round(playHours * 10) / 10;
+  const playLabel = formatPlayTime(hoursDone);
 
   const lived = Math.min(
     1,
@@ -196,14 +205,16 @@ export function campaignProgressReport(world: PartyWorldSave): CampaignProgressR
   );
   const percent = Math.min(100, Math.round(lived * 1000) / 10);
 
-  const storyFrac =
-    (chapterOrd + (nodeIndex - 1) / nodeTotal) / chapterTotal;
-  const storyPercent = Math.min(100, Math.round(storyFrac * 1000) / 10);
+  const chapterTitle = chapter?.title ?? "The road";
+  const questBits = [
+    `${battlesFought} battle${battlesFought === 1 ? "" : "s"}`,
+    `${sideQuestsDone} side quest${sideQuestsDone === 1 ? "" : "s"}`,
+  ].join(" · ");
 
   return {
     chapterNum,
     chapterTotal,
-    chapterTitle: chapter?.title ?? "The road",
+    chapterTitle,
     nodeIndex,
     nodeTotal,
     nodeTitle,
@@ -213,8 +224,8 @@ export function campaignProgressReport(world: PartyWorldSave): CampaignProgressR
     battlesFought,
     sideQuestsDone,
     explorationFinds,
-    storyPercent,
-    label: `Lived ${percent}% of ~${hoursTarget}h · map pin Act ${chapterNum}/${chapterTotal}`,
-    detail: `${nodeTitle} · played ~${hoursDone}h · ${battlesFought} battles · ${sideQuestsDone} side quests · story pin ${storyPercent}%`,
+    label: `${percent}% of the chronicle · Act ${chapterNum} of ${chapterTotal}`,
+    detail: `${nodeTitle} · ${playLabel} · ${questBits}`,
+    campBlurb: `${chapterTitle} · ${questBits}`,
   };
 }

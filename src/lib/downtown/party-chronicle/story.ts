@@ -1077,5 +1077,5 @@ export function getEnding(id: string): EndingDef | undefined {
 export function progressionHint(partyLevel: number): string {
   const next = CHAPTERS.find((c) => partyLevel < c.levelMin) ?? CHAPTERS[CHAPTERS.length - 1]!;
   if (partyLevel >= 100) return "Chronicle's End — Animal, Human, or Demon awaits.";
-  return `Party ~L${partyLevel}. Next major beat: ${next.title} (L${next.levelMin}–${next.levelMax}).`;
+  return `Next: ${next.title} (L${next.levelMin}–${next.levelMax})`;
 }
