@@ -385,14 +385,20 @@ export function getComicArt(id: string): ComicArtEntry | null {
   return COMIC_ART[id] ?? null;
 }
 
+const BATTLE_ART_CACHE = "v=2";
+
+function withBattleCache(src: string): string {
+  return src.includes("?") ? `${src}&${BATTLE_ART_CACHE}` : `${src}?${BATTLE_ART_CACHE}`;
+}
+
 /** Class portrait for battle stage (maps subclasses onto simple archetypes). */
 export function battleClassArtSrc(classId: ClassId | undefined | null): string {
   const id = classId ? CLASS_BATTLE_ART[classId] : undefined;
-  return comicArtSrc(id ?? "art-class-warrior");
+  return withBattleCache(comicArtSrc(id ?? "art-class-warrior"));
 }
 
 export function battlePetArtSrc(): string {
-  return comicArtSrc("art-dog-companion");
+  return withBattleCache(comicArtSrc("art-dog-companion"));
 }
 
 /**
@@ -405,24 +411,26 @@ export function battleEnemyArtSrc(enemy: {
   id?: string;
 }): string {
   const key = `${enemy.id ?? ""} ${enemy.name ?? ""}`.toLowerCase();
-  if (/dragon|drake|wyrm|elemental/.test(key)) return comicArtSrc("art-dragon-silhouette");
+  if (/dragon|drake|wyrm|elemental/.test(key)) {
+    return withBattleCache(comicArtSrc("art-dragon-silhouette"));
+  }
   if (/goblin|imp|hobgob|orc|cutpurse|bandit|poacher|witch|hag|troll/.test(key)) {
-    return comicArtSrc("art-goblin-scout");
+    return withBattleCache(comicArtSrc("art-goblin-scout"));
   }
   if (/demon|ghoul|undead|wraith|herald|shade|lich/.test(key)) {
-    return comicArtSrc("art-demon-herald");
+    return withBattleCache(comicArtSrc("art-demon-herald"));
   }
-  if (/wolf|warg|hound|dog/.test(key)) return comicArtSrc("art-wolf-ulfric");
-  if (/bear/.test(key)) return comicArtSrc("art-bear-bruna");
-  if (/stag|deer|elk/.test(key)) return comicArtSrc("art-stag-aelwyn");
-  if (/fox|hare|boar|pup/.test(key)) return comicArtSrc("art-fox-pip");
-  if (/raven|crow|moth|bird|owl/.test(key)) return comicArtSrc("art-raven-corv");
+  if (/wolf|warg|hound|dog/.test(key)) return withBattleCache(comicArtSrc("art-wolf-ulfric"));
+  if (/bear/.test(key)) return withBattleCache(comicArtSrc("art-bear-bruna"));
+  if (/stag|deer|elk/.test(key)) return withBattleCache(comicArtSrc("art-stag-aelwyn"));
+  if (/fox|hare|boar|pup/.test(key)) return withBattleCache(comicArtSrc("art-fox-pip"));
+  if (/raven|crow|moth|bird|owl/.test(key)) return withBattleCache(comicArtSrc("art-raven-corv"));
   if (/serpent|snake|adder|crawler|spider|leech/.test(key)) {
-    return comicArtSrc("art-serpent-nyx");
+    return withBattleCache(comicArtSrc("art-serpent-nyx"));
   }
   if (/thane|golem|warden|humanoid|knight|warrior|pilgrim|courier/.test(key)) {
-    return comicArtSrc("art-ember-thane");
+    return withBattleCache(comicArtSrc("art-ember-thane"));
   }
-  if (enemy.artId) return comicArtSrc(enemy.artId);
-  return comicArtSrc("art-goblin-scout");
+  if (enemy.artId) return withBattleCache(comicArtSrc(enemy.artId));
+  return withBattleCache(comicArtSrc("art-goblin-scout"));
 }

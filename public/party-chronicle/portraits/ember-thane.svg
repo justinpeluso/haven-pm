@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="320" height="360" viewBox="0 0 320 360" fill="none">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="emb-bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#241c14"/>
       <stop offset="100%" stop-color="#0c0c0a"/>
     </linearGradient>
-    <filter id="ink" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="0" flood-color="#0a0e14" flood-opacity="0.9"/>
-    </filter>
   </defs>
-  <rect width="320" height="360" fill="url(#bg)"/>
-  <ellipse cx="160" cy="300" rx="90" ry="22" fill="#000" opacity="0.35"/>
-  <g filter="url(#ink)">
+  <rect width="320" height="360" fill="url(#emb-bg)"/>
+  <ellipse cx="160" cy="292" rx="88" ry="20" fill="#1a1810"/>
 
-  <path d="M105 165 L160 125 L215 165 L205 280 L115 280 Z" fill="#7a5a40" stroke="#0a0e14" stroke-width="4"/>
-  <path d="M125 180 L160 150 L195 180 L188 245 L132 245 Z" fill="#9a7a55"/>
-  <circle cx="160" cy="105" r="46" fill="#d4a070" stroke="#0a0e14" stroke-width="4"/>
-  <path d="M118 95 Q160 55 202 95 L195 115 Q160 100 125 115Z" fill="#3a3028" stroke="#0a0e14" stroke-width="3"/>
-  <circle cx="145" cy="105" r="5" fill="#0a0e14"/>
-  <circle cx="175" cy="105" r="5" fill="#0a0e14"/>
-  <path d="M145 122 Q160 135 175 122" stroke="#0a0e14" stroke-width="3" fill="none"/>
-  <!-- beard -->
-  <path d="M130 130 Q160 175 190 130 Q175 145 160 150 Q145 145 130 130Z" fill="#5a4030" stroke="#0a0e14" stroke-width="3"/>
-  <!-- axe -->
-  <rect x="235" y="120" width="12" height="140" fill="#5a3a20" stroke="#0a0e14" stroke-width="3"/>
-  <path d="M215 125 L270 110 L270 165 L215 155Z" fill="#a0a8b0" stroke="#0a0e14" stroke-width="3"/>
-  <circle cx="118" cy="175" r="16" fill="#e85d4c" opacity="0.85" stroke="#0a0e14" stroke-width="3"/>
+  <path d="M108 165 L160 125 L212 165 L202 278 L118 278Z" fill="#7a5a40" stroke="#0a0e14" stroke-width="4"/>
+  <path d="M126 180 L160 150 L194 180 L186 242 L134 242Z" fill="#9a7a55"/>
+  <circle cx="160" cy="102" r="44" fill="#d4a070" stroke="#0a0e14" stroke-width="4"/>
+  <path d="M118 92 Q160 52 202 92 L194 112 Q160 98 126 112Z" fill="#3a3028" stroke="#0a0e14" stroke-width="3"/>
+  <circle cx="145" cy="102" r="5" fill="#0a0e14"/>
+  <circle cx="175" cy="102" r="5" fill="#0a0e14"/>
+  <path d="M145 120 Q160 132 175 120" stroke="#0a0e14" stroke-width="3" fill="none"/>
+  <path d="M128 128 Q160 175 192 128 Q176 145 160 150 Q144 145 128 128Z" fill="#5a4030" stroke="#0a0e14" stroke-width="3"/>
+  <circle cx="128" cy="118" r="5" fill="#e85d4c" opacity="0.4"/>
+  <circle cx="192" cy="118" r="5" fill="#e85d4c" opacity="0.4"/>
+  <rect x="238" y="118" width="12" height="145" fill="#5a3a20" stroke="#0a0e14" stroke-width="3"/>
+  <path d="M215 122 L272 108 L272 165 L215 155Z" fill="#a0a8b0" stroke="#0a0e14" stroke-width="3"/>
+  <circle cx="118" cy="172" r="15" fill="#e85d4c" opacity="0.85" stroke="#0a0e14" stroke-width="3"/>
 
-  </g>
+  <!-- comic frame -->
   <rect x="10" y="10" width="300" height="340" fill="none" stroke="#0a0e14" stroke-width="10"/>
-  <rect x="18" y="18" width="284" height="324" fill="none" stroke="#f5d547" stroke-width="4"/>
-  <rect x="26" y="26" width="268" height="308" fill="none" stroke="#f4efe4" stroke-width="1.5" opacity="0.55"/>
-  <text x="160" y="338" text-anchor="middle" font-family="Impact, Arial Black, sans-serif" font-size="22"
+  <rect x="18" y="18" width="284" height="324" fill="none" stroke="#f5d547" stroke-width="3.5"/>
+  <rect x="16" y="16" width="18" height="18" fill="#f4efe4" stroke="#0a0e14" stroke-width="2"/>
+  <rect x="286" y="16" width="18" height="18" fill="#f4efe4" stroke="#0a0e14" stroke-width="2"/>
+  <rect x="16" y="326" width="18" height="18" fill="#f5d547" stroke="#0a0e14" stroke-width="2"/>
+  <rect x="286" y="326" width="18" height="18" fill="#f5d547" stroke="#0a0e14" stroke-width="2"/>
+  <text x="160" y="340" text-anchor="middle" font-family="Impact, Arial Black, sans-serif" font-size="20"
     fill="#f4efe4" stroke="#0a0e14" stroke-width="4" paint-order="stroke">WARLORD</text>
 </svg>

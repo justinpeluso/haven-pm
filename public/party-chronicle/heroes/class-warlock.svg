@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="320" height="360" viewBox="0 0 320 360" fill="none">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="wlk-bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#140818"/>
       <stop offset="100%" stop-color="#08040c"/>
     </linearGradient>
-    <filter id="ink" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="0" flood-color="#0a0e14" flood-opacity="0.9"/>
-    </filter>
   </defs>
-  <rect width="320" height="360" fill="url(#bg)"/>
-  <ellipse cx="160" cy="300" rx="90" ry="22" fill="#000" opacity="0.35"/>
-  <g filter="url(#ink)">
+  <rect width="320" height="360" fill="url(#wlk-bg)"/>
+  <ellipse cx="160" cy="292" rx="88" ry="20" fill="#100818"/>
 
-  <path d="M115 155 L160 130 L205 155 L215 275 L105 275 Z" fill="#4a2060" stroke="#0a0e14" stroke-width="4"/>
-  <path d="M130 170 L160 150 L190 170 L185 240 L135 240 Z" fill="#6a3080"/>
-  <circle cx="160" cy="105" r="40" fill="#d4a574" stroke="#0a0e14" stroke-width="4"/>
-  <path d="M110 100 L160 35 L210 100 Z" fill="#2a1040" stroke="#0a0e14" stroke-width="4"/>
-  <ellipse cx="160" cy="100" rx="52" ry="14" fill="#4a2060" stroke="#0a0e14" stroke-width="3"/>
-  <circle cx="146" cy="105" r="5" fill="#e85d4c"/>
-  <circle cx="174" cy="105" r="5" fill="#e85d4c"/>
-  <rect x="240" y="70" width="12" height="190" rx="3" fill="#2a1a10" stroke="#0a0e14" stroke-width="3"/>
-  <circle cx="246" cy="58" r="20" fill="#e85d4c" stroke="#0a0e14" stroke-width="3"/>
-  <path d="M246 46 L246 70 M234 58 L258 58" stroke="#0a0e14" stroke-width="3"/>
+  <ellipse cx="130" cy="278" rx="15" ry="7" fill="#100818"/>
+  <ellipse cx="190" cy="278" rx="15" ry="7" fill="#100818"/>
+  <path d="M120 235 L124 275 L140 275 L136 235Z" fill="#2a1040" stroke="#0a0e14" stroke-width="3"/>
+  <path d="M184 235 L180 275 L200 275 L196 235Z" fill="#2a1040" stroke="#0a0e14" stroke-width="3"/>
+  <path d="M118 152 L160 128 L202 152 L210 245 L110 245Z" fill="#4a2060" stroke="#0a0e14" stroke-width="4"/>
+  <path d="M132 168 L160 148 L188 168 L184 225 L136 225Z" fill="#6a3080"/>
+  <circle cx="160" cy="100" r="38" fill="#d4a574" stroke="#0a0e14" stroke-width="4"/>
+  <path d="M112 96 L160 32 L208 96Z" fill="#2a1040" stroke="#0a0e14" stroke-width="4"/>
+  <ellipse cx="160" cy="96" rx="50" ry="13" fill="#4a2060" stroke="#0a0e14" stroke-width="3"/>
+  <circle cx="146" cy="100" r="5" fill="#e85d4c"/>
+  <circle cx="174" cy="100" r="5" fill="#e85d4c"/>
+  <rect x="238" y="72" width="11" height="185" rx="3" fill="#2a1a10" stroke="#0a0e14" stroke-width="3"/>
+  <circle cx="243" cy="58" r="18" fill="#e85d4c" stroke="#0a0e14" stroke-width="3"/>
+  <path d="M243 46 L243 70 M231 58 L255 58" stroke="#0a0e14" stroke-width="3"/>
 
-  </g>
+  <!-- comic frame -->
   <rect x="10" y="10" width="300" height="340" fill="none" stroke="#0a0e14" stroke-width="10"/>
-  <rect x="18" y="18" width="284" height="324" fill="none" stroke="#a78bfa" stroke-width="4"/>
-  <rect x="26" y="26" width="268" height="308" fill="none" stroke="#f4efe4" stroke-width="1.5" opacity="0.55"/>
-  <text x="160" y="338" text-anchor="middle" font-family="Impact, Arial Black, sans-serif" font-size="22"
+  <rect x="18" y="18" width="284" height="324" fill="none" stroke="#a78bfa" stroke-width="3.5"/>
+  <rect x="16" y="16" width="18" height="18" fill="#f4efe4" stroke="#0a0e14" stroke-width="2"/>
+  <rect x="286" y="16" width="18" height="18" fill="#f4efe4" stroke="#0a0e14" stroke-width="2"/>
+  <rect x="16" y="326" width="18" height="18" fill="#a78bfa" stroke="#0a0e14" stroke-width="2"/>
+  <rect x="286" y="326" width="18" height="18" fill="#a78bfa" stroke="#0a0e14" stroke-width="2"/>
+  <text x="160" y="340" text-anchor="middle" font-family="Impact, Arial Black, sans-serif" font-size="20"
     fill="#f4efe4" stroke="#0a0e14" stroke-width="4" paint-order="stroke">WARLOCK</text>
 </svg>
