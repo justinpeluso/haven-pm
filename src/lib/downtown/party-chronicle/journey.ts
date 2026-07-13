@@ -50,10 +50,46 @@ export function visitedFlag(chapterId: string): string {
   return `visited:${chapterId}`;
 }
 
+/** Chapter that owns the live story node — map pin source of truth. */
+export function chapterIdForWorld(world: PartyWorldSave): string {
+  return chapterForNode(world.campaignNodeId)?.id ?? world.chapterId;
+}
+
+/**
+ * Rank story-map progress. Narrative "Continue" advances chapter/node without
+ * bumping turnIndex, so merges must compare this — not turns alone.
+ */
+export function campaignProgressScore(world: PartyWorldSave): number {
+  const ch = chapterForNode(world.campaignNodeId) ?? getChapter(world.chapterId);
+  const chapterNum = ch?.chapter ?? 0;
+  const nodeIdx = ch ? Math.max(0, ch.nodeIds.indexOf(world.campaignNodeId)) : 0;
+  const visited = (world.partyFlags ?? []).filter((f) => f.startsWith("visited:")).length;
+  const ending = world.endingId ? 1_000_000 : 0;
+  return ending + chapterNum * 10_000 + nodeIdx * 10 + visited;
+}
+
+/** Prefer the save further along the journey (then newer updatedAt). */
+export function preferCampaignProgress(
+  a: PartyWorldSave,
+  b: PartyWorldSave
+): PartyWorldSave {
+  const aScore = campaignProgressScore(a);
+  const bScore = campaignProgressScore(b);
+  if (aScore !== bScore) return aScore > bScore ? a : b;
+  const aAt = Date.parse(a.updatedAt || a.startedAt || "") || 0;
+  const bAt = Date.parse(b.updatedAt || b.startedAt || "") || 0;
+  return aAt >= bAt ? a : b;
+}
+
+export function unionPartyFlags(a: string[] = [], b: string[] = []): string[] {
+  return Array.from(new Set([...a, ...b]));
+}
+
 export function isChapterVisited(world: PartyWorldSave, chapterId: string): boolean {
-  if (world.chapterId === chapterId) return true;
+  const hereId = chapterIdForWorld(world);
+  if (hereId === chapterId) return true;
   if (world.partyFlags.includes(visitedFlag(chapterId))) return true;
-  const cur = getChapter(world.chapterId);
+  const cur = getChapter(hereId);
   const stop = JOURNEY_STOPS.find((s) => s.chapterId === chapterId);
   // Linear fallback: earlier chapter numbers count as walked if flags missing.
   if (cur && stop && stop.chapter < cur.chapter) return true;
@@ -61,7 +97,8 @@ export function isChapterVisited(world: PartyWorldSave, chapterId: string): bool
 }
 
 export function currentJourneyStop(world: PartyWorldSave): JourneyStop | null {
-  return JOURNEY_STOPS.find((s) => s.chapterId === world.chapterId) ?? null;
+  const id = chapterIdForWorld(world);
+  return JOURNEY_STOPS.find((s) => s.chapterId === id) ?? null;
 }
 
 export function markChapterVisited(world: PartyWorldSave, chapterId?: string): PartyWorldSave {

@@ -65,12 +65,28 @@ assert(isDmEmail("player1@havenpm.com"), "dm");
 let world = createNewWorld();
 world = seal(world, "justin", "healer", "Justin", "Chompers");
 world = acknowledgeNarrative(world, "justin");
-assert(world.campaignNodeId === "node-ch1-pip", "pip");
+// Spine may intercept Frostford → Pip with connective tissue.
+assert(world.campaignNodeId !== "node-ch1-arrive", "left arrive");
 assert(world.activeSlot === "justin", "turn held");
+assert(!!getStoryNode(world.campaignNodeId), "landed on a real node");
 
-const pip = getStoryNode(world.campaignNodeId)!;
-assert(pip && "choices" in pip, "choices");
-world = applyStoryChoice(world, "justin", pip.choices[0]!).world;
+// Walk until a choice node (Pip or spine conversation/path).
+let guard = 0;
+while (guard++ < 40) {
+  const node = getStoryNode(world.campaignNodeId);
+  assert(node, "missing node");
+  if (node && "choices" in node && Array.isArray(node.choices) && node.choices.length) break;
+  if (node?.kind === "narrative" || node?.kind === "montage") {
+    const before = world.campaignNodeId;
+    world = acknowledgeNarrative(world, "justin");
+    assert(world.campaignNodeId !== before || world.log[0]?.includes("ahead"), "continue progressed");
+    continue;
+  }
+  break;
+}
+const choiceNode = getStoryNode(world.campaignNodeId)!;
+assert(choiceNode && "choices" in choiceNode, "choices");
+world = applyStoryChoice(world, "justin", choiceNode.choices[0]!).world;
 // Only Justin sealed — rotation stays on sealed seats.
 assert(world.activeSlot === "justin", `stay on sealed justin, got ${world.activeSlot}`);
 
@@ -110,6 +126,19 @@ assert(afterElisha.campaignNodeId === world.campaignNodeId, "no rewind node");
 assert(afterElisha.turnIndex === world.turnIndex, "no rewind turn");
 assert(afterElisha.characters.justin.created, "justin kept");
 assert(afterElisha.characters.rusty.created, "rusty kept");
+
+// Narrative Continue (no turn bump) must advance the shared map, not get discarded.
+const continued = acknowledgeNarrative(world, "justin");
+assert(continued.turnIndex === world.turnIndex, "continue holds turn");
+assert(continued.campaignNodeId !== world.campaignNodeId, "continue moves node");
+const afterContinue = mergeIncomingWorld(world, continued, "elisha", false);
+assert(afterContinue.campaignNodeId === continued.campaignNodeId, "nonDM continue syncs node");
+assert(afterContinue.chapterId === continued.chapterId, "nonDM continue syncs chapter");
+
+// Stale DM poll must not rewind map after a Continue.
+const dmRewind = mergeIncomingWorld(afterContinue, world, "justin", true);
+assert(dmRewind.campaignNodeId === continued.campaignNodeId, "DM stale keeps node");
+assert(dmRewind.chapterId === continued.chapterId, "DM stale keeps chapter");
 
 const full = afterElisha;
 assert(worldHasProgress(full), "progress");

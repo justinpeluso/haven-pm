@@ -11,9 +11,15 @@ import {
 import { CLASS_DEFS, SLOT_DEFAULTS } from "./players";
 import { STARTER_GEAR_BY_CLASS } from "./gear";
 import { createEmptyHotbar } from "./hotbar";
-import { visitedFlag } from "./journey";
+import {
+  campaignProgressScore,
+  chapterIdForWorld,
+  preferCampaignProgress,
+  unionPartyFlags,
+  visitedFlag,
+} from "./journey";
 import { STARTER_SKILL_POINTS } from "./skills";
-import { START_CHAPTER_ID, START_NODE_ID } from "./story";
+import { chapterForNode, START_CHAPTER_ID, START_NODE_ID } from "./story";
 import type {
   CharacterSave,
   ClassId,
@@ -256,13 +262,17 @@ export function normalizeWorld(world: PartyWorldSave): PartyWorldSave {
   if (!characters[activeSlot]?.created) {
     activeSlot = nextSealedSlot(withChars, activeSlot);
   }
+  const campaignNodeId = world.campaignNodeId || START_NODE_ID;
+  // Keep map pin aligned with the live story node (spine/authored).
+  const chapterId =
+    chapterForNode(campaignNodeId)?.id ?? world.chapterId ?? START_CHAPTER_ID;
   return {
     ...world,
     activeSlot,
     alignment: world.alignment ?? { ...EMPTY_ALIGNMENT },
     pathway: world.pathway ?? { ...EMPTY_PATHWAY },
-    campaignNodeId: world.campaignNodeId || START_NODE_ID,
-    chapterId: world.chapterId || START_CHAPTER_ID,
+    campaignNodeId,
+    chapterId,
     deckEncounter: world.deckEncounter ?? null,
     battle: world.battle ?? null,
     storyPlayMs: world.storyPlayMs ?? 0,
@@ -363,6 +373,44 @@ export function preferAmbushClocks(
 }
 
 /**
+ * Prefer the fresher side-quest run so poll/POST races never wipe an active trail.
+ * Active beats null; same questId prefers further step progress; else newer startedAt.
+ */
+export function preferActiveSideQuest(
+  existing: PartyWorldSave["activeSideQuest"],
+  incoming: PartyWorldSave["activeSideQuest"],
+  opts?: { existingUpdatedAt?: string; incomingUpdatedAt?: string }
+): PartyWorldSave["activeSideQuest"] {
+  if (!existing) return incoming ?? null;
+  if (!incoming) {
+    const eAt = Date.parse(opts?.existingUpdatedAt || "") || 0;
+    const iAt = Date.parse(opts?.incomingUpdatedAt || "") || 0;
+    // Fresher null = abandon / dismiss. Older null = stale poll — keep the run.
+    if (iAt > eAt) return null;
+    if (existing.status === "active") return existing;
+    if (iAt >= eAt) return null;
+    return existing;
+  }
+
+  if (existing.questId === incoming.questId) {
+    if (existing.status === "active" && incoming.status !== "active") return incoming;
+    if (incoming.status === "active" && existing.status !== "active") return existing;
+    if (incoming.stepIndex !== existing.stepIndex) {
+      return incoming.stepIndex > existing.stepIndex ? incoming : existing;
+    }
+    const eDone = existing.steps.filter((s) => s.done || s.battleWon).length;
+    const iDone = incoming.steps.filter((s) => s.done || s.battleWon).length;
+    if (iDone !== eDone) return iDone > eDone ? incoming : existing;
+    return incoming;
+  }
+
+  const eStart = Date.parse(existing.startedAt || "") || 0;
+  const iStart = Date.parse(incoming.startedAt || "") || 0;
+  if (iStart !== eStart) return iStart > eStart ? incoming : existing;
+  return incoming;
+}
+
+/**
  * Apply battle + ambush clock merge onto a base world (server or local poll).
  * Optionally sync other heroes' vitals from a resolved battle on `incoming`.
  */
@@ -376,6 +424,10 @@ export function mergeBattleAndAmbush(
     incomingUpdatedAt: incoming.updatedAt,
   });
   const clocks = preferAmbushClocks(base, incoming);
+  const activeSideQuest = preferActiveSideQuest(base.activeSideQuest, incoming.activeSideQuest, {
+    existingUpdatedAt: base.updatedAt,
+    incomingUpdatedAt: incoming.updatedAt,
+  });
   const characters = { ...base.characters };
 
   if (actorSlot && incoming.characters[actorSlot]) {
@@ -412,16 +464,52 @@ export function mergeBattleAndAmbush(
     ...base,
     characters,
     battle,
+    activeSideQuest,
     ...clocks,
+  };
+}
+
+/** Campaign + map fields that move with story progress (not seat sheets). */
+function takeCampaignSlice(from: PartyWorldSave): Pick<
+  PartyWorldSave,
+  | "campaignNodeId"
+  | "chapterId"
+  | "partyFlags"
+  | "alignment"
+  | "pathway"
+  | "encounterEnemyHp"
+  | "deckEncounter"
+  | "completedSideQuests"
+  | "cookedRecipes"
+  | "activeSideQuest"
+  | "log"
+  | "endingId"
+  | "activeSlot"
+> {
+  return {
+    campaignNodeId: from.campaignNodeId,
+    chapterId: chapterIdForWorld(from),
+    partyFlags: from.partyFlags,
+    alignment: from.alignment,
+    pathway: from.pathway,
+    encounterEnemyHp: from.encounterEnemyHp,
+    deckEncounter: from.deckEncounter,
+    completedSideQuests: from.completedSideQuests,
+    cookedRecipes: from.cookedRecipes,
+    activeSideQuest: from.activeSideQuest,
+    log: from.log,
+    endingId: from.endingId,
+    activeSlot: from.activeSlot,
   };
 }
 
 /**
  * Merge a client POST into the canonical DB save.
  * Non-DM clients only patch their own seat — never rewind campaign progress.
+ * Narrative Continue advances chapter/node without turnIndex — treat that as ahead.
  * Battle + ambush clocks merge even when turnIndex does not advance.
  * DM clients keep any server seat that already sealed a hero (and prefer the
- * richer sealed sheet when both sides claim created).
+ * richer sealed sheet when both sides claim created). Never rewind the map.
  */
 export function mergeIncomingWorld(
   existing: PartyWorldSave,
@@ -430,12 +518,16 @@ export function mergeIncomingWorld(
   isDm: boolean
 ): PartyWorldSave {
   if (!isDm && slot) {
-    const joinerAhead = (incoming.turnIndex ?? 0) > (existing.turnIndex ?? 0);
+    const turnAhead = (incoming.turnIndex ?? 0) > (existing.turnIndex ?? 0);
+    const campaignAhead =
+      campaignProgressScore(incoming) > campaignProgressScore(existing);
+    const joinerAhead = turnAhead || campaignAhead;
 
     if (!joinerAhead) {
       const withBattle = mergeBattleAndAmbush(existing, incoming, slot);
       return normalizeWorld({
         ...withBattle,
+        partyFlags: unionPartyFlags(existing.partyFlags, incoming.partyFlags),
         log: incoming.characters[slot]?.created && !existing.characters[slot]?.created
           ? [`${incoming.characters[slot]!.name} sealed their hero.`, ...existing.log].slice(0, 80)
           : existing.log,
@@ -443,21 +535,25 @@ export function mergeIncomingWorld(
       });
     }
 
+    const campaign = takeCampaignSlice(preferCampaignProgress(incoming, existing));
     const withBattle = mergeBattleAndAmbush(
       {
         ...existing,
-        activeSlot: incoming.activeSlot,
-        turnIndex: incoming.turnIndex,
-        campaignNodeId: incoming.campaignNodeId,
-        chapterId: incoming.chapterId,
-        partyFlags: incoming.partyFlags,
-        alignment: incoming.alignment,
-        encounterEnemyHp: incoming.encounterEnemyHp,
-        deckEncounter: incoming.deckEncounter,
-        completedSideQuests: incoming.completedSideQuests,
-        cookedRecipes: incoming.cookedRecipes,
-        log: incoming.log,
-        endingId: incoming.endingId,
+        ...campaign,
+        partyFlags: unionPartyFlags(existing.partyFlags, incoming.partyFlags),
+        activeSlot: turnAhead || campaignAhead ? incoming.activeSlot : existing.activeSlot,
+        turnIndex: Math.max(incoming.turnIndex ?? 0, existing.turnIndex ?? 0),
+        // Prefer longer completion lists so side-quest progress isn't lost.
+        completedSideQuests:
+          (incoming.completedSideQuests?.length ?? 0) >=
+          (existing.completedSideQuests?.length ?? 0)
+            ? incoming.completedSideQuests
+            : existing.completedSideQuests,
+        cookedRecipes:
+          (incoming.cookedRecipes?.length ?? 0) >= (existing.cookedRecipes?.length ?? 0)
+            ? incoming.cookedRecipes
+            : existing.cookedRecipes,
+        log: incoming.log?.length ? incoming.log : existing.log,
       },
       incoming,
       slot
@@ -469,36 +565,60 @@ export function mergeIncomingWorld(
     });
   }
 
-  // DM (or unknown slot): take incoming campaign state, but never lose a sealed hero.
-  const characters = { ...incoming.characters } as Record<PlayerSlot, CharacterSave>;
+  // DM (or unknown slot): take the further campaign, but never lose a sealed hero.
+  const campaignWinner = preferCampaignProgress(incoming, existing);
+  const characters = {
+    ...(campaignWinner === incoming ? incoming.characters : existing.characters),
+  } as Record<PlayerSlot, CharacterSave>;
+  // Overlay the other side's sealed sheets when richer / missing.
   for (const s of PLAYER_SLOT_ORDER) {
     const serverChar = existing.characters?.[s];
     const clientChar = incoming.characters?.[s];
-    if (!serverChar?.created) continue;
-    if (!clientChar?.created) {
+    const preferred = characters[s];
+    if (serverChar?.created && !clientChar?.created) {
       characters[s] = serverChar;
       continue;
     }
-    // Both sealed — keep the sheet with more play evidence.
+    if (clientChar?.created && !serverChar?.created) {
+      characters[s] = clientChar;
+      continue;
+    }
+    if (!serverChar?.created || !clientChar?.created) continue;
     const serverScore =
       (serverChar.choiceLog?.length ?? 0) + serverChar.xp + serverChar.level * 10;
     const clientScore =
       (clientChar.choiceLog?.length ?? 0) + clientChar.xp + clientChar.level * 10;
     if (serverScore > clientScore) characters[s] = serverChar;
+    else if (clientScore > serverScore) characters[s] = clientChar;
+    else if (!preferred?.created) characters[s] = clientChar;
   }
 
-  // Still reconcile battle if DM somehow posts stale null over an active fight
-  // from a peer that landed first (rare race).
+  // Still reconcile battle / side quest if DM somehow posts stale null over an
+  // active fight or trail from a peer that landed first (rare race).
   const battle = preferBattleState(existing.battle, incoming.battle, {
     existingUpdatedAt: existing.updatedAt,
     incomingUpdatedAt: incoming.updatedAt,
   });
   const clocks = preferAmbushClocks(existing, incoming);
+  const activeSideQuest = preferActiveSideQuest(
+    existing.activeSideQuest,
+    incoming.activeSideQuest,
+    {
+      existingUpdatedAt: existing.updatedAt,
+      incomingUpdatedAt: incoming.updatedAt,
+    }
+  );
+  const campaign = takeCampaignSlice(campaignWinner);
 
   return normalizeWorld({
-    ...incoming,
+    ...campaignWinner,
+    ...campaign,
     characters,
     battle,
+    activeSideQuest,
     ...clocks,
+    partyFlags: unionPartyFlags(existing.partyFlags, incoming.partyFlags),
+    turnIndex: Math.max(existing.turnIndex ?? 0, incoming.turnIndex ?? 0),
+    updatedAt: new Date().toISOString(),
   });
 }

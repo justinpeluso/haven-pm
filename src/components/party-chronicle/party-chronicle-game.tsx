@@ -5,7 +5,11 @@ import { DowntownSubnav } from "@/components/downtown/downtown-subnav";
 import { ENDING_BY_ID } from "@/lib/downtown/party-chronicle/alignment";
 import { getAnimalNpc } from "@/lib/downtown/party-chronicle/animals";
 import { comicArtSrc, getComicArt } from "@/lib/downtown/party-chronicle/art";
-import { journeyTrail } from "@/lib/downtown/party-chronicle/journey";
+import {
+  journeyTrail,
+  preferCampaignProgress,
+  unionPartyFlags,
+} from "@/lib/downtown/party-chronicle/journey";
 import { hoursSummary } from "@/lib/downtown/party-chronicle/campaign";
 import {
   acknowledgeNarrative,
@@ -342,25 +346,33 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
               characters[s] = remote.characters[s];
             }
           }
-          const remoteAhead = (remote.turnIndex ?? 0) >= (base.turnIndex ?? 0);
-          // Campaign pointer from server when ahead; always reconcile battle + ambush clocks.
+          // Narrative Continue moves the map without turnIndex — compare journey rank.
+          const campaign = preferCampaignProgress(remote, base);
+          const takeRemoteSeat = (remote.turnIndex ?? 0) > (base.turnIndex ?? 0);
           const campaignSlice: PartyWorldSave = {
             ...base,
             characters,
-            activeSlot: remoteAhead ? remote.activeSlot : base.activeSlot,
+            activeSlot: takeRemoteSeat ? remote.activeSlot : campaign.activeSlot,
             turnIndex: Math.max(remote.turnIndex ?? 0, base.turnIndex ?? 0),
-            campaignNodeId: remoteAhead ? remote.campaignNodeId : base.campaignNodeId,
-            chapterId: remoteAhead ? remote.chapterId : base.chapterId,
-            partyFlags: remoteAhead ? remote.partyFlags : base.partyFlags,
-            alignment: remoteAhead ? remote.alignment : base.alignment,
-            encounterEnemyHp: remoteAhead ? remote.encounterEnemyHp : base.encounterEnemyHp,
-            deckEncounter: remoteAhead ? remote.deckEncounter : base.deckEncounter,
-            completedSideQuests: remoteAhead
-              ? remote.completedSideQuests
-              : base.completedSideQuests,
-            cookedRecipes: remoteAhead ? remote.cookedRecipes : base.cookedRecipes,
+            campaignNodeId: campaign.campaignNodeId,
+            chapterId: campaign.chapterId,
+            partyFlags: unionPartyFlags(remote.partyFlags, base.partyFlags),
+            alignment: campaign.alignment,
+            pathway: campaign.pathway ?? base.pathway,
+            encounterEnemyHp: campaign.encounterEnemyHp,
+            deckEncounter: campaign.deckEncounter,
+            completedSideQuests:
+              (remote.completedSideQuests?.length ?? 0) >=
+              (base.completedSideQuests?.length ?? 0)
+                ? remote.completedSideQuests
+                : base.completedSideQuests,
+            cookedRecipes:
+              (remote.cookedRecipes?.length ?? 0) >= (base.cookedRecipes?.length ?? 0)
+                ? remote.cookedRecipes
+                : base.cookedRecipes,
+            activeSideQuest: campaign.activeSideQuest ?? base.activeSideQuest,
             log: remote.log?.length ? remote.log : base.log,
-            endingId: remote.endingId ?? base.endingId,
+            endingId: campaign.endingId ?? base.endingId,
             updatedAt: remote.updatedAt || base.updatedAt,
           };
           const next = mergeBattleAndAmbush(campaignSlice, remote);
@@ -502,10 +514,20 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     if (!res.ok) throw new Error("save failed");
     const data = (await res.json()) as { world?: PartyWorldSave };
     if (data.world) {
-      writeWorld(data.world);
-      setWorld(data.world);
-      setTitleSave(data.world);
-      return data.world;
+      // Keep the further map pin if the round-trip somehow lagged behind Continue.
+      const campaign = preferCampaignProgress(stamped, data.world);
+      const merged: PartyWorldSave = {
+        ...data.world,
+        campaignNodeId: campaign.campaignNodeId,
+        chapterId: campaign.chapterId,
+        partyFlags: unionPartyFlags(stamped.partyFlags, data.world.partyFlags),
+        endingId: campaign.endingId ?? data.world.endingId,
+        turnIndex: Math.max(stamped.turnIndex ?? 0, data.world.turnIndex ?? 0),
+      };
+      writeWorld(merged);
+      setWorld(merged);
+      setTitleSave(merged);
+      return merged;
     }
     return stamped;
   }, []);
