@@ -48,7 +48,25 @@ export const BATTLE_MAX_MS = 10 * 60 * 1000;
 export const TURN_IDLE_MS = 30 * 1000;
 
 const POWER_UP_TURNS = 3;
-const POWER_UP_MULT = 1.5;
+/** Was 1.5 — too swingy with high ATK + ROC severity. */
+const POWER_UP_MULT = 1.25;
+
+/**
+ * Soft-scale weapon ATK into strike power so legendaries stay special
+ * without 200+ one-shots (sqrt curve, then mild power-up).
+ */
+function combatStrikePower(rawAtk: number, poweredUp: boolean): number {
+  const scaled = 5 + Math.round(Math.pow(Math.max(1, rawAtk), 0.62) * 2.4);
+  const mult = poweredUp ? POWER_UP_MULT : 1;
+  return Math.max(2, Math.floor(scaled * mult));
+}
+
+/** Cap a single hit so early foes / weak bosses aren't deleted in one swing. */
+function clampOutgoingDamage(damage: number, enemyMaxHp: number): number {
+  if (damage <= 0) return 0;
+  const cap = Math.max(14, Math.floor(enemyMaxHp * 0.38));
+  return Math.min(damage, cap);
+}
 
 /** First encounter: short grace then 30–90s of story time. */
 export const FIRST_ENCOUNTER_MIN_MS = 30_000;
@@ -651,14 +669,16 @@ export function performBattleAction(
   let message = "";
 
   if (action === "attack") {
-    const mult = hero.powerUpTurns > 0 ? POWER_UP_MULT : 1;
+    const powered = hero.powerUpTurns > 0;
+    const strike = combatStrikePower(hero.power, powered);
     const eff = computeEffectiveStats(char);
+    // Keep ROC juicy without letting ATK dominate the chart.
     const skillValue =
-      Math.round(hero.power * 2 + eff.crit * 0.5) + Math.round((mult - 1) * 20);
+      Math.round(hero.power * 0.75 + eff.crit * 0.35) + (powered ? 8 : 0);
     const offense = resolveRoc({
       attributeScore: eff.stats.dexterity,
       skillValue,
-      situational: pathwaySituational(world) + Math.floor(eff.atk * 0.35),
+      situational: pathwaySituational(world) + Math.floor(eff.atk * 0.12),
       rng,
     });
     const defense = resolveDefenseRoc({
@@ -667,12 +687,13 @@ export function performBattleAction(
       level: partyLevel(world),
       rng,
     });
-    const { damage } = rocDamageFromMargin(
-      Math.max(2, Math.floor(hero.power * mult)),
+    const { damage: rawDmg } = rocDamageFromMargin(
+      strike,
       offense,
       defense.total,
       { armor: battle.enemy.armor, minHit: offense.tier.success ? 1 : 0 }
     );
+    const damage = clampOutgoingDamage(rawDmg, battle.enemy.maxHp);
     b = recordRoc(b, offense);
     if (damage > 0) {
       const dealt = dealToEnemy(b, damage);
@@ -716,7 +737,8 @@ export function performBattleAction(
     b = pushLog(b, message);
   } else if (action === "eat") {
     const foods = foodItemIds(char.inventory);
-    const itemId = opts.itemId && foods.includes(opts.itemId) ? opts.itemId : foods[0];
+    if (!opts.itemId) return { world, message: "Pick a food item." };
+    const itemId = foods.includes(opts.itemId) ? opts.itemId : null;
     if (!itemId) return { world, message: "No food in inventory." };
     const gear = getGear(itemId)!;
     const inv = consumeOne(char.inventory, itemId);
@@ -733,7 +755,8 @@ export function performBattleAction(
     b = pushLog(b, message);
   } else if (action === "drinkHp") {
     const pots = hpPotionIds(char.inventory);
-    const itemId = opts.itemId && pots.includes(opts.itemId) ? opts.itemId : pots[0];
+    if (!opts.itemId) return { world, message: "Pick an HP potion." };
+    const itemId = pots.includes(opts.itemId) ? opts.itemId : null;
     if (!itemId) return { world, message: "No HP potion." };
     const gear = getGear(itemId)!;
     const inv = consumeOne(char.inventory, itemId);
@@ -750,7 +773,8 @@ export function performBattleAction(
     b = pushLog(b, message);
   } else if (action === "drinkMana") {
     const pots = manaPotionIds(char.inventory);
-    const itemId = opts.itemId && pots.includes(opts.itemId) ? opts.itemId : pots[0];
+    if (!opts.itemId) return { world, message: "Pick a mana potion." };
+    const itemId = pots.includes(opts.itemId) ? opts.itemId : null;
     if (!itemId) return { world, message: "No mana potion." };
     const gear = getGear(itemId)!;
     const inv = consumeOne(char.inventory, itemId);
@@ -767,8 +791,8 @@ export function performBattleAction(
     b = pushLog(b, message);
   } else if (action === "spell") {
     const spells = battleSpellIds(char);
-    const spellId =
-      opts.spellId && spells.includes(opts.spellId) ? opts.spellId : spells[0];
+    if (!opts.spellId) return { world, message: "Pick a spell." };
+    const spellId = spells.includes(opts.spellId) ? opts.spellId : null;
     if (!spellId) return { world, message: "No spells known." };
     const ab = getAbility(spellId) ?? getSpellbookAbility(spellId);
     if (!ab) return { world, message: "Unknown spell." };
@@ -796,12 +820,13 @@ export function performBattleAction(
       message = `${char.name} casts ${ab.name} — ${roc.label} → +${heal} HP.`;
       b = pushLog(b, message);
     } else {
-      const mult = hero.powerUpTurns > 0 ? POWER_UP_MULT : 1;
+      const powered = hero.powerUpTurns > 0;
+      const strike = combatStrikePower(Math.max(ab.power, 4), powered);
       const eff = computeEffectiveStats(char);
       const offense = resolveRoc({
         attributeScore: eff.stats.intelligence,
-        skillValue: ab.power * 2 + Math.floor(eff.atk * 0.4),
-        situational: pathwaySituational(world) + Math.round((mult - 1) * 15),
+        skillValue: ab.power * 1.1 + Math.floor(eff.atk * 0.2),
+        situational: pathwaySituational(world) + (powered ? 6 : 0),
         rng,
       });
       const defense = resolveDefenseRoc({
@@ -810,12 +835,13 @@ export function performBattleAction(
         level: partyLevel(world),
         rng,
       });
-      const { damage } = rocDamageFromMargin(
-        Math.max(2, Math.floor(ab.power * mult)),
+      const { damage: rawDmg } = rocDamageFromMargin(
+        strike,
         offense,
         defense.total,
         { armor: Math.floor(battle.enemy.armor * 0.5), minHit: offense.tier.success ? 1 : 0 }
       );
+      const damage = clampOutgoingDamage(rawDmg, battle.enemy.maxHp);
       b = recordRoc(b, offense);
       if (damage > 0) {
         const dealt = dealToEnemy(b, damage);

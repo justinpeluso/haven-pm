@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import { getAbility } from "@/lib/downtown/party-chronicle/skills";
 import { getSpellbookAbility } from "@/lib/downtown/party-chronicle/bestiary";
+import { getGear } from "@/lib/downtown/party-chronicle/gear";
 import { comicArtSrc } from "@/lib/downtown/party-chronicle/art";
 import type {
   BattleActionId,
@@ -24,11 +25,17 @@ import type {
 const ACTIONS: { id: BattleActionId; label: string; hint: string }[] = [
   { id: "attack", label: "Attack", hint: "Strike with your weapon" },
   { id: "powerUp", label: "Power Up", hint: "+50% damage for 3 turns" },
-  { id: "eat", label: "Eat", hint: "Consume food from inventory" },
-  { id: "spell", label: "Spell", hint: "Cast a known spell" },
-  { id: "drinkHp", label: "HP Potion", hint: "Drink a healing potion" },
-  { id: "drinkMana", label: "Mana Potion", hint: "Drink a mana draught" },
 ];
+
+function itemLabel(id: string): string {
+  return getGear(id)?.name ?? id;
+}
+
+function countIds(ids: string[]): { id: string; count: number }[] {
+  const map = new Map<string, number>();
+  for (const id of ids) map.set(id, (map.get(id) ?? 0) + 1);
+  return [...map.entries()].map(([id, count]) => ({ id, count }));
+}
 
 function Meter({
   label,
@@ -185,27 +192,98 @@ export function BattleOverlay({
         </p>
 
         <div className="pc-battle-actions">
-          {ACTIONS.map((a) => {
-            let disabled = !isMyTurn || pending;
-            if (a.id === "eat" && foods.length === 0) disabled = true;
-            if (a.id === "spell" && spells.length === 0) disabled = true;
-            if (a.id === "drinkHp" && hpPots.length === 0) disabled = true;
-            if (a.id === "drinkMana" && manaPots.length === 0) disabled = true;
-            return (
-              <button
-                key={a.id}
-                type="button"
-                className="pc-choice pc-battle-action"
-                disabled={disabled}
-                title={a.hint}
-                onClick={() => onAction(a.id)}
-              >
-                <strong>{a.label}</strong>
-                <span className="block text-[0.65rem] opacity-70">{a.hint}</span>
-              </button>
-            );
-          })}
+          {ACTIONS.map((a) => (
+            <button
+              key={a.id}
+              type="button"
+              className="pc-choice pc-battle-action"
+              disabled={!isMyTurn || pending}
+              title={a.hint}
+              onClick={() => onAction(a.id)}
+            >
+              <strong>{a.label}</strong>
+              <span className="block text-[0.65rem] opacity-70">{a.hint}</span>
+            </button>
+          ))}
         </div>
+
+        {isMyTurn && foods.length > 0 && (
+          <div className="pc-battle-spell-row">
+            <p className="pc-eyebrow text-[0.65rem]">Eat</p>
+            <div className="flex flex-wrap gap-2">
+              {countIds(foods).map(({ id, count }) => {
+                const gear = getGear(id);
+                const heal = gear?.heal ?? 8;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    className="pc-chip"
+                    disabled={!isMyTurn || pending}
+                    title={`Eat ${itemLabel(id)} (+${heal} HP)`}
+                    onClick={() => onAction("eat", { itemId: id })}
+                  >
+                    {itemLabel(id)}
+                    {count > 1 ? ` ×${count}` : ""}
+                    {` (+${heal} HP)`}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {isMyTurn && hpPots.length > 0 && (
+          <div className="pc-battle-spell-row">
+            <p className="pc-eyebrow text-[0.65rem]">HP potions</p>
+            <div className="flex flex-wrap gap-2">
+              {countIds(hpPots).map(({ id, count }) => {
+                const gear = getGear(id);
+                const heal = gear?.heal ?? 25;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    className="pc-chip"
+                    disabled={!isMyTurn || pending}
+                    title={`Drink ${itemLabel(id)} (+${heal} HP)`}
+                    onClick={() => onAction("drinkHp", { itemId: id })}
+                  >
+                    {itemLabel(id)}
+                    {count > 1 ? ` ×${count}` : ""}
+                    {` (+${heal} HP)`}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {isMyTurn && manaPots.length > 0 && (
+          <div className="pc-battle-spell-row">
+            <p className="pc-eyebrow text-[0.65rem]">Mana potions</p>
+            <div className="flex flex-wrap gap-2">
+              {countIds(manaPots).map(({ id, count }) => {
+                const gear = getGear(id);
+                const restore = gear?.manaRestore ?? 20;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    className="pc-chip"
+                    disabled={!isMyTurn || pending}
+                    title={`Drink ${itemLabel(id)} (+${restore} Mana)`}
+                    onClick={() => onAction("drinkMana", { itemId: id })}
+                  >
+                    {itemLabel(id)}
+                    {count > 1 ? ` ×${count}` : ""}
+                    {` (+${restore} MP)`}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {isMyTurn && spells.length > 0 && (
           <div className="pc-battle-spell-row">

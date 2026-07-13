@@ -371,7 +371,19 @@ export function advanceSideQuest(
         message: "Quest data missing — cleared run.",
       };
     }
-    const rewarded = grantQuestRewards({ ...world, activeSideQuest: q }, slot, def);
+    const rewarded = grantQuestRewards(
+      {
+        ...world,
+        activeSideQuest: q,
+        // Clear finished battle so Camp dig/chest aren't stranded after the last step
+        battle:
+          world.battle?.status === "victory" || world.battle?.status === "defeat"
+            ? null
+            : world.battle,
+      },
+      slot,
+      def
+    );
     return {
       world: rewarded,
       message: `Side quest complete: ${def.title} (+${def.rewards.xp} XP).`,

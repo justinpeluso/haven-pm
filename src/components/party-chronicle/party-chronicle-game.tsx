@@ -41,6 +41,7 @@ import {
   availableSideQuests,
   buyFromCampMerchant,
   campMerchantStock,
+  campSleepCooldownMs,
   campSleepsRemaining,
   CAMP_SLEEP_MAX,
   CAMP_SLEEP_WINDOW_MS,
@@ -849,7 +850,11 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const onQuestAbandon = () => {
     if (!world || !mySlot || !acting) return;
     const result = abandonSideQuest(world, mySlot, { isDm: identity.isDm });
-    persist(result.world);
+    let next = result.world;
+    if (next.battle?.status === "victory" || next.battle?.status === "defeat") {
+      next = dismissBattleSummary(next);
+    }
+    persist(next);
     setFlash(`${result.message} — resume the main quest on Comic.`);
     setQuestPanelOpen(true);
     setTab("story");
@@ -863,6 +868,12 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   };
 
   const returnToMainQuest = () => {
+    if (
+      world &&
+      (world.battle?.status === "victory" || world.battle?.status === "defeat")
+    ) {
+      persist(dismissBattleSummary(world));
+    }
     setQuestPanelOpen(false);
     setTab("story");
     setFlash("Main quest open — side trail is parked (clock still runs).");
@@ -1194,18 +1205,18 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const inBattle = !!world.battle;
   const questRunActive = world.activeSideQuest?.status === "active";
   const mainProgress = campaignProgressReport(world);
-  // Victory summaries must not bury an active quest panel (battle overlay is z80).
-  // Defeat still needs the battle overlay so the party can dismiss and retry.
-  const showBattleOverlay =
-    !!world.battle &&
-    (battleActive || world.battle.status === "defeat" || !questRunActive);
+  // Victory/defeat summaries always show (loot/XP + dismiss). Active fights keep
+  // current priority over a parked quest panel when the battle is live.
+  const battleSummaryOpen =
+    world.battle?.status === "victory" || world.battle?.status === "defeat";
+  const showBattleOverlay = !!world.battle && (battleActive || battleSummaryOpen);
   const showQuestOverlay =
     !!world.activeSideQuest &&
     questPanelOpen &&
     !battleActive &&
-    world.battle?.status !== "defeat";
+    !battleSummaryOpen;
   const showParkedQuestBanner =
-    questRunActive && !questPanelOpen && !battleActive && world.battle?.status !== "defeat";
+    questRunActive && !questPanelOpen && !battleActive && !battleSummaryOpen;
   const hasChoices =
     storyNode.kind === "conversation" || storyNode.kind === "path" || storyNode.kind === "encounter";
   const sideQuests = availableSideQuests(world);
@@ -1220,6 +1231,24 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const nextStoryId =
     storyNode.kind === "narrative" || storyNode.kind === "montage" ? storyNode.next : null;
   const nextGate = nextStoryId ? progressGateForNode(world, nextStoryId) : { ok: true as const };
+  const sleepBlocked =
+    !acting ||
+    inRoadFight ||
+    battleActive ||
+    inStoryFight ||
+    questRunActive ||
+    campSleepsRemaining(world) <= 0;
+  let campSleepHint: string | null = null;
+  if (questRunActive) {
+    campSleepHint = "Park or finish the side quest before sleeping.";
+  } else if (battleActive || inRoadFight || inStoryFight) {
+    campSleepHint = "Finish the battle before sleeping.";
+  } else if (!acting) {
+    campSleepHint = "Not your turn.";
+  } else if (campSleepsRemaining(world) <= 0) {
+    const waitMin = Math.max(1, Math.ceil(campSleepCooldownMs(world) / 60_000));
+    campSleepHint = `Next sleep in ~${waitMin}m.`;
+  }
 
   return (
     <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
@@ -1249,11 +1278,6 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       {questRunActive && battleActive && (
         <div className="pc-turn-banner" data-forest="true" role="status">
           Quest “{world.activeSideQuest!.title}” — trail clock still running during battle
-        </div>
-      )}
-      {questRunActive && world.battle?.status === "victory" && questPanelOpen && (
-        <div className="pc-turn-banner" data-forest="true" role="status">
-          Quest fight won — continue the trail in the quest panel
         </div>
       )}
       {showParkedQuestBanner && world.activeSideQuest && (
@@ -1600,18 +1624,17 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                 <button
                   type="button"
                   className="pc-primary-btn"
-                  disabled={
-                    !acting ||
-                    inRoadFight ||
-                    battleActive ||
-                    inStoryFight ||
-                    questRunActive ||
-                    campSleepsRemaining(world) <= 0
-                  }
+                  disabled={sleepBlocked}
+                  title={campSleepHint ?? "Sleep at camp — restore HP & mana"}
                   onClick={onCampSleep}
                 >
                   Sleep at camp → restore HP &amp; mana
                 </button>
+                {campSleepHint && (
+                  <p className="text-xs opacity-70" style={{ color: "var(--pc-accent)" }}>
+                    {campSleepHint}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
