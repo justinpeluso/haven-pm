@@ -28,6 +28,7 @@ import {
   useHotbarAbility,
   useInventoryConsumable,
 } from "@/lib/downtown/party-chronicle/engine";
+import { MAX_LEVEL, xpProgress } from "@/lib/downtown/party-chronicle/progression";
 import {
   AMBUSH_INTERVAL_MS,
   dismissBattleSummary,
@@ -150,14 +151,16 @@ function Meter({
   value,
   max,
   tone,
+  compact,
 }: {
   label: string;
   value: number;
   max: number;
   tone: "hp" | "stamina" | "mana" | "enemy" | "xp";
+  compact?: boolean;
 }) {
   return (
-    <div>
+    <div className={compact ? "pc-meter-wrap pc-meter-wrap--compact" : "pc-meter-wrap"}>
       <div className="flex justify-between text-[0.65rem] font-bold mb-0.5">
         <span>{label}</span>
         <span>
@@ -168,6 +171,21 @@ function Meter({
         <span style={{ width: `${meterPct(value, max)}%` }} />
       </div>
     </div>
+  );
+}
+
+/** XP toward next level — fill % from `xpProgress`. */
+function XpMeter({ xp, compact }: { xp: number; compact?: boolean }) {
+  const prog = xpProgress(xp);
+  const maxed = prog.level >= MAX_LEVEL;
+  return (
+    <Meter
+      label={maxed ? `XP · Lv ${prog.level} MAX` : `XP · Lv ${prog.level}`}
+      value={maxed ? prog.need : prog.into}
+      max={prog.need}
+      tone="xp"
+      compact={compact}
+    />
   );
 }
 
@@ -1527,6 +1545,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                   </p>
                   <Meter label="HP" value={c.hp} max={c.maxHp} tone="hp" />
                   <Meter label="Mana" value={c.mana} max={c.maxMana} tone="mana" />
+                  {c.created && <XpMeter xp={c.xp} compact />}
                   <p className="text-[0.6rem] mt-1">
                     {c.created ? `${c.dog.name} (bond ${c.dog.bond})` : "No hound sealed yet"}
                   </p>
@@ -2037,6 +2056,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                 tone="stamina"
               />
               <Meter label="Mana" value={activeChar.mana} max={activeChar.maxMana} tone="mana" />
+              <XpMeter xp={activeChar.xp} />
               <p className="text-sm font-bold mt-1" style={{ color: "var(--pc-accent)" }}>
                 Gold {activeChar.gold}g
               </p>
@@ -2146,6 +2166,7 @@ function SkillsPanel({
 }
 
 function CharacterSheet({ char, highlight }: { char: CharacterSave; highlight: boolean }) {
+  const prog = xpProgress(char.xp);
   return (
     <div className={`pc-panel p-3 bg-white/60 ${highlight ? "ring-2 ring-[var(--pc-cyan)]" : ""}`}>
       <p className="font-bold">
@@ -2155,6 +2176,7 @@ function CharacterSheet({ char, highlight }: { char: CharacterSave; highlight: b
       <div className="mt-2 space-y-1">
         <Meter label="HP" value={char.hp} max={char.maxHp} tone="hp" />
         <Meter label="Mana" value={char.mana} max={char.maxMana} tone="mana" />
+        {char.created && <XpMeter xp={char.xp} />}
       </div>
       <div className="pc-stat-grid mt-2">
         {STAT_KEYS.map((k) => (
@@ -2165,8 +2187,10 @@ function CharacterSheet({ char, highlight }: { char: CharacterSave; highlight: b
         ))}
       </div>
       <p className="text-[0.65rem] mt-2">
-        XP {char.xp} · Gold {char.gold} · Dog: {char.dog.name} · Hotbar{" "}
-        {char.hotbar.filter(Boolean).length}/{HOTBAR_SIZE}
+        {prog.level >= MAX_LEVEL
+          ? `XP MAX · Gold ${char.gold}`
+          : `XP ${prog.into}/${prog.need} toward Lv ${prog.level + 1} · Gold ${char.gold}`}{" "}
+        · Dog: {char.dog.name} · Hotbar {char.hotbar.filter(Boolean).length}/{HOTBAR_SIZE}
       </p>
     </div>
   );

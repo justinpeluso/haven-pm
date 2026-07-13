@@ -27,6 +27,7 @@ import {
   battlePetArtSrc,
 } from "@/lib/downtown/party-chronicle/art";
 import { CLASS_DEFS } from "@/lib/downtown/party-chronicle/players";
+import { MAX_LEVEL, xpProgress } from "@/lib/downtown/party-chronicle/progression";
 import type {
   BattleActionId,
   BattleFxEvent,
@@ -63,15 +64,17 @@ function Meter({
   value,
   max,
   tone,
+  compact,
 }: {
   label: string;
   value: number;
   max: number;
-  tone: "hp" | "mana" | "enemy";
+  tone: "hp" | "mana" | "enemy" | "xp";
+  compact?: boolean;
 }) {
   const pct = max > 0 ? Math.round(Math.min(100, Math.max(0, (value / max) * 100))) : 0;
   return (
-    <div>
+    <div className={compact ? "pc-meter-wrap pc-meter-wrap--compact" : "pc-meter-wrap"}>
       <div className="flex justify-between text-[0.65rem] font-bold mb-0.5">
         <span>{label}</span>
         <span>
@@ -82,6 +85,20 @@ function Meter({
         <span style={{ width: `${pct}%` }} />
       </div>
     </div>
+  );
+}
+
+function XpMeter({ xp, compact }: { xp: number; compact?: boolean }) {
+  const prog = xpProgress(xp);
+  const maxed = prog.level >= MAX_LEVEL;
+  return (
+    <Meter
+      label={maxed ? `XP · Lv ${prog.level} MAX` : `XP · Lv ${prog.level}`}
+      value={maxed ? prog.need : prog.into}
+      max={prog.need}
+      tone="xp"
+      compact={compact}
+    />
   );
 }
 
@@ -501,6 +518,7 @@ export function BattleOverlay({
                   </p>
                   <Meter label="HP" value={h.hp} max={h.maxHp} tone="hp" />
                   <Meter label="Mana" value={h.mana} max={h.maxMana} tone="mana" />
+                  {char && <XpMeter xp={char.xp} compact />}
                 </div>
               );
             })}
@@ -753,12 +771,13 @@ function BattleSummaryScreen({
   );
 }
 
-/** Compact HP/Mana for party sidebar sheets. */
+/** Compact HP/Mana/XP for party sidebar sheets. */
 export function HeroVitals({ char }: { char: CharacterSave }) {
   return (
     <div className="space-y-1">
       <Meter label="HP" value={char.hp} max={char.maxHp} tone="hp" />
       <Meter label="Mana" value={char.mana} max={char.maxMana} tone="mana" />
+      <XpMeter xp={char.xp} compact />
     </div>
   );
 }

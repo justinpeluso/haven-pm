@@ -25,6 +25,7 @@
   --pc-hp: #d97a4c;
   --pc-stamina: #e8c96a;
   --pc-mana: #5ecf9a;
+  --pc-xp: #e8c96a; /* firelight gold — level climb */
   --pc-good: #3d9a7a;
   --pc-warn: #c47a3d;
   --pc-fg: #e6f0e8;
@@ -662,7 +663,19 @@
 .party-comic .pc-meter[data-tone="xp"] > span,
 .party-rpg90s .pc-meter[data-tone="xp"] > span,
 .party-chronicle .pc-meter[data-tone="xp"] > span {
-  background: linear-gradient(90deg, #5a4a2a, var(--pc-accent));
+  background: linear-gradient(90deg, #5a4a2a, var(--pc-xp));
+}
+
+.party-comic .pc-meter-wrap--compact .pc-meter,
+.party-rpg90s .pc-meter-wrap--compact .pc-meter,
+.party-chronicle .pc-meter-wrap--compact .pc-meter {
+  height: 0.55rem;
+}
+
+.party-comic .pc-meter-wrap--compact,
+.party-rpg90s .pc-meter-wrap--compact,
+.party-chronicle .pc-meter-wrap--compact {
+  margin-top: 0.15rem;
 }
 
 .party-comic .pc-stat-pill,
