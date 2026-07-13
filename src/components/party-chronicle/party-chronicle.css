@@ -1177,9 +1177,18 @@
 .party-rpg90s .pc-battle-stage,
 .party-chronicle .pc-battle-stage {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   gap: 1rem;
   margin: 0.85rem 0;
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .party-comic .pc-battle-stage,
+  .party-rpg90s .pc-battle-stage,
+  .party-chronicle .pc-battle-stage {
+    grid-template-columns: 1fr;
+  }
 }
 
 .party-comic .pc-battle-enemy img,
@@ -1189,11 +1198,12 @@
 .party-rpg90s .pc-battle-foe-art,
 .party-chronicle .pc-battle-foe-art {
   width: 100%;
-  max-height: 200px;
+  max-height: 280px;
   object-fit: contain;
   border: 3px solid var(--pc-border);
   margin-bottom: 0.5rem;
   background: #0a1410;
+  image-rendering: auto;
 }
 
 .party-comic .pc-battle-party,
@@ -1207,7 +1217,7 @@
 .party-comic .pc-battle-hero,
 .party-rpg90s .pc-battle-hero,
 .party-chronicle .pc-battle-hero {
-  padding: 0.45rem 0.55rem;
+  padding: 0.5rem 0.6rem;
   border: 2px dashed var(--pc-kraft-dark);
   background: rgba(255, 255, 255, 0.55);
 }
@@ -1216,17 +1226,17 @@
 .party-rpg90s .pc-battle-hero-row,
 .party-chronicle .pc-battle-hero-row {
   display: grid;
-  grid-template-columns: 64px minmax(0, 1fr) 52px;
-  gap: 0.45rem;
+  grid-template-columns: 96px minmax(0, 1fr) 72px;
+  gap: 0.55rem;
   align-items: center;
 }
 
 .party-comic .pc-battle-hero-art,
 .party-rpg90s .pc-battle-hero-art,
 .party-chronicle .pc-battle-hero-art {
-  width: 64px;
-  height: 74px;
-  object-fit: cover;
+  width: 96px;
+  height: 110px;
+  object-fit: contain;
   border: 2px solid var(--pc-border);
   background: #0a1410;
 }
@@ -1260,9 +1270,9 @@
 .party-comic .pc-battle-pet-art,
 .party-rpg90s .pc-battle-pet-art,
 .party-chronicle .pc-battle-pet-art {
-  width: 48px;
-  height: 56px;
-  object-fit: cover;
+  width: 68px;
+  height: 78px;
+  object-fit: contain;
   border: 2px solid var(--pc-kraft-dark);
   background: #0a1410;
 }
@@ -1276,7 +1286,7 @@
   text-transform: uppercase;
   text-align: center;
   line-height: 1.1;
-  max-width: 52px;
+  max-width: 72px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
