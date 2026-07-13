@@ -66,7 +66,13 @@ import {
 } from "@/lib/downtown/party-chronicle/exploration";
 import { ensureExploreState } from "@/lib/downtown/party-chronicle/explore-walk";
 import { SideQuestOverlay } from "@/components/party-chronicle/side-quest-overlay";
+import { DungeonMasterPanel } from "@/components/party-chronicle/dm-panel";
 import { WorldMapPanel } from "@/components/party-chronicle/world-map-panel";
+import {
+  buildCampaignBrief,
+  type DmFocusTarget,
+  type DmWorldHint,
+} from "@/lib/downtown/party-chronicle/dm";
 import { getGear, gearCatalogStats } from "@/lib/downtown/party-chronicle/gear";
 import { bestiaryStats, isSpellbookItem } from "@/lib/downtown/party-chronicle/bestiary";
 import { formatProperty, itemProperties } from "@/lib/downtown/party-chronicle/stats";
@@ -352,6 +358,8 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const [tab, setTab] = useState<MainTab>("map");
   /** Side quest stays on the save; panel can park so the party returns to the main spine. */
   const [questPanelOpen, setQuestPanelOpen] = useState(true);
+  const [dmPanelOpen, setDmPanelOpen] = useState(false);
+  const [mainQuestPulse, setMainQuestPulse] = useState(false);
   const [flash, setFlash] = useState<string | null>(null);
   /** Comic pop when the Camp merchant sale goes through — replace on each buy. */
   const [merchantSold, setMerchantSold] = useState<{
@@ -1036,6 +1044,40 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     setFlash("Main quest open — side trail is parked (clock still runs).");
   };
 
+  const focusMainFromDm = (target: DmFocusTarget) => {
+    if (!world) return;
+    const progress = campaignProgressReport(world);
+    const node = getStoryNode(world.campaignNodeId);
+    const stranded =
+      node?.kind === "ending" ||
+      !!world.endingId ||
+      chapterForNode(world.campaignNodeId)?.id === "ch10-endings";
+
+    if (stranded || target === "main_quest") {
+      if (stranded) {
+        keepPlayingFromEnding();
+      } else {
+        setQuestPanelOpen(false);
+        setTab("story");
+        setFlash(`Main quest: ${progress.nodeTitle}`);
+      }
+    } else if (target === "camp") {
+      setQuestPanelOpen(false);
+      setTab("camp");
+      setFlash(`Camp — unlock the gate, then return to “${progress.nodeTitle}”.`);
+    } else if (target === "map") {
+      setTab("map");
+      setFlash("Map open — wanderers can hint the main road.");
+    } else {
+      setQuestPanelOpen(false);
+      setTab("story");
+      setFlash(`Main quest: ${progress.nodeTitle}`);
+    }
+    setMainQuestPulse(true);
+    window.setTimeout(() => setMainQuestPulse(false), 3200);
+    setDmPanelOpen(false);
+  };
+
   const resumeSideQuestPanel = () => {
     setQuestPanelOpen(true);
     setTab("camp");
@@ -1362,6 +1404,25 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const inBattle = !!world.battle;
   const questRunActive = world.activeSideQuest?.status === "active";
   const mainProgress = campaignProgressReport(world);
+  const dmBrief = buildCampaignBrief(world);
+  const dmWorldHint: DmWorldHint = {
+    campaignNodeId: world.campaignNodeId,
+    chapterId: world.chapterId,
+    partyFlags: world.partyFlags,
+    alignment: world.alignment,
+    battlesFought: world.battlesFought,
+    completedSideQuests: world.completedSideQuests,
+    activeSideQuest: world.activeSideQuest,
+    explore: world.explore,
+    endingId: world.endingId,
+    log: world.log,
+    turnIndex: world.turnIndex,
+    storyPlayMs: world.storyPlayMs,
+    battle: world.battle,
+    deckEncounter: world.deckEncounter,
+    cookedRecipes: world.cookedRecipes,
+    explorationFinds: world.explorationFinds,
+  };
   // Victory/defeat summaries always show (loot/XP + dismiss). Active fights keep
   // current priority over a parked quest panel when the battle is live.
   const battleSummaryOpen =
@@ -1432,6 +1493,23 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           onReturnToMain={returnToMainQuest}
         />
       )}
+      <DungeonMasterPanel
+        open={dmPanelOpen}
+        onClose={() => setDmPanelOpen(false)}
+        worldHint={dmWorldHint}
+        pathLabel={dmBrief.pathLabel}
+        onFocusMain={focusMainFromDm}
+      />
+      <button
+        type="button"
+        className="pc-dm-fab"
+        data-active={dmPanelOpen}
+        onClick={() => setDmPanelOpen((v) => !v)}
+        title="Dungeon Master"
+        aria-label="Open Dungeon Master"
+      >
+        DM
+      </button>
       {questRunActive && battleActive && (
         <div className="pc-turn-banner" data-forest="true" role="status">
           Quest “{world.activeSideQuest!.title}” — trail clock still running during battle
@@ -1479,7 +1557,11 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
             {!inBattle ? ` · Next ambush ~${untilBattle}s` : " · In battle"}
             {me ? ` · ${me.gold}g` : ""}
           </p>
-          <div className="pc-main-progress mt-2" aria-label="Main quest progress">
+          <div
+            className="pc-main-progress mt-2"
+            aria-label="Main quest progress"
+            data-pulse={mainQuestPulse ? "true" : undefined}
+          >
             <div className="pc-main-progress-meta">
               <span>{mainProgress.label}</span>
               <span>
@@ -1517,6 +1599,15 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                 : saveStatus === "error"
                   ? "Retry Save"
                   : "Save"}
+          </button>
+          <button
+            type="button"
+            className="pc-chip"
+            data-active={dmPanelOpen}
+            onClick={() => setDmPanelOpen(true)}
+            title="Ask the Dungeon Master"
+          >
+            DM
           </button>
           <button type="button" className="pc-chip" onClick={leaveToTitle}>
             Title
@@ -1775,7 +1866,10 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
 
           {tab === "camp" && (
             <div className="space-y-4">
-              <div className="pc-main-quest-card">
+              <div
+                className="pc-main-quest-card"
+                data-pulse={mainQuestPulse && tab === "camp" ? "true" : undefined}
+              >
                 <p className="pc-eyebrow text-[0.65rem]">Main quest · stay on track</p>
                 <p className="font-bold text-sm">{mainProgress.nodeTitle}</p>
                 <p className="text-[0.65rem] opacity-80 mt-1">{mainProgress.campBlurb}</p>
