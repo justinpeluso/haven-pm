@@ -279,6 +279,81 @@ export function canStrike(
   return chebyshev(attacker.x, attacker.y, target.x, target.y) <= attacker.range;
 }
 
+/** Spells reach a bit farther than weapon range for casters mid-approach. */
+export function spellStrikeRange(attacker: BattleTacticalUnit): number {
+  return Math.max(attacker.range, 2);
+}
+
+export function canSpellStrike(
+  attacker: BattleTacticalUnit,
+  target: BattleTacticalUnit
+): boolean {
+  return (
+    chebyshev(attacker.x, attacker.y, target.x, target.y) <=
+    spellStrikeRange(attacker)
+  );
+}
+
+/**
+ * Tiles threatened by living enemy units (Chebyshev ≤ foe range).
+ * Used while the party is choosing a move — BG3-style danger zones.
+ */
+export function threatenedTiles(
+  tactical: BattleTacticalState,
+  livingEnemyIds: Set<string>
+): Set<string> {
+  const out = new Set<string>();
+  for (const u of tactical.units) {
+    if (u.side !== "enemy" || !livingEnemyIds.has(u.id)) continue;
+    const reach = Math.max(1, u.range);
+    for (let y = 0; y < tactical.rows; y++) {
+      for (let x = 0; x < tactical.cols; x++) {
+        if (chebyshev(u.x, u.y, x, y) <= reach && !(x === u.x && y === u.y)) {
+          out.add(`${x},${y}`);
+        }
+      }
+    }
+  }
+  return out;
+}
+
+/**
+ * Flanking: attacker and another living ally both within melee (range 1) of the
+ * target, on roughly opposite sides — BG3-lite advantage.
+ */
+export function isFlanking(
+  tactical: BattleTacticalState,
+  attacker: BattleTacticalUnit,
+  target: BattleTacticalUnit
+): boolean {
+  if (chebyshev(attacker.x, attacker.y, target.x, target.y) > 1) return false;
+  const adx = attacker.x - target.x;
+  const ady = attacker.y - target.y;
+  for (const u of tactical.units) {
+    if (u.id === attacker.id || u.side !== attacker.side) continue;
+    if (chebyshev(u.x, u.y, target.x, target.y) > 1) continue;
+    const bdx = u.x - target.x;
+    const bdy = u.y - target.y;
+    if (adx * bdx + ady * bdy < 0) return true;
+  }
+  return false;
+}
+
+/** Tiles within Chebyshev `range` of a unit (inclusive ring for spell preview). */
+export function rangeTiles(
+  tactical: BattleTacticalState,
+  from: BattleTacticalUnit,
+  range: number
+): Set<string> {
+  const out = new Set<string>();
+  for (let y = 0; y < tactical.rows; y++) {
+    for (let x = 0; x < tactical.cols; x++) {
+      if (chebyshev(from.x, from.y, x, y) <= range) out.add(`${x},${y}`);
+    }
+  }
+  return out;
+}
+
 export function moveUnit(
   tactical: BattleTacticalState,
   unitId: string,

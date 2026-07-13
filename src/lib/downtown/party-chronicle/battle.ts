@@ -19,7 +19,7 @@ import {
 import { getGear } from "./gear";
 import { battleArmor, battleAttackPower, battleMaxHp, battleMaxMana, computeEffectiveStats } from "./stats";
 import { levelFromXp, skillPointsForLevelGain } from "./progression";
-import { getAbility } from "./skills";
+import { battleAbilityRole, getAbility } from "./skills";
 import { getStoryNode } from "./story";
 import {
   NEVERWORLD_HERITAGE,
@@ -34,12 +34,14 @@ import {
 } from "./roc";
 import {
   applyAiMove,
+  canSpellStrike,
   canStrike,
   createTacticalState,
   ensureTactical,
   enemyUnitIdForIndex,
   getUnit,
   isEnemyCombatantId,
+  isFlanking,
   moveUnit,
   nearestEnemyTarget,
   nearestPartyTarget,
@@ -47,12 +49,15 @@ import {
   removeDeadHeroUnits,
   resetPhaseForTurn,
   setPhase,
+  spellStrikeRange,
 } from "./tactical";
 import type {
   BattleActionId,
   BattleEnemyState,
   BattleFxEvent,
+  BattleFxTone,
   BattleLootDrop,
+  BattleStatus,
   BattleState,
   BattleSummary,
   CharacterSave,
@@ -62,12 +67,17 @@ import type {
 import { PLAYER_SLOT_ORDER } from "./types";
 
 export {
+  canSpellStrike,
   canStrike,
   ensureTactical,
   getUnit,
   isEnemyCombatantId,
+  isFlanking,
   legalMoves,
   nearestEnemyTarget,
+  rangeTiles,
+  spellStrikeRange,
+  threatenedTiles,
   unitAt,
   TACTICAL_COLS,
   TACTICAL_ROWS,
@@ -269,7 +279,26 @@ export function battleSpellIds(char: CharacterSave): string[] {
   return char.abilities.filter((id) => {
     const ab = getAbility(id) ?? getSpellbookAbility(id);
     if (!ab) return false;
-    return ab.kind === "spell" || ab.tags.includes("spell") || ab.tags.includes("damage");
+    const role = battleAbilityRole(ab);
+    if (role === "damage") {
+      return (
+        ab.kind === "spell" ||
+        ab.tags.includes("spell") ||
+        ab.tags.includes("damage") ||
+        (ab.cost?.mana ?? 0) > 0
+      );
+    }
+    if (role === "heal" || role === "buff") {
+      return (
+        ab.kind === "heal" ||
+        ab.kind === "spell" ||
+        (ab.cost?.mana ?? 0) > 0 ||
+        ab.tags.includes("heal") ||
+        ab.tags.includes("buff") ||
+        ab.tags.includes("ward")
+      );
+    }
+    return false;
   });
 }
 
@@ -319,13 +348,14 @@ function advanceBattleTurn(battle: BattleState): BattleState {
     tactical = removeDeadEnemyUnits(tactical, battleEnemyPack(battle));
   }
   if (tactical) tactical = resetPhaseForTurn(tactical);
-  return {
+  const next: BattleState = {
     ...battle,
     turnIndex: idx,
     activeId: battle.turnQueue[idx]!,
     turnStartedAt: now,
     tactical,
   };
+  return tickHeroStatuses(next);
 }
 
 function pushLog(battle: BattleState, line: string): BattleState {
@@ -336,20 +366,86 @@ function pushFx(
   battle: BattleState,
   kind: BattleFxEvent["kind"],
   amount: number,
-  target: string
+  target: string,
+  meta?: {
+    source?: string;
+    tone?: BattleFxTone;
+    cellX?: number;
+    cellY?: number;
+  }
 ): BattleState {
-  if (amount <= 0) return battle;
+  if ((kind === "damage" || kind === "heal" || kind === "crit") && amount <= 0) {
+    return battle;
+  }
   const fx: BattleFxEvent = {
     id: `fx-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     kind,
-    amount: Math.round(amount),
+    amount: amount > 0 ? Math.round(amount) : undefined,
     target,
+    source: meta?.source,
+    tone: meta?.tone,
+    cellX: meta?.cellX,
+    cellY: meta?.cellY,
     at: new Date().toISOString(),
   };
   return {
     ...battle,
-    fxEvents: [fx, ...(battle.fxEvents ?? [])].slice(0, 20),
+    fxEvents: [fx, ...(battle.fxEvents ?? [])].slice(0, 40),
   };
+}
+
+function isCritTier(roc: RocResult): boolean {
+  return (
+    roc.tier.id === "critical" ||
+    roc.tier.id === "legendary" ||
+    roc.tier.id === "divine" ||
+    roc.tier.id === "immortality"
+  );
+}
+
+function upsertHeroStatus(
+  battle: BattleState,
+  heroId: string,
+  status: BattleStatus
+): BattleState {
+  return {
+    ...battle,
+    heroes: battle.heroes.map((h) => {
+      if (h.id !== heroId) return h;
+      const rest = (h.statuses ?? []).filter((s) => s.id !== status.id);
+      return { ...h, statuses: [...rest, status] };
+    }),
+  };
+}
+
+function tickHeroStatuses(battle: BattleState): BattleState {
+  return {
+    ...battle,
+    heroes: battle.heroes.map((h) => {
+      const powered: BattleStatus[] =
+        h.powerUpTurns > 0 ? [{ id: "powered", turns: h.powerUpTurns }] : [];
+      const others = (h.statuses ?? [])
+        .filter((s) => s.id !== "powered")
+        .map((s) => ({ ...s, turns: s.turns - 1 }))
+        .filter((s) => s.turns > 0);
+      return { ...h, statuses: [...powered, ...others] };
+    }),
+  };
+}
+
+function pushStrikeVfx(
+  battle: BattleState,
+  sourceId: string,
+  targetId: string,
+  tone: BattleFxTone,
+  melee: boolean
+): BattleState {
+  let b = battle;
+  if (melee) {
+    b = pushFx(b, "swing", 0, sourceId, { source: sourceId, tone });
+  }
+  b = pushFx(b, "beam", 0, targetId, { source: sourceId, tone });
+  return b;
 }
 
 /** True while the opening countdown is on screen — both sides frozen. */
@@ -603,7 +699,12 @@ export function startBattleVs(
 function dealToEnemy(
   battle: BattleState,
   raw: number,
-  targetUnitId: string
+  targetUnitId: string,
+  opts?: {
+    sourceId?: string;
+    floater?: "damage" | "crit" | false;
+    tone?: BattleFxTone;
+  }
 ): { battle: BattleState; damage: number; fallen: boolean } {
   const pack = battleEnemyPack(battle);
   const idx = pack.findIndex(
@@ -624,13 +725,27 @@ function dealToEnemy(
       turns: battle.stats.turns + 1,
     },
   });
-  if (hp <= 0 && next.tactical) {
-    next = {
-      ...next,
-      tactical: removeDeadEnemyUnits(next.tactical, nextPack),
-    };
+  const tok = next.tactical ? getUnit(next.tactical, targetUnitId) : null;
+  const floater = opts?.floater ?? "damage";
+  if (floater) {
+    next = pushFx(next, floater, damage, targetUnitId, {
+      source: opts?.sourceId,
+      tone: opts?.tone ?? "melee",
+    });
   }
-  next = pushFx(next, "damage", damage, targetUnitId);
+  if (hp <= 0) {
+    next = pushFx(next, "ko", 0, targetUnitId, {
+      source: opts?.sourceId,
+      cellX: tok?.x,
+      cellY: tok?.y,
+    });
+    if (next.tactical) {
+      next = {
+        ...next,
+        tactical: removeDeadEnemyUnits(next.tactical, nextPack),
+      };
+    }
+  }
   return { damage, battle: next, fallen: hp <= 0 };
 }
 
@@ -898,6 +1013,9 @@ function runEnemyTurn(
   const mitigated = Math.min(rawHit, hitCap);
   b = recordRoc(b, offense);
 
+  const usedSkill = line.includes("uses ");
+  b = pushStrikeVfx(b, unitId, target.id, usedSkill ? "spell" : "melee", !usedSkill);
+
   const heroes = b.heroes.map((h) =>
     h.id === target.id ? { ...h, hp: Math.max(0, h.hp - mitigated) } : h
   );
@@ -910,10 +1028,27 @@ function runEnemyTurn(
       turns: b.stats.turns + 1,
     },
   };
+  const targetTok = b.tactical ? getUnit(b.tactical, target.id) : null;
   if (b.tactical) {
     b = { ...b, tactical: removeDeadHeroUnits(b.tactical, heroes) };
   }
-  if (mitigated > 0) b = pushFx(b, "damage", mitigated, target.id);
+  if (mitigated > 0) {
+    if (isCritTier(offense)) {
+      b = pushFx(b, "crit", mitigated, target.id, { source: unitId, tone: "melee" });
+    } else {
+      b = pushFx(b, "damage", mitigated, target.id, { source: unitId, tone: "melee" });
+    }
+    const hitHero = heroes.find((h) => h.id === target.id);
+    if (hitHero && hitHero.hp <= 0) {
+      b = pushFx(b, "ko", 0, target.id, {
+        source: unitId,
+        cellX: targetTok?.x,
+        cellY: targetTok?.y,
+      });
+    }
+  } else {
+    b = pushFx(b, "miss", 0, target.id, { source: unitId, tone: "melee" });
+  }
   b = pushLog(
     b,
     mitigated > 0
@@ -961,7 +1096,10 @@ export type BattleActionOpts = {
   /** Grid destination for `move`. */
   x?: number;
   y?: number;
-  /** Enemy combatant id (`enemy`, `enemy-1`, …) for attack / damage spells. */
+  /**
+   * Combatant id for attack / damage spells (enemy unit id) or
+   * heal/buff spells (hero slot / combatant id, including self).
+   */
   targetId?: string;
 };
 
@@ -994,6 +1132,19 @@ function resolveAttackTargetId(
 
   const nearest = nearestEnemyTarget(battle.tactical, attacker, idSet);
   return nearest?.id ?? livingIds[0]!;
+}
+
+function resolveAllyTargetId(
+  battle: BattleState,
+  actorSlot: PlayerSlot,
+  preferred?: string
+): string {
+  const living = battle.heroes.filter((h) => h.hp > 0);
+  if (preferred) {
+    const hit = living.find((h) => h.id === preferred || h.slot === preferred);
+    if (hit) return hit.id;
+  }
+  return actorSlot;
 }
 
 export function performBattleAction(
@@ -1077,15 +1228,24 @@ export function performBattleAction(
       };
     }
     const powered = hero.powerUpTurns > 0;
+    const flanking =
+      !!attacker && !!foeTok && b.tactical
+        ? isFlanking(b.tactical, attacker, foeTok)
+        : false;
     const strike = combatStrikePower(hero.power, powered);
     const eff = computeEffectiveStats(char);
     // Keep ROC juicy without letting ATK dominate the chart.
     const skillValue =
-      Math.round(hero.power * 0.75 + eff.crit * 0.35) + (powered ? 8 : 0);
+      Math.round(hero.power * 0.75 + eff.crit * 0.35) +
+      (powered ? 8 : 0) +
+      (flanking ? 6 : 0);
     const offense = resolveRoc({
       attributeScore: eff.stats.dexterity,
       skillValue,
-      situational: pathwaySituational(world) + Math.floor(eff.atk * 0.12),
+      situational:
+        pathwaySituational(world) +
+        Math.floor(eff.atk * 0.12) +
+        (flanking ? 8 : 0),
       rng,
     });
     const defense = resolveDefenseRoc({
@@ -1095,17 +1255,25 @@ export function performBattleAction(
       rng,
     });
     const { damage: rawDmg } = rocDamageFromMargin(
-      strike,
+      strike * (flanking ? 1.15 : 1),
       offense,
       defense.total,
       { armor: foeState.armor, minHit: offense.tier.success ? 1 : 0 }
     );
     const damage = clampOutgoingDamage(rawDmg, foeState.maxHp);
     b = recordRoc(b, offense);
+    b = pushStrikeVfx(b, actorSlot, targetId, "melee", true);
+    if (flanking) {
+      b = pushFx(b, "flank", 0, targetId, { source: actorSlot, tone: "melee" });
+    }
     if (damage > 0) {
-      const dealt = dealToEnemy(b, damage, targetId);
+      const dealt = dealToEnemy(b, damage, targetId, {
+        sourceId: actorSlot,
+        floater: isCritTier(offense) ? "crit" : "damage",
+        tone: "melee",
+      });
       b = dealt.battle;
-      message = `${char.name} attacks ${foeState.name} — ${offense.label} vs DCF ${defense.total} → ${dealt.damage} dmg.`;
+      message = `${char.name} attacks ${foeState.name}${flanking ? " (flank!)" : ""} — ${offense.label} vs DCF ${defense.total} → ${dealt.damage} dmg.`;
       if (dealt.fallen) message += ` ${foeState.name} falls!`;
     } else if (offense.tier.severity < 0) {
       const self = Math.max(1, Math.round(Math.abs(offense.tier.severity) * 4));
@@ -1114,6 +1282,7 @@ export function performBattleAction(
       b = pushFx(b, "damage", self, actorSlot);
       message = `${char.name} fumbles — ${offense.label} (−${self} HP).`;
     } else {
+      b = pushFx(b, "miss", 0, targetId, { source: actorSlot, tone: "melee" });
       message = `${char.name} misses — ${offense.label}.`;
     }
     if (offense.tier.xpBonus > 0) {
@@ -1142,6 +1311,8 @@ export function performBattleAction(
       ),
       stats: { ...b.stats, turns: b.stats.turns + 1 },
     };
+    b = upsertHeroStatus(b, actorSlot, { id: "powered", turns: POWER_UP_TURNS });
+    b = pushFx(b, "buff", 0, actorSlot, { source: actorSlot, tone: "buff" });
     message = `${char.name} powers up! (+${Math.round((POWER_UP_MULT - 1) * 100)}% dmg, ${POWER_UP_TURNS} turns)`;
     b = pushLog(b, message);
   } else if (action === "eat") {
@@ -1160,6 +1331,8 @@ export function performBattleAction(
       hp: Math.min(battleMaxHp(char), char.hp + heal),
     };
     b = syncHeroFromChar(b, actorSlot, char);
+    b = upsertHeroStatus(b, actorSlot, { id: "healed", turns: 1 });
+    b = pushFx(b, "buff", 0, actorSlot, { source: actorSlot, tone: "heal" });
     b = pushFx(b, "heal", char.hp - beforeHp, actorSlot);
     b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
     message = `${char.name} eats ${gear.name} (+${heal} HP).`;
@@ -1180,6 +1353,8 @@ export function performBattleAction(
       hp: Math.min(battleMaxHp({ ...char, inventory: inv }), char.hp + heal),
     };
     b = syncHeroFromChar(b, actorSlot, char);
+    b = upsertHeroStatus(b, actorSlot, { id: "healed", turns: 1 });
+    b = pushFx(b, "buff", 0, actorSlot, { source: actorSlot, tone: "heal" });
     b = pushFx(b, "heal", char.hp - beforeHp, actorSlot);
     b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
     message = `${char.name} drinks ${gear.name} (+${heal} HP).`;
@@ -1213,8 +1388,8 @@ export function performBattleAction(
     if (char.mana < manaCost) return { world, message: "Not enough mana." };
     char = { ...char, mana: char.mana - manaCost };
 
-    const isHeal = ab.tags.includes("heal") || ab.kind === "heal";
-    if (!isHeal) {
+    const role = battleAbilityRole(ab);
+    if (role === "damage") {
       const targetId = resolveAttackTargetId(b, actorSlot, opts.targetId);
       if (!targetId) return { world, message: "No foes left." };
       const foeState = getEnemyByUnitId(b, targetId);
@@ -1223,15 +1398,12 @@ export function performBattleAction(
       }
       const attacker = b.tactical ? getUnit(b.tactical, actorSlot) : null;
       const foeTok = b.tactical ? getUnit(b.tactical, targetId) : null;
-      // Spells use +1 range over weapon for casters who closed partially.
-      if (attacker && foeTok) {
-        const spellRange = Math.max(attacker.range, 2);
-        if (Math.max(Math.abs(attacker.x - foeTok.x), Math.abs(attacker.y - foeTok.y)) > spellRange) {
-          return {
-            world: { ...world, battle: b },
-            message: `Spell out of range (need ≤${spellRange} tiles).`,
-          };
-        }
+      if (attacker && foeTok && !canSpellStrike(attacker, foeTok)) {
+        const need = spellStrikeRange(attacker);
+        return {
+          world: { ...world, battle: b },
+          message: `Spell out of range (need ≤${need} tiles).`,
+        };
       }
       const powered = hero.powerUpTurns > 0;
       const strike = combatStrikePower(Math.max(ab.power, 4), powered);
@@ -1256,12 +1428,18 @@ export function performBattleAction(
       );
       const damage = clampOutgoingDamage(rawDmg, foeState.maxHp);
       b = recordRoc(b, offense);
+      b = pushStrikeVfx(b, actorSlot, targetId, "spell", false);
       if (damage > 0) {
-        const dealt = dealToEnemy(b, damage, targetId);
+        const dealt = dealToEnemy(b, damage, targetId, {
+          sourceId: actorSlot,
+          floater: isCritTier(offense) ? "crit" : "damage",
+          tone: "spell",
+        });
         b = dealt.battle;
         message = `${char.name} casts ${ab.name} on ${foeState.name} — ${offense.label} vs DCF ${defense.total} → ${dealt.damage} dmg.`;
         if (dealt.fallen) message += ` ${foeState.name} falls!`;
       } else {
+        b = pushFx(b, "miss", 0, targetId, { source: actorSlot, tone: "spell" });
         message = `${char.name} casts ${ab.name} — ${offense.label} (fizzles).`;
       }
       if (offense.tier.xpBonus > 0) char = applyXp(char, offense.tier.xpBonus);
@@ -1281,27 +1459,75 @@ export function performBattleAction(
         ),
       };
       b = pushLog(b, message);
-    } else {
+    } else if (role === "heal" || role === "buff") {
+      const allyId = resolveAllyTargetId(b, actorSlot, opts.targetId);
+      const allyHero = b.heroes.find((h) => h.id === allyId);
+      if (!allyHero || allyHero.hp <= 0) {
+        return { world: { ...world, battle: b }, message: "No living ally there." };
+      }
+      const allyChar =
+        allyHero.slot === actorSlot ? char : world.characters[allyHero.slot];
+      if (!allyChar) {
+        return { world: { ...world, battle: b }, message: "Ally missing." };
+      }
+
       const eff = computeEffectiveStats(char);
       const roc = resolveRoc({
         attributeScore: eff.stats.wisdom,
-        skillValue: ab.power * 2,
+        skillValue: Math.max(ab.power, 4) * 2,
         situational: pathwaySituational(world),
         rng,
       });
-      const heal = Math.max(
-        1,
-        Math.round(ab.power * Math.max(0.4, roc.tier.severity + 0.3))
-      );
-      const beforeHp = char.hp;
-      char = { ...char, hp: Math.min(battleMaxHp(char), char.hp + heal) };
-      if (roc.tier.xpBonus > 0) char = applyXp(char, roc.tier.xpBonus);
-      b = syncHeroFromChar(b, actorSlot, char);
-      b = pushFx(b, "heal", char.hp - beforeHp, actorSlot);
       b = recordRoc(b, roc);
+      b = pushFx(b, "buff", 0, allyId, {
+        source: actorSlot,
+        tone: role === "heal" ? "heal" : "buff",
+      });
+
+      if (role === "heal") {
+        const heal = Math.max(
+          1,
+          Math.round(ab.power * Math.max(0.4, roc.tier.severity + 0.3))
+        );
+        const beforeHp = allyChar.hp;
+        const healedChar = {
+          ...allyChar,
+          hp: Math.min(battleMaxHp(allyChar), allyChar.hp + heal),
+        };
+        if (allyHero.slot === actorSlot) {
+          char = healedChar;
+          if (roc.tier.xpBonus > 0) char = applyXp(char, roc.tier.xpBonus);
+        } else if (roc.tier.xpBonus > 0) {
+          char = applyXp(char, roc.tier.xpBonus);
+        }
+        b = syncHeroFromChar(b, allyHero.slot, healedChar);
+        b = syncHeroFromChar(b, actorSlot, char);
+        b = upsertHeroStatus(b, allyId, { id: "healed", turns: 1 });
+        b = pushFx(b, "heal", healedChar.hp - beforeHp, allyId);
+        message = `${char.name} casts ${ab.name} on ${allyHero.name} — ${roc.label} → +${heal} HP.`;
+      } else {
+        // Ward / buff: short Power Up + status icon on the target.
+        const turns = Math.max(1, Math.min(3, Math.round(ab.power / 4) || 2));
+        b = {
+          ...b,
+          heroes: b.heroes.map((h) =>
+            h.id === allyId
+              ? { ...h, powerUpTurns: Math.max(h.powerUpTurns, turns) }
+              : h
+          ),
+        };
+        b = upsertHeroStatus(b, allyId, {
+          id: ab.tags.includes("ward") || ab.tags.includes("defend") ? "warded" : "powered",
+          turns,
+        });
+        if (roc.tier.xpBonus > 0) char = applyXp(char, roc.tier.xpBonus);
+        b = syncHeroFromChar(b, actorSlot, char);
+        message = `${char.name} casts ${ab.name} on ${allyHero.name} — ${roc.label} (+${turns} turn buff).`;
+      }
       b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
-      message = `${char.name} casts ${ab.name} — ${roc.label} → +${heal} HP.`;
       b = pushLog(b, message);
+    } else {
+      return { world, message: "That ability cannot be used in battle." };
     }
   } else {
     return { world, message: "Unknown action." };

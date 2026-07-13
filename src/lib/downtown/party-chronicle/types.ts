@@ -231,6 +231,15 @@ export type BattleSummary = {
   lastRocLabel?: string;
 };
 
+/** Short battle statuses shown as icons on tokens. */
+export type BattleStatusId = "powered" | "warded" | "healed" | "marked";
+
+export type BattleStatus = {
+  id: BattleStatusId;
+  /** Remaining turns; 0 = this turn only / cosmetic. */
+  turns: number;
+};
+
 export type BattleHeroState = {
   id: string;
   slot: PlayerSlot;
@@ -242,6 +251,7 @@ export type BattleHeroState = {
   power: number;
   armor: number;
   powerUpTurns: number;
+  statuses?: BattleStatus[];
 };
 
 export type BattleEnemyState = {
@@ -275,13 +285,26 @@ export type BattleEnemyState = {
   };
 };
 
-/** Punchy combat number for the battle overlay (damage / heal floaters). */
+/** Transient battle juice — floaters + beams / swings / buff rings. */
+export type BattleFxTone = "melee" | "spell" | "heal" | "buff";
+
 export type BattleFxEvent = {
   id: string;
-  kind: "damage" | "heal";
-  amount: number;
-  /** `"enemy"` or a hero combatant id. */
+  /**
+   * damage/heal/miss/crit = floating numbers;
+   * beam/swing/buff/ko = board VFX.
+   */
+  kind: "damage" | "heal" | "miss" | "crit" | "flank" | "beam" | "swing" | "buff" | "ko";
+  /** Present for numeric floaters. */
+  amount?: number;
+  /** Hit / heal / buff / KO recipient (enemy unit id or hero combatant id). */
   target: string;
+  /** Attacker / caster for beams and swings. */
+  source?: string;
+  tone?: BattleFxTone;
+  /** Grid cell for KO dissolve when the token is already removed. */
+  cellX?: number;
+  cellY?: number;
   at: string;
 };
 

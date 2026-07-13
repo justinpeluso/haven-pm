@@ -1560,9 +1560,9 @@
   z-index: 1;
 }
 
-.party-comic .pc-tactical-cell:disabled:not([data-reachable="true"]):not([data-attackable="true"]),
-.party-rpg90s .pc-tactical-cell:disabled:not([data-reachable="true"]):not([data-attackable="true"]),
-.party-chronicle .pc-tactical-cell:disabled:not([data-reachable="true"]):not([data-attackable="true"]) {
+.party-comic .pc-tactical-cell:disabled:not([data-reachable="true"]):not([data-attackable="true"]):not([data-supportable="true"]),
+.party-rpg90s .pc-tactical-cell:disabled:not([data-reachable="true"]):not([data-attackable="true"]):not([data-supportable="true"]),
+.party-chronicle .pc-tactical-cell:disabled:not([data-reachable="true"]):not([data-attackable="true"]):not([data-supportable="true"]) {
   opacity: 1;
   cursor: default;
 }
@@ -1831,6 +1831,590 @@
   100% {
     opacity: 0;
     transform: skewX(-8deg) translateY(-56px) scale(0.92);
+  }
+}
+
+.party-comic .pc-battle-floater[data-kind="miss"],
+.party-rpg90s .pc-battle-floater[data-kind="miss"],
+.party-chronicle .pc-battle-floater[data-kind="miss"] {
+  color: #c4b59a;
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+}
+
+.party-comic .pc-battle-floater[data-kind="crit"],
+.party-rpg90s .pc-battle-floater[data-kind="crit"],
+.party-chronicle .pc-battle-floater[data-kind="crit"] {
+  color: #e8c96a;
+  font-size: 1.75rem;
+  text-shadow:
+    2px 2px 0 #06100a,
+    -1px 0 0 #8a3a12,
+    0 0 10px rgba(232, 201, 106, 0.45);
+  animation-name: pc-battle-floater-crit;
+}
+
+.party-comic .pc-battle-floater[data-kind="flank"],
+.party-rpg90s .pc-battle-floater[data-kind="flank"],
+.party-chronicle .pc-battle-floater[data-kind="flank"] {
+  color: #2ec4d4;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+}
+
+@keyframes pc-battle-floater-crit {
+  0% {
+    opacity: 0;
+    transform: skewX(-10deg) translateY(10px) scale(0.55);
+  }
+  18% {
+    opacity: 1;
+    transform: skewX(-10deg) translateY(0) scale(1.35);
+  }
+  55% {
+    opacity: 1;
+    transform: skewX(-8deg) translateY(-34px) scale(1.05);
+  }
+  100% {
+    opacity: 0;
+    transform: skewX(-8deg) translateY(-64px) scale(0.9);
+  }
+}
+
+/* ——— Turn-order strip ——— */
+.party-comic .pc-turn-strip,
+.party-rpg90s .pc-turn-strip,
+.party-chronicle .pc-turn-strip {
+  display: flex;
+  gap: 0.35rem;
+  overflow-x: auto;
+  padding: 0.35rem 0.15rem 0.55rem;
+  margin: 0.15rem 0 0.35rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.party-comic .pc-turn-portrait,
+.party-rpg90s .pc-turn-portrait,
+.party-chronicle .pc-turn-portrait {
+  position: relative;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  padding: 2px;
+  border: 2px solid var(--pc-border);
+  background: rgba(255, 250, 240, 0.65);
+  cursor: pointer;
+  appearance: none;
+}
+
+.party-comic .pc-turn-portrait img,
+.party-rpg90s .pc-turn-portrait img,
+.party-chronicle .pc-turn-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.party-comic .pc-turn-portrait[data-side="enemy"],
+.party-rpg90s .pc-turn-portrait[data-side="enemy"],
+.party-chronicle .pc-turn-portrait[data-side="enemy"] {
+  border-color: #8a3a12;
+  background: rgba(194, 48, 40, 0.12);
+}
+
+.party-comic .pc-turn-portrait[data-active="true"],
+.party-rpg90s .pc-turn-portrait[data-active="true"],
+.party-chronicle .pc-turn-portrait[data-active="true"] {
+  outline: 2px solid var(--pc-cyan);
+  outline-offset: 1px;
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 3px rgba(46, 196, 212, 0.25);
+}
+
+.party-comic .pc-turn-portrait[data-down="true"],
+.party-rpg90s .pc-turn-portrait[data-down="true"],
+.party-chronicle .pc-turn-portrait[data-down="true"] {
+  opacity: 0.35;
+  filter: grayscale(0.85);
+}
+
+.party-comic .pc-turn-portrait-pip,
+.party-rpg90s .pc-turn-portrait-pip,
+.party-chronicle .pc-turn-portrait-pip {
+  position: absolute;
+  left: 50%;
+  bottom: -3px;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  border-radius: 50%;
+  background: var(--pc-cyan);
+  border: 1px solid #06100a;
+}
+
+/* ——— Action economy HUD ——— */
+.party-comic .pc-battle-economy,
+.party-rpg90s .pc-battle-economy,
+.party-chronicle .pc-battle-economy {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.75rem;
+  font-family: var(--pc-hud);
+  font-size: 0.68rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  color: rgba(6, 16, 10, 0.75);
+}
+
+.party-comic .pc-battle-economy span[data-on="true"],
+.party-rpg90s .pc-battle-economy span[data-on="true"],
+.party-chronicle .pc-battle-economy span[data-on="true"] {
+  color: #0c4a32;
+  text-decoration: underline;
+  text-decoration-color: var(--pc-accent);
+  text-underline-offset: 3px;
+}
+
+/* ——— Threat / preview / selected cells ——— */
+.party-comic .pc-tactical-cell[data-threatened="true"],
+.party-rpg90s .pc-tactical-cell[data-threatened="true"],
+.party-chronicle .pc-tactical-cell[data-threatened="true"] {
+  background:
+    linear-gradient(145deg, rgba(194, 48, 40, 0.28), rgba(232, 120, 48, 0.18)),
+    rgba(90, 50, 30, 0.55);
+  box-shadow: inset 0 0 0 1px rgba(194, 48, 40, 0.55);
+}
+
+.party-comic .pc-tactical-cell[data-preview="true"],
+.party-rpg90s .pc-tactical-cell[data-preview="true"],
+.party-chronicle .pc-tactical-cell[data-preview="true"] {
+  box-shadow:
+    inset 0 0 0 2px rgba(46, 196, 212, 0.75),
+    inset 0 0 14px rgba(46, 196, 212, 0.2);
+}
+
+.party-comic .pc-tactical-cell[data-supportable="true"],
+.party-rpg90s .pc-tactical-cell[data-supportable="true"],
+.party-chronicle .pc-tactical-cell[data-supportable="true"] {
+  cursor: pointer;
+  box-shadow:
+    inset 0 0 0 2px #2ec4d4,
+    inset 0 0 12px rgba(46, 196, 212, 0.35);
+}
+
+.party-comic .pc-tactical-cell[data-selected="true"],
+.party-rpg90s .pc-tactical-cell[data-selected="true"],
+.party-chronicle .pc-tactical-cell[data-selected="true"] {
+  box-shadow:
+    inset 0 0 0 3px var(--pc-accent),
+    inset 0 0 16px rgba(232, 201, 106, 0.45);
+  z-index: 2;
+}
+
+.party-comic .pc-tactical-cell[data-active="true"] .pc-tactical-token,
+.party-rpg90s .pc-tactical-cell[data-active="true"] .pc-tactical-token,
+.party-chronicle .pc-tactical-cell[data-active="true"] .pc-tactical-token {
+  animation: pc-active-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pc-active-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 transparent);
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 6px rgba(46, 196, 212, 0.65));
+    transform: scale(1.04);
+  }
+}
+
+/* ——— Board focus / beams / swing / buff / KO ——— */
+.party-comic .pc-battle-board-wrap,
+.party-rpg90s .pc-battle-board-wrap,
+.party-chronicle .pc-battle-board-wrap {
+  position: relative;
+}
+
+.party-comic .pc-tactical-board[data-focus="true"],
+.party-rpg90s .pc-tactical-board[data-focus="true"],
+.party-chronicle .pc-tactical-board[data-focus="true"] {
+  transform-origin: var(--pc-focus-x, 50%) var(--pc-focus-y, 50%);
+  animation: pc-board-focus 0.55s ease-out;
+}
+
+@keyframes pc-board-focus {
+  0% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.party-comic .pc-battle-beams,
+.party-rpg90s .pc-battle-beams,
+.party-chronicle .pc-battle-beams {
+  position: absolute;
+  inset: 0.45rem;
+  width: calc(100% - 0.9rem);
+  height: calc(100% - 0.9rem);
+  pointer-events: none;
+  z-index: 5;
+  overflow: visible;
+}
+
+.party-comic .pc-battle-beam,
+.party-rpg90s .pc-battle-beam,
+.party-chronicle .pc-battle-beam {
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  fill: none;
+  animation: pc-beam-fire 0.55s ease-out both;
+}
+
+.party-comic .pc-battle-beam[data-tone="melee"],
+.party-rpg90s .pc-battle-beam[data-tone="melee"],
+.party-chronicle .pc-battle-beam[data-tone="melee"] {
+  stroke: #c23028;
+  filter: drop-shadow(0 0 2px rgba(232, 120, 48, 0.7));
+}
+
+.party-comic .pc-battle-beam[data-tone="spell"],
+.party-rpg90s .pc-battle-beam[data-tone="spell"],
+.party-chronicle .pc-battle-beam[data-tone="spell"] {
+  stroke: #2ec4d4;
+  filter: drop-shadow(0 0 2px rgba(90, 70, 160, 0.45));
+}
+
+@keyframes pc-beam-fire {
+  0% {
+    stroke-dasharray: 0 120;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  70% {
+    stroke-dasharray: 120 0;
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.party-comic .pc-tactical-token[data-swing="true"] img,
+.party-rpg90s .pc-tactical-token[data-swing="true"] img,
+.party-chronicle .pc-tactical-token[data-swing="true"] img {
+  animation: pc-melee-swing 0.38s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+  transform-origin: 50% 80%;
+}
+
+@keyframes pc-melee-swing {
+  0% {
+    transform: rotate(0deg) skewX(0);
+  }
+  35% {
+    transform: rotate(-18deg) skewX(-6deg) scale(1.08);
+  }
+  70% {
+    transform: rotate(14deg) skewX(4deg);
+  }
+  100% {
+    transform: rotate(0deg) skewX(0);
+  }
+}
+
+.party-comic .pc-tactical-token[data-buff="true"]::before,
+.party-rpg90s .pc-tactical-token[data-buff="true"]::before,
+.party-chronicle .pc-tactical-token[data-buff="true"]::before,
+.party-comic .pc-tactical-token[data-buff="true"]::after,
+.party-rpg90s .pc-tactical-token[data-buff="true"]::after,
+.party-chronicle .pc-tactical-token[data-buff="true"]::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 8%;
+  width: 70%;
+  height: 18%;
+  margin-left: -35%;
+  border-radius: 50%;
+  border: 2px solid #e8c96a;
+  box-shadow: 0 0 0 1px #2ec4d4 inset;
+  pointer-events: none;
+  z-index: 6;
+  animation: pc-power-ring 1.05s ease-out both;
+}
+
+.party-comic .pc-tactical-token[data-buff="true"]::after,
+.party-rpg90s .pc-tactical-token[data-buff="true"]::after,
+.party-chronicle .pc-tactical-token[data-buff="true"]::after {
+  border-color: #2ec4d4;
+  box-shadow: 0 0 0 1px #e8c96a inset;
+  animation-delay: 0.12s;
+  width: 55%;
+  margin-left: -27.5%;
+}
+
+@keyframes pc-power-ring {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scaleX(0.7);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-42px) scaleX(1.05);
+  }
+}
+
+.party-comic .pc-ko-ghost,
+.party-rpg90s .pc-ko-ghost,
+.party-chronicle .pc-ko-ghost {
+  position: absolute;
+  width: 10%;
+  height: 12%;
+  margin-left: -5%;
+  margin-top: -6%;
+  border-radius: 4px;
+  background:
+    radial-gradient(circle, rgba(240, 235, 224, 0.55), transparent 70%);
+  pointer-events: none;
+  z-index: 6;
+  animation: pc-ko-dissolve 0.7s ease-in forwards;
+}
+
+@keyframes pc-ko-dissolve {
+  0% {
+    opacity: 0.9;
+    transform: scale(1) rotate(0deg);
+    filter: saturate(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35) rotate(-8deg);
+    filter: saturate(0) blur(2px);
+  }
+}
+
+.party-comic .pc-token-statuses,
+.party-rpg90s .pc-token-statuses,
+.party-chronicle .pc-token-statuses {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  display: flex;
+  gap: 1px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.party-comic .pc-token-status,
+.party-rpg90s .pc-token-status,
+.party-chronicle .pc-token-status {
+  font-size: 0.55rem;
+  line-height: 1;
+  padding: 1px 2px;
+  background: rgba(6, 16, 10, 0.75);
+  color: #e8c96a;
+  border: 1px solid rgba(232, 201, 106, 0.5);
+}
+
+.party-comic .pc-token-status[data-id="healed"],
+.party-rpg90s .pc-token-status[data-id="healed"],
+.party-chronicle .pc-token-status[data-id="healed"] {
+  color: #5ecf9a;
+}
+
+.party-comic .pc-token-status[data-id="warded"],
+.party-rpg90s .pc-token-status[data-id="warded"],
+.party-chronicle .pc-token-status[data-id="warded"] {
+  color: #2ec4d4;
+}
+
+.party-comic .pc-flank-badge,
+.party-rpg90s .pc-flank-badge,
+.party-chronicle .pc-flank-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  z-index: 5;
+  font-family: var(--pc-hud);
+  font-size: 0.5rem;
+  font-weight: 700;
+  padding: 1px 3px;
+  background: #0c1a14;
+  color: #2ec4d4;
+  border: 1px solid #2ec4d4;
+  pointer-events: none;
+}
+
+/* ——— Inspect / confirm / coach / shake ——— */
+.party-comic .pc-inspect-card,
+.party-rpg90s .pc-inspect-card,
+.party-chronicle .pc-inspect-card {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  z-index: 8;
+  width: min(220px, 70%);
+  padding: 0.65rem 0.75rem;
+  border: 3px solid var(--pc-border);
+  background: linear-gradient(165deg, #f7f1e4, #e8dcc4);
+  box-shadow: 4px 4px 0 rgba(6, 16, 10, 0.35);
+}
+
+.party-comic .pc-inspect-close,
+.party-rpg90s .pc-inspect-close,
+.party-chronicle .pc-inspect-close {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.35rem;
+  border: none;
+  background: transparent;
+  font-size: 1.1rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.party-comic .pc-confirm-bar,
+.party-rpg90s .pc-confirm-bar,
+.party-chronicle .pc-confirm-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  margin: 0.35rem 0 0.15rem;
+}
+
+.party-comic .pc-battle-coach,
+.party-rpg90s .pc-battle-coach,
+.party-chronicle .pc-battle-coach {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  padding: 0.55rem 0.7rem;
+  border: 2px dashed var(--pc-border);
+  background: rgba(232, 201, 106, 0.2);
+  font-size: 0.75rem;
+}
+
+.party-comic .pc-enemy-banner,
+.party-rpg90s .pc-enemy-banner,
+.party-chronicle .pc-enemy-banner {
+  position: absolute;
+  top: 4.5rem;
+  left: 50%;
+  z-index: 7;
+  transform: translateX(-50%);
+  padding: 0.35rem 0.85rem;
+  border: 2px solid #06100a;
+  background: linear-gradient(90deg, #3a1a12, #1a0c08);
+  color: #f4f0e4;
+  font-family: var(--pc-display);
+  letter-spacing: 0.08em;
+  animation: pc-enemy-banner-in 0.9s ease-out both;
+  pointer-events: none;
+}
+
+@keyframes pc-enemy-banner-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-8px);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px);
+  }
+}
+
+.party-comic .pc-battle-frame[data-shake="true"],
+.party-rpg90s .pc-battle-frame[data-shake="true"],
+.party-chronicle .pc-battle-frame[data-shake="true"] {
+  animation: pc-battle-shake 0.42s linear;
+}
+
+@keyframes pc-battle-shake {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-3px, 1px);
+  }
+  40% {
+    transform: translate(3px, -2px);
+  }
+  60% {
+    transform: translate(-2px, 2px);
+  }
+  80% {
+    transform: translate(2px, 0);
+  }
+}
+
+.party-comic .pc-chip[data-armed="true"],
+.party-rpg90s .pc-chip[data-armed="true"],
+.party-chronicle .pc-chip[data-armed="true"],
+.party-comic .pc-battle-action[data-armed="true"],
+.party-rpg90s .pc-battle-action[data-armed="true"],
+.party-chronicle .pc-battle-action[data-armed="true"] {
+  outline: 2px solid var(--pc-accent);
+  outline-offset: 1px;
+}
+
+.party-comic .pc-kill-cam,
+.party-rpg90s .pc-kill-cam,
+.party-chronicle .pc-kill-cam {
+  display: grid;
+  place-items: center;
+  min-height: 40vh;
+  text-align: center;
+  animation: pc-kill-cam-pop 1.2s ease-out both;
+}
+
+.party-comic .pc-kill-cam[data-outcome="victory"],
+.party-rpg90s .pc-kill-cam[data-outcome="victory"],
+.party-chronicle .pc-kill-cam[data-outcome="victory"] {
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(232, 201, 106, 0.35), transparent 60%),
+    linear-gradient(180deg, #1a3a2e, #0c1a14);
+  color: #f4f0e4;
+}
+
+.party-comic .pc-kill-cam[data-outcome="defeat"],
+.party-rpg90s .pc-kill-cam[data-outcome="defeat"],
+.party-chronicle .pc-kill-cam[data-outcome="defeat"] {
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(194, 48, 40, 0.35), transparent 60%),
+    linear-gradient(180deg, #2a1210, #0c0808);
+  color: #f4f0e4;
+}
+
+@keyframes pc-kill-cam-pop {
+  0% {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.85;
   }
 }
 

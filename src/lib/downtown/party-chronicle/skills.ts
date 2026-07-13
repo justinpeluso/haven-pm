@@ -592,6 +592,35 @@ export function getAbility(id: string): AbilityDef | undefined {
   return ABILITIES.find((a) => a.id === id) ?? getSpellbookAbility(id);
 }
 
+/** Classify battle-usable abilities for targeting + VFX (damage vs heal/buff). */
+export type BattleAbilityRole = "damage" | "heal" | "buff" | "other";
+
+export function battleAbilityRole(ability: AbilityDef): BattleAbilityRole {
+  const tags = new Set(ability.tags);
+  if (ability.kind === "heal" || tags.has("heal") || tags.has("cook")) {
+    return "heal";
+  }
+  if (tags.has("buff") || tags.has("ward") || tags.has("defend")) {
+    return "buff";
+  }
+  if (ability.target === "ally" || ability.target === "party") {
+    return ability.power > 0 ? "heal" : "buff";
+  }
+  if (ability.target === "self" && ability.power <= 0) return "buff";
+  if (ability.power > 0) return "damage";
+  if (ability.target === "enemy" || ability.target === "aoe") return "damage";
+  return "other";
+}
+
+export function isBattleDamageAbility(ability: AbilityDef): boolean {
+  return battleAbilityRole(ability) === "damage";
+}
+
+export function isBattleSupportAbility(ability: AbilityDef): boolean {
+  const role = battleAbilityRole(ability);
+  return role === "heal" || role === "buff";
+}
+
 export function getNode(id: string): SkillNode | undefined {
   for (const tree of SKILL_TREES) {
     const n = tree.nodes.find((x) => x.id === id);
