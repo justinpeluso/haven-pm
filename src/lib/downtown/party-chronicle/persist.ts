@@ -263,8 +263,148 @@ export function normalizeWorld(world: PartyWorldSave): PartyWorldSave {
 }
 
 /**
+ * Prefer the fresher battle overlay so non-DM turns persist without turnIndex bumps.
+ * Active/summary beats null; same id prefers more progress; else newer startedAt.
+ */
+export function preferBattleState(
+  existing: PartyWorldSave["battle"],
+  incoming: PartyWorldSave["battle"],
+  opts?: { existingUpdatedAt?: string; incomingUpdatedAt?: string }
+): PartyWorldSave["battle"] {
+  if (!existing) return incoming ?? null;
+  if (!incoming) {
+    // Never drop an active fight from a stale null snapshot.
+    if (existing.status === "active") return existing;
+    const eAt = Date.parse(opts?.existingUpdatedAt || "") || 0;
+    const iAt = Date.parse(opts?.incomingUpdatedAt || "") || 0;
+    // Allow dismiss of summary when incoming is at least as new.
+    if (existing.status !== "active" && iAt >= eAt) return null;
+    return existing;
+  }
+
+  if (existing.id === incoming.id) {
+    if (existing.status === "active" && incoming.status !== "active") return incoming;
+    if (incoming.status === "active" && existing.status !== "active") return existing;
+    if (incoming.stats.turns !== existing.stats.turns) {
+      return incoming.stats.turns > existing.stats.turns ? incoming : existing;
+    }
+    if (incoming.stats.damageDealt !== existing.stats.damageDealt) {
+      return incoming.stats.damageDealt > existing.stats.damageDealt ? incoming : existing;
+    }
+    if (incoming.enemy.hp !== existing.enemy.hp) {
+      return incoming.enemy.hp < existing.enemy.hp ? incoming : existing;
+    }
+    return incoming;
+  }
+
+  const eStart = Date.parse(existing.startedAt || "") || 0;
+  const iStart = Date.parse(incoming.startedAt || "") || 0;
+  if (iStart !== eStart) return iStart > eStart ? incoming : existing;
+  if (incoming.status === "active" && existing.status !== "active") return incoming;
+  if (existing.status === "active" && incoming.status !== "active") return existing;
+  return incoming;
+}
+
+/** Merge ambush clocks — prefer higher battlesFought, else higher storyPlayMs. */
+export function preferAmbushClocks(
+  existing: PartyWorldSave,
+  incoming: PartyWorldSave
+): Pick<PartyWorldSave, "storyPlayMs" | "battlesFought" | "nextEncounterAtMs"> {
+  const eFought = existing.battlesFought ?? 0;
+  const iFought = incoming.battlesFought ?? 0;
+  if (iFought > eFought) {
+    return {
+      battlesFought: iFought,
+      storyPlayMs: incoming.storyPlayMs ?? existing.storyPlayMs ?? 0,
+      nextEncounterAtMs:
+        incoming.nextEncounterAtMs ??
+        existing.nextEncounterAtMs ??
+        (incoming.storyPlayMs ?? 0) + rollNextEncounterThreshold(iFought),
+    };
+  }
+  if (eFought > iFought) {
+    return {
+      battlesFought: eFought,
+      storyPlayMs: existing.storyPlayMs ?? 0,
+      nextEncounterAtMs:
+        existing.nextEncounterAtMs ??
+        (existing.storyPlayMs ?? 0) + rollNextEncounterThreshold(eFought),
+    };
+  }
+  const eMs = existing.storyPlayMs ?? 0;
+  const iMs = incoming.storyPlayMs ?? 0;
+  if (iMs > eMs) {
+    return {
+      battlesFought: eFought,
+      storyPlayMs: iMs,
+      nextEncounterAtMs: incoming.nextEncounterAtMs ?? existing.nextEncounterAtMs ?? iMs,
+    };
+  }
+  return {
+    battlesFought: eFought,
+    storyPlayMs: eMs,
+    nextEncounterAtMs: existing.nextEncounterAtMs ?? incoming.nextEncounterAtMs ?? eMs,
+  };
+}
+
+/**
+ * Apply battle + ambush clock merge onto a base world (server or local poll).
+ * Optionally sync other heroes' vitals from a resolved battle on `incoming`.
+ */
+export function mergeBattleAndAmbush(
+  base: PartyWorldSave,
+  incoming: PartyWorldSave,
+  actorSlot?: PlayerSlot | null
+): PartyWorldSave {
+  const battle = preferBattleState(base.battle, incoming.battle, {
+    existingUpdatedAt: base.updatedAt,
+    incomingUpdatedAt: incoming.updatedAt,
+  });
+  const clocks = preferAmbushClocks(base, incoming);
+  const characters = { ...base.characters };
+
+  if (actorSlot && incoming.characters[actorSlot]) {
+    characters[actorSlot] = incoming.characters[actorSlot]!;
+  }
+
+  // When a fight resolves, pull vitals (and reward-sheet fields) for every hero in it.
+  if (battle && battle.status !== "active") {
+    for (const h of battle.heroes) {
+      const inc = incoming.characters[h.slot];
+      if (!inc) continue;
+      const cur = characters[h.slot];
+      if (!cur) {
+        characters[h.slot] = inc;
+        continue;
+      }
+      if (actorSlot && h.slot === actorSlot) {
+        characters[h.slot] = inc;
+        continue;
+      }
+      characters[h.slot] = {
+        ...cur,
+        hp: inc.hp,
+        mana: inc.mana,
+        maxHp: Math.max(cur.maxHp, inc.maxHp),
+        maxMana: Math.max(cur.maxMana, inc.maxMana),
+      };
+    }
+  } else if (battle?.status === "active") {
+    // Mid-fight: keep actor sheet from incoming; vitals live on battle.heroes.
+  }
+
+  return {
+    ...base,
+    characters,
+    battle,
+    ...clocks,
+  };
+}
+
+/**
  * Merge a client POST into the canonical DB save.
  * Non-DM clients only patch their own seat — never rewind campaign progress.
+ * Battle + ambush clocks merge even when turnIndex does not advance.
  * DM clients keep any server seat that already sealed a hero (and prefer the
  * richer sealed sheet when both sides claim created).
  */
@@ -275,45 +415,42 @@ export function mergeIncomingWorld(
   isDm: boolean
 ): PartyWorldSave {
   if (!isDm && slot) {
-    const characters = { ...existing.characters };
-    const incomingChar = incoming.characters[slot];
-    if (incomingChar) {
-      characters[slot] = incomingChar;
-    }
-
-    // Joiners may carry a stale campaign snapshot. Only adopt their campaign
-    // pointer if they are strictly ahead; otherwise keep the live server run.
     const joinerAhead = (incoming.turnIndex ?? 0) > (existing.turnIndex ?? 0);
+
     if (!joinerAhead) {
+      const withBattle = mergeBattleAndAmbush(existing, incoming, slot);
       return normalizeWorld({
-        ...existing,
-        characters,
-        log: incomingChar?.created
-          ? [`${incomingChar.name} sealed their hero.`, ...existing.log].slice(0, 80)
+        ...withBattle,
+        log: incoming.characters[slot]?.created && !existing.characters[slot]?.created
+          ? [`${incoming.characters[slot]!.name} sealed their hero.`, ...existing.log].slice(0, 80)
           : existing.log,
         updatedAt: new Date().toISOString(),
       });
     }
 
+    const withBattle = mergeBattleAndAmbush(
+      {
+        ...existing,
+        activeSlot: incoming.activeSlot,
+        turnIndex: incoming.turnIndex,
+        campaignNodeId: incoming.campaignNodeId,
+        chapterId: incoming.chapterId,
+        partyFlags: incoming.partyFlags,
+        alignment: incoming.alignment,
+        encounterEnemyHp: incoming.encounterEnemyHp,
+        deckEncounter: incoming.deckEncounter,
+        completedSideQuests: incoming.completedSideQuests,
+        cookedRecipes: incoming.cookedRecipes,
+        log: incoming.log,
+        endingId: incoming.endingId,
+      },
+      incoming,
+      slot
+    );
+
     return normalizeWorld({
-      ...existing,
-      activeSlot: incoming.activeSlot,
-      turnIndex: incoming.turnIndex,
-      campaignNodeId: incoming.campaignNodeId,
-      chapterId: incoming.chapterId,
-      partyFlags: incoming.partyFlags,
-      alignment: incoming.alignment,
-      encounterEnemyHp: incoming.encounterEnemyHp,
-      deckEncounter: incoming.deckEncounter,
-      battle: incoming.battle,
-      storyPlayMs: incoming.storyPlayMs,
-      battlesFought: incoming.battlesFought,
-      nextEncounterAtMs: incoming.nextEncounterAtMs,
-      completedSideQuests: incoming.completedSideQuests,
-      cookedRecipes: incoming.cookedRecipes,
-      log: incoming.log,
-      endingId: incoming.endingId,
-      characters,
+      ...withBattle,
+      updatedAt: new Date().toISOString(),
     });
   }
 
@@ -335,8 +472,18 @@ export function mergeIncomingWorld(
     if (serverScore > clientScore) characters[s] = serverChar;
   }
 
+  // Still reconcile battle if DM somehow posts stale null over an active fight
+  // from a peer that landed first (rare race).
+  const battle = preferBattleState(existing.battle, incoming.battle, {
+    existingUpdatedAt: existing.updatedAt,
+    incomingUpdatedAt: incoming.updatedAt,
+  });
+  const clocks = preferAmbushClocks(existing, incoming);
+
   return normalizeWorld({
     ...incoming,
     characters,
+    battle,
+    ...clocks,
   });
 }

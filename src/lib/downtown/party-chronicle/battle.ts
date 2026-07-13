@@ -18,6 +18,7 @@ import { getGear } from "./gear";
 import { battleArmor, battleAttackPower, battleMaxHp, battleMaxMana, computeEffectiveStats } from "./stats";
 import { levelFromXp, skillPointsForLevelGain } from "./progression";
 import { getAbility } from "./skills";
+import { getStoryNode } from "./story";
 import type {
   BattleActionId,
   BattleLootDrop,
@@ -366,15 +367,18 @@ function finishVictory(
   }
   char = { ...char, inventory };
 
-  // Sync all hero HP/mana from battle
+  // Sync all hero HP/mana from battle (clamp to effective max from gear)
   const characters = { ...world.characters };
   for (const h of battle.heroes) {
     const c = characters[h.slot];
     if (!c) continue;
+    const sheet = h.slot === rewardSlot ? char : c;
+    const maxHp = battleMaxHp(sheet);
+    const maxMana = battleMaxMana(sheet);
     characters[h.slot] = {
-      ...(h.slot === rewardSlot ? char : c),
-      hp: Math.max(1, Math.min(c.maxHp, h.hp)),
-      mana: Math.max(0, Math.min(c.maxMana, h.mana)),
+      ...sheet,
+      hp: Math.max(1, Math.min(maxHp, h.hp)),
+      mana: Math.max(0, Math.min(maxMana, h.mana)),
     };
   }
   characters[rewardSlot] = {
@@ -420,10 +424,12 @@ function finishDefeat(world: PartyWorldSave, battle: BattleState): PartyWorldSav
   for (const h of battle.heroes) {
     const c = characters[h.slot];
     if (!c) continue;
+    const maxHp = battleMaxHp(c);
+    const maxMana = battleMaxMana(c);
     characters[h.slot] = {
       ...c,
-      hp: Math.max(1, Math.floor(c.maxHp * 0.25)),
-      mana: Math.max(0, Math.floor(c.maxMana * 0.25)),
+      hp: Math.max(1, Math.floor(maxHp * 0.25)),
+      mana: Math.max(0, Math.floor(maxMana * 0.25)),
     };
   }
   const summary = buildSummary(battle, false, [], 0, 0);
@@ -749,6 +755,20 @@ export function ensureEncounterSchedule(world: PartyWorldSave): PartyWorldSave {
   };
 }
 
+/** Pause ambush clock during dialogue / path choices / story fights / deck fights. */
+export function isAmbushTimerPaused(world: PartyWorldSave): boolean {
+  if (world.battle) return true;
+  if (world.deckEncounter) return true;
+  if (world.encounterEnemyHp != null) return true;
+  const node = getStoryNode(world.campaignNodeId);
+  if (!node) return false;
+  return (
+    node.kind === "conversation" ||
+    node.kind === "path" ||
+    node.kind === "encounter"
+  );
+}
+
 export function tickStoryPlay(
   world: PartyWorldSave,
   deltaMs: number
@@ -760,6 +780,9 @@ export function tickStoryPlay(
     return { world, shouldStartBattle: false };
   }
   if (world.endingId) return { world, shouldStartBattle: false };
+  if (isAmbushTimerPaused(world)) {
+    return { world, shouldStartBattle: false };
+  }
 
   let next = ensureEncounterSchedule(world);
   const storyPlayMs = (next.storyPlayMs ?? 0) + Math.max(0, deltaMs);

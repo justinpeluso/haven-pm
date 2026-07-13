@@ -86,14 +86,23 @@ function addProp(
 }
 
 function itemProperties(item: GearItem): GearProperty[] {
-  if (item.properties?.length) return item.properties;
-  // Legacy items: synthesize light affixes from power/armor so paperdoll stays useful.
-  const props: GearProperty[] = [];
-  if (item.power) {
-    props.push({ key: "atk", value: Math.max(1, Math.round(item.power * 0.35)), label: `+${Math.max(1, Math.round(item.power * 0.35))} ATK` });
+  const props = item.properties?.length ? [...item.properties] : [];
+  const hasAtk = props.some((p) => p.key === "atk");
+  const hasDef = props.some((p) => p.key === "def");
+  // power/armor OR atk/def affixes — never both.
+  if (!hasAtk && item.power) {
+    props.push({
+      key: "atk",
+      value: item.power,
+      label: `+${item.power} ATK`,
+    });
   }
-  if (item.armor) {
-    props.push({ key: "def", value: item.armor, label: `+${item.armor} DEF` });
+  if (!hasDef && item.armor) {
+    props.push({
+      key: "def",
+      value: item.armor,
+      label: `+${item.armor} DEF`,
+    });
   }
   return props;
 }
@@ -126,8 +135,6 @@ export function computeEffectiveStats(char: CharacterSave): EffectiveStats {
   const baseStats = { ...char.stats };
   const deltas = emptyDeltas();
   const perItem: ItemStatDelta[] = [];
-  let powerFlat = 0;
-  let armorFlat = 0;
 
   for (const slot of EQUIP_SLOTS) {
     const id = char.equipped[slot];
@@ -135,8 +142,6 @@ export function computeEffectiveStats(char: CharacterSave): EffectiveStats {
     const item = getGear(id);
     if (!item) continue;
     const props = itemProperties(item);
-    powerFlat += item.power ?? 0;
-    armorFlat += item.armor ?? 0;
     for (const p of props) addProp(deltas, p);
     perItem.push({
       itemId: id,
@@ -167,8 +172,8 @@ export function computeEffectiveStats(char: CharacterSave): EffectiveStats {
 
   const maxHp = char.maxHp + (deltas.maxHp ?? 0);
   const maxMana = char.maxMana + (deltas.maxMana ?? 0);
-  const atk = powerFlat + (deltas.atk ?? 0);
-  const def = armorFlat + (deltas.def ?? 0);
+  const atk = deltas.atk ?? 0;
+  const def = deltas.def ?? 0;
   const crit = deltas.crit ?? 0;
   const resist = deltas.resist ?? 0;
 

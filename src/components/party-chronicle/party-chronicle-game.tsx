@@ -22,6 +22,7 @@ import {
 import {
   dismissBattleSummary,
   ensureEncounterSchedule,
+  isAmbushTimerPaused,
   performBattleAction,
   readSpellbook,
   startRandomBattle,
@@ -51,6 +52,7 @@ import {
   createBlankCharacter,
   createNewWorld,
   loadWorld,
+  mergeBattleAndAmbush,
   pickRicherWorld,
   saveSummary,
   worldHasProgress,
@@ -324,34 +326,28 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
               characters[s] = remote.characters[s];
             }
           }
-          // Keep live campaign pointer from server when it's ahead.
-          const next: PartyWorldSave = {
+          const remoteAhead = (remote.turnIndex ?? 0) >= (base.turnIndex ?? 0);
+          // Campaign pointer from server when ahead; always reconcile battle + ambush clocks.
+          const campaignSlice: PartyWorldSave = {
             ...base,
             characters,
-            activeSlot:
-              (remote.turnIndex ?? 0) >= (base.turnIndex ?? 0) ? remote.activeSlot : base.activeSlot,
+            activeSlot: remoteAhead ? remote.activeSlot : base.activeSlot,
             turnIndex: Math.max(remote.turnIndex ?? 0, base.turnIndex ?? 0),
-            campaignNodeId:
-              (remote.turnIndex ?? 0) >= (base.turnIndex ?? 0)
-                ? remote.campaignNodeId
-                : base.campaignNodeId,
-            chapterId:
-              (remote.turnIndex ?? 0) >= (base.turnIndex ?? 0) ? remote.chapterId : base.chapterId,
-            partyFlags:
-              (remote.turnIndex ?? 0) >= (base.turnIndex ?? 0) ? remote.partyFlags : base.partyFlags,
-            alignment:
-              (remote.turnIndex ?? 0) >= (base.turnIndex ?? 0) ? remote.alignment : base.alignment,
-            encounterEnemyHp:
-              (remote.turnIndex ?? 0) >= (base.turnIndex ?? 0)
-                ? remote.encounterEnemyHp
-                : base.encounterEnemyHp,
-            deckEncounter:
-              (remote.turnIndex ?? 0) >= (base.turnIndex ?? 0)
-                ? remote.deckEncounter
-                : base.deckEncounter,
+            campaignNodeId: remoteAhead ? remote.campaignNodeId : base.campaignNodeId,
+            chapterId: remoteAhead ? remote.chapterId : base.chapterId,
+            partyFlags: remoteAhead ? remote.partyFlags : base.partyFlags,
+            alignment: remoteAhead ? remote.alignment : base.alignment,
+            encounterEnemyHp: remoteAhead ? remote.encounterEnemyHp : base.encounterEnemyHp,
+            deckEncounter: remoteAhead ? remote.deckEncounter : base.deckEncounter,
+            completedSideQuests: remoteAhead
+              ? remote.completedSideQuests
+              : base.completedSideQuests,
+            cookedRecipes: remoteAhead ? remote.cookedRecipes : base.cookedRecipes,
             log: remote.log?.length ? remote.log : base.log,
             endingId: remote.endingId ?? base.endingId,
+            updatedAt: remote.updatedAt || base.updatedAt,
           };
+          const next = mergeBattleAndAmbush(campaignSlice, remote);
           writeWorld(next);
           setTitleSave(next);
           return next;
@@ -409,13 +405,16 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   }, [phase, mySlot, world]);
 
   // Track story/active time → random battles (~30–90s first, then ~2 min).
+  // DM-only authority (avoids multi-client ambush races). Timer pauses in dialogue/fights.
   useEffect(() => {
     if (phase !== "play") return;
+    if (!identity.isDm) return;
     const id = window.setInterval(() => {
       setWorld((prev) => {
         if (!prev || prev.endingId) return prev;
         if (prev.battle?.status === "active") return prev;
         if (prev.battle?.status === "victory" || prev.battle?.status === "defeat") return prev;
+        if (isAmbushTimerPaused(prev)) return prev;
         const { world: ticked, shouldStartBattle } = tickStoryPlay(prev, 1000);
         if (!shouldStartBattle) {
           if (ticked.storyPlayMs !== prev.storyPlayMs) writeWorld(ticked);
@@ -434,7 +433,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       });
     }, 1000);
     return () => window.clearInterval(id);
-  }, [phase]);
+  }, [phase, identity.isDm]);
 
   const persistAsync = useCallback(async (next: PartyWorldSave) => {
     const stamped = { ...next, updatedAt: new Date().toISOString() };
