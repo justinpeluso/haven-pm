@@ -1,14 +1,17 @@
 "use client";
 
 import {
+  battleEnemyPack,
   battleIntroRemainingMs,
   battleRemainingMs,
   battleSpellIds,
   canStrike,
   foodItemIds,
+  getEnemyByUnitId,
   getUnit,
   hpPotionIds,
   isBattleIntroActive,
+  isEnemyCombatantId,
   legalMoves,
   manaPotionIds,
   turnIdleRemainingMs,
@@ -124,7 +127,7 @@ function TacticalBoard({
   pending: boolean;
   floaters: Floater[];
   onMove: (x: number, y: number) => void;
-  onAttackEnemy: () => void;
+  onAttackEnemy: (targetId: string) => void;
 }) {
   const tactical = battle.tactical;
   const missingArt = "/party-chronicle/scenes/missing.svg";
@@ -136,9 +139,17 @@ function TacticalBoard({
   }, [tactical, isMyTurn, phase, mySlot]);
 
   const attacker = tactical && mySlot ? getUnit(tactical, mySlot) : null;
-  const foe = tactical ? getUnit(tactical, "enemy") : null;
-  const canHit =
-    !!attacker && !!foe && canStrike(attacker, foe) && isMyTurn && !pending;
+  const attackableEnemyIds = useMemo(() => {
+    if (!tactical || !attacker || !isMyTurn || pending) return new Set<string>();
+    const ids = new Set<string>();
+    for (const u of tactical.units) {
+      if (u.side !== "enemy") continue;
+      const foe = getEnemyByUnitId(battle, u.id);
+      if (!foe || foe.hp <= 0) continue;
+      if (canStrike(attacker, u)) ids.add(u.id);
+    }
+    return ids;
+  }, [tactical, attacker, isMyTurn, pending, battle]);
 
   if (!tactical) {
     return (
@@ -171,13 +182,17 @@ function TacticalBoard({
         const key = `${x},${y}`;
         const unit = unitByCell.get(key);
         const reachable = moves.has(key);
-        const isEnemyCell = unit?.id === "enemy";
+        const isEnemyCell = unit?.side === "enemy";
+        const canHitThis = !!unit && attackableEnemyIds.has(unit.id);
         const isActiveHero = unit?.id === battle.activeId;
+        const isActiveEnemy = !!unit && unit.id === battle.activeId;
 
         const hero = unit?.heroSlot
           ? battle.heroes.find((h) => h.slot === unit.heroSlot)
           : null;
         const char = unit?.heroSlot ? world.characters[unit.heroSlot] : null;
+        const foeState =
+          unit?.side === "enemy" ? getEnemyByUnitId(battle, unit.id) : null;
 
         return (
           <button
@@ -188,42 +203,42 @@ function TacticalBoard({
             data-reachable={reachable ? "true" : "false"}
             data-occupied={unit ? "true" : "false"}
             data-side={unit?.side ?? "empty"}
-            data-active={isActiveHero ? "true" : "false"}
-            data-attackable={isEnemyCell && canHit ? "true" : "false"}
+            data-active={isActiveHero || isActiveEnemy ? "true" : "false"}
+            data-attackable={canHitThis ? "true" : "false"}
             disabled={
               pending ||
               introLocked(battle) ||
-              (!reachable && !(isEnemyCell && canHit))
+              (!reachable && !canHitThis)
             }
             aria-label={
               unit
                 ? unit.side === "enemy"
-                  ? battle.enemy.name
+                  ? foeState?.name ?? "Enemy"
                   : hero?.name ?? "Hero"
                 : reachable
                   ? `Move to ${x + 1},${y + 1}`
                   : `Tile ${x + 1},${y + 1}`
             }
             onClick={() => {
-              if (isEnemyCell && canHit) {
-                onAttackEnemy();
+              if (canHitThis && unit) {
+                onAttackEnemy(unit.id);
                 return;
               }
               if (reachable) onMove(x, y);
             }}
           >
-            {unit?.side === "enemy" ? (
+            {unit?.side === "enemy" && foeState ? (
               <div className="pc-tactical-token pc-battle-fx-anchor" data-side="enemy">
-                <CombatFloaters floaters={floaters} target="enemy" />
+                <CombatFloaters floaters={floaters} target={unit.id} />
                 <img
-                  src={battleEnemyArtSrc(battle.enemy)}
-                  alt={battle.enemy.name}
+                  src={battleEnemyArtSrc(foeState)}
+                  alt={foeState.name}
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = missingArt;
                   }}
                 />
                 <span className="pc-tactical-hp">
-                  {battle.enemy.hp}/{battle.enemy.maxHp}
+                  {foeState.hp}/{foeState.maxHp}
                 </span>
               </div>
             ) : null}
@@ -346,14 +361,37 @@ export function BattleOverlay({
   const phase = battle.tactical?.phase ?? "move";
 
   const myUnit = battle.tactical && mySlot ? getUnit(battle.tactical, mySlot) : null;
-  const foeUnit = battle.tactical ? getUnit(battle.tactical, "enemy") : null;
-  const inAttackRange =
-    !!myUnit && !!foeUnit && canStrike(myUnit, foeUnit);
+  const enemyPack = battleEnemyPack(battle);
+  const foeInRange = (() => {
+    if (!myUnit || !battle.tactical) return false;
+    for (let i = 0; i < enemyPack.length; i++) {
+      const e = enemyPack[i]!;
+      if (e.hp <= 0) continue;
+      const id = e.unitId ?? (i === 0 ? "enemy" : `enemy-${i}`);
+      const tok = getUnit(battle.tactical, id);
+      if (tok && canStrike(myUnit, tok)) return true;
+    }
+    return false;
+  })();
+
+  const packLabel =
+    enemyPack.length <= 1
+      ? battle.enemy.name
+      : (() => {
+          const names = enemyPack.map((e) => e.name);
+          const uniq = [...new Set(names)];
+          if (uniq.length === 1) return `${uniq[0]} ×${enemyPack.length}`;
+          return `${enemyPack[0]!.name} +${enemyPack.length - 1}`;
+        })();
+
+  const activeFoe = isEnemyCombatantId(battle.activeId)
+    ? getEnemyByUnitId(battle, battle.activeId)
+    : null;
 
   const phaseHint =
     phase === "move"
       ? "Tap a lit tile to move, or Wait to skip movement"
-      : inAttackRange
+      : foeInRange
         ? "In range — Attack, cast, or Wait"
         : "Out of range — Wait, heal, or Power Up";
 
@@ -375,15 +413,15 @@ export function BattleOverlay({
         <div className="pc-battle-header">
           <p className="pc-eyebrow">Tactical encounter</p>
           <h2 className="pc-title text-xl md:text-2xl">
-            {battle.enemy.isBoss ? "Boss — " : ""}
-            {battle.enemy.name}
+            {enemyPack.some((e) => e.isBoss) ? "Boss — " : ""}
+            {packLabel}
           </h2>
           <p className="text-xs opacity-80">{battle.enemy.blurb}</p>
           <p className="text-[0.65rem] mt-2 font-bold" style={{ color: "var(--pc-accent)" }}>
             {introActive
               ? "Locking in — hold for countdown"
               : `Battle clock ${battleMin}:${String(battleSec).padStart(2, "0")} left${
-                  battle.activeId !== "enemy"
+                  !isEnemyCombatantId(battle.activeId)
                     ? ` · Act in ${idleLeft}s or foe moves`
                     : " · Enemy turn"
                 }`}
@@ -399,31 +437,47 @@ export function BattleOverlay({
             pending={pending}
             floaters={floaters}
             onMove={(x, y) => onAction("move", { x, y })}
-            onAttackEnemy={() => onAction("attack")}
+            onAttackEnemy={(targetId) => onAction("attack", { targetId })}
           />
 
           <aside className="pc-battle-roster">
-            <div className="pc-battle-roster-enemy">
-              <Meter
-                label={battle.enemy.isBoss ? "Boss HP" : "Enemy HP"}
-                value={battle.enemy.hp}
-                max={battle.enemy.maxHp}
-                tone="enemy"
-              />
-              {battle.enemy.isBoss && battle.enemy.maxMana > 0 && (
-                <Meter
-                  label="Enemy Mana"
-                  value={battle.enemy.mana}
-                  max={battle.enemy.maxMana}
-                  tone="mana"
-                />
-              )}
-              {battle.enemy.uniqueSkill && (
-                <p className="text-[0.65rem] mt-1 opacity-70">
-                  Unique: {battle.enemy.uniqueSkill.name}
-                </p>
-              )}
-            </div>
+            {enemyPack.map((e, i) => {
+              const unitId = e.unitId ?? (i === 0 ? "enemy" : `enemy-${i}`);
+              return (
+                <div
+                  key={unitId}
+                  className="pc-battle-roster-enemy"
+                  data-active={battle.activeId === unitId}
+                  data-down={e.hp <= 0}
+                >
+                  <Meter
+                    label={
+                      e.isBoss
+                        ? `Boss — ${e.name}`
+                        : enemyPack.length > 1
+                          ? e.name
+                          : "Enemy HP"
+                    }
+                    value={e.hp}
+                    max={e.maxHp}
+                    tone="enemy"
+                  />
+                  {e.isBoss && e.maxMana > 0 && (
+                    <Meter
+                      label="Enemy Mana"
+                      value={e.mana}
+                      max={e.maxMana}
+                      tone="mana"
+                    />
+                  )}
+                  {e.uniqueSkill && (
+                    <p className="text-[0.65rem] mt-1 opacity-70">
+                      Unique: {e.uniqueSkill.name}
+                    </p>
+                  )}
+                </div>
+              );
+            })}
             {battle.heroes.map((h) => {
               const char = world.characters[h.slot];
               const classId = char?.classId;
@@ -456,8 +510,8 @@ export function BattleOverlay({
         <p className="pc-battle-turn">
           {introActive
             ? "Stand by…"
-            : battle.activeId === "enemy"
-              ? `${battle.enemy.name}'s turn…`
+            : isEnemyCombatantId(battle.activeId)
+              ? `${activeFoe?.name ?? battle.enemy.name}'s turn…`
               : isMyTurn
                 ? `Your turn — ${phase === "move" ? "Move" : "Act"}: ${phaseHint}`
                 : `${activeHero?.name ?? "Ally"}'s turn`}
@@ -472,17 +526,17 @@ export function BattleOverlay({
           <button
             type="button"
             className="pc-choice pc-battle-action"
-            disabled={!isMyTurn || pending || !inAttackRange}
+            disabled={!isMyTurn || pending || !foeInRange}
             title={
-              inAttackRange
-                ? "Strike the foe"
+              foeInRange
+                ? "Strike a foe in range"
                 : "Move adjacent (or into range) first"
             }
             onClick={() => onAction("attack")}
           >
             <strong>Attack</strong>
             <span className="block text-[0.65rem] opacity-70">
-              {inAttackRange ? "Strike with your weapon" : "Out of range"}
+              {foeInRange ? "Strike with your weapon" : "Out of range"}
             </span>
           </button>
           <button
@@ -638,7 +692,9 @@ function BattleSummaryScreen({
       <div className="pc-battle-frame pc-battle-summary">
         <p className="pc-eyebrow">{victory ? "Victory" : "Defeat"}</p>
         <h2 className="pc-title text-2xl md:text-3xl">
-          {victory ? `Felled ${battle.enemy.name}` : `Fallen to ${battle.enemy.name}`}
+          {victory
+            ? `Felled ${s?.enemyName ?? battle.enemy.name}`
+            : `Fallen to ${s?.enemyName ?? battle.enemy.name}`}
         </h2>
         {s && (
           <div className="pc-battle-stats">

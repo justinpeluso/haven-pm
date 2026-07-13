@@ -245,7 +245,13 @@ export type BattleHeroState = {
 };
 
 export type BattleEnemyState = {
+  /** Creature / boss def id. */
   id: string;
+  /**
+   * Combatant id on the turn queue + tactical grid.
+   * First foe is `"enemy"` (legacy); extras are `"enemy-1"`, `"enemy-2"`, …
+   */
+  unitId?: string;
   name: string;
   blurb: string;
   hp: number;
@@ -282,9 +288,18 @@ export type BattleFxEvent = {
 export type BattleState = {
   id: string;
   status: "active" | "victory" | "defeat";
+  /**
+   * Featured / lead foe (first living, else first in pack).
+   * Kept in sync with `enemies` for legacy UI + summary copy.
+   */
   enemy: BattleEnemyState;
+  /**
+   * Full enemy pack — length matches sealed heroes in the fight.
+   * Absent on legacy single-foe saves (treat as `[enemy]`).
+   */
+  enemies?: BattleEnemyState[];
   heroes: BattleHeroState[];
-  /** Combatant ids in order (hero slots + "enemy"). */
+  /** Combatant ids in order (hero slots + enemy unit ids). */
   turnQueue: string[];
   turnIndex: number;
   activeId: string;

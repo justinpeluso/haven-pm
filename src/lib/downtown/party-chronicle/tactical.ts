@@ -4,6 +4,7 @@
  */
 
 import type {
+  BattleEnemyState,
   BattleHeroState,
   BattleState,
   BattleTacticalState,
@@ -46,6 +47,15 @@ export function inBounds(
   return x >= 0 && y >= 0 && x < cols && y < rows;
 }
 
+/** Combatant ids for enemy tokens (`enemy`, `enemy-1`, …). */
+export function isEnemyCombatantId(id: string): boolean {
+  return id === "enemy" || /^enemy-\d+$/.test(id);
+}
+
+export function enemyUnitIdForIndex(index: number): string {
+  return index === 0 ? "enemy" : `enemy-${index}`;
+}
+
 function heroSpeed(char: CharacterSave | undefined): number {
   const dex = char?.stats.dexterity ?? 10;
   return Math.max(2, Math.min(4, 2 + Math.floor(dex / 6)));
@@ -75,11 +85,20 @@ function occupiedSet(units: BattleTacticalUnit[], exceptId?: string): Set<string
   return s;
 }
 
-/** Place party on the west edge, foe on the east. */
+function normalizeEnemies(
+  enemy: BattleState["enemy"],
+  enemies?: BattleEnemyState[]
+): BattleEnemyState[] {
+  if (enemies?.length) return enemies;
+  return [{ ...enemy, unitId: enemy.unitId ?? "enemy" }];
+}
+
+/** Place party on the west edge, foes on the east (mirrored stacking). */
 export function createTacticalState(
   heroes: BattleHeroState[],
-  enemy: BattleState["enemy"],
-  world: PartyWorldSave
+  enemyOrPack: BattleState["enemy"] | BattleEnemyState[],
+  world: PartyWorldSave,
+  enemiesOpt?: BattleEnemyState[]
 ): BattleTacticalState {
   const living = heroes.filter((h) => h.hp > 0);
   const units: BattleTacticalUnit[] = [];
@@ -98,14 +117,24 @@ export function createTacticalState(
     });
   });
 
-  units.push({
-    id: "enemy",
-    side: "enemy",
-    x: TACTICAL_COLS - 2,
-    y: Math.floor((TACTICAL_ROWS - 1) / 2),
-    speed: enemySpeed(enemy.power),
-    range: enemyRange(enemy.isBoss, enemy.power),
-  });
+  const pack = Array.isArray(enemyOrPack)
+    ? enemyOrPack
+    : normalizeEnemies(enemyOrPack, enemiesOpt);
+
+  pack
+    .filter((e) => e.hp > 0)
+    .forEach((e, i) => {
+      const unitId = e.unitId ?? enemyUnitIdForIndex(i);
+      const y = Math.min(TACTICAL_ROWS - 1, 1 + i);
+      units.push({
+        id: unitId,
+        side: "enemy",
+        x: TACTICAL_COLS - 2,
+        y,
+        speed: enemySpeed(e.power),
+        range: enemyRange(e.isBoss, e.power),
+      });
+    });
 
   return {
     cols: TACTICAL_COLS,
@@ -128,9 +157,11 @@ export function ensureTactical(
   ) {
     return battle;
   }
+  const pack = normalizeEnemies(battle.enemy, battle.enemies);
   return {
     ...battle,
-    tactical: createTacticalState(battle.heroes, battle.enemy, world),
+    enemies: pack,
+    tactical: createTacticalState(battle.heroes, pack, world),
     log: [
       "The field stretches into a chessboard of grass — choose your steps.",
       ...battle.log,
@@ -240,6 +271,25 @@ export function nearestPartyTarget(
   return best;
 }
 
+/** Nearest living enemy token (for default Attack targeting). */
+export function nearestEnemyTarget(
+  tactical: BattleTacticalState,
+  from: BattleTacticalUnit,
+  livingEnemyIds: Set<string>
+): BattleTacticalUnit | null {
+  let best: BattleTacticalUnit | null = null;
+  let bestDist = Infinity;
+  for (const u of tactical.units) {
+    if (u.side !== "enemy" || !livingEnemyIds.has(u.id)) continue;
+    const d = manhattan(from.x, from.y, u.x, u.y);
+    if (d < bestDist) {
+      bestDist = d;
+      best = u;
+    }
+  }
+  return best;
+}
+
 /**
  * Greedy step toward target: choose legal tile that minimizes distance,
  * preferring closer Chebyshev for attack setup.
@@ -293,9 +343,22 @@ export function removeDeadHeroUnits(
   };
 }
 
-export function slotOfActiveHero(
-  battle: BattleState
-): PlayerSlot | null {
+export function removeDeadEnemyUnits(
+  tactical: BattleTacticalState,
+  enemies: BattleEnemyState[]
+): BattleTacticalState {
+  const living = new Set(
+    enemies
+      .filter((e) => e.hp > 0)
+      .map((e, i) => e.unitId ?? enemyUnitIdForIndex(i))
+  );
+  return {
+    ...tactical,
+    units: tactical.units.filter((u) => u.side === "party" || living.has(u.id)),
+  };
+}
+
+export function slotOfActiveHero(battle: BattleState): PlayerSlot | null {
   const h = battle.heroes.find((x) => x.id === battle.activeId);
   return h?.slot ?? null;
 }

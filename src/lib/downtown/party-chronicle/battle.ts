@@ -12,6 +12,7 @@ import {
   getSpellbookAbility,
   isSpellbookItem,
   rollBattleLoot,
+  rollCreature,
   rollRandomFoe,
   type BossDef,
 } from "./bestiary";
@@ -36,15 +37,20 @@ import {
   canStrike,
   createTacticalState,
   ensureTactical,
+  enemyUnitIdForIndex,
   getUnit,
+  isEnemyCombatantId,
   moveUnit,
+  nearestEnemyTarget,
   nearestPartyTarget,
+  removeDeadEnemyUnits,
   removeDeadHeroUnits,
   resetPhaseForTurn,
   setPhase,
 } from "./tactical";
 import type {
   BattleActionId,
+  BattleEnemyState,
   BattleFxEvent,
   BattleLootDrop,
   BattleState,
@@ -59,7 +65,9 @@ export {
   canStrike,
   ensureTactical,
   getUnit,
+  isEnemyCombatantId,
   legalMoves,
+  nearestEnemyTarget,
   unitAt,
   TACTICAL_COLS,
   TACTICAL_ROWS,
@@ -144,6 +152,65 @@ function sealedSlots(world: PartyWorldSave): PlayerSlot[] {
   return PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created);
 }
 
+/** Full enemy pack (legacy single-foe → `[enemy]`). */
+export function battleEnemyPack(battle: BattleState): BattleEnemyState[] {
+  if (battle.enemies?.length) return battle.enemies;
+  return [{ ...battle.enemy, unitId: battle.enemy.unitId ?? "enemy" }];
+}
+
+export function getEnemyByUnitId(
+  battle: BattleState,
+  unitId: string
+): BattleEnemyState | undefined {
+  return battleEnemyPack(battle).find(
+    (e, i) => (e.unitId ?? enemyUnitIdForIndex(i)) === unitId
+  );
+}
+
+function livingEnemies(battle: BattleState): BattleEnemyState[] {
+  return battleEnemyPack(battle).filter((e) => e.hp > 0);
+}
+
+/** Keep `enemy` mirrored to first living foe (else first) for legacy UI. */
+function syncLeadEnemy(battle: BattleState): BattleState {
+  const pack = battleEnemyPack(battle);
+  const lead = pack.find((e) => e.hp > 0) ?? pack[0]!;
+  return { ...battle, enemy: lead, enemies: pack };
+}
+
+/**
+ * Level-scale bestiary HP/power toward party level within the creature's band,
+ * then soften multi-enemy packs so N seals ≠ N full-strength solos.
+ * Solo (packSize 1) keeps ~full strength; each extra foe trims HP/power slightly.
+ */
+function scaleFoeStats(
+  foe: { levelMin: number; levelMax: number; hp: number; power: number; armor: number; xp: number; gold: number },
+  partyLvl: number,
+  packSize: number
+): { hp: number; power: number; armor: number; xp: number; gold: number } {
+  const mid = (foe.levelMin + foe.levelMax) / 2;
+  const delta = partyLvl - mid;
+  const levelHp = 1 + Math.max(-0.25, Math.min(0.55, delta * 0.035));
+  const levelPow = 1 + Math.max(-0.2, Math.min(0.45, delta * 0.025));
+  // Pack softening: 2 foes ≈ 78% HP / 85% power each; 4 ≈ 64% / 75%.
+  const packHp =
+    packSize <= 1 ? 1 : Math.max(0.62, 0.92 - (packSize - 1) * 0.07);
+  const packPow =
+    packSize <= 1 ? 1 : Math.max(0.7, 0.95 - (packSize - 1) * 0.05);
+  const packReward =
+    packSize <= 1 ? 1 : Math.max(0.55, 0.85 - (packSize - 1) * 0.08);
+  return {
+    hp: Math.max(8, Math.round(foe.hp * levelHp * packHp)),
+    power: Math.max(2, Math.round(foe.power * levelPow * packPow)),
+    armor: Math.max(
+      0,
+      Math.round((foe.armor ?? 0) * (packSize <= 1 ? 1 : 0.9) * Math.min(1.2, levelPow))
+    ),
+    xp: Math.max(1, Math.round(foe.xp * Math.max(0.85, levelHp) * packReward)),
+    gold: Math.max(0, Math.round(foe.gold * packReward)),
+  };
+}
+
 function heroFromChar(slot: PlayerSlot, c: CharacterSave) {
   const maxHp = battleMaxHp(c);
   const maxMana = battleMaxMana(c);
@@ -226,18 +293,25 @@ function advanceBattleTurn(battle: BattleState): BattleState {
   const n = battle.turnQueue.length;
   if (n === 0) return battle;
   let idx = (battle.turnIndex + 1) % n;
-  // Skip dead heroes
+  // Skip dead heroes / fallen foes
   for (let guard = 0; guard < n; guard++) {
     const id = battle.turnQueue[idx]!;
-    if (id === "enemy") break;
-    const hero = battle.heroes.find((h) => h.id === id);
-    if (hero && hero.hp > 0) break;
+    if (isEnemyCombatantId(id)) {
+      const foe = getEnemyByUnitId(battle, id);
+      if (foe && foe.hp > 0) break;
+    } else {
+      const hero = battle.heroes.find((h) => h.id === id);
+      if (hero && hero.hp > 0) break;
+    }
     idx = (idx + 1) % n;
   }
   const now = new Date().toISOString();
   let tactical = battle.tactical
     ? removeDeadHeroUnits(battle.tactical, battle.heroes)
     : battle.tactical;
+  if (tactical) {
+    tactical = removeDeadEnemyUnits(tactical, battleEnemyPack(battle));
+  }
   if (tactical) tactical = resetPhaseForTurn(tactical);
   return {
     ...battle,
@@ -349,29 +423,59 @@ function pathwaySituational(world: PartyWorldSave): number {
 }
 
 function foeFromRoll(
-  roll: ReturnType<typeof rollRandomFoe>
-): BattleState["enemy"] {
+  roll: ReturnType<typeof rollRandomFoe>,
+  opts: { partyLevel: number; packSize: number; index: number }
+): BattleEnemyState {
   const foe = roll.foe;
   const isBoss = roll.kind === "boss";
   const boss = isBoss ? (foe as BossDef) : undefined;
+  const scaled = scaleFoeStats(foe, opts.partyLevel, opts.packSize);
+  const unitId = enemyUnitIdForIndex(opts.index);
   return {
     id: foe.id,
+    unitId,
     name: foe.name,
     blurb: foe.blurb,
-    hp: foe.hp,
-    maxHp: foe.hp,
-    power: foe.power,
-    armor: foe.armor ?? 0,
+    hp: scaled.hp,
+    maxHp: scaled.hp,
+    power: scaled.power,
+    armor: scaled.armor,
     mana: boss ? 40 : 0,
     maxMana: boss ? 40 : 0,
     artId: foe.artId,
     isBoss,
-    xp: foe.xp,
-    gold: foe.gold,
+    xp: scaled.xp,
+    gold: scaled.gold,
     lootPool: foe.lootPool ?? (isBoss ? "magic" : "trash"),
     uniqueDrops: boss?.uniqueDrops,
     uniqueSkill: boss?.uniqueSkill,
   };
+}
+
+/** Spawn one foe per sealed hero; pack softens each unit when N > 1. */
+function rollEnemyPack(
+  partyLvl: number,
+  packSize: number,
+  rng: () => number
+): BattleEnemyState[] {
+  const enemies: BattleEnemyState[] = [];
+  for (let i = 0; i < packSize; i++) {
+    // Only the lead roll can be a boss — extras stay regular creatures.
+    const roll =
+      i === 0
+        ? rollRandomFoe(partyLvl, rng)
+        : ({ kind: "creature" as const, foe: rollCreature(partyLvl, rng) });
+    enemies.push(foeFromRoll(roll, { partyLevel: partyLvl, packSize, index: i }));
+  }
+  return enemies;
+}
+
+function packTitle(enemies: BattleEnemyState[]): string {
+  if (enemies.length <= 1) return enemies[0]?.name ?? "Foe";
+  const names = enemies.map((e) => e.name);
+  const uniq = [...new Set(names)];
+  if (uniq.length === 1) return `${uniq[0]} ×${enemies.length}`;
+  return `${enemies[0]!.name} and ${enemies.length - 1} more`;
 }
 
 export function startRandomBattle(
@@ -383,33 +487,39 @@ export function startRandomBattle(
   }
   if (world.endingId) return { world, message: "Chronicle closed." };
 
-  const lvl = partyLevel(world);
-  const roll = rollRandomFoe(lvl, rng);
-  const enemy = foeFromRoll(roll);
   const slots = sealedSlots(world);
   if (!slots.length) return { world, message: "No sealed heroes to fight." };
 
+  const lvl = partyLevel(world);
+  const packSize = slots.length;
+  const enemies = rollEnemyPack(lvl, packSize, rng);
+  const lead = enemies[0]!;
   const heroes = slots.map((slot) => heroFromChar(slot, world.characters[slot]));
 
-  const turnQueue = [...heroes.map((h) => h.id), "enemy"];
+  const turnQueue = [
+    ...heroes.map((h) => h.id),
+    ...enemies.map((e, i) => e.unitId ?? enemyUnitIdForIndex(i)),
+  ];
   const clocks = freshBattleTimestamps();
+  const title = packTitle(enemies);
   const battle: BattleState = {
     id: `battle-${Date.now()}`,
     status: "active",
-    enemy,
+    enemy: lead,
+    enemies,
     heroes,
     turnQueue,
     turnIndex: 0,
     activeId: turnQueue[0]!,
     log: [
-      `Ambush! ${enemy.name} bars the path.`,
-      `Tactical field — move, then strike. Idle 30s → foe acts. Cap 10 min.`,
+      `Ambush! ${title} bars the path.`,
+      `Tactical field — ${packSize} foe${packSize > 1 ? "s" : ""} vs ${packSize} hero${packSize > 1 ? "es" : ""}. Idle 30s → foe acts. Cap 10 min.`,
     ],
     stats: { damageDealt: 0, damageTaken: 0, turns: 0, bestRoc: 0 },
     lastRocLabel: null,
     summary: null,
     fxEvents: [],
-    tactical: createTacticalState(heroes, enemy, world),
+    tactical: createTacticalState(heroes, enemies, world),
     ...clocks,
   };
 
@@ -417,9 +527,9 @@ export function startRandomBattle(
     world: {
       ...world,
       battle,
-      log: [`Random battle — ${enemy.name}!`, ...world.log].slice(0, 80),
+      log: [`Random battle — ${title}!`, ...world.log].slice(0, 80),
     },
-    message: `${enemy.name} engages!`,
+    message: `${title} engages!`,
   };
 }
 
@@ -430,61 +540,92 @@ export function startBattleVs(
   const boss = getBoss(foeId);
   const creature = getCreature(foeId);
   if (!boss && !creature) return { world, message: "Unknown foe." };
-  const roll = boss
-    ? ({ kind: "boss" as const, foe: boss })
-    : ({ kind: "creature" as const, foe: creature! });
-  const fake = { ...world, battle: null };
-  const started = startRandomBattle(fake, () => 0);
-  // Rebuild with forced foe
   const slots = sealedSlots(world);
   if (!slots.length) return { world, message: "No sealed heroes." };
-  const enemy = foeFromRoll(roll);
+
+  const lvl = partyLevel(world);
+  const packSize = slots.length;
+  const leadRoll = boss
+    ? ({ kind: "boss" as const, foe: boss })
+    : ({ kind: "creature" as const, foe: creature! });
+  const enemies: BattleEnemyState[] = [
+    foeFromRoll(leadRoll, { partyLevel: lvl, packSize, index: 0 }),
+  ];
+  for (let i = 1; i < packSize; i++) {
+    enemies.push(
+      foeFromRoll(
+        { kind: "creature", foe: rollCreature(lvl, Math.random) },
+        { partyLevel: lvl, packSize, index: i }
+      )
+    );
+  }
+
+  const lead = enemies[0]!;
   const heroes = slots.map((slot) => heroFromChar(slot, world.characters[slot]));
-  const turnQueue = [...heroes.map((h) => h.id), "enemy"];
+  const turnQueue = [
+    ...heroes.map((h) => h.id),
+    ...enemies.map((e, i) => e.unitId ?? enemyUnitIdForIndex(i)),
+  ];
   const clocks = freshBattleTimestamps();
+  const title = packTitle(enemies);
   const battle: BattleState = {
     id: `battle-${Date.now()}`,
     status: "active",
-    enemy,
+    enemy: lead,
+    enemies,
     heroes,
     turnQueue,
     turnIndex: 0,
     activeId: turnQueue[0]!,
     log: [
-      `${enemy.name} challenges the party.`,
-      `Tactical field — move, then strike. Idle 30s → foe acts. Cap 10 min.`,
+      `${title} challenges the party.`,
+      `Tactical field — ${packSize} foe${packSize > 1 ? "s" : ""} vs ${packSize} hero${packSize > 1 ? "es" : ""}. Idle 30s → foe acts. Cap 10 min.`,
     ],
     stats: { damageDealt: 0, damageTaken: 0, turns: 0, bestRoc: 0 },
     lastRocLabel: null,
     summary: null,
     fxEvents: [],
-    tactical: createTacticalState(heroes, enemy, world),
+    tactical: createTacticalState(heroes, enemies, world),
     ...clocks,
   };
-  void started;
   return {
-    world: { ...world, battle, log: [`Battle — ${enemy.name}!`, ...world.log].slice(0, 80) },
-    message: `${enemy.name} engages!`,
+    world: { ...world, battle, log: [`Battle — ${title}!`, ...world.log].slice(0, 80) },
+    message: `${title} engages!`,
   };
 }
 
 function dealToEnemy(
   battle: BattleState,
-  raw: number
-): { battle: BattleState; damage: number } {
-  const damage = Math.max(1, raw - battle.enemy.armor);
-  const hp = Math.max(0, battle.enemy.hp - damage);
-  let next: BattleState = {
+  raw: number,
+  targetUnitId: string
+): { battle: BattleState; damage: number; fallen: boolean } {
+  const pack = battleEnemyPack(battle);
+  const idx = pack.findIndex(
+    (e, i) => (e.unitId ?? enemyUnitIdForIndex(i)) === targetUnitId
+  );
+  if (idx < 0) return { battle, damage: 0, fallen: false };
+  const target = pack[idx]!;
+  const damage = Math.max(1, raw - target.armor);
+  const hp = Math.max(0, target.hp - damage);
+  const nextPack = pack.map((e, i) => (i === idx ? { ...e, hp } : e));
+  let next: BattleState = syncLeadEnemy({
     ...battle,
-    enemy: { ...battle.enemy, hp },
+    enemies: nextPack,
+    enemy: nextPack[idx]!,
     stats: {
       ...battle.stats,
       damageDealt: battle.stats.damageDealt + damage,
       turns: battle.stats.turns + 1,
     },
-  };
-  next = pushFx(next, "damage", damage, "enemy");
-  return { damage, battle: next };
+  });
+  if (hp <= 0 && next.tactical) {
+    next = {
+      ...next,
+      tactical: removeDeadEnemyUnits(next.tactical, nextPack),
+    };
+  }
+  next = pushFx(next, "damage", damage, targetUnitId);
+  return { damage, battle: next, fallen: hp <= 0 };
 }
 
 function finishVictory(
@@ -493,11 +634,17 @@ function finishVictory(
   rewardSlot: PlayerSlot,
   rng: () => number
 ): PartyWorldSave {
+  const pack = battleEnemyPack(battle);
+  const lootLead =
+    pack.find((e) => e.isBoss) ?? pack[0] ?? battle.enemy;
+  const uniqueDrops = [
+    ...new Set(pack.flatMap((e) => e.uniqueDrops ?? [])),
+  ];
   const lootRolls = rollBattleLoot(
     {
-      lootPool: battle.enemy.lootPool,
-      isBoss: battle.enemy.isBoss,
-      uniqueDrops: battle.enemy.uniqueDrops,
+      lootPool: lootLead.lootPool,
+      isBoss: pack.some((e) => e.isBoss),
+      uniqueDrops: uniqueDrops.length ? uniqueDrops : lootLead.uniqueDrops,
     },
     rng
   );
@@ -510,9 +657,12 @@ function finishVictory(
     };
   });
 
+  const totalXp = pack.reduce((s, e) => s + e.xp, 0);
+  const totalGold = pack.reduce((s, e) => s + e.gold, 0);
+
   let char = world.characters[rewardSlot];
-  char = applyXp(char, battle.enemy.xp);
-  char = { ...char, gold: char.gold + battle.enemy.gold };
+  char = applyXp(char, totalXp);
+  char = { ...char, gold: char.gold + totalGold };
   const inventory = [...char.inventory];
   for (const drop of loot) {
     inventory.push(drop.itemId);
@@ -544,17 +694,12 @@ function finishVictory(
     maxMana: char.maxMana,
   };
 
-  const summary = buildSummary(
-    battle,
-    true,
-    loot,
-    battle.enemy.xp,
-    battle.enemy.gold
-  );
+  const title = packTitle(pack);
+  const summary = buildSummary(battle, true, loot, totalXp, totalGold);
   const nextBattle = {
-    ...pushLog(battle, `${battle.enemy.name} falls!`),
+    ...pushLog(battle, `${title} falls!`),
     status: "victory" as const,
-    summary,
+    summary: { ...summary, enemyName: title },
   };
 
   const fought = (world.battlesFought ?? 0) + 1;
@@ -588,7 +733,7 @@ function finishVictory(
     battlesFought: fought,
     nextEncounterAtMs: (world.storyPlayMs ?? 0) + rollNextEncounterThreshold(fought),
     log: [
-      `Victory vs ${battle.enemy.name} (+${battle.enemy.xp} XP, +${battle.enemy.gold}g). ${pathFlavor}`,
+      `Victory vs ${title} (+${totalXp} XP, +${totalGold}g). ${pathFlavor}`,
       ...world.log,
     ].slice(0, 80),
   };
@@ -614,17 +759,18 @@ function finishDefeat(
   const summary = buildSummary(battle, false, [], 0, 0);
   const fought = (world.battlesFought ?? 0) + 1;
   const line = reason ?? "The party is defeated…";
+  const title = packTitle(battleEnemyPack(battle));
   return {
     ...world,
     characters,
     battle: {
       ...pushLog(battle, line),
       status: "defeat",
-      summary,
+      summary: { ...summary, enemyName: title },
     },
     battlesFought: fought,
     nextEncounterAtMs: (world.storyPlayMs ?? 0) + rollNextEncounterThreshold(fought),
-    log: [`Defeat vs ${battle.enemy.name}.`, ...world.log].slice(0, 80),
+    log: [`Defeat vs ${title}.`, ...world.log].slice(0, 80),
   };
 }
 
@@ -634,13 +780,13 @@ function maybeResolveEnd(
   rewardSlot: PlayerSlot,
   rng: () => number
 ): PartyWorldSave {
-  if (battle.enemy.hp <= 0) {
+  if (livingEnemies(battle).length === 0) {
     return finishVictory(world, battle, rewardSlot, rng);
   }
   if (battle.heroes.every((h) => h.hp <= 0)) {
     return finishDefeat(world, battle);
   }
-  return { ...world, battle };
+  return { ...world, battle: syncLeadEnemy(battle) };
 }
 
 function runEnemyTurn(
@@ -648,34 +794,39 @@ function runEnemyTurn(
   battle: BattleState,
   rng: () => number
 ): PartyWorldSave {
-  if (battle.status !== "active" || battle.enemy.hp <= 0) {
+  const unitId = battle.activeId;
+  if (battle.status !== "active" || !isEnemyCombatantId(unitId)) {
     return { ...world, battle };
+  }
+  const foeState = getEnemyByUnitId(battle, unitId);
+  if (!foeState || foeState.hp <= 0) {
+    return { ...world, battle: advanceBattleTurn(battle) };
   }
   const living = battle.heroes.filter((h) => h.hp > 0);
   if (!living.length) return finishDefeat(world, battle);
 
   let b = ensureTactical(battle, world);
   const livingIds = new Set(living.map((h) => h.id));
-  const foeUnit = b.tactical ? getUnit(b.tactical, "enemy") : null;
+  const foeUnit = b.tactical ? getUnit(b.tactical, unitId) : null;
 
   // Move toward nearest hero when not already in strike range.
   if (b.tactical && foeUnit) {
     const targetUnit = nearestPartyTarget(b.tactical, foeUnit, livingIds);
     if (targetUnit) {
-      const before = getUnit(b.tactical, "enemy")!;
-      const nextTac = applyAiMove(b.tactical, "enemy", targetUnit);
-      const after = getUnit(nextTac, "enemy")!;
+      const before = getUnit(b.tactical, unitId)!;
+      const nextTac = applyAiMove(b.tactical, unitId, targetUnit);
+      const after = getUnit(nextTac, unitId)!;
       b = { ...b, tactical: nextTac };
       if (after.x !== before.x || after.y !== before.y) {
         b = pushLog(
           b,
-          `${battle.enemy.name} advances to (${after.x + 1},${after.y + 1}).`
+          `${foeState.name} advances to (${after.x + 1},${after.y + 1}).`
         );
       }
     }
   }
 
-  const foeNow = b.tactical ? getUnit(b.tactical, "enemy") : null;
+  const foeNow = b.tactical ? getUnit(b.tactical, unitId) : null;
   let target = living[Math.floor(rng() * living.length)]!;
   if (b.tactical && foeNow) {
     const inRange = living
@@ -690,33 +841,35 @@ function runEnemyTurn(
         tactical: b.tactical ? setPhase(b.tactical, "move") : b.tactical,
         stats: { ...b.stats, turns: b.stats.turns + 1 },
       };
-      b = pushLog(b, `${battle.enemy.name} watches for an opening…`);
+      b = pushLog(b, `${foeState.name} watches for an opening…`);
       b = advanceBattleTurn(b);
       return { ...world, battle: b };
     }
   }
 
   const targetChar = world.characters[target.slot];
-  let skillBoost = battle.enemy.power * 2;
-  let line = `${battle.enemy.name} strikes ${target.name}`;
+  let skillBoost = foeState.power * 2;
+  let line = `${foeState.name} strikes ${target.name}`;
+  let actingFoe = foeState;
 
-  const skill = battle.enemy.uniqueSkill;
-  if (battle.enemy.isBoss && skill && rng() < 0.45) {
+  const skill = foeState.uniqueSkill;
+  if (foeState.isBoss && skill && rng() < 0.45) {
     const cost = skill.manaCost ?? 0;
-    if (battle.enemy.mana >= cost) {
+    if (foeState.mana >= cost) {
       skillBoost = skill.power * 2.5;
-      b = {
-        ...b,
-        enemy: { ...b.enemy, mana: Math.max(0, b.enemy.mana - cost) },
-      };
-      line = `${battle.enemy.name} uses ${skill.name} on ${target.name}`;
+      actingFoe = { ...foeState, mana: Math.max(0, foeState.mana - cost) };
+      const pack = battleEnemyPack(b).map((e, i) =>
+        (e.unitId ?? enemyUnitIdForIndex(i)) === unitId ? actingFoe : e
+      );
+      b = syncLeadEnemy({ ...b, enemies: pack, enemy: actingFoe });
+      line = `${foeState.name} uses ${skill.name} on ${target.name}`;
     }
   }
 
   const offense = resolveRoc({
     attributeScore: 12,
     skillValue: Math.round(skillBoost),
-    situational: battle.enemy.isBoss ? 8 : 0,
+    situational: actingFoe.isBoss ? 8 : 0,
     rng,
   });
   const defense = resolveRoc({
@@ -726,7 +879,7 @@ function runEnemyTurn(
     rng,
   });
   const { damage: mitigated } = rocDamageFromMargin(
-    Math.max(2, battle.enemy.power),
+    Math.max(2, actingFoe.power),
     offense,
     defense.total,
     { armor: target.armor, minHit: offense.tier.success ? 1 : 0 }
@@ -772,13 +925,64 @@ function runEnemyTurn(
   return { ...world, characters, battle: b };
 }
 
+/** Auto-resolve consecutive enemy turns until a living hero is active. */
+function resolveEnemyPhase(
+  world: PartyWorldSave,
+  battle: BattleState,
+  rng: () => number
+): PartyWorldSave {
+  let nextWorld: PartyWorldSave = { ...world, battle };
+  let guard = 0;
+  while (
+    nextWorld.battle?.status === "active" &&
+    isEnemyCombatantId(nextWorld.battle.activeId) &&
+    guard++ < 12
+  ) {
+    nextWorld = runEnemyTurn(nextWorld, nextWorld.battle, rng);
+  }
+  return nextWorld;
+}
+
 export type BattleActionOpts = {
   spellId?: string;
   itemId?: string;
   /** Grid destination for `move`. */
   x?: number;
   y?: number;
+  /** Enemy combatant id (`enemy`, `enemy-1`, …) for attack / damage spells. */
+  targetId?: string;
 };
+
+function livingEnemyUnitIds(battle: BattleState): string[] {
+  return battleEnemyPack(battle)
+    .map((e, i) => ({ e, id: e.unitId ?? enemyUnitIdForIndex(i) }))
+    .filter(({ e }) => e.hp > 0)
+    .map(({ id }) => id);
+}
+
+function resolveAttackTargetId(
+  battle: BattleState,
+  actorSlot: PlayerSlot,
+  preferred?: string
+): string | null {
+  const livingIds = livingEnemyUnitIds(battle);
+  if (!livingIds.length) return null;
+  if (preferred && livingIds.includes(preferred)) return preferred;
+
+  if (!battle.tactical) return livingIds[0]!;
+
+  const attacker = getUnit(battle.tactical, actorSlot);
+  if (!attacker) return livingIds[0]!;
+
+  const idSet = new Set(livingIds);
+  const inRange = livingIds
+    .map((id) => getUnit(battle.tactical!, id))
+    .filter((u): u is NonNullable<typeof u> => !!u && canStrike(attacker, u));
+  if (inRange.length) return inRange[0]!.id;
+
+  const nearest = nearestEnemyTarget(battle.tactical, attacker, idSet);
+  return nearest?.id ?? livingIds[0]!;
+}
 
 export function performBattleAction(
   world: PartyWorldSave,
@@ -846,8 +1050,14 @@ export function performBattleAction(
     b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
     b = pushLog(b, message);
   } else if (action === "attack") {
+    const targetId = resolveAttackTargetId(b, actorSlot, opts.targetId);
+    if (!targetId) return { world, message: "No foes left." };
+    const foeState = getEnemyByUnitId(b, targetId);
+    if (!foeState || foeState.hp <= 0) {
+      return { world: { ...world, battle: b }, message: "That foe is down." };
+    }
     const attacker = b.tactical ? getUnit(b.tactical, actorSlot) : null;
-    const foeTok = b.tactical ? getUnit(b.tactical, "enemy") : null;
+    const foeTok = b.tactical ? getUnit(b.tactical, targetId) : null;
     if (attacker && foeTok && !canStrike(attacker, foeTok)) {
       return {
         world: { ...world, battle: b },
@@ -867,8 +1077,8 @@ export function performBattleAction(
       rng,
     });
     const defense = resolveDefenseRoc({
-      armor: battle.enemy.armor,
-      power: battle.enemy.power,
+      armor: foeState.armor,
+      power: foeState.power,
       level: partyLevel(world),
       rng,
     });
@@ -876,14 +1086,15 @@ export function performBattleAction(
       strike,
       offense,
       defense.total,
-      { armor: battle.enemy.armor, minHit: offense.tier.success ? 1 : 0 }
+      { armor: foeState.armor, minHit: offense.tier.success ? 1 : 0 }
     );
-    const damage = clampOutgoingDamage(rawDmg, battle.enemy.maxHp);
+    const damage = clampOutgoingDamage(rawDmg, foeState.maxHp);
     b = recordRoc(b, offense);
     if (damage > 0) {
-      const dealt = dealToEnemy(b, damage);
+      const dealt = dealToEnemy(b, damage, targetId);
       b = dealt.battle;
-      message = `${char.name} attacks — ${offense.label} vs DCF ${defense.total} → ${dealt.damage} dmg.`;
+      message = `${char.name} attacks ${foeState.name} — ${offense.label} vs DCF ${defense.total} → ${dealt.damage} dmg.`;
+      if (dealt.fallen) message += ` ${foeState.name} falls!`;
     } else if (offense.tier.severity < 0) {
       const self = Math.max(1, Math.round(Math.abs(offense.tier.severity) * 4));
       char = { ...char, hp: Math.max(1, char.hp - self) };
@@ -992,8 +1203,14 @@ export function performBattleAction(
 
     const isHeal = ab.tags.includes("heal") || ab.kind === "heal";
     if (!isHeal) {
+      const targetId = resolveAttackTargetId(b, actorSlot, opts.targetId);
+      if (!targetId) return { world, message: "No foes left." };
+      const foeState = getEnemyByUnitId(b, targetId);
+      if (!foeState || foeState.hp <= 0) {
+        return { world: { ...world, battle: b }, message: "That foe is down." };
+      }
       const attacker = b.tactical ? getUnit(b.tactical, actorSlot) : null;
-      const foeTok = b.tactical ? getUnit(b.tactical, "enemy") : null;
+      const foeTok = b.tactical ? getUnit(b.tactical, targetId) : null;
       // Spells use +1 range over weapon for casters who closed partially.
       if (attacker && foeTok) {
         const spellRange = Math.max(attacker.range, 2);
@@ -1004,30 +1221,6 @@ export function performBattleAction(
           };
         }
       }
-    }
-
-    if (isHeal) {
-      const eff = computeEffectiveStats(char);
-      const roc = resolveRoc({
-        attributeScore: eff.stats.wisdom,
-        skillValue: ab.power * 2,
-        situational: pathwaySituational(world),
-        rng,
-      });
-      const heal = Math.max(
-        1,
-        Math.round(ab.power * Math.max(0.4, roc.tier.severity + 0.3))
-      );
-      const beforeHp = char.hp;
-      char = { ...char, hp: Math.min(battleMaxHp(char), char.hp + heal) };
-      if (roc.tier.xpBonus > 0) char = applyXp(char, roc.tier.xpBonus);
-      b = syncHeroFromChar(b, actorSlot, char);
-      b = pushFx(b, "heal", char.hp - beforeHp, actorSlot);
-      b = recordRoc(b, roc);
-      b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
-      message = `${char.name} casts ${ab.name} — ${roc.label} → +${heal} HP.`;
-      b = pushLog(b, message);
-    } else {
       const powered = hero.powerUpTurns > 0;
       const strike = combatStrikePower(Math.max(ab.power, 4), powered);
       const eff = computeEffectiveStats(char);
@@ -1038,8 +1231,8 @@ export function performBattleAction(
         rng,
       });
       const defense = resolveDefenseRoc({
-        armor: battle.enemy.armor,
-        power: battle.enemy.power,
+        armor: foeState.armor,
+        power: foeState.power,
         level: partyLevel(world),
         rng,
       });
@@ -1047,14 +1240,15 @@ export function performBattleAction(
         strike,
         offense,
         defense.total,
-        { armor: Math.floor(battle.enemy.armor * 0.5), minHit: offense.tier.success ? 1 : 0 }
+        { armor: Math.floor(foeState.armor * 0.5), minHit: offense.tier.success ? 1 : 0 }
       );
-      const damage = clampOutgoingDamage(rawDmg, battle.enemy.maxHp);
+      const damage = clampOutgoingDamage(rawDmg, foeState.maxHp);
       b = recordRoc(b, offense);
       if (damage > 0) {
-        const dealt = dealToEnemy(b, damage);
+        const dealt = dealToEnemy(b, damage, targetId);
         b = dealt.battle;
-        message = `${char.name} casts ${ab.name} — ${offense.label} vs DCF ${defense.total} → ${dealt.damage} dmg.`;
+        message = `${char.name} casts ${ab.name} on ${foeState.name} — ${offense.label} vs DCF ${defense.total} → ${dealt.damage} dmg.`;
+        if (dealt.fallen) message += ` ${foeState.name} falls!`;
       } else {
         message = `${char.name} casts ${ab.name} — ${offense.label} (fizzles).`;
       }
@@ -1074,6 +1268,27 @@ export function performBattleAction(
             : h
         ),
       };
+      b = pushLog(b, message);
+    } else {
+      const eff = computeEffectiveStats(char);
+      const roc = resolveRoc({
+        attributeScore: eff.stats.wisdom,
+        skillValue: ab.power * 2,
+        situational: pathwaySituational(world),
+        rng,
+      });
+      const heal = Math.max(
+        1,
+        Math.round(ab.power * Math.max(0.4, roc.tier.severity + 0.3))
+      );
+      const beforeHp = char.hp;
+      char = { ...char, hp: Math.min(battleMaxHp(char), char.hp + heal) };
+      if (roc.tier.xpBonus > 0) char = applyXp(char, roc.tier.xpBonus);
+      b = syncHeroFromChar(b, actorSlot, char);
+      b = pushFx(b, "heal", char.hp - beforeHp, actorSlot);
+      b = recordRoc(b, roc);
+      b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
+      message = `${char.name} casts ${ab.name} — ${roc.label} → +${heal} HP.`;
       b = pushLog(b, message);
     }
   } else {
@@ -1097,19 +1312,11 @@ export function performBattleAction(
     return { world: nextWorld, message };
   }
 
-  // Advance to next; if enemy, auto-resolve enemy turn
+  // Advance to next; if enemy pack, auto-resolve all consecutive foe turns
   let nb = advanceBattleTurn(nextWorld.battle!);
   nextWorld = { ...nextWorld, battle: nb };
-  if (nb.activeId === "enemy") {
-    nextWorld = runEnemyTurn(nextWorld, nextWorld.battle!, rng);
-    // After enemy, if still active and landed on a dead hero, advance again
-    if (nextWorld.battle?.status === "active") {
-      let cur = nextWorld.battle;
-      if (cur.activeId === "enemy") {
-        cur = advanceBattleTurn(cur);
-        nextWorld = { ...nextWorld, battle: cur };
-      }
-    }
+  if (isEnemyCombatantId(nb.activeId)) {
+    nextWorld = resolveEnemyPhase(nextWorld, nextWorld.battle!, rng);
   }
 
   return { world: nextWorld, message };
@@ -1166,47 +1373,45 @@ export function tickBattleTimers(
     return { world: next, message: "Battle timed out (10 min)." };
   }
 
-  // Only idle-skip hero turns (enemy already auto-resolves after player acts).
-  if (battle.activeId === "enemy") return { world };
+  // Only idle-skip hero turns (enemy pack already auto-resolves after player acts).
+  if (isEnemyCombatantId(battle.activeId)) return { world };
 
   if (turnIdleRemainingMs(battle, nowMs) > 0) return { world };
 
   const hesitator =
     battle.heroes.find((h) => h.id === battle.activeId)?.name ?? "A hero";
+  const packLabel = packTitle(battleEnemyPack(battle));
   let nextWorld: PartyWorldSave = {
     ...world,
     battle: pushLog(
       battle,
-      `${hesitator} hesitates too long — ${battle.enemy.name} seizes the opening!`
+      `${hesitator} hesitates too long — ${packLabel} seizes the opening!`
     ),
   };
   let nb = advanceBattleTurn(nextWorld.battle!);
-  // Jump to enemy if advance landed on another hero — force foe strike on idle.
-  if (nb.activeId !== "enemy") {
-    const enemyIdx = nb.turnQueue.indexOf("enemy");
+  // Jump to first living enemy if advance landed on another hero — force foe strike on idle.
+  if (!isEnemyCombatantId(nb.activeId)) {
+    const enemyIdx = nb.turnQueue.findIndex(
+      (id) =>
+        isEnemyCombatantId(id) &&
+        (getEnemyByUnitId(nb, id)?.hp ?? 0) > 0
+    );
     if (enemyIdx >= 0) {
       nb = {
         ...nb,
         turnIndex: enemyIdx,
-        activeId: "enemy",
+        activeId: nb.turnQueue[enemyIdx]!,
         turnStartedAt: new Date(nowMs).toISOString(),
       };
     }
   }
   nextWorld = { ...nextWorld, battle: nb };
-  if (nb.activeId === "enemy") {
-    nextWorld = runEnemyTurn(nextWorld, nextWorld.battle!, rng);
-    if (nextWorld.battle?.status === "active") {
-      let cur = nextWorld.battle;
-      if (cur.activeId === "enemy") {
-        cur = advanceBattleTurn(cur);
-        nextWorld = { ...nextWorld, battle: cur };
-      }
-    }
+  if (isEnemyCombatantId(nb.activeId)) {
+    nextWorld = resolveEnemyPhase(nextWorld, nextWorld.battle!, rng);
   }
   return {
     world: nextWorld,
-    message: `${battle.enemy.name} strikes while the party idles.`,
+    message: `${packLabel} strikes while the party idles.`,
   };
 }
 
