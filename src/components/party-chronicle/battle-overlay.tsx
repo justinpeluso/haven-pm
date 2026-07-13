@@ -1,21 +1,24 @@
 "use client";
 
 import {
+  battleIntroRemainingMs,
   battleRemainingMs,
   battleSpellIds,
   foodItemIds,
   hpPotionIds,
+  isBattleIntroActive,
   manaPotionIds,
   turnIdleRemainingMs,
   type BattleActionOpts,
 } from "@/lib/downtown/party-chronicle/battle";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { getAbility } from "@/lib/downtown/party-chronicle/skills";
 import { getSpellbookAbility } from "@/lib/downtown/party-chronicle/bestiary";
 import { getGear } from "@/lib/downtown/party-chronicle/gear";
 import { comicArtSrc } from "@/lib/downtown/party-chronicle/art";
 import type {
   BattleActionId,
+  BattleFxEvent,
   BattleState,
   CharacterSave,
   PartyWorldSave,
@@ -24,8 +27,12 @@ import type {
 
 const ACTIONS: { id: BattleActionId; label: string; hint: string }[] = [
   { id: "attack", label: "Attack", hint: "Strike with your weapon" },
-  { id: "powerUp", label: "Power Up", hint: "+50% damage for 3 turns" },
+  { id: "powerUp", label: "Power Up", hint: "+25% damage for 3 turns" },
 ];
+
+const FLOATER_MS = 2000;
+
+type Floater = BattleFxEvent & { birth: number };
 
 function itemLabel(id: string): string {
   return getGear(id)?.name ?? id;
@@ -35,6 +42,14 @@ function countIds(ids: string[]): { id: string; count: number }[] {
   const map = new Map<string, number>();
   for (const id of ids) map.set(id, (map.get(id) ?? 0) + 1);
   return [...map.entries()].map(([id, count]) => ({ id, count }));
+}
+
+function introLabel(remainingMs: number): string | null {
+  if (remainingMs <= 0) return null;
+  if (remainingMs > 3000) return "3";
+  if (remainingMs > 2000) return "2";
+  if (remainingMs > 1000) return "1";
+  return "BATTLE START";
 }
 
 function Meter({
@@ -64,6 +79,31 @@ function Meter({
   );
 }
 
+function CombatFloaters({
+  floaters,
+  target,
+}: {
+  floaters: Floater[];
+  target: string;
+}) {
+  const mine = floaters.filter((f) => f.target === target);
+  if (!mine.length) return null;
+  return (
+    <div className="pc-battle-floaters" aria-hidden>
+      {mine.map((f, i) => (
+        <span
+          key={f.id}
+          className="pc-battle-floater"
+          data-kind={f.kind}
+          style={{ "--pc-floater-i": i } as CSSProperties}
+        >
+          {f.kind === "heal" ? `+${f.amount}` : `−${f.amount}`}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export function BattleOverlay({
   world,
   mySlot,
@@ -81,11 +121,41 @@ export function BattleOverlay({
 }) {
   const battle = world.battle;
   const [now, setNow] = useState(() => Date.now());
+  const [floaters, setFloaters] = useState<Floater[]>([]);
+  const seenFx = useRef<Set<string>>(new Set());
+  const floaterBattleId = useRef<string | null>(null);
+
   useEffect(() => {
     if (!battle || battle.status !== "active") return;
-    const id = window.setInterval(() => setNow(Date.now()), 250);
+    const id = window.setInterval(() => setNow(Date.now()), 100);
     return () => window.clearInterval(id);
   }, [battle?.status, battle?.id]);
+
+  useEffect(() => {
+    if (!battle || battle.status !== "active") return;
+    if (floaterBattleId.current !== battle.id) {
+      floaterBattleId.current = battle.id;
+      // Don't replay hydrated history as floaters.
+      seenFx.current = new Set((battle.fxEvents ?? []).map((e) => e.id));
+      setFloaters([]);
+      return;
+    }
+    const events = battle.fxEvents ?? [];
+    const fresh = events.filter((e) => !seenFx.current.has(e.id));
+    if (!fresh.length) return;
+    const birth = Date.now();
+    for (const e of fresh) seenFx.current.add(e.id);
+    setFloaters((prev) => [...prev, ...fresh.map((e) => ({ ...e, birth }))]);
+  }, [battle]);
+
+  useEffect(() => {
+    if (!floaters.length) return;
+    const id = window.setInterval(() => {
+      const cutoff = Date.now() - FLOATER_MS;
+      setFloaters((prev) => prev.filter((f) => f.birth > cutoff));
+    }, 200);
+    return () => window.clearInterval(id);
+  }, [floaters.length]);
 
   if (!battle) return null;
 
@@ -93,13 +163,17 @@ export function BattleOverlay({
     return <BattleSummaryScreen battle={battle} onDismiss={onDismiss} />;
   }
 
+  const introLeft = battleIntroRemainingMs(battle, now);
+  const introActive = isBattleIntroActive(battle, now);
+  const countdown = introLabel(introLeft);
+
   const battleLeft = Math.ceil(battleRemainingMs(battle, now) / 1000);
   const idleLeft = Math.ceil(turnIdleRemainingMs(battle, now) / 1000);
   const battleMin = Math.floor(battleLeft / 60);
   const battleSec = battleLeft % 60;
 
   const activeHero = battle.heroes.find((h) => h.id === battle.activeId);
-  const isMyTurn = !!mySlot && battle.activeId === mySlot && canAct;
+  const isMyTurn = !!mySlot && battle.activeId === mySlot && canAct && !introActive;
   const me = mySlot ? world.characters[mySlot] : null;
   const spells = me ? battleSpellIds(me) : [];
   const foods = me ? foodItemIds(me.inventory) : [];
@@ -112,7 +186,19 @@ export function BattleOverlay({
 
   return (
     <div className="pc-battle-overlay" role="dialog" aria-label="Battle">
-      <div className="pc-battle-frame">
+      <div className="pc-battle-frame" data-intro={introActive ? "true" : "false"}>
+        {countdown && (
+          <div className="pc-battle-countdown" aria-live="assertive">
+            <span
+              key={countdown}
+              className="pc-battle-countdown-num"
+              data-phrase={countdown === "BATTLE START" ? "true" : "false"}
+            >
+              {countdown}
+            </span>
+          </div>
+        )}
+
         <div className="pc-battle-header">
           <p className="pc-eyebrow">Random encounter</p>
           <h2 className="pc-title text-xl md:text-2xl">
@@ -121,15 +207,19 @@ export function BattleOverlay({
           </h2>
           <p className="text-xs opacity-80">{battle.enemy.blurb}</p>
           <p className="text-[0.65rem] mt-2 font-bold" style={{ color: "var(--pc-accent)" }}>
-            Battle clock {battleMin}:{String(battleSec).padStart(2, "0")} left
-            {battle.activeId !== "enemy"
-              ? ` · Act in ${idleLeft}s or foe strikes`
-              : " · Enemy turn"}
+            {introActive
+              ? "Locking in — hold for countdown"
+              : `Battle clock ${battleMin}:${String(battleSec).padStart(2, "0")} left${
+                  battle.activeId !== "enemy"
+                    ? ` · Act in ${idleLeft}s or foe strikes`
+                    : " · Enemy turn"
+                }`}
           </p>
         </div>
 
         <div className="pc-battle-stage">
-          <div className="pc-battle-enemy">
+          <div className="pc-battle-enemy pc-battle-fx-anchor">
+            <CombatFloaters floaters={floaters} target="enemy" />
             <img
               src={enemyArt}
               alt={battle.enemy.name}
@@ -162,10 +252,11 @@ export function BattleOverlay({
             {battle.heroes.map((h) => (
               <div
                 key={h.id}
-                className="pc-battle-hero"
+                className="pc-battle-hero pc-battle-fx-anchor"
                 data-active={battle.activeId === h.id}
                 data-down={h.hp <= 0}
               >
+                <CombatFloaters floaters={floaters} target={h.id} />
                 <p className="font-bold text-sm">
                   {h.name}
                   {h.powerUpTurns > 0 ? ` ▲${h.powerUpTurns}` : ""}
@@ -179,11 +270,13 @@ export function BattleOverlay({
         </div>
 
         <p className="pc-battle-turn">
-          {battle.activeId === "enemy"
-            ? `${battle.enemy.name}'s turn…`
-            : isMyTurn
-              ? "Your move — choose an action"
-              : `${activeHero?.name ?? "Ally"}'s turn`}
+          {introActive
+            ? "Stand by…"
+            : battle.activeId === "enemy"
+              ? `${battle.enemy.name}'s turn…`
+              : isMyTurn
+                ? "Your move — choose an action"
+                : `${activeHero?.name ?? "Ally"}'s turn`}
           {battle.lastRocLabel ? (
             <span className="block text-[0.65rem] opacity-80 mt-1 font-normal normal-case tracking-normal">
               {battle.lastRocLabel}
