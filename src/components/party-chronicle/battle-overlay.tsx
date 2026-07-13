@@ -156,6 +156,11 @@ export function BattleOverlay({
             : isMyTurn
               ? "Your move — choose an action"
               : `${activeHero?.name ?? "Ally"}'s turn`}
+          {battle.lastRocLabel ? (
+            <span className="block text-[0.65rem] opacity-80 mt-1 font-normal normal-case tracking-normal">
+              {battle.lastRocLabel}
+            </span>
+          ) : null}
         </p>
 
         <div className="pc-battle-actions">
@@ -256,7 +261,16 @@ function BattleSummaryScreen({
               <strong>Turns</strong>
               <span>{s.turns}</span>
             </div>
+            {s.bestRoc != null && s.bestRoc > 0 && (
+              <div>
+                <strong>Best R.O.C.</strong>
+                <span>{s.bestRoc}</span>
+              </div>
+            )}
           </div>
+        )}
+        {s?.lastRocLabel && (
+          <p className="text-xs mt-2 opacity-80">Last check: {s.lastRocLabel}</p>
         )}
         {s && s.loot.length > 0 && (
           <div className="space-y-2 mt-3">

@@ -45,6 +45,8 @@ import {
   SLOT_DEFAULTS,
   STAT_POINT_BUY_POOL,
 } from "@/lib/downtown/party-chronicle/players";
+import { pathwayLabel, NEVERWORLD_HERITAGE } from "@/lib/downtown/party-chronicle/pathway";
+import { applyRaceToStats, RACE_DEFS, RACE_IDS, type RaceId } from "@/lib/downtown/party-chronicle/races";
 import {
   applyPointBuy,
   clearWorld,
@@ -710,8 +712,9 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
         <div className="pc-panel-jagged p-8 text-center space-y-4 max-w-lg mx-auto">
           <p className="pc-eyebrow">Haven PM · Downtown</p>
           <h1 className="pc-title text-4xl md:text-5xl">Neverworld</h1>
-          <p className="text-sm leading-relaxed">
-            Three heroes, three hounds, Justin → Rusty → Elisha. Choices steer Animal, Human, or Demon.
+          <p className="text-sm leading-relaxed">{NEVERWORLD_HERITAGE.title}</p>
+          <p className="text-xs opacity-80">
+            Three heroes, three hounds · Justin → Rusty → Elisha · Pathways (Giver/Taker) · R.O.C. checks
           </p>
           {mySlot && (
             <p className="text-xs font-bold" style={{ color: "var(--pc-magenta)" }}>
@@ -1011,11 +1014,12 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
             );
           })}
           <div className="pt-2">
-            <p className="pc-eyebrow text-[0.65rem]">Destiny</p>
-            <div className="flex gap-2 text-[0.65rem] font-bold">
+            <p className="pc-eyebrow text-[0.65rem]">Destiny · Pathway</p>
+            <div className="flex flex-wrap gap-2 text-[0.65rem] font-bold">
               <span>A {world.alignment.animal}</span>
               <span>H {world.alignment.human}</span>
               <span>D {world.alignment.demon}</span>
+              <span>· {pathwayLabel(world.pathway ?? { giver: 0, taker: 0 })}</span>
             </div>
           </div>
         </aside>
@@ -1265,6 +1269,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           {tab === "codex" && (
             <div className="space-y-2">
               <p className="pc-eyebrow">Campaign Codex (~{CODEX.totalHours}h)</p>
+              <p className="text-xs leading-relaxed opacity-90">{NEVERWORLD_HERITAGE.codex}</p>
               {CODEX.acts.map((act) => (
                 <div key={act.id} className="pc-codex-row">
                   <strong>
@@ -1421,7 +1426,8 @@ function CharacterSheet({ char, highlight }: { char: CharacterSave; highlight: b
   return (
     <div className={`pc-panel p-3 bg-white/60 ${highlight ? "ring-2 ring-[var(--pc-cyan)]" : ""}`}>
       <p className="font-bold">
-        {char.name} · {CLASS_DEFS[char.classId].name} · Lv {char.level}
+        {char.name} · {char.raceId ? `${RACE_DEFS[char.raceId].name} · ` : ""}
+        {CLASS_DEFS[char.classId].name} · Lv {char.level}
       </p>
       <div className="mt-2 space-y-1">
         <Meter label="HP" value={char.hp} max={char.maxHp} tone="hp" />
@@ -1577,6 +1583,7 @@ function CreatePhase({
 
   const [name, setName] = useState(base.name || def.displayName);
   const [classId, setClassId] = useState<ClassId>(initialClass);
+  const [raceId, setRaceId] = useState<RaceId>(base.raceId ?? "human");
   const [dogName, setDogName] = useState(base.dog.name || def.dogName);
   const [dogBreed, setDogBreed] = useState(base.dog.breed || def.dogBreed);
   const [bumps, setBumps] = useState<Partial<Record<StatKey, number>>>({});
@@ -1610,7 +1617,8 @@ function CreatePhase({
     [bumps]
   );
   const left = STAT_POINT_BUY_POOL - spent;
-  const preview = applyPointBuy(BLANK_BASE_STATS, bumps, STAT_POINT_BUY_POOL);
+  const previewBought = applyPointBuy(BLANK_BASE_STATS, bumps, STAT_POINT_BUY_POOL);
+  const preview = previewBought ? applyRaceToStats(previewBought, raceId) : null;
 
   const bump = (key: StatKey, delta: number) => {
     const cur = bumps[key] ?? 0;
@@ -1636,6 +1644,7 @@ function CreatePhase({
     const result = completeCharacterCreation(base, {
       name,
       classId,
+      raceId,
       dogName,
       dogBreed,
       statBumps: bumps,
@@ -1663,7 +1672,10 @@ function CreatePhase({
       <div className="pc-header-bar px-4 py-3">
         <h1 className="pc-title text-2xl">Create {def.displayName}</h1>
         <p className="text-xs font-bold">
-          Blank stats · pick 1 weapon, 1 skill, and {magicNeeded} magic — wired to your hotbar.
+          {NEVERWORLD_HERITAGE.create}
+        </p>
+        <p className="text-xs opacity-80">
+          Blank stats · pick race, 1 weapon, 1 skill, and {magicNeeded} magic — wired to your hotbar.
         </p>
         {sealed.length > 0 && (
           <p className="text-[0.7rem] mt-1" style={{ color: "var(--pc-accent)" }}>
@@ -1676,6 +1688,19 @@ function CreatePhase({
         <div className="pc-panel p-4 pc-create-form space-y-2">
           <label htmlFor="pc-name">Hero name</label>
           <input id="pc-name" value={name} onChange={(e) => setName(e.target.value)} />
+          <label htmlFor="pc-race">Race</label>
+          <select
+            id="pc-race"
+            value={raceId}
+            onChange={(e) => setRaceId(e.target.value as RaceId)}
+          >
+            {RACE_IDS.map((id) => (
+              <option key={id} value={id}>
+                {RACE_DEFS[id].name}
+              </option>
+            ))}
+          </select>
+          <p className="text-xs mb-2">{RACE_DEFS[raceId].blurb}</p>
           <label htmlFor="pc-class">Class</label>
           <select
             id="pc-class"

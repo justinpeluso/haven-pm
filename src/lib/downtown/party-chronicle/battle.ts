@@ -19,6 +19,17 @@ import { battleArmor, battleAttackPower, battleMaxHp, battleMaxMana, computeEffe
 import { levelFromXp, skillPointsForLevelGain } from "./progression";
 import { getAbility } from "./skills";
 import { getStoryNode } from "./story";
+import {
+  NEVERWORLD_HERITAGE,
+  leadingPathway,
+  type PathwayScores,
+} from "./pathway";
+import {
+  resolveDefenseRoc,
+  resolveRoc,
+  rocDamageFromMargin,
+  type RocResult,
+} from "./roc";
 import type {
   BattleActionId,
   BattleLootDrop,
@@ -52,10 +63,6 @@ export function rollNextEncounterThreshold(
     return rngInt(FIRST_ENCOUNTER_MIN_MS, FIRST_ENCOUNTER_MAX_MS, rng);
   }
   return rngInt(NEXT_ENCOUNTER_MIN_MS, NEXT_ENCOUNTER_MAX_MS, rng);
-}
-
-function abilityMod(score: number): number {
-  return Math.floor((score - 10) / 2);
 }
 
 function applyXp(char: CharacterSave, xp: number): CharacterSave {
@@ -206,7 +213,32 @@ function buildSummary(
     gold,
     loot,
     turns: battle.stats.turns,
+    bestRoc: battle.stats.bestRoc,
+    lastRocLabel: battle.lastRocLabel ?? undefined,
   };
+}
+
+function recordRoc(battle: BattleState, roc: RocResult): BattleState {
+  return {
+    ...battle,
+    lastRocLabel: roc.label,
+    stats: {
+      ...battle.stats,
+      bestRoc: Math.max(battle.stats.bestRoc ?? 0, roc.total),
+    },
+  };
+}
+
+function pathwayOf(world: PartyWorldSave): PathwayScores {
+  return world.pathway ?? { giver: 0, taker: 0 };
+}
+
+function pathwaySituational(world: PartyWorldSave): number {
+  const p = pathwayOf(world);
+  const lead = leadingPathway(p);
+  if (lead === "giver") return 3;
+  if (lead === "taker") return 5;
+  return 0;
 }
 
 function foeFromRoll(
@@ -262,7 +294,8 @@ export function startRandomBattle(
     turnIndex: 0,
     activeId: turnQueue[0]!,
     log: [`Ambush! ${enemy.name} bars the path.`],
-    stats: { damageDealt: 0, damageTaken: 0, turns: 0 },
+    stats: { damageDealt: 0, damageTaken: 0, turns: 0, bestRoc: 0 },
+    lastRocLabel: null,
     summary: null,
     startedAt: new Date().toISOString(),
   };
@@ -304,7 +337,8 @@ export function startBattleVs(
     turnIndex: 0,
     activeId: turnQueue[0]!,
     log: [`${enemy.name} challenges the party.`],
-    stats: { damageDealt: 0, damageTaken: 0, turns: 0 },
+    stats: { damageDealt: 0, damageTaken: 0, turns: 0, bestRoc: 0 },
+    lastRocLabel: null,
     summary: null,
     startedAt: new Date().toISOString(),
   };
@@ -406,6 +440,11 @@ function finishVictory(
   };
 
   const fought = (world.battlesFought ?? 0) + 1;
+  const path = pathwayOf(world);
+  const pathFlavor =
+    leadingPathway(path) === "taker"
+      ? NEVERWORLD_HERITAGE.battleVictoryTaker
+      : NEVERWORLD_HERITAGE.battleVictoryGiver;
   return {
     ...world,
     characters,
@@ -413,7 +452,7 @@ function finishVictory(
     battlesFought: fought,
     nextEncounterAtMs: (world.storyPlayMs ?? 0) + rollNextEncounterThreshold(fought),
     log: [
-      `Victory vs ${battle.enemy.name} (+${battle.enemy.xp} XP, +${battle.enemy.gold}g).`,
+      `Victory vs ${battle.enemy.name} (+${battle.enemy.xp} XP, +${battle.enemy.gold}g). ${pathFlavor}`,
       ...world.log,
     ].slice(0, 80),
   };
@@ -476,14 +515,15 @@ function runEnemyTurn(
 
   const target = living[Math.floor(rng() * living.length)]!;
   let b = battle;
-  let dmg = battle.enemy.power + rngInt(1, 6, rng);
+  const targetChar = world.characters[target.slot];
+  let skillBoost = battle.enemy.power * 2;
   let line = `${battle.enemy.name} strikes ${target.name}`;
 
   const skill = battle.enemy.uniqueSkill;
   if (battle.enemy.isBoss && skill && rng() < 0.45) {
     const cost = skill.manaCost ?? 0;
     if (battle.enemy.mana >= cost) {
-      dmg = skill.power + rngInt(1, 4, rng);
+      skillBoost = skill.power * 2.5;
       b = {
         ...b,
         enemy: { ...b.enemy, mana: Math.max(0, b.enemy.mana - cost) },
@@ -492,7 +532,26 @@ function runEnemyTurn(
     }
   }
 
-  const mitigated = Math.max(1, dmg - target.armor);
+  const offense = resolveRoc({
+    attributeScore: 12,
+    skillValue: Math.round(skillBoost),
+    situational: battle.enemy.isBoss ? 8 : 0,
+    rng,
+  });
+  const defense = resolveRoc({
+    attributeScore: targetChar?.stats.constitution ?? 10,
+    skillValue: target.armor * 3 + Math.floor(target.power * 0.5),
+    situational: 0,
+    rng,
+  });
+  const { damage: mitigated } = rocDamageFromMargin(
+    Math.max(2, battle.enemy.power),
+    offense,
+    defense.total,
+    { armor: target.armor, minHit: offense.tier.success ? 1 : 0 }
+  );
+  b = recordRoc(b, offense);
+
   const heroes = b.heroes.map((h) =>
     h.id === target.id ? { ...h, hp: Math.max(0, h.hp - mitigated) } : h
   );
@@ -505,7 +564,12 @@ function runEnemyTurn(
       turns: b.stats.turns + 1,
     },
   };
-  b = pushLog(b, `${line} for ${mitigated} damage.`);
+  b = pushLog(
+    b,
+    mitigated > 0
+      ? `${line} — ${offense.label} vs DCF ${defense.total} → ${mitigated} dmg.`
+      : `${line} — ${offense.label} (wiffs).`
+  );
 
   // Sync character HP
   const characters = { ...world.characters };
@@ -554,12 +618,48 @@ export function performBattleAction(
   if (action === "attack") {
     const mult = hero.powerUpTurns > 0 ? POWER_UP_MULT : 1;
     const eff = computeEffectiveStats(char);
-    const isCrit = rng() * 100 < Math.min(45, eff.crit);
-    const raw =
-      Math.floor((hero.power + rngInt(1, 6, rng)) * mult * (isCrit ? 1.5 : 1)) +
-      abilityMod(eff.stats.dexterity);
-    const dealt = dealToEnemy(b, raw);
-    b = dealt.battle;
+    const skillValue =
+      Math.round(hero.power * 2 + eff.crit * 0.5) + Math.round((mult - 1) * 20);
+    const offense = resolveRoc({
+      attributeScore: eff.stats.dexterity,
+      skillValue,
+      situational: pathwaySituational(world) + Math.floor(eff.atk * 0.35),
+      rng,
+    });
+    const defense = resolveDefenseRoc({
+      armor: battle.enemy.armor,
+      power: battle.enemy.power,
+      level: partyLevel(world),
+      rng,
+    });
+    const { damage } = rocDamageFromMargin(
+      Math.max(2, Math.floor(hero.power * mult)),
+      offense,
+      defense.total,
+      { armor: battle.enemy.armor, minHit: offense.tier.success ? 1 : 0 }
+    );
+    b = recordRoc(b, offense);
+    if (damage > 0) {
+      const dealt = dealToEnemy(b, damage);
+      b = dealt.battle;
+      message = `${char.name} attacks — ${offense.label} vs DCF ${defense.total} → ${dealt.damage} dmg.`;
+    } else if (offense.tier.severity < 0) {
+      const self = Math.max(1, Math.round(Math.abs(offense.tier.severity) * 4));
+      char = { ...char, hp: Math.max(1, char.hp - self) };
+      b = syncHeroFromChar(b, actorSlot, char);
+      message = `${char.name} fumbles — ${offense.label} (−${self} HP).`;
+    } else {
+      message = `${char.name} misses — ${offense.label}.`;
+    }
+    if (offense.tier.xpBonus > 0) {
+      char = applyXp(char, offense.tier.xpBonus);
+    }
+    if (offense.tier.flagsAdd?.length) {
+      char = {
+        ...char,
+        flags: Array.from(new Set([...char.flags, ...offense.tier.flagsAdd])),
+      };
+    }
     b = {
       ...b,
       heroes: b.heroes.map((h) =>
@@ -568,7 +668,6 @@ export function performBattleAction(
           : h
       ),
     };
-    message = `${char.name} attacks for ${dealt.damage} damage${isCrit ? " (crit!)" : ""}.`;
     b = pushLog(b, message);
   } else if (action === "powerUp") {
     b = {
@@ -643,20 +742,60 @@ export function performBattleAction(
     char = { ...char, mana: char.mana - manaCost };
 
     if (ab.tags.includes("heal") || ab.kind === "heal") {
-      const heal = ab.power;
+      const eff = computeEffectiveStats(char);
+      const roc = resolveRoc({
+        attributeScore: eff.stats.wisdom,
+        skillValue: ab.power * 2,
+        situational: pathwaySituational(world),
+        rng,
+      });
+      const heal = Math.max(
+        1,
+        Math.round(ab.power * Math.max(0.4, roc.tier.severity + 0.3))
+      );
       char = { ...char, hp: Math.min(battleMaxHp(char), char.hp + heal) };
+      if (roc.tier.xpBonus > 0) char = applyXp(char, roc.tier.xpBonus);
       b = syncHeroFromChar(b, actorSlot, char);
+      b = recordRoc(b, roc);
       b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
-      message = `${char.name} casts ${ab.name} — heals ${heal} HP.`;
+      message = `${char.name} casts ${ab.name} — ${roc.label} → +${heal} HP.`;
       b = pushLog(b, message);
     } else {
       const mult = hero.powerUpTurns > 0 ? POWER_UP_MULT : 1;
       const eff = computeEffectiveStats(char);
-      const raw =
-        Math.floor((ab.power + abilityMod(eff.stats.intelligence) + Math.floor(eff.atk * 0.25)) * mult) +
-        rngInt(1, 4, rng);
-      const dealt = dealToEnemy(b, raw);
-      b = dealt.battle;
+      const offense = resolveRoc({
+        attributeScore: eff.stats.intelligence,
+        skillValue: ab.power * 2 + Math.floor(eff.atk * 0.4),
+        situational: pathwaySituational(world) + Math.round((mult - 1) * 15),
+        rng,
+      });
+      const defense = resolveDefenseRoc({
+        armor: battle.enemy.armor,
+        power: battle.enemy.power,
+        level: partyLevel(world),
+        rng,
+      });
+      const { damage } = rocDamageFromMargin(
+        Math.max(2, Math.floor(ab.power * mult)),
+        offense,
+        defense.total,
+        { armor: Math.floor(battle.enemy.armor * 0.5), minHit: offense.tier.success ? 1 : 0 }
+      );
+      b = recordRoc(b, offense);
+      if (damage > 0) {
+        const dealt = dealToEnemy(b, damage);
+        b = dealt.battle;
+        message = `${char.name} casts ${ab.name} — ${offense.label} vs DCF ${defense.total} → ${dealt.damage} dmg.`;
+      } else {
+        message = `${char.name} casts ${ab.name} — ${offense.label} (fizzles).`;
+      }
+      if (offense.tier.xpBonus > 0) char = applyXp(char, offense.tier.xpBonus);
+      if (offense.tier.flagsAdd?.length) {
+        char = {
+          ...char,
+          flags: Array.from(new Set([...char.flags, ...offense.tier.flagsAdd])),
+        };
+      }
       b = syncHeroFromChar(b, actorSlot, char);
       b = {
         ...b,
@@ -666,7 +805,6 @@ export function performBattleAction(
             : h
         ),
       };
-      message = `${char.name} casts ${ab.name} for ${dealt.damage} damage.`;
       b = pushLog(b, message);
     }
   } else {

@@ -196,6 +196,9 @@ export type BattleSummary = {
   gold: number;
   loot: BattleLootDrop[];
   turns: number;
+  /** Highest R.O.C. total scored this fight (flavor). */
+  bestRoc?: number;
+  lastRocLabel?: string;
 };
 
 export type BattleHeroState = {
@@ -250,7 +253,11 @@ export type BattleState = {
     damageDealt: number;
     damageTaken: number;
     turns: number;
+    /** Peak R.O.C. total this battle. */
+    bestRoc?: number;
   };
+  /** Last resolved R.O.C. line for overlay. */
+  lastRocLabel?: string | null;
   summary: BattleSummary | null;
   startedAt: string;
 };
@@ -268,10 +275,15 @@ export type HotbarSlot = string | null;
 /** ≥5 so Bard (1 skill + 4 magic) fits on the bar. */
 export const HOTBAR_SIZE = 5;
 
+export type { RaceId } from "./races";
+import type { RaceId } from "./races";
+
 export type CharacterSave = {
   slot: PlayerSlot;
   name: string;
   classId: ClassId;
+  /** Sealed-world race (NeverWorld homage). */
+  raceId?: RaceId;
   level: number;
   xp: number;
   skillPoints: number;
@@ -342,6 +354,8 @@ export type StoryOutcome = {
   damage?: number;
   /** Cumulative destiny deltas (Animal / Human / Demon). */
   alignment?: Partial<AlignmentScores>;
+  /** Optional Pathway nudges (Giver / Taker). */
+  pathway?: Partial<{ giver: number; taker: number }>;
   /** Optional reaction panel after the choice resolves. */
   artId?: string;
   sceneId?: string;
@@ -480,6 +494,8 @@ export type PartyWorldSave = {
   partyFlags: string[];
   /** Running Animal / Human / Demon scores from path choices. */
   alignment: AlignmentScores;
+  /** Giver vs Taker pathway (NeverWorld homage) — beside destiny. */
+  pathway?: { giver: number; taker: number };
   encounterEnemyHp: number | null;
   /** Active mid-act deck fight (null when idle / story-node fight). */
   deckEncounter: DeckEncounterState | null;

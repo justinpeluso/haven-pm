@@ -1,5 +1,7 @@
 import { rollNextEncounterThreshold } from "./battle";
 import { EMPTY_ALIGNMENT } from "./alignment";
+import { EMPTY_PATHWAY } from "./pathway";
+import { applyRaceToStats, RACE_DEFS, type RaceId } from "./races";
 import {
   applyCreateKit,
   BLANK_BASE_STATS,
@@ -96,6 +98,7 @@ export function createNewWorld(): PartyWorldSave {
     chapterId: START_CHAPTER_ID,
     partyFlags: [visitedFlag(START_CHAPTER_ID)],
     alignment: { ...EMPTY_ALIGNMENT },
+    pathway: { ...EMPTY_PATHWAY },
     encounterEnemyHp: null,
     deckEncounter: null,
     battle: null,
@@ -193,6 +196,7 @@ export function completeCharacterCreation(
   opts: {
     name: string;
     classId: ClassId;
+    raceId?: RaceId;
     dogName: string;
     dogBreed: string;
     statBumps: Partial<Stats>;
@@ -201,15 +205,23 @@ export function completeCharacterCreation(
   }
 ): CharacterSave | { error: string } {
   const pool = opts.pool ?? CREATE_STAT_POOL;
+  const raceId = opts.raceId ?? "human";
+  const race = RACE_DEFS[raceId];
   const base = createBlankCharacter(char.slot, opts.classId);
-  const stats = applyPointBuy(BLANK_BASE_STATS, opts.statBumps, pool);
-  if (!stats) return { error: "Too many stat points spent." };
+  const bought = applyPointBuy(BLANK_BASE_STATS, opts.statBumps, pool);
+  if (!bought) return { error: "Too many stat points spent." };
+  const stats = applyRaceToStats(bought, raceId);
 
   const withKit = applyCreateKit(
     {
       ...base,
       name: opts.name.trim() || base.name,
+      raceId,
       stats,
+      hp: base.hp + race.hpBonus,
+      maxHp: base.maxHp + race.hpBonus,
+      mana: Math.max(0, base.mana + race.manaBonus),
+      maxMana: Math.max(0, base.maxMana + race.manaBonus),
       dog: {
         ...base.dog,
         name: opts.dogName.trim() || base.dog.name,
@@ -247,6 +259,7 @@ export function normalizeWorld(world: PartyWorldSave): PartyWorldSave {
     ...world,
     activeSlot,
     alignment: world.alignment ?? { ...EMPTY_ALIGNMENT },
+    pathway: world.pathway ?? { ...EMPTY_PATHWAY },
     campaignNodeId: world.campaignNodeId || START_NODE_ID,
     chapterId: world.chapterId || START_CHAPTER_ID,
     deckEncounter: world.deckEncounter ?? null,

@@ -1,4 +1,12 @@
 import { mergeAlignment } from "./alignment";
+import {
+  EMPTY_PATHWAY,
+  mergePathway,
+  pathwayFromAlignmentDelta,
+  pathwayLabel,
+} from "./pathway";
+import { applyRaceToStats, RACE_DEFS, type RaceId } from "./races";
+import { resolveRoc, storyDcToRocTarget } from "./roc";
 import { markChapterVisited } from "./journey";
 import { getAbility, getNode } from "./skills";
 import { buildCombatUsePayload } from "./hotbar";
@@ -291,7 +299,17 @@ function outcomeApplies(
   choice: StoryChoice,
   char: CharacterSave,
   partyFlags: string[]
-): { ok: boolean; roll?: { d20: number; total: number; success: boolean }; outcome: StoryOutcome } {
+): {
+  ok: boolean;
+  roll?: {
+    d20: number;
+    total: number;
+    success: boolean;
+    rocTotal?: number;
+    rocLabel?: string;
+  };
+  outcome: StoryOutcome;
+} {
   if (choice.requireFlag && !partyFlags.includes(choice.requireFlag) && !char.flags.includes(choice.requireFlag)) {
     return {
       ok: false,
@@ -309,12 +327,27 @@ function outcomeApplies(
   }
   const fallback: StoryOutcome = { text: "The chronicle turns a page." };
   if (choice.stat && choice.dc != null) {
-    const d20 = rollD20();
-    const mod = abilityMod(char.stats[choice.stat as StatKey]);
-    const total = d20 + mod;
-    const success = total >= choice.dc;
+    const skillNodes = char.unlockedNodes.length * 2;
+    const roc = resolveRoc({
+      attributeScore: char.stats[choice.stat as StatKey],
+      skillValue: skillNodes,
+      situational: 0,
+    });
+    const target = storyDcToRocTarget(choice.dc);
+    const success = roc.total >= target || (roc.tier.success && roc.total >= target - 10);
     const outcome = (success ? choice.success : choice.fail ?? choice.success) ?? fallback;
-    return { ok: true, roll: { d20, total, success }, outcome };
+    // Keep d20-shaped roll object for older UI; embed ROC totals.
+    return {
+      ok: true,
+      roll: {
+        d20: roc.dice[0] ?? 0,
+        total: roc.total,
+        success,
+        rocTotal: roc.total,
+        rocLabel: `${roc.label} (need ~${target})`,
+      },
+      outcome,
+    };
   }
   return { ok: true, outcome: choice.success ?? fallback };
 }
@@ -323,7 +356,17 @@ export function applyStoryChoice(
   world: PartyWorldSave,
   slot: PlayerSlot,
   choice: StoryChoice
-): { world: PartyWorldSave; message: string; roll?: { d20: number; total: number; success: boolean } } {
+): {
+  world: PartyWorldSave;
+  message: string;
+  roll?: {
+    d20: number;
+    total: number;
+    success: boolean;
+    rocTotal?: number;
+    rocLabel?: string;
+  };
+} {
   const char = world.characters[slot];
   const applied = outcomeApplies(choice, char, world.partyFlags);
   if (!applied.ok && !applied.outcome.nextNodeId) {
@@ -359,6 +402,10 @@ export function applyStoryChoice(
 
   const partyFlags = mergeFlags(world.partyFlags, o.flagsAdd, o.flagsRemove);
   const alignment = mergeAlignment(world.alignment ?? { animal: 0, human: 0, demon: 0 }, o.alignment);
+  const pathway = mergePathway(
+    world.pathway ?? EMPTY_PATHWAY,
+    o.pathway ?? pathwayFromAlignmentDelta(o.alignment)
+  );
   let campaignNodeId = world.campaignNodeId;
   let chapterId = world.chapterId;
   let endingId = world.endingId;
@@ -380,22 +427,31 @@ export function applyStoryChoice(
   }
   if (o.endingId) endingId = o.endingId;
 
+  if (applied.roll?.rocTotal && applied.roll.rocTotal >= 700) {
+    nextChar = {
+      ...nextChar,
+      flags: Array.from(new Set([...nextChar.flags, "roc-immortality", "pathway-transcend"])),
+    };
+  }
+
+  const rollNote = applied.roll?.rocLabel ? ` ${applied.roll.rocLabel}.` : "";
   const advanced = advanceTurn({
     ...world,
     characters: { ...world.characters, [slot]: nextChar },
     partyFlags,
     alignment,
+    pathway,
     campaignNodeId,
     chapterId,
     endingId,
     encounterEnemyHp,
     deckEncounter: encounterEnemyHp == null ? null : world.deckEncounter,
-    log: [o.text, ...world.log].slice(0, 80),
+    log: [`${o.text}${rollNote}`, ...world.log].slice(0, 80),
   });
 
   return {
     world: markChapterVisited(advanced, chapterId),
-    message: o.text,
+    message: `${o.text}${rollNote}${applied.roll ? ` · Pathway ${pathwayLabel(pathway)}` : ""}`,
     roll: applied.roll,
   };
 }
