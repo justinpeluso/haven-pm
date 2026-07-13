@@ -1,5 +1,5 @@
 /**
- * Mid-game loops: road encounters, side quests, camp cooking.
+ * Mid-game loops: road encounters, side quests, camp cooking, camp sleep.
  * Authored story spine stays intact — Camp tab fills mid-acts.
  */
 
@@ -8,6 +8,7 @@ import { levelFromXp, skillPointsForLevelGain } from "./progression";
 import { startSideQuest } from "./quest-run";
 import { getRecipe, recipesForAct, type RecipeDef } from "./recipes";
 import { sideQuestsForChapter, type SideQuestDef } from "./side-quests";
+import { battleMaxHp, battleMaxMana } from "./stats";
 import { getStoryNode } from "./story";
 import type {
   CharacterSave,
@@ -17,6 +18,9 @@ import type {
 } from "./types";
 import { PLAYER_SLOT_ORDER } from "./types";
 
+/** Real-time Camp sleep budget — 5 rests per rolling 20 minutes. */
+export const CAMP_SLEEP_MAX = 5;
+export const CAMP_SLEEP_WINDOW_MS = 20 * 60_000;
 function nextPlayableSlot(world: PartyWorldSave, current: PlayerSlot): PlayerSlot {
   const sealed = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created);
   if (sealed.length === 0) {
@@ -244,6 +248,95 @@ export function cookRecipe(
       characters: { ...world.characters, [slot]: char },
       partyFlags,
       cookedRecipes: cooked.includes(recipeId) ? cooked : [...cooked, recipeId],
+      log: [message, ...world.log].slice(0, 80),
+    }),
+    message,
+  };
+}
+
+function pruneCampSleeps(timestamps: string[] | undefined, nowMs = Date.now()): string[] {
+  const cutoff = nowMs - CAMP_SLEEP_WINDOW_MS;
+  return (timestamps ?? []).filter((iso) => {
+    const t = Date.parse(iso);
+    return Number.isFinite(t) && t >= cutoff;
+  });
+}
+
+/** How many Camp sleeps remain in the current 20-minute window. */
+export function campSleepsRemaining(world: PartyWorldSave, nowMs = Date.now()): number {
+  const recent = pruneCampSleeps(world.campSleeps, nowMs);
+  return Math.max(0, CAMP_SLEEP_MAX - recent.length);
+}
+
+/** Ms until the oldest sleep in the window expires (0 if a slot is free). */
+export function campSleepCooldownMs(world: PartyWorldSave, nowMs = Date.now()): number {
+  const recent = pruneCampSleeps(world.campSleeps, nowMs);
+  if (recent.length < CAMP_SLEEP_MAX) return 0;
+  const oldest = Math.min(...recent.map((iso) => Date.parse(iso)));
+  return Math.max(0, oldest + CAMP_SLEEP_WINDOW_MS - nowMs);
+}
+
+/**
+ * Camp sleep — restore the acting hero's HP / mana / stamina (and a bit of hound HP).
+ * Rate-limited: 5 sleeps per rolling 20 real minutes.
+ */
+export function sleepAtCamp(
+  world: PartyWorldSave,
+  slot: PlayerSlot,
+  opts?: { isDm?: boolean; nowMs?: number }
+): { world: PartyWorldSave; message: string } {
+  if (world.activeSlot !== slot && !opts?.isDm) {
+    return { world, message: "Not your turn." };
+  }
+  if (world.endingId) return { world, message: "Chronicle already closed." };
+  if (world.battle?.status === "active") {
+    return { world, message: "Finish the battle first." };
+  }
+  if (world.deckEncounter && (world.encounterEnemyHp ?? 0) > 0) {
+    return { world, message: "Finish or flee the road fight first." };
+  }
+  if (world.activeSideQuest?.status === "active") {
+    return { world, message: "Park or finish the side quest before sleeping." };
+  }
+
+  const nowMs = opts?.nowMs ?? Date.now();
+  const recent = pruneCampSleeps(world.campSleeps, nowMs);
+  if (recent.length >= CAMP_SLEEP_MAX) {
+    const waitMin = Math.ceil(campSleepCooldownMs(world, nowMs) / 60_000);
+    return {
+      world: { ...world, campSleeps: recent },
+      message: `Camp beds are full — ${CAMP_SLEEP_MAX} sleeps / ${CAMP_SLEEP_WINDOW_MS / 60_000}m. Try again in ~${waitMin}m.`,
+    };
+  }
+
+  const before = world.characters[slot];
+  if (!before?.created) return { world, message: "Seal your hero first." };
+
+  const maxHp = battleMaxHp(before);
+  const maxMana = battleMaxMana(before);
+  const char: CharacterSave = {
+    ...before,
+    hp: maxHp,
+    maxHp: Math.max(before.maxHp, maxHp),
+    mana: maxMana,
+    maxMana: Math.max(before.maxMana, maxMana),
+    stamina: before.maxStamina,
+    dog: {
+      ...before.dog,
+      hp: before.dog.maxHp,
+    },
+  };
+
+  const sleptAt = new Date(nowMs).toISOString();
+  const campSleeps = [...recent, sleptAt];
+  const left = CAMP_SLEEP_MAX - campSleeps.length;
+  const message = `${char.name} sleeps at camp — HP, mana, and stamina restored (${left} sleep${left === 1 ? "" : "s"} left this ${CAMP_SLEEP_WINDOW_MS / 60_000}m).`;
+
+  return {
+    world: advanceTurn({
+      ...world,
+      characters: { ...world.characters, [slot]: char },
+      campSleeps,
       log: [message, ...world.log].slice(0, 80),
     }),
     message,

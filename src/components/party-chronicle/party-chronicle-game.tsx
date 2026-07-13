@@ -38,9 +38,13 @@ import {
 } from "@/lib/downtown/party-chronicle/battle";
 import {
   availableSideQuests,
+  campSleepsRemaining,
+  CAMP_SLEEP_MAX,
+  CAMP_SLEEP_WINDOW_MS,
   cookRecipe,
   cookableRecipes,
   fleeRoadEncounter,
+  sleepAtCamp,
 } from "@/lib/downtown/party-chronicle/midgame";
 import {
   abandonSideQuest,
@@ -803,6 +807,13 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     setFlash(result.message);
   };
 
+  const onCampSleep = () => {
+    if (!world || !mySlot || !acting) return;
+    const result = sleepAtCamp(world, mySlot, { isDm: identity.isDm });
+    persist(result.world);
+    setFlash(result.message);
+  };
+
   const onSideQuest = (questId: string) => {
     if (!world || !mySlot || !acting) return;
     const result = startSideQuest(world, mySlot, questId, { isDm: identity.isDm });
@@ -1542,6 +1553,32 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                 Side trails help unlock later chapters — park them anytime and resume Comic for the
                 spine. Mid-act filler for {world.chapterId}.
               </p>
+
+              <div className="space-y-2">
+                <p className="pc-eyebrow text-[0.65rem]">
+                  Rest · Sleep ({campSleepsRemaining(world)}/{CAMP_SLEEP_MAX} this{" "}
+                  {CAMP_SLEEP_WINDOW_MS / 60_000}m)
+                </p>
+                <p className="text-xs opacity-70">
+                  Sleep restores HP, mana, and stamina for the acting hero (and the hound). Up to{" "}
+                  {CAMP_SLEEP_MAX} sleeps every {CAMP_SLEEP_WINDOW_MS / 60_000} real minutes.
+                </p>
+                <button
+                  type="button"
+                  className="pc-primary-btn"
+                  disabled={
+                    !acting ||
+                    inRoadFight ||
+                    battleActive ||
+                    inStoryFight ||
+                    questRunActive ||
+                    campSleepsRemaining(world) <= 0
+                  }
+                  onClick={onCampSleep}
+                >
+                  Sleep at camp → restore HP &amp; mana
+                </button>
+              </div>
 
               <div className="space-y-2">
                 <p className="pc-eyebrow text-[0.65rem]">

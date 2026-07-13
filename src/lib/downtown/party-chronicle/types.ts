@@ -540,6 +540,8 @@ export type PartyWorldSave = {
   cookedRecipes: string[];
   /** Times the party opened a chest or dug a hole. */
   explorationFinds?: number;
+  /** ISO timestamps of recent Camp sleeps (rate-limited: 5 / 20 min). */
+  campSleeps?: string[];
   /** Last chest / dig result (for Camp UI flash). */
   lastExploration?: {
     kind: "chest" | "dig";

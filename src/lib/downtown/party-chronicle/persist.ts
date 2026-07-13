@@ -114,6 +114,7 @@ export function createNewWorld(): PartyWorldSave {
     completedSideQuests: [],
     activeSideQuest: null,
     cookedRecipes: [],
+    campSleeps: [],
     log: ["Neverworld unrolls. Justin's turn begins."],
     endingId: null,
     characters,
@@ -283,6 +284,7 @@ export function normalizeWorld(world: PartyWorldSave): PartyWorldSave {
     completedSideQuests: world.completedSideQuests ?? [],
     activeSideQuest: world.activeSideQuest ?? null,
     cookedRecipes: world.cookedRecipes ?? [],
+    campSleeps: world.campSleeps ?? [],
     characters,
   };
 }
