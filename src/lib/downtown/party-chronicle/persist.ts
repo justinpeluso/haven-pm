@@ -237,6 +237,8 @@ export function normalizeWorld(world: PartyWorldSave): PartyWorldSave {
  * Merge a client POST into the canonical DB save.
  * Non-DM clients only receive redacted co-player sheets on GET; without this merge,
  * their next POST would wipe other characters' inventory, gold, and skills.
+ * DM clients can also be stale mid-session — never downgrade a seat that already
+ * sealed a hero on the server to a blank uncreated sheet.
  */
 export function mergeIncomingWorld(
   existing: PartyWorldSave,
@@ -244,27 +246,41 @@ export function mergeIncomingWorld(
   slot: PlayerSlot | null,
   isDm: boolean
 ): PartyWorldSave {
-  if (isDm || !slot) {
-    return normalizeWorld(incoming);
+  if (!isDm && slot) {
+    const characters = { ...existing.characters };
+    characters[slot] = incoming.characters[slot];
+
+    return normalizeWorld({
+      ...existing,
+      activeSlot: incoming.activeSlot,
+      turnIndex: incoming.turnIndex,
+      campaignNodeId: incoming.campaignNodeId,
+      chapterId: incoming.chapterId,
+      partyFlags: incoming.partyFlags,
+      alignment: incoming.alignment,
+      encounterEnemyHp: incoming.encounterEnemyHp,
+      deckEncounter: incoming.deckEncounter,
+      completedSideQuests: incoming.completedSideQuests,
+      cookedRecipes: incoming.cookedRecipes,
+      log: incoming.log,
+      endingId: incoming.endingId,
+      characters,
+    });
   }
 
-  const characters = { ...existing.characters };
-  characters[slot] = incoming.characters[slot];
+  // DM (or unknown slot): take incoming campaign state, but keep any seat that
+  // already created on the server if the DM client still has a blank copy.
+  const characters = { ...incoming.characters } as Record<PlayerSlot, CharacterSave>;
+  for (const s of PLAYER_SLOT_ORDER) {
+    const serverChar = existing.characters?.[s];
+    const clientChar = incoming.characters?.[s];
+    if (serverChar?.created && clientChar && !clientChar.created) {
+      characters[s] = serverChar;
+    }
+  }
 
   return normalizeWorld({
-    ...existing,
-    activeSlot: incoming.activeSlot,
-    turnIndex: incoming.turnIndex,
-    campaignNodeId: incoming.campaignNodeId,
-    chapterId: incoming.chapterId,
-    partyFlags: incoming.partyFlags,
-    alignment: incoming.alignment,
-    encounterEnemyHp: incoming.encounterEnemyHp,
-    deckEncounter: incoming.deckEncounter,
-    completedSideQuests: incoming.completedSideQuests,
-    cookedRecipes: incoming.cookedRecipes,
-    log: incoming.log,
-    endingId: incoming.endingId,
+    ...incoming,
     characters,
   });
 }

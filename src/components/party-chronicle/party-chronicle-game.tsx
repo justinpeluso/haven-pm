@@ -135,10 +135,15 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const [titleSave, setTitleSave] = useState<PartyWorldSave | null>(null);
 
   const mySlot = identity.slot;
-  const acting = !!(world && mySlot && canAct(world, mySlot, identity.isDm));
-  // Story panels are party-shared — any seated player (or DM) can pick so solo play never soft-locks.
-  const canStory = !!(world && !world.endingId && (mySlot || identity.isDm));
-  const storyActor: PlayerSlot | null = mySlot ?? (identity.isDm ? world?.activeSlot ?? "justin" : null);
+  const meReady = !!(world && mySlot && world.characters[mySlot]?.created);
+  const acting = !!(world && mySlot && meReady && canAct(world, mySlot, identity.isDm));
+  // Sealed heroes only — uncreated seats are routed to character create.
+  const canStory = !!(world && !world.endingId && mySlot && meReady);
+  const storyActor: PlayerSlot | null = mySlot;
+
+  const waitingOnCreate = world
+    ? PLAYER_SLOT_ORDER.filter((s) => !world.characters[s]?.created)
+    : [];
 
   const enterFromSave = useCallback(
     (existing: PartyWorldSave) => {
@@ -146,8 +151,12 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       setTitleSave(existing);
       writeWorld(existing);
       if (existing.endingId) setPhase("ending");
-      else if (mySlot && !existing.characters[mySlot].created) setPhase("create");
-      else setPhase("play");
+      else if (mySlot && !existing.characters[mySlot]?.created) {
+        setPhase("create");
+        setFlash(
+          `${SLOT_DEFAULTS[mySlot].displayName} — create your hero to join. Justin already opened the chronicle.`
+        );
+      } else setPhase("play");
     },
     [mySlot]
   );
@@ -168,14 +177,27 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       }
       if (cancelled) return;
 
+      // Prefer the save with more sealed heroes (server first on ties) so joiners
+      // see Justin's campaign and get routed into create.
       const progressed = pickRicherWorld(
-        worldHasProgress(local) ? local : null,
-        worldHasProgress(server) ? server : null
+        worldHasProgress(server) ? server : null,
+        worldHasProgress(local) ? local : null
       );
-      const richer = progressed ?? pickRicherWorld(local, server);
+      const richer = progressed ?? pickRicherWorld(server, local);
 
       if (richer) {
-        if (local && pickRicherWorld(local, server) === local && worldHasProgress(local)) {
+        const localCreated = local
+          ? PLAYER_SLOT_ORDER.filter((s) => local.characters[s]?.created).length
+          : 0;
+        const serverCreated = server
+          ? PLAYER_SLOT_ORDER.filter((s) => server.characters[s]?.created).length
+          : 0;
+        if (
+          local &&
+          worldHasProgress(local) &&
+          pickRicherWorld(local, server) === local &&
+          localCreated >= serverCreated
+        ) {
           void fetch("/api/downtown/party-chronicle", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -192,6 +214,47 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       cancelled = true;
     };
   }, [enterFromSave]);
+
+  // Pull party updates so Justin sees Rusty/Elisha after they create.
+  useEffect(() => {
+    if (phase !== "play" && phase !== "create") return;
+    let cancelled = false;
+    const tick = async () => {
+      try {
+        const res = await fetch("/api/downtown/party-chronicle");
+        if (!res.ok || cancelled) return;
+        const data = (await res.json()) as { world: PartyWorldSave | null };
+        const remote = data.world;
+        if (!remote || cancelled) return;
+        setWorld((prev) => {
+          const base = pickRicherWorld(remote, prev) ?? remote;
+          const characters = { ...base.characters };
+          for (const s of PLAYER_SLOT_ORDER) {
+            if (remote.characters[s]?.created) {
+              characters[s] = remote.characters[s];
+            }
+          }
+          const next: PartyWorldSave = { ...base, characters };
+          writeWorld(next);
+          setTitleSave(next);
+          return next;
+        });
+        if (mySlot && remote.characters[mySlot] && !remote.characters[mySlot].created) {
+          setPhase("create");
+        }
+      } catch {
+        /* ignore */
+      }
+    };
+    const id = window.setInterval(tick, 6000);
+    const onFocus = () => void tick();
+    window.addEventListener("focus", onFocus);
+    return () => {
+      cancelled = true;
+      window.clearInterval(id);
+      window.removeEventListener("focus", onFocus);
+    };
+  }, [phase, mySlot]);
 
   useEffect(() => {
     if (!flash) return;
@@ -219,6 +282,12 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       document.removeEventListener("visibilitychange", onHide);
     };
   }, [world]);
+
+  // Never let an uncreated seat sit in the comic panel — force create.
+  useEffect(() => {
+    if (phase !== "play" || !mySlot || !world) return;
+    if (!world.characters[mySlot]?.created) setPhase("create");
+  }, [phase, mySlot, world]);
 
   const persist = useCallback((next: PartyWorldSave) => {
     const stamped = { ...next, updatedAt: new Date().toISOString() };
@@ -416,11 +485,18 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   if (phase === "title") {
     const resume = titleSave ?? loadWorld();
     const canContinue = !!resume;
+    const mustCreate =
+      !!mySlot && !!resume && !resume.characters[mySlot]?.created && worldHasProgress(resume);
+    const missing = resume
+      ? PLAYER_SLOT_ORDER.filter((s) => !resume.characters[s]?.created).map(
+          (s) => SLOT_DEFAULTS[s].displayName
+        )
+      : [];
     return (
       <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
         <DowntownSubnav active="neverworld" />
         {flash && (
-          <div className="pc-turn-banner" role="status">
+          <div className="pc-turn-banner" role="status" data-forest="true">
             {flash}
           </div>
         )}
@@ -452,12 +528,22 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
             <div className="pc-panel p-3 text-left text-xs space-y-1">
               <p className="pc-eyebrow text-[0.65rem]">Saved chronicle</p>
               <p>{saveSummary(resume)}</p>
+              {missing.length > 0 && (
+                <p style={{ color: "var(--pc-accent)" }}>
+                  Still need hero sheets: {missing.join(", ")}
+                </p>
+              )}
+            </div>
+          )}
+          {mustCreate && (
+            <div className="pc-turn-banner" data-forest="true">
+              Justin started the game — create {SLOT_DEFAULTS[mySlot!].displayName} to join the party
             </div>
           )}
           <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-2">
             {canContinue && (
               <button type="button" className="pc-primary-btn" onClick={continueCampaign}>
-                Continue
+                {mustCreate ? `Create ${SLOT_DEFAULTS[mySlot!].displayName}` : "Continue"}
               </button>
             )}
             <button
@@ -481,6 +567,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       <CreatePhase
         slot={mySlot}
         base={world.characters[mySlot]}
+        world={world}
         onSave={(char) => {
           const next = {
             ...world,
@@ -489,12 +576,15 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           };
           persist(next);
           const ready = PLAYER_SLOT_ORDER.every((s) => next.characters[s].created);
-          setPhase(ready || char.created ? "play" : "create");
+          const stillWaiting = PLAYER_SLOT_ORDER.filter((s) => !next.characters[s].created).map(
+            (s) => SLOT_DEFAULTS[s].displayName
+          );
+          setPhase("play");
           setSaveStatus("saved");
           setFlash(
             ready
-              ? "Character saved. Party sealed — Neverworld opens."
-              : "Character saved. Waiting on the others."
+              ? "Character saved. Full party sealed — Neverworld is yours."
+              : `Character saved. Still waiting on ${stillWaiting.join(" & ")}. It's ${SLOT_DEFAULTS[next.activeSlot].displayName}'s turn.`
           );
         }}
         onBack={leaveToTitle}
@@ -626,13 +716,23 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           ? canStory
             ? acting
               ? `${SLOT_DEFAULTS[world.activeSlot].displayName}'s turn — pick a panel`
-              : `Story open — ${SLOT_DEFAULTS[world.activeSlot].displayName}'s seat, anyone can choose`
-            : "Log in with a party account to choose"
+              : `Story open — ${SLOT_DEFAULTS[world.activeSlot].displayName}'s seat, anyone sealed can choose`
+            : mySlot && !meReady
+              ? `Create ${SLOT_DEFAULTS[mySlot].displayName} before you can play`
+              : "Log in with a party account to choose"
           : acting
             ? `${SLOT_DEFAULTS[world.activeSlot].displayName}'s turn — your move!`
             : `${SLOT_DEFAULTS[world.activeSlot].displayName}'s turn — watch the panel`}
         {pending ? " …" : ""}
       </div>
+
+      {waitingOnCreate.length > 0 && (
+        <p className="text-xs font-bold text-center" style={{ color: "var(--pc-accent)" }}>
+          Waiting on character create:{" "}
+          {waitingOnCreate.map((s) => SLOT_DEFAULTS[s].displayName).join(", ")}. They should log in
+          as player2@ / player3@ and seal a hero.
+        </p>
+      )}
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(0,1fr)]">
         <aside className="pc-panel p-4 space-y-3 order-2 xl:order-1">
@@ -652,13 +752,16 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                   <p className="font-bold text-sm">
                     {c.name}
                     {isActive ? " ★" : ""}
+                    {!c.created ? " · NEED CREATE" : ""}
                   </p>
                   <p className="text-[0.65rem]">
-                    {CLASS_DEFS[c.classId].name} · Lv {c.level}
+                    {c.created
+                      ? `${CLASS_DEFS[c.classId].name} · Lv ${c.level}`
+                      : "Waiting on character create"}
                   </p>
                   <Meter label="HP" value={c.hp} max={c.maxHp} tone="hp" />
                   <p className="text-[0.6rem] mt-1">
-                    {c.dog.name} (bond {c.dog.bond})
+                    {c.created ? `${c.dog.name} (bond ${c.dog.bond})` : "No hound sealed yet"}
                   </p>
                 </div>
               </div>
@@ -1116,11 +1219,13 @@ function InventoryPanel({
 function CreatePhase({
   slot,
   base,
+  world,
   onSave,
   onBack,
 }: {
   slot: PlayerSlot;
   base: CharacterSave;
+  world: PartyWorldSave;
   onSave: (char: CharacterSave) => void;
   onBack: () => void;
 }) {
@@ -1128,6 +1233,13 @@ function CreatePhase({
   const initialClass = base.classId || def.suggestedClass;
   const skills = useMemo(() => listCreateSkills(), []);
   const magicOptions = useMemo(() => listCreateMagic(), []);
+  const sealed = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created).map(
+    (s) => world.characters[s].name
+  );
+  const waiting = PLAYER_SLOT_ORDER.filter((s) => !world.characters[s]?.created && s !== slot).map(
+    (s) => SLOT_DEFAULTS[s].displayName
+  );
+  const campaignStarted = worldHasProgress(world) && sealed.length > 0;
 
   const [name, setName] = useState(base.name || def.displayName);
   const [classId, setClassId] = useState<ClassId>(initialClass);
@@ -1208,11 +1320,23 @@ function CreatePhase({
   return (
     <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
       <DowntownSubnav active="neverworld" />
+      {campaignStarted && (
+        <div className="pc-turn-banner" data-forest="true">
+          Campaign already rolling — seal {def.displayName} to jump in. Turn:{" "}
+          {SLOT_DEFAULTS[world.activeSlot].displayName}
+        </div>
+      )}
       <div className="pc-header-bar px-4 py-3">
-        <h1 className="pc-title text-2xl">Neverworld — {def.displayName}</h1>
+        <h1 className="pc-title text-2xl">Create {def.displayName}</h1>
         <p className="text-xs font-bold">
           Blank stats · pick 1 weapon, 1 skill, and {magicNeeded} magic — wired to your hotbar.
         </p>
+        {sealed.length > 0 && (
+          <p className="text-[0.7rem] mt-1" style={{ color: "var(--pc-accent)" }}>
+            Already in: {sealed.join(", ")}
+            {waiting.length > 0 ? ` · Still needed: ${waiting.join(", ")}` : ""}
+          </p>
+        )}
       </div>
       <div className="grid gap-4 lg:grid-cols-3">
         <div className="pc-panel p-4 pc-create-form space-y-2">
