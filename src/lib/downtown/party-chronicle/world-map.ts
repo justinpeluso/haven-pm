@@ -55,19 +55,20 @@ export const BIOME_LABELS: Record<BiomeId, string> = {
   swamp: "Mire & reeds",
 };
 
+/** Distinct fills — greens must not read as one blob at a glance. */
 export const BIOME_COLORS: Record<BiomeId, { fill: string; edge: string }> = {
-  grassland: { fill: "#3d8a4a", edge: "#1e4a28" },
-  forest: { fill: "#1f5c38", edge: "#0c2e1c" },
-  desert: { fill: "#d4a85c", edge: "#8a6430" },
-  snow: { fill: "#e8f0f4", edge: "#8aa0b0" },
-  ice: { fill: "#b8dce8", edge: "#4a7890" },
-  mountain: { fill: "#6a6864", edge: "#2e2c28" },
-  cave: { fill: "#3a322c", edge: "#1a1410" },
-  river: { fill: "#3a7a9a", edge: "#1a4058" },
-  ocean: { fill: "#1a4a6a", edge: "#0a2840" },
-  autumn: { fill: "#c47a3d", edge: "#6a3a18" },
-  summer: { fill: "#7cbc4a", edge: "#3a6820" },
-  swamp: { fill: "#4a6a48", edge: "#243828" },
+  grassland: { fill: "#6db84a", edge: "#2e6a28" },
+  forest: { fill: "#0f3d28", edge: "#051810" },
+  desert: { fill: "#e8b85a", edge: "#9a6420" },
+  snow: { fill: "#f4f7fb", edge: "#7a90a4" },
+  ice: { fill: "#8ec8e0", edge: "#2a6080" },
+  mountain: { fill: "#8a8680", edge: "#3a3834" },
+  cave: { fill: "#2e2620", edge: "#100c08" },
+  river: { fill: "#3a90b8", edge: "#184868" },
+  ocean: { fill: "#124060", edge: "#061828" },
+  autumn: { fill: "#d87828", edge: "#7a3810" },
+  summer: { fill: "#d4e848", edge: "#6a8820" },
+  swamp: { fill: "#6a5a30", edge: "#2e2810" },
 };
 
 export function hashSeed(input: string): number {
@@ -174,24 +175,39 @@ function landBiomeFromClimate(
   }
   if (elev > 0.62 && hash2(seed + 43, x, y) < 0.08) return "cave";
 
-  const cell = voronoiCell(seed + 7, x, y, 28);
+  // ~11-tile patches so a 15×15 viewport usually shows several biomes.
+  const cell = voronoiCell(seed + 7, x, y, 11);
   const pick = LAND_BIOMES[cell % LAND_BIOMES.length]!;
 
-  if (temp < 0.28) return moist > 0.55 ? "ice" : "snow";
-  if (temp > 0.72 && moist < 0.35) return "desert";
-  if (moist > 0.72 && elev < 0.45) return "swamp";
-  if (temp > 0.55 && moist > 0.45 && moist < 0.7) return "summer";
-  if (temp > 0.35 && temp < 0.55 && moist > 0.4) {
-    return pick === "desert" || pick === "snow" || pick === "ice" ? "autumn" : pick;
+  // Hard extremes only — do not paint whole continents as summer/grass.
+  if (temp < 0.2) return moist > 0.5 ? "ice" : "snow";
+  if (temp > 0.8 && moist < 0.3) return "desert";
+  if (moist > 0.82 && elev < 0.4) return "swamp";
+
+  // Soft climate bias: nudge incompatible picks, keep voronoi variety.
+  if (temp < 0.32) {
+    if (pick === "desert" || pick === "summer") return "snow";
+    if (pick === "grassland" || pick === "autumn") return moist > 0.55 ? "ice" : "snow";
   }
-  if (moist > 0.5) return pick === "desert" ? "forest" : pick === "snow" ? "forest" : pick;
-  return pick === "ice" || pick === "snow" ? "grassland" : pick;
+  if (temp > 0.7 && moist < 0.38) {
+    if (pick === "snow" || pick === "ice" || pick === "swamp") return "desert";
+    if (pick === "forest" || pick === "grassland" || pick === "summer") return "desert";
+  }
+  if (temp > 0.55 && moist > 0.45 && moist < 0.7) {
+    if (pick === "snow" || pick === "ice") return "summer";
+  }
+  if (temp > 0.35 && temp < 0.55 && moist > 0.4) {
+    if (pick === "desert" || pick === "snow" || pick === "ice") return "autumn";
+  }
+  if (moist > 0.62 && (pick === "desert" || pick === "snow")) return "forest";
+  return pick;
 }
 
 export function biomeAt(seed: number, x: number, y: number): { biome: BiomeId; elev: number } {
   const elev = fbm(seed, x, y, 48, 4);
-  const temp = fbm(seed + 101, x, y, 64, 3);
-  const moist = fbm(seed + 202, x, y, 40, 3);
+  // Slightly tighter climate scales → desert/snow bands appear nearer spawn.
+  const temp = fbm(seed + 101, x, y, 42, 3);
+  const moist = fbm(seed + 202, x, y, 28, 3);
   const continent = fbm(seed + 303, x, y, 96, 3);
 
   if (continent < 0.32 && elev < 0.42) {
@@ -268,6 +284,46 @@ export function findNearestWalkable(
     }
   }
   return { x: 0, y: 0 };
+}
+
+const VIVID_BIOMES = new Set<BiomeId>([
+  "desert",
+  "snow",
+  "ice",
+  "ocean",
+  "mountain",
+  "autumn",
+  "cave",
+]);
+
+/** Score how visually varied a viewport is (prefer non-green + multi-biome). */
+export function viewBiomeScore(seed: number, x: number, y: number, radius = MAP_VIEW_RADIUS): number {
+  const tiles = tilesInView(seed, x, y, radius);
+  const biomes = new Set(tiles.map((t) => t.biome));
+  let vivid = 0;
+  for (const b of biomes) if (VIVID_BIOMES.has(b)) vivid += 1;
+  return biomes.size * 3 + vivid * 5;
+}
+
+/**
+ * Prefer a walkable spawn whose local map already shows several biomes
+ * (desert / snow / ocean / peaks), not a monochrome meadow.
+ */
+export function findVariedSpawn(seed: number, maxR = 40): { x: number; y: number } {
+  let best = findNearestWalkable(seed, 0, 0);
+  let bestScore = viewBiomeScore(seed, best.x, best.y);
+  for (let y = -maxR; y <= maxR; y += 4) {
+    for (let x = -maxR; x <= maxR; x += 4) {
+      const t = tileAt(seed, x, y);
+      if (!t.walkable) continue;
+      const score = viewBiomeScore(seed, x, y);
+      if (score > bestScore) {
+        bestScore = score;
+        best = { x, y };
+      }
+    }
+  }
+  return best;
 }
 
 type PathNode = { x: number; y: number; g: number; f: number };

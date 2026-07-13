@@ -35,6 +35,80 @@
   cursor: pointer;
   overflow: hidden;
   image-rendering: pixelated;
+  /* Fallback if inline gradient is stripped — biomes stay distinct. */
+  background-color: #6db84a;
+}
+
+.party-comic .pc-worldmap-tile[data-biome="forest"],
+.party-rpg90s .pc-worldmap-tile[data-biome="forest"],
+.party-chronicle .pc-worldmap-tile[data-biome="forest"] {
+  background-color: #0f3d28;
+}
+
+.party-comic .pc-worldmap-tile[data-biome="desert"],
+.party-rpg90s .pc-worldmap-tile[data-biome="desert"],
+.party-chronicle .pc-worldmap-tile[data-biome="desert"] {
+  background-color: #e8b85a;
+}
+
+.party-comic .pc-worldmap-tile[data-biome="snow"],
+.party-rpg90s .pc-worldmap-tile[data-biome="snow"],
+.party-chronicle .pc-worldmap-tile[data-biome="snow"] {
+  background-color: #f4f7fb;
+}
+
+.party-comic .pc-worldmap-tile[data-biome="ice"],
+.party-rpg90s .pc-worldmap-tile[data-biome="ice"],
+.party-chronicle .pc-worldmap-tile[data-biome="ice"] {
+  background-color: #8ec8e0;
+}
+
+.party-comic .pc-worldmap-tile[data-biome="mountain"],
+.party-rpg90s .pc-worldmap-tile[data-biome="mountain"],
+.party-chronicle .pc-worldmap-tile[data-biome="mountain"] {
+  background-color: #8a8680;
+}
+
+.party-comic .pc-worldmap-tile[data-biome="cave"],
+.party-rpg90s .pc-worldmap-tile[data-biome="cave"],
+.party-chronicle .pc-worldmap-tile[data-biome="cave"] {
+  background-color: #2e2620;
+}
+
+.party-comic .pc-worldmap-tile[data-biome="river"],
+.party-rpg90s .pc-worldmap-tile[data-biome="river"],
+.party-chronicle .pc-worldmap-tile[data-biome="river"] {
+  background-color: #3a90b8;
+}
+
+.party-comic .pc-worldmap-tile[data-biome="ocean"],
+.party-rpg90s .pc-worldmap-tile[data-biome="ocean"],
+.party-chronicle .pc-worldmap-tile[data-biome="ocean"] {
+  background-color: #124060;
+}
+
+.party-comic .pc-worldmap-tile[data-biome="autumn"],
+.party-rpg90s .pc-worldmap-tile[data-biome="autumn"],
+.party-chronicle .pc-worldmap-tile[data-biome="autumn"] {
+  background-color: #d87828;
+}
+
+.party-comic .pc-worldmap-tile[data-biome="summer"],
+.party-rpg90s .pc-worldmap-tile[data-biome="summer"],
+.party-chronicle .pc-worldmap-tile[data-biome="summer"] {
+  background-color: #d4e848;
+}
+
+.party-comic .pc-worldmap-tile[data-biome="swamp"],
+.party-rpg90s .pc-worldmap-tile[data-biome="swamp"],
+.party-chronicle .pc-worldmap-tile[data-biome="swamp"] {
+  background-color: #6a5a30;
+}
+
+.party-comic .pc-worldmap-tile[data-biome="grassland"],
+.party-rpg90s .pc-worldmap-tile[data-biome="grassland"],
+.party-chronicle .pc-worldmap-tile[data-biome="grassland"] {
+  background-color: #6db84a;
 }
 
 .party-comic .pc-worldmap-tile::after,

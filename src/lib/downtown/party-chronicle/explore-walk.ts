@@ -13,7 +13,7 @@ import {
   biomeFoeKeywords,
   biomeFoeReskin,
   encounterChanceForBiome,
-  findNearestWalkable,
+  findVariedSpawn,
   findPath,
   hashSeed,
   mulberry32,
@@ -72,7 +72,7 @@ export function ensureExploreState(world: PartyWorldSave): PartyWorldSave {
     };
   }
   const seed = hashSeed(world.startedAt || `neverworld-${world.turnIndex}`);
-  const spawn = findNearestWalkable(seed, 0, 0);
+  const spawn = findVariedSpawn(seed);
   const biome = biomeAt(seed, spawn.x, spawn.y).biome;
   const explore: ExploreState = {
     seed,
