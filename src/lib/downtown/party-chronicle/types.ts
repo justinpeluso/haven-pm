@@ -118,8 +118,94 @@ export type GearItem = {
   power?: number;
   armor?: number;
   heal?: number;
+  /** Mana restored when drunk / used as a potion. */
+  manaRestore?: number;
   cookBonus?: number;
   tags: string[];
+};
+
+/** Turn-based random / camp battle actions. */
+export type BattleActionId =
+  | "attack"
+  | "powerUp"
+  | "eat"
+  | "spell"
+  | "drinkHp"
+  | "drinkMana";
+
+export type BattleLootDrop = {
+  itemId: string;
+  name: string;
+  rarity: "common" | "magic" | "rare" | "legendary";
+};
+
+export type BattleSummary = {
+  victory: boolean;
+  enemyName: string;
+  isBoss: boolean;
+  damageDealt: number;
+  damageTaken: number;
+  xp: number;
+  gold: number;
+  loot: BattleLootDrop[];
+  turns: number;
+};
+
+export type BattleHeroState = {
+  id: string;
+  slot: PlayerSlot;
+  name: string;
+  hp: number;
+  maxHp: number;
+  mana: number;
+  maxMana: number;
+  power: number;
+  armor: number;
+  powerUpTurns: number;
+};
+
+export type BattleEnemyState = {
+  id: string;
+  name: string;
+  blurb: string;
+  hp: number;
+  maxHp: number;
+  power: number;
+  armor: number;
+  mana: number;
+  maxMana: number;
+  artId?: string;
+  isBoss: boolean;
+  xp: number;
+  gold: number;
+  lootPool: string;
+  uniqueDrops?: string[];
+  uniqueSkill?: {
+    id: string;
+    name: string;
+    blurb: string;
+    power: number;
+    manaCost?: number;
+  };
+};
+
+export type BattleState = {
+  id: string;
+  status: "active" | "victory" | "defeat";
+  enemy: BattleEnemyState;
+  heroes: BattleHeroState[];
+  /** Combatant ids in order (hero slots + "enemy"). */
+  turnQueue: string[];
+  turnIndex: number;
+  activeId: string;
+  log: string[];
+  stats: {
+    damageDealt: number;
+    damageTaken: number;
+    turns: number;
+  };
+  summary: BattleSummary | null;
+  startedAt: string;
 };
 
 export type DogCompanion = {
@@ -350,6 +436,14 @@ export type PartyWorldSave = {
   encounterEnemyHp: number | null;
   /** Active mid-act deck fight (null when idle / story-node fight). */
   deckEncounter: DeckEncounterState | null;
+  /** Full turn-based battle overlay (random ambush / forced fight). */
+  battle: BattleState | null;
+  /** Cumulative ms of story/active play (drives random encounters). */
+  storyPlayMs: number;
+  /** Battles completed this campaign (schedules next ambush cadence). */
+  battlesFought: number;
+  /** storyPlayMs threshold for the next random battle. */
+  nextEncounterAtMs: number;
   /** Completed side-quest ids. */
   completedSideQuests: string[];
   /** Recipe ids cooked at least once. */

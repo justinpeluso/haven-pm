@@ -1,3 +1,4 @@
+import { rollNextEncounterThreshold } from "./battle";
 import { EMPTY_ALIGNMENT } from "./alignment";
 import {
   applyCreateKit,
@@ -97,6 +98,10 @@ export function createNewWorld(): PartyWorldSave {
     alignment: { ...EMPTY_ALIGNMENT },
     encounterEnemyHp: null,
     deckEncounter: null,
+    battle: null,
+    storyPlayMs: 0,
+    battlesFought: 0,
+    nextEncounterAtMs: rollNextEncounterThreshold(0),
     completedSideQuests: [],
     cookedRecipes: [],
     log: ["Neverworld unrolls. Justin's turn begins."],
@@ -245,6 +250,12 @@ export function normalizeWorld(world: PartyWorldSave): PartyWorldSave {
     campaignNodeId: world.campaignNodeId || START_NODE_ID,
     chapterId: world.chapterId || START_CHAPTER_ID,
     deckEncounter: world.deckEncounter ?? null,
+    battle: world.battle ?? null,
+    storyPlayMs: world.storyPlayMs ?? 0,
+    battlesFought: world.battlesFought ?? 0,
+    nextEncounterAtMs:
+      world.nextEncounterAtMs ??
+      (world.storyPlayMs ?? 0) + rollNextEncounterThreshold(world.battlesFought ?? 0),
     completedSideQuests: world.completedSideQuests ?? [],
     cookedRecipes: world.cookedRecipes ?? [],
     characters,
@@ -294,6 +305,10 @@ export function mergeIncomingWorld(
       alignment: incoming.alignment,
       encounterEnemyHp: incoming.encounterEnemyHp,
       deckEncounter: incoming.deckEncounter,
+      battle: incoming.battle,
+      storyPlayMs: incoming.storyPlayMs,
+      battlesFought: incoming.battlesFought,
+      nextEncounterAtMs: incoming.nextEncounterAtMs,
       completedSideQuests: incoming.completedSideQuests,
       cookedRecipes: incoming.cookedRecipes,
       log: incoming.log,

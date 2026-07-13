@@ -1,0 +1,1804 @@
+{
+  "pools": {
+    "trash": [
+      "trail-rations",
+      "healing-potion",
+      "mana-draught",
+      "hound-treat",
+      "smoked-trout",
+      "hearth-bread",
+      "wild-berry-jam",
+      "forage-roots",
+      "stamina-tea",
+      "copper-ring",
+      "ember-cider"
+    ],
+    "common": [
+      "iron-sword",
+      "hunting-bow",
+      "oak-staff",
+      "bronze-dagger",
+      "leather-cap",
+      "hide-jerkin",
+      "travel-gloves",
+      "wool-trousers",
+      "wood-shield",
+      "iron-greaves",
+      "round-buckler",
+      "peak-mutton",
+      "bog-mushroom-stew",
+      "healing-potion",
+      "trail-rations"
+    ],
+    "magic": [
+      "frostbite-blade",
+      "elven-bow",
+      "staff-of-embers",
+      "mail-of-rivendell",
+      "amulet-of-warding",
+      "moonsteel-saber",
+      "storm-javelin",
+      "wardens-helm",
+      "pack-leather",
+      "ember-gauntlets",
+      "mist-striders",
+      "serpent-buckler",
+      "ring-of-oaths",
+      "fang-amulet",
+      "greater-heal",
+      "greater-mana",
+      "ash-philter",
+      "honey-cake",
+      "spellbook-frostbolt",
+      "spellbook-ember-lance",
+      "spellbook-healing-light",
+      "spellbook-arcane-bolt",
+      "spellbook-thorn-whip",
+      "spellbook-mist-veil",
+      "spellbook-chain-lightning",
+      "spellbook-life-drain",
+      "spellbook-stone-skin",
+      "spellbook-swift-wind",
+      "spellbook-poison-cloud",
+      "spellbook-greater-heal",
+      "spellbook-ice-prison",
+      "spellbook-flame-wave",
+      "spellbook-blessing-of-oaths",
+      "spellbook-shadow-step",
+      "spellbook-starfall",
+      "spellbook-natures-embrace",
+      "spellbook-ward-circle",
+      "spellbook-soul-spark"
+    ],
+    "rare": [
+      "frostward-greatsword",
+      "swamp-walker-boots",
+      "peak-climber-axe",
+      "gloomwood-cloak",
+      "ley-touched-ring",
+      "dragon-scale-shard",
+      "neverwood-recurve",
+      "mire-witch-hood"
+    ],
+    "legendary": [
+      "bow-of-three-names",
+      "staff-of-ley-hounds",
+      "helm-of-the-soft-path",
+      "plate-of-the-hearth",
+      "sword-of-the-chronicle",
+      "crown-of-ash",
+      "cloak-of-fellowship",
+      "elixir-of-destiny"
+    ]
+  },
+  "items": [
+    {
+      "id": "trail-rations",
+      "name": "Trail Rations",
+      "blurb": "Dried meat, hard bread, a strip of cheese.",
+      "tier": "common",
+      "slot": "consumable",
+      "heal": 8,
+      "tags": [
+        "food"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "healing-potion",
+      "name": "Healing Potion",
+      "blurb": "Red vial of mountain herbs.",
+      "tier": "common",
+      "slot": "consumable",
+      "heal": 25,
+      "tags": [
+        "potion",
+        "heal"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "mana-draught",
+      "name": "Mana Draught",
+      "blurb": "Blue mist in a crystal phial.",
+      "tier": "magic",
+      "slot": "consumable",
+      "manaRestore": 20,
+      "tags": [
+        "potion",
+        "mana"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "greater-heal",
+      "name": "Greater Healing Potion",
+      "blurb": "Deep red of mountain orchids.",
+      "tier": "magic",
+      "slot": "consumable",
+      "heal": 50,
+      "tags": [
+        "potion",
+        "heal"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "greater-mana",
+      "name": "Greater Mana Draught",
+      "blurb": "Starlight corked in glass.",
+      "tier": "magic",
+      "slot": "consumable",
+      "manaRestore": 45,
+      "tags": [
+        "potion",
+        "mana"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "hound-treat",
+      "name": "Hound's Treat",
+      "blurb": "Dried liver — your companion's favorite.",
+      "tier": "common",
+      "slot": "consumable",
+      "heal": 5,
+      "tags": [
+        "dog",
+        "food"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "smoked-trout",
+      "name": "Smoked Trout",
+      "blurb": "River fish from the Misty Ford.",
+      "tier": "common",
+      "slot": "consumable",
+      "heal": 14,
+      "tags": [
+        "food"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "hearth-bread",
+      "name": "Hearth Bread",
+      "blurb": "Still warm from a roadside oven.",
+      "tier": "common",
+      "slot": "consumable",
+      "heal": 10,
+      "tags": [
+        "food"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "wild-berry-jam",
+      "name": "Wild Berry Jam",
+      "blurb": "Sweet enough to forget the road.",
+      "tier": "common",
+      "slot": "consumable",
+      "heal": 12,
+      "tags": [
+        "food"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "peak-mutton",
+      "name": "Peak Mutton",
+      "blurb": "Salted highland sheep.",
+      "tier": "common",
+      "slot": "consumable",
+      "heal": 18,
+      "tags": [
+        "food"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "bog-mushroom-stew",
+      "name": "Bog Mushroom Stew",
+      "blurb": "Earthy and oddly filling.",
+      "tier": "common",
+      "slot": "consumable",
+      "heal": 16,
+      "tags": [
+        "food"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "honey-cake",
+      "name": "Honey Cake",
+      "blurb": "Fey-market sweet that restores spirit.",
+      "tier": "magic",
+      "slot": "consumable",
+      "heal": 22,
+      "manaRestore": 10,
+      "tags": [
+        "food"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "ember-cider",
+      "name": "Ember Cider",
+      "blurb": "Warm spiced cider from the Hold.",
+      "tier": "common",
+      "slot": "consumable",
+      "heal": 11,
+      "tags": [
+        "food"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "forage-roots",
+      "name": "Forage Roots",
+      "blurb": "Bitter bulbs that sweeten in stew.",
+      "tier": "common",
+      "slot": "consumable",
+      "heal": 5,
+      "tags": [
+        "food"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "stamina-tea",
+      "name": "Stamina Tea",
+      "blurb": "Bitter green brew for long marches.",
+      "tier": "common",
+      "slot": "consumable",
+      "heal": 6,
+      "tags": [
+        "food"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "iron-sword",
+      "name": "Iron Longsword",
+      "blurb": "A hold-forged blade, honest and plain.",
+      "tier": "common",
+      "slot": "weapon",
+      "power": 6,
+      "tags": [
+        "weapon",
+        "melee"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "hunting-bow",
+      "name": "Hunting Bow",
+      "blurb": "Yew and sinew — good for deer and goblins.",
+      "tier": "common",
+      "slot": "weapon",
+      "power": 5,
+      "tags": [
+        "weapon",
+        "ranged"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "oak-staff",
+      "name": "Oak Staff",
+      "blurb": "A traveler's stick that hums at ley lines.",
+      "tier": "common",
+      "slot": "weapon",
+      "power": 4,
+      "tags": [
+        "weapon",
+        "staff"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "bronze-dagger",
+      "name": "Bronze Dagger",
+      "blurb": "Short and honest — a rogue's first friend.",
+      "tier": "common",
+      "slot": "weapon",
+      "power": 4,
+      "tags": [
+        "weapon",
+        "melee"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "leather-cap",
+      "name": "Leather Cap",
+      "blurb": "Keeps rain and glancing blades at bay.",
+      "tier": "common",
+      "slot": "head",
+      "armor": 1,
+      "tags": [
+        "armor"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "hide-jerkin",
+      "name": "Hide Jerkin",
+      "blurb": "Soft hide of the northern woods.",
+      "tier": "common",
+      "slot": "chest",
+      "armor": 2,
+      "tags": [
+        "armor"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "travel-gloves",
+      "name": "Travel Gloves",
+      "blurb": "Worn leather for rope and bowstring.",
+      "tier": "common",
+      "slot": "hands",
+      "armor": 1,
+      "tags": [
+        "armor"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "wool-trousers",
+      "name": "Wool Trousers",
+      "blurb": "Warm enough for Misty Hill roads.",
+      "tier": "common",
+      "slot": "legs",
+      "armor": 1,
+      "tags": [
+        "armor"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "wood-shield",
+      "name": "Wooden Shield",
+      "blurb": "Painted with a crude wolf.",
+      "tier": "common",
+      "slot": "offhand",
+      "armor": 2,
+      "tags": [
+        "armor",
+        "shield"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "copper-ring",
+      "name": "Copper Ring",
+      "blurb": "A keepsake from home.",
+      "tier": "common",
+      "slot": "accessory",
+      "tags": [
+        "accessory"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "iron-greaves",
+      "name": "Iron Greaves",
+      "blurb": "Clanky, warm, reliable.",
+      "tier": "common",
+      "slot": "legs",
+      "armor": 2,
+      "tags": [
+        "armor"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "round-buckler",
+      "name": "Round Buckler",
+      "blurb": "A disc of pine banded in iron.",
+      "tier": "common",
+      "slot": "offhand",
+      "armor": 2,
+      "tags": [
+        "armor",
+        "shield"
+      ],
+      "rarity": "common"
+    },
+    {
+      "id": "frostbite-blade",
+      "name": "Frostbite Blade",
+      "blurb": "Steel rimed with everlasting chill.",
+      "tier": "magic",
+      "slot": "weapon",
+      "power": 12,
+      "tags": [
+        "weapon",
+        "frost"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "elven-bow",
+      "name": "Elven Longbow",
+      "blurb": "Light as moonbeam, true as oath.",
+      "tier": "magic",
+      "slot": "weapon",
+      "power": 11,
+      "tags": [
+        "weapon",
+        "ranged"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "staff-of-embers",
+      "name": "Staff of Embers",
+      "blurb": "A core of banked dragon-coal.",
+      "tier": "magic",
+      "slot": "weapon",
+      "power": 13,
+      "tags": [
+        "weapon",
+        "fire"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "mail-of-rivendell",
+      "name": "Mail of Rivendell Roads",
+      "blurb": "Rings that sing when danger nears.",
+      "tier": "magic",
+      "slot": "chest",
+      "armor": 6,
+      "tags": [
+        "armor"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "amulet-of-warding",
+      "name": "Amulet of Warding",
+      "blurb": "A soft ward against hex and fang.",
+      "tier": "magic",
+      "slot": "accessory",
+      "armor": 2,
+      "tags": [
+        "accessory"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "moonsteel-saber",
+      "name": "Moonsteel Saber",
+      "blurb": "Edges that drink moonlight.",
+      "tier": "magic",
+      "slot": "weapon",
+      "power": 14,
+      "tags": [
+        "weapon"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "storm-javelin",
+      "name": "Storm Javelin",
+      "blurb": "Throws like thunder remembers.",
+      "tier": "magic",
+      "slot": "weapon",
+      "power": 13,
+      "tags": [
+        "weapon"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "wardens-helm",
+      "name": "Warden's Helm",
+      "blurb": "Visor etched with raven-marks.",
+      "tier": "magic",
+      "slot": "head",
+      "armor": 4,
+      "tags": [
+        "armor"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "pack-leather",
+      "name": "Pack-Leather Cuirass",
+      "blurb": "Soft armor that flexes with the hunt.",
+      "tier": "magic",
+      "slot": "chest",
+      "armor": 5,
+      "tags": [
+        "armor"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "ember-gauntlets",
+      "name": "Ember Gauntlets",
+      "blurb": "Heat without burn.",
+      "tier": "magic",
+      "slot": "hands",
+      "armor": 3,
+      "power": 2,
+      "tags": [
+        "armor"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "mist-striders",
+      "name": "Mist-Strider Greaves",
+      "blurb": "Steps that leave no name for fog to steal.",
+      "tier": "magic",
+      "slot": "legs",
+      "armor": 4,
+      "tags": [
+        "armor"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "serpent-buckler",
+      "name": "Serpent Buckler",
+      "blurb": "A coil of dusk-steel.",
+      "tier": "magic",
+      "slot": "offhand",
+      "armor": 4,
+      "tags": [
+        "armor"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "ring-of-oaths",
+      "name": "Ring of Oaths",
+      "blurb": "Warm when you keep your word.",
+      "tier": "magic",
+      "slot": "accessory",
+      "armor": 1,
+      "tags": [
+        "accessory"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "fang-amulet",
+      "name": "Fang Amulet",
+      "blurb": "Ulfric's token — kinship made metal.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 2,
+      "tags": [
+        "accessory"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "ash-philter",
+      "name": "Ash Philter",
+      "blurb": "One sip steadies the hand.",
+      "tier": "magic",
+      "slot": "consumable",
+      "manaRestore": 25,
+      "tags": [
+        "potion"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "frostward-greatsword",
+      "name": "Frostward Greatsword",
+      "blurb": "Forged to guard the Frostford pass.",
+      "tier": "magic",
+      "slot": "weapon",
+      "power": 18,
+      "tags": [
+        "weapon",
+        "frost"
+      ],
+      "rarity": "rare"
+    },
+    {
+      "id": "swamp-walker-boots",
+      "name": "Swamp Walker Boots",
+      "blurb": "Never sink in bog or mire.",
+      "tier": "magic",
+      "slot": "legs",
+      "armor": 3,
+      "tags": [
+        "armor"
+      ],
+      "rarity": "rare"
+    },
+    {
+      "id": "peak-climber-axe",
+      "name": "Peak Climber Axe",
+      "blurb": "Bites ice and stone alike.",
+      "tier": "magic",
+      "slot": "weapon",
+      "power": 16,
+      "tags": [
+        "weapon"
+      ],
+      "rarity": "rare"
+    },
+    {
+      "id": "gloomwood-cloak",
+      "name": "Gloomwood Cloak",
+      "blurb": "Shadows cling like old friends.",
+      "tier": "magic",
+      "slot": "accessory",
+      "armor": 2,
+      "tags": [
+        "accessory"
+      ],
+      "rarity": "rare"
+    },
+    {
+      "id": "ley-touched-ring",
+      "name": "Ley-Touched Ring",
+      "blurb": "Hums when spells are cast nearby.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 3,
+      "tags": [
+        "accessory"
+      ],
+      "rarity": "rare"
+    },
+    {
+      "id": "dragon-scale-shard",
+      "name": "Dragon Scale Shard",
+      "blurb": "Shed whisper-scale — forge fuel.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "misc"
+      ],
+      "rarity": "rare"
+    },
+    {
+      "id": "neverwood-recurve",
+      "name": "Neverwood Recurve",
+      "blurb": "Bow of living yew, still growing.",
+      "tier": "magic",
+      "slot": "weapon",
+      "power": 17,
+      "tags": [
+        "weapon"
+      ],
+      "rarity": "rare"
+    },
+    {
+      "id": "mire-witch-hood",
+      "name": "Mire Witch Hood",
+      "blurb": "Smells of peat and old bargains.",
+      "tier": "magic",
+      "slot": "head",
+      "armor": 3,
+      "tags": [
+        "armor"
+      ],
+      "rarity": "rare"
+    },
+    {
+      "id": "bow-of-three-names",
+      "name": "Bow of Three Names",
+      "blurb": "Stringed for three walkers.",
+      "tier": "legendary",
+      "slot": "weapon",
+      "power": 26,
+      "tags": [
+        "weapon",
+        "legendary"
+      ],
+      "rarity": "legendary"
+    },
+    {
+      "id": "staff-of-ley-hounds",
+      "name": "Staff of Ley-Hounds",
+      "blurb": "Arcane wood that hums when hounds howl.",
+      "tier": "legendary",
+      "slot": "weapon",
+      "power": 27,
+      "tags": [
+        "weapon",
+        "legendary"
+      ],
+      "rarity": "legendary"
+    },
+    {
+      "id": "helm-of-the-soft-path",
+      "name": "Helm of the Soft Path",
+      "blurb": "Moss grows in the creases.",
+      "tier": "legendary",
+      "slot": "head",
+      "armor": 6,
+      "power": 3,
+      "tags": [
+        "armor",
+        "legendary"
+      ],
+      "rarity": "legendary"
+    },
+    {
+      "id": "plate-of-the-hearth",
+      "name": "Plate of the Hearth",
+      "blurb": "Armor that warms allies within a step.",
+      "tier": "legendary",
+      "slot": "chest",
+      "armor": 10,
+      "tags": [
+        "armor",
+        "legendary"
+      ],
+      "rarity": "legendary"
+    },
+    {
+      "id": "sword-of-the-chronicle",
+      "name": "Sword of the Chronicle",
+      "blurb": "Forged for three names and three hounds.",
+      "tier": "legendary",
+      "slot": "weapon",
+      "power": 28,
+      "tags": [
+        "weapon",
+        "legendary"
+      ],
+      "rarity": "legendary"
+    },
+    {
+      "id": "crown-of-ash",
+      "name": "Crown of Ash",
+      "blurb": "Circlet of cooled dragon-glass.",
+      "tier": "legendary",
+      "slot": "head",
+      "armor": 4,
+      "power": 4,
+      "tags": [
+        "armor",
+        "legendary"
+      ],
+      "rarity": "legendary"
+    },
+    {
+      "id": "cloak-of-fellowship",
+      "name": "Cloak of Fellowship",
+      "blurb": "Three walkers never lose each other's trail.",
+      "tier": "legendary",
+      "slot": "accessory",
+      "armor": 3,
+      "tags": [
+        "accessory",
+        "legendary"
+      ],
+      "rarity": "legendary"
+    },
+    {
+      "id": "elixir-of-destiny",
+      "name": "Elixir of Destiny",
+      "blurb": "One dose before the finale.",
+      "tier": "legendary",
+      "slot": "consumable",
+      "heal": 100,
+      "tags": [
+        "potion",
+        "legendary"
+      ],
+      "rarity": "legendary"
+    },
+    {
+      "id": "spellbook-frostbolt",
+      "name": "Tome of Frostbolt",
+      "blurb": "Read to learn Frostbolt.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-ember-lance",
+      "name": "Tome of Ember Lance",
+      "blurb": "Read to learn Ember Lance.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-healing-light",
+      "name": "Tome of Healing Light",
+      "blurb": "Read to learn Healing Light.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-arcane-bolt",
+      "name": "Tome of Arcane Bolt",
+      "blurb": "Read to learn Arcane Bolt.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-thorn-whip",
+      "name": "Tome of Thorn Whip",
+      "blurb": "Read to learn Thorn Whip.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-mist-veil",
+      "name": "Tome of Mist Veil",
+      "blurb": "Read to learn Mist Veil.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-chain-lightning",
+      "name": "Tome of Chain Lightning",
+      "blurb": "Read to learn Chain Lightning.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-life-drain",
+      "name": "Tome of Life Drain",
+      "blurb": "Read to learn Life Drain.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-stone-skin",
+      "name": "Tome of Stone Skin",
+      "blurb": "Read to learn Stone Skin.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-swift-wind",
+      "name": "Tome of Swift Wind",
+      "blurb": "Read to learn Swift Wind.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-poison-cloud",
+      "name": "Tome of Poison Cloud",
+      "blurb": "Read to learn Poison Cloud.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-greater-heal",
+      "name": "Tome of Greater Heal",
+      "blurb": "Read to learn Greater Heal.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-ice-prison",
+      "name": "Tome of Ice Prison",
+      "blurb": "Read to learn Ice Prison.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-flame-wave",
+      "name": "Tome of Flame Wave",
+      "blurb": "Read to learn Flame Wave.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-blessing-of-oaths",
+      "name": "Tome of Blessing of Oaths",
+      "blurb": "Read to learn Blessing of Oaths.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-shadow-step",
+      "name": "Tome of Shadow Step",
+      "blurb": "Read to learn Shadow Step.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-starfall",
+      "name": "Tome of Starfall",
+      "blurb": "Read to learn Starfall.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-natures-embrace",
+      "name": "Tome of Nature's Embrace",
+      "blurb": "Read to learn Nature's Embrace.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-ward-circle",
+      "name": "Tome of Ward Circle",
+      "blurb": "Read to learn Ward Circle.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    },
+    {
+      "id": "spellbook-soul-spark",
+      "name": "Tome of Soul Spark",
+      "blurb": "Read to learn Soul Spark.",
+      "tier": "magic",
+      "slot": "misc",
+      "tags": [
+        "spellbook"
+      ],
+      "rarity": "magic"
+    }
+  ],
+  "bossUniques": [
+    {
+      "id": "frostford-fang",
+      "name": "Frostford Fang",
+      "blurb": "Unique trophy from Frostford Warg.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "frostford-warg"
+    },
+    {
+      "id": "road-kings-crown",
+      "name": "Road Kings Crown",
+      "blurb": "Unique trophy from Goblin King of the Road.",
+      "tier": "magic",
+      "slot": "head",
+      "power": 5,
+      "armor": 4,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "goblin-king-road"
+    },
+    {
+      "id": "hag-queen-talisman",
+      "name": "Hag Queen Talisman",
+      "blurb": "Unique trophy from Mire Hag Queen.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "mire-hag-queen"
+    },
+    {
+      "id": "bruins-toll-club",
+      "name": "Bruins Toll Club",
+      "blurb": "Unique trophy from Bruin the Bridge Troll.",
+      "tier": "magic",
+      "slot": "weapon",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "bridge-troll-bruin"
+    },
+    {
+      "id": "raven-priest-mask",
+      "name": "Raven Priest Mask",
+      "blurb": "Unique trophy from High Priest of the Raven.",
+      "tier": "magic",
+      "slot": "head",
+      "power": 5,
+      "armor": 4,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "raven-cult-high-priest"
+    },
+    {
+      "id": "ember-captains-gorget",
+      "name": "Ember Captains Gorget",
+      "blurb": "Unique trophy from Ember Hold Captain.",
+      "tier": "magic",
+      "slot": "chest",
+      "power": 5,
+      "armor": 4,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "ember-hold-captain"
+    },
+    {
+      "id": "heartwood-branch",
+      "name": "Heartwood Branch",
+      "blurb": "Unique trophy from Ancient Treant.",
+      "tier": "magic",
+      "slot": "weapon",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "ancient-treant"
+    },
+    {
+      "id": "wyrm-nest-scale",
+      "name": "Wyrm Nest Scale",
+      "blurb": "Unique trophy from Sky Wyrm Nest Guardian.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "sky-wyrm-nest-guardian"
+    },
+    {
+      "id": "leviathan-tooth",
+      "name": "Leviathan Tooth",
+      "blurb": "Unique trophy from Bog Leviathan.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "bog-leviathan"
+    },
+    {
+      "id": "cairn-wight-blade",
+      "name": "Cairn Wight Blade",
+      "blurb": "Unique trophy from Cairn Wight Lord.",
+      "tier": "magic",
+      "slot": "weapon",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "cairn-wight-lord"
+    },
+    {
+      "id": "ironwood-plate-shard",
+      "name": "Ironwood Plate Shard",
+      "blurb": "Unique trophy from Ironwood Champion.",
+      "tier": "magic",
+      "slot": "chest",
+      "power": 5,
+      "armor": 4,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "ironwood-champion"
+    },
+    {
+      "id": "storm-eagle-quill",
+      "name": "Storm Eagle Quill",
+      "blurb": "Unique trophy from Peak Storm Eagle.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "peak-storm-eagle"
+    },
+    {
+      "id": "revenant-oath-ring",
+      "name": "Revenant Oath Ring",
+      "blurb": "Unique trophy from Fen Revenant Knight.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "fen-revenant-knight"
+    },
+    {
+      "id": "copper-drake-heart",
+      "name": "Copper Drake Heart",
+      "blurb": "Unique trophy from Copper Drake Broodmother.",
+      "tier": "magic",
+      "slot": "weapon",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "copper-drake-broodmother"
+    },
+    {
+      "id": "mist-stalker-cloak",
+      "name": "Mist Stalker Cloak",
+      "blurb": "Unique trophy from Mist Stalker Alpha.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "mist-stalker-alpha"
+    },
+    {
+      "id": "giant-chiefs-girdle",
+      "name": "Giant Chiefs Girdle",
+      "blurb": "Unique trophy from Hill Giant Chieftain.",
+      "tier": "magic",
+      "slot": "weapon",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "hill-giant-chieftain"
+    },
+    {
+      "id": "coven-mothers-staff",
+      "name": "Coven Mothers Staff",
+      "blurb": "Unique trophy from Coven Mother.",
+      "tier": "magic",
+      "slot": "weapon",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "swamp-witch-coven-mother"
+    },
+    {
+      "id": "hollow-oak-acorn",
+      "name": "Hollow Oak Acorn",
+      "blurb": "Unique trophy from Hollow Oak Spirit.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "hollow-oak-spirit"
+    },
+    {
+      "id": "ash-wolf-pelt",
+      "name": "Ash Wolf Pelt",
+      "blurb": "Unique trophy from Ash Wolf Pack Leader.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "ash-wolf-pack-leader"
+    },
+    {
+      "id": "granite-golem-core",
+      "name": "Granite Golem Core",
+      "blurb": "Unique trophy from Granite Golem Warden.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "granite-golem-warden"
+    },
+    {
+      "id": "void-moth-antenna",
+      "name": "Void Moth Antenna",
+      "blurb": "Unique trophy from Void Moth Oracle.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "void-moth-oracle"
+    },
+    {
+      "id": "exile-frost-axe",
+      "name": "Exile Frost Axe",
+      "blurb": "Unique trophy from Frost Giant Exile.",
+      "tier": "magic",
+      "slot": "weapon",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "frost-giant-exile"
+    },
+    {
+      "id": "pale-host-banner",
+      "name": "Pale Host Banner",
+      "blurb": "Unique trophy from Pale Host Commander.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "pale-host-commander"
+    },
+    {
+      "id": "flame-keepers-brand",
+      "name": "Flame Keepers Brand",
+      "blurb": "Unique trophy from Flame Keeper.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "ember-cult-flame-keeper"
+    },
+    {
+      "id": "lurker-brood-sac",
+      "name": "Lurker Brood Sac",
+      "blurb": "Unique trophy from Deep Forest Lurker Brood.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "deep-forest-lurker-brood"
+    },
+    {
+      "id": "moonlit-stalker-crown",
+      "name": "Moonlit Stalker Crown",
+      "blurb": "Unique trophy from Moonlit Stalker Queen.",
+      "tier": "magic",
+      "slot": "head",
+      "power": 5,
+      "armor": 4,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "moonlit-stalker-queen"
+    },
+    {
+      "id": "obsidian-drake-horn",
+      "name": "Obsidian Drake Horn",
+      "blurb": "Unique trophy from Obsidian Drake Elder.",
+      "tier": "legendary",
+      "slot": "accessory",
+      "power": 8,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "legendary"
+      ],
+      "rarity": "legendary",
+      "bossId": "obsidian-drake-elder"
+    },
+    {
+      "id": "summit-wraith-shroud",
+      "name": "Summit Wraith Shroud",
+      "blurb": "Unique trophy from Summit Wraith.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "summit-wraith"
+    },
+    {
+      "id": "archfey-court-scepter",
+      "name": "Archfey Court Scepter",
+      "blurb": "Unique trophy from Neverwood Archfey Courtier.",
+      "tier": "legendary",
+      "slot": "accessory",
+      "power": 8,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "legendary"
+      ],
+      "rarity": "legendary",
+      "bossId": "neverwood-archfey-courtier"
+    },
+    {
+      "id": "mire-sovereign-crown",
+      "name": "Mire Sovereign Crown",
+      "blurb": "Unique trophy from Mire Sovereign.",
+      "tier": "legendary",
+      "slot": "head",
+      "power": 8,
+      "armor": 6,
+      "tags": [
+        "boss-unique",
+        "legendary"
+      ],
+      "rarity": "legendary",
+      "bossId": "mire-sovereign"
+    },
+    {
+      "id": "chronicle-wraith-quill",
+      "name": "Chronicle Wraith Quill",
+      "blurb": "Unique trophy from Chronicle Wraith.",
+      "tier": "legendary",
+      "slot": "accessory",
+      "power": 8,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "legendary"
+      ],
+      "rarity": "legendary",
+      "bossId": "chronicle-wraith"
+    },
+    {
+      "id": "ash-titan-plate",
+      "name": "Ash Titan Plate",
+      "blurb": "Unique trophy from Ash Titan Sentinel.",
+      "tier": "legendary",
+      "slot": "chest",
+      "power": 8,
+      "armor": 6,
+      "tags": [
+        "boss-unique",
+        "legendary"
+      ],
+      "rarity": "legendary",
+      "bossId": "ash-titan-sentinel"
+    },
+    {
+      "id": "ley-storm-core",
+      "name": "Ley Storm Core",
+      "blurb": "Unique trophy from Ley Storm Elemental Lord.",
+      "tier": "legendary",
+      "slot": "accessory",
+      "power": 8,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "legendary"
+      ],
+      "rarity": "legendary",
+      "bossId": "ley-storm-elemental-lord"
+    },
+    {
+      "id": "pale-dragon-fang",
+      "name": "Pale Dragon Fang",
+      "blurb": "Unique trophy from Pale Dragon Spawn Prince.",
+      "tier": "legendary",
+      "slot": "accessory",
+      "power": 8,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "legendary"
+      ],
+      "rarity": "legendary",
+      "bossId": "pale-dragon-spawn-prince"
+    },
+    {
+      "id": "root-thorn-circlet",
+      "name": "Root Thorn Circlet",
+      "blurb": "Unique trophy from Root of All Thorns.",
+      "tier": "legendary",
+      "slot": "head",
+      "power": 8,
+      "armor": 6,
+      "tags": [
+        "boss-unique",
+        "legendary"
+      ],
+      "rarity": "legendary",
+      "bossId": "root-of-all-thorns"
+    },
+    {
+      "id": "gargoyle-stone-wings",
+      "name": "Gargoyle Stone Wings",
+      "blurb": "Unique trophy from Cathedral Gargoyle Colossus.",
+      "tier": "legendary",
+      "slot": "weapon",
+      "power": 8,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "legendary"
+      ],
+      "rarity": "legendary",
+      "bossId": "cathedral-gargoyle-colossus"
+    },
+    {
+      "id": "bog-emperor-mantle",
+      "name": "Bog Emperor Mantle",
+      "blurb": "Unique trophy from Bog Emperor.",
+      "tier": "legendary",
+      "slot": "accessory",
+      "power": 8,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "legendary"
+      ],
+      "rarity": "legendary",
+      "bossId": "bog-emperor"
+    },
+    {
+      "id": "hollow-king-greatsword",
+      "name": "Hollow King Greatsword",
+      "blurb": "Unique trophy from Hollow King Knight.",
+      "tier": "legendary",
+      "slot": "weapon",
+      "power": 8,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "legendary"
+      ],
+      "rarity": "legendary",
+      "bossId": "hollow-king-knight"
+    },
+    {
+      "id": "skyfire-wyrm-scale-mail",
+      "name": "Skyfire Wyrm Scale Mail",
+      "blurb": "Unique trophy from Ancient Skyfire Wyrm.",
+      "tier": "legendary",
+      "slot": "chest",
+      "power": 8,
+      "armor": 6,
+      "tags": [
+        "boss-unique",
+        "legendary"
+      ],
+      "rarity": "legendary",
+      "bossId": "skyfire-wyrm-ancient"
+    },
+    {
+      "id": "stag-kings-antlers",
+      "name": "Stag Kings Antlers",
+      "blurb": "Unique trophy from Wild Law Stag King.",
+      "tier": "legendary",
+      "slot": "head",
+      "power": 8,
+      "armor": 6,
+      "tags": [
+        "boss-unique",
+        "legendary"
+      ],
+      "rarity": "legendary",
+      "bossId": "wild-law-stag-king"
+    },
+    {
+      "id": "herald-scout-horn",
+      "name": "Herald Scout Horn",
+      "blurb": "Unique trophy from Demon Herald Scout.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "demon-herald-scout"
+    },
+    {
+      "id": "world-eater-tooth",
+      "name": "World Eater Tooth",
+      "blurb": "Unique trophy from World-Eater Larva.",
+      "tier": "legendary",
+      "slot": "accessory",
+      "power": 8,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "legendary"
+      ],
+      "rarity": "legendary",
+      "bossId": "world-eater-larva"
+    },
+    {
+      "id": "crown-of-ashen-king",
+      "name": "Crown Of Ashen King",
+      "blurb": "Unique trophy from Ashen King.",
+      "tier": "legendary",
+      "slot": "head",
+      "power": 8,
+      "armor": 6,
+      "tags": [
+        "boss-unique",
+        "legendary"
+      ],
+      "rarity": "legendary",
+      "bossId": "ashen-king"
+    },
+    {
+      "id": "ashen-kings-scepter",
+      "name": "Ashen Kings Scepter",
+      "blurb": "Unique trophy from Ashen King.",
+      "tier": "legendary",
+      "slot": "accessory",
+      "power": 8,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "legendary"
+      ],
+      "rarity": "legendary",
+      "bossId": "ashen-king"
+    },
+    {
+      "id": "ember-thane-signet",
+      "name": "Ember Thane Signet",
+      "blurb": "Unique trophy from Ember Thane Lord.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "ember-thane-lord"
+    },
+    {
+      "id": "corv-trial-feather",
+      "name": "Corv Trial Feather",
+      "blurb": "Unique trophy from Corv's Raven Trial.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "corv-raven-trial"
+    },
+    {
+      "id": "bruna-trial-claw",
+      "name": "Bruna Trial Claw",
+      "blurb": "Unique trophy from Bruna's Bear Trial.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "bruna-bear-trial"
+    },
+    {
+      "id": "ulfric-trial-fang",
+      "name": "Ulfric Trial Fang",
+      "blurb": "Unique trophy from Ulfric's Wolf Trial.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "ulfric-wolf-trial"
+    },
+    {
+      "id": "nyx-trial-scale",
+      "name": "Nyx Trial Scale",
+      "blurb": "Unique trophy from Nyx's Serpent Trial.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "nyx-serpent-trial"
+    },
+    {
+      "id": "pip-trial-tail",
+      "name": "Pip Trial Tail",
+      "blurb": "Unique trophy from Pip's Fox Trial.",
+      "tier": "magic",
+      "slot": "accessory",
+      "power": 5,
+      "armor": 0,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "pip-fox-trial"
+    },
+    {
+      "id": "aelwyn-trial-antler",
+      "name": "Aelwyn Trial Antler",
+      "blurb": "Unique trophy from Aelwyn's Stag Trial.",
+      "tier": "magic",
+      "slot": "head",
+      "power": 5,
+      "armor": 4,
+      "tags": [
+        "boss-unique",
+        "magic"
+      ],
+      "rarity": "rare",
+      "bossId": "aelwyn-stag-trial"
+    }
+  ]
+}

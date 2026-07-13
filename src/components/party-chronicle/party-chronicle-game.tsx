@@ -18,14 +18,22 @@ import {
   useHotbarAbility,
 } from "@/lib/downtown/party-chronicle/engine";
 import {
+  dismissBattleSummary,
+  ensureEncounterSchedule,
+  performBattleAction,
+  readSpellbook,
+  startRandomBattle,
+  tickStoryPlay,
+} from "@/lib/downtown/party-chronicle/battle";
+import {
   availableSideQuests,
   completeSideQuest,
   cookRecipe,
   cookableRecipes,
   fleeRoadEncounter,
-  startRoadEncounter,
 } from "@/lib/downtown/party-chronicle/midgame";
 import { getGear } from "@/lib/downtown/party-chronicle/gear";
+import { bestiaryStats, isSpellbookItem } from "@/lib/downtown/party-chronicle/bestiary";
 import { describeHotbar, listAssignableAbilities } from "@/lib/downtown/party-chronicle/hotbar";
 import {
   CLASS_DEFS,
@@ -65,6 +73,7 @@ import {
   HOTBAR_SIZE,
   PLAYER_SLOT_ORDER,
   STAT_KEYS,
+  type BattleActionId,
   type CharacterSave,
   type ClassId,
   type EquipSlot,
@@ -74,6 +83,7 @@ import {
   type StatKey,
   type StoryChoice,
 } from "@/lib/downtown/party-chronicle/types";
+import { BattleOverlay } from "@/components/party-chronicle/battle-overlay";
 import "@/components/party-chronicle/party-chronicle.css";
 
 type UiPhase = "boot" | "title" | "create" | "play" | "ending";
@@ -219,11 +229,12 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
 
   const enterFromSave = useCallback(
     (existing: PartyWorldSave) => {
-      setWorld(existing);
-      setTitleSave(existing);
-      writeWorld(existing);
-      if (existing.endingId) setPhase("ending");
-      else if (mySlot && !existing.characters[mySlot]?.created) {
+      const scheduled = ensureEncounterSchedule(existing);
+      setWorld(scheduled);
+      setTitleSave(scheduled);
+      writeWorld(scheduled);
+      if (scheduled.endingId) setPhase("ending");
+      else if (mySlot && !scheduled.characters[mySlot]?.created) {
         setPhase("create");
         setFlash(
           `${SLOT_DEFAULTS[mySlot].displayName} — create your hero to join. Justin already opened the chronicle.`
@@ -393,6 +404,34 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     if (!world.characters[mySlot]?.created) setPhase("create");
   }, [phase, mySlot, world]);
 
+  // Track story/active time → random battles (~30–90s first, then ~2 min).
+  useEffect(() => {
+    if (phase !== "play") return;
+    const id = window.setInterval(() => {
+      setWorld((prev) => {
+        if (!prev || prev.endingId) return prev;
+        if (prev.battle?.status === "active") return prev;
+        if (prev.battle?.status === "victory" || prev.battle?.status === "defeat") return prev;
+        const { world: ticked, shouldStartBattle } = tickStoryPlay(prev, 1000);
+        if (!shouldStartBattle) {
+          if (ticked.storyPlayMs !== prev.storyPlayMs) writeWorld(ticked);
+          return ticked;
+        }
+        const started = startRandomBattle(ticked);
+        writeWorld(started.world);
+        setFlash(started.message);
+        setTab("story");
+        void fetch("/api/downtown/party-chronicle", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ world: started.world }),
+        }).catch(() => undefined);
+        return started.world;
+      });
+    }, 1000);
+    return () => window.clearInterval(id);
+  }, [phase]);
+
   const persistAsync = useCallback(async (next: PartyWorldSave) => {
     const stamped = { ...next, updatedAt: new Date().toISOString() };
     writeWorld(stamped);
@@ -521,10 +560,38 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
 
   const onRoadAmbush = () => {
     if (!world || !mySlot || !acting) return;
-    const result = startRoadEncounter(world, mySlot);
+    // Prefer full turn-based battle overlay; fall back to legacy deck if already fighting.
+    if (world.battle?.status === "active") {
+      setFlash("Already in battle.");
+      return;
+    }
+    const result = startRandomBattle(world);
     persist(result.world);
     setFlash(result.message);
     setTab("story");
+  };
+
+  const onBattleAction = (action: BattleActionId, opts?: { spellId?: string; itemId?: string }) => {
+    if (!world || !mySlot) return;
+    startTransition(() => {
+      const result = performBattleAction(world, mySlot, action, opts);
+      persist(result.world);
+      setFlash(result.message);
+    });
+  };
+
+  const onDismissBattle = () => {
+    if (!world) return;
+    const next = dismissBattleSummary(world);
+    persist(next);
+    setFlash("Back to the chronicle.");
+  };
+
+  const onReadSpellbook = (itemId: string) => {
+    if (!world || !mySlot) return;
+    const result = readSpellbook(world, mySlot, itemId);
+    persist(result.world);
+    setFlash(result.message);
   };
 
   const onFleeRoad = () => {
@@ -780,15 +847,32 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const inStoryFight =
     storyNode.kind === "encounter" && world.encounterEnemyHp != null && world.encounterEnemyHp > 0;
   const inEncounter = inStoryFight || inRoadFight;
+  const inBattle = !!world.battle;
   const hasChoices =
     storyNode.kind === "conversation" || storyNode.kind === "path" || storyNode.kind === "encounter";
   const sideQuests = availableSideQuests(world);
   const actNum = getChapter(world.chapterId)?.chapter ?? 1;
   const campRecipes = mySlot ? cookableRecipes(world, mySlot) : [];
+  const bestiary = bestiaryStats();
+  const storySecs = Math.floor((world.storyPlayMs ?? 0) / 1000);
+  const untilBattle = Math.max(
+    0,
+    Math.ceil(((world.nextEncounterAtMs ?? 0) - (world.storyPlayMs ?? 0)) / 1000)
+  );
 
   return (
     <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
       <DowntownSubnav active="neverworld" />
+      {inBattle && world.battle && (
+        <BattleOverlay
+          world={world}
+          mySlot={mySlot}
+          canAct={!!mySlot && !!world.characters[mySlot]?.created}
+          pending={pending}
+          onAction={onBattleAction}
+          onDismiss={onDismissBattle}
+        />
+      )}
       {flash && (
         <div className="pc-turn-banner" role="status">
           {flash}
@@ -803,6 +887,9 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           <h1 className="pc-title text-2xl md:text-3xl">{storyNode.title}</h1>
           <p className="text-xs font-bold">
             Turn {world.turnIndex} · Party ~L{partyAvgLevel(world)} · {progressionHint(partyAvgLevel(world))}
+            {" · "}
+            Story {Math.floor(storySecs / 60)}:{String(storySecs % 60).padStart(2, "0")}
+            {!inBattle ? ` · Next ambush ~${untilBattle}s` : " · In battle"}
           </p>
         </div>
         <div className="flex flex-wrap gap-2 items-center">
@@ -881,6 +968,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                       : "Waiting on character create"}
                   </p>
                   <Meter label="HP" value={c.hp} max={c.maxHp} tone="hp" />
+                  <Meter label="Mana" value={c.mana} max={c.maxMana} tone="mana" />
                   <p className="text-[0.6rem] mt-1">
                     {c.created ? `${c.dog.name} (bond ${c.dog.bond})` : "No hound sealed yet"}
                   </p>
@@ -1034,10 +1122,14 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
               </p>
 
               <div className="space-y-2">
-                <p className="pc-eyebrow text-[0.65rem]">Road encounter</p>
-                {inRoadFight && roadFoe ? (
+                <p className="pc-eyebrow text-[0.65rem]">
+                  Road battle · Bestiary {bestiary.creatures}+{bestiary.bosses} bosses
+                </p>
+                {inBattle ? (
+                  <p className="text-sm font-bold">Battle in progress — finish the overlay.</p>
+                ) : inRoadFight && roadFoe ? (
                   <>
-                    <p className="text-sm font-bold">{roadFoe.name}</p>
+                    <p className="text-sm font-bold">{roadFoe.name} (legacy hotbar fight)</p>
                     <Meter
                       label="Enemy HP"
                       value={world.encounterEnemyHp ?? 0}
@@ -1060,7 +1152,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
                     disabled={!acting || inStoryFight}
                     onClick={onRoadAmbush}
                   >
-                    Roll road ambush →
+                    Force road ambush →
                   </button>
                 )}
               </div>
@@ -1126,7 +1218,12 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           )}
 
           {tab === "gear" && me && (
-            <InventoryPanel char={me} canEdit={!!mySlot} onEquip={onEquip} />
+            <InventoryPanel
+              char={me}
+              canEdit={!!mySlot}
+              onEquip={onEquip}
+              onReadSpellbook={onReadSpellbook}
+            />
           )}
 
           {tab === "codex" && (
@@ -1290,6 +1387,10 @@ function CharacterSheet({ char, highlight }: { char: CharacterSave; highlight: b
       <p className="font-bold">
         {char.name} · {CLASS_DEFS[char.classId].name} · Lv {char.level}
       </p>
+      <div className="mt-2 space-y-1">
+        <Meter label="HP" value={char.hp} max={char.maxHp} tone="hp" />
+        <Meter label="Mana" value={char.mana} max={char.maxMana} tone="mana" />
+      </div>
       <div className="pc-stat-grid mt-2">
         {STAT_KEYS.map((k) => (
           <div key={k} className="pc-stat-box">
@@ -1299,7 +1400,8 @@ function CharacterSheet({ char, highlight }: { char: CharacterSave; highlight: b
         ))}
       </div>
       <p className="text-[0.65rem] mt-2">
-        Gold {char.gold} · Dog: {char.dog.name} · Hotbar {char.hotbar.filter(Boolean).length}/{HOTBAR_SIZE}
+        XP {char.xp} · Gold {char.gold} · Dog: {char.dog.name} · Hotbar{" "}
+        {char.hotbar.filter(Boolean).length}/{HOTBAR_SIZE}
       </p>
     </div>
   );
@@ -1309,10 +1411,12 @@ function InventoryPanel({
   char,
   canEdit,
   onEquip,
+  onReadSpellbook,
 }: {
   char: CharacterSave;
   canEdit: boolean;
   onEquip: (id: string) => void;
+  onReadSpellbook: (id: string) => void;
 }) {
   return (
     <div className="space-y-4">
@@ -1331,19 +1435,21 @@ function InventoryPanel({
       </div>
       <p className="pc-eyebrow text-[0.65rem]">Inventory</p>
       <div className="flex flex-wrap gap-2">
-        {char.inventory.map((id) => {
+        {char.inventory.map((id, idx) => {
           const item = getGear(id);
           if (!item) return null;
+          const spellbook = isSpellbookItem(id);
+          const equippable = item.slot !== "consumable" && item.slot !== "misc" && !spellbook;
           return (
             <button
-              key={id}
+              key={`${id}-${idx}`}
               type="button"
               className="pc-inv-slot"
-              disabled={!canEdit || item.slot === "consumable" || item.slot === "misc"}
-              onClick={() => onEquip(id)}
-              title={item.blurb}
+              disabled={!canEdit || (!equippable && !spellbook)}
+              onClick={() => (spellbook ? onReadSpellbook(id) : onEquip(id))}
+              title={spellbook ? `Read: ${item.blurb}` : item.blurb}
             >
-              {item.name.slice(0, 10)}
+              {spellbook ? `Tome · ${item.name.slice(0, 8)}` : item.name.slice(0, 10)}
             </button>
           );
         })}

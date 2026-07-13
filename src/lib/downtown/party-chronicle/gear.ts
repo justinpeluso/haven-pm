@@ -1,3 +1,4 @@
+import { BATTLE_LOOT_ITEMS, battleLootAsGear, getBattleLootItem } from "./bestiary";
 import type { ClassId, GearItem } from "./types";
 
 export const GEAR_CATALOG: GearItem[] = [
@@ -173,6 +174,7 @@ export const GEAR_CATALOG: GearItem[] = [
     blurb: "Blue mist in a crystal phial.",
     tier: "magic",
     slot: "consumable",
+    manaRestore: 20,
     tags: ["potion", "mana"],
   },
   {
@@ -407,6 +409,7 @@ export const GEAR_CATALOG: GearItem[] = [
     blurb: "Starlight corked in glass.",
     tier: "magic",
     slot: "consumable",
+    manaRestore: 40,
     tags: ["potion", "mana"],
   },
   {
@@ -513,8 +516,21 @@ export const GEAR_CATALOG: GearItem[] = [
   },
 ];
 
+const GEAR_BY_ID: Record<string, GearItem> = Object.fromEntries(
+  GEAR_CATALOG.map((g) => [g.id, g])
+);
+
+// Merge battle-loot / boss-unique / spellbook items without clobbering core catalog.
+for (const raw of BATTLE_LOOT_ITEMS) {
+  if (!GEAR_BY_ID[raw.id]) {
+    GEAR_BY_ID[raw.id] = battleLootAsGear(raw);
+  } else if (raw.manaRestore != null && GEAR_BY_ID[raw.id]!.manaRestore == null) {
+    GEAR_BY_ID[raw.id] = { ...GEAR_BY_ID[raw.id]!, manaRestore: raw.manaRestore };
+  }
+}
+
 export function getGear(id: string): GearItem | undefined {
-  return GEAR_CATALOG.find((g) => g.id === id);
+  return GEAR_BY_ID[id] ?? getBattleLootItem(id);
 }
 
 export function gearByTier(tier: GearItem["tier"]): GearItem[] {

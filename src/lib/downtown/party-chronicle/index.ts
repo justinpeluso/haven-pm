@@ -19,6 +19,8 @@ export * from "./art";
 export * from "./story";
 export * from "./campaign";
 export * from "./encounters";
+export * from "./bestiary";
+export * from "./battle";
 export * from "./side-quests";
 export * from "./recipes";
 export * from "./midgame";

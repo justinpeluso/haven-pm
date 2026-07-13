@@ -1,0 +1,3604 @@
+{
+  "creatures": [
+    {
+      "id": "goblin-scout",
+      "name": "Goblin Scout",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 1,
+      "levelMax": 8,
+      "hp": 19,
+      "power": 4,
+      "armor": 0,
+      "xp": 14,
+      "gold": 4,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 3,
+      "lootPool": "trash"
+    },
+    {
+      "id": "mire-slime",
+      "name": "Mire Slime",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 1,
+      "levelMax": 6,
+      "hp": 18,
+      "power": 4,
+      "armor": 0,
+      "xp": 12,
+      "gold": 3,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 3,
+      "lootPool": "trash"
+    },
+    {
+      "id": "crow-swarm",
+      "name": "Crow Swarm",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 1,
+      "levelMax": 10,
+      "hp": 29,
+      "power": 5,
+      "armor": 0,
+      "xp": 15,
+      "gold": 4,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "weight": 3,
+      "lootPool": "trash"
+    },
+    {
+      "id": "frost-warg-pup",
+      "name": "Frost Warg Pup",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 2,
+      "levelMax": 12,
+      "hp": 33,
+      "power": 6,
+      "armor": 0,
+      "xp": 18,
+      "gold": 5,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "bandit-cutpurse",
+      "name": "Bandit Cutpurse",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 3,
+      "levelMax": 14,
+      "hp": 27,
+      "power": 6,
+      "armor": 0,
+      "xp": 19,
+      "gold": 6,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "pine-needle-sprite",
+      "name": "Pine Needle Sprite",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 2,
+      "levelMax": 10,
+      "hp": 23,
+      "power": 5,
+      "armor": 0,
+      "xp": 16,
+      "gold": 5,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "root-crawler",
+      "name": "Root Crawler",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 4,
+      "levelMax": 16,
+      "hp": 31,
+      "power": 7,
+      "armor": 0,
+      "xp": 22,
+      "gold": 7,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "thistle-boar",
+      "name": "Thistle Boar",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 3,
+      "levelMax": 15,
+      "hp": 37,
+      "power": 6,
+      "armor": 0,
+      "xp": 21,
+      "gold": 6,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "mossback-toad",
+      "name": "Mossback Toad",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 2,
+      "levelMax": 11,
+      "hp": 31,
+      "power": 5,
+      "armor": 0,
+      "xp": 16,
+      "gold": 5,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "snare-spider",
+      "name": "Snare Spider",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 4,
+      "levelMax": 18,
+      "hp": 40,
+      "power": 7,
+      "armor": 0,
+      "xp": 23,
+      "gold": 7,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-bear-bruna",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "woodcutter-ghoul",
+      "name": "Woodcutter Ghoul",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 5,
+      "levelMax": 18,
+      "hp": 32,
+      "power": 7,
+      "armor": 0,
+      "xp": 23,
+      "gold": 7,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-demon-herald",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "briar-wolf",
+      "name": "Briar Wolf",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 6,
+      "levelMax": 20,
+      "hp": 44,
+      "power": 8,
+      "armor": 1,
+      "xp": 26,
+      "gold": 8,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "hollow-stag",
+      "name": "Hollow Stag",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 7,
+      "levelMax": 20,
+      "hp": 36,
+      "power": 8,
+      "armor": 1,
+      "xp": 26,
+      "gold": 8,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "fern-wisp",
+      "name": "Fern Wisp",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 3,
+      "levelMax": 12,
+      "hp": 25,
+      "power": 6,
+      "armor": 0,
+      "xp": 18,
+      "gold": 5,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-stag-aelwyn",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "trail-bandit",
+      "name": "Trail Bandit",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 5,
+      "levelMax": 16,
+      "hp": 31,
+      "power": 7,
+      "armor": 0,
+      "xp": 22,
+      "gold": 7,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "sap-ooze",
+      "name": "Sap Ooze",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 4,
+      "levelMax": 14,
+      "hp": 29,
+      "power": 6,
+      "armor": 0,
+      "xp": 21,
+      "gold": 6,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "nettle-hare",
+      "name": "Nettle Hare",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 1,
+      "levelMax": 8,
+      "hp": 27,
+      "power": 4,
+      "armor": 0,
+      "xp": 14,
+      "gold": 4,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "weight": 3,
+      "lootPool": "trash"
+    },
+    {
+      "id": "grove-imp",
+      "name": "Grove Imp",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 4,
+      "levelMax": 15,
+      "hp": 29,
+      "power": 6,
+      "armor": 0,
+      "xp": 21,
+      "gold": 6,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "bark-golem-shard",
+      "name": "Bark Golem Shard",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 8,
+      "levelMax": 20,
+      "hp": 38,
+      "power": 8,
+      "armor": 3,
+      "xp": 28,
+      "gold": 8,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "whisper-moth-cloud",
+      "name": "Whisper Moth Cloud",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 5,
+      "levelMax": 17,
+      "hp": 32,
+      "power": 7,
+      "armor": 0,
+      "xp": 23,
+      "gold": 7,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-stag-aelwyn",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "hedge-witchling",
+      "name": "Hedge Witchling",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 6,
+      "levelMax": 18,
+      "hp": 34,
+      "power": 7,
+      "armor": 1,
+      "xp": 25,
+      "gold": 7,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "fungal-shambler",
+      "name": "Fungal Shambler",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 5,
+      "levelMax": 19,
+      "hp": 34,
+      "power": 7,
+      "armor": 1,
+      "xp": 25,
+      "gold": 7,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "river-pike-spirit",
+      "name": "River Pike Spirit",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 7,
+      "levelMax": 20,
+      "hp": 36,
+      "power": 8,
+      "armor": 1,
+      "xp": 26,
+      "gold": 8,
+      "tags": [
+        "elemental"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "oak-warden-thrall",
+      "name": "Oak Warden Thrall",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 9,
+      "levelMax": 20,
+      "hp": 38,
+      "power": 8,
+      "armor": 3,
+      "xp": 28,
+      "gold": 8,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "wilderness-poacher",
+      "name": "Wilderness Poacher",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 6,
+      "levelMax": 19,
+      "hp": 34,
+      "power": 7,
+      "armor": 1,
+      "xp": 25,
+      "gold": 7,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "bog-leech-cluster",
+      "name": "Bog Leech Cluster",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 4,
+      "levelMax": 16,
+      "hp": 31,
+      "power": 7,
+      "armor": 0,
+      "xp": 22,
+      "gold": 7,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "will-o-mire",
+      "name": "Will-o-Mire",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 5,
+      "levelMax": 18,
+      "hp": 32,
+      "power": 7,
+      "armor": 0,
+      "xp": 23,
+      "gold": 7,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "peat-hag",
+      "name": "Peat Hag",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 8,
+      "levelMax": 22,
+      "hp": 40,
+      "power": 8,
+      "armor": 1,
+      "xp": 29,
+      "gold": 9,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "reed-stalker",
+      "name": "Reed Stalker",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 6,
+      "levelMax": 20,
+      "hp": 44,
+      "power": 8,
+      "armor": 1,
+      "xp": 26,
+      "gold": 8,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "marsh-gas-elemental",
+      "name": "Marsh Gas Elemental",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 7,
+      "levelMax": 21,
+      "hp": 38,
+      "power": 8,
+      "armor": 1,
+      "xp": 28,
+      "gold": 8,
+      "tags": [
+        "elemental"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "sunken-pilgrim",
+      "name": "Sunken Pilgrim",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 9,
+      "levelMax": 24,
+      "hp": 42,
+      "power": 9,
+      "armor": 1,
+      "xp": 30,
+      "gold": 9,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "croak-trollkin",
+      "name": "Croak Trollkin",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 10,
+      "levelMax": 25,
+      "hp": 43,
+      "power": 9,
+      "armor": 1,
+      "xp": 32,
+      "gold": 10,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "mire-adder",
+      "name": "Mire Adder",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 5,
+      "levelMax": 18,
+      "hp": 40,
+      "power": 7,
+      "armor": 0,
+      "xp": 23,
+      "gold": 7,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "rotcap-shroomling",
+      "name": "Rotcap Shroomling",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 6,
+      "levelMax": 19,
+      "hp": 34,
+      "power": 7,
+      "armor": 1,
+      "xp": 25,
+      "gold": 7,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "quagmire-crab",
+      "name": "Quagmire Crab",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 7,
+      "levelMax": 20,
+      "hp": 44,
+      "power": 8,
+      "armor": 1,
+      "xp": 26,
+      "gold": 8,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "drowned-courier",
+      "name": "Drowned Courier",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 8,
+      "levelMax": 22,
+      "hp": 40,
+      "power": 8,
+      "armor": 1,
+      "xp": 29,
+      "gold": 9,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "swamp-witch-apprentice",
+      "name": "Swamp Witch Apprentice",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 9,
+      "levelMax": 23,
+      "hp": 42,
+      "power": 9,
+      "armor": 1,
+      "xp": 30,
+      "gold": 9,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "gloom-frog",
+      "name": "Gloom Frog",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 4,
+      "levelMax": 15,
+      "hp": 37,
+      "power": 6,
+      "armor": 0,
+      "xp": 21,
+      "gold": 6,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-bear-bruna",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "bog-lantern-wisp",
+      "name": "Bog Lantern Wisp",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 6,
+      "levelMax": 18,
+      "hp": 34,
+      "power": 7,
+      "armor": 1,
+      "xp": 25,
+      "gold": 7,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "mudslide-elemental",
+      "name": "Mudslide Elemental",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 10,
+      "levelMax": 26,
+      "hp": 45,
+      "power": 9,
+      "armor": 1,
+      "xp": 33,
+      "gold": 10,
+      "tags": [
+        "elemental"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "stone-goat",
+      "name": "Stone Goat",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 4,
+      "levelMax": 16,
+      "hp": 39,
+      "power": 7,
+      "armor": 0,
+      "xp": 22,
+      "gold": 7,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "cliff-raven",
+      "name": "Cliff Raven",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 3,
+      "levelMax": 14,
+      "hp": 35,
+      "power": 6,
+      "armor": 0,
+      "xp": 19,
+      "gold": 6,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-bear-bruna",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "snow-hare",
+      "name": "Snow Hare",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 2,
+      "levelMax": 10,
+      "hp": 31,
+      "power": 5,
+      "armor": 0,
+      "xp": 16,
+      "gold": 5,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "avalanche-cub",
+      "name": "Avalanche Cub",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 8,
+      "levelMax": 22,
+      "hp": 40,
+      "power": 8,
+      "armor": 1,
+      "xp": 29,
+      "gold": 9,
+      "tags": [
+        "elemental"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "frost-bandit",
+      "name": "Frost Bandit",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 7,
+      "levelMax": 20,
+      "hp": 36,
+      "power": 8,
+      "armor": 1,
+      "xp": 26,
+      "gold": 8,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "ice-mite-swarm",
+      "name": "Ice Mite Swarm",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 5,
+      "levelMax": 17,
+      "hp": 32,
+      "power": 7,
+      "armor": 0,
+      "xp": 23,
+      "gold": 7,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "granite-beetle",
+      "name": "Granite Beetle",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 6,
+      "levelMax": 19,
+      "hp": 34,
+      "power": 7,
+      "armor": 3,
+      "xp": 25,
+      "gold": 7,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "wind-screecher",
+      "name": "Wind Screecher",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 7,
+      "levelMax": 21,
+      "hp": 46,
+      "power": 8,
+      "armor": 1,
+      "xp": 28,
+      "gold": 8,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "peak-hermit",
+      "name": "Peak Hermit",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 9,
+      "levelMax": 24,
+      "hp": 42,
+      "power": 9,
+      "armor": 1,
+      "xp": 30,
+      "gold": 9,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "hoarfrost-warg",
+      "name": "Hoarfrost Warg",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 10,
+      "levelMax": 26,
+      "hp": 53,
+      "power": 9,
+      "armor": 1,
+      "xp": 33,
+      "gold": 10,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-bear-bruna",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "shale-crawler",
+      "name": "Shale Crawler",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 8,
+      "levelMax": 22,
+      "hp": 40,
+      "power": 8,
+      "armor": 1,
+      "xp": 29,
+      "gold": 9,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "rime-sprite",
+      "name": "Rime Sprite",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 6,
+      "levelMax": 18,
+      "hp": 34,
+      "power": 7,
+      "armor": 1,
+      "xp": 25,
+      "gold": 7,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "echo-banshee",
+      "name": "Echo Banshee",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 11,
+      "levelMax": 28,
+      "hp": 47,
+      "power": 10,
+      "armor": 1,
+      "xp": 35,
+      "gold": 11,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-demon-herald",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "crag-imp",
+      "name": "Crag Imp",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 7,
+      "levelMax": 20,
+      "hp": 36,
+      "power": 8,
+      "armor": 1,
+      "xp": 26,
+      "gold": 8,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "thunder-moth",
+      "name": "Thunder Moth",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 9,
+      "levelMax": 24,
+      "hp": 42,
+      "power": 9,
+      "armor": 1,
+      "xp": 30,
+      "gold": 9,
+      "tags": [
+        "elemental"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "goblin-archer",
+      "name": "Goblin Archer",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 11,
+      "levelMax": 22,
+      "hp": 42,
+      "power": 9,
+      "armor": 1,
+      "xp": 30,
+      "gold": 9,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "road-reaver",
+      "name": "Road Reaver",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 12,
+      "levelMax": 24,
+      "hp": 45,
+      "power": 9,
+      "armor": 1,
+      "xp": 33,
+      "gold": 10,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "raven-cultist",
+      "name": "Raven Cultist",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 11,
+      "levelMax": 23,
+      "hp": 43,
+      "power": 9,
+      "armor": 1,
+      "xp": 32,
+      "gold": 10,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "green-eye-shaman",
+      "name": "Green-Eye Shaman",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 13,
+      "levelMax": 26,
+      "hp": 47,
+      "power": 10,
+      "armor": 1,
+      "xp": 35,
+      "gold": 11,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "ambush-captain",
+      "name": "Ambush Captain",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 14,
+      "levelMax": 28,
+      "hp": 51,
+      "power": 11,
+      "armor": 1,
+      "xp": 37,
+      "gold": 11,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "ember-guard",
+      "name": "Ember Guard",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 15,
+      "levelMax": 30,
+      "hp": 53,
+      "power": 11,
+      "armor": 1,
+      "xp": 39,
+      "gold": 12,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "bridge-trollkin",
+      "name": "Bridge Trollkin",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 12,
+      "levelMax": 25,
+      "hp": 45,
+      "power": 9,
+      "armor": 1,
+      "xp": 33,
+      "gold": 10,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "stolen-mule-golem",
+      "name": "Stolen Mule Golem",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 14,
+      "levelMax": 28,
+      "hp": 51,
+      "power": 11,
+      "armor": 3,
+      "xp": 37,
+      "gold": 11,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "mad-pine-sprite",
+      "name": "Mad Pine Sprite",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 10,
+      "levelMax": 20,
+      "hp": 40,
+      "power": 8,
+      "armor": 1,
+      "xp": 29,
+      "gold": 9,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "hollow-knight-errant",
+      "name": "Hollow Knight Errant",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 16,
+      "levelMax": 32,
+      "hp": 56,
+      "power": 12,
+      "armor": 2,
+      "xp": 42,
+      "gold": 13,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-demon-herald",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "corpse-candle",
+      "name": "Corpse Candle",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 13,
+      "levelMax": 27,
+      "hp": 49,
+      "power": 10,
+      "armor": 1,
+      "xp": 36,
+      "gold": 11,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "wyrmkin-scout",
+      "name": "Wyrmkin Scout",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 18,
+      "levelMax": 35,
+      "hp": 60,
+      "power": 18,
+      "armor": 2,
+      "xp": 44,
+      "gold": 14,
+      "tags": [
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "ash-wolf",
+      "name": "Ash Wolf",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 15,
+      "levelMax": 30,
+      "hp": 61,
+      "power": 11,
+      "armor": 1,
+      "xp": 39,
+      "gold": 12,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "ironwood-sentinel",
+      "name": "Ironwood Sentinel",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 17,
+      "levelMax": 34,
+      "hp": 58,
+      "power": 12,
+      "armor": 4,
+      "xp": 43,
+      "gold": 13,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "mist-stalker",
+      "name": "Mist Stalker",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 16,
+      "levelMax": 31,
+      "hp": 55,
+      "power": 11,
+      "armor": 1,
+      "xp": 40,
+      "gold": 12,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "hill-giant-kin",
+      "name": "Hill Giant Kin",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 20,
+      "levelMax": 38,
+      "hp": 66,
+      "power": 13,
+      "armor": 2,
+      "xp": 49,
+      "gold": 15,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "gloom-stag",
+      "name": "Gloom Stag",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 14,
+      "levelMax": 28,
+      "hp": 51,
+      "power": 11,
+      "armor": 1,
+      "xp": 37,
+      "gold": 11,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "salt-marsh-ghoul",
+      "name": "Salt Marsh Ghoul",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 15,
+      "levelMax": 29,
+      "hp": 53,
+      "power": 11,
+      "armor": 1,
+      "xp": 39,
+      "gold": 12,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "basalt-golem-hand",
+      "name": "Basalt Golem Hand",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 18,
+      "levelMax": 36,
+      "hp": 62,
+      "power": 13,
+      "armor": 4,
+      "xp": 46,
+      "gold": 14,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "storm-crow",
+      "name": "Storm Crow",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 13,
+      "levelMax": 26,
+      "hp": 55,
+      "power": 10,
+      "armor": 1,
+      "xp": 35,
+      "gold": 11,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "fen-revenant",
+      "name": "Fen Revenant",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 17,
+      "levelMax": 33,
+      "hp": 58,
+      "power": 12,
+      "armor": 2,
+      "xp": 43,
+      "gold": 13,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "copper-scale-drake",
+      "name": "Copper Scale Drake",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 22,
+      "levelMax": 40,
+      "hp": 69,
+      "power": 20,
+      "armor": 2,
+      "xp": 51,
+      "gold": 16,
+      "tags": [
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "briar-knight",
+      "name": "Briar Knight",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 19,
+      "levelMax": 35,
+      "hp": 62,
+      "power": 13,
+      "armor": 2,
+      "xp": 46,
+      "gold": 14,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "spore-cloud",
+      "name": "Spore Cloud",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 14,
+      "levelMax": 27,
+      "hp": 49,
+      "power": 10,
+      "armor": 1,
+      "xp": 36,
+      "gold": 11,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "glacier-shardling",
+      "name": "Glacier Shardling",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 16,
+      "levelMax": 32,
+      "hp": 56,
+      "power": 12,
+      "armor": 2,
+      "xp": 42,
+      "gold": 13,
+      "tags": [
+        "elemental"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "twilight-fox",
+      "name": "Twilight Fox",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 12,
+      "levelMax": 24,
+      "hp": 45,
+      "power": 9,
+      "armor": 1,
+      "xp": 33,
+      "gold": 10,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "mire-witch",
+      "name": "Mire Witch",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 18,
+      "levelMax": 34,
+      "hp": 60,
+      "power": 12,
+      "armor": 2,
+      "xp": 44,
+      "gold": 14,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "cairn-wight",
+      "name": "Cairn Wight",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 20,
+      "levelMax": 37,
+      "hp": 64,
+      "power": 13,
+      "armor": 2,
+      "xp": 47,
+      "gold": 15,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-demon-herald",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "pine-baron-guard",
+      "name": "Pine Baron Guard",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 21,
+      "levelMax": 38,
+      "hp": 66,
+      "power": 13,
+      "armor": 2,
+      "xp": 49,
+      "gold": 15,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "swamp-hydra-head",
+      "name": "Swamp Hydra Head",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 22,
+      "levelMax": 40,
+      "hp": 69,
+      "power": 14,
+      "armor": 2,
+      "xp": 51,
+      "gold": 16,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "frostford-raider",
+      "name": "Frostford Raider",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 28,
+      "levelMax": 45,
+      "hp": 79,
+      "power": 16,
+      "armor": 3,
+      "xp": 58,
+      "gold": 18,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "ember-cult-acolyte",
+      "name": "Ember Cult Acolyte",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 30,
+      "levelMax": 48,
+      "hp": 84,
+      "power": 17,
+      "armor": 3,
+      "xp": 63,
+      "gold": 20,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "ancient-treant-sapling",
+      "name": "Ancient Treant Sapling",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 32,
+      "levelMax": 50,
+      "hp": 88,
+      "power": 18,
+      "armor": 5,
+      "xp": 65,
+      "gold": 20,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "void-moth-priest",
+      "name": "Void Moth Priest",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 33,
+      "levelMax": 52,
+      "hp": 90,
+      "power": 18,
+      "armor": 3,
+      "xp": 67,
+      "gold": 21,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "sky-wyrmling",
+      "name": "Sky Wyrmling",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 35,
+      "levelMax": 55,
+      "hp": 95,
+      "power": 25,
+      "armor": 3,
+      "xp": 71,
+      "gold": 22,
+      "tags": [
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "grave-moss-titan",
+      "name": "Grave Moss Titan",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 34,
+      "levelMax": 53,
+      "hp": 92,
+      "power": 18,
+      "armor": 3,
+      "xp": 68,
+      "gold": 21,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "thunder-ram",
+      "name": "Thunder Ram",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 30,
+      "levelMax": 48,
+      "hp": 92,
+      "power": 17,
+      "armor": 3,
+      "xp": 63,
+      "gold": 20,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "moonlit-stalker",
+      "name": "Moonlit Stalker",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 31,
+      "levelMax": 49,
+      "hp": 86,
+      "power": 17,
+      "armor": 3,
+      "xp": 64,
+      "gold": 20,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "obsidian-beetle",
+      "name": "Obsidian Beetle",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 36,
+      "levelMax": 54,
+      "hp": 95,
+      "power": 19,
+      "armor": 5,
+      "xp": 71,
+      "gold": 22,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "bog-queen-handmaiden",
+      "name": "Bog Queen Handmaiden",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 37,
+      "levelMax": 56,
+      "hp": 97,
+      "power": 20,
+      "armor": 3,
+      "xp": 72,
+      "gold": 23,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "hollow-oak-treant",
+      "name": "Hollow Oak Treant",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 38,
+      "levelMax": 58,
+      "hp": 101,
+      "power": 20,
+      "armor": 6,
+      "xp": 75,
+      "gold": 24,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "rime-wraith",
+      "name": "Rime Wraith",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 39,
+      "levelMax": 57,
+      "hp": 101,
+      "power": 20,
+      "armor": 4,
+      "xp": 75,
+      "gold": 24,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "coal-elemental",
+      "name": "Coal Elemental",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 35,
+      "levelMax": 52,
+      "hp": 92,
+      "power": 18,
+      "armor": 3,
+      "xp": 68,
+      "gold": 21,
+      "tags": [
+        "elemental"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "deep-forest-lurker",
+      "name": "Deep Forest Lurker",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 40,
+      "levelMax": 60,
+      "hp": 105,
+      "power": 21,
+      "armor": 4,
+      "xp": 78,
+      "gold": 25,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "peak-dragon-cultist",
+      "name": "Peak Dragon Cultist",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 42,
+      "levelMax": 62,
+      "hp": 108,
+      "power": 22,
+      "armor": 4,
+      "xp": 81,
+      "gold": 25,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "swamp-leviathan-spawn",
+      "name": "Swamp Leviathan Spawn",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 44,
+      "levelMax": 64,
+      "hp": 112,
+      "power": 22,
+      "armor": 4,
+      "xp": 84,
+      "gold": 26,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "starfall-sprite",
+      "name": "Starfall Sprite",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 38,
+      "levelMax": 55,
+      "hp": 97,
+      "power": 20,
+      "armor": 3,
+      "xp": 72,
+      "gold": 23,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "ironbark-champion",
+      "name": "Ironbark Champion",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 45,
+      "levelMax": 65,
+      "hp": 114,
+      "power": 23,
+      "armor": 6,
+      "xp": 85,
+      "gold": 27,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "ash-drake",
+      "name": "Ash Drake",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 48,
+      "levelMax": 68,
+      "hp": 119,
+      "power": 30,
+      "armor": 4,
+      "xp": 89,
+      "gold": 28,
+      "tags": [
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "pale-host-soldier",
+      "name": "Pale Host Soldier",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 41,
+      "levelMax": 58,
+      "hp": 103,
+      "power": 21,
+      "armor": 4,
+      "xp": 77,
+      "gold": 24,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "mist-elemental",
+      "name": "Mist Elemental",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 36,
+      "levelMax": 54,
+      "hp": 95,
+      "power": 19,
+      "armor": 3,
+      "xp": 71,
+      "gold": 22,
+      "tags": [
+        "elemental"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "fen-horror",
+      "name": "Fen Horror",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 46,
+      "levelMax": 66,
+      "hp": 116,
+      "power": 23,
+      "armor": 4,
+      "xp": 86,
+      "gold": 27,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "highland-berserker",
+      "name": "Highland Berserker",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 43,
+      "levelMax": 60,
+      "hp": 106,
+      "power": 21,
+      "armor": 4,
+      "xp": 79,
+      "gold": 25,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "gloomwood-huntress",
+      "name": "Gloomwood Huntress",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 40,
+      "levelMax": 57,
+      "hp": 101,
+      "power": 20,
+      "armor": 4,
+      "xp": 75,
+      "gold": 24,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "sunken-cathedral-shade",
+      "name": "Sunken Cathedral Shade",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 47,
+      "levelMax": 67,
+      "hp": 117,
+      "power": 24,
+      "armor": 4,
+      "xp": 88,
+      "gold": 28,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-demon-herald",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "world-eater-gnat",
+      "name": "World-Eater Gnat",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 55,
+      "levelMax": 75,
+      "hp": 132,
+      "power": 26,
+      "armor": 5,
+      "xp": 99,
+      "gold": 31,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "elder-warg-alpha",
+      "name": "Elder Warg Alpha",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 58,
+      "levelMax": 78,
+      "hp": 146,
+      "power": 27,
+      "armor": 5,
+      "xp": 103,
+      "gold": 33,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "chronicle-wraith",
+      "name": "Chronicle Wraith",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 60,
+      "levelMax": 80,
+      "hp": 142,
+      "power": 28,
+      "armor": 5,
+      "xp": 106,
+      "gold": 34,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-demon-herald",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "ley-storm-elemental",
+      "name": "Ley Storm Elemental",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 62,
+      "levelMax": 82,
+      "hp": 145,
+      "power": 29,
+      "armor": 6,
+      "xp": 109,
+      "gold": 34,
+      "tags": [
+        "elemental"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "neverwood-archfey",
+      "name": "Neverwood Archfey",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 65,
+      "levelMax": 85,
+      "hp": 151,
+      "power": 30,
+      "armor": 6,
+      "xp": 113,
+      "gold": 36,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "obsidian-drake",
+      "name": "Obsidian Drake",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 68,
+      "levelMax": 88,
+      "hp": 156,
+      "power": 37,
+      "armor": 6,
+      "xp": 117,
+      "gold": 37,
+      "tags": [
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "ash-titan-fragment",
+      "name": "Ash Titan Fragment",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 70,
+      "levelMax": 90,
+      "hp": 160,
+      "power": 32,
+      "armor": 8,
+      "xp": 120,
+      "gold": 38,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "mire-sovereign-guard",
+      "name": "Mire Sovereign Guard",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 66,
+      "levelMax": 84,
+      "hp": 151,
+      "power": 30,
+      "armor": 6,
+      "xp": 113,
+      "gold": 36,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "void-serpent",
+      "name": "Void Serpent",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 72,
+      "levelMax": 92,
+      "hp": 164,
+      "power": 33,
+      "armor": 6,
+      "xp": 123,
+      "gold": 39,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "frost-giant-outcast",
+      "name": "Frost Giant Outcast",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 74,
+      "levelMax": 94,
+      "hp": 167,
+      "power": 33,
+      "armor": 7,
+      "xp": 126,
+      "gold": 40,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "pale-dragon-spawn",
+      "name": "Pale Dragon Spawn",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 76,
+      "levelMax": 96,
+      "hp": 171,
+      "power": 40,
+      "armor": 7,
+      "xp": 128,
+      "gold": 41,
+      "tags": [
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "root-of-all-thorns",
+      "name": "Root of All Thorns",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 78,
+      "levelMax": 98,
+      "hp": 175,
+      "power": 35,
+      "armor": 7,
+      "xp": 131,
+      "gold": 42,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-stag-aelwyn",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "cathedral-gargoyle",
+      "name": "Cathedral Gargoyle",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 75,
+      "levelMax": 95,
+      "hp": 169,
+      "power": 34,
+      "armor": 9,
+      "xp": 127,
+      "gold": 40,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "bog-emperor-sludge",
+      "name": "Bog Emperor Sludge",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 80,
+      "levelMax": 100,
+      "hp": 179,
+      "power": 35,
+      "armor": 7,
+      "xp": 134,
+      "gold": 43,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "summit-wraith-lord",
+      "name": "Summit Wraith Lord",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 82,
+      "levelMax": 100,
+      "hp": 180,
+      "power": 36,
+      "armor": 7,
+      "xp": 135,
+      "gold": 43,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-demon-herald",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "emberstorm-elemental",
+      "name": "Emberstorm Elemental",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 84,
+      "levelMax": 100,
+      "hp": 182,
+      "power": 36,
+      "armor": 7,
+      "xp": 137,
+      "gold": 43,
+      "tags": [
+        "elemental"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "hollow-king-knight",
+      "name": "Hollow King Knight",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 86,
+      "levelMax": 100,
+      "hp": 184,
+      "power": 36,
+      "armor": 7,
+      "xp": 138,
+      "gold": 44,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "deep-mire-leviathan",
+      "name": "Deep Mire Leviathan",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 88,
+      "levelMax": 100,
+      "hp": 186,
+      "power": 37,
+      "armor": 7,
+      "xp": 140,
+      "gold": 44,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "skyfire-wyrm",
+      "name": "Skyfire Wyrm",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 90,
+      "levelMax": 100,
+      "hp": 188,
+      "power": 40,
+      "armor": 7,
+      "xp": 141,
+      "gold": 45,
+      "tags": [
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "wild-law-stag",
+      "name": "Wild Law Stag",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 92,
+      "levelMax": 100,
+      "hp": 190,
+      "power": 38,
+      "armor": 8,
+      "xp": 142,
+      "gold": 45,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "young-goblin-scout",
+      "name": "Young Goblin Scout",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 1,
+      "levelMax": 8,
+      "hp": 19,
+      "power": 4,
+      "armor": 0,
+      "xp": 14,
+      "gold": 4,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "trash"
+    },
+    {
+      "id": "young-mire-slime",
+      "name": "Young Mire Slime",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 1,
+      "levelMax": 6,
+      "hp": 18,
+      "power": 4,
+      "armor": 0,
+      "xp": 12,
+      "gold": 3,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "trash"
+    },
+    {
+      "id": "young-crow-swarm",
+      "name": "Young Crow Swarm",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 1,
+      "levelMax": 10,
+      "hp": 29,
+      "power": 5,
+      "armor": 0,
+      "xp": 15,
+      "gold": 4,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "weight": 2,
+      "lootPool": "trash"
+    },
+    {
+      "id": "young-frost-warg-pup",
+      "name": "Young Frost Warg Pup",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 2,
+      "levelMax": 12,
+      "hp": 33,
+      "power": 6,
+      "armor": 0,
+      "xp": 18,
+      "gold": 5,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-bear-bruna",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-bandit-cutpurse",
+      "name": "Young Bandit Cutpurse",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 3,
+      "levelMax": 14,
+      "hp": 27,
+      "power": 6,
+      "armor": 0,
+      "xp": 19,
+      "gold": 6,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-pine-needle-sprite",
+      "name": "Young Pine Needle Sprite",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 2,
+      "levelMax": 10,
+      "hp": 23,
+      "power": 5,
+      "armor": 0,
+      "xp": 16,
+      "gold": 5,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-root-crawler",
+      "name": "Young Root Crawler",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 4,
+      "levelMax": 16,
+      "hp": 31,
+      "power": 7,
+      "armor": 0,
+      "xp": 22,
+      "gold": 7,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-thistle-boar",
+      "name": "Young Thistle Boar",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 3,
+      "levelMax": 15,
+      "hp": 37,
+      "power": 6,
+      "armor": 0,
+      "xp": 21,
+      "gold": 6,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-bear-bruna",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-mossback-toad",
+      "name": "Young Mossback Toad",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 2,
+      "levelMax": 12,
+      "hp": 33,
+      "power": 6,
+      "armor": 0,
+      "xp": 18,
+      "gold": 5,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-snare-spider",
+      "name": "Young Snare Spider",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 4,
+      "levelMax": 19,
+      "hp": 40,
+      "power": 7,
+      "armor": 0,
+      "xp": 23,
+      "gold": 7,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-woodcutter-ghoul",
+      "name": "Young Woodcutter Ghoul",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 6,
+      "levelMax": 19,
+      "hp": 34,
+      "power": 7,
+      "armor": 1,
+      "xp": 25,
+      "gold": 7,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-briar-wolf",
+      "name": "Young Briar Wolf",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 7,
+      "levelMax": 21,
+      "hp": 46,
+      "power": 8,
+      "armor": 1,
+      "xp": 28,
+      "gold": 8,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-bear-bruna",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-hollow-stag",
+      "name": "Young Hollow Stag",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 8,
+      "levelMax": 21,
+      "hp": 38,
+      "power": 8,
+      "armor": 1,
+      "xp": 28,
+      "gold": 8,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-demon-herald",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-fern-wisp",
+      "name": "Young Fern Wisp",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 4,
+      "levelMax": 13,
+      "hp": 27,
+      "power": 6,
+      "armor": 0,
+      "xp": 19,
+      "gold": 6,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-trail-bandit",
+      "name": "Young Trail Bandit",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 6,
+      "levelMax": 17,
+      "hp": 32,
+      "power": 7,
+      "armor": 0,
+      "xp": 23,
+      "gold": 7,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-sap-ooze",
+      "name": "Young Sap Ooze",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 5,
+      "levelMax": 15,
+      "hp": 31,
+      "power": 7,
+      "armor": 0,
+      "xp": 22,
+      "gold": 7,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-nettle-hare",
+      "name": "Young Nettle Hare",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 2,
+      "levelMax": 10,
+      "hp": 31,
+      "power": 5,
+      "armor": 0,
+      "xp": 16,
+      "gold": 5,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-grove-imp",
+      "name": "Young Grove Imp",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 5,
+      "levelMax": 17,
+      "hp": 32,
+      "power": 7,
+      "armor": 0,
+      "xp": 23,
+      "gold": 7,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-bark-golem-shard",
+      "name": "Young Bark Golem Shard",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 9,
+      "levelMax": 22,
+      "hp": 40,
+      "power": 8,
+      "armor": 3,
+      "xp": 29,
+      "gold": 9,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-whisper-moth-cloud",
+      "name": "Young Whisper Moth Cloud",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 6,
+      "levelMax": 19,
+      "hp": 34,
+      "power": 7,
+      "armor": 1,
+      "xp": 25,
+      "gold": 7,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-hedge-witchling",
+      "name": "Young Hedge Witchling",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 8,
+      "levelMax": 20,
+      "hp": 38,
+      "power": 8,
+      "armor": 1,
+      "xp": 28,
+      "gold": 8,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-fungal-shambler",
+      "name": "Young Fungal Shambler",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 7,
+      "levelMax": 21,
+      "hp": 38,
+      "power": 8,
+      "armor": 1,
+      "xp": 28,
+      "gold": 8,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-river-pike-spirit",
+      "name": "Young River Pike Spirit",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 9,
+      "levelMax": 22,
+      "hp": 40,
+      "power": 8,
+      "armor": 1,
+      "xp": 29,
+      "gold": 9,
+      "tags": [
+        "elemental"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-oak-warden-thrall",
+      "name": "Young Oak Warden Thrall",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 11,
+      "levelMax": 22,
+      "hp": 42,
+      "power": 9,
+      "armor": 3,
+      "xp": 30,
+      "gold": 9,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-wilderness-poacher",
+      "name": "Young Wilderness Poacher",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 8,
+      "levelMax": 22,
+      "hp": 40,
+      "power": 8,
+      "armor": 1,
+      "xp": 29,
+      "gold": 9,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-bog-leech-cluster",
+      "name": "Young Bog Leech Cluster",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 6,
+      "levelMax": 19,
+      "hp": 34,
+      "power": 7,
+      "armor": 1,
+      "xp": 25,
+      "gold": 7,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-will-o-mire",
+      "name": "Young Will-o-Mire",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 7,
+      "levelMax": 21,
+      "hp": 38,
+      "power": 8,
+      "armor": 1,
+      "xp": 28,
+      "gold": 8,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-peat-hag",
+      "name": "Young Peat Hag",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 10,
+      "levelMax": 25,
+      "hp": 43,
+      "power": 9,
+      "armor": 1,
+      "xp": 32,
+      "gold": 10,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-reed-stalker",
+      "name": "Young Reed Stalker",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 8,
+      "levelMax": 23,
+      "hp": 48,
+      "power": 8,
+      "armor": 1,
+      "xp": 29,
+      "gold": 9,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-marsh-gas-elemental",
+      "name": "Young Marsh Gas Elemental",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 9,
+      "levelMax": 24,
+      "hp": 42,
+      "power": 9,
+      "armor": 1,
+      "xp": 30,
+      "gold": 9,
+      "tags": [
+        "elemental"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-sunken-pilgrim",
+      "name": "Young Sunken Pilgrim",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 12,
+      "levelMax": 27,
+      "hp": 47,
+      "power": 10,
+      "armor": 1,
+      "xp": 35,
+      "gold": 11,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-demon-herald",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-croak-trollkin",
+      "name": "Young Croak Trollkin",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 13,
+      "levelMax": 28,
+      "hp": 49,
+      "power": 10,
+      "armor": 1,
+      "xp": 36,
+      "gold": 11,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-mire-adder",
+      "name": "Young Mire Adder",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 8,
+      "levelMax": 22,
+      "hp": 48,
+      "power": 8,
+      "armor": 1,
+      "xp": 29,
+      "gold": 9,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-rotcap-shroomling",
+      "name": "Young Rotcap Shroomling",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 9,
+      "levelMax": 23,
+      "hp": 42,
+      "power": 9,
+      "armor": 1,
+      "xp": 30,
+      "gold": 9,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-quagmire-crab",
+      "name": "Young Quagmire Crab",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 10,
+      "levelMax": 24,
+      "hp": 51,
+      "power": 9,
+      "armor": 1,
+      "xp": 32,
+      "gold": 10,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-drowned-courier",
+      "name": "Young Drowned Courier",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 11,
+      "levelMax": 26,
+      "hp": 45,
+      "power": 9,
+      "armor": 1,
+      "xp": 33,
+      "gold": 10,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-swamp-witch-apprentice",
+      "name": "Young Swamp Witch Apprentice",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 12,
+      "levelMax": 27,
+      "hp": 47,
+      "power": 10,
+      "armor": 1,
+      "xp": 35,
+      "gold": 11,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-gloom-frog",
+      "name": "Young Gloom Frog",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 7,
+      "levelMax": 19,
+      "hp": 44,
+      "power": 8,
+      "armor": 1,
+      "xp": 26,
+      "gold": 8,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-bog-lantern-wisp",
+      "name": "Young Bog Lantern Wisp",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 9,
+      "levelMax": 22,
+      "hp": 40,
+      "power": 8,
+      "armor": 1,
+      "xp": 29,
+      "gold": 9,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-mudslide-elemental",
+      "name": "Young Mudslide Elemental",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 13,
+      "levelMax": 30,
+      "hp": 51,
+      "power": 11,
+      "armor": 1,
+      "xp": 37,
+      "gold": 11,
+      "tags": [
+        "elemental"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-stone-goat",
+      "name": "Young Stone Goat",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 8,
+      "levelMax": 21,
+      "hp": 46,
+      "power": 8,
+      "armor": 1,
+      "xp": 28,
+      "gold": 8,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-stag-aelwyn",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-cliff-raven",
+      "name": "Young Cliff Raven",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 7,
+      "levelMax": 19,
+      "hp": 44,
+      "power": 8,
+      "armor": 1,
+      "xp": 26,
+      "gold": 8,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-snow-hare",
+      "name": "Young Snow Hare",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 6,
+      "levelMax": 15,
+      "hp": 39,
+      "power": 7,
+      "armor": 0,
+      "xp": 22,
+      "gold": 7,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-avalanche-cub",
+      "name": "Young Avalanche Cub",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 12,
+      "levelMax": 27,
+      "hp": 47,
+      "power": 10,
+      "armor": 1,
+      "xp": 35,
+      "gold": 11,
+      "tags": [
+        "elemental"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-frost-bandit",
+      "name": "Young Frost Bandit",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 11,
+      "levelMax": 25,
+      "hp": 45,
+      "power": 9,
+      "armor": 1,
+      "xp": 33,
+      "gold": 10,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-ice-mite-swarm",
+      "name": "Young Ice Mite Swarm",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 9,
+      "levelMax": 22,
+      "hp": 40,
+      "power": 8,
+      "armor": 1,
+      "xp": 29,
+      "gold": 9,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-granite-beetle",
+      "name": "Young Granite Beetle",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 10,
+      "levelMax": 24,
+      "hp": 43,
+      "power": 9,
+      "armor": 3,
+      "xp": 32,
+      "gold": 10,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-wind-screecher",
+      "name": "Young Wind Screecher",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 11,
+      "levelMax": 26,
+      "hp": 53,
+      "power": 9,
+      "armor": 1,
+      "xp": 33,
+      "gold": 10,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-bear-bruna",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-peak-hermit",
+      "name": "Young Peak Hermit",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 13,
+      "levelMax": 30,
+      "hp": 51,
+      "power": 11,
+      "armor": 1,
+      "xp": 37,
+      "gold": 11,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-hoarfrost-warg",
+      "name": "Young Hoarfrost Warg",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 14,
+      "levelMax": 32,
+      "hp": 63,
+      "power": 11,
+      "armor": 1,
+      "xp": 40,
+      "gold": 12,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-shale-crawler",
+      "name": "Young Shale Crawler",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 13,
+      "levelMax": 28,
+      "hp": 49,
+      "power": 10,
+      "armor": 1,
+      "xp": 36,
+      "gold": 11,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-rime-sprite",
+      "name": "Young Rime Sprite",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 11,
+      "levelMax": 24,
+      "hp": 43,
+      "power": 9,
+      "armor": 1,
+      "xp": 32,
+      "gold": 10,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-stag-aelwyn",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-echo-banshee",
+      "name": "Young Echo Banshee",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 16,
+      "levelMax": 34,
+      "hp": 58,
+      "power": 12,
+      "armor": 2,
+      "xp": 43,
+      "gold": 13,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-crag-imp",
+      "name": "Young Crag Imp",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 12,
+      "levelMax": 26,
+      "hp": 47,
+      "power": 10,
+      "armor": 1,
+      "xp": 35,
+      "gold": 11,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-fox-pip",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-thunder-moth",
+      "name": "Young Thunder Moth",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 14,
+      "levelMax": 30,
+      "hp": 53,
+      "power": 11,
+      "armor": 1,
+      "xp": 39,
+      "gold": 12,
+      "tags": [
+        "elemental"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-goblin-archer",
+      "name": "Young Goblin Archer",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 16,
+      "levelMax": 28,
+      "hp": 53,
+      "power": 11,
+      "armor": 1,
+      "xp": 39,
+      "gold": 12,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-road-reaver",
+      "name": "Young Road Reaver",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 17,
+      "levelMax": 31,
+      "hp": 56,
+      "power": 12,
+      "armor": 2,
+      "xp": 42,
+      "gold": 13,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-raven-cultist",
+      "name": "Young Raven Cultist",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 16,
+      "levelMax": 30,
+      "hp": 55,
+      "power": 11,
+      "armor": 1,
+      "xp": 40,
+      "gold": 12,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-green-eye-shaman",
+      "name": "Young Green-Eye Shaman",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 18,
+      "levelMax": 33,
+      "hp": 58,
+      "power": 12,
+      "armor": 2,
+      "xp": 43,
+      "gold": 13,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-ambush-captain",
+      "name": "Young Ambush Captain",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 19,
+      "levelMax": 35,
+      "hp": 62,
+      "power": 13,
+      "armor": 2,
+      "xp": 46,
+      "gold": 14,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 1,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-ember-guard",
+      "name": "Young Ember Guard",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 21,
+      "levelMax": 37,
+      "hp": 66,
+      "power": 13,
+      "armor": 2,
+      "xp": 49,
+      "gold": 15,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 1,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-bridge-trollkin",
+      "name": "Young Bridge Trollkin",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 18,
+      "levelMax": 32,
+      "hp": 58,
+      "power": 12,
+      "armor": 2,
+      "xp": 43,
+      "gold": 13,
+      "tags": [
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-stolen-mule-golem",
+      "name": "Young Stolen Mule Golem",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 20,
+      "levelMax": 35,
+      "hp": 62,
+      "power": 13,
+      "armor": 4,
+      "xp": 46,
+      "gold": 14,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 1,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-mad-pine-sprite",
+      "name": "Young Mad Pine Sprite",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 16,
+      "levelMax": 27,
+      "hp": 51,
+      "power": 11,
+      "armor": 1,
+      "xp": 37,
+      "gold": 11,
+      "tags": [
+        "fey"
+      ],
+      "artId": "art-stag-aelwyn",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-hollow-knight-errant",
+      "name": "Young Hollow Knight Errant",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 22,
+      "levelMax": 40,
+      "hp": 69,
+      "power": 14,
+      "armor": 2,
+      "xp": 51,
+      "gold": 16,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-goblin-scout",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "young-corpse-candle",
+      "name": "Young Corpse Candle",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 19,
+      "levelMax": 35,
+      "hp": 62,
+      "power": 13,
+      "armor": 2,
+      "xp": 46,
+      "gold": 14,
+      "tags": [
+        "undead"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 1,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-wyrmkin-scout",
+      "name": "Young Wyrmkin Scout",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 24,
+      "levelMax": 43,
+      "hp": 73,
+      "power": 21,
+      "armor": 2,
+      "xp": 54,
+      "gold": 17,
+      "tags": [
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "young-ash-wolf",
+      "name": "Young Ash Wolf",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 21,
+      "levelMax": 38,
+      "hp": 74,
+      "power": 13,
+      "armor": 2,
+      "xp": 49,
+      "gold": 15,
+      "tags": [
+        "beast"
+      ],
+      "artId": "art-bear-bruna",
+      "weight": 1,
+      "lootPool": "common"
+    },
+    {
+      "id": "young-ironwood-sentinel",
+      "name": "Young Ironwood Sentinel",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 23,
+      "levelMax": 42,
+      "hp": 71,
+      "power": 15,
+      "armor": 4,
+      "xp": 53,
+      "gold": 16,
+      "tags": [
+        "construct"
+      ],
+      "artId": "art-ember-thane",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "young-mist-stalker",
+      "name": "Young Mist Stalker",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 22,
+      "levelMax": 39,
+      "hp": 68,
+      "power": 14,
+      "armor": 2,
+      "xp": 50,
+      "gold": 16,
+      "tags": [
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "weight": 1,
+      "lootPool": "magic"
+    }
+  ]
+}

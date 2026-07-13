@@ -1,0 +1,1405 @@
+{
+  "bosses": [
+    {
+      "id": "frostford-warg",
+      "name": "Frostford Warg",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 8,
+      "levelMax": 25,
+      "hp": 125,
+      "power": 17,
+      "armor": 3,
+      "xp": 120,
+      "gold": 27,
+      "tags": [
+        "boss",
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "uniqueSkill": {
+        "id": "pack-howl",
+        "name": "Pack Howl",
+        "blurb": "Rally nearby beasts; bites twice.",
+        "power": 23,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "frostford-fang"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "goblin-king-road",
+      "name": "Goblin King of the Road",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 12,
+      "levelMax": 30,
+      "hp": 128,
+      "power": 19,
+      "armor": 3,
+      "xp": 148,
+      "gold": 33,
+      "tags": [
+        "boss",
+        "humanoid"
+      ],
+      "artId": "art-goblin-scout",
+      "uniqueSkill": {
+        "id": "crown-rally",
+        "name": "Crown Rally",
+        "blurb": "Summons goblin reinforcements.",
+        "power": 25,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "road-kings-crown"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "mire-hag-queen",
+      "name": "Mire Hag Queen",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 15,
+      "levelMax": 35,
+      "hp": 145,
+      "power": 20,
+      "armor": 4,
+      "xp": 172,
+      "gold": 39,
+      "tags": [
+        "boss",
+        "humanoid"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "bog-curse",
+        "name": "Bog Curse",
+        "blurb": "Slows and poisons the party.",
+        "power": 26,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "hag-queen-talisman"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "bridge-troll-bruin",
+      "name": "Bruin the Bridge Troll",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 10,
+      "levelMax": 28,
+      "hp": 118,
+      "power": 18,
+      "armor": 3,
+      "xp": 140,
+      "gold": 33,
+      "tags": [
+        "boss",
+        "humanoid"
+      ],
+      "artId": "art-bear-bruna",
+      "uniqueSkill": {
+        "id": "bridge-slam",
+        "name": "Bridge Slam",
+        "blurb": "Crushing overhead smash.",
+        "power": 24,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "bruins-toll-club"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "raven-cult-high-priest",
+      "name": "High Priest of the Raven",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 18,
+      "levelMax": 40,
+      "hp": 165,
+      "power": 21,
+      "armor": 4,
+      "xp": 196,
+      "gold": 45,
+      "tags": [
+        "boss",
+        "humanoid"
+      ],
+      "artId": "art-raven-corv",
+      "uniqueSkill": {
+        "id": "omen-feast",
+        "name": "Omen Feast",
+        "blurb": "Dark healing from fallen crows.",
+        "power": 27,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "raven-priest-mask"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "ember-hold-captain",
+      "name": "Ember Hold Captain",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 20,
+      "levelMax": 42,
+      "hp": 173,
+      "power": 22,
+      "armor": 4,
+      "xp": 204,
+      "gold": 48,
+      "tags": [
+        "boss",
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "ember-charge",
+        "name": "Ember Charge",
+        "blurb": "Flaming shield rush.",
+        "power": 28,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "ember-captains-gorget"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "ancient-treant",
+      "name": "Ancient Treant",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 25,
+      "levelMax": 50,
+      "hp": 200,
+      "power": 24,
+      "armor": 7,
+      "xp": 240,
+      "gold": 57,
+      "tags": [
+        "boss",
+        "construct"
+      ],
+      "artId": "art-stag-aelwyn",
+      "uniqueSkill": {
+        "id": "root-prison",
+        "name": "Root Prison",
+        "blurb": "Roots bind a target in place.",
+        "power": 30,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "heartwood-branch"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "sky-wyrm-nest-guardian",
+      "name": "Sky Wyrm Nest Guardian",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 30,
+      "levelMax": 55,
+      "hp": 225,
+      "power": 32,
+      "armor": 5,
+      "xp": 268,
+      "gold": 63,
+      "tags": [
+        "boss",
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "uniqueSkill": {
+        "id": "sky-dive",
+        "name": "Sky Dive",
+        "blurb": "Aerial strike from above.",
+        "power": 38,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "wyrm-nest-scale"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "bog-leviathan",
+      "name": "Bog Leviathan",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 28,
+      "levelMax": 52,
+      "hp": 215,
+      "power": 25,
+      "armor": 5,
+      "xp": 256,
+      "gold": 60,
+      "tags": [
+        "boss",
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "mire-pull",
+        "name": "Mire Pull",
+        "blurb": "Drags foes into the swamp.",
+        "power": 31,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "leviathan-tooth"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "cairn-wight-lord",
+      "name": "Cairn Wight Lord",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 32,
+      "levelMax": 58,
+      "hp": 238,
+      "power": 27,
+      "armor": 5,
+      "xp": 284,
+      "gold": 66,
+      "tags": [
+        "boss",
+        "undead"
+      ],
+      "artId": "art-demon-herald",
+      "uniqueSkill": {
+        "id": "grave-chill",
+        "name": "Grave Chill",
+        "blurb": "Life-draining frost aura.",
+        "power": 33,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "cairn-wight-blade"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "ironwood-champion",
+      "name": "Ironwood Champion",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 35,
+      "levelMax": 60,
+      "hp": 248,
+      "power": 28,
+      "armor": 7,
+      "xp": 296,
+      "gold": 69,
+      "tags": [
+        "boss",
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "uniqueSkill": {
+        "id": "bark-armor",
+        "name": "Bark Armor",
+        "blurb": "Hardens skin like ironwood.",
+        "power": 34,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "ironwood-plate-shard"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "peak-storm-eagle",
+      "name": "Peak Storm Eagle",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 22,
+      "levelMax": 45,
+      "hp": 203,
+      "power": 23,
+      "armor": 4,
+      "xp": 216,
+      "gold": 51,
+      "tags": [
+        "boss",
+        "beast"
+      ],
+      "artId": "art-raven-corv",
+      "uniqueSkill": {
+        "id": "lightning-talon",
+        "name": "Lightning Talon",
+        "blurb": "Thunder strike on dive.",
+        "power": 29,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "storm-eagle-quill"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "fen-revenant-knight",
+      "name": "Fen Revenant Knight",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 26,
+      "levelMax": 48,
+      "hp": 200,
+      "power": 24,
+      "armor": 5,
+      "xp": 240,
+      "gold": 57,
+      "tags": [
+        "boss",
+        "undead"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "drowned-oath",
+        "name": "Drowned Oath",
+        "blurb": "Forced duel — single target.",
+        "power": 30,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "revenant-oath-ring"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "copper-drake-broodmother",
+      "name": "Copper Drake Broodmother",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 38,
+      "levelMax": 65,
+      "hp": 265,
+      "power": 35,
+      "armor": 6,
+      "xp": 316,
+      "gold": 75,
+      "tags": [
+        "boss",
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "uniqueSkill": {
+        "id": "brood-call",
+        "name": "Brood Call",
+        "blurb": "Spawns drake whelps.",
+        "power": 41,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "copper-drake-heart"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "mist-stalker-alpha",
+      "name": "Mist Stalker Alpha",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 24,
+      "levelMax": 46,
+      "hp": 193,
+      "power": 24,
+      "armor": 4,
+      "xp": 228,
+      "gold": 54,
+      "tags": [
+        "boss",
+        "aberration"
+      ],
+      "artId": "art-wolf-ulfric",
+      "uniqueSkill": {
+        "id": "vanish-strike",
+        "name": "Vanish Strike",
+        "blurb": "Vanishes then ambushes.",
+        "power": 30,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "mist-stalker-cloak"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "hill-giant-chieftain",
+      "name": "Hill Giant Chieftain",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 30,
+      "levelMax": 55,
+      "hp": 225,
+      "power": 26,
+      "armor": 5,
+      "xp": 268,
+      "gold": 63,
+      "tags": [
+        "boss",
+        "humanoid"
+      ],
+      "artId": "art-bear-bruna",
+      "uniqueSkill": {
+        "id": "boulder-heave",
+        "name": "Boulder Heave",
+        "blurb": "Throws a massive boulder.",
+        "power": 32,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "giant-chiefs-girdle"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "swamp-witch-coven-mother",
+      "name": "Coven Mother",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 34,
+      "levelMax": 58,
+      "hp": 243,
+      "power": 28,
+      "armor": 5,
+      "xp": 288,
+      "gold": 69,
+      "tags": [
+        "boss",
+        "humanoid"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "hex-weave",
+        "name": "Hex Weave",
+        "blurb": "Stacking curse on all foes.",
+        "power": 34,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "coven-mothers-staff"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "hollow-oak-spirit",
+      "name": "Hollow Oak Spirit",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 20,
+      "levelMax": 40,
+      "hp": 170,
+      "power": 22,
+      "armor": 4,
+      "xp": 200,
+      "gold": 48,
+      "tags": [
+        "boss",
+        "fey"
+      ],
+      "artId": "art-stag-aelwyn",
+      "uniqueSkill": {
+        "id": "wild-law",
+        "name": "Wild Law",
+        "blurb": "Nature buff for allies.",
+        "power": 28,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "hollow-oak-acorn"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "ash-wolf-pack-leader",
+      "name": "Ash Wolf Pack Leader",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 18,
+      "levelMax": 38,
+      "hp": 180,
+      "power": 21,
+      "armor": 4,
+      "xp": 188,
+      "gold": 45,
+      "tags": [
+        "boss",
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "uniqueSkill": {
+        "id": "ash-bite",
+        "name": "Ash Bite",
+        "blurb": "Burning fang attack.",
+        "power": 27,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "ash-wolf-pelt"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "granite-golem-warden",
+      "name": "Granite Golem Warden",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 36,
+      "levelMax": 62,
+      "hp": 258,
+      "power": 29,
+      "armor": 8,
+      "xp": 308,
+      "gold": 72,
+      "tags": [
+        "boss",
+        "construct"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "stone-skin",
+        "name": "Stone Skin",
+        "blurb": "Temporary massive armor.",
+        "power": 35,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "granite-golem-core"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "void-moth-oracle",
+      "name": "Void Moth Oracle",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 40,
+      "levelMax": 68,
+      "hp": 280,
+      "power": 30,
+      "armor": 6,
+      "xp": 336,
+      "gold": 78,
+      "tags": [
+        "boss",
+        "aberration"
+      ],
+      "artId": "art-raven-corv",
+      "uniqueSkill": {
+        "id": "prophecy-dust",
+        "name": "Prophecy Dust",
+        "blurb": "Confuses and damages.",
+        "power": 36,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "void-moth-antenna"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "frost-giant-exile",
+      "name": "Frost Giant Exile",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 42,
+      "levelMax": 70,
+      "hp": 290,
+      "power": 31,
+      "armor": 6,
+      "xp": 344,
+      "gold": 81,
+      "tags": [
+        "boss",
+        "humanoid"
+      ],
+      "artId": "art-bear-bruna",
+      "uniqueSkill": {
+        "id": "glacier-fist",
+        "name": "Glacier Fist",
+        "blurb": "Ice fist smash.",
+        "power": 37,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "exile-frost-axe"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "pale-host-commander",
+      "name": "Pale Host Commander",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 44,
+      "levelMax": 72,
+      "hp": 298,
+      "power": 32,
+      "armor": 6,
+      "xp": 356,
+      "gold": 84,
+      "tags": [
+        "boss",
+        "undead"
+      ],
+      "artId": "art-demon-herald",
+      "uniqueSkill": {
+        "id": "host-rally",
+        "name": "Host Rally",
+        "blurb": "Raises fallen undead.",
+        "power": 38,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "pale-host-banner"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "ember-cult-flame-keeper",
+      "name": "Flame Keeper",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 38,
+      "levelMax": 64,
+      "hp": 265,
+      "power": 29,
+      "armor": 6,
+      "xp": 316,
+      "gold": 75,
+      "tags": [
+        "boss",
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "banked-coals",
+        "name": "Banked Coals",
+        "blurb": "Fire damage over time.",
+        "power": 35,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "flame-keepers-brand"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "deep-forest-lurker-brood",
+      "name": "Deep Forest Lurker Brood",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 46,
+      "levelMax": 74,
+      "hp": 308,
+      "power": 33,
+      "armor": 7,
+      "xp": 368,
+      "gold": 87,
+      "tags": [
+        "boss",
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "brood-swarm",
+        "name": "Brood Swarm",
+        "blurb": "Many small bites.",
+        "power": 39,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "lurker-brood-sac"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "moonlit-stalker-queen",
+      "name": "Moonlit Stalker Queen",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 40,
+      "levelMax": 66,
+      "hp": 275,
+      "power": 30,
+      "armor": 6,
+      "xp": 328,
+      "gold": 78,
+      "tags": [
+        "boss",
+        "fey"
+      ],
+      "artId": "art-fox-pip",
+      "uniqueSkill": {
+        "id": "moonbeam",
+        "name": "Moonbeam",
+        "blurb": "Radiant fey damage.",
+        "power": 36,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "moonlit-stalker-crown"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "obsidian-drake-elder",
+      "name": "Obsidian Drake Elder",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 50,
+      "levelMax": 80,
+      "hp": 330,
+      "power": 40,
+      "armor": 7,
+      "xp": 396,
+      "gold": 93,
+      "tags": [
+        "boss",
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "uniqueSkill": {
+        "id": "obsidian-breath",
+        "name": "Obsidian Breath",
+        "blurb": "Volcanic breath cone.",
+        "power": 45,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "obsidian-drake-horn"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "summit-wraith",
+      "name": "Summit Wraith",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 48,
+      "levelMax": 78,
+      "hp": 323,
+      "power": 34,
+      "armor": 7,
+      "xp": 384,
+      "gold": 90,
+      "tags": [
+        "boss",
+        "undead"
+      ],
+      "artId": "art-demon-herald",
+      "uniqueSkill": {
+        "id": "peak-mist",
+        "name": "Peak Mist",
+        "blurb": "Blinds and chills.",
+        "power": 40,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "summit-wraith-shroud"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "neverwood-archfey-courtier",
+      "name": "Neverwood Archfey Courtier",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 52,
+      "levelMax": 82,
+      "hp": 340,
+      "power": 35,
+      "armor": 7,
+      "xp": 408,
+      "gold": 96,
+      "tags": [
+        "boss",
+        "fey"
+      ],
+      "artId": "art-stag-aelwyn",
+      "uniqueSkill": {
+        "id": "fey-glamour",
+        "name": "Fey Glamour",
+        "blurb": "Charms and confuses.",
+        "power": 41,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "archfey-court-scepter"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "mire-sovereign",
+      "name": "Mire Sovereign",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 55,
+      "levelMax": 85,
+      "hp": 355,
+      "power": 36,
+      "armor": 7,
+      "xp": 424,
+      "gold": 102,
+      "tags": [
+        "boss",
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "sovereign-tide",
+        "name": "Sovereign Tide",
+        "blurb": "Swamp wave engulfs foes.",
+        "power": 42,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "mire-sovereign-crown"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "chronicle-wraith",
+      "name": "Chronicle Wraith",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 58,
+      "levelMax": 88,
+      "hp": 368,
+      "power": 37,
+      "armor": 8,
+      "xp": 440,
+      "gold": 105,
+      "tags": [
+        "boss",
+        "undead"
+      ],
+      "artId": "art-raven-corv",
+      "uniqueSkill": {
+        "id": "unwritten-page",
+        "name": "Unwritten Page",
+        "blurb": "Erases buffs from foes.",
+        "power": 43,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "chronicle-wraith-quill"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "ash-titan-sentinel",
+      "name": "Ash Titan Sentinel",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 60,
+      "levelMax": 90,
+      "hp": 378,
+      "power": 38,
+      "armor": 10,
+      "xp": 452,
+      "gold": 108,
+      "tags": [
+        "boss",
+        "construct"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "titan-stomp",
+        "name": "Titan Stomp",
+        "blurb": "Ground-shaking AoE.",
+        "power": 44,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "ash-titan-plate"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "ley-storm-elemental-lord",
+      "name": "Ley Storm Elemental Lord",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 62,
+      "levelMax": 92,
+      "hp": 385,
+      "power": 39,
+      "armor": 8,
+      "xp": 464,
+      "gold": 111,
+      "tags": [
+        "boss",
+        "elemental"
+      ],
+      "artId": "art-dragon-silhouette",
+      "uniqueSkill": {
+        "id": "ley-burst",
+        "name": "Ley Burst",
+        "blurb": "Arcane lightning storm.",
+        "power": 45,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "ley-storm-core"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "pale-dragon-spawn-prince",
+      "name": "Pale Dragon Spawn Prince",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 65,
+      "levelMax": 95,
+      "hp": 400,
+      "power": 46,
+      "armor": 8,
+      "xp": 480,
+      "gold": 114,
+      "tags": [
+        "boss",
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "uniqueSkill": {
+        "id": "pale-breath",
+        "name": "Pale Breath",
+        "blurb": "Necrotic dragon breath.",
+        "power": 45,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "pale-dragon-fang"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "root-of-all-thorns",
+      "name": "Root of All Thorns",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 68,
+      "levelMax": 98,
+      "hp": 415,
+      "power": 41,
+      "armor": 8,
+      "xp": 496,
+      "gold": 117,
+      "tags": [
+        "boss",
+        "fey"
+      ],
+      "artId": "art-stag-aelwyn",
+      "uniqueSkill": {
+        "id": "thorn-maze",
+        "name": "Thorn Maze",
+        "blurb": "Thorns damage all who move.",
+        "power": 45,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "root-thorn-circlet"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "cathedral-gargoyle-colossus",
+      "name": "Cathedral Gargoyle Colossus",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 70,
+      "levelMax": 96,
+      "hp": 415,
+      "power": 41,
+      "armor": 10,
+      "xp": 496,
+      "gold": 117,
+      "tags": [
+        "boss",
+        "construct"
+      ],
+      "artId": "art-bear-bruna",
+      "uniqueSkill": {
+        "id": "stone-gaze",
+        "name": "Stone Gaze",
+        "blurb": "Petrifying stare.",
+        "power": 45,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "gargoyle-stone-wings"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "bog-emperor",
+      "name": "Bog Emperor",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 72,
+      "levelMax": 100,
+      "hp": 428,
+      "power": 42,
+      "armor": 9,
+      "xp": 512,
+      "gold": 123,
+      "tags": [
+        "boss",
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "emperor-sludge",
+        "name": "Emperor Sludge",
+        "blurb": "Massive toxic eruption.",
+        "power": 45,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "bog-emperor-mantle"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "hollow-king-knight",
+      "name": "Hollow King Knight",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 75,
+      "levelMax": 100,
+      "hp": 433,
+      "power": 42,
+      "armor": 9,
+      "xp": 520,
+      "gold": 123,
+      "tags": [
+        "boss",
+        "undead"
+      ],
+      "artId": "art-demon-herald",
+      "uniqueSkill": {
+        "id": "hollow-strike",
+        "name": "Hollow Strike",
+        "blurb": "Ignores armor.",
+        "power": 45,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "hollow-king-greatsword"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "skyfire-wyrm-ancient",
+      "name": "Ancient Skyfire Wyrm",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 78,
+      "levelMax": 100,
+      "hp": 443,
+      "power": 48,
+      "armor": 9,
+      "xp": 532,
+      "gold": 126,
+      "tags": [
+        "boss",
+        "dragon"
+      ],
+      "artId": "art-dragon-silhouette",
+      "uniqueSkill": {
+        "id": "skyfire-rain",
+        "name": "Skyfire Rain",
+        "blurb": "Fire rains from above.",
+        "power": 45,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "skyfire-wyrm-scale-mail"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "wild-law-stag-king",
+      "name": "Wild Law Stag King",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 80,
+      "levelMax": 100,
+      "hp": 448,
+      "power": 43,
+      "armor": 9,
+      "xp": 536,
+      "gold": 129,
+      "tags": [
+        "boss",
+        "fey"
+      ],
+      "artId": "art-stag-aelwyn",
+      "uniqueSkill": {
+        "id": "wild-judgment",
+        "name": "Wild Judgment",
+        "blurb": "Nature's verdict on trespassers.",
+        "power": 45,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "stag-kings-antlers"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "demon-herald-scout",
+      "name": "Demon Herald Scout",
+      "blurb": "Smells of wet pine and old iron.",
+      "levelMin": 45,
+      "levelMax": 75,
+      "hp": 308,
+      "power": 33,
+      "armor": 7,
+      "xp": 368,
+      "gold": 87,
+      "tags": [
+        "boss",
+        "undead"
+      ],
+      "artId": "art-demon-herald",
+      "uniqueSkill": {
+        "id": "herald-shriek",
+        "name": "Herald Shriek",
+        "blurb": "Fear and damage.",
+        "power": 39,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "herald-scout-horn"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "world-eater-larva",
+      "name": "World-Eater Larva",
+      "blurb": "Leaves claw-marks on the trail stones.",
+      "levelMin": 55,
+      "levelMax": 88,
+      "hp": 358,
+      "power": 37,
+      "armor": 7,
+      "xp": 428,
+      "gold": 102,
+      "tags": [
+        "boss",
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "maw-growth",
+        "name": "Maw Growth",
+        "blurb": "Growing hunger damage.",
+        "power": 43,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "world-eater-tooth"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "ashen-king",
+      "name": "Ashen King",
+      "blurb": "Whispers a name you almost remember.",
+      "levelMin": 85,
+      "levelMax": 100,
+      "hp": 455,
+      "power": 44,
+      "armor": 9,
+      "xp": 548,
+      "gold": 129,
+      "tags": [
+        "boss",
+        "undead"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "ash-throne",
+        "name": "Ash Throne",
+        "blurb": "Crown of cooled dragon-glass burns.",
+        "power": 45,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "crown-of-ashen-king",
+        "ashen-kings-scepter"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "ember-thane-lord",
+      "name": "Ember Thane Lord",
+      "blurb": "Eyes like banked coals in the mist.",
+      "levelMin": 50,
+      "levelMax": 78,
+      "hp": 325,
+      "power": 34,
+      "armor": 7,
+      "xp": 392,
+      "gold": 93,
+      "tags": [
+        "boss",
+        "humanoid"
+      ],
+      "artId": "art-ember-thane",
+      "uniqueSkill": {
+        "id": "thane-decree",
+        "name": "Thane Decree",
+        "blurb": "Hold law empowers allies.",
+        "power": 40,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "ember-thane-signet"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "corv-raven-trial",
+      "name": "Corv's Raven Trial",
+      "blurb": "Hunts where the road forgets its name.",
+      "levelMin": 35,
+      "levelMax": 60,
+      "hp": 248,
+      "power": 28,
+      "armor": 5,
+      "xp": 296,
+      "gold": 69,
+      "tags": [
+        "boss",
+        "fey"
+      ],
+      "artId": "art-raven-corv",
+      "uniqueSkill": {
+        "id": "census-strike",
+        "name": "Census Strike",
+        "blurb": "Names foes for extra damage.",
+        "power": 34,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "corv-trial-feather"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "bruna-bear-trial",
+      "name": "Bruna's Bear Trial",
+      "blurb": "Born of swamp gas and bad bargains.",
+      "levelMin": 33,
+      "levelMax": 58,
+      "hp": 258,
+      "power": 27,
+      "armor": 5,
+      "xp": 284,
+      "gold": 66,
+      "tags": [
+        "boss",
+        "beast"
+      ],
+      "artId": "art-bear-bruna",
+      "uniqueSkill": {
+        "id": "bear-rush",
+        "name": "Bear Rush",
+        "blurb": "Unstoppable charge.",
+        "power": 33,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "bruna-trial-claw"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "ulfric-wolf-trial",
+      "name": "Ulfric's Wolf Trial",
+      "blurb": "Feathers or scales — hard to tell at speed.",
+      "levelMin": 31,
+      "levelMax": 56,
+      "hp": 250,
+      "power": 26,
+      "armor": 5,
+      "xp": 272,
+      "gold": 63,
+      "tags": [
+        "boss",
+        "beast"
+      ],
+      "artId": "art-wolf-ulfric",
+      "uniqueSkill": {
+        "id": "alpha-howl",
+        "name": "Alpha Howl",
+        "blurb": "Pack frenzy buff.",
+        "power": 32,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "ulfric-trial-fang"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "nyx-serpent-trial",
+      "name": "Nyx's Serpent Trial",
+      "blurb": "Laughs like a kettle about to boil.",
+      "levelMin": 40,
+      "levelMax": 68,
+      "hp": 280,
+      "power": 30,
+      "armor": 6,
+      "xp": 336,
+      "gold": 78,
+      "tags": [
+        "boss",
+        "aberration"
+      ],
+      "artId": "art-serpent-nyx",
+      "uniqueSkill": {
+        "id": "serpent-coil",
+        "name": "Serpent Coil",
+        "blurb": "Constrict and poison.",
+        "power": 36,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "nyx-trial-scale"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "pip-fox-trial",
+      "name": "Pip's Fox Trial",
+      "blurb": "Armor stitched from stolen banners.",
+      "levelMin": 28,
+      "levelMax": 50,
+      "hp": 210,
+      "power": 25,
+      "armor": 5,
+      "xp": 252,
+      "gold": 60,
+      "tags": [
+        "boss",
+        "fey"
+      ],
+      "artId": "art-fox-pip",
+      "uniqueSkill": {
+        "id": "fox-trick",
+        "name": "Fox Trick",
+        "blurb": "Distracts and backstabs.",
+        "power": 31,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "pip-trial-tail"
+      ],
+      "weight": 1
+    },
+    {
+      "id": "aelwyn-stag-trial",
+      "name": "Aelwyn's Stag Trial",
+      "blurb": "Drags the cold of high peaks behind it.",
+      "levelMin": 36,
+      "levelMax": 62,
+      "hp": 258,
+      "power": 29,
+      "armor": 6,
+      "xp": 308,
+      "gold": 72,
+      "tags": [
+        "boss",
+        "fey"
+      ],
+      "artId": "art-stag-aelwyn",
+      "uniqueSkill": {
+        "id": "stag-charge",
+        "name": "Stag Charge",
+        "blurb": "Antler gore with grace.",
+        "power": 35,
+        "manaCost": 0
+      },
+      "uniqueDrops": [
+        "aelwyn-trial-antler"
+      ],
+      "weight": 1
+    }
+  ]
+}

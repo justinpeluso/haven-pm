@@ -1,0 +1,467 @@
+{
+  "spellbooks": [
+    {
+      "id": "spellbook-frostbolt",
+      "name": "Tome of Frostbolt",
+      "blurb": "Read to learn Frostbolt.",
+      "teachesAbilityId": "spell-frostbolt",
+      "ability": {
+        "id": "spell-frostbolt",
+        "name": "Frostbolt",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "A shard of winter.",
+        "nodeId": "magic-frostbolt-tome",
+        "cost": {
+          "mana": 8
+        },
+        "power": 14,
+        "tags": [
+          "spell",
+          "frost",
+          "damage"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-ember-lance",
+      "name": "Tome of Ember Lance",
+      "blurb": "Read to learn Ember Lance.",
+      "teachesAbilityId": "spell-ember-lance",
+      "ability": {
+        "id": "spell-ember-lance",
+        "name": "Ember Lance",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "A spear of banked coals.",
+        "nodeId": "magic-ember-lance-tome",
+        "cost": {
+          "mana": 10
+        },
+        "power": 16,
+        "tags": [
+          "spell",
+          "fire",
+          "damage"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-healing-light",
+      "name": "Tome of Healing Light",
+      "blurb": "Read to learn Healing Light.",
+      "teachesAbilityId": "spell-healing-light",
+      "ability": {
+        "id": "spell-healing-light",
+        "name": "Healing Light",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Warm dawn on wounded skin.",
+        "nodeId": "magic-healing-light-tome",
+        "cost": {
+          "mana": 12
+        },
+        "power": 0,
+        "heal": 30,
+        "tags": [
+          "spell",
+          "holy",
+          "heal"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-arcane-bolt",
+      "name": "Tome of Arcane Bolt",
+      "blurb": "Read to learn Arcane Bolt.",
+      "teachesAbilityId": "spell-arcane-bolt",
+      "ability": {
+        "id": "spell-arcane-bolt",
+        "name": "Arcane Bolt",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Raw ley force, barely contained.",
+        "nodeId": "magic-arcane-bolt-tome",
+        "cost": {
+          "mana": 7
+        },
+        "power": 12,
+        "tags": [
+          "spell",
+          "arcane",
+          "damage"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-thorn-whip",
+      "name": "Tome of Thorn Whip",
+      "blurb": "Read to learn Thorn Whip.",
+      "teachesAbilityId": "spell-thorn-whip",
+      "ability": {
+        "id": "spell-thorn-whip",
+        "name": "Thorn Whip",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Wild law lashes trespassers.",
+        "nodeId": "magic-thorn-whip-tome",
+        "cost": {
+          "mana": 9
+        },
+        "power": 13,
+        "tags": [
+          "spell",
+          "nature",
+          "damage"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-mist-veil",
+      "name": "Tome of Mist Veil",
+      "blurb": "Read to learn Mist Veil.",
+      "teachesAbilityId": "spell-mist-veil",
+      "ability": {
+        "id": "spell-mist-veil",
+        "name": "Mist Veil",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Fog hides allies from harm.",
+        "nodeId": "magic-mist-veil-tome",
+        "cost": {
+          "mana": 14
+        },
+        "power": 0,
+        "tags": [
+          "spell",
+          "ward",
+          "buff"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-chain-lightning",
+      "name": "Tome of Chain Lightning",
+      "blurb": "Read to learn Chain Lightning.",
+      "teachesAbilityId": "spell-chain-lightning",
+      "ability": {
+        "id": "spell-chain-lightning",
+        "name": "Chain Lightning",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Thunder jumps between foes.",
+        "nodeId": "magic-chain-lightning-tome",
+        "cost": {
+          "mana": 18
+        },
+        "power": 20,
+        "tags": [
+          "spell",
+          "storm",
+          "damage"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-life-drain",
+      "name": "Tome of Life Drain",
+      "blurb": "Read to learn Life Drain.",
+      "teachesAbilityId": "spell-life-drain",
+      "ability": {
+        "id": "spell-life-drain",
+        "name": "Life Drain",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Steals breath to mend your own.",
+        "nodeId": "magic-life-drain-tome",
+        "cost": {
+          "mana": 11
+        },
+        "power": 15,
+        "tags": [
+          "spell",
+          "shadow",
+          "damage"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-stone-skin",
+      "name": "Tome of Stone Skin",
+      "blurb": "Read to learn Stone Skin.",
+      "teachesAbilityId": "spell-stone-skin",
+      "ability": {
+        "id": "spell-stone-skin",
+        "name": "Stone Skin",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Skin like mountain granite.",
+        "nodeId": "magic-stone-skin-tome",
+        "cost": {
+          "mana": 16
+        },
+        "power": 0,
+        "tags": [
+          "spell",
+          "earth",
+          "buff"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-swift-wind",
+      "name": "Tome of Swift Wind",
+      "blurb": "Read to learn Swift Wind.",
+      "teachesAbilityId": "spell-swift-wind",
+      "ability": {
+        "id": "spell-swift-wind",
+        "name": "Swift Wind",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "A gust at your back.",
+        "nodeId": "magic-swift-wind-tome",
+        "cost": {
+          "mana": 10
+        },
+        "power": 0,
+        "tags": [
+          "spell",
+          "air",
+          "buff"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-poison-cloud",
+      "name": "Tome of Poison Cloud",
+      "blurb": "Read to learn Poison Cloud.",
+      "teachesAbilityId": "spell-poison-cloud",
+      "ability": {
+        "id": "spell-poison-cloud",
+        "name": "Poison Cloud",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Swamp breath made visible.",
+        "nodeId": "magic-poison-cloud-tome",
+        "cost": {
+          "mana": 13
+        },
+        "power": 10,
+        "tags": [
+          "spell",
+          "poison",
+          "damage"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-greater-heal",
+      "name": "Tome of Greater Heal",
+      "blurb": "Read to learn Greater Heal.",
+      "teachesAbilityId": "spell-greater-heal",
+      "ability": {
+        "id": "spell-greater-heal",
+        "name": "Greater Heal",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Deep mending for grave wounds.",
+        "nodeId": "magic-greater-heal-tome",
+        "cost": {
+          "mana": 22
+        },
+        "power": 0,
+        "heal": 55,
+        "tags": [
+          "spell",
+          "holy",
+          "heal"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-ice-prison",
+      "name": "Tome of Ice Prison",
+      "blurb": "Read to learn Ice Prison.",
+      "teachesAbilityId": "spell-ice-prison",
+      "ability": {
+        "id": "spell-ice-prison",
+        "name": "Ice Prison",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Winter cages a foe.",
+        "nodeId": "magic-ice-prison-tome",
+        "cost": {
+          "mana": 15
+        },
+        "power": 8,
+        "tags": [
+          "spell",
+          "frost",
+          "control"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-flame-wave",
+      "name": "Tome of Flame Wave",
+      "blurb": "Read to learn Flame Wave.",
+      "teachesAbilityId": "spell-flame-wave",
+      "ability": {
+        "id": "spell-flame-wave",
+        "name": "Flame Wave",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Heat rolls like a tide.",
+        "nodeId": "magic-flame-wave-tome",
+        "cost": {
+          "mana": 17
+        },
+        "power": 18,
+        "tags": [
+          "spell",
+          "fire",
+          "damage"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-blessing-of-oaths",
+      "name": "Tome of Blessing of Oaths",
+      "blurb": "Read to learn Blessing of Oaths.",
+      "teachesAbilityId": "spell-blessing-oaths",
+      "ability": {
+        "id": "spell-blessing-oaths",
+        "name": "Blessing of Oaths",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Keeps your word — and your allies'.",
+        "nodeId": "magic-blessing-oaths-tome",
+        "cost": {
+          "mana": 14
+        },
+        "power": 0,
+        "tags": [
+          "spell",
+          "holy",
+          "buff"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-shadow-step",
+      "name": "Tome of Shadow Step",
+      "blurb": "Read to learn Shadow Step.",
+      "teachesAbilityId": "spell-shadow-step",
+      "ability": {
+        "id": "spell-shadow-step",
+        "name": "Shadow Step",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "Step between pools of darkness.",
+        "nodeId": "magic-shadow-step-tome",
+        "cost": {
+          "mana": 12
+        },
+        "power": 0,
+        "tags": [
+          "spell",
+          "shadow",
+          "buff"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-starfall",
+      "name": "Tome of Starfall",
+      "blurb": "Read to learn Starfall.",
+      "teachesAbilityId": "spell-starfall",
+      "ability": {
+        "id": "spell-starfall",
+        "name": "Starfall",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "A piece of sky falls on your foe.",
+        "nodeId": "magic-starfall-tome",
+        "cost": {
+          "mana": 24
+        },
+        "power": 28,
+        "tags": [
+          "spell",
+          "arcane",
+          "damage"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-natures-embrace",
+      "name": "Tome of Nature's Embrace",
+      "blurb": "Read to learn Nature's Embrace.",
+      "teachesAbilityId": "spell-natures-embrace",
+      "ability": {
+        "id": "spell-natures-embrace",
+        "name": "Nature's Embrace",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "The forest mends its own.",
+        "nodeId": "magic-natures-embrace-tome",
+        "cost": {
+          "mana": 18
+        },
+        "power": 0,
+        "heal": 40,
+        "tags": [
+          "spell",
+          "nature",
+          "heal"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-ward-circle",
+      "name": "Tome of Ward Circle",
+      "blurb": "Read to learn Ward Circle.",
+      "teachesAbilityId": "spell-ward-circle",
+      "ability": {
+        "id": "spell-ward-circle",
+        "name": "Ward Circle",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "A ring of protection on the ground.",
+        "nodeId": "magic-ward-circle-tome",
+        "cost": {
+          "mana": 16
+        },
+        "power": 0,
+        "tags": [
+          "spell",
+          "ward",
+          "buff"
+        ]
+      }
+    },
+    {
+      "id": "spellbook-soul-spark",
+      "name": "Tome of Soul Spark",
+      "blurb": "Read to learn Soul Spark.",
+      "teachesAbilityId": "spell-soul-spark",
+      "ability": {
+        "id": "spell-soul-spark",
+        "name": "Soul Spark",
+        "tree": "magic",
+        "kind": "spell",
+        "blurb": "A spark of spirit-fire.",
+        "nodeId": "magic-soul-spark-tome",
+        "cost": {
+          "mana": 9
+        },
+        "power": 11,
+        "tags": [
+          "spell",
+          "spirit",
+          "damage"
+        ]
+      }
+    }
+  ]
+}

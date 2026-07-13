@@ -6,6 +6,7 @@ import type {
   SkillTreeDef,
   Stats,
 } from "./types";
+import { getSpellbookAbility } from "./bestiary";
 
 /**
  * Skill trees + combat hotbar abilities for Party Chronicle.
@@ -588,7 +589,7 @@ export const ABILITIES: AbilityDef[] = [
 ];
 
 export function getAbility(id: string): AbilityDef | undefined {
-  return ABILITIES.find((a) => a.id === id);
+  return ABILITIES.find((a) => a.id === id) ?? getSpellbookAbility(id);
 }
 
 export function getNode(id: string): SkillNode | undefined {
