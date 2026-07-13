@@ -41,7 +41,46 @@ export type ClassId = (typeof CLASS_IDS)[number];
 export const EQUIP_SLOTS = ["head", "chest", "hands", "legs", "weapon", "offhand", "accessory"] as const;
 export type EquipSlot = (typeof EQUIP_SLOTS)[number];
 
-export type GearTier = "common" | "magic" | "legendary";
+export type GearTier = "common" | "magic" | "rare" | "legendary";
+
+/** Affix keys for magic items (~5 properties per magic+ item). */
+export const GEAR_PROPERTY_KEYS = [
+  "strength",
+  "dexterity",
+  "constitution",
+  "intelligence",
+  "wisdom",
+  "charisma",
+  "maxHp",
+  "maxMana",
+  "atk",
+  "def",
+  "crit",
+  "resist",
+] as const;
+export type GearPropertyKey = (typeof GEAR_PROPERTY_KEYS)[number];
+
+export type GearProperty = {
+  key: GearPropertyKey;
+  value: number;
+  /** Display label, e.g. "+3 STR" */
+  label?: string;
+};
+
+export type GearSetBonus = {
+  /** Pieces required (2, 3, or full set size). */
+  pieces: number;
+  properties: GearProperty[];
+  blurb: string;
+};
+
+export type GearSetDef = {
+  id: string;
+  name: string;
+  blurb: string;
+  pieceIds: string[];
+  bonuses: GearSetBonus[];
+};
 
 export type SkillTreeId = "combat" | "magic" | "survival" | "speech" | "beastmaster";
 
@@ -120,8 +159,16 @@ export type GearItem = {
   heal?: number;
   /** Mana restored when drunk / used as a potion. */
   manaRestore?: number;
+  /** Stamina restored when used (tea / food). */
+  staminaRestore?: number;
   cookBonus?: number;
   tags: string[];
+  /** Magic affixes — aim for ~5 on magic+ gear. */
+  properties?: GearProperty[];
+  /** Named set membership (Frostwarden, Emberfang, …). */
+  setId?: string;
+  /** Optional display rarity; defaults from tier. */
+  rarity?: "common" | "magic" | "rare" | "legendary";
 };
 
 /** Turn-based random / camp battle actions. */

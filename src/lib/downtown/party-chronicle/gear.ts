@@ -1,5 +1,6 @@
-import { BATTLE_LOOT_ITEMS, battleLootAsGear, getBattleLootItem } from "./bestiary";
+import { BATTLE_LOOT_ITEMS, battleLootAsGear, getBattleLootItem, LOOT_POOLS } from "./bestiary";
 import type { ClassId, GearItem } from "./types";
+
 
 export const GEAR_CATALOG: GearItem[] = [
   // Common weapons / armor
@@ -516,9 +517,28 @@ export const GEAR_CATALOG: GearItem[] = [
   },
 ];
 
+import gearCatalogPack from "../../../../data/party-chronicle/gear-catalog.json";
+import type { GearSetDef } from "./types";
+
+type GearCatalogPack = {
+  sets?: GearSetDef[];
+  items?: GearItem[];
+};
+
+const catalogPack = gearCatalogPack as GearCatalogPack;
+export const GEAR_SETS: GearSetDef[] = catalogPack.sets ?? [];
+export const GENERATED_GEAR: GearItem[] = catalogPack.items ?? [];
+
 const GEAR_BY_ID: Record<string, GearItem> = Object.fromEntries(
   GEAR_CATALOG.map((g) => [g.id, g])
 );
+
+// Merge generated catalog (500+) without clobbering hand-authored core.
+for (const raw of GENERATED_GEAR) {
+  if (!GEAR_BY_ID[raw.id]) {
+    GEAR_BY_ID[raw.id] = raw;
+  }
+}
 
 // Merge battle-loot / boss-unique / spellbook items without clobbering core catalog.
 for (const raw of BATTLE_LOOT_ITEMS) {
@@ -529,19 +549,59 @@ for (const raw of BATTLE_LOOT_ITEMS) {
   }
 }
 
+const GEAR_SET_BY_ID: Record<string, GearSetDef> = Object.fromEntries(
+  GEAR_SETS.map((s) => [s.id, s])
+);
+
+/** Fold generated catalog into battle loot pools so drops can include set pieces & new gear. */
+function seedLootPoolsFromCatalog() {
+  for (const item of GENERATED_GEAR) {
+    const pool =
+      item.slot === "consumable"
+        ? item.tags.includes("potion")
+          ? "common"
+          : "trash"
+        : item.tier === "legendary"
+          ? "legendary"
+          : item.tier === "rare"
+            ? "rare"
+            : item.tier === "magic"
+              ? "magic"
+              : "common";
+    if (!LOOT_POOLS[pool]) LOOT_POOLS[pool] = [];
+    if (!LOOT_POOLS[pool]!.includes(item.id)) LOOT_POOLS[pool]!.push(item.id);
+  }
+}
+seedLootPoolsFromCatalog();
+
 export function getGear(id: string): GearItem | undefined {
   return GEAR_BY_ID[id] ?? getBattleLootItem(id);
 }
 
-export function gearByTier(tier: GearItem["tier"]): GearItem[] {
-  return GEAR_CATALOG.filter((g) => g.tier === tier);
+export function getGearSet(id: string): GearSetDef | undefined {
+  return GEAR_SET_BY_ID[id];
 }
 
-export function gearCatalogStats(): Record<GearItem["tier"], number> {
+export function listGearSets(): GearSetDef[] {
+  return GEAR_SETS;
+}
+
+export function allGearItems(): GearItem[] {
+  return Object.values(GEAR_BY_ID);
+}
+
+export function gearByTier(tier: GearItem["tier"]): GearItem[] {
+  return allGearItems().filter((g) => g.tier === tier);
+}
+
+export function gearCatalogStats(): Record<GearItem["tier"], number> & { total: number; sets: number } {
   return {
     common: gearByTier("common").length,
     magic: gearByTier("magic").length,
+    rare: gearByTier("rare").length,
     legendary: gearByTier("legendary").length,
+    total: allGearItems().length,
+    sets: GEAR_SETS.length,
   };
 }
 

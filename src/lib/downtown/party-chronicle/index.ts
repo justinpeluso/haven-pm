@@ -15,6 +15,7 @@ export * from "./progression";
 export * from "./alignment";
 export * from "./animals";
 export * from "./gear";
+export * from "./stats";
 export * from "./art";
 export * from "./story";
 export * from "./campaign";

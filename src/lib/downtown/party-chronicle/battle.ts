@@ -15,6 +15,7 @@ import {
   type BossDef,
 } from "./bestiary";
 import { getGear } from "./gear";
+import { battleArmor, battleAttackPower, battleMaxHp, battleMaxMana, computeEffectiveStats } from "./stats";
 import { levelFromXp, skillPointsForLevelGain } from "./progression";
 import { getAbility } from "./skills";
 import type {
@@ -86,18 +87,21 @@ function sealedSlots(world: PartyWorldSave): PlayerSlot[] {
   return PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created);
 }
 
-function heroArmor(char: CharacterSave): number {
-  let armor = 0;
-  for (const id of Object.values(char.equipped)) {
-    if (!id) continue;
-    armor += getGear(id)?.armor ?? 0;
-  }
-  return armor;
-}
-
-function heroWeaponPower(char: CharacterSave): number {
-  const w = char.equipped.weapon ? getGear(char.equipped.weapon) : undefined;
-  return w?.power ?? 2;
+function heroFromChar(slot: PlayerSlot, c: CharacterSave) {
+  const maxHp = battleMaxHp(c);
+  const maxMana = battleMaxMana(c);
+  return {
+    id: slot,
+    slot,
+    name: c.name,
+    hp: Math.min(c.hp, maxHp),
+    maxHp,
+    mana: Math.min(c.mana, maxMana),
+    maxMana,
+    power: battleAttackPower(c),
+    armor: battleArmor(c),
+    powerUpTurns: 0,
+  };
 }
 
 function consumeOne(inv: string[], itemId: string): string[] | null {
@@ -106,13 +110,6 @@ function consumeOne(inv: string[], itemId: string): string[] | null {
   const next = [...inv];
   next.splice(i, 1);
   return next;
-}
-
-function findConsumable(
-  inv: string[],
-  pred: (id: string) => boolean
-): string | null {
-  return inv.find(pred) ?? null;
 }
 
 export function foodItemIds(inv: string[]): string[] {
@@ -155,12 +152,12 @@ function syncHeroFromChar(
     h.slot === slot
       ? {
           ...h,
-          hp: char.hp,
-          maxHp: char.maxHp,
-          mana: char.mana,
-          maxMana: char.maxMana,
-          power: heroWeaponPower(char) + abilityMod(char.stats.strength),
-          armor: heroArmor(char),
+          hp: Math.min(char.hp, battleMaxHp(char)),
+          maxHp: battleMaxHp(char),
+          mana: Math.min(char.mana, battleMaxMana(char)),
+          maxMana: battleMaxMana(char),
+          power: battleAttackPower(char),
+          armor: battleArmor(char),
         }
       : h
   );
@@ -252,21 +249,7 @@ export function startRandomBattle(
   const slots = sealedSlots(world);
   if (!slots.length) return { world, message: "No sealed heroes to fight." };
 
-  const heroes = slots.map((slot) => {
-    const c = world.characters[slot];
-    return {
-      id: slot,
-      slot,
-      name: c.name,
-      hp: c.hp,
-      maxHp: c.maxHp,
-      mana: c.mana,
-      maxMana: c.maxMana,
-      power: heroWeaponPower(c) + abilityMod(c.stats.strength),
-      armor: heroArmor(c),
-      powerUpTurns: 0,
-    };
-  });
+  const heroes = slots.map((slot) => heroFromChar(slot, world.characters[slot]));
 
   const turnQueue = [...heroes.map((h) => h.id), "enemy"];
   const battle: BattleState = {
@@ -309,21 +292,7 @@ export function startBattleVs(
   const slots = sealedSlots(world);
   if (!slots.length) return { world, message: "No sealed heroes." };
   const enemy = foeFromRoll(roll);
-  const heroes = slots.map((slot) => {
-    const c = world.characters[slot];
-    return {
-      id: slot,
-      slot,
-      name: c.name,
-      hp: c.hp,
-      maxHp: c.maxHp,
-      mana: c.mana,
-      maxMana: c.maxMana,
-      power: heroWeaponPower(c) + abilityMod(c.stats.strength),
-      armor: heroArmor(c),
-      powerUpTurns: 0,
-    };
-  });
+  const heroes = slots.map((slot) => heroFromChar(slot, world.characters[slot]));
   const turnQueue = [...heroes.map((h) => h.id), "enemy"];
   const battle: BattleState = {
     id: `battle-${Date.now()}`,
@@ -578,9 +547,11 @@ export function performBattleAction(
 
   if (action === "attack") {
     const mult = hero.powerUpTurns > 0 ? POWER_UP_MULT : 1;
+    const eff = computeEffectiveStats(char);
+    const isCrit = rng() * 100 < Math.min(45, eff.crit);
     const raw =
-      Math.floor((hero.power + rngInt(1, 6, rng)) * mult) +
-      abilityMod(char.stats.dexterity);
+      Math.floor((hero.power + rngInt(1, 6, rng)) * mult * (isCrit ? 1.5 : 1)) +
+      abilityMod(eff.stats.dexterity);
     const dealt = dealToEnemy(b, raw);
     b = dealt.battle;
     b = {
@@ -591,7 +562,7 @@ export function performBattleAction(
           : h
       ),
     };
-    message = `${char.name} attacks for ${dealt.damage} damage.`;
+    message = `${char.name} attacks for ${dealt.damage} damage${isCrit ? " (crit!)" : ""}.`;
     b = pushLog(b, message);
   } else if (action === "powerUp") {
     b = {
@@ -614,7 +585,7 @@ export function performBattleAction(
     char = {
       ...char,
       inventory: inv,
-      hp: Math.min(char.maxHp, char.hp + heal),
+      hp: Math.min(battleMaxHp(char), char.hp + heal),
     };
     b = syncHeroFromChar(b, actorSlot, char);
     b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
@@ -631,7 +602,7 @@ export function performBattleAction(
     char = {
       ...char,
       inventory: inv,
-      hp: Math.min(char.maxHp, char.hp + heal),
+      hp: Math.min(battleMaxHp({ ...char, inventory: inv }), char.hp + heal),
     };
     b = syncHeroFromChar(b, actorSlot, char);
     b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
@@ -648,7 +619,7 @@ export function performBattleAction(
     char = {
       ...char,
       inventory: inv,
-      mana: Math.min(char.maxMana, char.mana + restore),
+      mana: Math.min(battleMaxMana({ ...char, inventory: inv }), char.mana + restore),
     };
     b = syncHeroFromChar(b, actorSlot, char);
     b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
@@ -667,15 +638,16 @@ export function performBattleAction(
 
     if (ab.tags.includes("heal") || ab.kind === "heal") {
       const heal = ab.power;
-      char = { ...char, hp: Math.min(char.maxHp, char.hp + heal) };
+      char = { ...char, hp: Math.min(battleMaxHp(char), char.hp + heal) };
       b = syncHeroFromChar(b, actorSlot, char);
       b = { ...b, stats: { ...b.stats, turns: b.stats.turns + 1 } };
       message = `${char.name} casts ${ab.name} — heals ${heal} HP.`;
       b = pushLog(b, message);
     } else {
       const mult = hero.powerUpTurns > 0 ? POWER_UP_MULT : 1;
+      const eff = computeEffectiveStats(char);
       const raw =
-        Math.floor((ab.power + abilityMod(char.stats.intelligence)) * mult) +
+        Math.floor((ab.power + abilityMod(eff.stats.intelligence) + Math.floor(eff.atk * 0.25)) * mult) +
         rngInt(1, 4, rng);
       const dealt = dealToEnemy(b, raw);
       b = dealt.battle;

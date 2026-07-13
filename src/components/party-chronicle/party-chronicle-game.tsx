@@ -15,7 +15,9 @@ import {
   partyAvgLevel,
   setHotbarSlot,
   spendSkillPoint,
+  unequipSlot as engineUnequip,
   useHotbarAbility,
+  useInventoryConsumable,
 } from "@/lib/downtown/party-chronicle/engine";
 import {
   dismissBattleSummary,
@@ -32,8 +34,10 @@ import {
   cookableRecipes,
   fleeRoadEncounter,
 } from "@/lib/downtown/party-chronicle/midgame";
-import { getGear } from "@/lib/downtown/party-chronicle/gear";
+import { getGear, gearCatalogStats } from "@/lib/downtown/party-chronicle/gear";
 import { bestiaryStats, isSpellbookItem } from "@/lib/downtown/party-chronicle/bestiary";
+import { describeItemTooltip, formatProperty } from "@/lib/downtown/party-chronicle/stats";
+import { PaperdollPanel } from "@/components/party-chronicle/paperdoll";
 import { describeHotbar, listAssignableAbilities } from "@/lib/downtown/party-chronicle/hotbar";
 import {
   CLASS_DEFS,
@@ -641,6 +645,37 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       return;
     }
     persist({ ...world, characters: { ...world.characters, [mySlot]: result } });
+    setFlash(`Equipped ${getGear(itemId)?.name ?? itemId}.`);
+  };
+
+  const onUnequip = (slot: EquipSlot) => {
+    if (!world || !mySlot) return;
+    const result = engineUnequip(world.characters[mySlot], slot);
+    if ("error" in result) {
+      setFlash(result.error);
+      return;
+    }
+    persist({ ...world, characters: { ...world.characters, [mySlot]: result } });
+    setFlash(`Unequipped ${slot}.`);
+  };
+
+  const onUseConsumable = (itemId: string) => {
+    if (!world || !mySlot) return;
+    const before = world.characters[mySlot];
+    const result = useInventoryConsumable(before, itemId);
+    if ("error" in result) {
+      setFlash(result.error);
+      return;
+    }
+    const item = getGear(itemId);
+    const bits: string[] = [];
+    if (item?.heal) bits.push(`+${item.heal} HP`);
+    if (item?.manaRestore) bits.push(`+${item.manaRestore} Mana`);
+    if (item?.staminaRestore || item?.tags.includes("stamina")) {
+      bits.push(`+${item.staminaRestore ?? 15} Stam`);
+    }
+    persist({ ...world, characters: { ...world.characters, [mySlot]: result } });
+    setFlash(`Used ${item?.name ?? itemId}${bits.length ? ` (${bits.join(", ")})` : ""}.`);
   };
 
 
@@ -1222,6 +1257,8 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
               char={me}
               canEdit={!!mySlot}
               onEquip={onEquip}
+              onUnequip={onUnequip}
+              onUseConsumable={onUseConsumable}
               onReadSpellbook={onReadSpellbook}
             />
           )}
@@ -1411,46 +1448,102 @@ function InventoryPanel({
   char,
   canEdit,
   onEquip,
+  onUnequip,
+  onUseConsumable,
   onReadSpellbook,
 }: {
   char: CharacterSave;
   canEdit: boolean;
   onEquip: (id: string) => void;
+  onUnequip: (slot: EquipSlot) => void;
+  onUseConsumable: (id: string) => void;
   onReadSpellbook: (id: string) => void;
 }) {
+  const catalog = gearCatalogStats();
+  const worn = new Set(
+    EQUIP_SLOTS.map((s) => char.equipped[s]).filter(Boolean) as string[]
+  );
+
   return (
     <div className="space-y-4">
-      <p className="pc-eyebrow">Equipment — {char.name}</p>
-      <div className="grid grid-cols-2 gap-2 text-xs">
-        {EQUIP_SLOTS.map((slot) => {
-          const eqId = char.equipped[slot];
-          const item = eqId ? getGear(eqId) : null;
-          return (
-            <div key={slot} className="pc-stat-box text-left">
-              <strong>{slot}</strong>
-              {item ? item.name : "—"}
-            </div>
-          );
-        })}
-      </div>
-      <p className="pc-eyebrow text-[0.65rem]">Inventory</p>
-      <div className="flex flex-wrap gap-2">
+      <p className="pc-eyebrow">
+        Paperdoll — {char.name} · catalog {catalog.total} items / {catalog.sets} sets
+      </p>
+      <PaperdollPanel char={char} canEdit={canEdit} onUnequip={onUnequip} />
+
+      <p className="pc-eyebrow text-[0.65rem]">Inventory — Use potions &amp; food here</p>
+      <div className="pc-inv-grid" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(8.5rem, 1fr))" }}>
         {char.inventory.map((id, idx) => {
           const item = getGear(id);
           if (!item) return null;
           const spellbook = isSpellbookItem(id);
-          const equippable = item.slot !== "consumable" && item.slot !== "misc" && !spellbook;
+          const consumable = item.slot === "consumable";
+          const equippable =
+            item.slot !== "consumable" && item.slot !== "misc" && !spellbook;
+          const equipped = worn.has(id);
+          const props = item.properties?.slice(0, 5) ?? [];
+          const usable =
+            consumable &&
+            ((item.heal ?? 0) > 0 ||
+              (item.manaRestore ?? 0) > 0 ||
+              (item.staminaRestore ?? 0) > 0 ||
+              item.tags.includes("stamina") ||
+              item.tags.includes("dog"));
+
           return (
-            <button
+            <div
               key={`${id}-${idx}`}
-              type="button"
-              className="pc-inv-slot"
-              disabled={!canEdit || (!equippable && !spellbook)}
-              onClick={() => (spellbook ? onReadSpellbook(id) : onEquip(id))}
-              title={spellbook ? `Read: ${item.blurb}` : item.blurb}
+              className="pc-inv-card"
+              data-tier={item.tier}
+              data-equipped={equipped ? "true" : "false"}
+              title={describeItemTooltip(item)}
             >
-              {spellbook ? `Tome · ${item.name.slice(0, 8)}` : item.name.slice(0, 10)}
-            </button>
+              <div className="pc-inv-card-name">
+                {equipped ? "● " : ""}
+                {item.name}
+              </div>
+              <div className="pc-inv-card-meta">
+                {item.slot}
+                {item.setId ? ` · set` : ""}
+                {item.heal ? ` · +${item.heal} HP` : ""}
+                {item.manaRestore ? ` · +${item.manaRestore} MP` : ""}
+                {props.length
+                  ? ` · ${props.map(formatProperty).join(", ")}`
+                  : ""}
+              </div>
+              <div className="pc-inv-actions">
+                {equippable && (
+                  <button
+                    type="button"
+                    className="pc-btn-tiny"
+                    disabled={!canEdit || equipped}
+                    onClick={() => onEquip(id)}
+                  >
+                    {equipped ? "Worn" : "Equip"}
+                  </button>
+                )}
+                {usable && (
+                  <button
+                    type="button"
+                    className="pc-btn-tiny"
+                    disabled={!canEdit}
+                    onClick={() => onUseConsumable(id)}
+                  >
+                    Use
+                  </button>
+                )}
+                {spellbook && (
+                  <button
+                    type="button"
+                    className="pc-btn-tiny"
+                    disabled={!canEdit}
+                    onClick={() => onReadSpellbook(id)}
+                  >
+                    Read
+                  </button>
+                )}
+              </div>
+            </div>
           );
         })}
       </div>

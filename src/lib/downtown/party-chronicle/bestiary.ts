@@ -43,6 +43,7 @@ export type BossDef = CreatureDef & {
 export type BattleLootItem = GearItem & {
   rarity?: "common" | "magic" | "rare" | "legendary";
   manaRestore?: number;
+  staminaRestore?: number;
   bossId?: string;
 };
 
@@ -214,9 +215,11 @@ export function battleLootAsGear(item: BattleLootItem): GearItem {
   const tier: GearTier =
     item.tier === "legendary" || item.rarity === "legendary"
       ? "legendary"
-      : item.tier === "magic" || item.rarity === "magic" || item.rarity === "rare"
-        ? "magic"
-        : "common";
+      : item.tier === "rare" || item.rarity === "rare"
+        ? "rare"
+        : item.tier === "magic" || item.rarity === "magic"
+          ? "magic"
+          : "common";
   return {
     id: item.id,
     name: item.name,
@@ -228,6 +231,10 @@ export function battleLootAsGear(item: BattleLootItem): GearItem {
     heal: item.heal,
     cookBonus: item.cookBonus,
     manaRestore: item.manaRestore,
+    staminaRestore: item.staminaRestore,
     tags: item.tags ?? [],
+    properties: item.properties,
+    setId: item.setId,
+    rarity: item.rarity ?? tier,
   };
 }

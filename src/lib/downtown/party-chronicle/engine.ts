@@ -16,6 +16,7 @@ import {
 import type {
   CharacterSave,
   CombatUsePayload,
+  EquipSlot,
   PartyWorldSave,
   PlayerSlot,
   SkillNode,
@@ -24,6 +25,7 @@ import type {
   StoryOutcome,
 } from "./types";
 import { PLAYER_SLOT_ORDER, STAT_KEYS } from "./types";
+import { battleAttackPower, battleMaxHp, battleMaxMana } from "./stats";
 
 export function abilityMod(score: number): number {
   return Math.floor((score - 10) / 2);
@@ -138,7 +140,77 @@ export function equipItem(char: CharacterSave, itemId: string): CharacterSave | 
   if (!char.inventory.includes(itemId)) return { error: "Not in inventory." };
   if (gear.slot === "consumable" || gear.slot === "misc") return { error: "Not equippable." };
   const equipped = { ...char.equipped, [gear.slot]: itemId };
-  return { ...char, equipped };
+  const next: CharacterSave = { ...char, equipped };
+  const maxHp = battleMaxHp(next);
+  const maxMana = battleMaxMana(next);
+  return {
+    ...next,
+    hp: Math.min(next.hp, maxHp),
+    mana: Math.min(next.mana, maxMana),
+  };
+}
+
+export function unequipSlot(
+  char: CharacterSave,
+  slot: EquipSlot
+): CharacterSave | { error: string } {
+  if (!char.equipped[slot]) return { error: "Nothing equipped." };
+  const equipped = { ...char.equipped, [slot]: null };
+  const next: CharacterSave = { ...char, equipped };
+  const maxHp = battleMaxHp(next);
+  const maxMana = battleMaxMana(next);
+  return {
+    ...next,
+    hp: Math.min(next.hp, maxHp),
+    mana: Math.min(next.mana, maxMana),
+  };
+}
+
+/** Use a potion / food / stamina brew from the Gear tab (outside battle). */
+export function useInventoryConsumable(
+  char: CharacterSave,
+  itemId: string
+): CharacterSave | { error: string } {
+  const gear = getGear(itemId);
+  if (!gear) return { error: "Unknown item." };
+  if (!char.inventory.includes(itemId)) return { error: "Not in inventory." };
+  if (gear.slot !== "consumable") return { error: "Not a consumable." };
+
+  const idx = char.inventory.indexOf(itemId);
+  if (idx < 0) return { error: "Item missing." };
+  const inventory = [...char.inventory];
+  inventory.splice(idx, 1);
+
+  const heal = gear.heal ?? 0;
+  const mana = gear.manaRestore ?? 0;
+  const stamina = gear.staminaRestore ?? (gear.tags.includes("stamina") ? 15 : 0);
+  if (heal <= 0 && mana <= 0 && stamina <= 0 && !gear.tags.includes("dog")) {
+    return { error: "This item has no usable effect." };
+  }
+
+  const maxHp = battleMaxHp({ ...char, inventory });
+  const maxMana = battleMaxMana({ ...char, inventory });
+
+  let next: CharacterSave = {
+    ...char,
+    inventory,
+    hp: Math.min(maxHp, char.hp + heal),
+    mana: Math.min(maxMana, char.mana + mana),
+    stamina: Math.min(char.maxStamina, char.stamina + stamina),
+  };
+
+  if (gear.tags.includes("dog")) {
+    next = {
+      ...next,
+      dog: {
+        ...next.dog,
+        hp: Math.min(next.dog.maxHp, next.dog.hp + Math.max(5, Math.floor(heal / 2) || 8)),
+        bond: Math.min(100, next.dog.bond + 2),
+      },
+    };
+  }
+
+  return next;
 }
 
 export function useHotbarAbility(
@@ -182,8 +254,7 @@ export function useHotbarAbility(
     };
     logLine = `${char.name} uses ${ab.name} — heals ${heal} HP.`;
   } else if (ab.power > 0 && enemyHp != null) {
-    const weapon = nextChar.equipped.weapon ? getGear(nextChar.equipped.weapon) : undefined;
-    const dmg = ab.power + (weapon?.power ?? 0) + abilityMod(nextChar.stats.strength);
+    const dmg = ab.power + battleAttackPower(nextChar) + abilityMod(nextChar.stats.dexterity);
     enemyHp = Math.max(0, enemyHp - dmg);
     logLine = `${char.name} uses ${ab.name} for ${dmg} damage. Enemy HP ${enemyHp}.`;
   } else if (ab.kind === "hound") {

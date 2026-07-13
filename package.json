@@ -16,7 +16,9 @@
     "db:seed:party": "tsx scripts/seed-party-players.ts",
     "db:studio": "prisma studio",
     "postinstall": "prisma generate",
-    "prefetch:historical": "tsx scripts/prefetch-historical-properties.ts"
+    "prefetch:historical": "tsx scripts/prefetch-historical-properties.ts",
+    "gen:neverworld-gear": "node scripts/generate-neverworld-gear.mjs",
+    "gen:neverworld-bestiary": "node scripts/generate-neverworld-bestiary.mjs"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",
