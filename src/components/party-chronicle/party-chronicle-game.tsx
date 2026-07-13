@@ -696,9 +696,14 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
 
   const onDismissBattle = () => {
     if (!world) return;
+    const questLive = world.activeSideQuest?.status === "active";
     const next = dismissBattleSummary(world);
     persist(next);
-    setFlash("Back to the chronicle.");
+    setFlash(
+      questLive
+        ? "Back to the side quest — trail clock still running."
+        : "Back to the chronicle."
+    );
   };
 
   const onReadSpellbook = (itemId: string) => {
@@ -1044,6 +1049,14 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   const inEncounter = inStoryFight || inRoadFight;
   const battleActive = world.battle?.status === "active";
   const inBattle = !!world.battle;
+  const questRunActive = world.activeSideQuest?.status === "active";
+  // Victory summaries must not bury an active quest panel (battle overlay is z80).
+  // Defeat still needs the battle overlay so the party can dismiss and retry.
+  const showBattleOverlay =
+    !!world.battle &&
+    (battleActive || world.battle.status === "defeat" || !questRunActive);
+  const showQuestOverlay =
+    !!world.activeSideQuest && !battleActive && world.battle?.status !== "defeat";
   const hasChoices =
     storyNode.kind === "conversation" || storyNode.kind === "path" || storyNode.kind === "encounter";
   const sideQuests = availableSideQuests(world);
@@ -1059,7 +1072,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   return (
     <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
       <DowntownSubnav active="neverworld" />
-      {inBattle && world.battle && (
+      {showBattleOverlay && world.battle && (
         <BattleOverlay
           world={world}
           mySlot={mySlot}
@@ -1069,7 +1082,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           onDismiss={onDismissBattle}
         />
       )}
-      {world.activeSideQuest && !battleActive && (
+      {showQuestOverlay && world.activeSideQuest && (
         <SideQuestOverlay
           quest={world.activeSideQuest}
           canAct={acting}
@@ -1079,9 +1092,14 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
           onDismissFailed={onQuestDismissFailed}
         />
       )}
-      {world.activeSideQuest?.status === "active" && battleActive && (
+      {questRunActive && battleActive && (
         <div className="pc-turn-banner" data-forest="true" role="status">
-          Quest “{world.activeSideQuest.title}” — trail clock still running during battle
+          Quest “{world.activeSideQuest!.title}” — trail clock still running during battle
+        </div>
+      )}
+      {questRunActive && world.battle?.status === "victory" && (
+        <div className="pc-turn-banner" data-forest="true" role="status">
+          Quest fight won — continue the trail in the quest panel
         </div>
       )}
       {flash && (
