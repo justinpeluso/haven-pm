@@ -26,6 +26,7 @@ import type {
   CharacterSave,
   CombatUsePayload,
   EquipSlot,
+  GearTier,
   PartyWorldSave,
   PlayerSlot,
   SkillNode,
@@ -33,7 +34,7 @@ import type {
   StoryChoice,
   StoryOutcome,
 } from "./types";
-import { PLAYER_SLOT_ORDER, STAT_KEYS } from "./types";
+import { EQUIP_SLOTS, PLAYER_SLOT_ORDER, STAT_KEYS } from "./types";
 import { battleAttackPower, battleMaxHp, battleMaxMana } from "./stats";
 
 export function abilityMod(score: number): number {
@@ -250,6 +251,35 @@ export function unequipSlot(
     ...next,
     hp: Math.min(next.hp, maxHp),
     mana: Math.min(next.mana, maxMana),
+  };
+}
+
+const SALVAGE_GOLD: Record<GearTier, number> = {
+  common: 4,
+  magic: 14,
+  rare: 40,
+  legendary: 90,
+};
+
+/** Break down an unequipped inventory item into scrap gold. */
+export function salvageInventoryItem(
+  char: CharacterSave,
+  itemId: string
+): { char: CharacterSave; gold: number; name: string } | { error: string } {
+  const gear = getGear(itemId);
+  if (!gear) return { error: "Unknown item." };
+  const invIdx = char.inventory.indexOf(itemId);
+  if (invIdx < 0) return { error: "Not in inventory." };
+  const worn = EQUIP_SLOTS.some((s) => char.equipped[s] === itemId);
+  if (worn) return { error: "Unequip it before breaking it down." };
+
+  const gold = SALVAGE_GOLD[gear.tier] ?? 4;
+  const inventory = [...char.inventory];
+  inventory.splice(invIdx, 1);
+  return {
+    char: { ...char, inventory, gold: char.gold + gold },
+    gold,
+    name: gear.name,
   };
 }
 

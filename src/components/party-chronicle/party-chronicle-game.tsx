@@ -20,6 +20,7 @@ import {
   partyAvgLevel,
   progressGateForNode,
   rewindFromEnding,
+  salvageInventoryItem,
   setHotbarSlot,
   spendSkillPoint,
   unequipSlot as engineUnequip,
@@ -924,6 +925,24 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     setFlash(`Unequipped ${slot}.`);
   };
 
+  const onSalvage = (itemId: string) => {
+    if (!world || !mySlot) return;
+    const result = salvageInventoryItem(world.characters[mySlot], itemId);
+    if ("error" in result) {
+      setFlash(result.error);
+      return;
+    }
+    persist({
+      ...world,
+      characters: { ...world.characters, [mySlot]: result.char },
+      log: [
+        `Broke down ${result.name} for ${result.gold}g.`,
+        ...world.log,
+      ].slice(0, 80),
+    });
+    setFlash(`Broke down ${result.name} → +${result.gold}g scrap.`);
+  };
+
   const onUseConsumable = (itemId: string) => {
     if (!world || !mySlot) return;
     const before = world.characters[mySlot];
@@ -1739,6 +1758,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
               onUnequip={onUnequip}
               onUseConsumable={onUseConsumable}
               onReadSpellbook={onReadSpellbook}
+              onSalvage={onSalvage}
             />
           )}
 
@@ -1932,6 +1952,7 @@ function InventoryPanel({
   onUnequip,
   onUseConsumable,
   onReadSpellbook,
+  onSalvage,
 }: {
   char: CharacterSave;
   canEdit: boolean;
@@ -1939,6 +1960,7 @@ function InventoryPanel({
   onUnequip: (slot: EquipSlot) => void;
   onUseConsumable: (id: string) => void;
   onReadSpellbook: (id: string) => void;
+  onSalvage: (id: string) => void;
 }) {
   const catalog = gearCatalogStats();
   const worn = new Set(
@@ -1952,7 +1974,9 @@ function InventoryPanel({
       </p>
       <PaperdollPanel char={char} canEdit={canEdit} onUnequip={onUnequip} />
 
-      <p className="pc-eyebrow text-[0.65rem]">Inventory — Use potions &amp; food here</p>
+      <p className="pc-eyebrow text-[0.65rem]">
+        Inventory — Use potions &amp; food · Break down unequipped gear for scrap gold
+      </p>
       <div className="pc-inv-grid" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(8.5rem, 1fr))" }}>
         {char.inventory.map((id, idx) => {
           const item = getGear(id);
@@ -2022,6 +2046,19 @@ function InventoryPanel({
                     Read
                   </button>
                 )}
+                <button
+                  type="button"
+                  className="pc-btn-tiny"
+                  disabled={!canEdit || equipped}
+                  title={
+                    equipped
+                      ? "Unequip before breaking down"
+                      : "Break down for scrap gold"
+                  }
+                  onClick={() => onSalvage(id)}
+                >
+                  Break down
+                </button>
               </div>
               <GearTipBody item={item} />
             </div>
