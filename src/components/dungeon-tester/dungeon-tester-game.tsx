@@ -872,7 +872,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
       {flash ? <p className="dt-flash">{flash}</p> : null}
 
       {phase === "title" && (
-        <div className="dt-panel space-y-3">
+        <div className="dt-panel dt-title-panel space-y-3">
           <h1 className="dt-title-hero">DungeonTester</h1>
           <p className="dt-tagline">
             Dusty Wilderland liberation march — Oregon Trail page, short comic frames, party seats
@@ -1047,7 +1047,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
           ) : null}
 
           {!world.endingId && tab === "story" ? (
-            <div className="dt-panel">
+            <div className="dt-panel dt-story-panel">
               <div className="dt-comic-strip">
                 <div className="dt-comic-plate">
                   <img
@@ -1072,13 +1072,13 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     />
                   ) : null}
                 </div>
-                <div>
+                <div className="dt-frame-copy">
                   <p className="dt-hud-meta">
                     {world.chapterId} · {world.campaignNodeId}
                   </p>
                   <h2 className="dt-frame-title">{frame?.title ?? "Missing frame"}</h2>
                   <p className="dt-frame-body">{frame?.body ?? "Spine gap — check data/dungeon-tester."}</p>
-                  <div className="dt-actions">
+                  <div className="dt-actions dt-story-actions">
                     {frame?.choices?.length ? (
                       frame.choices.map((c) => (
                         <button
@@ -1115,17 +1115,18 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
           ) : null}
 
           {!world.endingId && tab === "camp" ? (
-            <div className="dt-panel space-y-4">
-              <div className="pc-main-quest-card">
-                <p className="dt-section-label">Camp · rest & supply</p>
+            <div className="dt-panel dt-camp-panel space-y-4">
+              <div className="dt-camp-hero">
+                <p className="dt-section-label">Camp · Rest & Supply</p>
                 <p className="dt-section-title">{frame?.title ?? world.campaignNodeId}</p>
-                <p className="dt-section-hint mt-1">
+                <p className="dt-section-hint">
                   Sleep, buy trail goods, dig for caches, or force a road fight — then back to Story.
                 </p>
-                <div className="flex flex-wrap gap-2 mt-3">
+                <div className="dt-actions dt-camp-hero-actions">
                   <button
                     type="button"
-                    className="pc-primary-btn"
+                    className="dt-btn"
+                    data-primary="true"
                     disabled={!!world.battle}
                     onClick={() => setTab("story")}
                   >
@@ -1133,7 +1134,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   </button>
                   <button
                     type="button"
-                    className="pc-choice"
+                    className="dt-btn"
                     disabled={!!world.battle || !me}
                     onClick={() => setTab("gear")}
                   >
@@ -1142,7 +1143,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 </div>
               </div>
 
-              <div className="space-y-2">
+              <div className="dt-camp-section">
                 <p className="dt-section-label">
                   Rest · Sleep ({world ? campSleepsRemaining(asPartyWorld(world)) : 0}/{CAMP_SLEEP_MAX}{" "}
                   this {CAMP_SLEEP_WINDOW_MS / 60_000}m)
@@ -1153,7 +1154,8 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 </p>
                 <button
                   type="button"
-                  className="pc-primary-btn"
+                  className="dt-btn"
+                  data-primary="true"
                   disabled={sleepBlocked}
                   title={campSleepHint ?? "Sleep at camp — restore HP & mana"}
                   onClick={onCampSleep}
@@ -1217,9 +1219,9 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               </div>
 
               {me ? (
-                <div className="dt-camp-bag space-y-2">
+                <div className="dt-camp-bag dt-camp-section space-y-2">
                   <p className="dt-section-label">
-                    Worn &amp; bag · {me.name} · {me.gold}g
+                    Worn &amp; Bag · {me.name} · {me.gold}g
                   </p>
                   <p className="dt-section-hint">
                     Empty slots auto-fill when you buy or dig. Equip anything else from Camp here.
@@ -1299,9 +1301,9 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 </div>
               ) : null}
 
-              <div className="pc-merchant relative space-y-2">
+              <div className="dt-camp-section dt-merchant relative space-y-2">
                 <p className="dt-section-label">
-                  Trail peddler · your purse {me?.gold ?? 0}g
+                  Trail Peddler · Your Purse {me?.gold ?? 0}g
                 </p>
                 <p className="dt-section-hint">
                   Frontier rations, poultices, and trail arms — bought goods go to your bag (and
@@ -1310,21 +1312,21 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 {merchantSold ? (
                   <div
                     key={merchantSold.id}
-                    className="pc-merchant-sold"
+                    className="dt-merchant-sold"
                     role="status"
                     aria-live="polite"
                   >
-                    <span className="pc-merchant-sold-label">SOLD</span>
-                    <span className="pc-merchant-sold-spend">−{merchantSold.spent}g</span>
-                    <span className="pc-merchant-sold-purse">{merchantSold.goldLeft}g left</span>
+                    <span className="dt-merchant-sold-label">Sold</span>
+                    <span className="dt-merchant-sold-spend">−{merchantSold.spent}g</span>
+                    <span className="dt-merchant-sold-purse">{merchantSold.goldLeft}g left</span>
                   </div>
                 ) : null}
-                <div className="space-y-2">
+                <div className="dt-merchant-list">
                   {campMerchantStock().map((offer) => (
                     <button
                       key={offer.itemId}
                       type="button"
-                      className="pc-choice block w-full text-left"
+                      className="dt-merchant-offer"
                       disabled={!acting || battleActive || (me?.gold ?? 0) < offer.price}
                       onClick={() => onBuyMerchant(offer.itemId)}
                     >
@@ -1339,14 +1341,14 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <p className="dt-section-label">Road battle · crude ambush</p>
+              <div className="dt-camp-section">
+                <p className="dt-section-label">Road Battle · Crude Ambush</p>
                 {battleOpen ? (
                   <p className="dt-section-title">Battle in progress — finish the overlay.</p>
                 ) : (
                   <button
                     type="button"
-                    className="pc-choice"
+                    className="dt-btn"
                     disabled={!acting}
                     onClick={onForceAmbush}
                   >
@@ -1355,14 +1357,14 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 )}
               </div>
 
-              <div className="space-y-2">
+              <div className="dt-camp-section">
                 <p className="dt-section-label">
-                  Trail luck · chests &amp; digging ({world.explorationFinds ?? 0} finds)
+                  Trail Luck · Chests &amp; Digging ({world.explorationFinds ?? 0} finds)
                 </p>
-                <div className="flex flex-wrap gap-2">
+                <div className="dt-actions">
                   <button
                     type="button"
-                    className="pc-choice"
+                    className="dt-btn"
                     disabled={!acting || battleActive}
                     onClick={onChest}
                   >
@@ -1370,7 +1372,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   </button>
                   <button
                     type="button"
-                    className="pc-choice"
+                    className="dt-btn"
                     disabled={!acting || battleActive}
                     onClick={onDig}
                   >
@@ -1378,10 +1380,10 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   </button>
                 </div>
                 {world.lastExploration ? (
-                  <div className="pc-codex-row dt-explore-result">
-                    <strong>{world.lastExploration.title}</strong>
-                    <span className="dt-section-hint mt-1 block">{world.lastExploration.blurb}</span>
-                    <span className="dt-bag-meta mt-1 block">
+                  <div className="dt-explore-result">
+                    <strong className="dt-explore-title">{world.lastExploration.title}</strong>
+                    <span className="dt-section-hint">{world.lastExploration.blurb}</span>
+                    <span className="dt-bag-meta">
                       {world.lastExploration.itemNames.join(", ") || "empty"} · +
                       {world.lastExploration.gold}g · +{world.lastExploration.xp} XP
                     </span>

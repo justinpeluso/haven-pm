@@ -401,14 +401,14 @@ export function SimpleBattleOverlay({
         <header className="dt-sbat-head">
           <div>
             <p className="dt-sbat-eyebrow">
-              Crude ambush · {MAP_LABEL[battle.mapTheme]} · round {battle.round}
+              Crude Ambush · {MAP_LABEL[battle.mapTheme]} · Round {battle.round}
             </p>
             <h2 className="dt-sbat-title">
               {summary
                 ? battle.status === "victory"
                   ? "Victory"
                   : "Defeat"
-                : "Stand and fight"}
+                : "Stand and Fight"}
             </h2>
           </div>
           <p className="dt-sbat-msg">{battle.message}</p>
