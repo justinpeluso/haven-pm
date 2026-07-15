@@ -566,12 +566,63 @@ export function SimpleBattleOverlay({
             </p>
           </div>
         ) : (
-          <div className="dt-sbat-summary">
-            <p>
-              {battle.status === "victory"
-                ? `Victory — +${battle.goldReward}g · +${battle.xpReward} XP. Back to story.`
-                : "Defeat — soft recover. Continue the march from Story."}
+          <div className="dt-sbat-endscreen" data-outcome={battle.status}>
+            <p className="dt-sbat-endscreen-banner">
+              {battle.status === "victory" ? "VICTORY" : "DEFEAT"}
             </p>
+            <ul className="dt-sbat-endscreen-stats">
+              <li>
+                Rounds <strong>{battle.combatStats?.rounds ?? battle.round}</strong>
+              </li>
+              <li>
+                Damage dealt <strong>{battle.combatStats?.damageDealt ?? 0}</strong>
+              </li>
+              <li>
+                Damage taken <strong>{battle.combatStats?.damageTaken ?? 0}</strong>
+              </li>
+              <li>
+                Foes defeated{" "}
+                <strong>
+                  {battle.combatStats?.foesDefeated ??
+                    battle.units.filter((u) => u.side === "enemy" && u.hp <= 0).length}
+                </strong>
+              </li>
+              {battle.status === "victory" ? (
+                <>
+                  <li>
+                    Gold <strong>+{battle.goldReward}g</strong>
+                  </li>
+                  <li>
+                    XP <strong>+{battle.xpReward}</strong>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  Soft recover <strong>party limps on</strong>
+                </li>
+              )}
+            </ul>
+            <div className="dt-sbat-endscreen-loot">
+              <p className="dt-sbat-endscreen-loot-title">Items dropped</p>
+              {(battle.lootDrops?.length ?? 0) > 0 ? (
+                <ul>
+                  {battle.lootDrops!.map((d) => (
+                    <li key={d.itemId}>
+                      <span className="dt-sbat-loot-name">{d.name}</span>
+                      {d.blurb ? (
+                        <span className="dt-sbat-loot-blurb"> — {d.blurb}</span>
+                      ) : null}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="dt-sbat-endscreen-loot-empty">
+                  {battle.status === "victory"
+                    ? "Pockets empty. The road takes its cut."
+                    : "Nothing but dust and bruised pride."}
+                </p>
+              )}
+            </div>
             <button type="button" className="dt-btn" data-primary="true" onClick={onDismiss}>
               Return to story →
             </button>
