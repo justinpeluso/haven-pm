@@ -3,12 +3,14 @@ import { auth } from "@/lib/auth";
 import { hasPermission } from "@/lib/permissions";
 import {
   checkComputerHelperRateLimit,
+  ComputerHelperLiveError,
   generateComputerHelperPlan,
+  sanitizeComputerHelperOs,
   sanitizeComputerHelperQuery,
 } from "@/lib/downtown/computer-helper";
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 30;
+export const maxDuration = 60;
 
 export async function POST(req: Request) {
   const session = await auth();
@@ -28,11 +30,16 @@ export async function POST(req: Request) {
     );
   }
 
-  let body: { query?: unknown } = {};
+  let body: { query?: unknown; os?: unknown } = {};
   try {
     body = (await req.json()) as typeof body;
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  const sanitizedOs = sanitizeComputerHelperOs(body.os);
+  if (!sanitizedOs.ok) {
+    return NextResponse.json({ error: sanitizedOs.error }, { status: 400 });
   }
 
   const sanitized = sanitizeComputerHelperQuery(body.query);
@@ -40,6 +47,19 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: sanitized.error }, { status: 400 });
   }
 
-  const plan = await generateComputerHelperPlan(sanitized.query);
-  return NextResponse.json(plan);
+  try {
+    const plan = await generateComputerHelperPlan(
+      sanitized.query,
+      sanitizedOs.os
+    );
+    return NextResponse.json(plan);
+  } catch (err) {
+    if (err instanceof ComputerHelperLiveError) {
+      return NextResponse.json({ error: err.message }, { status: err.status });
+    }
+    return NextResponse.json(
+      { error: "Live AI required — add OPENAI_API_KEY" },
+      { status: 503 }
+    );
+  }
 }

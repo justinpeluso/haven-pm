@@ -11,17 +11,22 @@ import {
   Search,
 } from "lucide-react";
 import { DowntownSubnav } from "@/components/downtown/downtown-subnav";
-import type { ComputerHelperPlan } from "@/lib/downtown/computer-helper";
+import type {
+  ComputerHelperPlan,
+  HelperOs,
+} from "@/lib/downtown/computer-helper/types";
+import { HELPER_OS_OPTIONS } from "@/lib/downtown/computer-helper/types";
 
 const EXAMPLES = [
   "Wi‑Fi connected but no internet",
   "Printer says offline",
-  "PC is very slow after boot",
-  "Blue screen MEMORY_MANAGEMENT",
-  "Windows Update stuck at 80%",
+  "Device is very slow after boot",
+  "App keeps crashing",
+  "System update stuck",
 ];
 
 export function ComputerHelperApp() {
+  const [os, setOs] = useState<HelperOs | "">("");
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -29,8 +34,13 @@ export function ComputerHelperApp() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [copied, setCopied] = useState(false);
 
-  async function runQuery(raw: string) {
+  async function runQuery(raw: string, selectedOs: HelperOs | "") {
     const q = raw.trim();
+    if (!selectedOs) {
+      setError("Select your operating system first.");
+      setPlan(null);
+      return;
+    }
     if (!q) {
       setError("Enter a computer problem to troubleshoot.");
       setPlan(null);
@@ -44,7 +54,7 @@ export function ComputerHelperApp() {
       const res = await fetch("/api/downtown/computer-helper", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: q }),
+        body: JSON.stringify({ query: q, os: selectedOs }),
       });
       const data = (await res.json()) as ComputerHelperPlan & { error?: string };
       if (!res.ok) {
@@ -52,7 +62,6 @@ export function ComputerHelperApp() {
         return;
       }
       setPlan(data);
-      // Expand first detailed step by default
       setExpanded({ "d-0": true, "o2-0": true });
     } catch {
       setError("Network error — try again.");
@@ -63,7 +72,7 @@ export function ComputerHelperApp() {
 
   function onSubmit(e: FormEvent) {
     e.preventDefault();
-    void runQuery(query);
+    void runQuery(query, os);
   }
 
   function toggle(key: string) {
@@ -74,6 +83,7 @@ export function ComputerHelperApp() {
     if (!plan) return;
     const lines = [
       `Computer Helper — ${plan.query}`,
+      `OS: ${plan.osLabel}`,
       plan.topic ? `Topic: ${plan.topic}` : "",
       "",
       "Action plan:",
@@ -88,7 +98,9 @@ export function ComputerHelperApp() {
       plan.option2.summary,
       ...plan.option2.steps.map((s, i) => `${i + 1}. ${s.title}\n   ${s.detail}`),
       "",
-      `Mode: ${plan.mode}${plan.note ? ` (${plan.note})` : ""}`,
+      `Mode: ${plan.mode}${plan.note ? ` (${plan.note})` : ""}${
+        plan.researchUsed ? " · research" : ""
+      }`,
     ].filter(Boolean);
     try {
       await navigator.clipboard.writeText(lines.join("\n"));
@@ -124,12 +136,47 @@ export function ComputerHelperApp() {
           />
         </div>
         <p className="max-w-2xl text-sm leading-relaxed" style={{ color: "var(--dt-muted)" }}>
-          Describe any PC or Mac problem. You get a short action plan, a deeper walkthrough for
-          each step, plus a clearly labeled Option 2 with an alternate path.
+          Pick your OS, describe the problem, and live AI researches current fixes — short action
+          plan, detailed walkthrough, plus Option 2 as an alternate path.
         </p>
       </header>
 
-      <form onSubmit={onSubmit} className="space-y-3">
+      <form onSubmit={onSubmit} className="space-y-4">
+        <fieldset className="space-y-2">
+          <legend className="text-xs uppercase tracking-[0.12em]" style={{ color: "var(--dt-muted)" }}>
+            Operating system <span style={{ color: "var(--dt-accent)" }}>*</span>
+          </legend>
+          <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Operating system">
+            {HELPER_OS_OPTIONS.map((opt) => {
+              const selected = os === opt.id;
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={selected}
+                  disabled={loading}
+                  className="downtown-chip"
+                  style={
+                    selected
+                      ? {
+                          borderColor: "var(--dt-accent)",
+                          color: "var(--dt-accent)",
+                        }
+                      : undefined
+                  }
+                  onClick={() => {
+                    setOs(opt.id);
+                    if (error) setError(null);
+                  }}
+                >
+                  {opt.label}
+                </button>
+              );
+            })}
+          </div>
+        </fieldset>
+
         <div className="downtown-search-wrap">
           <Search
             className="pointer-events-none absolute left-3 h-4 w-4"
@@ -151,7 +198,7 @@ export function ComputerHelperApp() {
           />
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !os}
             className="absolute right-2 top-1/2 -translate-y-1/2 border border-[var(--dt-line)] px-3 py-1.5 text-xs uppercase tracking-wider transition hover:border-[var(--dt-accent)] hover:text-[var(--dt-accent)] disabled:opacity-50"
             style={{ color: "var(--dt-fg)", background: "rgba(0,0,0,0.35)" }}
           >
@@ -164,10 +211,11 @@ export function ComputerHelperApp() {
               key={ex}
               type="button"
               className="downtown-chip"
-              disabled={loading}
+              disabled={loading || !os}
+              title={!os ? "Select an OS first" : undefined}
               onClick={() => {
                 setQuery(ex);
-                void runQuery(ex);
+                void runQuery(ex, os);
               }}
             >
               {ex}
@@ -192,23 +240,30 @@ export function ComputerHelperApp() {
           style={{ color: "var(--dt-muted)" }}
         >
           <Loader2 className="h-5 w-5 animate-spin" style={{ color: "var(--dt-accent)" }} />
-          Building a troubleshooting plan…
+          Researching and building a live troubleshooting plan…
         </div>
       ) : null}
 
       {plan ? (
         <div className="space-y-6">
           <div className="flex flex-wrap items-center gap-3">
+            <span
+              className="text-[0.65rem] uppercase tracking-[0.12em]"
+              style={{ color: "var(--dt-accent)" }}
+            >
+              {plan.osLabel}
+            </span>
             {plan.topic ? (
               <span
                 className="text-[0.65rem] uppercase tracking-[0.12em]"
-                style={{ color: "var(--dt-accent)" }}
+                style={{ color: "var(--dt-muted)" }}
               >
                 {plan.topic}
               </span>
             ) : null}
             <span className="text-xs" style={{ color: "var(--dt-muted)" }}>
-              {plan.mode === "llm" ? "Online (LLM)" : "Offline playbook"}
+              Live AI
+              {plan.researchUsed ? " · researched" : ""}
               {plan.note ? ` · ${plan.note}` : ""}
             </span>
             <button

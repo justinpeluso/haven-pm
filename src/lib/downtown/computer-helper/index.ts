@@ -1,11 +1,14 @@
 export type {
   ComputerHelperPlan,
   HelperOption2,
+  HelperOs,
   HelperStep,
 } from "./types";
-export { offlineComputerHelperPlan, detectTopicLabel } from "./fallback";
+export { HELPER_OS_LABELS, HELPER_OS_OPTIONS } from "./types";
 export {
-  sanitizeComputerHelperQuery,
+  ComputerHelperLiveError,
   generateComputerHelperPlan,
+  sanitizeComputerHelperOs,
+  sanitizeComputerHelperQuery,
 } from "./generate";
 export { checkComputerHelperRateLimit } from "./rate-limit";
