@@ -7,17 +7,19 @@ import {
   startDtBattleVs,
   startDtRandomBattle,
 } from "./battle";
-import { rollNextEncounterAtFrame } from "./persist";
 import type { DtWorldSave } from "./types";
 
 export function maybeTriggerEncounter(
   world: DtWorldSave,
   rng: () => number = Math.random
 ): { world: DtWorldSave; triggered: boolean; message?: string } {
-  if (world.battle?.status === "active") {
+  // Hold cadence while an overlay (active or summary) is still open.
+  if (world.battle) {
     return { world, triggered: false };
   }
   if (world.endingId) return { world, triggered: false };
+  // Cadence: nextEncounterAtFrame = framesAdvanced + roll(10..20) after each fight.
+  // framesSinceEncounter increments on each counted frame advance and resets on battle start.
   const due = world.framesAdvanced >= world.nextEncounterAtFrame;
   if (!due) return { world, triggered: false };
 
@@ -41,7 +43,7 @@ export function goToFrame(
   nextId: string,
   opts?: { flagsAdd?: string[]; countAdvance?: boolean }
 ): { world: DtWorldSave; message?: string } {
-  if (world.battle?.status === "active") {
+  if (world.battle) {
     return { world, message: "Finish the battle first." };
   }
 
@@ -77,11 +79,13 @@ export function goToFrame(
   // Scripted fight on this frame (once per visit unless already fought flag).
   if (frame.battleFoeId && !next.partyFlags.includes(`fought:${frame.id}`)) {
     const fight = startDtBattleVs(next, frame.battleFoeId);
-    next = {
-      ...fight.world,
-      partyFlags: [...fight.world.partyFlags, `fought:${frame.id}`],
-    };
-    return { world: next, message: fight.message };
+    if (fight.world.battle?.status === "active") {
+      next = {
+        ...fight.world,
+        partyFlags: [...fight.world.partyFlags, `fought:${frame.id}`],
+      };
+      return { world: next, message: fight.message };
+    }
   }
 
   const enc = maybeTriggerEncounter(next);

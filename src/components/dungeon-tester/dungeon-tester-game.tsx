@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DowntownSubnav } from "@/components/downtown/downtown-subnav";
-import { BattleOverlay } from "@/components/party-chronicle/battle-overlay";
-import type { BattleActionOpts } from "@/lib/downtown/party-chronicle/battle";
+import { InventoryPanel } from "@/components/party-chronicle/inventory-panel";
+import { SimpleBattleOverlay } from "@/components/dungeon-tester/simple-battle-overlay";
 import {
   BLANK_BASE_STATS,
   listCreateMagic,
@@ -15,8 +15,8 @@ import { CLASS_DEFS, SLOT_DEFAULTS } from "@/lib/downtown/party-chronicle/player
 import { applyPointBuy } from "@/lib/downtown/party-chronicle/persist";
 import { RACE_IDS, type RaceId } from "@/lib/downtown/party-chronicle/races";
 import type {
-  BattleActionId,
   ClassId,
+  EquipSlot,
   PlayerIdentity,
   StatKey,
 } from "@/lib/downtown/party-chronicle/types";
@@ -24,28 +24,47 @@ import { CLASS_IDS, PLAYER_SLOT_ORDER, STAT_KEYS } from "@/lib/downtown/party-ch
 import {
   DT_TARGET_PLAYTIME_HOURS,
   addPlaytime,
-  applyDtBattleAction,
+  asPartyWorld,
+  campMerchantStock,
+  campSleepCooldownMs,
+  campSleepsRemaining,
+  CAMP_SLEEP_MAX,
+  CAMP_SLEEP_WINDOW_MS,
   chooseFrame,
   clearLocalDtWorld,
+  clearSimpleBattleFx,
   continueFrame,
   createNewDtWorld,
   dismissDtBattle,
   dtArtSrc,
+  dtBuyFromCampMerchant,
+  dtDigForLoot,
+  dtEquipItem,
+  dtForceAmbush,
+  dtReadSpellbook,
+  dtSalvageItem,
   dtSceneArtSrc,
+  dtSleepAtCamp,
+  dtStumbleOnChest,
+  dtUnequipSlot,
+  dtUseConsumable,
   formatPlaytimeHud,
   getDtArt,
   getFrame,
   normalizeDtWorld,
+  performSimpleBattleAction,
   readLocalDtWorld,
   sealDtCharacter,
   writeLocalDtWorld,
   type DtFrame,
   type DtWorldSave,
+  type SimpleBattleActionId,
 } from "@/lib/downtown/dungeon-tester";
 import "@/components/party-chronicle/party-chronicle.css";
 import "./dungeon-tester.css";
 
 type Phase = "title" | "create" | "play";
+type PlayTab = "story" | "camp" | "gear";
 
 const STAT_POOL = 27;
 const FALLBACK_PLATE = "/dungeon-tester/scenes/dusty-trail.svg";
@@ -70,10 +89,16 @@ function frameSubjectSrc(frame: Pick<DtFrame, "sceneId" | "artId"> | null | unde
 export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   const mySlot = identity.slot;
   const [phase, setPhase] = useState<Phase>("title");
+  const [tab, setTab] = useState<PlayTab>("story");
   const [world, setWorld] = useState<DtWorldSave | null>(null);
   const [flash, setFlash] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [bootstrapped, setBootstrapped] = useState(false);
+  const [merchantSold, setMerchantSold] = useState<{
+    id: number;
+    spent: number;
+    goldLeft: number;
+  } | null>(null);
   const playTickRef = useRef<number | null>(null);
 
   const persist = useCallback(
@@ -113,6 +138,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     campaignNodeId: local.campaignNodeId,
                     framesSinceEncounter: local.framesSinceEncounter,
                     nextEncounterAtFrame: local.nextEncounterAtFrame,
+                    campSleeps: local.campSleeps ?? data.world.campSleeps,
                     partyFlags: Array.from(
                       new Set([...(data.world.partyFlags ?? []), ...(local.partyFlags ?? [])])
                     ),
@@ -181,6 +207,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     persist(fresh);
     if (mySlot && !fresh.characters[mySlot]?.created) setPhase("create");
     else setPhase("play");
+    setTab("story");
     setFlash("New Wilderland march opened.");
   };
 
@@ -193,11 +220,13 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     persist(w);
     if (mySlot && !w.characters[mySlot]?.created) setPhase("create");
     else setPhase("play");
+    setTab("story");
   };
 
   const onSeal = (sealed: DtWorldSave) => {
     persist(sealed);
     setPhase("play");
+    setTab("story");
     setFlash(`${sealed.characters[mySlot!]?.name ?? "Hero"} sealed.`);
   };
 
@@ -215,10 +244,14 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     if (r.message) setFlash(r.message);
   };
 
-  const onBattleAction = (action: BattleActionId, opts?: BattleActionOpts) => {
-    if (!world || !mySlot) return;
+  const onBattleAction = (
+    heroId: string,
+    action: SimpleBattleActionId,
+    targetId?: string
+  ) => {
+    if (!world || pending) return;
     setPending(true);
-    const r = applyDtBattleAction(world, mySlot, action, opts);
+    const r = performSimpleBattleAction(world, heroId, action, targetId);
     persist(r.world);
     if (r.message) setFlash(r.message);
     setPending(false);
@@ -227,6 +260,112 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   const onDismissBattle = () => {
     if (!world) return;
     persist(dismissDtBattle(world));
+    setTab("story");
+    setFlash("Road clears — story resumes.");
+  };
+
+  const onBattleFxDone = () => {
+    if (!world?.battle?.fx?.length) return;
+    persist(clearSimpleBattleFx(world), { sync: false });
+  };
+
+  const battleActive = world?.battle?.status === "active";
+  const battleOpen = !!world?.battle;
+  const acting =
+    !!mySlot &&
+    !!world?.characters[mySlot]?.created &&
+    (identity.isDm || world?.activeSlot === mySlot);
+  const me = mySlot && world ? world.characters[mySlot] : null;
+
+  const onCampSleep = () => {
+    if (!world || !mySlot) return;
+    const r = dtSleepAtCamp(world, mySlot, { isDm: identity.isDm });
+    persist(r.world);
+    setFlash(r.message);
+  };
+
+  const onBuyMerchant = (itemId: string) => {
+    if (!world || !mySlot) return;
+    const before = world.characters[mySlot]?.gold ?? 0;
+    const r = dtBuyFromCampMerchant(world, mySlot, itemId, { isDm: identity.isDm });
+    persist(r.world);
+    setFlash(r.message);
+    const after = r.world.characters[mySlot]?.gold ?? before;
+    if (after < before) {
+      setMerchantSold({ id: Date.now(), spent: before - after, goldLeft: after });
+    }
+  };
+
+  const onForceAmbush = () => {
+    if (!world) return;
+    const r = dtForceAmbush(world);
+    persist(r.world);
+    setFlash(r.message);
+  };
+
+  const onChest = () => {
+    if (!world || !mySlot) return;
+    const r = dtStumbleOnChest(world, mySlot);
+    persist(r.world);
+    setFlash(r.message);
+  };
+
+  const onDig = () => {
+    if (!world || !mySlot) return;
+    const r = dtDigForLoot(world, mySlot);
+    persist(r.world);
+    setFlash(r.message);
+  };
+
+  const onEquip = (itemId: string) => {
+    if (!world || !mySlot) return;
+    const r = dtEquipItem(world, mySlot, itemId);
+    if ("error" in r) {
+      setFlash(r.error);
+      return;
+    }
+    persist(r.world);
+    setFlash(r.message);
+  };
+
+  const onUnequip = (slot: EquipSlot) => {
+    if (!world || !mySlot) return;
+    const r = dtUnequipSlot(world, mySlot, slot);
+    if ("error" in r) {
+      setFlash(r.error);
+      return;
+    }
+    persist(r.world);
+    setFlash(r.message);
+  };
+
+  const onUseConsumable = (itemId: string) => {
+    if (!world || !mySlot) return;
+    const r = dtUseConsumable(world, mySlot, itemId);
+    if ("error" in r) {
+      setFlash(r.error);
+      return;
+    }
+    persist(r.world);
+    setFlash(r.message);
+  };
+
+  const onSalvage = (itemId: string) => {
+    if (!world || !mySlot) return;
+    const r = dtSalvageItem(world, mySlot, itemId);
+    if ("error" in r) {
+      setFlash(r.error);
+      return;
+    }
+    persist(r.world);
+    setFlash(r.message);
+  };
+
+  const onReadSpellbook = (itemId: string) => {
+    if (!world || !mySlot) return;
+    const r = dtReadSpellbook(world, mySlot, itemId);
+    persist(r.world);
+    setFlash(r.message);
   };
 
   const frame = world ? getFrame(world.campaignNodeId) : undefined;
@@ -237,17 +376,33 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     : 0;
   const playHud = formatPlaytimeHud(world?.storyPlayMs ?? 0, DT_TARGET_PLAYTIME_HOURS);
 
+  const sleepBlocked =
+    !acting ||
+    battleActive ||
+    !world ||
+    campSleepsRemaining(asPartyWorld(world)) <= 0;
+  let campSleepHint: string | null = null;
+  if (battleActive) campSleepHint = "Finish the battle before sleeping.";
+  else if (!acting) campSleepHint = "Not your turn.";
+  else if (world && campSleepsRemaining(asPartyWorld(world)) <= 0) {
+    const waitMin = Math.max(1, Math.ceil(campSleepCooldownMs(asPartyWorld(world)) / 60_000));
+    campSleepHint = `Next sleep in ~${waitMin}m.`;
+  }
+
   if (!bootstrapped) {
     return (
-      <div className="downtown-shell dungeon-tester space-y-3">
+      <div className="downtown-shell dungeon-tester party-comic party-rpg90s party-chronicle space-y-3">
         <DowntownSubnav active="dungeon-tester" />
         <p className="dt-tagline">Loading DungeonTester…</p>
       </div>
     );
   }
 
+  const shellClass =
+    "downtown-shell dungeon-tester party-comic party-rpg90s party-chronicle space-y-3";
+
   return (
-    <div className="downtown-shell dungeon-tester space-y-3">
+    <div className={shellClass}>
       <DowntownSubnav active="dungeon-tester" />
 
       <div className="dt-hud-bar" aria-live="polite">
@@ -256,7 +411,9 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
         </span>
         <span>
           Frames <strong>{world?.framesAdvanced ?? 0}</strong>
-          {world ? ` · next ambush @ ${world.nextEncounterAtFrame}` : null}
+          {world
+            ? ` · since fight ${world.framesSinceEncounter} · next ambush @ ${world.nextEncounterAtFrame}`
+            : null}
         </span>
         <span>
           Party <strong>{sealedCount}/4</strong> sealed
@@ -270,8 +427,8 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
           <h1 className="dt-title-hero">DungeonTester</h1>
           <p className="dt-tagline">
             Dusty Wilderland liberation march — Oregon Trail page, short comic frames, party seats
-            like Neverworld (Justin, Rusty, Elisha, Eric). Battles have no pressure clocks; the HUD
-            still counts toward ~30 hours.
+            like Neverworld (Justin, Rusty, Elisha, Eric). Crude clip-art battles are DT-only —
+            Camp and Inventory still share party gear helpers.
           </p>
           <div className="dt-party-row">
             {PLAYER_SLOT_ORDER.map((slot) => {
@@ -326,15 +483,42 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   <div>
                     {SLOT_DEFAULTS[slot].displayName}
                     {slot === mySlot ? " (you)" : ""}
+                    {world.activeSlot === slot ? " · turn" : ""}
                   </div>
                   <div>
                     {c.created
-                      ? `${c.name} · Lv${c.level} · ${c.hp}/${c.maxHp} HP`
+                      ? `${c.name} · Lv${c.level} · ${c.hp}/${c.maxHp} HP · ${c.gold}g`
                       : "Unsealed"}
                   </div>
                 </div>
               );
             })}
+          </div>
+
+          <div className="pc-tab-row dt-actions" role="tablist" aria-label="DungeonTester panels">
+            {(
+              [
+                ["story", "Story"],
+                ["camp", "Camp"],
+                ["gear", "Gear"],
+              ] as const
+            ).map(([id, label]) => (
+              <button
+                key={id}
+                type="button"
+                role="tab"
+                aria-selected={tab === id}
+                className="dt-btn"
+                data-primary={tab === id ? "true" : "false"}
+                disabled={!!world.battle && id !== "story"}
+                onClick={() => setTab(id)}
+              >
+                {label}
+              </button>
+            ))}
+            <button type="button" className="dt-btn" onClick={() => setPhase("title")}>
+              Title
+            </button>
           </div>
 
           {world.endingId ? (
@@ -350,7 +534,9 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 </button>
               </div>
             </div>
-          ) : (
+          ) : null}
+
+          {!world.endingId && tab === "story" ? (
             <div className="dt-panel">
               <div className="dt-comic-strip">
                 <div className="dt-comic-plate">
@@ -412,45 +598,170 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                         Seal my seat
                       </button>
                     ) : null}
-                    <button type="button" className="dt-btn" onClick={() => setPhase("title")}>
-                      Title
-                    </button>
                   </div>
                 </div>
               </div>
             </div>
-          )}
+          ) : null}
 
-          {world.battle && mySlot ? (
-            <BattleOverlay
-              world={{
-                version: 1,
-                activeSlot: world.activeSlot,
-                turnIndex: world.turnIndex,
-                campaignNodeId: world.campaignNodeId,
-                chapterId: world.chapterId,
-                partyFlags: world.partyFlags,
-                alignment: { animal: 0, human: 0, demon: 0 },
-                pathway: { giver: 0, taker: 0 },
-                encounterEnemyHp: world.encounterEnemyHp,
-                deckEncounter: null,
-                battle: world.battle,
-                storyPlayMs: world.storyPlayMs,
-                battlesFought: world.battlesFought,
-                nextEncounterAtMs: world.nextEncounterAtMs,
-                completedSideQuests: [],
-                cookedRecipes: [],
-                log: world.log,
-                endingId: world.endingId,
-                characters: world.characters,
-                startedAt: world.startedAt,
-                updatedAt: world.updatedAt,
-              }}
+          {!world.endingId && tab === "camp" ? (
+            <div className="dt-panel space-y-4">
+              <div className="pc-main-quest-card">
+                <p className="pc-eyebrow text-[0.65rem]">Main march · stay on track</p>
+                <p className="font-bold text-sm">{frame?.title ?? world.campaignNodeId}</p>
+                <p className="text-[0.65rem] opacity-80 mt-1">
+                  Rest and stock up here, then return to Story for the next comic frame.
+                </p>
+                <div className="flex flex-wrap gap-2 mt-3">
+                  <button
+                    type="button"
+                    className="pc-primary-btn"
+                    onClick={() => setTab("story")}
+                  >
+                    Return to story →
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <p className="pc-eyebrow text-[0.65rem]">
+                  Rest · Sleep ({world ? campSleepsRemaining(asPartyWorld(world)) : 0}/{CAMP_SLEEP_MAX}{" "}
+                  this {CAMP_SLEEP_WINDOW_MS / 60_000}m)
+                </p>
+                <p className="text-xs opacity-70">
+                  Sleep restores HP, mana, and stamina for the acting hero (and the hound). Same Camp
+                  rules as Neverworld.
+                </p>
+                <button
+                  type="button"
+                  className="pc-primary-btn"
+                  disabled={sleepBlocked}
+                  title={campSleepHint ?? "Sleep at camp — restore HP & mana"}
+                  onClick={onCampSleep}
+                >
+                  Sleep at camp → restore HP &amp; mana
+                </button>
+                {campSleepHint ? (
+                  <p className="text-xs opacity-70" style={{ color: "var(--pc-accent)" }}>
+                    {campSleepHint}
+                  </p>
+                ) : null}
+              </div>
+
+              <div className="pc-merchant relative space-y-2">
+                <p className="pc-eyebrow text-[0.65rem]">
+                  Camp merchant · your purse {me?.gold ?? 0}g
+                </p>
+                <p className="text-xs opacity-70">
+                  A traveling peddler — potions, rations, and a few weapons for coin.
+                </p>
+                {merchantSold ? (
+                  <div
+                    key={merchantSold.id}
+                    className="pc-merchant-sold"
+                    role="status"
+                    aria-live="polite"
+                  >
+                    <span className="pc-merchant-sold-label">SOLD</span>
+                    <span className="pc-merchant-sold-spend">−{merchantSold.spent}g</span>
+                    <span className="pc-merchant-sold-purse">{merchantSold.goldLeft}g left</span>
+                  </div>
+                ) : null}
+                <div className="space-y-2">
+                  {campMerchantStock().map((offer) => (
+                    <button
+                      key={offer.itemId}
+                      type="button"
+                      className="pc-choice block w-full text-left"
+                      disabled={!acting || battleActive || (me?.gold ?? 0) < offer.price}
+                      onClick={() => onBuyMerchant(offer.itemId)}
+                    >
+                      <strong>
+                        {offer.name} — {offer.price}g
+                      </strong>
+                      <span className="block text-[0.65rem] opacity-70">
+                        {offer.tier} · {offer.blurb}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <p className="pc-eyebrow text-[0.65rem]">Road battle · DT crude ambush</p>
+                {battleActive ? (
+                  <p className="text-sm font-bold">Battle in progress — finish the overlay.</p>
+                ) : (
+                  <button
+                    type="button"
+                    className="pc-choice"
+                    disabled={!acting}
+                    onClick={onForceAmbush}
+                  >
+                    Force road ambush →
+                  </button>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <p className="pc-eyebrow text-[0.65rem]">
+                  Trail luck · chests &amp; digging ({world.explorationFinds ?? 0} finds)
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    className="pc-choice"
+                    disabled={!acting || battleActive}
+                    onClick={onChest}
+                  >
+                    Stumble on a treasure chest →
+                  </button>
+                  <button
+                    type="button"
+                    className="pc-choice"
+                    disabled={!acting || battleActive}
+                    onClick={onDig}
+                  >
+                    Dig a hole for loot →
+                  </button>
+                </div>
+                {world.lastExploration ? (
+                  <div className="pc-codex-row text-xs">
+                    <strong>{world.lastExploration.title}</strong>
+                    <span className="block opacity-80 mt-1">{world.lastExploration.blurb}</span>
+                    <span className="block opacity-70 mt-1">
+                      {world.lastExploration.itemNames.join(", ") || "empty"} · +
+                      {world.lastExploration.gold}g · +{world.lastExploration.xp} XP
+                    </span>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          ) : null}
+
+          {!world.endingId && tab === "gear" && me ? (
+            <div className="dt-panel">
+              <InventoryPanel
+                char={me}
+                canEdit={!!mySlot && !battleActive}
+                onEquip={onEquip}
+                onUnequip={onUnequip}
+                onUseConsumable={onUseConsumable}
+                onReadSpellbook={onReadSpellbook}
+                onSalvage={onSalvage}
+              />
+            </div>
+          ) : null}
+
+          {battleOpen && world.battle ? (
+            <SimpleBattleOverlay
+              battle={world.battle}
               mySlot={mySlot}
-              canAct={!!world.characters[mySlot]?.created}
+              canAct={!!mySlot && !!world.characters[mySlot]?.created}
               pending={pending}
               onAction={onBattleAction}
               onDismiss={onDismissBattle}
+              onFxDone={onBattleFxDone}
             />
           ) : null}
         </>

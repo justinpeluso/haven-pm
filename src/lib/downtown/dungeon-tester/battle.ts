@@ -1,106 +1,66 @@
 /**
- * DungeonTester battle helpers — always clockMode: "off".
- * Prefers DT encounter decks / creatures; resolves via registered external bestiary.
+ * DungeonTester battle entrypoints — DT-only crude fixed-position combat.
+ * Does NOT use Neverworld BattleOverlay / party-chronicle performBattleAction.
  */
 
 import {
-  dismissBattleSummary,
-  performBattleAction,
-  startBattleVs,
-  type BattleActionOpts,
-} from "@/lib/downtown/party-chronicle/battle";
-import type { BattleActionId, PlayerSlot } from "@/lib/downtown/party-chronicle/types";
-import { getDtBoss, getDtCreature, rollDtRandomFoe } from "./bestiary";
-import { rollDtEncounterForLevel } from "./encounters";
-import { asPartyWorld, fromPartyWorld, type DtWorldSave } from "./types";
-import { rollNextEncounterAtFrame } from "./persist";
+  dismissSimpleBattle,
+  performSimpleBattleAction,
+  startSimpleBattle,
+  type SimpleBattleActionId,
+} from "./simple-battle";
+import type { DtWorldSave, PlayerSlot } from "./types";
 
-const CLOCK_OFF = { clockMode: "off" as const };
+export type { SimpleBattleActionId };
+export {
+  dismissSimpleBattle,
+  performSimpleBattleAction,
+  startSimpleBattle,
+  clearSimpleBattleFx,
+  isSimpleBattleActive,
+  SIMPLE_BATTLE_ACTIONS,
+  type SimpleBattleState,
+} from "./simple-battle";
 
-function partyLevel(world: DtWorldSave): number {
-  const levels = Object.values(world.characters)
-    .filter((c) => c.created)
-    .map((c) => c.level ?? 1);
-  if (!levels.length) return 1;
-  return Math.max(1, Math.round(levels.reduce((a, b) => a + b, 0) / levels.length));
-}
-
-/** Deck entry ids look like `act-1-whip-hand-thug` or `act-1-boss-coffle-master`. */
-function resolveDtFoeId(entryId: string, level: number, rng: () => number): string {
-  const bare = entryId.replace(/^act-\d+-/, "");
-  if (getDtCreature(bare) || getDtBoss(bare)) return bare;
-  if (getDtCreature(entryId) || getDtBoss(entryId)) return entryId;
-  return rollDtRandomFoe(level, rng).id;
-}
-
+/** Frame-cadence ambush — 1–3 DT foes, player party first. */
 export function startDtRandomBattle(
   world: DtWorldSave,
   rng: () => number = Math.random
 ): { world: DtWorldSave; message: string } {
-  const lvl = partyLevel(world);
-  const fromDeck = rollDtEncounterForLevel(lvl, rng);
-  const foeId = resolveDtFoeId(fromDeck.id, lvl, rng);
-  const started = startDtBattleVs(world, foeId);
-  return {
-    world: {
-      ...started.world,
-      framesSinceEncounter: 0,
-      nextEncounterAtFrame: rollNextEncounterAtFrame(world.framesAdvanced, rng),
-    },
-    message: started.message,
-  };
+  return startSimpleBattle(world, { rng });
 }
 
+/** Force ambush from Camp. */
+export function startDtCampAmbush(
+  world: DtWorldSave,
+  rng: () => number = Math.random
+): { world: DtWorldSave; message: string } {
+  return startSimpleBattle(world, { rng });
+}
+
+/** Scripted frame fight / Force ambush vs a known foe id. */
 export function startDtBattleVs(
   world: DtWorldSave,
-  foeId: string
+  foeId: string,
+  rng: () => number = Math.random
 ): { world: DtWorldSave; message: string } {
-  const r = startBattleVs(asPartyWorld(world), foeId, CLOCK_OFF);
-  return {
-    world: fromPartyWorld(r.world, {
-      framesAdvanced: world.framesAdvanced,
-      framesSinceEncounter: world.framesSinceEncounter,
-      nextEncounterAtFrame: world.nextEncounterAtFrame,
-    }),
-    message: r.message,
-  };
+  return startSimpleBattle(world, { foeId, rng });
 }
 
 export function applyDtBattleAction(
   world: DtWorldSave,
-  slot: PlayerSlot,
-  action: BattleActionId,
-  opts?: BattleActionOpts
+  _slot: PlayerSlot,
+  action: SimpleBattleActionId,
+  opts?: { heroId?: string; targetId?: string }
 ): { world: DtWorldSave; message: string } {
-  const r = performBattleAction(asPartyWorld(world), slot, action, opts);
-  const next = fromPartyWorld(r.world, {
-    framesAdvanced: world.framesAdvanced,
-    framesSinceEncounter: world.framesSinceEncounter,
-    nextEncounterAtFrame: world.nextEncounterAtFrame,
-  });
-  if (
-    world.battle?.status === "active" &&
-    next.battle &&
-    (next.battle.status === "victory" || next.battle.status === "defeat")
-  ) {
-    return {
-      world: {
-        ...next,
-        battlesFought: (next.battlesFought ?? 0) + 1,
-        framesSinceEncounter: 0,
-        nextEncounterAtFrame: rollNextEncounterAtFrame(next.framesAdvanced),
-      },
-      message: r.message,
-    };
-  }
-  return { world: next, message: r.message };
+  const heroId =
+    opts?.heroId ??
+    world.battle?.focusHeroId ??
+    world.battle?.units.find((u) => u.side === "hero" && u.actionsLeft > 0 && u.hp > 0)?.id;
+  if (!heroId) return { world, message: "No hero ready." };
+  return performSimpleBattleAction(world, heroId, action, opts?.targetId);
 }
 
 export function dismissDtBattle(world: DtWorldSave): DtWorldSave {
-  const cleared = dismissBattleSummary(asPartyWorld(world));
-  return fromPartyWorld(cleared, {
-    framesAdvanced: world.framesAdvanced,
-    framesSinceEncounter: world.framesSinceEncounter,
-    nextEncounterAtFrame: world.nextEncounterAtFrame,
-  });
+  return dismissSimpleBattle(world);
 }

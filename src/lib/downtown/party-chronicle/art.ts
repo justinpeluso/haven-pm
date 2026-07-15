@@ -401,6 +401,19 @@ export function battlePetArtSrc(): string {
   return withBattleCache(comicArtSrc("art-dog-companion"));
 }
 
+/** Optional packs (DungeonTester) resolve art before Neverworld keyword heuristics. */
+export type ExternalEnemyArtFn = (enemy: {
+  artId?: string;
+  name?: string;
+  id?: string;
+}) => string | null | undefined;
+
+let externalEnemyArt: ExternalEnemyArtFn | null = null;
+
+export function registerExternalEnemyArt(fn: ExternalEnemyArtFn): void {
+  externalEnemyArt = fn;
+}
+
 /**
  * Prefer a readable creature plate from name/id keywords so random encounters
  * don't show a fox portrait for a goblin, etc.
@@ -410,6 +423,9 @@ export function battleEnemyArtSrc(enemy: {
   name?: string;
   id?: string;
 }): string {
+  const external = externalEnemyArt?.(enemy);
+  if (external) return withBattleCache(external);
+
   const key = `${enemy.id ?? ""} ${enemy.name ?? ""}`.toLowerCase();
   if (/dragon|drake|wyrm|elemental/.test(key)) {
     return withBattleCache(comicArtSrc("art-dragon-silhouette"));

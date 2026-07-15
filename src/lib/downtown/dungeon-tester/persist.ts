@@ -15,7 +15,19 @@ import {
   PLAYER_SLOT_ORDER,
   type DtWorldSave,
   type PlayerSlot,
+  type SimpleBattleState,
 } from "./types";
+
+function isSimpleBattleBlob(raw: unknown): raw is SimpleBattleState {
+  if (!raw || typeof raw !== "object") return false;
+  const b = raw as Record<string, unknown>;
+  return (
+    (b.status === "active" || b.status === "victory" || b.status === "defeat") &&
+    Array.isArray(b.units) &&
+    typeof b.mapTheme === "string" &&
+    typeof b.round === "number"
+  );
+}
 
 export const DT_SAVE_KEY = "haven-dungeon-tester-v1";
 export const DT_WORLD_SETTING_KEY = "dungeon_tester_world_v1";
@@ -53,6 +65,11 @@ export function createNewDtWorld(): DtWorldSave {
     nextEncounterAtMs: rollNextEncounterThreshold(0),
     encounterEnemyHp: null,
     deckEncounter: null,
+    completedSideQuests: [],
+    cookedRecipes: [],
+    campSleeps: [],
+    explorationFinds: 0,
+    lastExploration: null,
     log: ["DungeonTester opens on the Wilderland road. Seal your heroes."],
     endingId: null,
     startedAt: now,
@@ -94,12 +111,20 @@ export function normalizeDtWorld(raw: unknown): DtWorldSave {
         ? w.nextEncounterAtFrame
         : rollNextEncounterAtFrame(Math.max(0, Number(w.framesAdvanced) || 0)),
     partyFlags: Array.isArray(w.partyFlags) ? w.partyFlags : base.partyFlags,
-    battle: w.battle ?? null,
+    // Drop legacy Neverworld tactical battles; keep DT simple battle only.
+    battle: isSimpleBattleBlob(w.battle) ? w.battle : null,
     storyPlayMs: Math.max(0, Number(w.storyPlayMs) || 0),
     battlesFought: Math.max(0, Number(w.battlesFought) || 0),
     nextEncounterAtMs: Math.max(0, Number(w.nextEncounterAtMs) || 0),
     encounterEnemyHp: w.encounterEnemyHp ?? null,
     deckEncounter: null,
+    completedSideQuests: Array.isArray(w.completedSideQuests)
+      ? w.completedSideQuests
+      : [],
+    cookedRecipes: Array.isArray(w.cookedRecipes) ? w.cookedRecipes : [],
+    campSleeps: Array.isArray(w.campSleeps) ? w.campSleeps : [],
+    explorationFinds: Math.max(0, Number(w.explorationFinds) || 0),
+    lastExploration: w.lastExploration ?? null,
     log: Array.isArray(w.log) ? w.log : base.log,
     endingId: w.endingId ?? null,
     startedAt: w.startedAt || base.startedAt,

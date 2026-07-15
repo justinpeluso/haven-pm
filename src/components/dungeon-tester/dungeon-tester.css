@@ -1,6 +1,6 @@
 /**
  * DungeonTester — dusty Oregon Trail page + short comic frames.
- * Reuses Neverworld party seats / create + BattleOverlay (clockMode off).
+ * Seats/create shared with Neverworld; battles are DT-only crude overlay.
  */
 
 .dungeon-tester {
@@ -207,4 +207,361 @@
   object-fit: contain;
   filter: drop-shadow(1px 2px 0 rgba(42, 31, 20, 0.35));
   pointer-events: none;
+}
+
+/* --- Simple fixed-position battle overlay --- */
+
+.dungeon-tester .dt-sbat-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  background: rgba(28, 18, 10, 0.55);
+}
+
+.dungeon-tester .dt-sbat-panel {
+  width: min(920px, 100%);
+  max-height: calc(100vh - 1.5rem);
+  overflow: auto;
+  border: 2px solid var(--dt-ink);
+  background: var(--dt-panel);
+  box-shadow: 0 12px 40px rgba(20, 10, 0, 0.45);
+  padding: 0.75rem 0.85rem 1rem;
+}
+
+.dungeon-tester .dt-sbat-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.55rem;
+}
+
+.dungeon-tester .dt-sbat-eyebrow {
+  margin: 0;
+  font-family: var(--dt-hud);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dt-muted);
+}
+
+.dungeon-tester .dt-sbat-title {
+  margin: 0.15rem 0 0;
+  font-family: var(--dt-display);
+  font-size: 1.65rem;
+  letter-spacing: 0.03em;
+}
+
+.dungeon-tester .dt-sbat-msg {
+  margin: 0;
+  max-width: 22rem;
+  font-family: var(--dt-hud);
+  font-size: 0.75rem;
+  color: var(--dt-accent);
+}
+
+.dungeon-tester .dt-sbat-field {
+  position: relative;
+  height: min(46vh, 360px);
+  min-height: 240px;
+  border: 2px solid var(--dt-ink);
+  overflow: hidden;
+  background: #c9b48a;
+}
+
+.dungeon-tester .dt-sbat-map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  z-index: 0;
+  filter: contrast(1.05) saturate(0.85);
+}
+
+.dungeon-tester .dt-sbat-map-wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(42, 31, 20, 0.18) 0%, transparent 35%, rgba(42, 31, 20, 0.35) 100%),
+    radial-gradient(ellipse at 50% 70%, transparent 40%, rgba(20, 12, 4, 0.25) 100%);
+}
+
+.dungeon-tester .dt-sbat-sky,
+.dungeon-tester .dt-sbat-ground {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dungeon-tester .dt-sbat-sky {
+  height: 48%;
+  background: linear-gradient(180deg, #8eb4c8 0%, #c9d6b8 100%);
+}
+
+.dungeon-tester .dt-sbat-ground {
+  top: 42%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(90, 60, 30, 0.08),
+      rgba(90, 60, 30, 0.08) 8px,
+      transparent 8px,
+      transparent 16px
+    ),
+    linear-gradient(180deg, #b8925e 0%, #8a6840 100%);
+}
+
+.dungeon-tester .dt-sbat-field[data-theme="cave"] .dt-sbat-sky {
+  background: linear-gradient(180deg, #2a2e38 0%, #4a4550 100%);
+}
+.dungeon-tester .dt-sbat-field[data-theme="cave"] .dt-sbat-ground {
+  background: linear-gradient(180deg, #3a3530 0%, #1e1a16 100%);
+}
+.dungeon-tester .dt-sbat-field[data-theme="swamp"] .dt-sbat-sky {
+  background: linear-gradient(180deg, #6a7a58 0%, #8a9a68 100%);
+}
+.dungeon-tester .dt-sbat-field[data-theme="swamp"] .dt-sbat-ground {
+  background: linear-gradient(180deg, #4a5a38 0%, #2e3824 100%);
+}
+.dungeon-tester .dt-sbat-field[data-theme="forest"] .dt-sbat-sky {
+  background: linear-gradient(180deg, #6a8a78 0%, #a8c090 100%);
+}
+.dungeon-tester .dt-sbat-field[data-theme="forest"] .dt-sbat-ground {
+  background: linear-gradient(180deg, #3d5a34 0%, #2a3e24 100%);
+}
+.dungeon-tester .dt-sbat-field[data-theme="ruins"] .dt-sbat-sky {
+  background: linear-gradient(180deg, #7a8490 0%, #b0a898 100%);
+}
+.dungeon-tester .dt-sbat-field[data-theme="ruins"] .dt-sbat-ground {
+  background: linear-gradient(180deg, #6a6660 0%, #454038 100%);
+}
+.dungeon-tester .dt-sbat-field[data-theme="chain-yard"] .dt-sbat-sky {
+  background: linear-gradient(180deg, #9a8a78 0%, #c4b49a 100%);
+}
+.dungeon-tester .dt-sbat-field[data-theme="chain-yard"] .dt-sbat-ground {
+  background: linear-gradient(180deg, #6a5a48 0%, #3e3428 100%);
+}
+.dungeon-tester .dt-sbat-field[data-theme="thorn-hills"] .dt-sbat-sky {
+  background: linear-gradient(180deg, #a88868 0%, #d0b888 100%);
+}
+.dungeon-tester .dt-sbat-field[data-theme="thorn-hills"] .dt-sbat-ground {
+  background: linear-gradient(180deg, #6a5040 0%, #3a3028 100%);
+}
+.dungeon-tester .dt-sbat-field[data-theme="campfire"] .dt-sbat-sky {
+  background: linear-gradient(180deg, #3a2a48 0%, #8a5038 55%, #c47840 100%);
+}
+.dungeon-tester .dt-sbat-field[data-theme="campfire"] .dt-sbat-ground {
+  background: linear-gradient(180deg, #4a3828 0%, #2a1e14 100%);
+}
+
+.dungeon-tester .dt-sbat-rays {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.dungeon-tester .dt-sbat-ray {
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 2px rgba(255, 240, 160, 0.85));
+  animation: dt-sbat-ray-flash 0.55s ease-out;
+}
+
+@keyframes dt-sbat-ray-flash {
+  from {
+    stroke-opacity: 1;
+    stroke-width: 2.4;
+  }
+  to {
+    stroke-opacity: 0.15;
+    stroke-width: 0.8;
+  }
+}
+
+.dungeon-tester .dt-sbat-floats {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.dungeon-tester .dt-sbat-float {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-family: var(--dt-display);
+  font-size: 1.35rem;
+  letter-spacing: 0.02em;
+  text-shadow: 1px 1px 0 #1a1008, -1px 0 0 #1a1008;
+  animation: dt-sbat-float-up 0.7s ease-out forwards;
+  white-space: nowrap;
+}
+
+@keyframes dt-sbat-float-up {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -30%);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -120%);
+  }
+}
+
+.dungeon-tester .dt-sbat-hit {
+  position: absolute;
+  transform: translate(-50%, -88%);
+  width: 72px;
+  height: 100px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.dungeon-tester .dt-sbat-hit:disabled {
+  cursor: default;
+}
+
+.dungeon-tester .dt-sbat-unit {
+  position: relative;
+  width: 72px;
+  text-align: center;
+  filter: drop-shadow(1px 2px 0 rgba(20, 10, 0, 0.35));
+}
+
+.dungeon-tester .dt-sbat-unit[data-down="true"] {
+  opacity: 0.45;
+  filter: grayscale(0.7);
+}
+
+.dungeon-tester .dt-sbat-unit[data-active="true"] .dt-sbat-sil,
+.dungeon-tester .dt-sbat-unit[data-active="true"] .dt-sbat-clip {
+  outline: 2px solid #ffe08a;
+  outline-offset: 2px;
+}
+
+.dungeon-tester .dt-sbat-unit[data-haste="true"] .dt-sbat-name::after {
+  content: " ·!";
+}
+
+.dungeon-tester .dt-sbat-sil {
+  width: 40px;
+  height: 56px;
+  display: block;
+  margin: 0 auto;
+}
+
+.dungeon-tester .dt-sbat-clip {
+  display: block;
+  width: 56px;
+  height: 64px;
+  margin: 0 auto;
+  object-fit: contain;
+  image-rendering: crisp-edges;
+}
+
+.dungeon-tester .dt-sbat-name {
+  font-family: var(--dt-hud);
+  font-size: 0.58rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #fff8ec;
+  text-shadow: 0 1px 2px #1a1008;
+  margin-top: 2px;
+}
+
+.dungeon-tester .dt-sbat-hp {
+  height: 4px;
+  margin: 2px auto 0;
+  width: 48px;
+  background: rgba(20, 10, 0, 0.45);
+  border: 1px solid rgba(0, 0, 0, 0.35);
+}
+
+.dungeon-tester .dt-sbat-hp > span {
+  display: block;
+  height: 100%;
+  background: #7dff9a;
+}
+
+.dungeon-tester .dt-sbat-unit[data-side="enemy"] .dt-sbat-hp > span {
+  background: #ff6b4a;
+}
+
+.dungeon-tester .dt-sbat-meta {
+  font-family: var(--dt-hud);
+  font-size: 0.52rem;
+  color: #fff8ec;
+  text-shadow: 0 1px 2px #1a1008;
+}
+
+.dungeon-tester .dt-sbat-controls {
+  margin-top: 0.65rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.dungeon-tester .dt-sbat-hero-picks,
+.dungeon-tester .dt-sbat-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.dungeon-tester .dt-sbat-hint {
+  margin: 0;
+  font-family: var(--dt-hud);
+  font-size: 0.72rem;
+  color: var(--dt-muted);
+}
+
+.dungeon-tester .dt-sbat-log {
+  margin: 0;
+  padding: 0.35rem 0.55rem;
+  list-style: none;
+  max-height: 5.5rem;
+  overflow: auto;
+  border: 1px dashed var(--dt-line);
+  background: rgba(255, 248, 230, 0.4);
+  font-size: 0.72rem;
+}
+
+.dungeon-tester .dt-sbat-log li + li {
+  margin-top: 0.15rem;
+}
+
+.dungeon-tester .dt-sbat-foe-line {
+  margin: 0;
+  font-family: var(--dt-hud);
+  font-size: 0.68rem;
+  color: var(--dt-muted);
+}
+
+.dungeon-tester .dt-sbat-summary {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dungeon-tester .dt-sbat-summary p {
+  margin: 0;
+  font-family: var(--dt-hud);
+  font-size: 0.85rem;
 }

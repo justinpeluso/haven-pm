@@ -15,6 +15,7 @@ import {
   rollCreature,
   rollRandomFoe,
   type BossDef,
+  type CreatureDef,
 } from "./bestiary";
 import { getGear } from "./gear";
 import { battleArmor, battleAttackPower, battleMaxHp, battleMaxMana, computeEffectiveStats } from "./stats";
@@ -687,6 +688,11 @@ export type StartBattleOpts = {
    * Default `"on"` preserves Neverworld pressure clocks.
    */
   clockMode?: BattleClockMode;
+  /**
+   * Optional pack-filler roller (DungeonTester uses its own bestiary).
+   * Lead foe still comes from `foeId` / random Neverworld rolls.
+   */
+  rollFiller?: (partyLevel: number, rng: () => number) => CreatureDef;
 };
 
 function battleClockBlurb(clockMode: BattleClockMode | undefined): string {
@@ -777,9 +783,12 @@ export function startBattleVs(
     foeFromRoll(leadRoll, { partyLevel: lvl, packSize, index: 0 }),
   ];
   for (let i = 1; i < packSize; i++) {
+    const filler = opts?.rollFiller
+      ? opts.rollFiller(lvl, Math.random)
+      : rollCreature(lvl, Math.random);
     enemies.push(
       foeFromRoll(
-        { kind: "creature", foe: rollCreature(lvl, Math.random) },
+        { kind: "creature", foe: filler },
         { partyLevel: lvl, packSize, index: i }
       )
     );

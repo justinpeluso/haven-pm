@@ -5,6 +5,9 @@
  * Neverworld art stays under `party-chronicle/` — do not mix paths.
  */
 
+import { registerExternalEnemyArt } from "@/lib/downtown/party-chronicle/art";
+import { getDtBoss, getDtCreature } from "./bestiary";
+
 export type DtArtKind = "scene" | "enemy" | "splash" | "frame" | "portrait";
 
 export type DtArtEntry = {
@@ -215,3 +218,36 @@ export function dtSceneArtSrc(sceneId?: string | null): string {
   if (sceneId) return dtArtSrc(sceneId);
   return dtArtSrc(FALLBACK_SCENE);
 }
+
+/** Crude battle map pools — chapter/area themes pick a small random plate. */
+const SIMPLE_MAP_POOLS: Record<string, PlateKey[]> = {
+  "dust-road": ["dusty-trail", "pine-pass", "moonlit-ridge"],
+  "chain-yard": ["coffle-camp", "chain-citadel", "liberation-fort"],
+  "thorn-hills": ["orc-warcamp", "ash-pass", "pine-pass"],
+  cave: ["spider-hollow", "troll-bridge", "ash-pass"],
+  swamp: ["spider-hollow", "coffle-camp", "moonlit-ridge"],
+  ruins: ["chain-citadel", "liberation-fort", "troll-bridge"],
+  forest: ["pine-pass", "dusty-trail", "moonlit-ridge"],
+  campfire: ["dusty-trail", "coffle-camp", "orc-warcamp"],
+};
+
+export function simpleBattleMapSrc(theme: string, variant = 0): string {
+  const pool = SIMPLE_MAP_POOLS[theme] ?? SIMPLE_MAP_POOLS["dust-road"]!;
+  const plate = pool[Math.abs(variant) % pool.length]!;
+  return `/dungeon-tester/${PLATES[plate]}`;
+}
+
+/** Prefer DT plates when looking up foe art (story + simple battle flavor). */
+registerExternalEnemyArt((enemy) => {
+  const id = enemy.id ?? "";
+  const artId = enemy.artId ?? "";
+  if (
+    getDtCreature(id) ||
+    getDtBoss(id) ||
+    artId.startsWith("enemy-") ||
+    artId.startsWith("art-dt-")
+  ) {
+    return dtEnemyArtSrc(enemy);
+  }
+  return null;
+});

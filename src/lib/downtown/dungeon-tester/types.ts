@@ -1,6 +1,7 @@
 /**
  * DungeonTester save + frame contracts.
  * Party seats reuse Neverworld slots (justin / rusty / elisha / eric).
+ * Battle is DT-only crude combat (SimpleBattleState) — not Neverworld tactical.
  */
 
 import type {
@@ -10,9 +11,11 @@ import type {
   PlayerSlot,
 } from "@/lib/downtown/party-chronicle/types";
 import { PLAYER_SLOT_ORDER } from "@/lib/downtown/party-chronicle/types";
+import type { SimpleBattleState } from "./simple-battle";
 
 export { PLAYER_SLOT_ORDER };
-export type { CharacterSave, PlayerSlot, BattleState };
+export type { CharacterSave, PlayerSlot };
+export type { SimpleBattleState };
 
 export const DT_GAME_ID = "dungeon-tester" as const;
 /** Matches data/dungeon-tester/story-spine.json chapter 1. */
@@ -73,7 +76,7 @@ export type DtFrame = {
 };
 
 /**
- * Shared campaign save — party-chronicle character/battle shape + frame ambush clocks.
+ * Shared campaign save — party-chronicle character/camp shape + DT simple battle + frame clocks.
  * `storyPlayMs` drives the visible ~30h HUD (not battle pressure).
  */
 export type DtWorldSave = {
@@ -88,21 +91,40 @@ export type DtWorldSave = {
   nextEncounterAtFrame: number;
   partyFlags: string[];
   characters: Record<PlayerSlot, CharacterSave>;
-  battle: BattleState | null;
+  /** DT crude battle only — never Neverworld BattleState. */
+  battle: SimpleBattleState | null;
   storyPlayMs: number;
   battlesFought: number;
-  /** Kept for PartyWorldSave battle helpers / merge compatibility. */
+  /** Kept for PartyWorldSave camp/merge compatibility. */
   nextEncounterAtMs: number;
   encounterEnemyHp: number | null;
   deckEncounter: null;
+  completedSideQuests: string[];
+  cookedRecipes: string[];
+  campSleeps: string[];
+  explorationFinds: number;
+  lastExploration: PartyWorldSave["lastExploration"];
   log: string[];
   endingId: string | null;
   startedAt: string;
   updatedAt: string;
 };
 
-/** Coerce DT save into PartyWorldSave for shared battle/create helpers. */
+/** Frame fields that stay on the DT save when round-tripping PartyWorldSave. */
+export type DtFrameClock = Pick<
+  DtWorldSave,
+  "framesAdvanced" | "framesSinceEncounter" | "nextEncounterAtFrame"
+>;
+
+/**
+ * Coerce DT save into PartyWorldSave for camp / inventory helpers.
+ * Battle is a status stub only — Neverworld combat must not run on DT saves.
+ */
 export function asPartyWorld(world: DtWorldSave): PartyWorldSave {
+  const stubBattle =
+    world.battle == null
+      ? null
+      : ({ status: world.battle.status } as BattleState);
   return {
     version: 1,
     activeSlot: world.activeSlot,
@@ -114,13 +136,16 @@ export function asPartyWorld(world: DtWorldSave): PartyWorldSave {
     pathway: { giver: 0, taker: 0 },
     encounterEnemyHp: world.encounterEnemyHp,
     deckEncounter: world.deckEncounter,
-    battle: world.battle,
+    battle: stubBattle,
     storyPlayMs: world.storyPlayMs,
     battlesFought: world.battlesFought,
     nextEncounterAtMs: world.nextEncounterAtMs,
-    completedSideQuests: [],
+    completedSideQuests: world.completedSideQuests ?? [],
     activeSideQuest: null,
-    cookedRecipes: [],
+    cookedRecipes: world.cookedRecipes ?? [],
+    campSleeps: world.campSleeps ?? [],
+    explorationFinds: world.explorationFinds ?? 0,
+    lastExploration: world.lastExploration ?? null,
     explore: null,
     log: world.log,
     endingId: world.endingId,
@@ -132,10 +157,11 @@ export function asPartyWorld(world: DtWorldSave): PartyWorldSave {
 
 export function fromPartyWorld(
   party: PartyWorldSave,
-  frames: Pick<
-    DtWorldSave,
-    "framesAdvanced" | "framesSinceEncounter" | "nextEncounterAtFrame"
-  > & { gameId?: typeof DT_GAME_ID }
+  frames: DtFrameClock & {
+    gameId?: typeof DT_GAME_ID;
+    /** Always pass the real DT battle — PartyWorldSave only carries a stub. */
+    battle: SimpleBattleState | null;
+  }
 ): DtWorldSave {
   return {
     version: 1,
@@ -149,15 +175,33 @@ export function fromPartyWorld(
     nextEncounterAtFrame: frames.nextEncounterAtFrame,
     partyFlags: party.partyFlags ?? [],
     characters: party.characters,
-    battle: party.battle,
+    battle: frames.battle,
     storyPlayMs: party.storyPlayMs ?? 0,
     battlesFought: party.battlesFought ?? 0,
     nextEncounterAtMs: party.nextEncounterAtMs ?? 0,
     encounterEnemyHp: party.encounterEnemyHp ?? null,
     deckEncounter: null,
+    completedSideQuests: party.completedSideQuests ?? [],
+    cookedRecipes: party.cookedRecipes ?? [],
+    campSleeps: party.campSleeps ?? [],
+    explorationFinds: party.explorationFinds ?? 0,
+    lastExploration: party.lastExploration ?? null,
     log: party.log ?? [],
     endingId: party.endingId,
     startedAt: party.startedAt,
     updatedAt: party.updatedAt,
   };
+}
+
+/** Preserve DT frame clocks + simple battle when applying camp/inventory mutations. */
+export function applyPartyMutation(
+  world: DtWorldSave,
+  party: PartyWorldSave
+): DtWorldSave {
+  return fromPartyWorld(party, {
+    framesAdvanced: world.framesAdvanced,
+    framesSinceEncounter: world.framesSinceEncounter,
+    nextEncounterAtFrame: world.nextEncounterAtFrame,
+    battle: world.battle,
+  });
 }

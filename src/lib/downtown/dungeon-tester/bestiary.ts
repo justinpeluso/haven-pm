@@ -1,6 +1,6 @@
 /**
  * DungeonTester bestiary + battle loot (JSON under data/dungeon-tester/).
- * Registers into Neverworld getCreature/getBoss/getBattleLootItem so startBattleVs resolves DT foe ids.
+ * Used by DT simple battle (and optional external lookups). Neverworld packs stay separate.
  */
 
 import creaturesPack from "../../../../data/dungeon-tester/creatures.json";
