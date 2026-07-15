@@ -325,9 +325,17 @@ export type BattleFxEvent = {
   at: string;
 };
 
+/** Battle pressure clocks (idle auto-hit / hard-cap defeat). Default `"on"` = Neverworld. */
+export type BattleClockMode = "on" | "off";
+
 export type BattleState = {
   id: string;
   status: "active" | "victory" | "defeat";
+  /**
+   * When `"off"`, skip 30s idle force-hit and 10 min hard-cap defeat.
+   * Cosmetic 3-2-1 intro still runs. Absent / `"on"` = Neverworld defaults.
+   */
+  clockMode?: BattleClockMode;
   /**
    * Featured / lead foe (first living, else first in pack).
    * Kept in sync with `enemies` for legacy UI + summary copy.

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="360" viewBox="0 0 320 360" fill="none">
+  <defs>
+    <linearGradient id="ebg-webl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a1c14"/>
+      <stop offset="100%" stop-color="#0c1210"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="360" fill="url(#ebg-webl)"/>
+  <ellipse cx="160" cy="300" rx="90" ry="18" fill="#1a2818" opacity="0.7"/>
+  <ellipse cx="160" cy="200" rx="45" ry="38" fill="#4a3a58" stroke="#0a0e14" stroke-width="4"/>
+  <circle cx="160" cy="150" r="28" fill="#5a4a68" stroke="#0a0e14" stroke-width="3"/>
+  <circle cx="148" cy="145" r="5" fill="#f5d547"/><circle cx="172" cy="145" r="5" fill="#f5d547"/>
+  <circle cx="149" cy="146" r="2" fill="#0a0e14"/><circle cx="173" cy="146" r="2" fill="#0a0e14"/>
+  <path d="M120 180 Q90 160 70 140" fill="none" stroke="#4a3a58" stroke-width="6"/>
+  <path d="M120 210 Q85 220 65 240" fill="none" stroke="#4a3a58" stroke-width="6"/>
+  <path d="M200 180 Q230 160 250 140" fill="none" stroke="#4a3a58" stroke-width="6"/>
+  <path d="M200 210 Q235 220 255 240" fill="none" stroke="#4a3a58" stroke-width="6"/>
+  
+  <rect x="8" y="8" width="304" height="344" fill="none" stroke="#1a120c" stroke-width="10"/>
+  <rect x="16" y="16" width="288" height="328" fill="none" stroke="#c45a3a" stroke-width="3"/>
+  <rect x="12" y="12" width="14" height="14" fill="#c45a3a"/>
+  <rect x="294" y="12" width="14" height="14" fill="#c45a3a"/>
+  <rect x="12" y="334" width="14" height="14" fill="#8b3a2a"/>
+  <rect x="294" y="334" width="14" height="14" fill="#8b3a2a"/>
+  <text x="160" y="342" text-anchor="middle" font-family="Impact, Arial Black, sans-serif" font-size="16"
+    fill="#f4efe4" stroke="#1a120c" stroke-width="4" paint-order="stroke">WEBLING</text>
+</svg>

@@ -89,16 +89,32 @@ const SPELL_ABILITY_BY_ID = Object.fromEntries(
   SPELLBOOKS.map((s) => [s.ability.id, s.ability])
 );
 
+/**
+ * Optional external packs (e.g. DungeonTester). Neverworld ids always win.
+ * Registered by sibling games on import — does not alter CREATURES/BOSSES arrays.
+ */
+export type ExternalBestiaryHooks = {
+  getCreature?: (id: string) => CreatureDef | undefined;
+  getBoss?: (id: string) => BossDef | undefined;
+  getLoot?: (id: string) => BattleLootItem | undefined;
+};
+
+let externalBestiary: ExternalBestiaryHooks = {};
+
+export function registerExternalBestiary(hooks: ExternalBestiaryHooks): void {
+  externalBestiary = { ...externalBestiary, ...hooks };
+}
+
 export function getCreature(id: string): CreatureDef | undefined {
-  return CREATURE_BY_ID[id];
+  return CREATURE_BY_ID[id] ?? externalBestiary.getCreature?.(id);
 }
 
 export function getBoss(id: string): BossDef | undefined {
-  return BOSS_BY_ID[id];
+  return BOSS_BY_ID[id] ?? externalBestiary.getBoss?.(id);
 }
 
 export function getBattleLootItem(id: string): BattleLootItem | undefined {
-  return LOOT_BY_ID[id];
+  return LOOT_BY_ID[id] ?? externalBestiary.getLoot?.(id);
 }
 
 export function getSpellbook(id: string): SpellbookDef | undefined {

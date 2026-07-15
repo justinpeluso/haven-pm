@@ -1,0 +1,1614 @@
+{
+  "version": 1,
+  "flavor": "DungeonTester wilderland — Middle-earth–inspired generics; frontier liberation arc.",
+  "decks": [
+    {
+      "id": "deck-act-1",
+      "actId": "act-1",
+      "levelMin": 1,
+      "levelMax": 10,
+      "themes": [
+        "frontier",
+        "orc",
+        "warg",
+        "spider"
+      ],
+      "entries": [
+        {
+          "id": "act-1-whip-hand-thug",
+          "name": "Whip-Hand Thug",
+          "artId": "enemy-whip-hand",
+          "enemyArtId": "enemy-whip-hand",
+          "hp": 18,
+          "power": 4,
+          "lootIds": [
+            "dt-trail-jerky",
+            "dt-dust-poultice"
+          ],
+          "xp": 11,
+          "gold": 4,
+          "tags": [
+            "trash",
+            "humanoid",
+            "frontier"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-1-coffle-guard",
+          "name": "Coffle Guard",
+          "artId": "enemy-coffle-guard",
+          "enemyArtId": "enemy-coffle-guard",
+          "hp": 21,
+          "power": 4,
+          "lootIds": [
+            "dt-trail-jerky",
+            "dt-dust-poultice"
+          ],
+          "xp": 12,
+          "gold": 5,
+          "tags": [
+            "trash",
+            "humanoid",
+            "frontier"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-1-thorn-clan-skirmisher",
+          "name": "Thorn-Clan Skirmisher",
+          "artId": "enemy-orc-skirmisher",
+          "enemyArtId": "enemy-orc-skirmisher",
+          "hp": 19,
+          "power": 4,
+          "lootIds": [
+            "dt-trail-jerky",
+            "dt-dust-poultice"
+          ],
+          "xp": 13,
+          "gold": 4,
+          "tags": [
+            "trash",
+            "orc",
+            "humanoid"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-1-dust-trail-warg",
+          "name": "Dust-Trail Warg",
+          "artId": "enemy-dust-warg",
+          "enemyArtId": "enemy-dust-warg",
+          "hp": 25,
+          "power": 5,
+          "lootIds": [
+            "dt-frontier-revolver",
+            "dt-hide-duster",
+            "dt-trail-jerky"
+          ],
+          "xp": 16,
+          "gold": 4,
+          "tags": [
+            "trash",
+            "warg",
+            "beast"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-1-trail-webling",
+          "name": "Trail Webling",
+          "artId": "enemy-trail-webling",
+          "enemyArtId": "enemy-trail-webling",
+          "hp": 16,
+          "power": 4,
+          "lootIds": [
+            "dt-trail-jerky",
+            "dt-dust-poultice"
+          ],
+          "xp": 14,
+          "gold": 3,
+          "tags": [
+            "trash",
+            "spider",
+            "beast"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-1-bond-chain-enforcer",
+          "name": "Bond-Chain Enforcer",
+          "artId": "enemy-coffle-guard",
+          "enemyArtId": "enemy-coffle-guard",
+          "hp": 28,
+          "power": 6,
+          "lootIds": [
+            "dt-frontier-revolver",
+            "dt-hide-duster",
+            "dt-trail-jerky"
+          ],
+          "xp": 19,
+          "gold": 7,
+          "tags": [
+            "trash",
+            "humanoid",
+            "frontier"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-1-ash-gut-raider",
+          "name": "Ash-Gut Raider",
+          "artId": "enemy-ash-gut",
+          "enemyArtId": "enemy-ash-gut",
+          "hp": 35,
+          "power": 8,
+          "lootIds": [
+            "dt-frontier-revolver",
+            "dt-hide-duster",
+            "dt-trail-jerky"
+          ],
+          "xp": 25,
+          "gold": 9,
+          "tags": [
+            "trash",
+            "orc",
+            "humanoid"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-1-night-howler",
+          "name": "Night-Howler",
+          "artId": "enemy-night-howler",
+          "enemyArtId": "enemy-night-howler",
+          "hp": 33,
+          "power": 9,
+          "lootIds": [
+            "dt-frontier-revolver",
+            "dt-hide-duster",
+            "dt-trail-jerky"
+          ],
+          "xp": 26,
+          "gold": 5,
+          "tags": [
+            "trash",
+            "warg",
+            "beast"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-1-boss-coffle-master",
+          "name": "Coffle Master Vorn",
+          "artId": "enemy-whip-hand",
+          "enemyArtId": "enemy-whip-hand",
+          "hp": 90,
+          "power": 12,
+          "lootIds": [
+            "dt-liberators-spur"
+          ],
+          "xp": 120,
+          "gold": 50,
+          "tags": [
+            "boss",
+            "frontier",
+            "humanoid"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-2",
+      "actId": "act-2",
+      "levelMin": 8,
+      "levelMax": 18,
+      "themes": [
+        "orc",
+        "warg",
+        "spider",
+        "frontier"
+      ],
+      "entries": [
+        {
+          "id": "act-2-whip-hand-thug",
+          "name": "Whip-Hand Thug",
+          "artId": "enemy-whip-hand",
+          "enemyArtId": "enemy-whip-hand",
+          "hp": 18,
+          "power": 4,
+          "lootIds": [
+            "dt-trail-jerky",
+            "dt-dust-poultice"
+          ],
+          "xp": 11,
+          "gold": 5,
+          "tags": [
+            "trash",
+            "humanoid",
+            "frontier"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-2-coffle-guard",
+          "name": "Coffle Guard",
+          "artId": "enemy-coffle-guard",
+          "enemyArtId": "enemy-coffle-guard",
+          "hp": 22,
+          "power": 5,
+          "lootIds": [
+            "dt-trail-jerky",
+            "dt-dust-poultice"
+          ],
+          "xp": 13,
+          "gold": 5,
+          "tags": [
+            "trash",
+            "humanoid",
+            "frontier"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-2-thorn-clan-skirmisher",
+          "name": "Thorn-Clan Skirmisher",
+          "artId": "enemy-orc-skirmisher",
+          "enemyArtId": "enemy-orc-skirmisher",
+          "hp": 20,
+          "power": 5,
+          "lootIds": [
+            "dt-trail-jerky",
+            "dt-dust-poultice"
+          ],
+          "xp": 14,
+          "gold": 5,
+          "tags": [
+            "trash",
+            "orc",
+            "humanoid"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-2-dust-trail-warg",
+          "name": "Dust-Trail Warg",
+          "artId": "enemy-dust-warg",
+          "enemyArtId": "enemy-dust-warg",
+          "hp": 26,
+          "power": 5,
+          "lootIds": [
+            "dt-frontier-revolver",
+            "dt-hide-duster",
+            "dt-trail-jerky"
+          ],
+          "xp": 16,
+          "gold": 4,
+          "tags": [
+            "trash",
+            "warg",
+            "beast"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-2-trail-webling",
+          "name": "Trail Webling",
+          "artId": "enemy-trail-webling",
+          "enemyArtId": "enemy-trail-webling",
+          "hp": 16,
+          "power": 5,
+          "lootIds": [
+            "dt-trail-jerky",
+            "dt-dust-poultice"
+          ],
+          "xp": 15,
+          "gold": 3,
+          "tags": [
+            "trash",
+            "spider",
+            "beast"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-2-bond-chain-enforcer",
+          "name": "Bond-Chain Enforcer",
+          "artId": "enemy-coffle-guard",
+          "enemyArtId": "enemy-coffle-guard",
+          "hp": 29,
+          "power": 6,
+          "lootIds": [
+            "dt-frontier-revolver",
+            "dt-hide-duster",
+            "dt-trail-jerky"
+          ],
+          "xp": 20,
+          "gold": 7,
+          "tags": [
+            "trash",
+            "humanoid",
+            "frontier"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-2-ash-gut-raider",
+          "name": "Ash-Gut Raider",
+          "artId": "enemy-ash-gut",
+          "enemyArtId": "enemy-ash-gut",
+          "hp": 37,
+          "power": 8,
+          "lootIds": [
+            "dt-frontier-revolver",
+            "dt-hide-duster",
+            "dt-trail-jerky"
+          ],
+          "xp": 26,
+          "gold": 9,
+          "tags": [
+            "trash",
+            "orc",
+            "humanoid"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-2-night-howler",
+          "name": "Night-Howler",
+          "artId": "enemy-night-howler",
+          "enemyArtId": "enemy-night-howler",
+          "hp": 35,
+          "power": 9,
+          "lootIds": [
+            "dt-frontier-revolver",
+            "dt-hide-duster",
+            "dt-trail-jerky"
+          ],
+          "xp": 27,
+          "gold": 5,
+          "tags": [
+            "trash",
+            "warg",
+            "beast"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-2-boss-coffle-master",
+          "name": "Coffle Master Vorn",
+          "artId": "enemy-whip-hand",
+          "enemyArtId": "enemy-whip-hand",
+          "hp": 90,
+          "power": 12,
+          "lootIds": [
+            "dt-liberators-spur"
+          ],
+          "xp": 120,
+          "gold": 50,
+          "tags": [
+            "boss",
+            "frontier",
+            "humanoid"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-3",
+      "actId": "act-3",
+      "levelMin": 16,
+      "levelMax": 26,
+      "themes": [
+        "spider",
+        "troll",
+        "warg",
+        "orc"
+      ],
+      "entries": [
+        {
+          "id": "act-3-ash-gut-raider",
+          "name": "Ash-Gut Raider",
+          "artId": "enemy-ash-gut",
+          "enemyArtId": "enemy-ash-gut",
+          "hp": 38,
+          "power": 9,
+          "lootIds": [
+            "dt-frontier-revolver",
+            "dt-hide-duster",
+            "dt-trail-jerky"
+          ],
+          "xp": 27,
+          "gold": 10,
+          "tags": [
+            "trash",
+            "orc",
+            "humanoid"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-3-night-howler",
+          "name": "Night-Howler",
+          "artId": "enemy-night-howler",
+          "enemyArtId": "enemy-night-howler",
+          "hp": 36,
+          "power": 10,
+          "lootIds": [
+            "dt-frontier-revolver",
+            "dt-hide-duster",
+            "dt-trail-jerky"
+          ],
+          "xp": 29,
+          "gold": 6,
+          "tags": [
+            "trash",
+            "warg",
+            "beast"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-3-silk-widow",
+          "name": "Silk Widow",
+          "artId": "enemy-silk-widow",
+          "enemyArtId": "enemy-silk-widow",
+          "hp": 34,
+          "power": 11,
+          "lootIds": [
+            "dt-frontier-revolver",
+            "dt-hide-duster",
+            "dt-trail-jerky"
+          ],
+          "xp": 31,
+          "gold": 8,
+          "tags": [
+            "trash",
+            "spider",
+            "beast"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-3-bridge-brute",
+          "name": "Bridge Brute",
+          "artId": "enemy-bridge-brute",
+          "enemyArtId": "enemy-bridge-brute",
+          "hp": 53,
+          "power": 11,
+          "lootIds": [
+            "dt-moonsteel-saber",
+            "dt-warg-fang-charm",
+            "dt-dust-poultice"
+          ],
+          "xp": 38,
+          "gold": 11,
+          "tags": [
+            "trash",
+            "troll",
+            "giant"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-3-orc-rider",
+          "name": "Thorn-Clan Rider",
+          "artId": "enemy-orc-rider",
+          "enemyArtId": "enemy-orc-rider",
+          "hp": 46,
+          "power": 12,
+          "lootIds": [
+            "dt-frontier-revolver",
+            "dt-hide-duster",
+            "dt-trail-jerky"
+          ],
+          "xp": 40,
+          "gold": 13,
+          "tags": [
+            "trash",
+            "orc",
+            "warg",
+            "mounted"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-3-red-maw-hunter",
+          "name": "Red-Maw Hunter",
+          "artId": "enemy-night-howler",
+          "enemyArtId": "enemy-night-howler",
+          "hp": 48,
+          "power": 13,
+          "lootIds": [
+            "dt-moonsteel-saber",
+            "dt-warg-fang-charm",
+            "dt-dust-poultice"
+          ],
+          "xp": 43,
+          "gold": 10,
+          "tags": [
+            "trash",
+            "warg",
+            "beast"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-3-cave-knuckle",
+          "name": "Cave Knuckle",
+          "artId": "enemy-cave-troll",
+          "enemyArtId": "enemy-cave-troll",
+          "hp": 76,
+          "power": 15,
+          "lootIds": [
+            "dt-moonsteel-saber",
+            "dt-warg-fang-charm",
+            "dt-dust-poultice"
+          ],
+          "xp": 57,
+          "gold": 17,
+          "tags": [
+            "trash",
+            "troll",
+            "giant"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-3-nest-mother",
+          "name": "Nest Mother",
+          "artId": "enemy-nest-mother",
+          "enemyArtId": "enemy-nest-mother",
+          "hp": 67,
+          "power": 16,
+          "lootIds": [
+            "dt-moonsteel-saber",
+            "dt-warg-fang-charm",
+            "dt-dust-poultice"
+          ],
+          "xp": 62,
+          "gold": 19,
+          "tags": [
+            "elite",
+            "spider",
+            "beast"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-3-boss-silk-queen",
+          "name": "Hollow Silk Queen",
+          "artId": "enemy-nest-mother",
+          "enemyArtId": "enemy-nest-mother",
+          "hp": 140,
+          "power": 16,
+          "lootIds": [
+            "dt-widow-silk-cloak"
+          ],
+          "xp": 180,
+          "gold": 70,
+          "tags": [
+            "boss",
+            "spider"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-4",
+      "actId": "act-4",
+      "levelMin": 24,
+      "levelMax": 34,
+      "themes": [
+        "troll",
+        "orc",
+        "warg",
+        "frontier"
+      ],
+      "entries": [
+        {
+          "id": "act-4-night-howler",
+          "name": "Night-Howler",
+          "artId": "enemy-night-howler",
+          "enemyArtId": "enemy-night-howler",
+          "hp": 38,
+          "power": 10,
+          "lootIds": [
+            "dt-frontier-revolver",
+            "dt-hide-duster",
+            "dt-trail-jerky"
+          ],
+          "xp": 30,
+          "gold": 6,
+          "tags": [
+            "trash",
+            "warg",
+            "beast"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-4-bridge-brute",
+          "name": "Bridge Brute",
+          "artId": "enemy-bridge-brute",
+          "enemyArtId": "enemy-bridge-brute",
+          "hp": 55,
+          "power": 12,
+          "lootIds": [
+            "dt-moonsteel-saber",
+            "dt-warg-fang-charm",
+            "dt-dust-poultice"
+          ],
+          "xp": 40,
+          "gold": 12,
+          "tags": [
+            "trash",
+            "troll",
+            "giant"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-4-orc-rider",
+          "name": "Thorn-Clan Rider",
+          "artId": "enemy-orc-rider",
+          "enemyArtId": "enemy-orc-rider",
+          "hp": 48,
+          "power": 13,
+          "lootIds": [
+            "dt-frontier-revolver",
+            "dt-hide-duster",
+            "dt-trail-jerky"
+          ],
+          "xp": 42,
+          "gold": 14,
+          "tags": [
+            "trash",
+            "orc",
+            "warg",
+            "mounted"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-4-red-maw-hunter",
+          "name": "Red-Maw Hunter",
+          "artId": "enemy-night-howler",
+          "enemyArtId": "enemy-night-howler",
+          "hp": 50,
+          "power": 14,
+          "lootIds": [
+            "dt-moonsteel-saber",
+            "dt-warg-fang-charm",
+            "dt-dust-poultice"
+          ],
+          "xp": 45,
+          "gold": 10,
+          "tags": [
+            "trash",
+            "warg",
+            "beast"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-4-cave-knuckle",
+          "name": "Cave Knuckle",
+          "artId": "enemy-cave-troll",
+          "enemyArtId": "enemy-cave-troll",
+          "hp": 80,
+          "power": 16,
+          "lootIds": [
+            "dt-moonsteel-saber",
+            "dt-warg-fang-charm",
+            "dt-dust-poultice"
+          ],
+          "xp": 60,
+          "gold": 18,
+          "tags": [
+            "trash",
+            "troll",
+            "giant"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-4-iron-cuff-overseer",
+          "name": "Iron-Cuff Overseer",
+          "artId": "enemy-whip-hand",
+          "enemyArtId": "enemy-whip-hand",
+          "hp": 62,
+          "power": 15,
+          "lootIds": [
+            "dt-moonsteel-saber",
+            "dt-warg-fang-charm",
+            "dt-dust-poultice"
+          ],
+          "xp": 55,
+          "gold": 22,
+          "tags": [
+            "trash",
+            "humanoid",
+            "orc",
+            "frontier"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-4-mountain-hammer",
+          "name": "Mountain Hammer",
+          "artId": "enemy-cave-troll",
+          "enemyArtId": "enemy-cave-troll",
+          "hp": 95,
+          "power": 19,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 80,
+          "gold": 28,
+          "tags": [
+            "trash",
+            "troll",
+            "giant"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-4-bone-drum-captain",
+          "name": "Bone-Drum Captain",
+          "artId": "enemy-ash-gut",
+          "enemyArtId": "enemy-ash-gut",
+          "hp": 72,
+          "power": 17,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 70,
+          "gold": 26,
+          "tags": [
+            "elite",
+            "orc",
+            "humanoid"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-4-boss-silk-queen",
+          "name": "Hollow Silk Queen",
+          "artId": "enemy-nest-mother",
+          "enemyArtId": "enemy-nest-mother",
+          "hp": 140,
+          "power": 16,
+          "lootIds": [
+            "dt-widow-silk-cloak"
+          ],
+          "xp": 180,
+          "gold": 70,
+          "tags": [
+            "boss",
+            "spider"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-5",
+      "actId": "act-5",
+      "levelMin": 30,
+      "levelMax": 42,
+      "themes": [
+        "undead",
+        "spider",
+        "troll",
+        "orc"
+      ],
+      "entries": [
+        {
+          "id": "act-5-orc-rider",
+          "name": "Thorn-Clan Rider",
+          "artId": "enemy-orc-rider",
+          "enemyArtId": "enemy-orc-rider",
+          "hp": 49,
+          "power": 13,
+          "lootIds": [
+            "dt-frontier-revolver",
+            "dt-hide-duster",
+            "dt-trail-jerky"
+          ],
+          "xp": 43,
+          "gold": 14,
+          "tags": [
+            "trash",
+            "orc",
+            "warg",
+            "mounted"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-5-cave-knuckle",
+          "name": "Cave Knuckle",
+          "artId": "enemy-cave-troll",
+          "enemyArtId": "enemy-cave-troll",
+          "hp": 82,
+          "power": 16,
+          "lootIds": [
+            "dt-moonsteel-saber",
+            "dt-warg-fang-charm",
+            "dt-dust-poultice"
+          ],
+          "xp": 62,
+          "gold": 19,
+          "tags": [
+            "trash",
+            "troll",
+            "giant"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-5-nest-mother",
+          "name": "Nest Mother",
+          "artId": "enemy-nest-mother",
+          "enemyArtId": "enemy-nest-mother",
+          "hp": 72,
+          "power": 18,
+          "lootIds": [
+            "dt-moonsteel-saber",
+            "dt-warg-fang-charm",
+            "dt-dust-poultice"
+          ],
+          "xp": 67,
+          "gold": 21,
+          "tags": [
+            "elite",
+            "spider",
+            "beast"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-5-iron-cuff-overseer",
+          "name": "Iron-Cuff Overseer",
+          "artId": "enemy-whip-hand",
+          "enemyArtId": "enemy-whip-hand",
+          "hp": 64,
+          "power": 15,
+          "lootIds": [
+            "dt-moonsteel-saber",
+            "dt-warg-fang-charm",
+            "dt-dust-poultice"
+          ],
+          "xp": 57,
+          "gold": 23,
+          "tags": [
+            "trash",
+            "humanoid",
+            "orc",
+            "frontier"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-5-ash-cloak-outrider",
+          "name": "Ash-Cloak Outrider",
+          "artId": "enemy-ash-cloak",
+          "enemyArtId": "enemy-ash-cloak",
+          "hp": 77,
+          "power": 19,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 77,
+          "gold": 25,
+          "tags": [
+            "elite",
+            "undead",
+            "rider"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-5-mountain-hammer",
+          "name": "Mountain Hammer",
+          "artId": "enemy-cave-troll",
+          "enemyArtId": "enemy-cave-troll",
+          "hp": 98,
+          "power": 20,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 82,
+          "gold": 29,
+          "tags": [
+            "trash",
+            "troll",
+            "giant"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-5-bone-drum-captain",
+          "name": "Bone-Drum Captain",
+          "artId": "enemy-ash-gut",
+          "enemyArtId": "enemy-ash-gut",
+          "hp": 74,
+          "power": 18,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 72,
+          "gold": 27,
+          "tags": [
+            "elite",
+            "orc",
+            "humanoid"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-5-pale-host-scout",
+          "name": "Pale-Host Scout",
+          "artId": "enemy-ash-cloak",
+          "enemyArtId": "enemy-ash-cloak",
+          "hp": 91,
+          "power": 22,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 93,
+          "gold": 31,
+          "tags": [
+            "trash",
+            "undead",
+            "rider"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-5-boss-toll-troll",
+          "name": "Arch Toll-Troll",
+          "artId": "enemy-bridge-brute",
+          "enemyArtId": "enemy-bridge-brute",
+          "hp": 180,
+          "power": 18,
+          "lootIds": [
+            "dt-bridge-stone-mail"
+          ],
+          "xp": 220,
+          "gold": 90,
+          "tags": [
+            "boss",
+            "troll"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-6",
+      "actId": "act-6",
+      "levelMin": 38,
+      "levelMax": 50,
+      "themes": [
+        "undead",
+        "orc",
+        "warg",
+        "frontier"
+      ],
+      "entries": [
+        {
+          "id": "act-6-iron-cuff-overseer",
+          "name": "Iron-Cuff Overseer",
+          "artId": "enemy-whip-hand",
+          "enemyArtId": "enemy-whip-hand",
+          "hp": 66,
+          "power": 16,
+          "lootIds": [
+            "dt-moonsteel-saber",
+            "dt-warg-fang-charm",
+            "dt-dust-poultice"
+          ],
+          "xp": 59,
+          "gold": 24,
+          "tags": [
+            "trash",
+            "humanoid",
+            "orc",
+            "frontier"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-6-ash-cloak-outrider",
+          "name": "Ash-Cloak Outrider",
+          "artId": "enemy-ash-cloak",
+          "enemyArtId": "enemy-ash-cloak",
+          "hp": 80,
+          "power": 19,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 80,
+          "gold": 26,
+          "tags": [
+            "elite",
+            "undead",
+            "rider"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-6-bone-drum-captain",
+          "name": "Bone-Drum Captain",
+          "artId": "enemy-ash-gut",
+          "enemyArtId": "enemy-ash-gut",
+          "hp": 77,
+          "power": 18,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 75,
+          "gold": 28,
+          "tags": [
+            "elite",
+            "orc",
+            "humanoid"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-6-pale-host-scout",
+          "name": "Pale-Host Scout",
+          "artId": "enemy-ash-cloak",
+          "enemyArtId": "enemy-ash-cloak",
+          "hp": 94,
+          "power": 22,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 96,
+          "gold": 32,
+          "tags": [
+            "trash",
+            "undead",
+            "rider"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-6-warcamp-berserker",
+          "name": "Warcamp Berserker",
+          "artId": "enemy-orc-skirmisher",
+          "enemyArtId": "enemy-orc-skirmisher",
+          "hp": 91,
+          "power": 21,
+          "lootIds": [
+            "dt-moonsteel-saber",
+            "dt-warg-fang-charm",
+            "dt-dust-poultice"
+          ],
+          "xp": 91,
+          "gold": 30,
+          "tags": [
+            "trash",
+            "orc",
+            "humanoid"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-6-chain-lord-lieutenant",
+          "name": "Chain-Lord Lieutenant",
+          "artId": "enemy-coffle-guard",
+          "enemyArtId": "enemy-coffle-guard",
+          "hp": 107,
+          "power": 24,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 107,
+          "gold": 43,
+          "tags": [
+            "elite",
+            "humanoid",
+            "frontier"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-6-shadow-pack-alpha",
+          "name": "Shadow-Pack Alpha",
+          "artId": "enemy-night-howler",
+          "enemyArtId": "enemy-night-howler",
+          "hp": 98,
+          "power": 25,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 112,
+          "gold": 34,
+          "tags": [
+            "elite",
+            "warg",
+            "beast"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-6-boss-thorn-warlord",
+          "name": "Thorn-Clan Warlord",
+          "artId": "enemy-ash-gut",
+          "enemyArtId": "enemy-ash-gut",
+          "hp": 220,
+          "power": 22,
+          "lootIds": [
+            "dt-bone-drum-cleaver"
+          ],
+          "xp": 280,
+          "gold": 110,
+          "tags": [
+            "boss",
+            "orc"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-7",
+      "actId": "act-7",
+      "levelMin": 45,
+      "levelMax": 58,
+      "themes": [
+        "frontier",
+        "undead",
+        "troll",
+        "warg"
+      ],
+      "entries": [
+        {
+          "id": "act-7-ash-cloak-outrider",
+          "name": "Ash-Cloak Outrider",
+          "artId": "enemy-ash-cloak",
+          "enemyArtId": "enemy-ash-cloak",
+          "hp": 83,
+          "power": 20,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 83,
+          "gold": 27,
+          "tags": [
+            "elite",
+            "undead",
+            "rider"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-7-mountain-hammer",
+          "name": "Mountain Hammer",
+          "artId": "enemy-cave-troll",
+          "enemyArtId": "enemy-cave-troll",
+          "hp": 105,
+          "power": 21,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 89,
+          "gold": 31,
+          "tags": [
+            "trash",
+            "troll",
+            "giant"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-7-pale-host-scout",
+          "name": "Pale-Host Scout",
+          "artId": "enemy-ash-cloak",
+          "enemyArtId": "enemy-ash-cloak",
+          "hp": 97,
+          "power": 23,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 100,
+          "gold": 33,
+          "tags": [
+            "trash",
+            "undead",
+            "rider"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-7-chain-lord-lieutenant",
+          "name": "Chain-Lord Lieutenant",
+          "artId": "enemy-coffle-guard",
+          "enemyArtId": "enemy-coffle-guard",
+          "hp": 111,
+          "power": 24,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 111,
+          "gold": 44,
+          "tags": [
+            "elite",
+            "humanoid",
+            "frontier"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-7-shadow-pack-alpha",
+          "name": "Shadow-Pack Alpha",
+          "artId": "enemy-night-howler",
+          "enemyArtId": "enemy-night-howler",
+          "hp": 102,
+          "power": 25,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 116,
+          "gold": 35,
+          "tags": [
+            "elite",
+            "warg",
+            "beast"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-7-citadel-gate-brute",
+          "name": "Citadel Gate Brute",
+          "artId": "enemy-bridge-brute",
+          "enemyArtId": "enemy-bridge-brute",
+          "hp": 133,
+          "power": 28,
+          "lootIds": [
+            "dt-liberators-spur",
+            "dt-ash-veil-revolver"
+          ],
+          "xp": 133,
+          "gold": 50,
+          "tags": [
+            "elite",
+            "troll",
+            "giant"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-7-boss-ash-herald",
+          "name": "Ash-Cloak Herald",
+          "artId": "enemy-ash-cloak",
+          "enemyArtId": "enemy-ash-cloak",
+          "hp": 260,
+          "power": 26,
+          "lootIds": [
+            "dt-ash-veil-revolver"
+          ],
+          "xp": 340,
+          "gold": 140,
+          "tags": [
+            "boss",
+            "undead",
+            "rider"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-8",
+      "actId": "act-8",
+      "levelMin": 52,
+      "levelMax": 65,
+      "themes": [
+        "troll",
+        "orc",
+        "undead",
+        "spider"
+      ],
+      "entries": [
+        {
+          "id": "act-8-pale-host-scout",
+          "name": "Pale-Host Scout",
+          "artId": "enemy-ash-cloak",
+          "enemyArtId": "enemy-ash-cloak",
+          "hp": 101,
+          "power": 24,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 103,
+          "gold": 34,
+          "tags": [
+            "trash",
+            "undead",
+            "rider"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-8-warcamp-berserker",
+          "name": "Warcamp Berserker",
+          "artId": "enemy-orc-skirmisher",
+          "enemyArtId": "enemy-orc-skirmisher",
+          "hp": 97,
+          "power": 23,
+          "lootIds": [
+            "dt-moonsteel-saber",
+            "dt-warg-fang-charm",
+            "dt-dust-poultice"
+          ],
+          "xp": 97,
+          "gold": 32,
+          "tags": [
+            "trash",
+            "orc",
+            "humanoid"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-8-gloomwood-spinner",
+          "name": "Gloomwood Spinner",
+          "artId": "enemy-silk-widow",
+          "enemyArtId": "enemy-silk-widow",
+          "hp": 89,
+          "power": 23,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 101,
+          "gold": 30,
+          "tags": [
+            "trash",
+            "spider",
+            "beast"
+          ],
+          "weight": 2
+        },
+        {
+          "id": "act-8-citadel-gate-brute",
+          "name": "Citadel Gate Brute",
+          "artId": "enemy-bridge-brute",
+          "enemyArtId": "enemy-bridge-brute",
+          "hp": 137,
+          "power": 29,
+          "lootIds": [
+            "dt-liberators-spur",
+            "dt-ash-veil-revolver"
+          ],
+          "xp": 137,
+          "gold": 51,
+          "tags": [
+            "elite",
+            "troll",
+            "giant"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-8-trail-webling",
+          "name": "Trail Webling",
+          "artId": "enemy-trail-webling",
+          "enemyArtId": "enemy-trail-webling",
+          "hp": 18,
+          "power": 5,
+          "lootIds": [
+            "dt-trail-jerky",
+            "dt-dust-poultice"
+          ],
+          "xp": 16,
+          "gold": 3,
+          "tags": [
+            "spider",
+            "beast",
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-8-boss-chain-lord",
+          "name": "The Chain-Lord",
+          "artId": "enemy-coffle-guard",
+          "enemyArtId": "enemy-coffle-guard",
+          "hp": 340,
+          "power": 30,
+          "lootIds": [
+            "dt-broken-shackle-crown"
+          ],
+          "xp": 450,
+          "gold": 200,
+          "tags": [
+            "boss",
+            "frontier",
+            "humanoid"
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "deck-act-9",
+      "actId": "act-9",
+      "levelMin": 58,
+      "levelMax": 75,
+      "themes": [
+        "frontier",
+        "undead",
+        "troll",
+        "orc"
+      ],
+      "entries": [
+        {
+          "id": "act-9-chain-lord-lieutenant",
+          "name": "Chain-Lord Lieutenant",
+          "artId": "enemy-coffle-guard",
+          "enemyArtId": "enemy-coffle-guard",
+          "hp": 118,
+          "power": 26,
+          "lootIds": [
+            "dt-ashwood-longbow",
+            "dt-widow-silk-cloak",
+            "dt-ironwood-buckler"
+          ],
+          "xp": 118,
+          "gold": 47,
+          "tags": [
+            "elite",
+            "humanoid",
+            "frontier"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-9-citadel-gate-brute",
+          "name": "Citadel Gate Brute",
+          "artId": "enemy-bridge-brute",
+          "enemyArtId": "enemy-bridge-brute",
+          "hp": 142,
+          "power": 30,
+          "lootIds": [
+            "dt-liberators-spur",
+            "dt-ash-veil-revolver"
+          ],
+          "xp": 142,
+          "gold": 53,
+          "tags": [
+            "elite",
+            "troll",
+            "giant"
+          ],
+          "weight": 1
+        },
+        {
+          "id": "act-9-thorn-clan-skirmisher",
+          "name": "Thorn-Clan Skirmisher",
+          "artId": "enemy-orc-skirmisher",
+          "enemyArtId": "enemy-orc-skirmisher",
+          "hp": 22,
+          "power": 5,
+          "lootIds": [
+            "dt-trail-jerky",
+            "dt-dust-poultice"
+          ],
+          "xp": 15,
+          "gold": 5,
+          "tags": [
+            "orc",
+            "humanoid",
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-9-dust-trail-warg",
+          "name": "Dust-Trail Warg",
+          "artId": "enemy-dust-warg",
+          "enemyArtId": "enemy-dust-warg",
+          "hp": 28,
+          "power": 6,
+          "lootIds": [
+            "dt-frontier-revolver",
+            "dt-hide-duster",
+            "dt-trail-jerky"
+          ],
+          "xp": 18,
+          "gold": 4,
+          "tags": [
+            "warg",
+            "beast",
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-9-trail-webling",
+          "name": "Trail Webling",
+          "artId": "enemy-trail-webling",
+          "enemyArtId": "enemy-trail-webling",
+          "hp": 18,
+          "power": 5,
+          "lootIds": [
+            "dt-trail-jerky",
+            "dt-dust-poultice"
+          ],
+          "xp": 16,
+          "gold": 3,
+          "tags": [
+            "spider",
+            "beast",
+            "trash"
+          ],
+          "weight": 3
+        },
+        {
+          "id": "act-9-boss-chain-lord",
+          "name": "The Chain-Lord",
+          "artId": "enemy-coffle-guard",
+          "enemyArtId": "enemy-coffle-guard",
+          "hp": 340,
+          "power": 30,
+          "lootIds": [
+            "dt-broken-shackle-crown"
+          ],
+          "xp": 450,
+          "gold": 200,
+          "tags": [
+            "boss",
+            "frontier",
+            "humanoid"
+          ],
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

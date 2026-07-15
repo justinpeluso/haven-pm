@@ -56,6 +56,7 @@ import {
 } from "./tactical";
 import type {
   BattleActionId,
+  BattleClockMode,
   BattleEnemyState,
   BattleFxEvent,
   BattleFxTone,
@@ -680,9 +681,25 @@ function packTitle(enemies: BattleEnemyState[]): string {
   return `${enemies[0]!.name} and ${enemies.length - 1} more`;
 }
 
+export type StartBattleOpts = {
+  /**
+   * `"off"` disables 30s idle force-hit and 10 min hard-cap (DungeonTester).
+   * Default `"on"` preserves Neverworld pressure clocks.
+   */
+  clockMode?: BattleClockMode;
+};
+
+function battleClockBlurb(clockMode: BattleClockMode | undefined): string {
+  if (clockMode === "off") {
+    return "No turn clocks — take your time.";
+  }
+  return "Idle 30s → foe acts. Cap 10 min.";
+}
+
 export function startRandomBattle(
   world: PartyWorldSave,
-  rng: () => number = Math.random
+  rng: () => number = Math.random,
+  opts?: StartBattleOpts
 ): { world: PartyWorldSave; message: string } {
   if (world.battle?.status === "active") {
     return { world, message: "Already in battle." };
@@ -692,6 +709,7 @@ export function startRandomBattle(
   const slots = sealedSlots(world);
   if (!slots.length) return { world, message: "No sealed heroes to fight." };
 
+  const clockMode = opts?.clockMode ?? "on";
   const lvl = partyLevel(world);
   const packSize = encounterPackSize(slots.length);
   const enemies = rollEnemyPack(lvl, packSize, rng);
@@ -708,6 +726,7 @@ export function startRandomBattle(
   const battle: BattleState = {
     id: `battle-${Date.now()}`,
     status: "active",
+    clockMode,
     enemy: lead,
     enemies,
     heroes,
@@ -717,7 +736,7 @@ export function startRandomBattle(
     activeId: turnQueue[0]!,
     log: [
       `Ambush! ${title} bars the path.`,
-      `Tactical field — ${packSize} foe${packSize > 1 ? "s" : ""} vs ${heroes.length} hero${heroes.length > 1 ? "es" : ""}${pets.length ? ` + ${pets.length} companion${pets.length > 1 ? "s" : ""}` : ""}. Idle 30s → foe acts. Cap 10 min.${petNote}`,
+      `Tactical field — ${packSize} foe${packSize > 1 ? "s" : ""} vs ${heroes.length} hero${heroes.length > 1 ? "es" : ""}${pets.length ? ` + ${pets.length} companion${pets.length > 1 ? "s" : ""}` : ""}. ${battleClockBlurb(clockMode)}${petNote}`,
     ],
     stats: { damageDealt: 0, damageTaken: 0, turns: 0, bestRoc: 0 },
     lastRocLabel: null,
@@ -739,7 +758,8 @@ export function startRandomBattle(
 
 export function startBattleVs(
   world: PartyWorldSave,
-  foeId: string
+  foeId: string,
+  opts?: StartBattleOpts
 ): { world: PartyWorldSave; message: string } {
   const boss = getBoss(foeId);
   const creature = getCreature(foeId);
@@ -747,6 +767,7 @@ export function startBattleVs(
   const slots = sealedSlots(world);
   if (!slots.length) return { world, message: "No sealed heroes." };
 
+  const clockMode = opts?.clockMode ?? "on";
   const lvl = partyLevel(world);
   const packSize = encounterPackSize(slots.length);
   const leadRoll = boss
@@ -776,6 +797,7 @@ export function startBattleVs(
   const battle: BattleState = {
     id: `battle-${Date.now()}`,
     status: "active",
+    clockMode,
     enemy: lead,
     enemies,
     heroes,
@@ -785,7 +807,7 @@ export function startBattleVs(
     activeId: turnQueue[0]!,
     log: [
       `${title} challenges the party.`,
-      `Tactical field — ${packSize} foe${packSize > 1 ? "s" : ""} vs ${heroes.length} hero${heroes.length > 1 ? "es" : ""}${pets.length ? ` + ${pets.length} companion${pets.length > 1 ? "s" : ""}` : ""}. Idle 30s → foe acts. Cap 10 min.${petNote}`,
+      `Tactical field — ${packSize} foe${packSize > 1 ? "s" : ""} vs ${heroes.length} hero${heroes.length > 1 ? "es" : ""}${pets.length ? ` + ${pets.length} companion${pets.length > 1 ? "s" : ""}` : ""}. ${battleClockBlurb(clockMode)}${petNote}`,
     ],
     stats: { damageDealt: 0, damageTaken: 0, turns: 0, bestRoc: 0 },
     lastRocLabel: null,
@@ -1910,6 +1932,9 @@ export function tickBattleTimers(
 ): { world: PartyWorldSave; message?: string } {
   let battle = world.battle;
   if (!battle || battle.status !== "active") return { world };
+
+  // DungeonTester (and other clockMode:"off" callers): keep intro, skip pressure clocks.
+  if (battle.clockMode === "off") return { world };
 
   // Freeze both sides during the opening countdown.
   if (isBattleIntroActive(battle, nowMs)) return { world };

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" fill="none">
+  <defs>
+    <linearGradient id="bg-lib" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a4a5a"/>
+      <stop offset="100%" stop-color="#141c24"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg-lib)"/>
+  <rect x="220" y="140" width="200" height="140" fill="#4a4030" stroke="#1a120c" stroke-width="3"/><rect x="280" y="200" width="40" height="80" fill="#1a120c"/><path d="M220 140 L320 80 L420 140Z" fill="#5a4a38"/><rect x="240" y="160" width="24" height="24" fill="#6ab0d4" opacity="0.5"/><rect x="376" y="160" width="24" height="24" fill="#6ab0d4" opacity="0.5"/><path d="M330 90 L330 50 M330 50 L360 70 M330 50 L300 70" stroke="#c45a3a" stroke-width="4"/>
+  <path d="M0 270 Q160 240 320 265 T640 250 L640 360 L0 360Z" fill="#3a3428"/>
+  <path d="M0 300 L640 290 L640 360 L0 360Z" fill="#2a1c10" opacity="0.85"/>
+  <path d="M0 315 Q200 305 400 320 T640 310" fill="none" stroke="#1a1008" stroke-width="5" opacity="0.45"/>
+  
+  <rect x="8" y="8" width="624" height="344" fill="none" stroke="#1a120c" stroke-width="10"/>
+  <rect x="16" y="16" width="608" height="328" fill="none" stroke="#c4a35a" stroke-width="3"/>
+  <rect x="12" y="12" width="14" height="14" fill="#c4a35a"/>
+  <rect x="614" y="12" width="14" height="14" fill="#c4a35a"/>
+  <rect x="12" y="334" width="14" height="14" fill="#8b3a2a"/>
+  <rect x="614" y="334" width="14" height="14" fill="#8b3a2a"/>
+  <text x="28" y="44" font-family="Impact, Arial Black, sans-serif" font-size="20"
+    fill="#f4efe4" stroke="#1a120c" stroke-width="4" paint-order="stroke">LIBERATION FORT</text>
+</svg>

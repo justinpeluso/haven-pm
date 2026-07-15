@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" fill="none">
+  <defs>
+    <linearGradient id="bg-spider" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1420"/>
+      <stop offset="100%" stop-color="#08060c"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg-spider)"/>
+  <path d="M100 80 L200 160 L140 200" fill="none" stroke="#6a5a70" stroke-width="2" opacity="0.7"/><path d="M300 40 L320 180 L280 220" fill="none" stroke="#6a5a70" stroke-width="2" opacity="0.6"/><path d="M480 60 L420 160 L500 210" fill="none" stroke="#6a5a70" stroke-width="2" opacity="0.65"/><ellipse cx="320" cy="200" rx="40" ry="20" fill="#3a2848" opacity="0.5"/>
+  <path d="M0 270 Q160 240 320 265 T640 250 L640 360 L0 360Z" fill="#2a2030"/>
+  <path d="M0 300 L640 290 L640 360 L0 360Z" fill="#2a1c10" opacity="0.85"/>
+  <path d="M0 315 Q200 305 400 320 T640 310" fill="none" stroke="#1a1008" stroke-width="5" opacity="0.45"/>
+  
+  <rect x="8" y="8" width="624" height="344" fill="none" stroke="#1a120c" stroke-width="10"/>
+  <rect x="16" y="16" width="608" height="328" fill="none" stroke="#c4a35a" stroke-width="3"/>
+  <rect x="12" y="12" width="14" height="14" fill="#c4a35a"/>
+  <rect x="614" y="12" width="14" height="14" fill="#c4a35a"/>
+  <rect x="12" y="334" width="14" height="14" fill="#8b3a2a"/>
+  <rect x="614" y="334" width="14" height="14" fill="#8b3a2a"/>
+  <text x="28" y="44" font-family="Impact, Arial Black, sans-serif" font-size="20"
+    fill="#f4efe4" stroke="#1a120c" stroke-width="4" paint-order="stroke">SPIDER HOLLOW</text>
+</svg>

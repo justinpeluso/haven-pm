@@ -1,0 +1,452 @@
+{
+  "version": 1,
+  "pools": {
+    "trash": [
+      "dt-trail-jerky",
+      "dt-dust-poultice",
+      "dt-copper-spur",
+      "dt-chain-scarf"
+    ],
+    "common": [
+      "dt-frontier-revolver",
+      "dt-ranch-carbine",
+      "dt-orc-cleaver",
+      "dt-yew-shortbow",
+      "dt-hide-duster",
+      "dt-hide-jerkin",
+      "dt-plank-shield",
+      "dt-ironwood-buckler",
+      "dt-trail-jerky"
+    ],
+    "magic": [
+      "dt-moonsteel-saber",
+      "dt-ashwood-longbow",
+      "dt-ember-staff",
+      "dt-warg-fang-charm",
+      "dt-ringmail-vest",
+      "dt-mist-striders",
+      "dt-widow-silk-cloak",
+      "dt-greater-poultice",
+      "dt-mana-cider"
+    ],
+    "rare": [
+      "dt-bone-drum-cleaver",
+      "dt-ash-veil-revolver",
+      "dt-pale-host-helm",
+      "dt-liberation-gauntlets",
+      "dt-ridge-scale-greaves",
+      "dt-bridge-stone-mail"
+    ],
+    "legendary": [
+      "dt-liberators-spur",
+      "dt-broken-shackle-crown",
+      "dt-wilderland-oathblade",
+      "dt-ash-veil-revolver"
+    ]
+  },
+  "items": [
+    {
+      "id": "dt-trail-jerky",
+      "name": "Trail Jerky",
+      "blurb": "Salted prairie beef. Chewy as a bad promise.",
+      "tier": "common",
+      "slot": "consumable",
+      "heal": 12,
+      "tags": [
+        "food",
+        "frontier"
+      ]
+    },
+    {
+      "id": "dt-dust-poultice",
+      "name": "Dust Poultice",
+      "blurb": "Herb mash for whip welts and spider bites.",
+      "tier": "common",
+      "slot": "consumable",
+      "heal": 22,
+      "tags": [
+        "potion",
+        "frontier"
+      ]
+    },
+    {
+      "id": "dt-frontier-revolver",
+      "name": "Frontier Revolver",
+      "blurb": "Six chambers of dusty justice — fantasy powder and all.",
+      "tier": "common",
+      "slot": "weapon",
+      "power": 7,
+      "tags": [
+        "ranged",
+        "firearm",
+        "frontier"
+      ]
+    },
+    {
+      "id": "dt-ranch-carbine",
+      "name": "Ranch Carbine",
+      "blurb": "Short-barreled trail gun for saddles and ambushes.",
+      "tier": "common",
+      "slot": "weapon",
+      "power": 6,
+      "tags": [
+        "ranged",
+        "firearm",
+        "frontier"
+      ]
+    },
+    {
+      "id": "dt-stock-whip",
+      "name": "Stock Whip",
+      "blurb": "Once used on captives. Now aimed at the overseers.",
+      "tier": "common",
+      "slot": "weapon",
+      "power": 5,
+      "tags": [
+        "melee",
+        "whip",
+        "frontier"
+      ]
+    },
+    {
+      "id": "dt-iron-hatchet",
+      "name": "Iron Hatchet",
+      "blurb": "Camp tool, throat tool — same edge.",
+      "tier": "common",
+      "slot": "weapon",
+      "power": 5,
+      "tags": [
+        "melee",
+        "axe",
+        "frontier"
+      ]
+    },
+    {
+      "id": "dt-hide-duster",
+      "name": "Hide Duster",
+      "blurb": "Long coat that eats wind and glancing blades.",
+      "tier": "common",
+      "slot": "chest",
+      "armor": 2,
+      "tags": [
+        "light",
+        "frontier"
+      ]
+    },
+    {
+      "id": "dt-sun-hat",
+      "name": "Sun-Bleached Hat",
+      "blurb": "Wide brim; keeps the ash-glare out of your eyes.",
+      "tier": "common",
+      "slot": "head",
+      "armor": 1,
+      "tags": [
+        "light",
+        "frontier"
+      ]
+    },
+    {
+      "id": "dt-work-gloves",
+      "name": "Work Gloves",
+      "blurb": "Leather cracked by rope and rain.",
+      "tier": "common",
+      "slot": "hands",
+      "armor": 1,
+      "tags": [
+        "light",
+        "frontier"
+      ]
+    },
+    {
+      "id": "dt-spur-boots",
+      "name": "Spur Boots",
+      "blurb": "Heels that meant ownership. You'll rewrite that.",
+      "tier": "common",
+      "slot": "legs",
+      "armor": 1,
+      "tags": [
+        "light",
+        "frontier"
+      ]
+    },
+    {
+      "id": "dt-plank-shield",
+      "name": "Plank Shield",
+      "blurb": "Barn wood strapped to an arm.",
+      "tier": "common",
+      "slot": "offhand",
+      "armor": 2,
+      "tags": [
+        "shield",
+        "frontier"
+      ]
+    },
+    {
+      "id": "dt-copper-spur",
+      "name": "Copper Spur Charm",
+      "blurb": "A keepsake cut from a jailer's heel.",
+      "tier": "common",
+      "slot": "accessory",
+      "tags": [
+        "trinket",
+        "frontier"
+      ]
+    },
+    {
+      "id": "dt-orc-cleaver",
+      "name": "Orc Cleaver",
+      "blurb": "Serrated and unsubtle — Thorn-Clan work.",
+      "tier": "common",
+      "slot": "weapon",
+      "power": 6,
+      "tags": [
+        "melee",
+        "orc"
+      ]
+    },
+    {
+      "id": "dt-ashwood-spear",
+      "name": "Ashwood Spear",
+      "blurb": "Long reach for wargs and riders.",
+      "tier": "common",
+      "slot": "weapon",
+      "power": 6,
+      "tags": [
+        "melee",
+        "reach"
+      ]
+    },
+    {
+      "id": "dt-yew-shortbow",
+      "name": "Yew Shortbow",
+      "blurb": "Quiet as hope on the pine road.",
+      "tier": "common",
+      "slot": "weapon",
+      "power": 5,
+      "tags": [
+        "ranged",
+        "bow"
+      ]
+    },
+    {
+      "id": "dt-hide-jerkin",
+      "name": "Wilderland Jerkin",
+      "blurb": "Soft hide of the northern scrub.",
+      "tier": "common",
+      "slot": "chest",
+      "armor": 2,
+      "tags": [
+        "light"
+      ]
+    },
+    {
+      "id": "dt-ironwood-buckler",
+      "name": "Ironwood Buckler",
+      "blurb": "Round shield with a wolf-brand burned in.",
+      "tier": "common",
+      "slot": "offhand",
+      "armor": 2,
+      "tags": [
+        "shield"
+      ]
+    },
+    {
+      "id": "dt-chain-scarf",
+      "name": "Broken Chain Scarf",
+      "blurb": "Links filed open and worn as pride.",
+      "tier": "common",
+      "slot": "accessory",
+      "tags": [
+        "trinket",
+        "liberation"
+      ]
+    },
+    {
+      "id": "dt-greater-poultice",
+      "name": "Greater Poultice",
+      "blurb": "Mender's mash laced with ridge blossom.",
+      "tier": "magic",
+      "slot": "consumable",
+      "heal": 45,
+      "tags": [
+        "potion"
+      ]
+    },
+    {
+      "id": "dt-mana-cider",
+      "name": "Hearth Mana Cider",
+      "blurb": "Warm cider that wakes ley-spark.",
+      "tier": "magic",
+      "slot": "consumable",
+      "manaRestore": 30,
+      "tags": [
+        "potion",
+        "drink"
+      ]
+    }
+  ],
+  "bossUniques": [
+    {
+      "id": "dt-liberation-gauntlets",
+      "name": "Liberation Gauntlets",
+      "blurb": "Knuckles etched with broken-shackle runes.",
+      "tier": "rare",
+      "slot": "hands",
+      "armor": 3,
+      "tags": [
+        "medium",
+        "liberation"
+      ],
+      "properties": [
+        {
+          "key": "strength",
+          "value": 3,
+          "label": "+3 STR"
+        },
+        {
+          "key": "atk",
+          "value": 3,
+          "label": "+3 ATK"
+        },
+        {
+          "key": "def",
+          "value": 2,
+          "label": "+2 DEF"
+        },
+        {
+          "key": "constitution",
+          "value": 2,
+          "label": "+2 CON"
+        },
+        {
+          "key": "maxHp",
+          "value": 12,
+          "label": "+12 HP"
+        }
+      ],
+      "rarity": "rare"
+    },
+    {
+      "id": "dt-liberators-spur",
+      "name": "Liberator's Spur",
+      "blurb": "A golden spur that opens every lock it touches.",
+      "tier": "legendary",
+      "slot": "accessory",
+      "tags": [
+        "trinket",
+        "liberation",
+        "legendary"
+      ],
+      "properties": [
+        {
+          "key": "charisma",
+          "value": 4,
+          "label": "+4 CHA"
+        },
+        {
+          "key": "dexterity",
+          "value": 3,
+          "label": "+3 DEX"
+        },
+        {
+          "key": "atk",
+          "value": 4,
+          "label": "+4 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 5,
+          "label": "+5 Crit%"
+        },
+        {
+          "key": "maxHp",
+          "value": 25,
+          "label": "+25 HP"
+        }
+      ],
+      "rarity": "legendary"
+    },
+    {
+      "id": "dt-broken-shackle-crown",
+      "name": "Broken-Shackle Crown",
+      "blurb": "Manacle links reforged into a circlet of free wills.",
+      "tier": "legendary",
+      "slot": "head",
+      "armor": 6,
+      "tags": [
+        "medium",
+        "liberation",
+        "legendary"
+      ],
+      "properties": [
+        {
+          "key": "wisdom",
+          "value": 4,
+          "label": "+4 WIS"
+        },
+        {
+          "key": "charisma",
+          "value": 4,
+          "label": "+4 CHA"
+        },
+        {
+          "key": "def",
+          "value": 5,
+          "label": "+5 DEF"
+        },
+        {
+          "key": "resist",
+          "value": 5,
+          "label": "+5 Resist"
+        },
+        {
+          "key": "maxHp",
+          "value": 30,
+          "label": "+30 HP"
+        }
+      ],
+      "rarity": "legendary"
+    },
+    {
+      "id": "dt-wilderland-oathblade",
+      "name": "Wilderland Oathblade",
+      "blurb": "Steel sworn to every name you free along the road.",
+      "tier": "legendary",
+      "slot": "weapon",
+      "power": 22,
+      "tags": [
+        "melee",
+        "legendary",
+        "liberation"
+      ],
+      "properties": [
+        {
+          "key": "atk",
+          "value": 8,
+          "label": "+8 ATK"
+        },
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        },
+        {
+          "key": "crit",
+          "value": 7,
+          "label": "+7 Crit%"
+        },
+        {
+          "key": "maxHp",
+          "value": 28,
+          "label": "+28 HP"
+        },
+        {
+          "key": "charisma",
+          "value": 3,
+          "label": "+3 CHA"
+        }
+      ],
+      "rarity": "legendary"
+    }
+  ]
+}

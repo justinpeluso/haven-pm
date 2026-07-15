@@ -1,0 +1,470 @@
+{
+  "version": 1,
+  "flavor": "Middle-earth–inspired generics (orcs, wargs, trolls, spiders) + frontier foes. No trademarked proper nouns.",
+  "creatures": [
+    {
+      "id": "whip-hand-thug",
+      "name": "Whip-Hand Thug",
+      "blurb": "A dusty overseer with a knotted leather scourge.",
+      "levelMin": 1,
+      "levelMax": 8,
+      "hp": 20,
+      "power": 4,
+      "armor": 0,
+      "xp": 12,
+      "gold": 5,
+      "tags": [
+        "humanoid",
+        "frontier"
+      ],
+      "artId": "enemy-whip-hand",
+      "weight": 3,
+      "lootPool": "trash"
+    },
+    {
+      "id": "coffle-guard",
+      "name": "Coffle Guard",
+      "blurb": "Iron manacle keys jingle at his belt.",
+      "levelMin": 1,
+      "levelMax": 10,
+      "hp": 24,
+      "power": 5,
+      "armor": 1,
+      "xp": 14,
+      "gold": 6,
+      "tags": [
+        "humanoid",
+        "frontier"
+      ],
+      "artId": "enemy-coffle-guard",
+      "weight": 3,
+      "lootPool": "trash"
+    },
+    {
+      "id": "thorn-clan-skirmisher",
+      "name": "Thorn-Clan Skirmisher",
+      "blurb": "A hill-orc in bark-lacquered hide, smiling with broken tusks.",
+      "levelMin": 1,
+      "levelMax": 12,
+      "hp": 22,
+      "power": 5,
+      "armor": 1,
+      "xp": 15,
+      "gold": 5,
+      "tags": [
+        "orc",
+        "humanoid"
+      ],
+      "artId": "enemy-orc-skirmisher",
+      "weight": 3,
+      "lootPool": "trash"
+    },
+    {
+      "id": "dust-trail-warg",
+      "name": "Dust-Trail Warg",
+      "blurb": "A lean wolf-beast with chalk-dust in its fur.",
+      "levelMin": 2,
+      "levelMax": 14,
+      "hp": 28,
+      "power": 6,
+      "armor": 0,
+      "xp": 18,
+      "gold": 4,
+      "tags": [
+        "warg",
+        "beast"
+      ],
+      "artId": "enemy-dust-warg",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "trail-webling",
+      "name": "Trail Webling",
+      "blurb": "A pale spider the size of a hound, silk trailing from the pines.",
+      "levelMin": 2,
+      "levelMax": 12,
+      "hp": 18,
+      "power": 5,
+      "armor": 0,
+      "xp": 16,
+      "gold": 3,
+      "tags": [
+        "spider",
+        "beast"
+      ],
+      "artId": "enemy-trail-webling",
+      "weight": 3,
+      "lootPool": "trash"
+    },
+    {
+      "id": "bond-chain-enforcer",
+      "name": "Bond-Chain Enforcer",
+      "blurb": "Carries manacles like a trophy belt.",
+      "levelMin": 4,
+      "levelMax": 16,
+      "hp": 32,
+      "power": 7,
+      "armor": 2,
+      "xp": 22,
+      "gold": 8,
+      "tags": [
+        "humanoid",
+        "frontier"
+      ],
+      "artId": "enemy-coffle-guard",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "ash-gut-raider",
+      "name": "Ash-Gut Raider",
+      "blurb": "An orc whose war-paint looks like burnt prairie.",
+      "levelMin": 8,
+      "levelMax": 22,
+      "hp": 40,
+      "power": 9,
+      "armor": 2,
+      "xp": 28,
+      "gold": 10,
+      "tags": [
+        "orc",
+        "humanoid"
+      ],
+      "artId": "enemy-ash-gut",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "night-howler",
+      "name": "Night-Howler",
+      "blurb": "Yellow eyes in the scrub; the pack answers from the ridge.",
+      "levelMin": 8,
+      "levelMax": 24,
+      "hp": 38,
+      "power": 10,
+      "armor": 1,
+      "xp": 30,
+      "gold": 6,
+      "tags": [
+        "warg",
+        "beast"
+      ],
+      "artId": "enemy-night-howler",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "silk-widow",
+      "name": "Silk Widow",
+      "blurb": "Eight legs lacquered like wet tar; webs choke the hollow.",
+      "levelMin": 10,
+      "levelMax": 26,
+      "hp": 36,
+      "power": 11,
+      "armor": 1,
+      "xp": 32,
+      "gold": 8,
+      "tags": [
+        "spider",
+        "beast"
+      ],
+      "artId": "enemy-silk-widow",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "bridge-brute",
+      "name": "Bridge Brute",
+      "blurb": "A squat troll under the stone arch, hungry for tolls.",
+      "levelMin": 12,
+      "levelMax": 28,
+      "hp": 55,
+      "power": 12,
+      "armor": 3,
+      "xp": 40,
+      "gold": 12,
+      "tags": [
+        "troll",
+        "giant"
+      ],
+      "artId": "enemy-bridge-brute",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "orc-rider",
+      "name": "Thorn-Clan Rider",
+      "blurb": "Orc and warg as one mean silhouette against the dusk.",
+      "levelMin": 14,
+      "levelMax": 30,
+      "hp": 48,
+      "power": 13,
+      "armor": 2,
+      "xp": 42,
+      "gold": 14,
+      "tags": [
+        "orc",
+        "warg",
+        "mounted"
+      ],
+      "artId": "enemy-orc-rider",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "red-maw-hunter",
+      "name": "Red-Maw Hunter",
+      "blurb": "A warg alpha with a stained snout and patient gait.",
+      "levelMin": 16,
+      "levelMax": 32,
+      "hp": 50,
+      "power": 14,
+      "armor": 2,
+      "xp": 45,
+      "gold": 10,
+      "tags": [
+        "warg",
+        "beast"
+      ],
+      "artId": "enemy-night-howler",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "cave-knuckle",
+      "name": "Cave Knuckle",
+      "blurb": "A cave-troll knuckling forward on stone-scarred fists.",
+      "levelMin": 22,
+      "levelMax": 40,
+      "hp": 80,
+      "power": 16,
+      "armor": 4,
+      "xp": 60,
+      "gold": 18,
+      "tags": [
+        "troll",
+        "giant"
+      ],
+      "artId": "enemy-cave-troll",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "nest-mother",
+      "name": "Nest Mother",
+      "blurb": "The hollow's queen: silk thick as cable, eyes like wet pearls.",
+      "levelMin": 24,
+      "levelMax": 42,
+      "hp": 70,
+      "power": 17,
+      "armor": 2,
+      "xp": 65,
+      "gold": 20,
+      "tags": [
+        "spider",
+        "beast",
+        "elite"
+      ],
+      "artId": "enemy-nest-mother",
+      "weight": 1,
+      "lootPool": "magic"
+    },
+    {
+      "id": "iron-cuff-overseer",
+      "name": "Iron-Cuff Overseer",
+      "blurb": "Frontier steel and orcish cruelty — the whip still speaks.",
+      "levelMin": 20,
+      "levelMax": 38,
+      "hp": 62,
+      "power": 15,
+      "armor": 3,
+      "xp": 55,
+      "gold": 22,
+      "tags": [
+        "humanoid",
+        "orc",
+        "frontier"
+      ],
+      "artId": "enemy-whip-hand",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "ash-cloak-outrider",
+      "name": "Ash-Cloak Outrider",
+      "blurb": "A veiled rider on a pale steed — rumors of a pale host.",
+      "levelMin": 28,
+      "levelMax": 48,
+      "hp": 75,
+      "power": 18,
+      "armor": 3,
+      "xp": 75,
+      "gold": 24,
+      "tags": [
+        "undead",
+        "rider",
+        "elite"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 1,
+      "lootPool": "rare"
+    },
+    {
+      "id": "mountain-hammer",
+      "name": "Mountain Hammer",
+      "blurb": "A high-pass troll with a tree for a club.",
+      "levelMin": 30,
+      "levelMax": 50,
+      "hp": 95,
+      "power": 19,
+      "armor": 5,
+      "xp": 80,
+      "gold": 28,
+      "tags": [
+        "troll",
+        "giant"
+      ],
+      "artId": "enemy-cave-troll",
+      "weight": 1,
+      "lootPool": "rare"
+    },
+    {
+      "id": "bone-drum-captain",
+      "name": "Bone-Drum Captain",
+      "blurb": "War-drums of hide and bone call the Thorn-Clan to charge.",
+      "levelMin": 26,
+      "levelMax": 45,
+      "hp": 72,
+      "power": 17,
+      "armor": 4,
+      "xp": 70,
+      "gold": 26,
+      "tags": [
+        "orc",
+        "humanoid",
+        "elite"
+      ],
+      "artId": "enemy-ash-gut",
+      "weight": 1,
+      "lootPool": "rare"
+    },
+    {
+      "id": "pale-host-scout",
+      "name": "Pale-Host Scout",
+      "blurb": "Cloaked, cold, and certain — a forerunner of the ash riders.",
+      "levelMin": 35,
+      "levelMax": 55,
+      "hp": 88,
+      "power": 21,
+      "armor": 4,
+      "xp": 90,
+      "gold": 30,
+      "tags": [
+        "undead",
+        "rider"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 2,
+      "lootPool": "rare"
+    },
+    {
+      "id": "warcamp-berserker",
+      "name": "Warcamp Berserker",
+      "blurb": "An orc who abandoned shields for two serrated cleavers.",
+      "levelMin": 32,
+      "levelMax": 52,
+      "hp": 85,
+      "power": 20,
+      "armor": 2,
+      "xp": 85,
+      "gold": 28,
+      "tags": [
+        "orc",
+        "humanoid"
+      ],
+      "artId": "enemy-orc-skirmisher",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "gloomwood-spinner",
+      "name": "Gloomwood Spinner",
+      "blurb": "Webs that dim torchlight; venom that slows the draw.",
+      "levelMin": 34,
+      "levelMax": 54,
+      "hp": 78,
+      "power": 20,
+      "armor": 2,
+      "xp": 88,
+      "gold": 26,
+      "tags": [
+        "spider",
+        "beast"
+      ],
+      "artId": "enemy-silk-widow",
+      "weight": 2,
+      "lootPool": "rare"
+    },
+    {
+      "id": "chain-lord-lieutenant",
+      "name": "Chain-Lord Lieutenant",
+      "blurb": "Keeps the bondage ledgers and the gunbelt alike.",
+      "levelMin": 38,
+      "levelMax": 58,
+      "hp": 100,
+      "power": 22,
+      "armor": 5,
+      "xp": 100,
+      "gold": 40,
+      "tags": [
+        "humanoid",
+        "frontier",
+        "elite"
+      ],
+      "artId": "enemy-coffle-guard",
+      "weight": 1,
+      "lootPool": "rare"
+    },
+    {
+      "id": "shadow-pack-alpha",
+      "name": "Shadow-Pack Alpha",
+      "blurb": "Wargs that move like smoke through the liberation lines.",
+      "levelMin": 40,
+      "levelMax": 60,
+      "hp": 92,
+      "power": 23,
+      "armor": 3,
+      "xp": 105,
+      "gold": 32,
+      "tags": [
+        "warg",
+        "beast",
+        "elite"
+      ],
+      "artId": "enemy-night-howler",
+      "weight": 1,
+      "lootPool": "rare"
+    },
+    {
+      "id": "citadel-gate-brute",
+      "name": "Citadel Gate Brute",
+      "blurb": "A troll chained as a living door-ram.",
+      "levelMin": 45,
+      "levelMax": 65,
+      "hp": 120,
+      "power": 25,
+      "armor": 6,
+      "xp": 120,
+      "gold": 45,
+      "tags": [
+        "troll",
+        "giant",
+        "elite"
+      ],
+      "artId": "enemy-bridge-brute",
+      "weight": 1,
+      "lootPool": "legendary"
+    }
+  ]
+}

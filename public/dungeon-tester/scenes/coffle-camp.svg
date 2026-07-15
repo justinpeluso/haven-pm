@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" fill="none">
+  <defs>
+    <linearGradient id="bg-coffle" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a2818"/>
+      <stop offset="100%" stop-color="#120c08"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg-coffle)"/>
+  <ellipse cx="320" cy="290" rx="50" ry="14" fill="#0a0e14" opacity="0.4"/><path d="M300 285 L320 230 L340 285Z" fill="#e85d4c"/><path d="M310 285 L320 245 L330 285Z" fill="#f5d547"/><rect x="180" y="240" width="80" height="50" fill="#2a1c14" stroke="#1a120c"/><path d="M200 260 H240" stroke="#8a8a8a" stroke-width="3"/><path d="M440 230 L490 180 L540 230Z" fill="#4a3020"/>
+  <path d="M0 270 Q160 240 320 265 T640 250 L640 360 L0 360Z" fill="#4a3020"/>
+  <path d="M0 300 L640 290 L640 360 L0 360Z" fill="#2a1c10" opacity="0.85"/>
+  <path d="M0 315 Q200 305 400 320 T640 310" fill="none" stroke="#1a1008" stroke-width="5" opacity="0.45"/>
+  
+  <rect x="8" y="8" width="624" height="344" fill="none" stroke="#1a120c" stroke-width="10"/>
+  <rect x="16" y="16" width="608" height="328" fill="none" stroke="#c4a35a" stroke-width="3"/>
+  <rect x="12" y="12" width="14" height="14" fill="#c4a35a"/>
+  <rect x="614" y="12" width="14" height="14" fill="#c4a35a"/>
+  <rect x="12" y="334" width="14" height="14" fill="#8b3a2a"/>
+  <rect x="614" y="334" width="14" height="14" fill="#8b3a2a"/>
+  <text x="28" y="44" font-family="Impact, Arial Black, sans-serif" font-size="20"
+    fill="#f4efe4" stroke="#1a120c" stroke-width="4" paint-order="stroke">COFFLE CAMP</text>
+</svg>

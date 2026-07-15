@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" fill="none">
+  <defs>
+    <linearGradient id="sp-finale-liberation.svg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a4a5a"/>
+      <stop offset="100%" stop-color="#141c24"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#sp-finale-liberation.svg)"/>
+  <path d="M0 260 Q320 220 640 255 L640 360 L0 360Z" fill="#2a1c10"/>
+  
+  <rect x="8" y="8" width="624" height="344" fill="none" stroke="#1a120c" stroke-width="10"/>
+  <rect x="16" y="16" width="608" height="328" fill="none" stroke="#c4a35a" stroke-width="3"/>
+  <rect x="12" y="12" width="14" height="14" fill="#c4a35a"/>
+  <rect x="614" y="12" width="14" height="14" fill="#c4a35a"/>
+  <rect x="12" y="334" width="14" height="14" fill="#8b3a2a"/>
+  <rect x="614" y="334" width="14" height="14" fill="#8b3a2a"/>
+  <text x="320" y="150" text-anchor="middle" font-family="Impact, Arial Black, sans-serif" font-size="42"
+    fill="#f4efe4" stroke="#1a120c" stroke-width="6" paint-order="stroke">FINALE</text>
+  <text x="320" y="200" text-anchor="middle" font-family="Georgia, serif" font-size="24"
+    fill="#e8c96a" stroke="#1a120c" stroke-width="3" paint-order="stroke">Broken Chains</text>
+</svg>

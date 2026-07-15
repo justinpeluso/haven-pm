@@ -1,0 +1,176 @@
+{
+  "version": 1,
+  "bosses": [
+    {
+      "id": "boss-coffle-master",
+      "name": "Coffle Master Vorn",
+      "blurb": "The first whip that named you property.",
+      "levelMin": 5,
+      "levelMax": 12,
+      "hp": 90,
+      "power": 12,
+      "armor": 3,
+      "xp": 120,
+      "gold": 50,
+      "tags": [
+        "boss",
+        "frontier",
+        "humanoid"
+      ],
+      "artId": "enemy-whip-hand",
+      "weight": 1,
+      "lootPool": "magic",
+      "uniqueSkill": {
+        "id": "lash-line",
+        "name": "Lash Line",
+        "blurb": "A crack that freezes feet.",
+        "power": 8
+      },
+      "uniqueDrops": [
+        "dt-liberators-spur"
+      ]
+    },
+    {
+      "id": "boss-silk-queen",
+      "name": "Hollow Silk Queen",
+      "blurb": "Mother of the trail webs.",
+      "levelMin": 14,
+      "levelMax": 24,
+      "hp": 140,
+      "power": 16,
+      "armor": 3,
+      "xp": 180,
+      "gold": 70,
+      "tags": [
+        "boss",
+        "spider"
+      ],
+      "artId": "enemy-nest-mother",
+      "weight": 1,
+      "lootPool": "rare",
+      "uniqueSkill": {
+        "id": "cocoon-toss",
+        "name": "Cocoon Toss",
+        "blurb": "Silk that binds a limb.",
+        "power": 10
+      },
+      "uniqueDrops": [
+        "dt-widow-silk-cloak"
+      ]
+    },
+    {
+      "id": "boss-toll-troll",
+      "name": "Arch Toll-Troll",
+      "blurb": "He remembers every unpaid copper.",
+      "levelMin": 20,
+      "levelMax": 30,
+      "hp": 180,
+      "power": 18,
+      "armor": 5,
+      "xp": 220,
+      "gold": 90,
+      "tags": [
+        "boss",
+        "troll"
+      ],
+      "artId": "enemy-bridge-brute",
+      "weight": 1,
+      "lootPool": "rare",
+      "uniqueSkill": {
+        "id": "boulder-slam",
+        "name": "Boulder Slam",
+        "blurb": "The bridge buckles.",
+        "power": 14
+      },
+      "uniqueDrops": [
+        "dt-bridge-stone-mail"
+      ]
+    },
+    {
+      "id": "boss-thorn-warlord",
+      "name": "Thorn-Clan Warlord",
+      "blurb": "Drums of bone, banners of ash.",
+      "levelMin": 28,
+      "levelMax": 40,
+      "hp": 220,
+      "power": 22,
+      "armor": 5,
+      "xp": 280,
+      "gold": 110,
+      "tags": [
+        "boss",
+        "orc"
+      ],
+      "artId": "enemy-ash-gut",
+      "weight": 1,
+      "lootPool": "rare",
+      "uniqueSkill": {
+        "id": "war-drum",
+        "name": "War Drum",
+        "blurb": "Pack fury doubles.",
+        "power": 12
+      },
+      "uniqueDrops": [
+        "dt-bone-drum-cleaver"
+      ]
+    },
+    {
+      "id": "boss-ash-herald",
+      "name": "Ash-Cloak Herald",
+      "blurb": "Pale host banner-bearer; silence rides with him.",
+      "levelMin": 38,
+      "levelMax": 50,
+      "hp": 260,
+      "power": 26,
+      "armor": 6,
+      "xp": 340,
+      "gold": 140,
+      "tags": [
+        "boss",
+        "undead",
+        "rider"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 1,
+      "lootPool": "legendary",
+      "uniqueSkill": {
+        "id": "dread-horn",
+        "name": "Dread Horn",
+        "blurb": "Courage falters.",
+        "power": 16
+      },
+      "uniqueDrops": [
+        "dt-ash-veil-revolver"
+      ]
+    },
+    {
+      "id": "boss-chain-lord",
+      "name": "The Chain-Lord",
+      "blurb": "Frontier baron of bondage — the debt that ends here.",
+      "levelMin": 50,
+      "levelMax": 70,
+      "hp": 340,
+      "power": 30,
+      "armor": 7,
+      "xp": 450,
+      "gold": 200,
+      "tags": [
+        "boss",
+        "frontier",
+        "humanoid"
+      ],
+      "artId": "enemy-coffle-guard",
+      "weight": 1,
+      "lootPool": "legendary",
+      "uniqueSkill": {
+        "id": "iron-sentence",
+        "name": "Iron Sentence",
+        "blurb": "Chains slam shut around the heart.",
+        "power": 20
+      },
+      "uniqueDrops": [
+        "dt-broken-shackle-crown"
+      ]
+    }
+  ]
+}
