@@ -22,6 +22,8 @@ import type {
 } from "@/lib/downtown/party-chronicle/types";
 import { CLASS_IDS, PLAYER_SLOT_ORDER, STAT_KEYS } from "@/lib/downtown/party-chronicle/types";
 import {
+  DT_DEFAULT_SLOT_ID,
+  DT_SLOT_IDS,
   DT_TARGET_PLAYTIME_HOURS,
   addPlaytime,
   asPartyWorld,
@@ -51,13 +53,21 @@ import {
   formatPlaytimeHud,
   getDtArt,
   getFrame,
+  listLocalDtSlotSummaries,
+  mergeDtWorld,
   normalizeDtWorld,
+  pickRicherDtWorld,
   advanceSimpleBattleEnemyPhase,
   performSimpleBattleAction,
+  readActiveDtSlotId,
   readLocalDtWorld,
   sealDtCharacter,
+  summarizeDtWorld,
+  writeActiveDtSlotId,
   writeLocalDtWorld,
   type DtFrame,
+  type DtSaveSlotId,
+  type DtSlotSummary,
   type DtWorldSave,
   type SimpleBattleActionId,
 } from "@/lib/downtown/dungeon-tester";
@@ -92,6 +102,10 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   const [phase, setPhase] = useState<Phase>("title");
   const [tab, setTab] = useState<PlayTab>("story");
   const [world, setWorld] = useState<DtWorldSave | null>(null);
+  const [activeSlotId, setActiveSlotId] = useState<DtSaveSlotId>(DT_DEFAULT_SLOT_ID);
+  const [slotSummaries, setSlotSummaries] = useState<DtSlotSummary[]>(() =>
+    DT_SLOT_IDS.map((id) => summarizeDtWorld(id, null))
+  );
   const [flash, setFlash] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [bootstrapped, setBootstrapped] = useState(false);
@@ -101,52 +115,126 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     goldLeft: number;
   } | null>(null);
   const playTickRef = useRef<number | null>(null);
+  const activeSlotRef = useRef<DtSaveSlotId>(DT_DEFAULT_SLOT_ID);
+  activeSlotRef.current = activeSlotId;
+
+  const refreshSlotSummaries = useCallback((serverSlots?: DtSlotSummary[]) => {
+    if (serverSlots?.length) {
+      setSlotSummaries(serverSlots);
+      return;
+    }
+    setSlotSummaries(listLocalDtSlotSummaries());
+  }, []);
 
   const persist = useCallback(
-    (next: DtWorldSave, opts?: { sync?: boolean }) => {
+    (next: DtWorldSave, opts?: { sync?: boolean; slotId?: DtSaveSlotId }) => {
+      const slotId = opts?.slotId ?? activeSlotRef.current;
       const stamped = { ...next, updatedAt: new Date().toISOString() };
       setWorld(stamped);
-      writeLocalDtWorld(stamped);
+      writeLocalDtWorld(stamped, slotId);
+      refreshSlotSummaries();
       if (opts?.sync === false) return;
       void fetch("/api/downtown/dungeon-tester", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ world: stamped }),
-      }).catch(() => {
-        /* offline ok — local save holds */
-      });
+        body: JSON.stringify({ world: stamped, slotId }),
+      })
+        .then(async (res) => {
+          if (!res.ok) return;
+          const data = (await res.json()) as {
+            world?: DtWorldSave;
+            slots?: DtSlotSummary[];
+          };
+          if (data.slots) refreshSlotSummaries(data.slots);
+          if (data.world && slotId === activeSlotRef.current) {
+            const merged = mergeDtWorld(stamped, normalizeDtWorld(data.world), mySlot, identity.isDm);
+            setWorld(merged);
+            writeLocalDtWorld(merged, slotId);
+          }
+        })
+        .catch(() => {
+          /* offline ok — local save holds */
+        });
     },
-    []
+    [identity.isDm, mySlot, refreshSlotSummaries]
+  );
+
+  const applyBootWorld = useCallback(
+    (
+      slotId: DtSaveSlotId,
+      server: DtWorldSave | null,
+      local: DtWorldSave | null,
+      serverSlots?: DtSlotSummary[]
+    ) => {
+      writeActiveDtSlotId(slotId);
+      setActiveSlotId(slotId);
+      const richer = pickRicherDtWorld(
+        server ? normalizeDtWorld(server) : null,
+        local
+      );
+      let merged: DtWorldSave | null = richer;
+      if (server && local) {
+        merged = mergeDtWorld(
+          normalizeDtWorld(server),
+          local,
+          mySlot,
+          identity.isDm
+        );
+        // Prefer local sealed sheet for my seat if richer; keep peer seals from server.
+        const characters = { ...merged.characters };
+        for (const s of PLAYER_SLOT_ORDER) {
+          const remote = server.characters[s];
+          const loc = local.characters[s];
+          if (remote?.created && !loc?.created) characters[s] = remote;
+          else if (loc?.created && !remote?.created) characters[s] = loc;
+          else if (remote?.created && loc?.created) {
+            const rScore =
+              (remote.choiceLog?.length ?? 0) + remote.xp + remote.level * 10;
+            const lScore = (loc.choiceLog?.length ?? 0) + loc.xp + loc.level * 10;
+            characters[s] = lScore >= rScore ? loc : remote;
+          }
+        }
+        merged = normalizeDtWorld({ ...merged, characters });
+      }
+      if (merged) {
+        setWorld(merged);
+        writeLocalDtWorld(merged, slotId);
+        if (
+          local &&
+          (!server ||
+            (local.framesAdvanced ?? 0) > (server.framesAdvanced ?? 0) ||
+            (mySlot && local.characters[mySlot]?.created && !server.characters[mySlot]?.created))
+        ) {
+          void fetch("/api/downtown/dungeon-tester", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ world: merged, slotId }),
+          }).catch(() => undefined);
+        }
+      } else {
+        setWorld(null);
+      }
+      refreshSlotSummaries(serverSlots);
+    },
+    [identity.isDm, mySlot, refreshSlotSummaries]
   );
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const local = readLocalDtWorld();
+      const slotId = readActiveDtSlotId();
+      const local = readLocalDtWorld(slotId);
       try {
-        const res = await fetch("/api/downtown/dungeon-tester");
+        const res = await fetch(`/api/downtown/dungeon-tester?slot=${slotId}`);
         if (res.ok) {
-          const data = (await res.json()) as { world: DtWorldSave | null; hasSave: boolean };
-          if (!cancelled && data.world) {
-            const merged =
-              local && local.framesAdvanced > data.world.framesAdvanced
-                ? normalizeDtWorld({
-                    ...data.world,
-                    framesAdvanced: local.framesAdvanced,
-                    storyPlayMs: Math.max(local.storyPlayMs, data.world.storyPlayMs),
-                    characters: local.characters,
-                    battle: local.battle?.status === "active" ? local.battle : data.world.battle,
-                    campaignNodeId: local.campaignNodeId,
-                    framesSinceEncounter: local.framesSinceEncounter,
-                    nextEncounterAtFrame: local.nextEncounterAtFrame,
-                    campSleeps: local.campSleeps ?? data.world.campSleeps,
-                    partyFlags: Array.from(
-                      new Set([...(data.world.partyFlags ?? []), ...(local.partyFlags ?? [])])
-                    ),
-                  })
-                : normalizeDtWorld(data.world);
-            setWorld(merged);
-            writeLocalDtWorld(merged);
+          const data = (await res.json()) as {
+            world: DtWorldSave | null;
+            hasSave: boolean;
+            slots?: DtSlotSummary[];
+            activeSlotId?: DtSaveSlotId;
+          };
+          if (!cancelled) {
+            applyBootWorld(slotId, data.world, local, data.slots);
             setBootstrapped(true);
             return;
           }
@@ -155,24 +243,25 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
         /* use local */
       }
       if (!cancelled) {
-        if (local) setWorld(local);
+        applyBootWorld(slotId, null, local);
         setBootstrapped(true);
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [applyBootWorld]);
 
   // Visible campaign playtime toward ~30h (not battle pressure clocks).
   useEffect(() => {
     if (phase !== "play" || !world) return;
     if (playTickRef.current) window.clearInterval(playTickRef.current);
     playTickRef.current = window.setInterval(() => {
+      const slotId = activeSlotRef.current;
       setWorld((prev) => {
         if (!prev) return prev;
         const next = addPlaytime(prev, 1000);
-        writeLocalDtWorld(next);
+        writeLocalDtWorld(next, slotId);
         return next;
       });
     }, 1000);
@@ -185,43 +274,212 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   useEffect(() => {
     if (phase !== "play" || !world) return;
     const id = window.setInterval(() => {
-      const local = readLocalDtWorld();
+      const slotId = activeSlotRef.current;
+      const local = readLocalDtWorld(slotId);
       if (!local) return;
       void fetch("/api/downtown/dungeon-tester", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ world: local }),
+        body: JSON.stringify({ world: local, slotId }),
       }).catch(() => undefined);
     }, 15_000);
     return () => window.clearInterval(id);
   }, [phase, !!world]);
 
+  // Pull peer seals / campaign so late joiners see the party without refresh.
+  useEffect(() => {
+    if (phase !== "play" && phase !== "create") return;
+    let cancelled = false;
+    const tick = async () => {
+      const slotId = activeSlotRef.current;
+      try {
+        const res = await fetch(`/api/downtown/dungeon-tester?slot=${slotId}`);
+        if (!res.ok || cancelled) return;
+        const data = (await res.json()) as {
+          world: DtWorldSave | null;
+          slots?: DtSlotSummary[];
+        };
+        const remote = data.world;
+        if (data.slots) refreshSlotSummaries(data.slots);
+        if (!remote || cancelled) return;
+        setWorld((prev) => {
+          const base = prev ?? normalizeDtWorld(remote);
+          const merged = mergeDtWorld(base, normalizeDtWorld(remote), mySlot, identity.isDm);
+          // Keep local active battle / slightly ahead frame clocks when we authored them.
+          const localBattle =
+            prev?.battle?.status === "active" ? prev.battle : merged.battle;
+          const next = normalizeDtWorld({
+            ...merged,
+            battle: localBattle,
+            storyPlayMs: Math.max(prev?.storyPlayMs ?? 0, merged.storyPlayMs ?? 0),
+            framesAdvanced: Math.max(prev?.framesAdvanced ?? 0, merged.framesAdvanced ?? 0),
+          });
+          writeLocalDtWorld(next, slotId);
+          return next;
+        });
+        if (mySlot) {
+          const sealed = !!remote.characters[mySlot]?.created;
+          if (!sealed) {
+            setPhase("create");
+          } else if (phase === "create") {
+            setPhase("play");
+          }
+        }
+      } catch {
+        /* ignore */
+      }
+    };
+    const id = window.setInterval(tick, 6000);
+    const onFocus = () => void tick();
+    window.addEventListener("focus", onFocus);
+    return () => {
+      cancelled = true;
+      window.clearInterval(id);
+      window.removeEventListener("focus", onFocus);
+    };
+  }, [phase, mySlot, identity.isDm, refreshSlotSummaries]);
+
   useEffect(() => {
     if (!bootstrapped || !world || !mySlot) return;
-    if (phase === "play" && !world.characters[mySlot]?.created) {
-      setPhase("create");
+    if ((phase === "play" || phase === "title") && !world.characters[mySlot]?.created) {
+      // Stay on title until they pick Continue — but never let play skip create.
+      if (phase === "play") setPhase("create");
     }
   }, [bootstrapped, world, mySlot, phase]);
 
-  const startFresh = () => {
-    const fresh = createNewDtWorld();
-    persist(fresh);
-    if (mySlot && !fresh.characters[mySlot]?.created) setPhase("create");
-    else setPhase("play");
-    setTab("story");
-    setFlash("New Wilderland march opened.");
+  const selectSaveSlot = async (slotId: DtSaveSlotId) => {
+    writeActiveDtSlotId(slotId);
+    activeSlotRef.current = slotId;
+    setActiveSlotId(slotId);
+    setPhase("title");
+    const local = readLocalDtWorld(slotId);
+    try {
+      const res = await fetch(`/api/downtown/dungeon-tester?slot=${slotId}`);
+      if (res.ok) {
+        const data = (await res.json()) as {
+          world: DtWorldSave | null;
+          slots?: DtSlotSummary[];
+        };
+        applyBootWorld(slotId, data.world, local, data.slots);
+        setFlash(`Loaded ${summarizeDtWorld(slotId, data.world ?? local).label}.`);
+        return;
+      }
+    } catch {
+      /* local */
+    }
+    applyBootWorld(slotId, null, local);
+    setFlash(`Loaded Slot ${slotId} (local).`);
   };
 
-  const continueSave = () => {
-    const w = world ?? readLocalDtWorld();
-    if (!w) {
-      startFresh();
+  const canResetSlot = identity.isDm || mySlot === "justin";
+
+  const startFresh = (slotId: DtSaveSlotId = activeSlotId) => {
+    writeActiveDtSlotId(slotId);
+    activeSlotRef.current = slotId;
+    setActiveSlotId(slotId);
+    const summary = slotSummaries.find((s) => s.id === slotId);
+    const localExisting = readLocalDtWorld(slotId);
+    const occupied = !!(summary?.hasSave || localExisting);
+    if (occupied && !canResetSlot) {
+      setFlash("Only the DM can restart a slot already in progress.");
       return;
     }
-    persist(w);
-    if (mySlot && !w.characters[mySlot]?.created) setPhase("create");
+    const fresh = createNewDtWorld();
+    clearLocalDtWorld(slotId);
+    setWorld(fresh);
+    writeLocalDtWorld(fresh, slotId);
+    refreshSlotSummaries();
+    void fetch("/api/downtown/dungeon-tester", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reset: true, slotId }),
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          // Empty slot: push fresh world without merge wipe concerns.
+          persist(fresh, { slotId });
+          return;
+        }
+        const data = (await res.json()) as {
+          world?: DtWorldSave;
+          slots?: DtSlotSummary[];
+        };
+        if (data.slots) refreshSlotSummaries(data.slots);
+        const next = data.world ? normalizeDtWorld(data.world) : fresh;
+        setWorld(next);
+        writeLocalDtWorld(next, slotId);
+      })
+      .catch(() => {
+        persist(fresh, { slotId });
+      });
+    if (mySlot) setPhase("create");
     else setPhase("play");
     setTab("story");
+    setFlash(`New Wilderland march on Slot ${slotId}.`);
+  };
+
+  const continueSave = async (slotId: DtSaveSlotId = activeSlotId) => {
+    writeActiveDtSlotId(slotId);
+    activeSlotRef.current = slotId;
+    setActiveSlotId(slotId);
+    let w: DtWorldSave | null = readLocalDtWorld(slotId);
+    try {
+      const res = await fetch(`/api/downtown/dungeon-tester?slot=${slotId}`);
+      if (res.ok) {
+        const data = (await res.json()) as {
+          world: DtWorldSave | null;
+          slots?: DtSlotSummary[];
+        };
+        if (data.slots) refreshSlotSummaries(data.slots);
+        if (data.world) {
+          w = w
+            ? mergeDtWorld(normalizeDtWorld(data.world), w, mySlot, identity.isDm)
+            : normalizeDtWorld(data.world);
+        }
+      }
+    } catch {
+      /* local */
+    }
+    if (!w) {
+      startFresh(slotId);
+      return;
+    }
+    setWorld(w);
+    persist(w, { slotId });
+    if (mySlot && !w.characters[mySlot]?.created) {
+      setPhase("create");
+      setFlash(
+        `${SLOT_DEFAULTS[mySlot].displayName} — create your hero to join. The march is already underway.`
+      );
+    } else {
+      setPhase("play");
+    }
+    setTab("story");
+  };
+
+  const deleteSaveSlot = async (slotId: DtSaveSlotId) => {
+    if (!identity.isDm && mySlot !== "justin") {
+      setFlash("Only the DM can delete a save slot.");
+      return;
+    }
+    clearLocalDtWorld(slotId);
+    try {
+      const res = await fetch("/api/downtown/dungeon-tester", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ deleteSlot: true, slotId }),
+      });
+      if (res.ok) {
+        const data = (await res.json()) as { slots?: DtSlotSummary[] };
+        refreshSlotSummaries(data.slots);
+      }
+    } catch {
+      refreshSlotSummaries();
+    }
+    if (slotId === activeSlotId) {
+      setWorld(null);
+    }
+    setFlash(`Cleared Slot ${slotId}.`);
   };
 
   const onSeal = (sealed: DtWorldSave) => {
@@ -419,6 +677,9 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
       <div className="dt-hud-bar" aria-live="polite">
         <span>
+          Slot <strong>{activeSlotId}</strong>
+        </span>
+        <span>
           Play time <strong>{playHud}</strong>
         </span>
         <span>
@@ -439,9 +700,85 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
           <h1 className="dt-title-hero">DungeonTester</h1>
           <p className="dt-tagline">
             Dusty Wilderland liberation march — Oregon Trail page, short comic frames, party seats
-            like Neverworld (Justin, Rusty, Elisha, Eric). Crude clip-art battles are DT-only —
-            Camp and Inventory still share party gear helpers.
+            like Neverworld (Justin, Rusty, Elisha, Eric). Late joiners seal a hero anytime; save
+            slots keep separate campaigns. Battles stay DT-only crude combat.
           </p>
+
+          <div className="dt-slot-list" role="list" aria-label="Save slots">
+            {slotSummaries.map((s) => {
+              const active = s.id === activeSlotId;
+              const playLabel = formatPlaytimeHud(s.storyPlayMs, DT_TARGET_PLAYTIME_HOURS);
+              return (
+                <div
+                  key={s.id}
+                  className="dt-slot-card"
+                  data-active={active ? "true" : "false"}
+                  role="listitem"
+                >
+                  <button
+                    type="button"
+                    className="dt-slot-select"
+                    onClick={() => void selectSaveSlot(s.id)}
+                  >
+                    <strong>{s.label}</strong>
+                    <span>
+                      {s.hasSave
+                        ? `${s.sealedCount}/4 sealed · ${s.heroNames.join(", ") || "empty party"} · frame ${s.framesAdvanced} · ${playLabel}`
+                        : "Empty — start a fresh march"}
+                    </span>
+                  </button>
+                  <div className="dt-actions">
+                    <button
+                      type="button"
+                      className="dt-btn"
+                      data-primary="true"
+                      onClick={() => void continueSave(s.id)}
+                    >
+                      {s.hasSave || (active && sealedCount > 0) ? "Continue" : "New"}
+                    </button>
+                    <button
+                      type="button"
+                      className="dt-btn"
+                      disabled={
+                        !!(s.hasSave || (active && sealedCount > 0)) &&
+                        !identity.isDm &&
+                        mySlot !== "justin"
+                      }
+                      onClick={() => {
+                        if (
+                          s.hasSave &&
+                          typeof window !== "undefined" &&
+                          !window.confirm(`Start a new campaign on ${s.label}? This slot only.`)
+                        ) {
+                          return;
+                        }
+                        startFresh(s.id);
+                      }}
+                    >
+                      New campaign
+                    </button>
+                    <button
+                      type="button"
+                      className="dt-btn"
+                      disabled={!s.hasSave || (!identity.isDm && mySlot !== "justin")}
+                      onClick={() => {
+                        if (
+                          typeof window !== "undefined" &&
+                          !window.confirm(`Delete ${s.label}? This cannot be undone.`)
+                        ) {
+                          return;
+                        }
+                        void deleteSaveSlot(s.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
           <div className="dt-party-row">
             {PLAYER_SLOT_ORDER.map((slot) => {
               const c = world?.characters[slot];
@@ -452,21 +789,6 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 </div>
               );
             })}
-          </div>
-          <div className="dt-actions">
-            <button type="button" className="dt-btn" data-primary="true" onClick={continueSave}>
-              {world && sealedCount > 0 ? "Continue march" : "Start march"}
-            </button>
-            <button
-              type="button"
-              className="dt-btn"
-              onClick={() => {
-                clearLocalDtWorld();
-                startFresh();
-              }}
-            >
-              New campaign
-            </button>
           </div>
           {!mySlot && (
             <p className="dt-tagline">
@@ -631,7 +953,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     disabled={!!world.battle}
                     onClick={() => setTab("story")}
                   >
-                    Return to story →
+                    Back to Story →
                   </button>
                 </div>
               </div>
@@ -879,8 +1201,8 @@ function CreateSeat({
     <div className="dt-panel dt-create space-y-2">
       <h2 className="dt-frame-title">Seal {def.displayName}&apos;s seat</h2>
       <p className="dt-tagline">
-        Same Neverworld create kit — blank point-buy, weapon, skill, magic. Dogs optional forever;
-        name them now if you want.
+        Join anytime — seal before story or battle. Same Neverworld create kit (point-buy, weapon,
+        skill, magic). Dogs optional; name them now if you want. Sealing does not reset the campaign.
       </p>
       {error ? <p className="dt-flash">{error}</p> : null}
       <label>

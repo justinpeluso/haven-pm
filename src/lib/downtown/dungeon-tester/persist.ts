@@ -4,7 +4,7 @@ import {
   createBlankCharacter,
 } from "@/lib/downtown/party-chronicle/persist";
 import type { CreateKitPicks } from "@/lib/downtown/party-chronicle/create";
-import type { ClassId, Stats } from "@/lib/downtown/party-chronicle/types";
+import type { CharacterSave, ClassId, Stats } from "@/lib/downtown/party-chronicle/types";
 import type { RaceId } from "@/lib/downtown/party-chronicle/races";
 import {
   DT_ENCOUNTER_MAX_FRAMES,
@@ -29,8 +29,91 @@ function isSimpleBattleBlob(raw: unknown): raw is SimpleBattleState {
   );
 }
 
-export const DT_SAVE_KEY = "haven-dungeon-tester-v1";
-export const DT_WORLD_SETTING_KEY = "dungeon_tester_world_v1";
+/** Save slots — each holds an independent Wilderland campaign world. */
+export const DT_SLOT_IDS = ["1", "2", "3"] as const;
+export type DtSaveSlotId = (typeof DT_SLOT_IDS)[number];
+
+export const DT_DEFAULT_SLOT_ID: DtSaveSlotId = "1";
+
+/** Legacy single-world Setting key (migrated → slot 1). */
+export const DT_LEGACY_WORLD_SETTING_KEY = "dungeon_tester_world_v1";
+/** @deprecated Prefer dtWorldSettingKey(slotId). Kept for import compatibility. */
+export const DT_WORLD_SETTING_KEY = DT_LEGACY_WORLD_SETTING_KEY;
+
+export function dtWorldSettingKey(slotId: DtSaveSlotId): string {
+  return `dungeon_tester_world_slot_${slotId}`;
+}
+
+export function isDtSaveSlotId(raw: unknown): raw is DtSaveSlotId {
+  return typeof raw === "string" && (DT_SLOT_IDS as readonly string[]).includes(raw);
+}
+
+export function parseDtSaveSlotId(raw: unknown): DtSaveSlotId {
+  return isDtSaveSlotId(raw) ? raw : DT_DEFAULT_SLOT_ID;
+}
+
+/** Legacy localStorage key (migrated → slot 1). */
+export const DT_LEGACY_SAVE_KEY = "haven-dungeon-tester-v1";
+/** @deprecated Prefer dtLocalSaveKey(slotId). */
+export const DT_SAVE_KEY = DT_LEGACY_SAVE_KEY;
+
+export const DT_ACTIVE_SLOT_KEY = "haven-dungeon-tester-active-slot";
+
+export function dtLocalSaveKey(slotId: DtSaveSlotId): string {
+  return `haven-dungeon-tester-v1-slot-${slotId}`;
+}
+
+export function slotLabel(slotId: DtSaveSlotId): string {
+  return `Slot ${slotId}`;
+}
+
+export type DtSlotSummary = {
+  id: DtSaveSlotId;
+  label: string;
+  hasSave: boolean;
+  sealedCount: number;
+  heroNames: string[];
+  framesAdvanced: number;
+  storyPlayMs: number;
+  chapterId: string | null;
+  updatedAt: string | null;
+  startedAt: string | null;
+};
+
+export function summarizeDtWorld(
+  slotId: DtSaveSlotId,
+  world: DtWorldSave | null
+): DtSlotSummary {
+  if (!world) {
+    return {
+      id: slotId,
+      label: slotLabel(slotId),
+      hasSave: false,
+      sealedCount: 0,
+      heroNames: [],
+      framesAdvanced: 0,
+      storyPlayMs: 0,
+      chapterId: null,
+      updatedAt: null,
+      startedAt: null,
+    };
+  }
+  const heroNames = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created).map(
+    (s) => world.characters[s]!.name
+  );
+  return {
+    id: slotId,
+    label: slotLabel(slotId),
+    hasSave: true,
+    sealedCount: heroNames.length,
+    heroNames,
+    framesAdvanced: world.framesAdvanced ?? 0,
+    storyPlayMs: world.storyPlayMs ?? 0,
+    chapterId: world.chapterId ?? null,
+    updatedAt: world.updatedAt ?? null,
+    startedAt: world.startedAt ?? null,
+  };
+}
 
 export function rollNextEncounterAtFrame(
   framesAdvanced: number,
@@ -161,7 +244,36 @@ export function sealDtCharacter(
   };
 }
 
-/** Prefer higher frames / storyPlayMs / sealed counts when merging client ↔ server. */
+function sealedSheetScore(c: CharacterSave | null | undefined): number {
+  if (!c?.created) return -1;
+  return (c.choiceLog?.length ?? 0) + (c.xp ?? 0) + (c.level ?? 1) * 10 + (c.inventory?.length ?? 0);
+}
+
+/** Pick richer campaign progress for client boot (sealed count → frames → playtime → updatedAt). */
+export function pickRicherDtWorld(
+  a: DtWorldSave | null,
+  b: DtWorldSave | null
+): DtWorldSave | null {
+  if (!a) return b;
+  if (!b) return a;
+  const aCreated = PLAYER_SLOT_ORDER.filter((s) => a.characters[s]?.created).length;
+  const bCreated = PLAYER_SLOT_ORDER.filter((s) => b.characters[s]?.created).length;
+  if (aCreated !== bCreated) return aCreated > bCreated ? a : b;
+  if ((a.framesAdvanced ?? 0) !== (b.framesAdvanced ?? 0)) {
+    return (a.framesAdvanced ?? 0) > (b.framesAdvanced ?? 0) ? a : b;
+  }
+  if ((a.storyPlayMs ?? 0) !== (b.storyPlayMs ?? 0)) {
+    return (a.storyPlayMs ?? 0) > (b.storyPlayMs ?? 0) ? a : b;
+  }
+  const aAt = Date.parse(a.updatedAt || a.startedAt || "") || 0;
+  const bAt = Date.parse(b.updatedAt || b.startedAt || "") || 0;
+  return aAt >= bAt ? a : b;
+}
+
+/**
+ * Prefer higher frames / storyPlayMs when merging client ↔ server.
+ * Never wipe a richer sealed sheet (Neverworld-style score).
+ */
 export function mergeDtWorld(
   existing: DtWorldSave,
   incoming: DtWorldSave,
@@ -175,16 +287,33 @@ export function mergeDtWorld(
   for (const slot of PLAYER_SLOT_ORDER) {
     const ea = a.characters[slot];
     const ib = b.characters[slot];
-    if (isDm || editorSlot === slot) {
-      // Editor / DM can overwrite their seat (and DM any).
-      if (ib?.created || !ea?.created) characters[slot] = ib;
-      else characters[slot] = ea;
-    } else if (ib?.created && !ea?.created) {
-      characters[slot] = ib;
-    } else if (ea?.created) {
-      characters[slot] = ea;
-    } else {
+    const eaCreated = !!ea?.created;
+    const ibCreated = !!ib?.created;
+
+    if (!eaCreated && !ibCreated) {
       characters[slot] = ib ?? ea;
+      continue;
+    }
+    if (eaCreated && !ibCreated) {
+      characters[slot] = ea;
+      continue;
+    }
+    if (!eaCreated && ibCreated) {
+      characters[slot] = ib;
+      continue;
+    }
+
+    // Both sealed — prefer richer sheet; editor/DM still may update their own seat
+    // when scores are equal or the editor posts a richer sheet.
+    const scoreA = sealedSheetScore(ea);
+    const scoreB = sealedSheetScore(ib);
+    if (isDm || editorSlot === slot) {
+      if (scoreB >= scoreA) characters[slot] = ib;
+      else characters[slot] = ea;
+    } else if (scoreB > scoreA) {
+      characters[slot] = ib;
+    } else {
+      characters[slot] = ea;
     }
   }
 
@@ -225,10 +354,43 @@ export function mergeDtWorld(
   });
 }
 
-export function readLocalDtWorld(): DtWorldSave | null {
-  if (typeof window === "undefined") return null;
+export function readActiveDtSlotId(): DtSaveSlotId {
+  if (typeof window === "undefined") return DT_DEFAULT_SLOT_ID;
   try {
-    const raw = window.localStorage.getItem(DT_SAVE_KEY);
+    return parseDtSaveSlotId(window.localStorage.getItem(DT_ACTIVE_SLOT_KEY));
+  } catch {
+    return DT_DEFAULT_SLOT_ID;
+  }
+}
+
+export function writeActiveDtSlotId(slotId: DtSaveSlotId): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(DT_ACTIVE_SLOT_KEY, slotId);
+  } catch {
+    /* quota */
+  }
+}
+
+function migrateLegacyLocalToSlot1(): void {
+  if (typeof window === "undefined") return;
+  try {
+    const slot1Key = dtLocalSaveKey("1");
+    if (window.localStorage.getItem(slot1Key)) return;
+    const legacy = window.localStorage.getItem(DT_LEGACY_SAVE_KEY);
+    if (!legacy) return;
+    window.localStorage.setItem(slot1Key, legacy);
+  } catch {
+    /* ignore */
+  }
+}
+
+export function readLocalDtWorld(slotId?: DtSaveSlotId): DtWorldSave | null {
+  if (typeof window === "undefined") return null;
+  const id = slotId ?? readActiveDtSlotId();
+  migrateLegacyLocalToSlot1();
+  try {
+    const raw = window.localStorage.getItem(dtLocalSaveKey(id));
     if (!raw) return null;
     return normalizeDtWorld(JSON.parse(raw));
   } catch {
@@ -236,11 +398,12 @@ export function readLocalDtWorld(): DtWorldSave | null {
   }
 }
 
-export function writeLocalDtWorld(world: DtWorldSave): void {
+export function writeLocalDtWorld(world: DtWorldSave, slotId?: DtSaveSlotId): void {
   if (typeof window === "undefined") return;
+  const id = slotId ?? readActiveDtSlotId();
   try {
     window.localStorage.setItem(
-      DT_SAVE_KEY,
+      dtLocalSaveKey(id),
       JSON.stringify({ ...world, updatedAt: new Date().toISOString() })
     );
   } catch {
@@ -248,11 +411,16 @@ export function writeLocalDtWorld(world: DtWorldSave): void {
   }
 }
 
-export function clearLocalDtWorld(): void {
+export function clearLocalDtWorld(slotId?: DtSaveSlotId): void {
   if (typeof window === "undefined") return;
+  const id = slotId ?? readActiveDtSlotId();
   try {
-    window.localStorage.removeItem(DT_SAVE_KEY);
+    window.localStorage.removeItem(dtLocalSaveKey(id));
   } catch {
     /* ignore */
   }
+}
+
+export function listLocalDtSlotSummaries(): DtSlotSummary[] {
+  return DT_SLOT_IDS.map((id) => summarizeDtWorld(id, readLocalDtWorld(id)));
 }
