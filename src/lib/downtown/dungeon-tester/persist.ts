@@ -269,10 +269,72 @@ export function sealDtCharacter(
   };
 }
 
+/**
+ * Progress score for sealed sheets — Neverworld-style (choices / xp / level).
+ * Do NOT include inventory length: consuming potions shrinks the bag and would
+ * make a fresh heal look "poorer" than a stale copy, resurrecting the potion.
+ */
 function sealedSheetScore(c: CharacterSave | null | undefined): number {
   if (!c?.created) return -1;
-  return (c.choiceLog?.length ?? 0) + (c.xp ?? 0) + (c.level ?? 1) * 10 + (c.inventory?.length ?? 0);
+  return (c.choiceLog?.length ?? 0) + (c.xp ?? 0) + (c.level ?? 1) * 10;
 }
+
+function inventoryCounts(inv: string[] | undefined): Map<string, number> {
+  const m = new Map<string, number>();
+  for (const id of inv ?? []) m.set(id, (m.get(id) ?? 0) + 1);
+  return m;
+}
+
+/** True when `after.inventory` is a multiset subset of `before.inventory`. */
+function inventoryIsSubset(after: string[] | undefined, before: string[] | undefined): boolean {
+  const a = inventoryCounts(after);
+  const b = inventoryCounts(before);
+  for (const [id, n] of a) {
+    if ((b.get(id) ?? 0) < n) return false;
+  }
+  return true;
+}
+
+/**
+ * Detect "used a consumable / salvaged" relative to an older sheet so merges
+ * never resurrect a potion or rewind HP after a local Use.
+ */
+function isConsumableOrSalvageAdvance(after: CharacterSave, before: CharacterSave): boolean {
+  const afterLen = after.inventory?.length ?? 0;
+  const beforeLen = before.inventory?.length ?? 0;
+  if (afterLen >= beforeLen) return false;
+  if (!inventoryIsSubset(after.inventory, before.inventory)) return false;
+  const healed =
+    after.hp > before.hp ||
+    after.mana > before.mana ||
+    after.stamina > before.stamina ||
+    (after.dog?.hp ?? 0) > (before.dog?.hp ?? 0);
+  const salvaged = (after.gold ?? 0) > (before.gold ?? 0);
+  return healed || salvaged;
+}
+
+/**
+ * On equal progress scores, prefer a sheet that clearly consumed/salvaged
+ * relative to the other; otherwise honor seatTie bias.
+ */
+function preferSheetOnTie(
+  ea: CharacterSave,
+  ib: CharacterSave,
+  seatTie: "incoming" | "existing"
+): CharacterSave {
+  if (isConsumableOrSalvageAdvance(ib, ea)) return ib;
+  if (isConsumableOrSalvageAdvance(ea, ib)) return ea;
+  return seatTie === "incoming" ? ib : ea;
+}
+
+export type MergeDtWorldOpts = {
+  /**
+   * When progress scores tie for the editor's seat:
+   * - `incoming` — server POST (client payload wins over DB)
+   * - `existing` — client poll / POST-response (keep local bag/HP while sync races)
+   */
+  seatTie?: "incoming" | "existing";
+};
 
 /** Pick richer campaign progress for client boot (sealed count → frames → playtime → updatedAt). */
 export function pickRicherDtWorld(
@@ -298,13 +360,16 @@ export function pickRicherDtWorld(
 /**
  * Prefer higher frames / storyPlayMs when merging client ↔ server.
  * Never wipe a richer sealed sheet (Neverworld-style score).
+ * Never resurrect consumables / rewind HP via inventory-length scoring.
  */
 export function mergeDtWorld(
   existing: DtWorldSave,
   incoming: DtWorldSave,
   editorSlot: PlayerSlot | null,
-  isDm: boolean
+  isDm: boolean,
+  opts?: MergeDtWorldOpts
 ): DtWorldSave {
+  const seatTie = opts?.seatTie ?? "incoming";
   const a = normalizeDtWorld(existing);
   const b = normalizeDtWorld(incoming);
 
@@ -328,17 +393,20 @@ export function mergeDtWorld(
       continue;
     }
 
-    // Both sealed — prefer richer sheet; editor/DM still may update their own seat
-    // when scores are equal or the editor posts a richer sheet.
-    const scoreA = sealedSheetScore(ea);
-    const scoreB = sealedSheetScore(ib);
+    // Both sealed — prefer richer sheet; editor/DM own-seat ties use seatTie +
+    // consumable-aware pick so potion Use cannot be clobbered by a stale peer.
+    const scoreA = sealedSheetScore(ea!);
+    const scoreB = sealedSheetScore(ib!);
     if (isDm || editorSlot === slot) {
-      if (scoreB >= scoreA) characters[slot] = ib;
-      else characters[slot] = ea;
+      if (scoreB > scoreA) characters[slot] = ib;
+      else if (scoreA > scoreB) characters[slot] = ea;
+      else characters[slot] = preferSheetOnTie(ea!, ib!, seatTie);
     } else if (scoreB > scoreA) {
       characters[slot] = ib;
-    } else {
+    } else if (scoreA > scoreB) {
       characters[slot] = ea;
+    } else {
+      characters[slot] = preferSheetOnTie(ea!, ib!, "existing");
     }
   }
 

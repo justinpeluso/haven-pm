@@ -191,7 +191,8 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     base,
                     normalizeDtWorld(data.world!),
                     mySlot,
-                    identity.isDm
+                    identity.isDm,
+                    { seatTie: "existing" }
                   ),
                   battle: null,
                   clearedBattleId:
@@ -213,7 +214,8 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 base,
                 normalizeDtWorld(data.world!),
                 mySlot,
-                identity.isDm
+                identity.isDm,
+                { seatTie: "existing" }
               );
               let localBattle = mergeSimpleBattle(base.battle, merged.battle);
               const cleared = stamped.clearedBattleId || base.clearedBattleId;
@@ -389,7 +391,10 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
         if (!remote || cancelled) return;
         setWorld((prev) => {
           const base = prev ?? normalizeDtWorld(remote);
-          const merged = mergeDtWorld(base, normalizeDtWorld(remote), mySlot, identity.isDm);
+          // Keep local bag/HP on ties so a stale poll cannot resurrect a used potion.
+          const merged = mergeDtWorld(base, normalizeDtWorld(remote), mySlot, identity.isDm, {
+            seatTie: "existing",
+          });
           // Sticky local fight: never swap ids / clear splashDone while active.
           // Never resurrect a fled/dismissed battle.id from poll.
           let localBattle =
@@ -1056,7 +1061,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   ) : null}
                 </div>
                 <div>
-                  <p className="text-[0.65rem] uppercase tracking-wide" style={{ color: "var(--dt-muted)" }}>
+                  <p className="dt-hud-meta">
                     {world.chapterId} · {world.campaignNodeId}
                   </p>
                   <h2 className="dt-frame-title">{frame?.title ?? "Missing frame"}</h2>
@@ -1100,9 +1105,9 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
           {!world.endingId && tab === "camp" ? (
             <div className="dt-panel space-y-4">
               <div className="pc-main-quest-card">
-                <p className="pc-eyebrow text-[0.65rem]">Camp · rest & supply</p>
-                <p className="font-bold text-sm">{frame?.title ?? world.campaignNodeId}</p>
-                <p className="text-xs opacity-70 mt-1">
+                <p className="dt-section-label">Camp · rest & supply</p>
+                <p className="dt-section-title">{frame?.title ?? world.campaignNodeId}</p>
+                <p className="dt-section-hint mt-1">
                   Sleep, buy trail goods, dig for caches, or force a road fight — then back to Story.
                 </p>
                 <div className="flex flex-wrap gap-2 mt-3">
@@ -1126,11 +1131,11 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               </div>
 
               <div className="space-y-2">
-                <p className="pc-eyebrow text-[0.65rem]">
+                <p className="dt-section-label">
                   Rest · Sleep ({world ? campSleepsRemaining(asPartyWorld(world)) : 0}/{CAMP_SLEEP_MAX}{" "}
                   this {CAMP_SLEEP_WINDOW_MS / 60_000}m)
                 </p>
-                <p className="text-xs opacity-70">
+                <p className="dt-section-hint">
                   Restores HP, mana, and stamina for the acting hero (and their dog). Saves with the
                   march.
                 </p>
@@ -1144,7 +1149,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   Sleep at camp → restore HP &amp; mana
                 </button>
                 {campSleepHint ? (
-                  <p className="text-xs opacity-70" style={{ color: "var(--pc-accent)" }}>
+                  <p className="dt-section-hint dt-section-hint-accent">
                     {campSleepHint}
                   </p>
                 ) : null}
@@ -1201,10 +1206,10 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
               {me ? (
                 <div className="dt-camp-bag space-y-2">
-                  <p className="pc-eyebrow text-[0.65rem]">
+                  <p className="dt-section-label">
                     Worn &amp; bag · {me.name} · {me.gold}g
                   </p>
-                  <p className="text-xs opacity-70">
+                  <p className="dt-section-hint">
                     Empty slots auto-fill when you buy or dig. Equip anything else from Camp here.
                   </p>
                   {(() => {
@@ -1225,7 +1230,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                               </span>
                             ))
                           ) : (
-                            <span className="text-xs opacity-70">Nothing worn — equip from the bag.</span>
+                            <span className="dt-section-hint">Nothing worn — equip from the bag.</span>
                           )}
                         </div>
                         <div className="dt-bag-list">
@@ -1237,11 +1242,11 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                               data-tier={item.tier}
                             >
                               <div>
-                                <strong>
+                                <strong className="dt-bag-name">
                                   {item.equipped ? "● " : ""}
                                   {item.name}
                                 </strong>
-                                <span className="block text-[0.65rem] opacity-70">
+                                <span className="dt-bag-meta">
                                   {item.tier} · {item.slot}
                                 </span>
                                 {item.stats.length ? (
@@ -1273,7 +1278,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                             </div>
                           ))}
                           {!loadout.bag.length ? (
-                            <p className="text-xs opacity-70">Bag empty — visit the peddler or dig.</p>
+                            <p className="dt-section-hint">Bag empty — visit the peddler or dig.</p>
                           ) : null}
                         </div>
                       </>
@@ -1283,10 +1288,10 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               ) : null}
 
               <div className="pc-merchant relative space-y-2">
-                <p className="pc-eyebrow text-[0.65rem]">
+                <p className="dt-section-label">
                   Trail peddler · your purse {me?.gold ?? 0}g
                 </p>
-                <p className="text-xs opacity-70">
+                <p className="dt-section-hint">
                   Frontier rations, poultices, and trail arms — bought goods go to your bag (and
                   empty slots).
                 </p>
@@ -1311,10 +1316,10 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                       disabled={!acting || battleActive || (me?.gold ?? 0) < offer.price}
                       onClick={() => onBuyMerchant(offer.itemId)}
                     >
-                      <strong>
+                      <strong className="dt-bag-name">
                         {offer.name} — {offer.price}g
                       </strong>
-                      <span className="block text-[0.65rem] opacity-70">
+                      <span className="dt-bag-meta">
                         {offer.tier} · {offer.blurb}
                       </span>
                     </button>
@@ -1323,9 +1328,9 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               </div>
 
               <div className="space-y-2">
-                <p className="pc-eyebrow text-[0.65rem]">Road battle · crude ambush</p>
+                <p className="dt-section-label">Road battle · crude ambush</p>
                 {battleOpen ? (
-                  <p className="text-sm font-bold">Battle in progress — finish the overlay.</p>
+                  <p className="dt-section-title">Battle in progress — finish the overlay.</p>
                 ) : (
                   <button
                     type="button"
@@ -1339,7 +1344,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               </div>
 
               <div className="space-y-2">
-                <p className="pc-eyebrow text-[0.65rem]">
+                <p className="dt-section-label">
                   Trail luck · chests &amp; digging ({world.explorationFinds ?? 0} finds)
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -1361,10 +1366,10 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   </button>
                 </div>
                 {world.lastExploration ? (
-                  <div className="pc-codex-row text-xs">
+                  <div className="pc-codex-row dt-explore-result">
                     <strong>{world.lastExploration.title}</strong>
-                    <span className="block opacity-80 mt-1">{world.lastExploration.blurb}</span>
-                    <span className="block opacity-70 mt-1">
+                    <span className="dt-section-hint mt-1 block">{world.lastExploration.blurb}</span>
+                    <span className="dt-bag-meta mt-1 block">
                       {world.lastExploration.itemNames.join(", ") || "empty"} · +
                       {world.lastExploration.gold}g · +{world.lastExploration.xp} XP
                     </span>

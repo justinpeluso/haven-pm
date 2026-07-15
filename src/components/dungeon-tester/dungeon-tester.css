@@ -100,14 +100,59 @@
   justify-content: space-between;
   border: 1px solid var(--dt-line);
   background: var(--dt-panel);
-  padding: 0.45rem 0.65rem;
+  padding: 0.55rem 0.75rem;
   margin: 0.75rem 0 1rem;
   font-family: var(--dt-hud);
-  font-size: 0.75rem;
+  font-size: 0.88rem;
+  color: var(--dt-ink);
+  font-weight: 600;
 }
 
 .dungeon-tester .dt-hud-bar strong {
-  color: var(--dt-accent);
+  color: var(--dt-canyon);
+  font-weight: 800;
+}
+
+.dungeon-tester .dt-hud-meta {
+  font-family: var(--dt-hud);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--dt-trail);
+  margin: 0 0 0.25rem;
+}
+
+.dungeon-tester .dt-section-label {
+  font-family: var(--dt-hud);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dt-canyon-deep);
+  margin: 0;
+}
+
+.dungeon-tester .dt-section-title {
+  font-family: var(--dt-hud);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--dt-ink);
+  margin: 0.15rem 0 0;
+}
+
+.dungeon-tester .dt-section-hint {
+  font-family: var(--dt-hud);
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #4a3d32;
+  margin: 0;
+  opacity: 1;
+}
+
+.dungeon-tester .dt-section-hint-accent {
+  color: var(--dt-canyon);
   font-weight: 700;
 }
 
@@ -885,10 +930,12 @@
 .dungeon-tester .dt-worn-chip {
   display: inline-block;
   font-family: var(--dt-hud);
-  font-size: 0.68rem;
+  font-size: 0.82rem;
+  font-weight: 700;
   border: 1px solid var(--dt-line);
   background: rgba(255, 248, 230, 0.55);
-  padding: 0.2rem 0.45rem;
+  padding: 0.28rem 0.55rem;
+  color: var(--dt-ink);
 }
 
 .dungeon-tester .dt-bag-list {
@@ -906,8 +953,26 @@
   gap: 0.5rem;
   border: 1px solid rgba(107, 83, 64, 0.35);
   background: rgba(255, 248, 230, 0.35);
-  padding: 0.35rem 0.5rem;
-  font-size: 0.82rem;
+  padding: 0.45rem 0.55rem;
+  font-size: 0.95rem;
+}
+
+.dungeon-tester .dt-bag-name {
+  font-family: var(--dt-hud);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--dt-ink);
+  line-height: 1.25;
+}
+
+.dungeon-tester .dt-bag-meta {
+  display: block;
+  font-family: var(--dt-hud);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--dt-trail);
+  margin-top: 0.12rem;
+  opacity: 1;
 }
 
 .dungeon-tester .dt-bag-row[data-equipped="true"] {
@@ -1200,7 +1265,17 @@
 
 .dungeon-tester .pc-inv-card-name {
   color: var(--dt-ink);
-  font-size: 0.85rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.dungeon-tester .pc-eyebrow {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--dt-canyon-deep);
+  opacity: 1;
 }
 
 /* Per-item 5-stat lines — clearly larger */
