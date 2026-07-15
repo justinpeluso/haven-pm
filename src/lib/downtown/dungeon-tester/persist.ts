@@ -7,6 +7,10 @@ import type { CreateKitPicks } from "@/lib/downtown/party-chronicle/create";
 import type { CharacterSave, ClassId, Stats } from "@/lib/downtown/party-chronicle/types";
 import type { RaceId } from "@/lib/downtown/party-chronicle/races";
 import {
+  ensureSimpleBattleId,
+  mergeSimpleBattle,
+} from "./simple-battle";
+import {
   DT_ENCOUNTER_MAX_FRAMES,
   DT_ENCOUNTER_MIN_FRAMES,
   DT_GAME_ID,
@@ -27,6 +31,11 @@ function isSimpleBattleBlob(raw: unknown): raw is SimpleBattleState {
     typeof b.mapTheme === "string" &&
     typeof b.round === "number"
   );
+}
+
+function normalizeBattle(raw: unknown): SimpleBattleState | null {
+  if (!isSimpleBattleBlob(raw)) return null;
+  return ensureSimpleBattleId(raw);
 }
 
 /** Save slots — each holds an independent Wilderland campaign world. */
@@ -195,7 +204,8 @@ export function normalizeDtWorld(raw: unknown): DtWorldSave {
         : rollNextEncounterAtFrame(Math.max(0, Number(w.framesAdvanced) || 0)),
     partyFlags: Array.isArray(w.partyFlags) ? w.partyFlags : base.partyFlags,
     // Drop legacy Neverworld tactical battles; keep DT simple battle only.
-    battle: isSimpleBattleBlob(w.battle) ? w.battle : null,
+    // ensureSimpleBattleId is deterministic so poll/normalize never mint a new id.
+    battle: normalizeBattle(w.battle),
     storyPlayMs: Math.max(0, Number(w.storyPlayMs) || 0),
     battlesFought: Math.max(0, Number(w.battlesFought) || 0),
     nextEncounterAtMs: Math.max(0, Number(w.nextEncounterAtMs) || 0),
@@ -325,15 +335,8 @@ export function mergeDtWorld(
   const base = preferIncoming ? b : a;
   const other = preferIncoming ? a : b;
 
-  // Battles: prefer active battle if either has one; else newer summary.
-  let battle = base.battle;
-  if (other.battle?.status === "active" && base.battle?.status !== "active") {
-    battle = other.battle;
-  } else if (base.battle?.status === "active") {
-    battle = base.battle;
-  } else if (other.battle && !base.battle) {
-    battle = other.battle;
-  }
+  // Battles: sticky splashDone + stable id; prefer active; never mint a new fight here.
+  const battle = mergeSimpleBattle(base.battle, other.battle);
 
   return normalizeDtWorld({
     ...base,

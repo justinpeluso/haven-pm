@@ -23,6 +23,8 @@ type Props = {
   onFxDone?: () => void;
   /** Called after player FX so foes can act without wiping rays immediately. */
   onEnemyAdvance?: () => void;
+  /** Persist splashDone for this battle id (sync:false is fine). */
+  onSplashDone?: () => void;
 };
 
 const ENEMY_ADVANCE_MS = 700;
@@ -41,6 +43,9 @@ const MAP_LABEL: Record<SimpleMapTheme, string> = {
 /** Hold splash readable then fade (~2.2s total). */
 const INTRO_HOLD_MS = 1400;
 const INTRO_FADE_MS = 800;
+
+/** Survives overlay remounts within the tab (poll flicker, Strict Mode). */
+const finishedSplashIds = new Set<string>();
 
 function unitArtSrc(unit: SimpleBattleUnit): string | null {
   if (unit.side === "hero" && unit.classId) {
@@ -213,15 +218,6 @@ function FloatLayer({ battle }: { battle: SimpleBattleState }) {
   );
 }
 
-/** Stable key so every new ambush re-triggers the splash. */
-function battleIntroKey(battle: SimpleBattleState): string {
-  const enemyIds = battle.units
-    .filter((u) => u.side === "enemy")
-    .map((u) => u.id)
-    .join("|");
-  return `${battle.chapterId}:${enemyIds}:${battle.mapTheme}:${battle.mapVariant}`;
-}
-
 export function SimpleBattleOverlay({
   battle,
   mySlot,
@@ -231,18 +227,30 @@ export function SimpleBattleOverlay({
   onDismiss,
   onFxDone,
   onEnemyAdvance,
+  onSplashDone,
 }: Props) {
   const [selectedHeroId, setSelectedHeroId] = useState<string | null>(battle.focusHeroId);
   const [action, setAction] = useState<SimpleBattleActionId | null>(null);
   const [needTarget, setNeedTarget] = useState<"enemy" | "ally" | "self" | "none" | null>(
     null
   );
-  const [introPhase, setIntroPhase] = useState<"in" | "out" | "gone">("in");
-  const introKey = battleIntroKey(battle);
+  // Skip splash when already done for this battle (poll merges / remounts).
+  const splashSkip =
+    battle.splashDone === true ||
+    finishedSplashIds.has(battle.id) ||
+    battle.status !== "active" ||
+    battle.phase === "summary";
+  const [introPhase, setIntroPhase] = useState<"in" | "out" | "gone">(
+    splashSkip ? "gone" : "in"
+  );
+  /** Ids whose splash already finished in this mount tree. */
+  const splashCompletedRef = useRef<string | null>(splashSkip ? battle.id : null);
   const onEnemyAdvanceRef = useRef(onEnemyAdvance);
   onEnemyAdvanceRef.current = onEnemyAdvance;
   const onFxDoneRef = useRef(onFxDone);
   onFxDoneRef.current = onFxDone;
+  const onSplashDoneRef = useRef(onSplashDone);
+  onSplashDoneRef.current = onSplashDone;
 
   const mapSrc = useMemo(
     () => simpleBattleMapSrc(battle.mapTheme, battle.mapVariant),
@@ -274,23 +282,34 @@ export function SimpleBattleOverlay({
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-arm on phase/round
   }, [battle.status, battle.phase, battle.round]);
 
-  // Comic START BATTLE splash every ambush — hold, then fade.
+  // Comic START BATTLE splash once per battle.id — never restart on poll merges.
   useEffect(() => {
-    if (battle.status !== "active") {
+    const id = battle.id;
+    if (battle.status !== "active" || battle.phase === "summary") {
+      setIntroPhase("gone");
+      return;
+    }
+    if (
+      battle.splashDone ||
+      finishedSplashIds.has(id) ||
+      splashCompletedRef.current === id
+    ) {
       setIntroPhase("gone");
       return;
     }
     setIntroPhase("in");
     const fade = window.setTimeout(() => setIntroPhase("out"), INTRO_HOLD_MS);
-    const gone = window.setTimeout(
-      () => setIntroPhase("gone"),
-      INTRO_HOLD_MS + INTRO_FADE_MS
-    );
+    const gone = window.setTimeout(() => {
+      setIntroPhase("gone");
+      splashCompletedRef.current = id;
+      finishedSplashIds.add(id);
+      onSplashDoneRef.current?.();
+    }, INTRO_HOLD_MS + INTRO_FADE_MS);
     return () => {
       window.clearTimeout(fade);
       window.clearTimeout(gone);
     };
-  }, [introKey, battle.status]);
+  }, [battle.id, battle.status, battle.phase, battle.splashDone]);
 
   const heroes = battle.units.filter((u) => u.side === "hero");
   const enemies = battle.units.filter((u) => u.side === "enemy");
@@ -394,7 +413,7 @@ export function SimpleBattleOverlay({
               className="dt-sbat-intro"
               data-phase={introPhase}
               aria-live="assertive"
-              key={introKey}
+              key={battle.id}
             >
               <span className="dt-sbat-intro-badge">START BATTLE</span>
               <span className="dt-sbat-intro-sub">

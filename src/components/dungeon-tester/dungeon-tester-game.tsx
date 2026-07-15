@@ -55,9 +55,11 @@ import {
   getFrame,
   listLocalDtSlotSummaries,
   mergeDtWorld,
+  mergeSimpleBattle,
   normalizeDtWorld,
   pickRicherDtWorld,
   advanceSimpleBattleEnemyPhase,
+  markSimpleBattleSplashDone,
   performSimpleBattleAction,
   readActiveDtSlotId,
   readLocalDtWorld,
@@ -150,8 +152,19 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
           if (data.slots) refreshSlotSummaries(data.slots);
           if (data.world && slotId === activeSlotRef.current) {
             const merged = mergeDtWorld(stamped, normalizeDtWorld(data.world), mySlot, identity.isDm);
-            setWorld(merged);
-            writeLocalDtWorld(merged, slotId);
+            // Keep local active battle so poll/persist never drop id / splashDone mid-fight.
+            const localBattle =
+              stamped.battle?.status === "active"
+                ? mergeSimpleBattle(stamped.battle, merged.battle)
+                : merged.battle;
+            const next = normalizeDtWorld({
+              ...merged,
+              battle: localBattle,
+              storyPlayMs: Math.max(stamped.storyPlayMs ?? 0, merged.storyPlayMs ?? 0),
+              framesAdvanced: Math.max(stamped.framesAdvanced ?? 0, merged.framesAdvanced ?? 0),
+            });
+            setWorld(next);
+            writeLocalDtWorld(next, slotId);
           }
         })
         .catch(() => {
@@ -307,9 +320,11 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
         setWorld((prev) => {
           const base = prev ?? normalizeDtWorld(remote);
           const merged = mergeDtWorld(base, normalizeDtWorld(remote), mySlot, identity.isDm);
-          // Keep local active battle / slightly ahead frame clocks when we authored them.
+          // Sticky local fight: never swap ids / clear splashDone while active.
           const localBattle =
-            prev?.battle?.status === "active" ? prev.battle : merged.battle;
+            prev?.battle?.status === "active"
+              ? mergeSimpleBattle(prev.battle, merged.battle)
+              : merged.battle;
           const next = normalizeDtWorld({
             ...merged,
             battle: localBattle,
@@ -540,6 +555,12 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     persist(r.world);
     if (r.message) setFlash(r.message);
     setPending(false);
+  };
+
+  const onBattleSplashDone = () => {
+    const current = worldRef.current;
+    if (!current?.battle || current.battle.splashDone) return;
+    persist(markSimpleBattleSplashDone(current), { sync: false });
   };
 
   const battleActive = world?.battle?.status === "active";
@@ -1027,7 +1048,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
               <div className="space-y-2">
                 <p className="pc-eyebrow text-[0.65rem]">Road battle · DT crude ambush</p>
-                {battleActive ? (
+                {battleOpen ? (
                   <p className="text-sm font-bold">Battle in progress — finish the overlay.</p>
                 ) : (
                   <button
@@ -1101,6 +1122,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               onDismiss={onDismissBattle}
               onFxDone={onBattleFxDone}
               onEnemyAdvance={onBattleEnemyAdvance}
+              onSplashDone={onBattleSplashDone}
             />
           ) : null}
         </>

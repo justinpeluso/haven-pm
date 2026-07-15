@@ -78,6 +78,8 @@ export type SimpleBattleFx = {
 };
 
 export type SimpleBattleState = {
+  /** Stable across poll/persist merges — splash shows once per id. */
+  id: string;
   status: SimpleBattleStatus;
   phase: SimpleBattlePhase;
   round: number;
@@ -92,6 +94,8 @@ export type SimpleBattleState = {
   goldReward: number;
   xpReward: number;
   message: string;
+  /** Set after START BATTLE splash finishes; never restart for this id. */
+  splashDone?: boolean;
 };
 
 export const SIMPLE_BATTLE_ACTIONS: {
@@ -386,11 +390,33 @@ function nextFocusHero(units: SimpleBattleUnit[], preferId?: string | null): str
   return ready[0]!.id;
 }
 
+/** Deterministic id for legacy saves that predate battle.id. */
+export function ensureSimpleBattleId(battle: SimpleBattleState): SimpleBattleState {
+  if (battle.id) return battle;
+  const enemyIds = battle.units
+    .filter((u) => u.side === "enemy")
+    .map((u) => u.id)
+    .join("|");
+  return {
+    ...battle,
+    id: `legacy-${battle.chapterId}:${battle.mapTheme}:${battle.mapVariant}:${enemyIds}`,
+  };
+}
+
+export function markSimpleBattleSplashDone(world: DtWorldSave): DtWorldSave {
+  if (!world.battle || world.battle.splashDone) return world;
+  return {
+    ...world,
+    battle: { ...world.battle, splashDone: true },
+  };
+}
+
 export function startSimpleBattle(
   world: DtWorldSave,
   opts?: { foeId?: string; rng?: () => number }
 ): { world: DtWorldSave; message: string } {
-  if (world.battle?.status === "active") {
+  // Block while any battle overlay is open (active or summary).
+  if (world.battle) {
     return { world, message: "Already in a fight." };
   }
   const rng = opts?.rng ?? Math.random;
@@ -482,6 +508,7 @@ export function startSimpleBattle(
   const xpReward = foes.reduce((s, f) => s + (f.xp ?? 0), 0);
 
   const battle: SimpleBattleState = {
+    id: uid("bat"),
     status: "active",
     phase: "player",
     round: 1,
@@ -495,6 +522,7 @@ export function startSimpleBattle(
     goldReward,
     xpReward,
     message: `Fight! ${foes.length} foe${foes.length === 1 ? "" : "s"} on the ${theme.replace(/-/g, " ")}.`,
+    splashDone: false,
   };
 
   return {
@@ -895,4 +923,35 @@ export function isSimpleBattleState(raw: unknown): raw is SimpleBattleState {
   if (!raw || typeof raw !== "object") return false;
   const b = raw as Partial<SimpleBattleState>;
   return Array.isArray(b.units) && typeof b.mapTheme === "string" && typeof b.phase === "string";
+}
+
+/** Prefer keeping splashDone / same id when two active blobs race. */
+export function mergeSimpleBattle(
+  a: SimpleBattleState | null | undefined,
+  b: SimpleBattleState | null | undefined
+): SimpleBattleState | null {
+  if (!a && !b) return null;
+  if (a && !b) return ensureSimpleBattleId(a);
+  if (!a && b) return ensureSimpleBattleId(b);
+  const left = ensureSimpleBattleId(a!);
+  const right = ensureSimpleBattleId(b!);
+  if (left.status === "active" && right.status !== "active") return left;
+  if (right.status === "active" && left.status !== "active") return right;
+  if (left.status === "active" && right.status === "active") {
+    // Same fight — keep richer progress + sticky splashDone.
+    if (left.id === right.id) {
+      const newer = right.round > left.round ? right : left;
+      const older = newer === right ? left : right;
+      return {
+        ...newer,
+        splashDone: !!(left.splashDone || right.splashDone),
+        // Prefer the copy with more FX cleared / actions spent (fewer actionsLeft sum wins ties via round).
+        units: newer.units.length ? newer.units : older.units,
+      };
+    }
+    // Distinct ambushes — keep left (caller ordered prefer-local).
+    return { ...left, splashDone: !!(left.splashDone || false) };
+  }
+  // Summaries — prefer higher round / victory.
+  return right.round >= left.round ? right : left;
 }

@@ -71,6 +71,11 @@ assert(
 let r = startSimpleBattle(world);
 world = r.world;
 assert(world.battle?.status === "active", "battle should start");
+assert(typeof world.battle!.id === "string" && world.battle!.id.length > 0, "stable battle id");
+assert(world.battle!.splashDone !== true, "splash not done yet");
+const battleId0 = world.battle!.id;
+const blocked = startSimpleBattle(world);
+assert(blocked.world.battle?.id === battleId0, "second start blocked while overlay open");
 assert(
   world.battle!.units.every((u) => typeof u.x === "number" && typeof u.y === "number"),
   "fixed spots"
