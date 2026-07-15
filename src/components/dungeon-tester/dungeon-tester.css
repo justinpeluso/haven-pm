@@ -1,0 +1,194 @@
+/**
+ * DungeonTester — dusty Oregon Trail page + short comic frames.
+ * Reuses Neverworld party seats / create + BattleOverlay (clockMode off).
+ */
+
+.dungeon-tester {
+  --dt-dust: #c4a882;
+  --dt-dust-deep: #8a6a4a;
+  --dt-paper: #e8dcc8;
+  --dt-ink: #2a1f14;
+  --dt-line: #6b5340;
+  --dt-muted: #7a6350;
+  --dt-accent: #9a4a28;
+  --dt-panel: rgba(232, 220, 200, 0.92);
+  --dt-display: var(--font-pc-display), "Bangers", "Impact", sans-serif;
+  --dt-body: "Courier New", "IBM Plex Mono", ui-monospace, monospace;
+  --dt-hud: var(--font-pc-hud), "Oxanium", system-ui, sans-serif;
+  color: var(--dt-ink);
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(196, 168, 130, 0.55), transparent 55%),
+    radial-gradient(ellipse at 90% 40%, rgba(154, 74, 40, 0.12), transparent 45%),
+    linear-gradient(180deg, #d4c4a8 0%, #b89a72 48%, #9a7d58 100%);
+  min-height: calc(100vh - 4rem);
+  border-radius: 2px;
+  padding: 0.75rem 0.85rem 2rem;
+  font-family: var(--dt-body);
+}
+
+.dungeon-tester .dt-title-hero {
+  font-family: var(--dt-display);
+  font-size: clamp(2.4rem, 7vw, 4.2rem);
+  letter-spacing: 0.04em;
+  line-height: 0.95;
+  color: var(--dt-ink);
+  text-shadow: 2px 2px 0 rgba(255, 248, 230, 0.45);
+  margin: 0.25rem 0 0.5rem;
+}
+
+.dungeon-tester .dt-tagline {
+  font-family: var(--dt-hud);
+  font-size: 0.85rem;
+  color: var(--dt-muted);
+  max-width: 36rem;
+}
+
+.dungeon-tester .dt-hud-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: baseline;
+  justify-content: space-between;
+  border: 1px solid var(--dt-line);
+  background: var(--dt-panel);
+  padding: 0.45rem 0.65rem;
+  margin: 0.75rem 0 1rem;
+  font-family: var(--dt-hud);
+  font-size: 0.75rem;
+}
+
+.dungeon-tester .dt-hud-bar strong {
+  color: var(--dt-accent);
+  font-weight: 700;
+}
+
+.dungeon-tester .dt-panel {
+  border: 1px solid var(--dt-line);
+  background: var(--dt-panel);
+  box-shadow: inset 0 0 0 1px rgba(255, 248, 230, 0.25);
+  padding: 0.85rem 1rem;
+}
+
+.dungeon-tester .dt-frame-title {
+  font-family: var(--dt-display);
+  font-size: 1.55rem;
+  margin: 0 0 0.35rem;
+  letter-spacing: 0.03em;
+}
+
+.dungeon-tester .dt-frame-body {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  margin: 0 0 0.85rem;
+}
+
+.dungeon-tester .dt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.dungeon-tester .dt-btn {
+  font-family: var(--dt-hud);
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: 2px solid var(--dt-ink);
+  background: #f3e6d0;
+  color: var(--dt-ink);
+  padding: 0.45rem 0.85rem;
+  cursor: pointer;
+}
+
+.dungeon-tester .dt-btn:hover {
+  background: #fff6e6;
+}
+
+.dungeon-tester .dt-btn[data-primary="true"] {
+  background: var(--dt-accent);
+  color: #fff8ec;
+  border-color: #5a2a14;
+}
+
+.dungeon-tester .dt-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.dungeon-tester .dt-party-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.4rem;
+  margin: 0.75rem 0;
+}
+
+.dungeon-tester .dt-seat {
+  border: 1px dashed var(--dt-line);
+  padding: 0.4rem 0.5rem;
+  font-family: var(--dt-hud);
+  font-size: 0.7rem;
+  background: rgba(255, 248, 230, 0.35);
+}
+
+.dungeon-tester .dt-seat[data-sealed="true"] {
+  border-style: solid;
+  background: rgba(243, 230, 208, 0.85);
+}
+
+.dungeon-tester .dt-create label {
+  display: block;
+  font-family: var(--dt-hud);
+  font-size: 0.7rem;
+  margin: 0.45rem 0 0.15rem;
+}
+
+.dungeon-tester .dt-create input,
+.dungeon-tester .dt-create select {
+  width: 100%;
+  max-width: 22rem;
+  border: 1px solid var(--dt-line);
+  background: #fff8ec;
+  padding: 0.35rem 0.45rem;
+  font-family: var(--dt-body);
+  font-size: 0.85rem;
+}
+
+.dungeon-tester .dt-flash {
+  font-family: var(--dt-hud);
+  font-size: 0.75rem;
+  color: var(--dt-accent);
+  margin: 0.35rem 0;
+}
+
+.dungeon-tester .dt-comic-strip {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 720px) {
+  .dungeon-tester .dt-comic-strip {
+    grid-template-columns: 140px 1fr;
+  }
+}
+
+.dungeon-tester .dt-comic-plate {
+  min-height: 100px;
+  border: 2px solid var(--dt-ink);
+  background:
+    repeating-linear-gradient(
+      -12deg,
+      rgba(138, 106, 74, 0.15),
+      rgba(138, 106, 74, 0.15) 6px,
+      rgba(196, 168, 130, 0.2) 6px,
+      rgba(196, 168, 130, 0.2) 12px
+    ),
+    #d8c4a4;
+  display: grid;
+  place-items: end start;
+  padding: 0.4rem;
+  font-family: var(--dt-display);
+  font-size: 1.1rem;
+  color: rgba(42, 31, 20, 0.55);
+}

@@ -1275,11 +1275,15 @@ export function BattleOverlay({
           <p className="text-[0.65rem] mt-2 font-bold" style={{ color: "var(--pc-accent)" }}>
             {introActive
               ? "Locking in — hold for countdown"
-              : `Battle clock ${battleMin}:${String(battleSec).padStart(2, "0")} left${
-                  !isEnemyCombatantId(battle.activeId)
-                    ? ` · Act in ${idleLeft}s or foe moves`
-                    : " · Enemy turn"
-                }`}
+              : battle.clockMode === "off"
+                ? isEnemyCombatantId(battle.activeId)
+                  ? "No turn clocks — enemy turn"
+                  : "No turn clocks — take your time"
+                : `Battle clock ${battleMin}:${String(battleSec).padStart(2, "0")} left${
+                    !isEnemyCombatantId(battle.activeId)
+                      ? ` · Act in ${idleLeft}s or foe moves`
+                      : " · Enemy turn"
+                  }`}
           </p>
         </div>
 

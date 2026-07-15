@@ -5,7 +5,7 @@ import Link from "next/link";
 export function DowntownSubnav({
   active,
 }: {
-  active: "intel" | "gallery" | "news" | "historical" | "neverworld";
+  active: "intel" | "gallery" | "news" | "historical" | "neverworld" | "dungeon-tester";
 }) {
   return (
     <div className="mb-5 flex flex-wrap items-center gap-2 border-b border-[var(--dt-line)] pb-4">
@@ -18,6 +18,13 @@ export function DowntownSubnav({
         data-active={active === "neverworld"}
       >
         Neverworld
+      </Link>
+      <Link
+        href="/downtown/dungeon-tester"
+        className="downtown-chip"
+        data-active={active === "dungeon-tester"}
+      >
+        DungeonTester
       </Link>
       <Link href="/downtown/news" className="downtown-chip" data-active={active === "news"}>
         Local CBD News

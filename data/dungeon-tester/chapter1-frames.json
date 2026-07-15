@@ -1038,7 +1038,7 @@
       "flagsAdd": [
         "ch1-complete"
       ],
-      "next": "dt-ch02-001"
+      "endingId": "ch1-chain-road-complete"
     }
   ]
 }
