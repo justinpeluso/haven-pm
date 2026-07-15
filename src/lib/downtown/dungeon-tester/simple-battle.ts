@@ -60,6 +60,9 @@ export type SimpleBattleUnit = {
   /** Mana pool for magic (heroes). */
   mana: number;
   maxMana: number;
+  /** Stamina (heroes) — shown on FF-style HUD. */
+  stamina: number;
+  maxStamina: number;
   /** Hero class clip-art / enemy plate id. */
   artId?: string;
   classId?: string;
@@ -97,10 +100,10 @@ export const SIMPLE_BATTLE_ACTIONS: {
   needsTarget: "enemy" | "ally" | "self" | "none";
 }[] = [
   { id: "attack", label: "Attack", needsTarget: "enemy" },
-  { id: "buff", label: "Buff", needsTarget: "ally" },
+  { id: "buff", label: "Buff (Haste)", needsTarget: "ally" },
   { id: "heal", label: "Heal", needsTarget: "ally" },
-  { id: "potion", label: "Potion", needsTarget: "self" },
-  { id: "magic", label: "Magic", needsTarget: "enemy" },
+  { id: "potion", label: "Drink potion", needsTarget: "self" },
+  { id: "magic", label: "Magic attack", needsTarget: "enemy" },
 ];
 
 const HERO_COLORS: Record<PlayerSlot, string> = {
@@ -127,6 +130,64 @@ function partyLevel(world: DtWorldSave): number {
     .map((c) => c.level ?? 1);
   if (!levels.length) return 1;
   return Math.max(1, Math.round(levels.reduce((a, b) => a + b, 0) / levels.length));
+}
+
+/** Parse chapter number from ids like `dt-ch-01-chain-road` / `ch1-trail`. */
+export function chapterNumberFromId(chapterId: string): number {
+  const m =
+    /(?:^|-)ch-?0*(\d+)/i.exec(chapterId) ??
+    /^(\d+)/.exec(chapterId);
+  return m ? Math.max(1, Math.min(9, Number(m[1]))) : 1;
+}
+
+/**
+ * Early chapters: fewer foes + softer HP/damage.
+ * Later chapters ramp toward full bestiary stats and 1–3 packs.
+ */
+export function encounterSpawnTuning(
+  chapterNum: number,
+  battlesFought: number
+): { foeCount: (rng: () => number) => number; hpMult: number; powerMult: number } {
+  const firstAmbush = battlesFought <= 0;
+  if (chapterNum <= 1) {
+    return {
+      foeCount: () => 1,
+      hpMult: firstAmbush ? 0.55 : 0.65,
+      powerMult: firstAmbush ? 0.5 : 0.6,
+    };
+  }
+  if (chapterNum === 2) {
+    return {
+      foeCount: (rng) => (rng() < 0.75 ? 1 : 2),
+      hpMult: 0.75,
+      powerMult: 0.7,
+    };
+  }
+  if (chapterNum === 3) {
+    return {
+      foeCount: (rng) => (rng() < 0.55 ? 1 : 2),
+      hpMult: 0.85,
+      powerMult: 0.8,
+    };
+  }
+  if (chapterNum <= 5) {
+    return {
+      foeCount: (rng) => {
+        const roll = rng();
+        if (roll < 0.4) return 1;
+        if (roll < 0.85) return 2;
+        return 3;
+      },
+      hpMult: 0.95,
+      powerMult: 0.9,
+    };
+  }
+  // Ch 6–9: full pressure
+  return {
+    foeCount: (rng) => 1 + Math.floor(rng() * 3),
+    hpMult: 1,
+    powerMult: 1,
+  };
 }
 
 function resolveGear(id: string | null | undefined) {
@@ -271,10 +332,7 @@ function softRecoverParty(world: DtWorldSave): DtWorldSave["characters"] {
 function resetRoundActions(units: SimpleBattleUnit[]): SimpleBattleUnit[] {
   return units.map((u) => {
     if (u.hp <= 0) return { ...u, actionsLeft: 0 };
-    const hasteRounds = Math.max(0, u.hasteRounds - (u.haste ? 0 : 0));
-    void hasteRounds;
-    const actionsLeft = u.haste ? 2 : 1;
-    return { ...u, actionsLeft };
+    return { ...u, actionsLeft: u.haste ? 2 : 1 };
   });
 }
 
@@ -340,7 +398,9 @@ export function startSimpleBattle(
   const sealed = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created);
   if (!sealed.length) return { world, message: "Seal a hero first." };
 
-  const foeCount = 1 + Math.floor(rng() * 3); // 1–3
+  const chapterNum = chapterNumberFromId(world.chapterId);
+  const tuning = encounterSpawnTuning(chapterNum, world.battlesFought ?? 0);
+  const foeCount = tuning.foeCount(rng);
   const foes: DtCreatureDef[] = [];
   if (opts?.foeId) {
     foes.push(resolveFoeDef(opts.foeId, lvl, rng));
@@ -375,22 +435,26 @@ export function startSimpleBattle(
       actionsLeft: 1,
       mana: c.mana ?? 0,
       maxMana: c.maxMana ?? 0,
+      stamina: c.stamina ?? 0,
+      maxStamina: c.maxStamina ?? 0,
       classId: c.classId,
     };
   });
 
   const enemyUnits: SimpleBattleUnit[] = foes.map((f, i) => {
     const spot = ENEMY_SPOTS[i] ?? { x: 80, y: 40 + i * 16 };
-    const scale = 1 + (lvl - 1) * 0.08;
+    const levelScale = 1 + (lvl - 1) * 0.08;
+    const hp = Math.max(6, Math.round(f.hp * levelScale * tuning.hpMult));
+    const power = Math.max(1, Math.round(f.power * levelScale * tuning.powerMult));
     return {
       id: `enemy-${f.id}-${i}`,
       side: "enemy",
       name: f.name,
       color: ENEMY_COLORS[i % ENEMY_COLORS.length]!,
-      hp: Math.max(8, Math.round(f.hp * scale)),
-      maxHp: Math.max(8, Math.round(f.hp * scale)),
-      power: Math.max(2, Math.round(f.power * scale)),
-      armor: f.armor ?? 0,
+      hp,
+      maxHp: hp,
+      power,
+      armor: chapterNum <= 2 ? 0 : (f.armor ?? 0),
       x: spot.x,
       y: spot.y,
       haste: false,
@@ -398,6 +462,8 @@ export function startSimpleBattle(
       actionsLeft: 1,
       mana: 0,
       maxMana: 0,
+      stamina: 0,
+      maxStamina: 0,
       artId: f.artId,
     };
   });
@@ -697,11 +763,14 @@ export function performSimpleBattleAction(
   }
 
   if (!heroesStillActing(nextBattle.units)) {
-    nextBattle = runEnemyPhase(nextBattle, rng);
-    characters = syncHeroHpFromUnits({ ...world, characters }, nextBattle.units);
-    if (nextBattle.status === "victory" || nextBattle.status === "defeat") {
-      return finishBattle({ ...world, characters }, nextBattle);
-    }
+    // Hold on enemy phase with player FX still painted — UI calls
+    // advanceSimpleBattleEnemyPhase after rays/floats play out.
+    nextBattle = {
+      ...nextBattle,
+      phase: "enemy",
+      focusHeroId: null,
+      message: "Enemy turn…",
+    };
   } else {
     nextBattle = {
       ...nextBattle,
@@ -717,6 +786,37 @@ export function performSimpleBattleAction(
       updatedAt: new Date().toISOString(),
     },
     message: nextBattle.message || message,
+  };
+}
+
+/**
+ * Resolve the deferred enemy phase after player VFX.
+ * Safe no-op if battle is not waiting on enemies.
+ */
+export function advanceSimpleBattleEnemyPhase(
+  world: DtWorldSave,
+  rng: () => number = Math.random
+): { world: DtWorldSave; message: string } {
+  const battle = world.battle;
+  if (!battle || battle.status !== "active" || battle.phase !== "enemy") {
+    return { world, message: "" };
+  }
+
+  let nextBattle = runEnemyPhase(battle, rng);
+  let characters = syncHeroHpFromUnits(world, nextBattle.units);
+
+  if (nextBattle.status === "victory" || nextBattle.status === "defeat") {
+    return finishBattle({ ...world, characters }, nextBattle);
+  }
+
+  return {
+    world: {
+      ...world,
+      characters,
+      battle: nextBattle,
+      updatedAt: new Date().toISOString(),
+    },
+    message: nextBattle.message,
   };
 }
 

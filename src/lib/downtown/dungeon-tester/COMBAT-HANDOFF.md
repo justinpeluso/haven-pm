@@ -1,28 +1,30 @@
-# DungeonTester combat handoff (lead)
+# DungeonTester combat (canonical)
 
-## What shipped
-DT-only crude battle. Fixed positions (no walking). Neverworld `BattleOverlay` is **not** used by DungeonTester.
+DT-only crude battle. Fixed positions (no walking). Neverworld `BattleOverlay` is **not** used.
 
-### Files
+## Path (one system)
 - `src/lib/downtown/dungeon-tester/simple-battle.ts` — engine
-- `src/components/dungeon-tester/simple-battle-overlay.tsx` — UI
-- `src/lib/downtown/dungeon-tester/battle.ts` — thin DT entrypoints
-- `src/lib/downtown/dungeon-tester/types.ts` — `battle: SimpleBattleState | null`
-- `src/components/dungeon-tester/dungeon-tester-game.tsx` — wires `SimpleBattleOverlay`
+- `src/lib/downtown/dungeon-tester/battle.ts` — DT entry wrappers (`startDtRandomBattle`, `startDtCampAmbush`, `startDtBattleVs`, `dismissDtBattle`)
+- `src/components/dungeon-tester/simple-battle-overlay.tsx` — UI (`dt-sbat-*`)
+- `src/components/dungeon-tester/dungeon-tester-game.tsx` — wires overlay
+- Smoke: `npx tsx scripts/qa-simple-battle.ts`
 
-## How to play / trigger a fight
-1. Open `/downtown/dungeon-tester` (login as justin@havenpm.com / password123).
-2. Seal Justin’s seat if needed → Continue march → Story tab.
-3. Hit **Continue →** on story frames. HUD shows `Frames N · next ambush @ M`.
-4. When `framesAdvanced >= nextEncounterAtFrame` (gap rolls **10–20** frames after start / after each fight), a crude ambush overlay opens.
-5. Faster path: **Camp → Force road ambush →**.
-6. Fight: pick a hero → Attack / Buff (Haste) / Heal / Drink potion / Magic → click fixed target. Rays + floating −dmg. Enemies then act **in place**. Haste = 2 actions that round.
-7. Victory/Defeat summary → **Return to story →**.
+## Contract
+- Fixed spots, no move; foe count + HP/power scaled by **chapter** (Ch1 = 1 soft foe; later chapters ramp to 1–3)
+- First ambush (`battlesFought === 0`) gets an extra HP/power nerf
+- Actions: Attack / Buff (Haste) / Heal / Potion / Magic
+- Rays + Diablo-style −dmg floats (player FX hold ~700ms before deferred enemy phase)
+- FF-style HP / MP / ST bars on heroes; HP on foes; party strip under field
+- **START BATTLE** comic splash ~2.2s (hold + fade) every ambush
+- Haste = 2 actions that round
+- Ambush cadence: every **10–20** story frames (`DT_ENCOUNTER_MIN/MAX_FRAMES`)
+- Stale Neverworld `battle` blobs dropped in `normalizeDtWorld`
 
-## Other agents
-- **Reset:** Wipe Justin’s DT save (localStorage `haven-dungeon-tester-v1` + API `/api/downtown/dungeon-tester`) so he doesn’t keep a stale Neverworld `battle` blob. `normalizeDtWorld` already drops non-simple battle shapes.
-- **Cadence / UI polish:** Merge carefully. Do not reintroduce `BattleOverlay` into DT. Preserve frame art, playtime HUD, party seats.
-- **QA:** Confirm no import of `components/party-chronicle/battle-overlay` from dungeon-tester; ambush after ~10–20 Continues; force ambush; rays/floats; victory returns to story.
+## Play
+1. `/downtown/dungeon-tester` (justin@havenpm.com / password123)
+2. Seal seat → Story → **Continue →** (HUD: `Frames N · next ambush @ M`)
+3. Or **Camp → Force road ambush →**
+4. Fight → summary → **Return to story →**
 
 ## Prod
 `https://haven-pm.vercel.app/downtown/dungeon-tester`

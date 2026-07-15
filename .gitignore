@@ -45,3 +45,7 @@ next-env.d.ts
 .tmp-youtube/
 .tmp-documents/
 .cache/
+
+# local QA sandboxes / playwright scratch
+.qa-nm/
+tmp-qa-dt/

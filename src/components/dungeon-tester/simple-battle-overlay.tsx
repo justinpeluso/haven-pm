@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { battleClassArtSrc } from "@/lib/downtown/party-chronicle/art";
 import type { ClassId } from "@/lib/downtown/party-chronicle/types";
 import {
@@ -21,7 +21,11 @@ type Props = {
   onAction: (heroId: string, action: SimpleBattleActionId, targetId?: string) => void;
   onDismiss: () => void;
   onFxDone?: () => void;
+  /** Called after player FX so foes can act without wiping rays immediately. */
+  onEnemyAdvance?: () => void;
 };
+
+const ENEMY_ADVANCE_MS = 700;
 
 const MAP_LABEL: Record<SimpleMapTheme, string> = {
   "dust-road": "Dust road",
@@ -34,6 +38,10 @@ const MAP_LABEL: Record<SimpleMapTheme, string> = {
   campfire: "Camp clearing",
 };
 
+/** Hold splash readable then fade (~2.2s total). */
+const INTRO_HOLD_MS = 1400;
+const INTRO_FADE_MS = 800;
+
 function unitArtSrc(unit: SimpleBattleUnit): string | null {
   if (unit.side === "hero" && unit.classId) {
     return battleClassArtSrc(unit.classId as ClassId);
@@ -42,6 +50,61 @@ function unitArtSrc(unit: SimpleBattleUnit): string | null {
     return dtEnemyArtSrc({ artId: unit.artId, name: unit.name, id: unit.id });
   }
   return null;
+}
+
+function pct(cur: number, max: number): number {
+  if (max <= 0) return 0;
+  return Math.max(0, Math.min(100, (cur / max) * 100));
+}
+
+function StatBars({
+  unit,
+  compact,
+}: {
+  unit: SimpleBattleUnit;
+  compact?: boolean;
+}) {
+  const down = unit.hp <= 0;
+  const hero = unit.side === "hero";
+  return (
+    <div className="dt-sbat-bars" data-compact={compact ? "true" : "false"} data-down={down ? "true" : "false"}>
+      <div className="dt-sbat-bar" data-kind="hp" title={`HP ${unit.hp}/${unit.maxHp}`}>
+        <span className="dt-sbat-bar-lab">HP</span>
+        <div className="dt-sbat-bar-track">
+          <span style={{ width: `${pct(unit.hp, unit.maxHp)}%` }} />
+        </div>
+        <span className="dt-sbat-bar-num">
+          {unit.hp}/{unit.maxHp}
+        </span>
+      </div>
+      {hero ? (
+        <>
+          <div className="dt-sbat-bar" data-kind="mp" title={`Mana ${unit.mana}/${unit.maxMana}`}>
+            <span className="dt-sbat-bar-lab">MP</span>
+            <div className="dt-sbat-bar-track">
+              <span style={{ width: `${pct(unit.mana, unit.maxMana)}%` }} />
+            </div>
+            <span className="dt-sbat-bar-num">
+              {unit.mana}/{unit.maxMana}
+            </span>
+          </div>
+          <div
+            className="dt-sbat-bar"
+            data-kind="st"
+            title={`Stamina ${unit.stamina}/${unit.maxStamina}`}
+          >
+            <span className="dt-sbat-bar-lab">ST</span>
+            <div className="dt-sbat-bar-track">
+              <span style={{ width: `${pct(unit.stamina, unit.maxStamina)}%` }} />
+            </div>
+            <span className="dt-sbat-bar-num">
+              {unit.stamina}/{unit.maxStamina}
+            </span>
+          </div>
+        </>
+      ) : null}
+    </div>
+  );
 }
 
 function ClipUnit({ unit, active }: { unit: SimpleBattleUnit; active?: boolean }) {
@@ -74,17 +137,14 @@ function ClipUnit({ unit, active }: { unit: SimpleBattleUnit; active?: boolean }
           />
         </svg>
       )}
-      <div className="dt-sbat-name">{unit.name}</div>
-      <div className="dt-sbat-hp">
-        <span style={{ width: `${Math.max(0, (unit.hp / unit.maxHp) * 100)}%` }} />
-      </div>
-      <div className="dt-sbat-meta">
-        {unit.hp}/{unit.maxHp}
-        {unit.haste ? " · Haste" : ""}
+      <div className="dt-sbat-name">
+        {unit.name}
+        {unit.haste ? " ·!" : ""}
         {unit.side === "hero" && unit.actionsLeft > 0 && !down
-          ? ` · ${unit.actionsLeft} act`
+          ? ` · ${unit.actionsLeft}`
           : ""}
       </div>
+      <StatBars unit={unit} compact />
     </div>
   );
 }
@@ -153,6 +213,15 @@ function FloatLayer({ battle }: { battle: SimpleBattleState }) {
   );
 }
 
+/** Stable key so every new ambush re-triggers the splash. */
+function battleIntroKey(battle: SimpleBattleState): string {
+  const enemyIds = battle.units
+    .filter((u) => u.side === "enemy")
+    .map((u) => u.id)
+    .join("|");
+  return `${battle.chapterId}:${enemyIds}:${battle.mapTheme}:${battle.mapVariant}`;
+}
+
 export function SimpleBattleOverlay({
   battle,
   mySlot,
@@ -161,12 +230,19 @@ export function SimpleBattleOverlay({
   onAction,
   onDismiss,
   onFxDone,
+  onEnemyAdvance,
 }: Props) {
   const [selectedHeroId, setSelectedHeroId] = useState<string | null>(battle.focusHeroId);
   const [action, setAction] = useState<SimpleBattleActionId | null>(null);
   const [needTarget, setNeedTarget] = useState<"enemy" | "ally" | "self" | "none" | null>(
     null
   );
+  const [introPhase, setIntroPhase] = useState<"in" | "out" | "gone">("in");
+  const introKey = battleIntroKey(battle);
+  const onEnemyAdvanceRef = useRef(onEnemyAdvance);
+  onEnemyAdvanceRef.current = onEnemyAdvance;
+  const onFxDoneRef = useRef(onFxDone);
+  onFxDoneRef.current = onFxDone;
 
   const mapSrc = useMemo(
     () => simpleBattleMapSrc(battle.mapTheme, battle.mapVariant),
@@ -180,10 +256,39 @@ export function SimpleBattleOverlay({
   }, [battle.focusHeroId, battle.round, battle.phase]);
 
   useEffect(() => {
-    if (!battle.fx.length || !onFxDone) return;
-    const t = window.setTimeout(() => onFxDone(), 750);
+    if (!battle.fx.length || !onFxDoneRef.current) return;
+    // During deferred enemy phase, keep rays until onEnemyAdvance runs.
+    if (battle.phase === "enemy") return;
+    const clear = onFxDoneRef.current;
+    const t = window.setTimeout(() => clear?.(), 750);
     return () => window.clearTimeout(t);
-  }, [battle.fx, onFxDone]);
+  }, [battle.fx, battle.phase]);
+
+  // Let player rays/floats paint, then resolve foes.
+  useEffect(() => {
+    if (battle.status !== "active" || battle.phase !== "enemy") return;
+    const delay = battle.fx.length ? ENEMY_ADVANCE_MS : 180;
+    const t = window.setTimeout(() => onEnemyAdvanceRef.current?.(), delay);
+    return () => window.clearTimeout(t);
+  }, [battle.status, battle.phase, battle.round, battle.fx.length]);
+
+  // Comic START BATTLE splash every ambush — hold, then fade.
+  useEffect(() => {
+    if (battle.status !== "active") {
+      setIntroPhase("gone");
+      return;
+    }
+    setIntroPhase("in");
+    const fade = window.setTimeout(() => setIntroPhase("out"), INTRO_HOLD_MS);
+    const gone = window.setTimeout(
+      () => setIntroPhase("gone"),
+      INTRO_HOLD_MS + INTRO_FADE_MS
+    );
+    return () => {
+      window.clearTimeout(fade);
+      window.clearTimeout(gone);
+    };
+  }, [introKey, battle.status]);
 
   const heroes = battle.units.filter((u) => u.side === "hero");
   const enemies = battle.units.filter((u) => u.side === "enemy");
@@ -196,9 +301,11 @@ export function SimpleBattleOverlay({
 
   const summary = battle.status !== "active" || battle.phase === "summary";
   const playerTurn = battle.status === "active" && battle.phase === "player";
+  const introBusy = introPhase !== "gone" && battle.status === "active" && !summary;
+  const controlsLocked = introBusy || !canAct || !!pending || !playerTurn;
 
   const pickAction = (id: SimpleBattleActionId) => {
-    if (!actingHero || !canAct || pending || !playerTurn) return;
+    if (!actingHero || controlsLocked) return;
     const def = SIMPLE_BATTLE_ACTIONS.find((a) => a.id === id);
     if (!def) return;
     setSelectedHeroId(actingHero.id);
@@ -213,7 +320,7 @@ export function SimpleBattleOverlay({
   };
 
   const pickTarget = (unit: SimpleBattleUnit) => {
-    if (!actingHero || !action || !needTarget || !canAct || pending) return;
+    if (!actingHero || !action || !needTarget || controlsLocked) return;
     if (needTarget === "enemy" && unit.side !== "enemy") return;
     if (needTarget === "ally" && unit.side !== "hero") return;
     if (unit.hp <= 0 && needTarget === "enemy") return;
@@ -259,6 +366,7 @@ export function SimpleBattleOverlay({
               style={{ left: `${u.x}%`, top: `${u.y}%` }}
               disabled={
                 summary ||
+                introBusy ||
                 !needTarget ||
                 (needTarget === "enemy" && u.side !== "enemy") ||
                 (needTarget === "ally" && u.side !== "hero") ||
@@ -278,40 +386,62 @@ export function SimpleBattleOverlay({
               />
             </button>
           ))}
+
+          {introPhase !== "gone" && battle.status === "active" && !summary ? (
+            <div
+              className="dt-sbat-intro"
+              data-phase={introPhase}
+              aria-live="assertive"
+              key={introKey}
+            >
+              <span className="dt-sbat-intro-badge">START BATTLE</span>
+              <span className="dt-sbat-intro-sub">
+                {enemies.map((e) => e.name).join(" · ") || "Ambush"}
+              </span>
+            </div>
+          ) : null}
         </div>
 
         {!summary ? (
           <div className="dt-sbat-controls">
-            <div className="dt-sbat-hero-picks">
+            <div className="dt-sbat-party-strip" aria-label="Party status">
               {heroes.map((h) => (
                 <button
-                  key={h.id}
+                  key={`strip-${h.id}`}
                   type="button"
-                  className="dt-btn"
-                  data-primary={h.id === actingHero?.id ? "true" : "false"}
-                  disabled={h.hp <= 0 || h.actionsLeft <= 0 || !playerTurn}
+                  className="dt-sbat-party-card"
+                  data-active={h.id === actingHero?.id ? "true" : "false"}
+                  data-mine={h.slot === mySlot ? "true" : "false"}
+                  disabled={h.hp <= 0 || h.actionsLeft <= 0 || !playerTurn || introBusy}
                   onClick={() => {
                     setSelectedHeroId(h.id);
                     setAction(null);
                     setNeedTarget(null);
                   }}
                 >
-                  {h.name}
-                  {h.slot === mySlot ? " (you)" : ""}
-                  {h.haste ? " · Haste" : ""}
+                  <div className="dt-sbat-party-name">
+                    {h.name}
+                    {h.slot === mySlot ? " (you)" : ""}
+                    {h.haste ? " · Haste" : ""}
+                  </div>
+                  <StatBars unit={h} />
                 </button>
               ))}
             </div>
 
             <p className="dt-sbat-hint">
-              {needTarget === "enemy"
-                ? "Click an enemy — fixed spots, no movement."
-                : needTarget === "ally"
-                  ? "Click an ally for Buff / Heal."
-                  : playerTurn
-                    ? `${actingHero?.name ?? "Hero"}: Attack · Buff · Heal · Potion · Magic. Haste → 2 actions.`
-                    : "Enemy turn…"}
-              {actingHero ? ` · Mana ${actingHero.mana}/${actingHero.maxMana}` : ""}
+              {introBusy
+                ? "Ambush!"
+                : needTarget === "enemy"
+                  ? "Click an enemy — fixed spots, no movement."
+                  : needTarget === "ally"
+                    ? "Click an ally for Buff / Heal."
+                    : playerTurn
+                      ? `${actingHero?.name ?? "Hero"}: Attack · Buff · Heal · Potion · Magic. Fixed spots · Haste → 2 actions.`
+                      : "Enemy turn…"}
+              {actingHero && !introBusy
+                ? ` · MP ${actingHero.mana}/${actingHero.maxMana} · ST ${actingHero.stamina}/${actingHero.maxStamina}`
+                : ""}
               {myHero && myHero.id !== actingHero?.id
                 ? ` · You ${myHero.hp}/${myHero.maxHp}`
                 : ""}
@@ -325,9 +455,7 @@ export function SimpleBattleOverlay({
                   className="dt-btn"
                   data-primary={action === a.id ? "true" : "false"}
                   disabled={
-                    !canAct ||
-                    pending ||
-                    !playerTurn ||
+                    controlsLocked ||
                     !actingHero ||
                     actingHero.actionsLeft <= 0 ||
                     (a.id === "magic" && (actingHero?.mana ?? 0) < 6)
@@ -348,7 +476,7 @@ export function SimpleBattleOverlay({
             <p className="dt-sbat-foe-line">
               Foes:{" "}
               {enemies
-                .map((e) => (e.hp > 0 ? `${e.name} (${e.hp})` : `${e.name} down`))
+                .map((e) => (e.hp > 0 ? `${e.name} (${e.hp}/${e.maxHp})` : `${e.name} down`))
                 .join(" · ")}
             </p>
           </div>
@@ -360,7 +488,7 @@ export function SimpleBattleOverlay({
                 : "Defeat — soft recover. Continue the march from Story."}
             </p>
             <button type="button" className="dt-btn" data-primary="true" onClick={onDismiss}>
-              Continue →
+              Return to story →
             </button>
           </div>
         )}

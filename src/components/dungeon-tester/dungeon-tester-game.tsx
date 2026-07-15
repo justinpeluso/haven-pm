@@ -52,6 +52,7 @@ import {
   getDtArt,
   getFrame,
   normalizeDtWorld,
+  advanceSimpleBattleEnemyPhase,
   performSimpleBattleAction,
   readLocalDtWorld,
   sealDtCharacter,
@@ -266,7 +267,18 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
   const onBattleFxDone = () => {
     if (!world?.battle?.fx?.length) return;
+    // Keep rays/floats through deferred enemy phase; clear after foes resolve.
+    if (world.battle.phase === "enemy") return;
     persist(clearSimpleBattleFx(world), { sync: false });
+  };
+
+  const onBattleEnemyAdvance = () => {
+    if (!world?.battle || world.battle.phase !== "enemy" || pending) return;
+    setPending(true);
+    const r = advanceSimpleBattleEnemyPhase(world);
+    persist(r.world);
+    if (r.message) setFlash(r.message);
+    setPending(false);
   };
 
   const battleActive = world?.battle?.status === "active";
@@ -616,6 +628,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   <button
                     type="button"
                     className="pc-primary-btn"
+                    disabled={!!world.battle}
                     onClick={() => setTab("story")}
                   >
                     Return to story →
@@ -762,6 +775,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               onAction={onBattleAction}
               onDismiss={onDismissBattle}
               onFxDone={onBattleFxDone}
+              onEnemyAdvance={onBattleEnemyAdvance}
             />
           ) : null}
         </>
