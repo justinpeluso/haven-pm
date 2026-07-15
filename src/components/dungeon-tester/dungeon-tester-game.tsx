@@ -30,12 +30,16 @@ import {
   continueFrame,
   createNewDtWorld,
   dismissDtBattle,
+  dtArtSrc,
+  dtSceneArtSrc,
   formatPlaytimeHud,
+  getDtArt,
   getFrame,
   normalizeDtWorld,
   readLocalDtWorld,
   sealDtCharacter,
   writeLocalDtWorld,
+  type DtFrame,
   type DtWorldSave,
 } from "@/lib/downtown/dungeon-tester";
 import "@/components/party-chronicle/party-chronicle.css";
@@ -44,6 +48,24 @@ import "./dungeon-tester.css";
 type Phase = "title" | "create" | "play";
 
 const STAT_POOL = 27;
+const FALLBACK_PLATE = "/dungeon-tester/scenes/dusty-trail.svg";
+
+function frameSceneSrc(frame: Pick<DtFrame, "sceneId" | "artId"> | null | undefined): string {
+  if (frame?.sceneId) return dtSceneArtSrc(frame.sceneId);
+  if (frame?.artId) return dtArtSrc(frame.artId);
+  return dtSceneArtSrc(null);
+}
+
+/** Subject plate when artId is distinct from the scene backdrop (enemy / portrait / etc.). */
+function frameSubjectSrc(frame: Pick<DtFrame, "sceneId" | "artId"> | null | undefined): string | null {
+  if (!frame?.artId) return null;
+  if (frame.sceneId && frame.artId === frame.sceneId) return null;
+  const entry = getDtArt(frame.artId);
+  if (!entry || entry.kind === "scene" || entry.kind === "splash" || entry.kind === "frame") {
+    return null;
+  }
+  return dtArtSrc(frame.artId);
+}
 
 export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   const mySlot = identity.slot;
@@ -208,6 +230,8 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   };
 
   const frame = world ? getFrame(world.campaignNodeId) : undefined;
+  const plateScene = frameSceneSrc(frame);
+  const plateSubject = frameSubjectSrc(frame);
   const sealedCount = world
     ? PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created).length
     : 0;
@@ -329,8 +353,28 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
           ) : (
             <div className="dt-panel">
               <div className="dt-comic-strip">
-                <div className="dt-comic-plate" aria-hidden>
-                  {frame?.title?.split(" ")[0] ?? "Road"}
+                <div className="dt-comic-plate">
+                  <img
+                    className="dt-comic-plate-scene"
+                    src={plateScene}
+                    alt={getDtArt(frame?.sceneId ?? frame?.artId ?? "")?.label ?? frame?.title ?? "Scene"}
+                    onError={(e) => {
+                      const img = e.currentTarget;
+                      if (img.dataset.fallback === "1") return;
+                      img.dataset.fallback = "1";
+                      img.src = FALLBACK_PLATE;
+                    }}
+                  />
+                  {plateSubject ? (
+                    <img
+                      className="dt-comic-plate-subject"
+                      src={plateSubject}
+                      alt={getDtArt(frame?.artId ?? "")?.label ?? ""}
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
+                    />
+                  ) : null}
                 </div>
                 <div>
                   <p className="text-[0.65rem] uppercase tracking-wide" style={{ color: "var(--dt-muted)" }}>
