@@ -265,12 +265,14 @@ export function SimpleBattleOverlay({
   }, [battle.fx, battle.phase]);
 
   // Let player rays/floats paint, then resolve foes.
+  // Intentionally ignore fx.length churn so the timer isn't reset mid-wait.
   useEffect(() => {
     if (battle.status !== "active" || battle.phase !== "enemy") return;
     const delay = battle.fx.length ? ENEMY_ADVANCE_MS : 180;
     const t = window.setTimeout(() => onEnemyAdvanceRef.current?.(), delay);
     return () => window.clearTimeout(t);
-  }, [battle.status, battle.phase, battle.round, battle.fx.length]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-arm on phase/round
+  }, [battle.status, battle.phase, battle.round]);
 
   // Comic START BATTLE splash every ambush — hold, then fade.
   useEffect(() => {

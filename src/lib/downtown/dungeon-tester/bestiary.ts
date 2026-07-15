@@ -100,13 +100,20 @@ function weightedPick<T extends { weight?: number }>(pool: T[], rng: () => numbe
 
 export function rollDtCreature(
   partyLevel: number,
-  rng: () => number = Math.random
+  rng: () => number = Math.random,
+  opts?: { maxCreatureLevel?: number }
 ): DtCreatureDef {
+  const maxLv = opts?.maxCreatureLevel ?? partyLevel + 4;
   const band = DT_CREATURES.filter(
-    (c) => partyLevel >= c.levelMin - 2 && partyLevel <= c.levelMax + 5
+    (c) =>
+      c.levelMin <= maxLv &&
+      partyLevel >= c.levelMin - 2 &&
+      partyLevel <= c.levelMax + 5
   );
-  const pool = band.length ? band : DT_CREATURES;
-  return weightedPick(pool, rng);
+  const pool = band.length
+    ? band
+    : DT_CREATURES.filter((c) => c.levelMin <= Math.max(3, maxLv)).slice(0, 8);
+  return weightedPick(pool.length ? pool : DT_CREATURES, rng);
 }
 
 /** ~12% chance of a boss in-band, else creature. */

@@ -117,6 +117,8 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   const playTickRef = useRef<number | null>(null);
   const activeSlotRef = useRef<DtSaveSlotId>(DT_DEFAULT_SLOT_ID);
   activeSlotRef.current = activeSlotId;
+  const worldRef = useRef(world);
+  worldRef.current = world;
 
   const refreshSlotSummaries = useCallback((serverSlots?: DtSlotSummary[]) => {
     if (serverSlots?.length) {
@@ -531,9 +533,10 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   };
 
   const onBattleEnemyAdvance = () => {
-    if (!world?.battle || world.battle.phase !== "enemy" || pending) return;
+    const current = worldRef.current;
+    if (!current?.battle || current.battle.phase !== "enemy" || pending) return;
     setPending(true);
-    const r = advanceSimpleBattleEnemyPhase(world);
+    const r = advanceSimpleBattleEnemyPhase(current);
     persist(r.world);
     if (r.message) setFlash(r.message);
     setPending(false);

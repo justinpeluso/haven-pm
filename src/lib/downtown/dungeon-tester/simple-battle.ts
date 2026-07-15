@@ -401,17 +401,26 @@ export function startSimpleBattle(
   const chapterNum = chapterNumberFromId(world.chapterId);
   const tuning = encounterSpawnTuning(chapterNum, world.battlesFought ?? 0);
   const foeCount = tuning.foeCount(rng);
+  /** Cap creature level by chapter so Ch1 never rolls Night-Howlers, etc. */
+  const maxCreatureLevel =
+    chapterNum <= 1 ? 3 : chapterNum <= 2 ? 6 : chapterNum <= 3 ? 10 : chapterNum <= 5 ? 18 : 99;
   const foes: DtCreatureDef[] = [];
   if (opts?.foeId) {
     foes.push(resolveFoeDef(opts.foeId, lvl, rng));
     while (foes.length < foeCount) {
-      foes.push(rollDtCreature(lvl, rng));
+      foes.push(rollDtCreature(lvl, rng, { maxCreatureLevel }));
     }
   } else {
-    const fromDeck = rollDtEncounterForLevel(lvl, rng);
-    foes.push(resolveFoeDef(fromDeck.id, lvl, rng));
+    const fromDeck = rollDtEncounterForLevel(Math.min(lvl, maxCreatureLevel), rng);
+    const lead = resolveFoeDef(fromDeck.id, lvl, rng);
+    // Reject leads far above chapter band (deck ids can alias tough plates).
+    if ((lead.levelMin ?? 1) <= maxCreatureLevel + 2) {
+      foes.push(lead);
+    } else {
+      foes.push(rollDtCreature(lvl, rng, { maxCreatureLevel }));
+    }
     while (foes.length < foeCount) {
-      foes.push(rollDtCreature(lvl, rng));
+      foes.push(rollDtCreature(lvl, rng, { maxCreatureLevel }));
     }
   }
 
