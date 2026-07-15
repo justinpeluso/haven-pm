@@ -580,6 +580,17 @@ function seedLootPoolsFromCatalog() {
 }
 seedLootPoolsFromCatalog();
 
+/**
+ * Register extra catalog entries (e.g. DungeonTester `dt-*` gear).
+ * Existing ids are not overwritten — Neverworld hand-authored items win.
+ */
+export function registerGearItems(items: GearItem[]): void {
+  for (const raw of items) {
+    if (!raw?.id || GEAR_BY_ID[raw.id]) continue;
+    GEAR_BY_ID[raw.id] = ensureItemAffixes(raw);
+  }
+}
+
 export function getGear(id: string): GearItem | undefined {
   const found = GEAR_BY_ID[id] ?? getBattleLootItem(id);
   return found ? ensureItemAffixes(found) : undefined;

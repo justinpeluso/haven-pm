@@ -51,6 +51,7 @@ import {
   dtStumbleOnChest,
   dtUnequipSlot,
   dtUseConsumable,
+  dtLoadoutSummary,
   formatPlaytimeHud,
   getDtArt,
   getFrame,
@@ -1099,10 +1100,10 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
           {!world.endingId && tab === "camp" ? (
             <div className="dt-panel space-y-4">
               <div className="pc-main-quest-card">
-                <p className="pc-eyebrow text-[0.65rem]">Main march · stay on track</p>
+                <p className="pc-eyebrow text-[0.65rem]">Camp · rest & supply</p>
                 <p className="font-bold text-sm">{frame?.title ?? world.campaignNodeId}</p>
-                <p className="text-[0.65rem] opacity-80 mt-1">
-                  Rest and stock up here, then return to Story for the next comic frame.
+                <p className="text-xs opacity-70 mt-1">
+                  Sleep, buy trail goods, dig for caches, or force a road fight — then back to Story.
                 </p>
                 <div className="flex flex-wrap gap-2 mt-3">
                   <button
@@ -1113,6 +1114,14 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   >
                     Back to Story →
                   </button>
+                  <button
+                    type="button"
+                    className="pc-choice"
+                    disabled={!!world.battle || !me}
+                    onClick={() => setTab("gear")}
+                  >
+                    Full Gear →
+                  </button>
                 </div>
               </div>
 
@@ -1122,8 +1131,8 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   this {CAMP_SLEEP_WINDOW_MS / 60_000}m)
                 </p>
                 <p className="text-xs opacity-70">
-                  Sleep restores HP, mana, and stamina for the acting hero (and the hound). Same Camp
-                  rules as Neverworld.
+                  Restores HP, mana, and stamina for the acting hero (and their dog). Saves with the
+                  march.
                 </p>
                 <button
                   type="button"
@@ -1139,14 +1148,93 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     {campSleepHint}
                   </p>
                 ) : null}
+                {me ? (
+                  <p className="text-xs opacity-70">
+                    Now: {me.hp}/{me.maxHp} HP · {me.mana}/{me.maxMana} mana · {me.stamina}/
+                    {me.maxStamina} stamina
+                  </p>
+                ) : null}
               </div>
+
+              {me ? (
+                <div className="dt-camp-bag space-y-2">
+                  <p className="pc-eyebrow text-[0.65rem]">
+                    Worn &amp; bag · {me.name} · {me.gold}g
+                  </p>
+                  <p className="text-xs opacity-70">
+                    Empty slots auto-fill when you buy or dig. Equip anything else from Camp here.
+                  </p>
+                  {(() => {
+                    const loadout = dtLoadoutSummary(me);
+                    const bagEditable = acting && !battleActive;
+                    return (
+                      <>
+                        <div className="dt-worn-row">
+                          {loadout.worn.length ? (
+                            loadout.worn.map((w) => (
+                              <span key={w.slot} className="dt-worn-chip" title={w.slot}>
+                                {w.slot}: {w.name}
+                              </span>
+                            ))
+                          ) : (
+                            <span className="text-xs opacity-70">Nothing worn — equip from the bag.</span>
+                          )}
+                        </div>
+                        <div className="dt-bag-list">
+                          {loadout.bag.map((item, idx) => (
+                            <div
+                              key={`${item.id}-${idx}`}
+                              className="dt-bag-row"
+                              data-equipped={item.equipped ? "true" : "false"}
+                            >
+                              <div>
+                                <strong>
+                                  {item.equipped ? "● " : ""}
+                                  {item.name}
+                                </strong>
+                                <span className="block text-[0.65rem] opacity-70">{item.slot}</span>
+                              </div>
+                              <div className="dt-bag-actions">
+                                {item.equippable && !item.equipped ? (
+                                  <button
+                                    type="button"
+                                    className="pc-btn-tiny"
+                                    disabled={!bagEditable}
+                                    onClick={() => onEquip(item.id)}
+                                  >
+                                    Equip
+                                  </button>
+                                ) : null}
+                                {item.consumable ? (
+                                  <button
+                                    type="button"
+                                    className="pc-btn-tiny"
+                                    disabled={!bagEditable}
+                                    onClick={() => onUseConsumable(item.id)}
+                                  >
+                                    Use
+                                  </button>
+                                ) : null}
+                              </div>
+                            </div>
+                          ))}
+                          {!loadout.bag.length ? (
+                            <p className="text-xs opacity-70">Bag empty — visit the peddler or dig.</p>
+                          ) : null}
+                        </div>
+                      </>
+                    );
+                  })()}
+                </div>
+              ) : null}
 
               <div className="pc-merchant relative space-y-2">
                 <p className="pc-eyebrow text-[0.65rem]">
-                  Camp merchant · your purse {me?.gold ?? 0}g
+                  Trail peddler · your purse {me?.gold ?? 0}g
                 </p>
                 <p className="text-xs opacity-70">
-                  A traveling peddler — potions, rations, and a few weapons for coin.
+                  Frontier rations, poultices, and trail arms — bought goods go to your bag (and
+                  empty slots).
                 </p>
                 {merchantSold ? (
                   <div
@@ -1181,7 +1269,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               </div>
 
               <div className="space-y-2">
-                <p className="pc-eyebrow text-[0.65rem]">Road battle · DT crude ambush</p>
+                <p className="pc-eyebrow text-[0.65rem]">Road battle · crude ambush</p>
                 {battleOpen ? (
                   <p className="text-sm font-bold">Battle in progress — finish the overlay.</p>
                 ) : (
@@ -1242,6 +1330,8 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 onUseConsumable={onUseConsumable}
                 onReadSpellbook={onReadSpellbook}
                 onSalvage={onSalvage}
+                paperdollLabel={`Worn gear — ${me.name}`}
+                inventoryLabel="Bag — Equip · Use potions · Break down scrap"
               />
             </div>
           ) : null}

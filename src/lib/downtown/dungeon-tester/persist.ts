@@ -6,6 +6,8 @@ import {
 import type { CreateKitPicks } from "@/lib/downtown/party-chronicle/create";
 import type { CharacterSave, ClassId, Stats } from "@/lib/downtown/party-chronicle/types";
 import type { RaceId } from "@/lib/downtown/party-chronicle/races";
+import { DT_STARTER_LOADOUT } from "./gear";
+import { dtFillEmptyEquipSlots } from "./loadout";
 import {
   ensureSimpleBattleSplashConsistency,
   mergeSimpleBattle,
@@ -250,12 +252,20 @@ export function sealDtCharacter(
   const base = world.characters[slot];
   const result = completeCharacterCreation(base, opts);
   if ("error" in result) return result;
-  const characters = { ...world.characters, [slot]: result };
+
+  // Blend frontier kit onto create picks; fill empty wear slots.
+  const inventory = [...result.inventory];
+  for (const id of DT_STARTER_LOADOUT) {
+    if (!inventory.includes(id)) inventory.push(id);
+  }
+  const sealed = dtFillEmptyEquipSlots({ ...result, inventory });
+
+  const characters = { ...world.characters, [slot]: sealed };
   return {
     ...world,
     characters,
     updatedAt: new Date().toISOString(),
-    log: [`${result.name} sealed for the road.`, ...world.log].slice(0, 80),
+    log: [`${sealed.name} sealed for the road.`, ...world.log].slice(0, 80),
   };
 }
 
@@ -348,6 +358,15 @@ export function mergeDtWorld(
     battle = null;
   }
 
+  const campSleeps = [
+    ...new Set([...(a.campSleeps ?? []), ...(b.campSleeps ?? [])]),
+  ].sort();
+  const explorationFinds = Math.max(a.explorationFinds ?? 0, b.explorationFinds ?? 0);
+  const lastExploration =
+    (a.explorationFinds ?? 0) >= (b.explorationFinds ?? 0)
+      ? a.lastExploration ?? b.lastExploration
+      : b.lastExploration ?? a.lastExploration;
+
   return normalizeDtWorld({
     ...base,
     characters,
@@ -363,6 +382,12 @@ export function mergeDtWorld(
     nextEncounterAtFrame: Math.max(
       a.nextEncounterAtFrame ?? 0,
       b.nextEncounterAtFrame ?? 0
+    ),
+    campSleeps,
+    explorationFinds,
+    lastExploration: lastExploration ?? null,
+    cookedRecipes: Array.from(
+      new Set([...(a.cookedRecipes ?? []), ...(b.cookedRecipes ?? [])])
     ),
     updatedAt: new Date().toISOString(),
   });

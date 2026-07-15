@@ -17,6 +17,8 @@ export function InventoryPanel({
   onUseConsumable,
   onReadSpellbook,
   onSalvage,
+  paperdollLabel,
+  inventoryLabel,
 }: {
   char: CharacterSave;
   canEdit: boolean;
@@ -25,6 +27,9 @@ export function InventoryPanel({
   onUseConsumable: (id: string) => void;
   onReadSpellbook: (id: string) => void;
   onSalvage: (id: string) => void;
+  /** Optional eyebrow override (DungeonTester omits Neverworld catalog counts). */
+  paperdollLabel?: string;
+  inventoryLabel?: string;
 }) {
   const catalog = gearCatalogStats();
   const worn = new Set(
@@ -34,12 +39,14 @@ export function InventoryPanel({
   return (
     <div className="space-y-4">
       <p className="pc-eyebrow">
-        Paperdoll — {char.name} · catalog {catalog.total} items / {catalog.sets} sets
+        {paperdollLabel ??
+          `Paperdoll — ${char.name} · catalog ${catalog.total} items / ${catalog.sets} sets`}
       </p>
       <PaperdollPanel char={char} canEdit={canEdit} onUnequip={onUnequip} />
 
       <p className="pc-eyebrow text-[0.65rem]">
-        Inventory — Use potions &amp; food · Break down unequipped gear for scrap gold
+        {inventoryLabel ??
+          "Inventory — Use potions & food · Break down unequipped gear for scrap gold"}
       </p>
       <div
         className="pc-inv-grid"

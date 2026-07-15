@@ -5,6 +5,7 @@
  */
 
 import gearPack from "../../../../data/dungeon-tester/gear.json";
+import { registerGearItems } from "@/lib/downtown/party-chronicle/gear";
 import type { GearItem } from "../party-chronicle/types";
 
 type GearPack = {
@@ -22,6 +23,9 @@ export const DT_GEAR_CATALOG: GearItem[] = pack.items ?? [];
 export const DT_GEAR_POOLS: Record<string, string[]> = pack.pools ?? {};
 
 const DT_BY_ID = Object.fromEntries(DT_GEAR_CATALOG.map((i) => [i.id, i]));
+
+/** Make `getGear` resolve frontier ids for equip / inventory / consumables. */
+registerGearItems(DT_GEAR_CATALOG);
 
 /**
  * Merge shared Neverworld gear with DT additions.

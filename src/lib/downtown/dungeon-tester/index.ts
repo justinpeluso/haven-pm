@@ -9,6 +9,7 @@ export * from "./engine";
 export * from "./simple-battle";
 export * from "./battle";
 export * from "./camp";
+export * from "./loadout";
 export * from "./art";
 export * from "./encounters";
 export * from "./bestiary";
