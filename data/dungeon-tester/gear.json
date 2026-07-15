@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "flavor": "Frontier firearms/leather + fantasy wilderland arms. Prefixed dt- to avoid Neverworld id collisions.",
+  "version": 2,
+  "flavor": "Frontier firearms/leather + fantasy wilderland arms. Tiers: common → uncommon → rare → epic → legendary. Prefixed dt-.",
   "pools": {
     "trash": [
       "dt-trail-jerky",
@@ -11,13 +11,34 @@
     "common": [
       "dt-frontier-revolver",
       "dt-ranch-carbine",
-      "dt-orc-cleaver",
-      "dt-yew-shortbow",
+      "dt-stock-whip",
+      "dt-iron-hatchet",
       "dt-hide-duster",
-      "dt-hide-jerkin",
+      "dt-sun-hat",
+      "dt-work-gloves",
+      "dt-spur-boots",
       "dt-plank-shield",
+      "dt-copper-spur",
+      "dt-orc-cleaver",
+      "dt-ashwood-spear",
+      "dt-yew-shortbow",
+      "dt-hide-jerkin",
       "dt-ironwood-buckler",
-      "dt-trail-jerky"
+      "dt-chain-scarf",
+      "dt-trail-jerky",
+      "dt-dust-poultice"
+    ],
+    "uncommon": [
+      "dt-moonsteel-saber",
+      "dt-ashwood-longbow",
+      "dt-ember-staff",
+      "dt-warg-fang-charm",
+      "dt-ringmail-vest",
+      "dt-mist-striders",
+      "dt-widow-silk-cloak",
+      "dt-bridge-stone-mail",
+      "dt-greater-poultice",
+      "dt-mana-cider"
     ],
     "magic": [
       "dt-moonsteel-saber",
@@ -27,22 +48,23 @@
       "dt-ringmail-vest",
       "dt-mist-striders",
       "dt-widow-silk-cloak",
+      "dt-bridge-stone-mail",
       "dt-greater-poultice",
       "dt-mana-cider"
     ],
     "rare": [
-      "dt-bone-drum-cleaver",
-      "dt-ash-veil-revolver",
       "dt-pale-host-helm",
       "dt-liberation-gauntlets",
-      "dt-ridge-scale-greaves",
-      "dt-bridge-stone-mail"
+      "dt-ridge-scale-greaves"
+    ],
+    "epic": [
+      "dt-bone-drum-cleaver",
+      "dt-ash-veil-revolver"
     ],
     "legendary": [
       "dt-liberators-spur",
       "dt-broken-shackle-crown",
-      "dt-wilderland-oathblade",
-      "dt-ash-veil-revolver"
+      "dt-wilderland-oathblade"
     ]
   },
   "items": [
@@ -56,7 +78,8 @@
       "tags": [
         "food",
         "frontier"
-      ]
+      ],
+      "rarity": "common"
     },
     {
       "id": "dt-dust-poultice",
@@ -68,7 +91,8 @@
       "tags": [
         "potion",
         "frontier"
-      ]
+      ],
+      "rarity": "common"
     },
     {
       "id": "dt-frontier-revolver",
@@ -81,6 +105,34 @@
         "ranged",
         "firearm",
         "frontier"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 7,
+          "label": "+7 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 CRIT"
+        },
+        {
+          "key": "maxHp",
+          "value": 6,
+          "label": "+6 HP"
+        },
+        {
+          "key": "dexterity",
+          "value": 1,
+          "label": "+1 DEX"
+        },
+        {
+          "key": "resist",
+          "value": 1,
+          "label": "+1 ARM"
+        }
       ]
     },
     {
@@ -94,6 +146,34 @@
         "ranged",
         "firearm",
         "frontier"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 6,
+          "label": "+6 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 2,
+          "label": "+2 CRIT"
+        },
+        {
+          "key": "maxHp",
+          "value": 9,
+          "label": "+9 HP"
+        },
+        {
+          "key": "dexterity",
+          "value": 1,
+          "label": "+1 DEX"
+        },
+        {
+          "key": "resist",
+          "value": 1,
+          "label": "+1 ARM"
+        }
       ]
     },
     {
@@ -107,6 +187,34 @@
         "melee",
         "whip",
         "frontier"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 5,
+          "label": "+5 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 CRIT"
+        },
+        {
+          "key": "maxHp",
+          "value": 9,
+          "label": "+9 HP"
+        },
+        {
+          "key": "dexterity",
+          "value": 1,
+          "label": "+1 DEX"
+        },
+        {
+          "key": "resist",
+          "value": 1,
+          "label": "+1 ARM"
+        }
       ]
     },
     {
@@ -120,6 +228,34 @@
         "melee",
         "axe",
         "frontier"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 5,
+          "label": "+5 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 CRIT"
+        },
+        {
+          "key": "maxHp",
+          "value": 8,
+          "label": "+8 HP"
+        },
+        {
+          "key": "strength",
+          "value": 2,
+          "label": "+2 STR"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        }
       ]
     },
     {
@@ -132,6 +268,34 @@
       "tags": [
         "light",
         "frontier"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "def",
+          "value": 2,
+          "label": "+2 DEF"
+        },
+        {
+          "key": "maxHp",
+          "value": 11,
+          "label": "+11 HP"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        },
+        {
+          "key": "constitution",
+          "value": 2,
+          "label": "+2 CON"
+        },
+        {
+          "key": "strength",
+          "value": 2,
+          "label": "+2 STR"
+        }
       ]
     },
     {
@@ -144,6 +308,34 @@
       "tags": [
         "light",
         "frontier"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "def",
+          "value": 1,
+          "label": "+1 DEF"
+        },
+        {
+          "key": "maxHp",
+          "value": 10,
+          "label": "+10 HP"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        },
+        {
+          "key": "constitution",
+          "value": 2,
+          "label": "+2 CON"
+        },
+        {
+          "key": "strength",
+          "value": 2,
+          "label": "+2 STR"
+        }
       ]
     },
     {
@@ -156,6 +348,34 @@
       "tags": [
         "light",
         "frontier"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "def",
+          "value": 1,
+          "label": "+1 DEF"
+        },
+        {
+          "key": "maxHp",
+          "value": 12,
+          "label": "+12 HP"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        },
+        {
+          "key": "constitution",
+          "value": 2,
+          "label": "+2 CON"
+        },
+        {
+          "key": "dexterity",
+          "value": 2,
+          "label": "+2 DEX"
+        }
       ]
     },
     {
@@ -168,6 +388,34 @@
       "tags": [
         "light",
         "frontier"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "def",
+          "value": 1,
+          "label": "+1 DEF"
+        },
+        {
+          "key": "maxHp",
+          "value": 12,
+          "label": "+12 HP"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        },
+        {
+          "key": "constitution",
+          "value": 2,
+          "label": "+2 CON"
+        },
+        {
+          "key": "dexterity",
+          "value": 2,
+          "label": "+2 DEX"
+        }
       ]
     },
     {
@@ -180,6 +428,34 @@
       "tags": [
         "shield",
         "frontier"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "def",
+          "value": 2,
+          "label": "+2 DEF"
+        },
+        {
+          "key": "maxHp",
+          "value": 8,
+          "label": "+8 HP"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        },
+        {
+          "key": "constitution",
+          "value": 2,
+          "label": "+2 CON"
+        },
+        {
+          "key": "strength",
+          "value": 2,
+          "label": "+2 STR"
+        }
       ]
     },
     {
@@ -191,6 +467,34 @@
       "tags": [
         "trinket",
         "frontier"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 1,
+          "label": "+1 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 CRIT"
+        },
+        {
+          "key": "maxHp",
+          "value": 9,
+          "label": "+9 HP"
+        },
+        {
+          "key": "charisma",
+          "value": 2,
+          "label": "+2 CHA"
+        },
+        {
+          "key": "maxMana",
+          "value": 5,
+          "label": "+5 MP"
+        }
       ]
     },
     {
@@ -203,6 +507,34 @@
       "tags": [
         "melee",
         "orc"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 6,
+          "label": "+6 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 CRIT"
+        },
+        {
+          "key": "maxHp",
+          "value": 9,
+          "label": "+9 HP"
+        },
+        {
+          "key": "strength",
+          "value": 1,
+          "label": "+1 STR"
+        },
+        {
+          "key": "resist",
+          "value": 1,
+          "label": "+1 ARM"
+        }
       ]
     },
     {
@@ -215,6 +547,34 @@
       "tags": [
         "melee",
         "reach"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 6,
+          "label": "+6 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 2,
+          "label": "+2 CRIT"
+        },
+        {
+          "key": "maxHp",
+          "value": 7,
+          "label": "+7 HP"
+        },
+        {
+          "key": "strength",
+          "value": 1,
+          "label": "+1 STR"
+        },
+        {
+          "key": "resist",
+          "value": 1,
+          "label": "+1 ARM"
+        }
       ]
     },
     {
@@ -227,6 +587,34 @@
       "tags": [
         "ranged",
         "bow"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 5,
+          "label": "+5 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 CRIT"
+        },
+        {
+          "key": "maxHp",
+          "value": 10,
+          "label": "+10 HP"
+        },
+        {
+          "key": "dexterity",
+          "value": 2,
+          "label": "+2 DEX"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        }
       ]
     },
     {
@@ -238,6 +626,34 @@
       "armor": 2,
       "tags": [
         "light"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "def",
+          "value": 2,
+          "label": "+2 DEF"
+        },
+        {
+          "key": "maxHp",
+          "value": 11,
+          "label": "+11 HP"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        },
+        {
+          "key": "constitution",
+          "value": 2,
+          "label": "+2 CON"
+        },
+        {
+          "key": "strength",
+          "value": 2,
+          "label": "+2 STR"
+        }
       ]
     },
     {
@@ -249,6 +665,34 @@
       "armor": 2,
       "tags": [
         "shield"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "def",
+          "value": 2,
+          "label": "+2 DEF"
+        },
+        {
+          "key": "maxHp",
+          "value": 8,
+          "label": "+8 HP"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        },
+        {
+          "key": "constitution",
+          "value": 2,
+          "label": "+2 CON"
+        },
+        {
+          "key": "strength",
+          "value": 2,
+          "label": "+2 STR"
+        }
       ]
     },
     {
@@ -260,13 +704,41 @@
       "tags": [
         "trinket",
         "liberation"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 1,
+          "label": "+1 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 2,
+          "label": "+2 CRIT"
+        },
+        {
+          "key": "maxHp",
+          "value": 8,
+          "label": "+8 HP"
+        },
+        {
+          "key": "charisma",
+          "value": 1,
+          "label": "+1 CHA"
+        },
+        {
+          "key": "maxMana",
+          "value": 4,
+          "label": "+4 MP"
+        }
       ]
     },
     {
       "id": "dt-moonsteel-saber",
       "name": "Moonsteel Saber",
       "blurb": "A curve of pale steel that sings in cold mist.",
-      "tier": "magic",
+      "tier": "uncommon",
       "slot": "weapon",
       "power": 12,
       "tags": [
@@ -276,36 +748,37 @@
       "properties": [
         {
           "key": "atk",
-          "value": 4,
-          "label": "+4 ATK"
-        },
-        {
-          "key": "dexterity",
-          "value": 2,
-          "label": "+2 DEX"
+          "value": 12,
+          "label": "+12 ATK"
         },
         {
           "key": "crit",
-          "value": 3,
-          "label": "+3 Crit%"
+          "value": 5,
+          "label": "+5 CRIT"
         },
         {
           "key": "maxHp",
-          "value": 8,
-          "label": "+8 HP"
+          "value": 12,
+          "label": "+12 HP"
+        },
+        {
+          "key": "strength",
+          "value": 3,
+          "label": "+3 STR"
         },
         {
           "key": "resist",
-          "value": 1,
-          "label": "+1 Resist"
+          "value": 2,
+          "label": "+2 ARM"
         }
-      ]
+      ],
+      "rarity": "uncommon"
     },
     {
       "id": "dt-ashwood-longbow",
       "name": "Ashwood Longbow",
       "blurb": "Drawn like a prayer across the ridge wind.",
-      "tier": "magic",
+      "tier": "uncommon",
       "slot": "weapon",
       "power": 11,
       "tags": [
@@ -315,8 +788,18 @@
       "properties": [
         {
           "key": "atk",
-          "value": 3,
-          "label": "+3 ATK"
+          "value": 11,
+          "label": "+11 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 5,
+          "label": "+5 CRIT"
+        },
+        {
+          "key": "maxHp",
+          "value": 15,
+          "label": "+15 HP"
         },
         {
           "key": "dexterity",
@@ -324,27 +807,18 @@
           "label": "+3 DEX"
         },
         {
-          "key": "crit",
-          "value": 4,
-          "label": "+4 Crit%"
-        },
-        {
-          "key": "wisdom",
-          "value": 1,
-          "label": "+1 WIS"
-        },
-        {
-          "key": "maxMana",
-          "value": 5,
-          "label": "+5 Mana"
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
         }
-      ]
+      ],
+      "rarity": "uncommon"
     },
     {
       "id": "dt-ember-staff",
       "name": "Ember Ridge Staff",
       "blurb": "Banked coal in the heartwood.",
-      "tier": "magic",
+      "tier": "uncommon",
       "slot": "weapon",
       "power": 11,
       "tags": [
@@ -354,36 +828,37 @@
       "properties": [
         {
           "key": "atk",
-          "value": 3,
-          "label": "+3 ATK"
+          "value": 11,
+          "label": "+11 ATK"
         },
         {
-          "key": "intelligence",
-          "value": 3,
-          "label": "+3 INT"
+          "key": "crit",
+          "value": 4,
+          "label": "+4 CRIT"
         },
         {
-          "key": "maxMana",
-          "value": 12,
-          "label": "+12 Mana"
+          "key": "maxHp",
+          "value": 14,
+          "label": "+14 HP"
+        },
+        {
+          "key": "strength",
+          "value": 3,
+          "label": "+3 STR"
         },
         {
           "key": "resist",
           "value": 2,
-          "label": "+2 Resist"
-        },
-        {
-          "key": "wisdom",
-          "value": 1,
-          "label": "+1 WIS"
+          "label": "+2 ARM"
         }
-      ]
+      ],
+      "rarity": "uncommon"
     },
     {
       "id": "dt-warg-fang-charm",
       "name": "Warg-Fang Charm",
       "blurb": "A tooth from the Night-Howler pack.",
-      "tier": "magic",
+      "tier": "uncommon",
       "slot": "accessory",
       "tags": [
         "trinket",
@@ -391,37 +866,38 @@
       ],
       "properties": [
         {
-          "key": "strength",
-          "value": 2,
-          "label": "+2 STR"
-        },
-        {
           "key": "atk",
           "value": 2,
           "label": "+2 ATK"
         },
         {
           "key": "crit",
-          "value": 2,
-          "label": "+2 Crit%"
+          "value": 4,
+          "label": "+4 CRIT"
         },
         {
           "key": "maxHp",
-          "value": 10,
-          "label": "+10 HP"
+          "value": 14,
+          "label": "+14 HP"
         },
         {
-          "key": "constitution",
-          "value": 1,
-          "label": "+1 CON"
+          "key": "charisma",
+          "value": 3,
+          "label": "+3 CHA"
+        },
+        {
+          "key": "maxMana",
+          "value": 8,
+          "label": "+8 MP"
         }
-      ]
+      ],
+      "rarity": "uncommon"
     },
     {
       "id": "dt-ringmail-vest",
       "name": "Ringmail Vest",
       "blurb": "Rings quiet enough for a gunfighter's crawl.",
-      "tier": "magic",
+      "tier": "uncommon",
       "slot": "chest",
       "armor": 5,
       "tags": [
@@ -430,36 +906,37 @@
       "properties": [
         {
           "key": "def",
-          "value": 3,
-          "label": "+3 DEF"
-        },
-        {
-          "key": "constitution",
-          "value": 2,
-          "label": "+2 CON"
+          "value": 5,
+          "label": "+5 DEF"
         },
         {
           "key": "maxHp",
-          "value": 15,
-          "label": "+15 HP"
+          "value": 16,
+          "label": "+16 HP"
         },
         {
           "key": "resist",
-          "value": 2,
-          "label": "+2 Resist"
+          "value": 3,
+          "label": "+3 ARM"
+        },
+        {
+          "key": "constitution",
+          "value": 3,
+          "label": "+3 CON"
         },
         {
           "key": "strength",
-          "value": 1,
-          "label": "+1 STR"
+          "value": 2,
+          "label": "+2 STR"
         }
-      ]
+      ],
+      "rarity": "uncommon"
     },
     {
       "id": "dt-mist-striders",
       "name": "Mist Striders",
       "blurb": "Boots that leave no print in wet ash.",
-      "tier": "magic",
+      "tier": "uncommon",
       "slot": "legs",
       "armor": 3,
       "tags": [
@@ -468,37 +945,38 @@
       ],
       "properties": [
         {
-          "key": "dexterity",
-          "value": 3,
-          "label": "+3 DEX"
-        },
-        {
           "key": "def",
-          "value": 2,
-          "label": "+2 DEF"
-        },
-        {
-          "key": "crit",
-          "value": 2,
-          "label": "+2 Crit%"
+          "value": 3,
+          "label": "+3 DEF"
         },
         {
           "key": "maxHp",
-          "value": 8,
-          "label": "+8 HP"
+          "value": 16,
+          "label": "+16 HP"
         },
         {
-          "key": "wisdom",
-          "value": 1,
-          "label": "+1 WIS"
+          "key": "resist",
+          "value": 3,
+          "label": "+3 ARM"
+        },
+        {
+          "key": "constitution",
+          "value": 3,
+          "label": "+3 CON"
+        },
+        {
+          "key": "dexterity",
+          "value": 2,
+          "label": "+2 DEX"
         }
-      ]
+      ],
+      "rarity": "uncommon"
     },
     {
       "id": "dt-widow-silk-cloak",
       "name": "Widow-Silk Cloak",
       "blurb": "Harvested from the Silk Queen's empty nests.",
-      "tier": "magic",
+      "tier": "uncommon",
       "slot": "chest",
       "armor": 3,
       "tags": [
@@ -507,37 +985,38 @@
       ],
       "properties": [
         {
-          "key": "dexterity",
-          "value": 2,
-          "label": "+2 DEX"
+          "key": "def",
+          "value": 3,
+          "label": "+3 DEF"
+        },
+        {
+          "key": "maxHp",
+          "value": 14,
+          "label": "+14 HP"
         },
         {
           "key": "resist",
-          "value": 3,
-          "label": "+3 Resist"
-        },
-        {
-          "key": "def",
           "value": 2,
-          "label": "+2 DEF"
+          "label": "+2 ARM"
         },
         {
-          "key": "maxMana",
-          "value": 8,
-          "label": "+8 Mana"
+          "key": "constitution",
+          "value": 2,
+          "label": "+2 CON"
         },
         {
-          "key": "intelligence",
+          "key": "strength",
           "value": 1,
-          "label": "+1 INT"
+          "label": "+1 STR"
         }
-      ]
+      ],
+      "rarity": "uncommon"
     },
     {
       "id": "dt-bridge-stone-mail",
       "name": "Bridge-Stone Mail",
       "blurb": "Plates chipped from the Arch Toll-Troll's lair.",
-      "tier": "magic",
+      "tier": "uncommon",
       "slot": "chest",
       "armor": 6,
       "tags": [
@@ -547,59 +1026,62 @@
       "properties": [
         {
           "key": "def",
-          "value": 4,
-          "label": "+4 DEF"
-        },
-        {
-          "key": "constitution",
-          "value": 3,
-          "label": "+3 CON"
+          "value": 6,
+          "label": "+6 DEF"
         },
         {
           "key": "maxHp",
-          "value": 20,
-          "label": "+20 HP"
-        },
-        {
-          "key": "strength",
-          "value": 2,
-          "label": "+2 STR"
+          "value": 14,
+          "label": "+14 HP"
         },
         {
           "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        },
+        {
+          "key": "constitution",
+          "value": 2,
+          "label": "+2 CON"
+        },
+        {
+          "key": "strength",
           "value": 1,
-          "label": "+1 Resist"
+          "label": "+1 STR"
         }
-      ]
+      ],
+      "rarity": "uncommon"
     },
     {
       "id": "dt-greater-poultice",
       "name": "Greater Poultice",
       "blurb": "Mender's mash laced with ridge blossom.",
-      "tier": "magic",
+      "tier": "uncommon",
       "slot": "consumable",
       "heal": 45,
       "tags": [
         "potion"
-      ]
+      ],
+      "rarity": "uncommon"
     },
     {
       "id": "dt-mana-cider",
       "name": "Hearth Mana Cider",
       "blurb": "Warm cider that wakes ley-spark.",
-      "tier": "magic",
+      "tier": "uncommon",
       "slot": "consumable",
       "manaRestore": 30,
       "tags": [
         "potion",
         "drink"
-      ]
+      ],
+      "rarity": "uncommon"
     },
     {
       "id": "dt-bone-drum-cleaver",
       "name": "Bone-Drum Cleaver",
       "blurb": "Forged to the beat of Thorn-Clan war drums.",
-      "tier": "rare",
+      "tier": "epic",
       "slot": "weapon",
       "power": 16,
       "tags": [
@@ -609,37 +1091,37 @@
       "properties": [
         {
           "key": "atk",
-          "value": 6,
-          "label": "+6 ATK"
-        },
-        {
-          "key": "strength",
-          "value": 3,
-          "label": "+3 STR"
+          "value": 16,
+          "label": "+16 ATK"
         },
         {
           "key": "crit",
           "value": 5,
-          "label": "+5 Crit%"
+          "label": "+5 CRIT"
         },
         {
           "key": "maxHp",
-          "value": 18,
-          "label": "+18 HP"
+          "value": 22,
+          "label": "+22 HP"
         },
         {
-          "key": "constitution",
-          "value": 2,
-          "label": "+2 CON"
+          "key": "strength",
+          "value": 5,
+          "label": "+5 STR"
+        },
+        {
+          "key": "resist",
+          "value": 3,
+          "label": "+3 ARM"
         }
       ],
-      "rarity": "rare"
+      "rarity": "epic"
     },
     {
       "id": "dt-ash-veil-revolver",
       "name": "Ash-Veil Revolver",
       "blurb": "Chambers that smoke pale after every shot.",
-      "tier": "rare",
+      "tier": "epic",
       "slot": "weapon",
       "power": 17,
       "tags": [
@@ -651,31 +1133,31 @@
       "properties": [
         {
           "key": "atk",
-          "value": 6,
-          "label": "+6 ATK"
-        },
-        {
-          "key": "dexterity",
-          "value": 3,
-          "label": "+3 DEX"
+          "value": 17,
+          "label": "+17 ATK"
         },
         {
           "key": "crit",
           "value": 6,
-          "label": "+6 Crit%"
+          "label": "+6 CRIT"
         },
         {
-          "key": "charisma",
-          "value": 2,
-          "label": "+2 CHA"
+          "key": "maxHp",
+          "value": 24,
+          "label": "+24 HP"
+        },
+        {
+          "key": "dexterity",
+          "value": 4,
+          "label": "+4 DEX"
         },
         {
           "key": "resist",
           "value": 2,
-          "label": "+2 Resist"
+          "label": "+2 ARM"
         }
       ],
-      "rarity": "rare"
+      "rarity": "epic"
     },
     {
       "id": "dt-pale-host-helm",
@@ -691,28 +1173,28 @@
       "properties": [
         {
           "key": "def",
-          "value": 4,
-          "label": "+4 DEF"
+          "value": 5,
+          "label": "+5 DEF"
         },
         {
-          "key": "wisdom",
-          "value": 3,
-          "label": "+3 WIS"
+          "key": "maxHp",
+          "value": 18,
+          "label": "+18 HP"
         },
         {
           "key": "resist",
           "value": 4,
-          "label": "+4 Resist"
+          "label": "+4 ARM"
         },
         {
-          "key": "maxHp",
-          "value": 16,
-          "label": "+16 HP"
+          "key": "constitution",
+          "value": 4,
+          "label": "+4 CON"
         },
         {
-          "key": "charisma",
-          "value": 1,
-          "label": "+1 CHA"
+          "key": "strength",
+          "value": 3,
+          "label": "+3 STR"
         }
       ],
       "rarity": "rare"
@@ -730,29 +1212,29 @@
       ],
       "properties": [
         {
-          "key": "strength",
-          "value": 3,
-          "label": "+3 STR"
-        },
-        {
-          "key": "atk",
-          "value": 3,
-          "label": "+3 ATK"
-        },
-        {
           "key": "def",
-          "value": 2,
-          "label": "+2 DEF"
-        },
-        {
-          "key": "constitution",
-          "value": 2,
-          "label": "+2 CON"
+          "value": 3,
+          "label": "+3 DEF"
         },
         {
           "key": "maxHp",
-          "value": 12,
-          "label": "+12 HP"
+          "value": 20,
+          "label": "+20 HP"
+        },
+        {
+          "key": "resist",
+          "value": 3,
+          "label": "+3 ARM"
+        },
+        {
+          "key": "constitution",
+          "value": 3,
+          "label": "+3 CON"
+        },
+        {
+          "key": "dexterity",
+          "value": 2,
+          "label": "+2 DEX"
         }
       ],
       "rarity": "rare"
@@ -770,28 +1252,28 @@
       "properties": [
         {
           "key": "def",
-          "value": 3,
-          "label": "+3 DEF"
-        },
-        {
-          "key": "dexterity",
-          "value": 2,
-          "label": "+2 DEX"
+          "value": 4,
+          "label": "+4 DEF"
         },
         {
           "key": "maxHp",
-          "value": 14,
-          "label": "+14 HP"
+          "value": 20,
+          "label": "+20 HP"
         },
         {
           "key": "resist",
-          "value": 3,
-          "label": "+3 Resist"
+          "value": 4,
+          "label": "+4 ARM"
         },
         {
           "key": "constitution",
-          "value": 2,
-          "label": "+2 CON"
+          "value": 4,
+          "label": "+4 CON"
+        },
+        {
+          "key": "dexterity",
+          "value": 3,
+          "label": "+3 DEX"
         }
       ],
       "rarity": "rare"
@@ -809,29 +1291,29 @@
       ],
       "properties": [
         {
-          "key": "charisma",
-          "value": 4,
-          "label": "+4 CHA"
-        },
-        {
-          "key": "dexterity",
-          "value": 3,
-          "label": "+3 DEX"
-        },
-        {
           "key": "atk",
-          "value": 4,
-          "label": "+4 ATK"
+          "value": 5,
+          "label": "+5 ATK"
         },
         {
           "key": "crit",
-          "value": 5,
-          "label": "+5 Crit%"
+          "value": 7,
+          "label": "+7 CRIT"
         },
         {
           "key": "maxHp",
-          "value": 25,
-          "label": "+25 HP"
+          "value": 31,
+          "label": "+31 HP"
+        },
+        {
+          "key": "charisma",
+          "value": 6,
+          "label": "+6 CHA"
+        },
+        {
+          "key": "maxMana",
+          "value": 16,
+          "label": "+16 MP"
         }
       ],
       "rarity": "legendary"
@@ -850,29 +1332,29 @@
       ],
       "properties": [
         {
-          "key": "wisdom",
-          "value": 4,
-          "label": "+4 WIS"
-        },
-        {
-          "key": "charisma",
-          "value": 4,
-          "label": "+4 CHA"
-        },
-        {
           "key": "def",
-          "value": 5,
-          "label": "+5 DEF"
-        },
-        {
-          "key": "resist",
-          "value": 5,
-          "label": "+5 Resist"
+          "value": 6,
+          "label": "+6 DEF"
         },
         {
           "key": "maxHp",
           "value": 30,
           "label": "+30 HP"
+        },
+        {
+          "key": "resist",
+          "value": 5,
+          "label": "+5 ARM"
+        },
+        {
+          "key": "constitution",
+          "value": 5,
+          "label": "+5 CON"
+        },
+        {
+          "key": "strength",
+          "value": 3,
+          "label": "+3 STR"
         }
       ],
       "rarity": "legendary"
@@ -892,18 +1374,13 @@
       "properties": [
         {
           "key": "atk",
-          "value": 8,
-          "label": "+8 ATK"
-        },
-        {
-          "key": "strength",
-          "value": 4,
-          "label": "+4 STR"
+          "value": 22,
+          "label": "+22 ATK"
         },
         {
           "key": "crit",
           "value": 7,
-          "label": "+7 Crit%"
+          "label": "+7 CRIT"
         },
         {
           "key": "maxHp",
@@ -911,9 +1388,14 @@
           "label": "+28 HP"
         },
         {
-          "key": "charisma",
+          "key": "strength",
+          "value": 5,
+          "label": "+5 STR"
+        },
+        {
+          "key": "resist",
           "value": 3,
-          "label": "+3 CHA"
+          "label": "+3 ARM"
         }
       ],
       "rarity": "legendary"

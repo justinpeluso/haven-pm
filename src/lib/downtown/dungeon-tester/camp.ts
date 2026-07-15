@@ -18,6 +18,7 @@ import {
 } from "@/lib/downtown/party-chronicle/engine";
 import { readSpellbook } from "@/lib/downtown/party-chronicle/battle";
 import { getGear } from "@/lib/downtown/party-chronicle/gear";
+import { formatProperty, itemProperties } from "@/lib/downtown/party-chronicle/stats";
 import { levelFromXp, skillPointsForLevelGain } from "@/lib/downtown/party-chronicle/progression";
 import type {
   CharacterSave,
@@ -137,15 +138,15 @@ function dtActNumber(chapterId: string): number {
 
 function poolTiersForAct(act: number, kind: "chest" | "dig"): GearTier[] {
   if (kind === "chest") {
-    if (act <= 2) return ["common", "common", "magic"];
-    if (act <= 5) return ["common", "magic", "magic", "rare"];
-    if (act <= 8) return ["magic", "magic", "rare", "rare"];
-    return ["magic", "rare", "rare", "legendary"];
+    if (act <= 2) return ["common", "common", "uncommon"];
+    if (act <= 5) return ["common", "uncommon", "uncommon", "rare"];
+    if (act <= 8) return ["uncommon", "rare", "rare", "epic"];
+    return ["rare", "epic", "epic", "legendary"];
   }
   if (act <= 2) return ["common", "common", "common"];
-  if (act <= 5) return ["common", "common", "magic"];
-  if (act <= 8) return ["common", "magic", "magic", "rare"];
-  return ["magic", "magic", "rare", "legendary"];
+  if (act <= 5) return ["common", "common", "uncommon"];
+  if (act <= 8) return ["common", "uncommon", "uncommon", "rare"];
+  return ["uncommon", "rare", "epic", "legendary"];
 }
 
 function pickDtLoot(
@@ -153,9 +154,17 @@ function pickDtLoot(
   rng: () => number,
   owned: Set<string>
 ): string | null {
-  const poolKey = tier === "common" ? "common" : tier;
+  const aliases: Record<string, string[]> = {
+    common: ["common"],
+    uncommon: ["uncommon", "magic"],
+    magic: ["magic", "uncommon"],
+    rare: ["rare"],
+    epic: ["epic"],
+    legendary: ["legendary"],
+  };
+  const keys = aliases[tier] ?? [tier];
   const fromPools = [
-    ...(DT_GEAR_POOLS[poolKey] ?? []),
+    ...keys.flatMap((k) => DT_GEAR_POOLS[k] ?? []),
     ...(tier === "common" ? DT_GEAR_POOLS.trash ?? [] : []),
   ];
   const candidates = [...new Set(fromPools)].filter((id) => {
@@ -430,11 +439,13 @@ export function dtReadSpellbook(
 
 /** Worn + bag snapshot for Camp UI. */
 export function dtLoadoutSummary(char: CharacterSave): {
-  worn: { slot: EquipSlot; id: string; name: string }[];
+  worn: { slot: EquipSlot; id: string; name: string; tier: string }[];
   bag: {
     id: string;
     name: string;
     slot: string;
+    tier: string;
+    stats: string[];
     equippable: boolean;
     equipped: boolean;
     consumable: boolean;
@@ -447,17 +458,29 @@ export function dtLoadoutSummary(char: CharacterSave): {
     const id = char.equipped[slot];
     if (!id) return [];
     const g = getDtGear(id) ?? getGear(id);
-    return [{ slot, id, name: g?.name ?? id }];
+    const tier = g?.rarity ?? g?.tier ?? "common";
+    return [{ slot, id, name: g?.name ?? id, tier }];
   });
   const bag = char.inventory.map((id) => {
     const g = getDtGear(id) ?? getGear(id);
     const slot = g?.slot ?? "misc";
     const equippable =
       !!g && slot !== "consumable" && slot !== "misc" && EQUIP_SLOTS.includes(slot as EquipSlot);
+    const tier = g?.rarity ?? g?.tier ?? "common";
+    const stats = g
+      ? itemProperties(g)
+          .slice(0, 5)
+          .map((p) => formatProperty(p))
+      : [];
+    if (g?.heal) stats.push(`+${g.heal} HP`);
+    if (g?.manaRestore) stats.push(`+${g.manaRestore} MP`);
+    if (g?.staminaRestore) stats.push(`+${g.staminaRestore} ST`);
     return {
       id,
       name: g?.name ?? id,
       slot,
+      tier: tier === "magic" ? "uncommon" : tier,
+      stats: stats.slice(0, 5),
       equippable,
       equipped: wornIds.has(id),
       consumable: slot === "consumable",

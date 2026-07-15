@@ -569,11 +569,13 @@ function seedLootPoolsFromCatalog() {
           : "trash"
         : item.tier === "legendary"
           ? "legendary"
-          : item.tier === "rare"
-            ? "rare"
-            : item.tier === "magic"
-              ? "magic"
-              : "common";
+          : item.tier === "epic"
+            ? "epic"
+            : item.tier === "rare"
+              ? "rare"
+              : item.tier === "uncommon" || item.tier === "magic"
+                ? "magic"
+                : "common";
     if (!LOOT_POOLS[pool]) LOOT_POOLS[pool] = [];
     if (!LOOT_POOLS[pool]!.includes(item.id)) LOOT_POOLS[pool]!.push(item.id);
   }
@@ -615,8 +617,10 @@ export function gearByTier(tier: GearItem["tier"]): GearItem[] {
 export function gearCatalogStats(): Record<GearItem["tier"], number> & { total: number; sets: number } {
   return {
     common: gearByTier("common").length,
+    uncommon: gearByTier("uncommon").length,
     magic: gearByTier("magic").length,
     rare: gearByTier("rare").length,
+    epic: gearByTier("epic").length,
     legendary: gearByTier("legendary").length,
     total: allGearItems().length,
     sets: GEAR_SETS.length,

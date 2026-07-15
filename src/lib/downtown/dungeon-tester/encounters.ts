@@ -60,11 +60,14 @@ function lootTierFromIds(lootIds: string[]): GearTier | undefined {
   if (lootIds.some((id) => id.includes("oathblade") || id.includes("crown") || id.includes("liberators"))) {
     return "legendary";
   }
-  if (lootIds.some((id) => id.includes("ash-veil") || id.includes("bone-drum") || id.includes("pale-host"))) {
+  if (lootIds.some((id) => id.includes("ash-veil") || id.includes("bone-drum"))) {
+    return "epic";
+  }
+  if (lootIds.some((id) => id.includes("pale-host") || id.includes("liberation-gaunt") || id.includes("ridge-scale"))) {
     return "rare";
   }
-  if (lootIds.some((id) => ["moonsteel", "widow", "ember", "warg-fang", "ringmail"].some((k) => id.includes(k)))) {
-    return "magic";
+  if (lootIds.some((id) => ["moonsteel", "widow", "ember", "warg-fang", "ringmail", "mist-striders", "bridge-stone"].some((k) => id.includes(k)))) {
+    return "uncommon";
   }
   if (lootIds.length) return "common";
   return undefined;

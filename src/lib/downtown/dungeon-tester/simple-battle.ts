@@ -19,6 +19,10 @@
  */
 
 import { getGear } from "@/lib/downtown/party-chronicle/gear";
+import {
+  battleArmor,
+  battleAttackPower,
+} from "@/lib/downtown/party-chronicle/stats";
 import type { CharacterSave, PlayerSlot } from "@/lib/downtown/party-chronicle/types";
 import { PLAYER_SLOT_ORDER } from "@/lib/downtown/party-chronicle/types";
 import {
@@ -317,11 +321,11 @@ function resolveGear(id: string | null | undefined) {
 }
 
 function heroWeaponPower(char: CharacterSave): number {
-  const weaponId = char.equipped?.weapon;
-  const gear = resolveGear(weaponId ?? undefined);
-  const base = gear?.power ?? 4;
-  const str = char.stats?.strength ?? 10;
-  return Math.max(2, base + Math.floor((str - 10) / 2));
+  return Math.max(2, battleAttackPower(char));
+}
+
+function heroArmorRating(char: CharacterSave): number {
+  return Math.max(0, Math.min(14, battleArmor(char)));
 }
 
 function heroMagicPower(char: CharacterSave): number {
@@ -786,7 +790,7 @@ export function startSimpleBattle(
       hp: Math.max(1, c.hp),
       maxHp: c.maxHp,
       power: heroWeaponPower(c),
-      armor: 0,
+      armor: heroArmorRating(c),
       x: spot.x,
       y: spot.y,
       haste: false,

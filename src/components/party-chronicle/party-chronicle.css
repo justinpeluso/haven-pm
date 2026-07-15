@@ -2757,6 +2757,151 @@
   padding: 0.65rem 0.75rem;
 }
 
+/* Large vitals — HP / MP / ST */
+.party-comic .pc-vitals,
+.party-rpg90s .pc-vitals,
+.party-chronicle .pc-vitals {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.party-comic .pc-vital,
+.party-rpg90s .pc-vital,
+.party-chronicle .pc-vital {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.party-comic .pc-vital-head,
+.party-rpg90s .pc-vital-head,
+.party-chronicle .pc-vital-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  font-family: var(--pc-hud);
+}
+
+.party-comic .pc-vital-label,
+.party-rpg90s .pc-vital-label,
+.party-chronicle .pc-vital-label {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  min-width: 1.75rem;
+}
+
+.party-comic .pc-vital[data-kind="hp"] .pc-vital-label,
+.party-rpg90s .pc-vital[data-kind="hp"] .pc-vital-label,
+.party-chronicle .pc-vital[data-kind="hp"] .pc-vital-label {
+  color: #e85a3c;
+}
+
+.party-comic .pc-vital[data-kind="mana"] .pc-vital-label,
+.party-rpg90s .pc-vital[data-kind="mana"] .pc-vital-label,
+.party-chronicle .pc-vital[data-kind="mana"] .pc-vital-label {
+  color: #3a8fd4;
+}
+
+.party-comic .pc-vital[data-kind="stamina"] .pc-vital-label,
+.party-rpg90s .pc-vital[data-kind="stamina"] .pc-vital-label,
+.party-chronicle .pc-vital[data-kind="stamina"] .pc-vital-label {
+  color: #d4a820;
+}
+
+.party-comic .pc-vital-num,
+.party-rpg90s .pc-vital-num,
+.party-chronicle .pc-vital-num {
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--pc-paper);
+}
+
+.party-comic .pc-vital-max,
+.party-rpg90s .pc-vital-max,
+.party-chronicle .pc-vital-max {
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.7;
+  margin-left: 0.05rem;
+}
+
+.party-comic .pc-vital-bar,
+.party-rpg90s .pc-vital-bar,
+.party-chronicle .pc-vital-bar {
+  height: 0.95rem;
+  border: 2px solid var(--pc-border);
+  background: #060a10;
+  overflow: hidden;
+}
+
+.party-comic .pc-vital-bar > span,
+.party-rpg90s .pc-vital-bar > span,
+.party-chronicle .pc-vital-bar > span {
+  display: block;
+  height: 100%;
+  transition: width 0.3s ease-out;
+}
+
+.party-comic .pc-vital[data-kind="hp"] .pc-vital-bar > span,
+.party-rpg90s .pc-vital[data-kind="hp"] .pc-vital-bar > span,
+.party-chronicle .pc-vital[data-kind="hp"] .pc-vital-bar > span {
+  background: linear-gradient(90deg, #a82818, #e85a3c 55%, #ff8a6a);
+}
+
+.party-comic .pc-vital[data-kind="mana"] .pc-vital-bar > span,
+.party-rpg90s .pc-vital[data-kind="mana"] .pc-vital-bar > span,
+.party-chronicle .pc-vital[data-kind="mana"] .pc-vital-bar > span {
+  background: linear-gradient(90deg, #1a4a8a, #3a8fd4 55%, #7ec8ff);
+}
+
+.party-comic .pc-vital[data-kind="stamina"] .pc-vital-bar > span,
+.party-rpg90s .pc-vital[data-kind="stamina"] .pc-vital-bar > span,
+.party-chronicle .pc-vital[data-kind="stamina"] .pc-vital-bar > span {
+  background: linear-gradient(90deg, #8a6a10, #d4a820 55%, #f0d45a);
+}
+
+.party-comic .pc-combat-grid,
+.party-rpg90s .pc-combat-grid,
+.party-chronicle .pc-combat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+
+.party-comic .pc-combat-stat,
+.party-rpg90s .pc-combat-stat,
+.party-chronicle .pc-combat-stat {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem;
+  padding: 0.35rem 0.45rem;
+  border: 1px solid var(--pc-line);
+  background: rgba(0, 0, 0, 0.25);
+  font-family: var(--pc-hud);
+}
+
+.party-comic .pc-combat-stat span,
+.party-rpg90s .pc-combat-stat span,
+.party-chronicle .pc-combat-stat span {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--pc-muted);
+  text-transform: uppercase;
+}
+
+.party-comic .pc-combat-stat strong,
+.party-rpg90s .pc-combat-stat strong,
+.party-chronicle .pc-combat-stat strong {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--pc-paper);
+  line-height: 1;
+}
+
 .party-comic .pc-eff-row,
 .party-rpg90s .pc-eff-row,
 .party-chronicle .pc-eff-row {
@@ -2835,43 +2980,200 @@
 .party-rpg90s .pc-inv-card,
 .party-chronicle .pc-inv-card {
   background: rgba(6, 10, 16, 0.7);
-  border: 1px solid var(--pc-border);
-  padding: 0.4rem 0.45rem;
-  min-width: 7.5rem;
-  max-width: 11rem;
+  border: 2px solid var(--pc-border);
+  padding: 0.45rem 0.5rem 0.5rem;
+  min-width: 8.5rem;
+  max-width: 12rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  overflow: visible;
+  position: relative;
+  z-index: 1;
+}
+
+.party-comic .pc-inv-card:hover,
+.party-rpg90s .pc-inv-card:hover,
+.party-chronicle .pc-inv-card:hover,
+.party-comic .pc-inv-card:focus-within,
+.party-rpg90s .pc-inv-card:focus-within,
+.party-chronicle .pc-inv-card:focus-within {
+  z-index: 40;
+}
+
+.party-comic .pc-inv-card-top,
+.party-rpg90s .pc-inv-card-top,
+.party-chronicle .pc-inv-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+}
+
+.party-comic .pc-inv-tier,
+.party-rpg90s .pc-inv-tier,
+.party-chronicle .pc-inv-tier {
+  font-family: var(--pc-hud);
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.12rem 0.35rem;
+  border: 1px solid currentColor;
+  line-height: 1.2;
+}
+
+.party-comic .pc-inv-tier[data-tier="common"],
+.party-rpg90s .pc-inv-tier[data-tier="common"],
+.party-chronicle .pc-inv-tier[data-tier="common"],
+.party-comic .pc-inv-card[data-tier="common"],
+.party-rpg90s .pc-inv-card[data-tier="common"],
+.party-chronicle .pc-inv-card[data-tier="common"],
+.party-comic .pc-doll-slot[data-tier="common"],
+.party-rpg90s .pc-doll-slot[data-tier="common"],
+.party-chronicle .pc-doll-slot[data-tier="common"] {
+  color: #b0a89a;
+  border-color: #8a8278;
+}
+
+.party-comic .pc-inv-tier[data-tier="uncommon"],
+.party-rpg90s .pc-inv-tier[data-tier="uncommon"],
+.party-chronicle .pc-inv-tier[data-tier="uncommon"],
+.party-comic .pc-inv-tier[data-tier="magic"],
+.party-rpg90s .pc-inv-tier[data-tier="magic"],
+.party-chronicle .pc-inv-tier[data-tier="magic"],
+.party-comic .pc-inv-card[data-tier="uncommon"],
+.party-rpg90s .pc-inv-card[data-tier="uncommon"],
+.party-chronicle .pc-inv-card[data-tier="uncommon"],
+.party-comic .pc-inv-card[data-tier="magic"],
+.party-rpg90s .pc-inv-card[data-tier="magic"],
+.party-chronicle .pc-inv-card[data-tier="magic"],
+.party-comic .pc-doll-slot[data-tier="uncommon"],
+.party-rpg90s .pc-doll-slot[data-tier="uncommon"],
+.party-chronicle .pc-doll-slot[data-tier="uncommon"],
+.party-comic .pc-doll-slot[data-tier="magic"],
+.party-rpg90s .pc-doll-slot[data-tier="magic"],
+.party-chronicle .pc-doll-slot[data-tier="magic"] {
+  color: #5fbf6a;
+  border-color: #3a9a48;
+}
+
+.party-comic .pc-inv-tier[data-tier="rare"],
+.party-rpg90s .pc-inv-tier[data-tier="rare"],
+.party-chronicle .pc-inv-tier[data-tier="rare"],
+.party-comic .pc-inv-card[data-tier="rare"],
+.party-rpg90s .pc-inv-card[data-tier="rare"],
+.party-chronicle .pc-inv-card[data-tier="rare"],
+.party-comic .pc-doll-slot[data-tier="rare"],
+.party-rpg90s .pc-doll-slot[data-tier="rare"],
+.party-chronicle .pc-doll-slot[data-tier="rare"] {
+  color: #4ea8de;
+  border-color: #2f7fb8;
+}
+
+.party-comic .pc-inv-tier[data-tier="epic"],
+.party-rpg90s .pc-inv-tier[data-tier="epic"],
+.party-chronicle .pc-inv-tier[data-tier="epic"],
+.party-comic .pc-inv-card[data-tier="epic"],
+.party-rpg90s .pc-inv-card[data-tier="epic"],
+.party-chronicle .pc-inv-card[data-tier="epic"],
+.party-comic .pc-doll-slot[data-tier="epic"],
+.party-rpg90s .pc-doll-slot[data-tier="epic"],
+.party-chronicle .pc-doll-slot[data-tier="epic"] {
+  color: #d4782c;
+  border-color: #b85a18;
+}
+
+.party-comic .pc-inv-tier[data-tier="legendary"],
+.party-rpg90s .pc-inv-tier[data-tier="legendary"],
+.party-chronicle .pc-inv-tier[data-tier="legendary"],
+.party-comic .pc-inv-card[data-tier="legendary"],
+.party-rpg90s .pc-inv-card[data-tier="legendary"],
+.party-chronicle .pc-inv-card[data-tier="legendary"],
+.party-comic .pc-doll-slot[data-tier="legendary"],
+.party-rpg90s .pc-doll-slot[data-tier="legendary"],
+.party-chronicle .pc-doll-slot[data-tier="legendary"] {
+  color: #e8c96a;
+  border-color: #c9a227;
+}
+
+.party-comic .pc-inv-worn,
+.party-rpg90s .pc-inv-worn,
+.party-chronicle .pc-inv-worn {
+  font-family: var(--pc-hud);
+  font-size: 0.52rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--pc-accent);
+}
+
+.party-comic .pc-inv-card-stats,
+.party-rpg90s .pc-inv-card-stats,
+.party-chronicle .pc-inv-card-stats {
+  list-style: none;
+  margin: 0.15rem 0 0.1rem;
+  padding: 0;
+  display: grid;
+  gap: 0.1rem;
+  font-family: var(--pc-hud);
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--pc-paper);
+}
+
+.party-comic .pc-inv-sheet-head,
+.party-rpg90s .pc-inv-sheet-head,
+.party-chronicle .pc-inv-sheet-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.party-comic .pc-inv-sheet-gold,
+.party-rpg90s .pc-inv-sheet-gold,
+.party-chronicle .pc-inv-sheet-gold {
+  font-family: var(--pc-hud);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--pc-accent);
 }
 
 .party-comic .pc-inv-card[data-tier="magic"],
 .party-rpg90s .pc-inv-card[data-tier="magic"],
 .party-chronicle .pc-inv-card[data-tier="magic"] {
-  border-color: #4ea8de;
+  border-color: #3a9a48;
 }
 .party-comic .pc-inv-card[data-tier="rare"],
 .party-rpg90s .pc-inv-card[data-tier="rare"],
 .party-chronicle .pc-inv-card[data-tier="rare"] {
-  border-color: #c9a227;
+  border-color: #2f7fb8;
 }
 .party-comic .pc-inv-card[data-tier="legendary"],
 .party-rpg90s .pc-inv-card[data-tier="legendary"],
 .party-chronicle .pc-inv-card[data-tier="legendary"] {
-  border-color: #e07a3d;
+  border-color: #c9a227;
 }
 
 .party-comic .pc-inv-card-name,
 .party-rpg90s .pc-inv-card-name,
 .party-chronicle .pc-inv-card-name {
   font-family: var(--pc-hud);
-  font-size: 0.62rem;
-  font-weight: 700;
+  font-size: 0.72rem;
+  font-weight: 800;
   text-transform: uppercase;
+  line-height: 1.2;
+  word-break: break-word;
 }
 
 .party-comic .pc-inv-card-meta,
 .party-rpg90s .pc-inv-card-meta,
 .party-chronicle .pc-inv-card-meta {
-  font-size: 0.55rem;
+  font-size: 0.58rem;
   color: var(--pc-muted);
-  margin-top: 0.15rem;
   line-height: 1.3;
 }
 

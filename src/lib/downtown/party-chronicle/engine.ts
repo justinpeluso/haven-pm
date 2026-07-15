@@ -367,8 +367,10 @@ export function unequipSlot(
 
 const SALVAGE_GOLD: Record<GearTier, number> = {
   common: 4,
+  uncommon: 10,
   magic: 14,
   rare: 40,
+  epic: 65,
   legendary: 90,
 };
 

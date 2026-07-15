@@ -1149,10 +1149,53 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   </p>
                 ) : null}
                 {me ? (
-                  <p className="text-xs opacity-70">
-                    Now: {me.hp}/{me.maxHp} HP · {me.mana}/{me.maxMana} mana · {me.stamina}/
-                    {me.maxStamina} stamina
-                  </p>
+                  <div className="dt-vitals" aria-label="Hero vitals">
+                    <div className="dt-vital" data-kind="hp">
+                      <div className="dt-vital-head">
+                        <span className="dt-vital-label">HP</span>
+                        <strong className="dt-vital-num">
+                          {me.hp}/{me.maxHp}
+                        </strong>
+                      </div>
+                      <div className="dt-vital-bar">
+                        <span
+                          style={{
+                            width: `${Math.max(0, Math.min(100, Math.round((me.hp / Math.max(1, me.maxHp)) * 100)))}%`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="dt-vital" data-kind="mana">
+                      <div className="dt-vital-head">
+                        <span className="dt-vital-label">MP</span>
+                        <strong className="dt-vital-num">
+                          {me.mana}/{me.maxMana}
+                        </strong>
+                      </div>
+                      <div className="dt-vital-bar">
+                        <span
+                          style={{
+                            width: `${Math.max(0, Math.min(100, Math.round((me.mana / Math.max(1, me.maxMana)) * 100)))}%`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="dt-vital" data-kind="stamina">
+                      <div className="dt-vital-head">
+                        <span className="dt-vital-label">ST</span>
+                        <strong className="dt-vital-num">
+                          {me.stamina}/{me.maxStamina}
+                        </strong>
+                      </div>
+                      <div className="dt-vital-bar">
+                        <span
+                          style={{
+                            width: `${Math.max(0, Math.min(100, Math.round((me.stamina / Math.max(1, me.maxStamina)) * 100)))}%`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 ) : null}
               </div>
 
@@ -1172,7 +1215,12 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                         <div className="dt-worn-row">
                           {loadout.worn.length ? (
                             loadout.worn.map((w) => (
-                              <span key={w.slot} className="dt-worn-chip" title={w.slot}>
+                              <span
+                                key={w.slot}
+                                className="dt-worn-chip"
+                                data-tier={w.tier === "magic" ? "uncommon" : w.tier}
+                                title={`${w.slot} · ${w.tier}`}
+                              >
                                 {w.slot}: {w.name}
                               </span>
                             ))
@@ -1186,13 +1234,19 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                               key={`${item.id}-${idx}`}
                               className="dt-bag-row"
                               data-equipped={item.equipped ? "true" : "false"}
+                              data-tier={item.tier}
                             >
                               <div>
                                 <strong>
                                   {item.equipped ? "● " : ""}
                                   {item.name}
                                 </strong>
-                                <span className="block text-[0.65rem] opacity-70">{item.slot}</span>
+                                <span className="block text-[0.65rem] opacity-70">
+                                  {item.tier} · {item.slot}
+                                </span>
+                                {item.stats.length ? (
+                                  <span className="dt-bag-stats">{item.stats.join(" · ")}</span>
+                                ) : null}
                               </div>
                               <div className="dt-bag-actions">
                                 {item.equippable && !item.equipped ? (

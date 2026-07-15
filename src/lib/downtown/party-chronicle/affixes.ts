@@ -55,11 +55,19 @@ export function makeDefaultProperties(
 ): GearProperty[] {
   if (slot === "consumable" || slot === "misc") return [];
 
-  const count = tier === "common" ? 2 : 5;
+  const count = tier === "common" ? 5 : 5;
   const props: GearProperty[] = [];
   const used = new Set<string>();
   const base =
-    tier === "common" ? 1 : tier === "magic" ? 2 : tier === "rare" ? 3 : 4;
+    tier === "common"
+      ? 1
+      : tier === "uncommon" || tier === "magic"
+        ? 2
+        : tier === "rare"
+          ? 3
+          : tier === "epic"
+            ? 4
+            : 5;
 
   const preferred =
     slot === "weapon"

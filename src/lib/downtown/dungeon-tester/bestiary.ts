@@ -13,7 +13,14 @@ import {
 } from "../party-chronicle/bestiary";
 import type { GearItem, GearTier } from "../party-chronicle/types";
 
-export type DtLootPoolId = "trash" | "common" | "magic" | "rare" | "legendary";
+export type DtLootPoolId =
+  | "trash"
+  | "common"
+  | "uncommon"
+  | "magic"
+  | "rare"
+  | "epic"
+  | "legendary";
 
 export type DtCreatureDef = {
   id: string;
@@ -46,7 +53,7 @@ export type DtBossDef = DtCreatureDef & {
 };
 
 export type DtBattleLootItem = GearItem & {
-  rarity?: "common" | "magic" | "rare" | "legendary";
+  rarity?: GearTier;
 };
 
 export const DT_CREATURES: DtCreatureDef[] = (creaturesPack as { creatures: DtCreatureDef[] }).creatures;
@@ -161,8 +168,20 @@ export function dtCreatureAsEncounter(c: DtCreatureDef): {
     gold: c.gold,
     artId: c.artId,
     tags: c.tags,
-    lootTier: ["trash", "common", "magic", "rare", "legendary"].includes(String(c.lootPool))
-      ? (c.lootPool === "trash" ? "common" : (c.lootPool as GearTier))
+    lootTier: [
+      "trash",
+      "common",
+      "uncommon",
+      "magic",
+      "rare",
+      "epic",
+      "legendary",
+    ].includes(String(c.lootPool))
+      ? c.lootPool === "trash"
+        ? "common"
+        : c.lootPool === "magic"
+          ? "uncommon"
+          : (c.lootPool as GearTier)
       : tier,
   };
 }

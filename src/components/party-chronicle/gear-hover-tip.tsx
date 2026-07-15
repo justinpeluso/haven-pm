@@ -27,13 +27,17 @@ export function GearTipBody({
 
   const props = itemProperties(item);
   const set = item.setId ? getGearSet(item.setId) : undefined;
-  const tierLabel = (item.rarity ?? item.tier).toUpperCase();
+  const rawTier = item.rarity ?? item.tier;
+  const tierLabel = (rawTier === "magic" ? "Uncommon" : rawTier).toUpperCase();
+  const tierAttr = rawTier === "magic" ? "uncommon" : rawTier;
 
   return (
-    <span className="pc-gear-tip" role="tooltip" data-tier={item.tier}>
+    <span className="pc-gear-tip" role="tooltip" data-tier={tierAttr}>
       <span className="pc-gear-tip-head">
         <strong className="pc-gear-tip-name">{item.name}</strong>
-        <em className="pc-gear-tip-tier">{tierLabel}</em>
+        <em className="pc-gear-tip-tier" data-tier={tierAttr}>
+          {tierLabel}
+        </em>
       </span>
       <span className="pc-gear-tip-slot">
         {item.slot}

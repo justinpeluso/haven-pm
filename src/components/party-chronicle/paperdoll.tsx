@@ -20,6 +20,11 @@ const SLOT_LABEL: Record<EquipSlot, string> = {
   accessory: "Accessory",
 };
 
+function meterPct(value: number, max: number) {
+  if (max <= 0) return 0;
+  return Math.max(0, Math.min(100, Math.round((value / max) * 100)));
+}
+
 /** Diablo-style silhouette with equipment slots around a forest hero. */
 export function PaperdollPanel({
   char,
@@ -54,7 +59,13 @@ export function PaperdollPanel({
               type="button"
               className={`pc-doll-slot pc-doll-slot-${slot} pc-gear-hover`}
               data-filled={item ? "true" : "false"}
-              data-tier={item?.tier ?? "empty"}
+              data-tier={
+                !item
+                  ? "empty"
+                  : item.tier === "magic"
+                    ? "uncommon"
+                    : item.tier
+              }
               disabled={!canEdit || !item}
               onClick={() => item && onUnequip(slot)}
             >
@@ -72,38 +83,70 @@ export function PaperdollPanel({
       </div>
 
       <div className="pc-paperdoll-stats">
-        <p className="pc-eyebrow">Combat sheet</p>
-        <div className="pc-eff-row">
-          <span>ATK</span>
-          <strong>{eff.atk}</strong>
-          {deltaChip(eff.deltas.atk)}
+        <p className="pc-eyebrow">Vitals</p>
+        <div className="pc-vitals">
+          <div className="pc-vital" data-kind="hp">
+            <div className="pc-vital-head">
+              <span className="pc-vital-label">HP</span>
+              <strong className="pc-vital-num">
+                {char.hp}
+                <span className="pc-vital-max">/{eff.maxHp}</span>
+              </strong>
+              {deltaChip(eff.deltas.maxHp)}
+            </div>
+            <div className="pc-vital-bar" aria-hidden>
+              <span style={{ width: `${meterPct(char.hp, eff.maxHp)}%` }} />
+            </div>
+          </div>
+          <div className="pc-vital" data-kind="mana">
+            <div className="pc-vital-head">
+              <span className="pc-vital-label">MP</span>
+              <strong className="pc-vital-num">
+                {char.mana}
+                <span className="pc-vital-max">/{eff.maxMana}</span>
+              </strong>
+              {deltaChip(eff.deltas.maxMana)}
+            </div>
+            <div className="pc-vital-bar" aria-hidden>
+              <span style={{ width: `${meterPct(char.mana, eff.maxMana)}%` }} />
+            </div>
+          </div>
+          <div className="pc-vital" data-kind="stamina">
+            <div className="pc-vital-head">
+              <span className="pc-vital-label">ST</span>
+              <strong className="pc-vital-num">
+                {char.stamina}
+                <span className="pc-vital-max">/{char.maxStamina}</span>
+              </strong>
+            </div>
+            <div className="pc-vital-bar" aria-hidden>
+              <span
+                style={{ width: `${meterPct(char.stamina, char.maxStamina)}%` }}
+              />
+            </div>
+          </div>
         </div>
-        <div className="pc-eff-row">
-          <span>DEF</span>
-          <strong>{eff.def}</strong>
-          {deltaChip(eff.deltas.def)}
-        </div>
-        <div className="pc-eff-row">
-          <span>HP</span>
-          <strong>
-            {char.hp}/{eff.maxHp}
-          </strong>
-          {deltaChip(eff.deltas.maxHp)}
-        </div>
-        <div className="pc-eff-row">
-          <span>Mana</span>
-          <strong>
-            {char.mana}/{eff.maxMana}
-          </strong>
-          {deltaChip(eff.deltas.maxMana)}
-        </div>
-        <div className="pc-eff-row">
-          <span>Crit</span>
-          <strong>{eff.crit}%</strong>
-        </div>
-        <div className="pc-eff-row">
-          <span>Resist</span>
-          <strong>{eff.resist}</strong>
+
+        <p className="pc-eyebrow mt-3">Combat</p>
+        <div className="pc-combat-grid">
+          <div className="pc-combat-stat">
+            <span>ATK</span>
+            <strong>{eff.atk}</strong>
+            {deltaChip(eff.deltas.atk)}
+          </div>
+          <div className="pc-combat-stat">
+            <span>DEF</span>
+            <strong>{eff.def}</strong>
+            {deltaChip(eff.deltas.def)}
+          </div>
+          <div className="pc-combat-stat">
+            <span>CRIT</span>
+            <strong>{eff.crit}%</strong>
+          </div>
+          <div className="pc-combat-stat">
+            <span>ARM</span>
+            <strong>{eff.resist}</strong>
+          </div>
         </div>
 
         <p className="pc-eyebrow text-[0.65rem] mt-3">Stats (base → geared)</p>

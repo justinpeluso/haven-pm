@@ -41,7 +41,14 @@ export type ClassId = (typeof CLASS_IDS)[number];
 export const EQUIP_SLOTS = ["head", "chest", "hands", "legs", "weapon", "offhand", "accessory"] as const;
 export type EquipSlot = (typeof EQUIP_SLOTS)[number];
 
-export type GearTier = "common" | "magic" | "rare" | "legendary";
+/** Item rarity ladder. `magic` is a legacy alias for uncommon (Neverworld catalogs). */
+export type GearTier =
+  | "common"
+  | "uncommon"
+  | "magic"
+  | "rare"
+  | "epic"
+  | "legendary";
 
 /** Affix keys for magic items (~5 properties per magic+ item). */
 export const GEAR_PROPERTY_KEYS = [
@@ -168,7 +175,7 @@ export type GearItem = {
   /** Named set membership (Frostwarden, Emberfang, …). */
   setId?: string;
   /** Optional display rarity; defaults from tier. */
-  rarity?: "common" | "magic" | "rare" | "legendary";
+  rarity?: GearTier;
 };
 
 /** Turn-based random / camp battle actions. */
@@ -217,7 +224,7 @@ export type BattleTacticalState = {
 export type BattleLootDrop = {
   itemId: string;
   name: string;
-  rarity: "common" | "magic" | "rare" | "legendary";
+  rarity: GearTier;
 };
 
 export type BattleSummary = {

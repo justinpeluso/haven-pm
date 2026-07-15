@@ -8,6 +8,15 @@ import { formatProperty, itemProperties } from "@/lib/downtown/party-chronicle/s
 import type { CharacterSave, EquipSlot } from "@/lib/downtown/party-chronicle/types";
 import { EQUIP_SLOTS } from "@/lib/downtown/party-chronicle/types";
 
+function formatTierLabel(tier: string): string {
+  if (tier === "magic") return "Uncommon";
+  return tier.charAt(0).toUpperCase() + tier.slice(1);
+}
+
+function tierAttr(tier: string): string {
+  return tier === "magic" ? "uncommon" : tier;
+}
+
 /** Shared Neverworld inventory + paperdoll — used by Party Chronicle and DungeonTester. */
 export function InventoryPanel({
   char,
@@ -37,104 +46,121 @@ export function InventoryPanel({
   );
 
   return (
-    <div className="space-y-4">
-      <p className="pc-eyebrow">
-        {paperdollLabel ??
-          `Paperdoll — ${char.name} · catalog ${catalog.total} items / ${catalog.sets} sets`}
-      </p>
+    <div className="pc-inv-sheet space-y-4">
+      <header className="pc-inv-sheet-head">
+        <p className="pc-eyebrow">
+          {paperdollLabel ??
+            `Paperdoll — ${char.name} · catalog ${catalog.total} items / ${catalog.sets} sets`}
+        </p>
+        <p className="pc-inv-sheet-gold">{char.gold}g</p>
+      </header>
+
       <PaperdollPanel char={char} canEdit={canEdit} onUnequip={onUnequip} />
 
-      <p className="pc-eyebrow text-[0.65rem]">
-        {inventoryLabel ??
-          "Inventory — Use potions & food · Break down unequipped gear for scrap gold"}
-      </p>
-      <div
-        className="pc-inv-grid"
-        style={{ gridTemplateColumns: "repeat(auto-fill, minmax(8.5rem, 1fr))" }}
-      >
-        {char.inventory.map((id, idx) => {
-          const item = getGear(id);
-          if (!item) return null;
-          const spellbook = isSpellbookItem(id);
-          const consumable = item.slot === "consumable";
-          const equippable =
-            item.slot !== "consumable" && item.slot !== "misc" && !spellbook;
-          const equipped = worn.has(id);
-          const props = itemProperties(item).slice(0, 3);
-          const usable =
-            consumable &&
-            ((item.heal ?? 0) > 0 ||
-              (item.manaRestore ?? 0) > 0 ||
-              (item.staminaRestore ?? 0) > 0 ||
-              item.tags.includes("stamina") ||
-              item.tags.includes("dog"));
+      <section className="pc-inv-bag-section">
+        <p className="pc-eyebrow text-[0.65rem]">
+          {inventoryLabel ??
+            "Inventory — Use potions & food · Break down unequipped gear for scrap gold"}
+        </p>
+        <div
+          className="pc-inv-grid"
+          style={{ gridTemplateColumns: "repeat(auto-fill, minmax(9.5rem, 1fr))" }}
+        >
+          {char.inventory.map((id, idx) => {
+            const item = getGear(id);
+            if (!item) return null;
+            const spellbook = isSpellbookItem(id);
+            const consumable = item.slot === "consumable";
+            const equippable =
+              item.slot !== "consumable" && item.slot !== "misc" && !spellbook;
+            const equipped = worn.has(id);
+            const props = itemProperties(item).slice(0, 5);
+            const tier = tierAttr(item.rarity ?? item.tier);
+            const usable =
+              consumable &&
+              ((item.heal ?? 0) > 0 ||
+                (item.manaRestore ?? 0) > 0 ||
+                (item.staminaRestore ?? 0) > 0 ||
+                item.tags.includes("stamina") ||
+                item.tags.includes("dog"));
 
-          return (
-            <div
-              key={`${id}-${idx}`}
-              className="pc-inv-card pc-gear-hover"
-              data-tier={item.tier}
-              data-equipped={equipped ? "true" : "false"}
-            >
-              <div className="pc-inv-card-name">
-                {equipped ? "● " : ""}
-                {item.name}
-              </div>
-              <div className="pc-inv-card-meta">
-                {item.slot}
-                {item.setId ? ` · set` : ""}
-                {item.heal ? ` · +${item.heal} HP` : ""}
-                {item.manaRestore ? ` · +${item.manaRestore} MP` : ""}
-                {props.length ? ` · ${props.map(formatProperty).join(", ")}` : ""}
-              </div>
-              <div className="pc-inv-actions">
-                {equippable && (
+            return (
+              <div
+                key={`${id}-${idx}`}
+                className="pc-inv-card pc-gear-hover"
+                data-tier={tier}
+                data-equipped={equipped ? "true" : "false"}
+              >
+                <div className="pc-inv-card-top">
+                  <span className="pc-inv-tier" data-tier={tier}>
+                    {formatTierLabel(item.rarity ?? item.tier)}
+                  </span>
+                  {equipped ? <span className="pc-inv-worn">Worn</span> : null}
+                </div>
+                <div className="pc-inv-card-name">{item.name}</div>
+                <div className="pc-inv-card-meta">{item.slot}</div>
+                {props.length > 0 ? (
+                  <ul className="pc-inv-card-stats">
+                    {props.map((p, i) => (
+                      <li key={`${p.key}-${i}`}>{formatProperty(p)}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="pc-inv-card-meta">
+                    {item.heal ? `+${item.heal} HP` : ""}
+                    {item.manaRestore ? ` · +${item.manaRestore} MP` : ""}
+                    {item.staminaRestore ? ` · +${item.staminaRestore} ST` : ""}
+                  </div>
+                )}
+                <div className="pc-inv-actions">
+                  {equippable && (
+                    <button
+                      type="button"
+                      className="pc-btn-tiny"
+                      disabled={!canEdit || equipped}
+                      onClick={() => onEquip(id)}
+                    >
+                      {equipped ? "Worn" : "Equip"}
+                    </button>
+                  )}
+                  {usable && (
+                    <button
+                      type="button"
+                      className="pc-btn-tiny"
+                      disabled={!canEdit}
+                      onClick={() => onUseConsumable(id)}
+                    >
+                      Use
+                    </button>
+                  )}
+                  {spellbook && (
+                    <button
+                      type="button"
+                      className="pc-btn-tiny"
+                      disabled={!canEdit}
+                      onClick={() => onReadSpellbook(id)}
+                    >
+                      Read
+                    </button>
+                  )}
                   <button
                     type="button"
                     className="pc-btn-tiny"
                     disabled={!canEdit || equipped}
-                    onClick={() => onEquip(id)}
+                    title={
+                      equipped ? "Unequip before breaking down" : "Break down for scrap gold"
+                    }
+                    onClick={() => onSalvage(id)}
                   >
-                    {equipped ? "Worn" : "Equip"}
+                    Break down
                   </button>
-                )}
-                {usable && (
-                  <button
-                    type="button"
-                    className="pc-btn-tiny"
-                    disabled={!canEdit}
-                    onClick={() => onUseConsumable(id)}
-                  >
-                    Use
-                  </button>
-                )}
-                {spellbook && (
-                  <button
-                    type="button"
-                    className="pc-btn-tiny"
-                    disabled={!canEdit}
-                    onClick={() => onReadSpellbook(id)}
-                  >
-                    Read
-                  </button>
-                )}
-                <button
-                  type="button"
-                  className="pc-btn-tiny"
-                  disabled={!canEdit || equipped}
-                  title={
-                    equipped ? "Unequip before breaking down" : "Break down for scrap gold"
-                  }
-                  onClick={() => onSalvage(id)}
-                >
-                  Break down
-                </button>
+                </div>
+                <GearTipBody item={item} />
               </div>
-              <GearTipBody item={item} />
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      </section>
     </div>
   );
 }

@@ -11,10 +11,48 @@
   --dt-line: #6b5340;
   --dt-muted: #7a6350;
   --dt-accent: #9a4a28;
-  --dt-panel: rgba(232, 220, 200, 0.92);
+  --dt-ochre: #c4893a;
+  --dt-iron: #5a4e42;
+  --dt-sage: #6a7d52;
+  --dt-hp: #c62828;
+  --dt-mp: #2a6cb0;
+  --dt-st: #c9a227;
+  --dt-tier-common: #7a7268;
+  --dt-tier-uncommon: #3d8a45;
+  --dt-tier-rare: #2f6fa8;
+  --dt-tier-epic: #c45a18;
+  --dt-tier-legendary: #c9a227;
+  --dt-panel: rgba(232, 220, 200, 0.94);
   --dt-display: var(--font-pc-display), "Bangers", "Impact", sans-serif;
   --dt-body: "Courier New", "IBM Plex Mono", ui-monospace, monospace;
   --dt-hud: var(--font-pc-hud), "Oxanium", system-ui, sans-serif;
+
+  /* Override Neverworld forest vars so shared inventory reads frontier */
+  --pc-ink: var(--dt-ink);
+  --pc-panel: #ead9bf;
+  --pc-panel-lit: #f3e6d0;
+  --pc-line: var(--dt-line);
+  --pc-border: #4a3828;
+  --pc-paper: #2a1f14;
+  --pc-muted: var(--dt-muted);
+  --pc-accent: var(--dt-accent);
+  --pc-cyan: var(--dt-sage);
+  --pc-magenta: var(--dt-ochre);
+  --pc-kraft: var(--dt-ochre);
+  --pc-kraft-light: var(--dt-paper);
+  --pc-kraft-dark: var(--dt-iron);
+  --pc-hp: var(--dt-hp);
+  --pc-stamina: var(--dt-st);
+  --pc-mana: var(--dt-mp);
+  --pc-xp: var(--dt-ochre);
+  --pc-good: var(--dt-sage);
+  --pc-warn: var(--dt-ochre);
+  --pc-fg: var(--dt-ink);
+  --pc-shadow: rgba(42, 31, 20, 0.25);
+  --pc-display: var(--dt-display);
+  --pc-hud: var(--dt-hud);
+  --pc-body: var(--dt-body);
+
   color: var(--dt-ink);
   background:
     radial-gradient(ellipse at 20% 0%, rgba(196, 168, 130, 0.55), transparent 55%),
@@ -872,3 +910,227 @@
   gap: 0.25rem;
   flex-shrink: 0;
 }
+
+/* ——— Gear / camp vitals & inventory (frontier comic) ——— */
+.dungeon-tester .dt-vitals {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.dungeon-tester .dt-vital {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.dungeon-tester .dt-vital-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-family: var(--dt-hud);
+}
+
+.dungeon-tester .dt-vital-label {
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.dungeon-tester .dt-vital[data-kind="hp"] .dt-vital-label {
+  color: var(--dt-hp);
+}
+.dungeon-tester .dt-vital[data-kind="mana"] .dt-vital-label {
+  color: var(--dt-mp);
+}
+.dungeon-tester .dt-vital[data-kind="stamina"] .dt-vital-label {
+  color: var(--dt-st);
+}
+
+.dungeon-tester .dt-vital-num {
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--dt-ink);
+}
+
+.dungeon-tester .dt-vital-bar {
+  height: 0.9rem;
+  border: 2px solid var(--dt-ink);
+  background: rgba(42, 31, 20, 0.18);
+  overflow: hidden;
+}
+
+.dungeon-tester .dt-vital-bar > span {
+  display: block;
+  height: 100%;
+}
+
+.dungeon-tester .dt-vital[data-kind="hp"] .dt-vital-bar > span {
+  background: linear-gradient(90deg, #8a1818, var(--dt-hp) 60%, #e07060);
+}
+.dungeon-tester .dt-vital[data-kind="mana"] .dt-vital-bar > span {
+  background: linear-gradient(90deg, #1a3a6a, var(--dt-mp) 60%, #6aaffe);
+}
+.dungeon-tester .dt-vital[data-kind="stamina"] .dt-vital-bar > span {
+  background: linear-gradient(90deg, #8a6a10, var(--dt-st) 60%, #f0d45a);
+}
+
+.dungeon-tester .pc-paperdoll-figure {
+  background:
+    radial-gradient(ellipse at 50% 28%, rgba(196, 137, 58, 0.22), transparent 55%),
+    linear-gradient(165deg, #d8c4a0, #b89668 70%, #9a7850);
+  border-color: var(--dt-ink);
+  box-shadow: inset 0 0 0 1px rgba(255, 248, 230, 0.35);
+  min-height: 24rem;
+  overflow: visible;
+}
+
+.dungeon-tester .pc-paperdoll-head,
+.dungeon-tester .pc-paperdoll-torso,
+.dungeon-tester .pc-paperdoll-arm,
+.dungeon-tester .pc-paperdoll-leg {
+  background: rgba(106, 125, 82, 0.55);
+  border-color: rgba(42, 31, 20, 0.45);
+}
+
+.dungeon-tester .pc-doll-slot {
+  width: 5.8rem;
+  min-height: 2.85rem;
+  padding: 0.3rem 0.4rem;
+  background: rgba(243, 230, 208, 0.92);
+  color: var(--dt-ink);
+  border-color: var(--dt-ink);
+  font-size: 0.62rem;
+  z-index: 2;
+  overflow: visible;
+}
+
+.dungeon-tester .pc-doll-slot-label {
+  font-size: 0.55rem;
+  opacity: 0.75;
+  margin-bottom: 0.1rem;
+}
+
+.dungeon-tester .pc-doll-slot-name {
+  font-size: 0.68rem;
+  line-height: 1.15;
+  word-break: break-word;
+}
+
+.dungeon-tester .pc-doll-slot:hover:not(:disabled) {
+  border-color: var(--dt-accent);
+  color: var(--dt-ink);
+  z-index: 30;
+}
+
+.dungeon-tester .pc-paperdoll-stats {
+  background: rgba(243, 230, 208, 0.92);
+  border-color: var(--dt-ink);
+  color: var(--dt-ink);
+}
+
+.dungeon-tester .pc-vital-num,
+.dungeon-tester .pc-combat-stat strong {
+  color: var(--dt-ink);
+}
+
+.dungeon-tester .pc-vital-bar,
+.dungeon-tester .pc-combat-stat {
+  border-color: var(--dt-ink);
+  background: rgba(42, 31, 20, 0.08);
+}
+
+.dungeon-tester .pc-inv-card {
+  background: rgba(243, 230, 208, 0.88);
+  border-width: 2px;
+  color: var(--dt-ink);
+}
+
+.dungeon-tester .pc-inv-card-name,
+.dungeon-tester .pc-inv-card-stats {
+  color: var(--dt-ink);
+}
+
+.dungeon-tester .pc-inv-card[data-tier="common"] {
+  border-color: var(--dt-tier-common);
+  background: linear-gradient(180deg, #ebe4da, #ddd4c6);
+}
+.dungeon-tester .pc-inv-card[data-tier="uncommon"],
+.dungeon-tester .pc-inv-card[data-tier="magic"] {
+  border-color: var(--dt-tier-uncommon);
+  background: linear-gradient(180deg, #dce8d4, #c5d8b8);
+}
+.dungeon-tester .pc-inv-card[data-tier="rare"] {
+  border-color: var(--dt-tier-rare);
+  background: linear-gradient(180deg, #d4e2f0, #b8cee6);
+}
+.dungeon-tester .pc-inv-card[data-tier="epic"] {
+  border-color: var(--dt-tier-epic);
+  background: linear-gradient(180deg, #f0d8c4, #e4b890);
+}
+.dungeon-tester .pc-inv-card[data-tier="legendary"] {
+  border-color: var(--dt-tier-legendary);
+  background: linear-gradient(180deg, #f3e4b8, #e0c878);
+}
+
+.dungeon-tester .pc-btn-tiny {
+  border-color: var(--dt-ink);
+  background: rgba(196, 137, 58, 0.2);
+  color: var(--dt-ink);
+  font-size: 0.58rem;
+  padding: 0.25rem 0.45rem;
+}
+
+.dungeon-tester .pc-gear-tip {
+  background: #f3e6d0;
+  border-color: var(--dt-accent);
+  color: var(--dt-ink);
+  z-index: 80;
+  max-width: 15rem;
+}
+
+.dungeon-tester .pc-inv-grid {
+  gap: 0.55rem;
+  padding-bottom: 0.5rem;
+}
+
+.dungeon-tester .dt-bag-row[data-tier="uncommon"],
+.dungeon-tester .dt-bag-row[data-tier="magic"] {
+  border-color: var(--dt-tier-uncommon);
+  background: rgba(61, 138, 69, 0.1);
+}
+.dungeon-tester .dt-bag-row[data-tier="rare"] {
+  border-color: var(--dt-tier-rare);
+  background: rgba(47, 111, 168, 0.1);
+}
+.dungeon-tester .dt-bag-row[data-tier="epic"] {
+  border-color: var(--dt-tier-epic);
+  background: rgba(196, 90, 24, 0.12);
+}
+.dungeon-tester .dt-bag-row[data-tier="legendary"] {
+  border-color: var(--dt-tier-legendary);
+  background: rgba(201, 162, 39, 0.16);
+}
+
+.dungeon-tester .dt-bag-stats {
+  display: block;
+  font-family: var(--dt-hud);
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--dt-ink);
+  line-height: 1.3;
+  margin-top: 0.15rem;
+}
+
+@media (max-width: 720px) {
+  .dungeon-tester .pc-doll-slot {
+    width: 5.2rem;
+    min-height: 2.6rem;
+  }
+  .dungeon-tester .pc-vital-num,
+  .dungeon-tester .dt-vital-num {
+    font-size: 1.2rem;
+  }
+}
+
