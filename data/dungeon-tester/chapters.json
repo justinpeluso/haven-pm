@@ -1,0 +1,208 @@
+{
+  "version": 1,
+  "targetHours": 30,
+  "encounterCadence": {
+    "minFrames": 10,
+    "maxFrames": 20,
+    "note": "Engine-side: roll next random ambush after 10–20 frames advance; prefer chapter enemyThemes."
+  },
+  "chapters": [
+    {
+      "id": "dt-ch-01-chain-road",
+      "chapter": 1,
+      "title": "Chain-Road Dawn",
+      "tagline": "A numbered thrall is bought off a road of cages — and asked to kill for paper freedom.",
+      "startNodeId": "dt-ch01-001",
+      "levelMin": 1,
+      "levelMax": 8,
+      "estimatedHours": 4,
+      "enemyThemes": [
+        "chain-orcs",
+        "road-wargs",
+        "cage-tenders",
+        "brand-hounds"
+      ],
+      "sceneId": "scene-dt-chain-road",
+      "splashArtId": "splash-dt-chain-road",
+      "fidelity": "thorough",
+      "frameCount": 90
+    },
+    {
+      "id": "dt-ch-02-dust-and-debt",
+      "chapter": 2,
+      "title": "Dust and Debt",
+      "tagline": "Warrants pay in silver and scars while Quill teaches steel that answers to no collar.",
+      "startNodeId": "dt-ch02-001",
+      "levelMin": 6,
+      "levelMax": 14,
+      "estimatedHours": 4,
+      "enemyThemes": [
+        "warrant-runners",
+        "hill-goblins",
+        "dust-wargs",
+        "bounty-thieves"
+      ],
+      "sceneId": "scene-dt-dust-and-debt",
+      "splashArtId": "splash-dt-dust-and-debt",
+      "fidelity": "thorough",
+      "frameCount": 90
+    },
+    {
+      "id": "dt-ch-03-wanted-mark",
+      "chapter": 3,
+      "title": "The Wanted Mark",
+      "tagline": "A carved brand leads east; friends and hunters argue over who owns the man who escaped.",
+      "startNodeId": "dt-ch03-001",
+      "levelMin": 12,
+      "levelMax": 20,
+      "estimatedHours": 3,
+      "enemyThemes": [
+        "mark-hunters",
+        "spy-ravens",
+        "orc-outriders",
+        "paid-knights"
+      ],
+      "sceneId": "scene-dt-wanted-mark",
+      "splashArtId": "splash-dt-wanted-mark",
+      "fidelity": "stub",
+      "frameCount": 60
+    },
+    {
+      "id": "dt-ch-04-river-of-brands",
+      "chapter": 4,
+      "title": "River of Brands",
+      "tagline": "Barges haul branded cargo across a mud-brown river the freeholds pretend not to see.",
+      "startNodeId": "dt-ch04-001",
+      "levelMin": 18,
+      "levelMax": 28,
+      "estimatedHours": 3,
+      "enemyThemes": [
+        "river-slavers",
+        "barge-trolls",
+        "muck-spiders",
+        "toll-orcs"
+      ],
+      "sceneId": "scene-dt-river-of-brands",
+      "splashArtId": "splash-dt-river-of-brands",
+      "fidelity": "stub",
+      "frameCount": 60
+    },
+    {
+      "id": "dt-ch-05-candlemire-gates",
+      "chapter": 5,
+      "title": "Candlemire Gates",
+      "tagline": "Lord Cade's border keeps smile for coin and iron for mercy; Lira is somewhere past the smoke.",
+      "startNodeId": "dt-ch05-001",
+      "levelMin": 24,
+      "levelMax": 36,
+      "estimatedHours": 3.5,
+      "enemyThemes": [
+        "gate-guards",
+        "mire-orcs",
+        "war-mastiffs",
+        "wicker-sentries"
+      ],
+      "sceneId": "scene-dt-candlemire-gates",
+      "splashArtId": "splash-dt-candlemire-gates",
+      "fidelity": "stub",
+      "frameCount": 65
+    },
+    {
+      "id": "dt-ch-06-house-of-collars",
+      "chapter": 6,
+      "title": "House of Collars",
+      "tagline": "Guest rooms overlook yards of rings and numbers; friendship here is whispered at risk of skin.",
+      "startNodeId": "dt-ch06-001",
+      "levelMin": 32,
+      "levelMax": 44,
+      "estimatedHours": 3.5,
+      "enemyThemes": [
+        "overseer-orcs",
+        "house-blades",
+        "punishment-hounds",
+        "collared-champions"
+      ],
+      "sceneId": "scene-dt-house-of-collars",
+      "splashArtId": "splash-dt-house-of-collars",
+      "fidelity": "stub",
+      "frameCount": 65
+    },
+    {
+      "id": "dt-ch-07-blood-mandolin",
+      "chapter": 7,
+      "title": "Blood Mandolin",
+      "tagline": "Candlemire's sport pits fighters under lanterns while a mandolin keeps time with screams.",
+      "startNodeId": "dt-ch07-001",
+      "levelMin": 40,
+      "levelMax": 52,
+      "estimatedHours": 3,
+      "enemyThemes": [
+        "pit-champions",
+        "arena-trolls",
+        "spectating-knights",
+        "cade-favorites"
+      ],
+      "sceneId": "scene-dt-blood-mandolin",
+      "splashArtId": "splash-dt-blood-mandolin",
+      "fidelity": "stub",
+      "frameCount": 60
+    },
+    {
+      "id": "dt-ch-08-liberation-march",
+      "chapter": 8,
+      "title": "Liberation March",
+      "tagline": "Cages open. Brands break. The field that grew cane learns a different crop: uprising.",
+      "startNodeId": "dt-ch08-001",
+      "levelMin": 48,
+      "levelMax": 60,
+      "estimatedHours": 3.5,
+      "enemyThemes": [
+        "cade-host",
+        "elite-orcs",
+        "burning-tower-guards",
+        "warg-cavalry"
+      ],
+      "sceneId": "scene-dt-liberation-march",
+      "splashArtId": "splash-dt-liberation-march",
+      "fidelity": "stub",
+      "frameCount": 65
+    },
+    {
+      "id": "dt-ch-09-free-horizon",
+      "chapter": 9,
+      "title": "Free Horizon",
+      "tagline": "Roads west remember every foot that left a collar behind — and ask what freedom costs next.",
+      "startNodeId": "dt-ch09-001",
+      "levelMin": 55,
+      "levelMax": 70,
+      "estimatedHours": 2.5,
+      "enemyThemes": [
+        "remnant-hunters",
+        "storm-wargs",
+        "last-enforcers",
+        "memory-shades"
+      ],
+      "sceneId": "scene-dt-free-horizon",
+      "splashArtId": "splash-dt-free-horizon",
+      "fidelity": "stub",
+      "frameCount": 55
+    }
+  ],
+  "endings": [
+    {
+      "id": "ending-merciful-road",
+      "title": "The Merciful Road",
+      "blurb": "Ash and Lyra leave Cade's fall to other hunters and walk west under open sky."
+    },
+    {
+      "id": "ending-hard-justice",
+      "title": "Hard Justice",
+      "blurb": "Candlemire burns by Ash's hand; the Wilderland remembers the fire longer than the names."
+    },
+    {
+      "id": "ending-shared-dawn",
+      "title": "Shared Dawn",
+      "blurb": "Quill, Ash, and the freed march forge a freehold that keeps no brands and no guests with chains."
+    }
+  ]
+}
