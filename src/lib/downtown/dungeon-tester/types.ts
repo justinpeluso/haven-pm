@@ -93,6 +93,11 @@ export type DtWorldSave = {
   characters: Record<PlayerSlot, CharacterSave>;
   /** DT crude battle only — never Neverworld BattleState. */
   battle: SimpleBattleState | null;
+  /**
+   * Last battle.id the client fled/dismissed — poll/server must not resurrect it.
+   * Cleared when a new ambush starts.
+   */
+  clearedBattleId?: string | null;
   storyPlayMs: number;
   battlesFought: number;
   /** Kept for PartyWorldSave camp/merge compatibility. */

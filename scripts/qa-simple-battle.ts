@@ -14,6 +14,11 @@ import {
   performSimpleBattleAction,
   advanceSimpleBattleEnemyPhase,
   dismissSimpleBattle,
+  simpleBattleShouldSkipSplash,
+  ensureSimpleBattleSplashConsistency,
+  mergeSimpleBattle,
+  simpleBattleProgressScore,
+  fleeSimpleBattle,
 } from "../src/lib/downtown/dungeon-tester/simple-battle";
 import { continueFrame } from "../src/lib/downtown/dungeon-tester/engine";
 import {
@@ -74,6 +79,41 @@ assert(world.battle?.status === "active", "battle should start");
 assert(typeof world.battle!.id === "string" && world.battle!.id.length > 0, "stable battle id");
 assert(world.battle!.splashDone !== true, "splash not done yet");
 const battleId0 = world.battle!.id;
+
+// Splash skip: brand-new fight must show; mid-fight must never restart.
+assert(
+  simpleBattleShouldSkipSplash(world.battle!) === false,
+  "new battle should allow splash"
+);
+{
+  const mid = ensureSimpleBattleSplashConsistency({
+    ...world.battle!,
+    round: 3,
+    phase: "enemy",
+    splashDone: false,
+    log: ["Justin hits foe for 9.", "— Round 3 —", "Ambush!"],
+  });
+  assert(mid.splashDone === true, "mid-fight remount stamps splashDone");
+  assert(
+    simpleBattleShouldSkipSplash({ ...mid, splashDone: false, round: 3 }) === true,
+    "round≥2 skips splash even if flag missing"
+  );
+  const advanced = { ...world.battle!, round: 4, phase: "player" as const, splashDone: true };
+  const stale = {
+    ...world.battle!,
+    round: 3,
+    phase: "enemy" as const,
+    splashDone: false,
+    message: "Enemy turn…",
+  };
+  assert(
+    simpleBattleProgressScore(advanced) > simpleBattleProgressScore(stale),
+    "player round 4 outranks stale enemy round 3"
+  );
+  const merged = mergeSimpleBattle(advanced, stale);
+  assert(merged?.round === 4 && merged?.phase === "player", "merge must not regress turn");
+  assert(merged?.splashDone === true, "merge keeps sticky splashDone");
+}
 const blocked = startSimpleBattle(world);
 assert(blocked.world.battle?.id === battleId0, "second start blocked while overlay open");
 assert(
@@ -199,6 +239,40 @@ console.log("end:", world.battle?.status, world.battle?.message);
 world = dismissSimpleBattle(world);
 assert(world.battle === null, "dismiss clears battle");
 console.log("dismissed → story frame", world.campaignNodeId);
+
+// Flee clears an active fight for soft-lock recovery.
+{
+  let w = createNewDtWorld();
+  const sealed2 = sealDtCharacter(w, "justin", {
+    name: "Justin",
+    classId,
+    raceId: "human",
+    dogName: "Scout",
+    dogBreed: "hound",
+    statBumps: {
+      strength: 5,
+      constitution: 5,
+      dexterity: 5,
+      wisdom: 4,
+      intelligence: 4,
+      charisma: 4,
+    },
+    kit: {
+      weaponId: weaponsForClass(classId)[0]?.id ?? "iron-sword",
+      skillAbilityId: listCreateSkills()[0]?.id ?? "ab-power-strike",
+      magicAbilityIds: listCreateMagic()
+        .slice(0, magicNeed)
+        .map((m) => m.id),
+    },
+  });
+  assert(!("error" in sealed2), "seal for flee test");
+  w = sealed2;
+  w = startSimpleBattle(w).world;
+  assert(w.battle?.status === "active", "active for flee");
+  const fled = fleeSimpleBattle(w);
+  assert(fled.world.battle === null, "flee clears active battle");
+  console.log("flee ok:", fled.message);
+}
 
 world = {
   ...world,

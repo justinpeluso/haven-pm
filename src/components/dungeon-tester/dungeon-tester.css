@@ -406,10 +406,28 @@
   align-items: center;
   justify-content: center;
   gap: 0.55rem;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  width: 100%;
   background:
     radial-gradient(ellipse at 50% 42%, rgba(28, 18, 10, 0.55), transparent 62%),
     linear-gradient(180deg, rgba(28, 18, 10, 0.28), rgba(28, 18, 10, 0.45));
+}
+
+.dungeon-tester .dt-sbat-intro-hint {
+  font-family: var(--dt-hud);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: rgba(255, 224, 138, 0.75);
+  text-transform: uppercase;
+}
+
+.dungeon-tester .dt-sbat-actions .dt-btn[data-flee="true"] {
+  opacity: 0.85;
+  border-style: dashed;
 }
 
 .dungeon-tester .dt-sbat-intro[data-phase="in"] {

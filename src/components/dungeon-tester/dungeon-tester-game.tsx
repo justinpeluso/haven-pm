@@ -38,6 +38,7 @@ import {
   continueFrame,
   createNewDtWorld,
   dismissDtBattle,
+  fleeDtBattle,
   dtArtSrc,
   dtBuyFromCampMerchant,
   dtDigForLoot,
@@ -151,20 +152,56 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
           };
           if (data.slots) refreshSlotSummaries(data.slots);
           if (data.world && slotId === activeSlotRef.current) {
-            const merged = mergeDtWorld(stamped, normalizeDtWorld(data.world), mySlot, identity.isDm);
-            // Keep local active battle so poll/persist never drop id / splashDone mid-fight.
-            const localBattle =
-              stamped.battle?.status === "active"
-                ? mergeSimpleBattle(stamped.battle, merged.battle)
-                : merged.battle;
-            const next = normalizeDtWorld({
-              ...merged,
-              battle: localBattle,
-              storyPlayMs: Math.max(stamped.storyPlayMs ?? 0, merged.storyPlayMs ?? 0),
-              framesAdvanced: Math.max(stamped.framesAdvanced ?? 0, merged.framesAdvanced ?? 0),
+            // Merge against *current* world — never use stale closure stamped alone.
+            // Out-of-order POSTs were rolling enemy-advance back to phase:"enemy".
+            setWorld((prev) => {
+              const base = prev ?? stamped;
+              // This POST cleared the fight (flee/dismiss) — never resurrect it.
+              if (!stamped.battle) {
+                const next = normalizeDtWorld({
+                  ...mergeDtWorld(
+                    base,
+                    normalizeDtWorld(data.world!),
+                    mySlot,
+                    identity.isDm
+                  ),
+                  battle: null,
+                  clearedBattleId:
+                    stamped.clearedBattleId ??
+                    base.clearedBattleId ??
+                    prev?.clearedBattleId ??
+                    null,
+                  storyPlayMs: Math.max(base.storyPlayMs ?? 0, stamped.storyPlayMs ?? 0),
+                  framesAdvanced: Math.max(
+                    base.framesAdvanced ?? 0,
+                    stamped.framesAdvanced ?? 0
+                  ),
+                });
+                writeLocalDtWorld(next, slotId);
+                return next;
+              }
+              const merged = mergeDtWorld(
+                base,
+                normalizeDtWorld(data.world!),
+                mySlot,
+                identity.isDm
+              );
+              let localBattle = mergeSimpleBattle(base.battle, merged.battle);
+              const cleared = stamped.clearedBattleId || base.clearedBattleId;
+              if (cleared && localBattle?.id === cleared) localBattle = null;
+              const next = normalizeDtWorld({
+                ...merged,
+                battle: localBattle,
+                clearedBattleId: cleared ?? merged.clearedBattleId ?? null,
+                storyPlayMs: Math.max(base.storyPlayMs ?? 0, merged.storyPlayMs ?? 0),
+                framesAdvanced: Math.max(
+                  base.framesAdvanced ?? 0,
+                  merged.framesAdvanced ?? 0
+                ),
+              });
+              writeLocalDtWorld(next, slotId);
+              return next;
             });
-            setWorld(next);
-            writeLocalDtWorld(next, slotId);
           }
         })
         .catch(() => {
@@ -321,13 +358,27 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
           const base = prev ?? normalizeDtWorld(remote);
           const merged = mergeDtWorld(base, normalizeDtWorld(remote), mySlot, identity.isDm);
           // Sticky local fight: never swap ids / clear splashDone while active.
-          const localBattle =
+          // Never resurrect a fled/dismissed battle.id from poll.
+          let localBattle =
             prev?.battle?.status === "active"
               ? mergeSimpleBattle(prev.battle, merged.battle)
-              : merged.battle;
+              : prev?.battle == null
+                ? null
+                : merged.battle;
+          const cleared = prev?.clearedBattleId || merged.clearedBattleId;
+          if (cleared && localBattle?.id === cleared) localBattle = null;
+          // Peer-started ambush: accept only if we have no local fight and didn't clear this id.
+          if (
+            prev?.battle == null &&
+            merged.battle?.status === "active" &&
+            merged.battle.id !== cleared
+          ) {
+            localBattle = merged.battle;
+          }
           const next = normalizeDtWorld({
             ...merged,
             battle: localBattle,
+            clearedBattleId: cleared ?? null,
             storyPlayMs: Math.max(prev?.storyPlayMs ?? 0, merged.storyPlayMs ?? 0),
             framesAdvanced: Math.max(prev?.framesAdvanced ?? 0, merged.framesAdvanced ?? 0),
           });
@@ -540,6 +591,15 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     setFlash("Road clears — story resumes.");
   };
 
+  const onFleeBattle = () => {
+    const current = worldRef.current;
+    if (!current?.battle) return;
+    const r = fleeDtBattle(current);
+    persist(r.world);
+    setTab("story");
+    setFlash(r.message);
+  };
+
   const onBattleFxDone = () => {
     if (!world?.battle?.fx?.length) return;
     // Keep rays/floats through deferred enemy phase; clear after foes resolve.
@@ -547,20 +607,38 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     persist(clearSimpleBattleFx(world), { sync: false });
   };
 
+  const pendingRef = useRef(false);
+  pendingRef.current = !!pending;
+
   const onBattleEnemyAdvance = () => {
     const current = worldRef.current;
-    if (!current?.battle || current.battle.phase !== "enemy" || pending) return;
+    if (!current?.battle || current.battle.phase !== "enemy") return;
+    // Never drop the advance on a transient pending tick — retry shortly.
+    if (pendingRef.current) {
+      window.setTimeout(() => {
+        const again = worldRef.current;
+        if (again?.battle?.phase === "enemy" && !pendingRef.current) {
+          const r = advanceSimpleBattleEnemyPhase(again);
+          persist(r.world);
+          if (r.message) setFlash(r.message);
+        }
+      }, 120);
+      return;
+    }
     setPending(true);
+    pendingRef.current = true;
     const r = advanceSimpleBattleEnemyPhase(current);
     persist(r.world);
     if (r.message) setFlash(r.message);
+    pendingRef.current = false;
     setPending(false);
   };
 
   const onBattleSplashDone = () => {
     const current = worldRef.current;
     if (!current?.battle || current.battle.splashDone) return;
-    persist(markSimpleBattleSplashDone(current), { sync: false });
+    // Sync so server/poll cannot resurrect splashDone:false mid-fight.
+    persist(markSimpleBattleSplashDone(current));
   };
 
   const battleActive = world?.battle?.status === "active";
@@ -1120,6 +1198,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               pending={pending}
               onAction={onBattleAction}
               onDismiss={onDismissBattle}
+              onFlee={onFleeBattle}
               onFxDone={onBattleFxDone}
               onEnemyAdvance={onBattleEnemyAdvance}
               onSplashDone={onBattleSplashDone}

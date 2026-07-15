@@ -403,6 +403,50 @@ export function ensureSimpleBattleId(battle: SimpleBattleState): SimpleBattleSta
   };
 }
 
+/** Combat already underway — never show START BATTLE splash. */
+const COMBAT_LOG_RE =
+  /\b(hits|strikes|casts|heals|drinks|grants Haste|swigs)\b|— Round /i;
+
+/**
+ * Splash only for brand-new fights (round 1, player phase, intro log only).
+ * Mid-fight remounts / poll merges must never restart the intro.
+ */
+export function simpleBattleShouldSkipSplash(battle: SimpleBattleState): boolean {
+  if (battle.splashDone) return true;
+  if (battle.status !== "active" || battle.phase === "summary") return true;
+  if (battle.round >= 2) return true;
+  if (battle.phase === "enemy") return true;
+  if (battle.log.some((line) => COMBAT_LOG_RE.test(line))) return true;
+  return false;
+}
+
+/** Stamp splashDone when the fight is already past intro (load / poll / remount). */
+export function ensureSimpleBattleSplashConsistency(
+  battle: SimpleBattleState
+): SimpleBattleState {
+  const withId = ensureSimpleBattleId(battle);
+  if (withId.splashDone) return withId;
+  if (simpleBattleShouldSkipSplash(withId)) {
+    return { ...withId, splashDone: true };
+  }
+  return withId;
+}
+
+/** Higher = further along; used so stale persist responses cannot roll back a turn. */
+export function simpleBattleProgressScore(battle: SimpleBattleState): number {
+  const phaseOrd =
+    battle.phase === "summary" ? 3 : battle.phase === "enemy" ? 1 : 0;
+  const statusOrd =
+    battle.status === "victory" || battle.status === "defeat" ? 100 : 0;
+  return (
+    statusOrd +
+    battle.round * 10 +
+    phaseOrd +
+    (battle.splashDone ? 0.5 : 0) +
+    Math.min(battle.log.length, 24) * 0.01
+  );
+}
+
 export function markSimpleBattleSplashDone(world: DtWorldSave): DtWorldSave {
   if (!world.battle || world.battle.splashDone) return world;
   return {
@@ -529,6 +573,7 @@ export function startSimpleBattle(
     world: {
       ...world,
       battle,
+      clearedBattleId: null,
       framesSinceEncounter: 0,
       nextEncounterAtFrame: rollNextEncounterAtFrame(world.framesAdvanced, rng),
       updatedAt: new Date().toISOString(),
@@ -900,6 +945,7 @@ export function dismissSimpleBattle(world: DtWorldSave): DtWorldSave {
   if (world.battle.status === "active") return world;
   return {
     ...world,
+    clearedBattleId: world.battle.id,
     battle: null,
     updatedAt: new Date().toISOString(),
   };
@@ -931,27 +977,77 @@ export function mergeSimpleBattle(
   b: SimpleBattleState | null | undefined
 ): SimpleBattleState | null {
   if (!a && !b) return null;
-  if (a && !b) return ensureSimpleBattleId(a);
-  if (!a && b) return ensureSimpleBattleId(b);
-  const left = ensureSimpleBattleId(a!);
-  const right = ensureSimpleBattleId(b!);
+  if (a && !b) return ensureSimpleBattleSplashConsistency(a);
+  if (!a && b) return ensureSimpleBattleSplashConsistency(b);
+  const left = ensureSimpleBattleSplashConsistency(a!);
+  const right = ensureSimpleBattleSplashConsistency(b!);
   if (left.status === "active" && right.status !== "active") return left;
   if (right.status === "active" && left.status !== "active") return right;
   if (left.status === "active" && right.status === "active") {
-    // Same fight — keep richer progress + sticky splashDone.
+    // Same fight — keep further-along copy; splashDone is sticky OR once true.
     if (left.id === right.id) {
-      const newer = right.round > left.round ? right : left;
+      const newer =
+        simpleBattleProgressScore(right) > simpleBattleProgressScore(left)
+          ? right
+          : left;
       const older = newer === right ? left : right;
-      return {
+      return ensureSimpleBattleSplashConsistency({
         ...newer,
         splashDone: !!(left.splashDone || right.splashDone),
-        // Prefer the copy with more FX cleared / actions spent (fewer actionsLeft sum wins ties via round).
         units: newer.units.length ? newer.units : older.units,
-      };
+      });
     }
     // Distinct ambushes — keep left (caller ordered prefer-local).
-    return { ...left, splashDone: !!(left.splashDone || false) };
+    return ensureSimpleBattleSplashConsistency({
+      ...left,
+      splashDone: !!(left.splashDone || right.splashDone),
+    });
   }
-  // Summaries — prefer higher round / victory.
-  return right.round >= left.round ? right : left;
+  // Summaries — prefer higher progress.
+  return simpleBattleProgressScore(right) >= simpleBattleProgressScore(left)
+    ? right
+    : left;
+}
+
+/**
+ * Abort an active fight (flee / soft-lock escape). Soft-recovers party and clears
+ * the overlay so testing can recover without victory/defeat.
+ */
+export function fleeSimpleBattle(world: DtWorldSave): {
+  world: DtWorldSave;
+  message: string;
+} {
+  if (!world.battle) return { world, message: "No fight to flee." };
+  const wasActive = world.battle.status === "active";
+  const clearedId = world.battle.id;
+  const characters = softRecoverParty(world);
+  return {
+    world: {
+      ...world,
+      characters,
+      battle: null,
+      /** Session + persist hint: do not resurrect this fight from poll/server. */
+      clearedBattleId: clearedId,
+      battlesFought: (world.battlesFought ?? 0) + (wasActive ? 1 : 0),
+      framesSinceEncounter: 0,
+      nextEncounterAtFrame: rollNextEncounterAtFrame(world.framesAdvanced),
+      updatedAt: new Date().toISOString(),
+      log: ["Fled the ambush (soft recover).", ...world.log].slice(0, 80),
+    },
+    message: "Fled the ambush — soft recover. Story resumes.",
+  };
+}
+
+/**
+ * Drop a remote/active battle when the client already fled/dismissed that id.
+ * Prevents poll/out-of-order POST from resurrecting a cleared fight.
+ */
+export function applyClearedBattleGuard(
+  world: DtWorldSave,
+  remoteBattle: SimpleBattleState | null | undefined
+): SimpleBattleState | null {
+  const cleared = world.clearedBattleId;
+  if (!remoteBattle) return null;
+  if (cleared && remoteBattle.id === cleared) return null;
+  return ensureSimpleBattleSplashConsistency(remoteBattle);
 }

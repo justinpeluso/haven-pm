@@ -5,6 +5,7 @@ import { battleClassArtSrc } from "@/lib/downtown/party-chronicle/art";
 import type { ClassId } from "@/lib/downtown/party-chronicle/types";
 import {
   SIMPLE_BATTLE_ACTIONS,
+  simpleBattleShouldSkipSplash,
   type SimpleBattleActionId,
   type SimpleBattleState,
   type SimpleBattleUnit,
@@ -20,6 +21,8 @@ type Props = {
   pending?: boolean;
   onAction: (heroId: string, action: SimpleBattleActionId, targetId?: string) => void;
   onDismiss: () => void;
+  /** Flee / soft-lock escape while fight is still active. */
+  onFlee?: () => void;
   onFxDone?: () => void;
   /** Called after player FX so foes can act without wiping rays immediately. */
   onEnemyAdvance?: () => void;
@@ -28,6 +31,7 @@ type Props = {
 };
 
 const ENEMY_ADVANCE_MS = 700;
+const ENEMY_WATCHDOG_MS = 1800;
 
 const MAP_LABEL: Record<SimpleMapTheme, string> = {
   "dust-road": "Dust road",
@@ -44,7 +48,10 @@ const MAP_LABEL: Record<SimpleMapTheme, string> = {
 const INTRO_HOLD_MS = 1400;
 const INTRO_FADE_MS = 800;
 
-/** Survives overlay remounts within the tab (poll flicker, Strict Mode). */
+/**
+ * Survives overlay remounts within the tab (poll flicker, Strict Mode).
+ * Only records ids whose intro already finished — never cleared mid-session.
+ */
 const finishedSplashIds = new Set<string>();
 
 function unitArtSrc(unit: SimpleBattleUnit): string | null {
@@ -218,6 +225,12 @@ function FloatLayer({ battle }: { battle: SimpleBattleState }) {
   );
 }
 
+/**
+ * Architectural rule: intro is Idle→Intro→Battle forward only.
+ * - Timers arm once per battle.id (deps = [battle.id] only).
+ * - Mid-fight / remount / poll: skip if splashDone, round≥2, enemy phase, or combat log.
+ * - Never setIntroPhase("in") again for an id that already finished or must skip.
+ */
 export function SimpleBattleOverlay({
   battle,
   mySlot,
@@ -225,6 +238,7 @@ export function SimpleBattleOverlay({
   pending,
   onAction,
   onDismiss,
+  onFlee,
   onFxDone,
   onEnemyAdvance,
   onSplashDone,
@@ -234,17 +248,17 @@ export function SimpleBattleOverlay({
   const [needTarget, setNeedTarget] = useState<"enemy" | "ally" | "self" | "none" | null>(
     null
   );
-  // Skip splash when already done for this battle (poll merges / remounts).
-  const splashSkip =
-    battle.splashDone === true ||
-    finishedSplashIds.has(battle.id) ||
-    battle.status !== "active" ||
-    battle.phase === "summary";
+
+  const mustSkipSplash =
+    simpleBattleShouldSkipSplash(battle) || finishedSplashIds.has(battle.id);
+
   const [introPhase, setIntroPhase] = useState<"in" | "out" | "gone">(
-    splashSkip ? "gone" : "in"
+    mustSkipSplash ? "gone" : "in"
   );
   /** Ids whose splash already finished in this mount tree. */
-  const splashCompletedRef = useRef<string | null>(splashSkip ? battle.id : null);
+  const splashCompletedRef = useRef<string | null>(mustSkipSplash ? battle.id : null);
+  /** Guards Strict Mode double-invoke: only one timer chain per id at a time. */
+  const splashArmedRef = useRef<string | null>(null);
   const onEnemyAdvanceRef = useRef(onEnemyAdvance);
   onEnemyAdvanceRef.current = onEnemyAdvance;
   const onFxDoneRef = useRef(onFxDone);
@@ -256,6 +270,21 @@ export function SimpleBattleOverlay({
     () => simpleBattleMapSrc(battle.mapTheme, battle.mapVariant),
     [battle.mapTheme, battle.mapVariant]
   );
+
+  const finishSplash = (id: string) => {
+    if (splashCompletedRef.current === id && finishedSplashIds.has(id)) {
+      setIntroPhase("gone");
+      return;
+    }
+    splashCompletedRef.current = id;
+    finishedSplashIds.add(id);
+    setIntroPhase("gone");
+    onSplashDoneRef.current?.();
+  };
+
+  const dismissSplash = () => {
+    finishSplash(battle.id);
+  };
 
   useEffect(() => {
     setSelectedHeroId(battle.focusHeroId);
@@ -272,44 +301,83 @@ export function SimpleBattleOverlay({
     return () => window.clearTimeout(t);
   }, [battle.fx, battle.phase]);
 
-  // Let player rays/floats paint, then resolve foes.
-  // Intentionally ignore fx.length churn so the timer isn't reset mid-wait.
+  // Enemy phase: resolve after VFX, with watchdog so a missed tick cannot soft-lock.
   useEffect(() => {
     if (battle.status !== "active" || battle.phase !== "enemy") return;
+    let cancelled = false;
+    const tryAdvance = () => {
+      if (cancelled) return;
+      onEnemyAdvanceRef.current?.();
+    };
     const delay = battle.fx.length ? ENEMY_ADVANCE_MS : 180;
-    const t = window.setTimeout(() => onEnemyAdvanceRef.current?.(), delay);
-    return () => window.clearTimeout(t);
+    const t = window.setTimeout(tryAdvance, delay);
+    const watch = window.setInterval(tryAdvance, ENEMY_WATCHDOG_MS);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(t);
+      window.clearInterval(watch);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-arm on phase/round
   }, [battle.status, battle.phase, battle.round]);
 
-  // Comic START BATTLE splash once per battle.id — never restart on poll merges.
+  // Force-off path: mid-fight remount / missing splashDone / poll merge.
+  // Separate from the intro timer so phase churn cannot re-arm START BATTLE.
   useEffect(() => {
-    const id = battle.id;
-    if (battle.status !== "active" || battle.phase === "summary") {
-      setIntroPhase("gone");
+    if (!simpleBattleShouldSkipSplash(battle) && !finishedSplashIds.has(battle.id)) {
       return;
     }
+    finishSplash(battle.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- derive from battle fields only
+  }, [
+    battle.id,
+    battle.round,
+    battle.phase,
+    battle.splashDone,
+    battle.status,
+    battle.log.length,
+  ]);
+
+  // Comic START BATTLE — arm timers exactly once per battle.id.
+  // Deps MUST stay [battle.id] only so player→enemy phase cannot restart intro.
+  useEffect(() => {
+    const id = battle.id;
     if (
-      battle.splashDone ||
+      simpleBattleShouldSkipSplash(battle) ||
       finishedSplashIds.has(id) ||
       splashCompletedRef.current === id
     ) {
       setIntroPhase("gone");
-      return;
-    }
-    setIntroPhase("in");
-    const fade = window.setTimeout(() => setIntroPhase("out"), INTRO_HOLD_MS);
-    const gone = window.setTimeout(() => {
-      setIntroPhase("gone");
       splashCompletedRef.current = id;
       finishedSplashIds.add(id);
-      onSplashDoneRef.current?.();
-    }, INTRO_HOLD_MS + INTRO_FADE_MS);
+      return;
+    }
+    // Strict Mode: first mount cleanup clears timers; second mount re-arms once.
+    // Do not mark finished on cleanup — that would skip the real intro.
+    splashArmedRef.current = id;
+    setIntroPhase("in");
+    const fade = window.setTimeout(() => setIntroPhase("out"), INTRO_HOLD_MS);
+    const gone = window.setTimeout(() => finishSplash(id), INTRO_HOLD_MS + INTRO_FADE_MS);
     return () => {
       window.clearTimeout(fade);
       window.clearTimeout(gone);
+      if (splashArmedRef.current === id) splashArmedRef.current = null;
     };
-  }, [battle.id, battle.status, battle.phase, battle.splashDone]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once per battle.id only
+  }, [battle.id]);
+
+  // Escape dismisses stuck splash.
+  useEffect(() => {
+    if (introPhase === "gone") return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        dismissSplash();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [introPhase, battle.id]);
 
   const heroes = battle.units.filter((u) => u.side === "hero");
   const enemies = battle.units.filter((u) => u.side === "enemy");
@@ -322,7 +390,12 @@ export function SimpleBattleOverlay({
 
   const summary = battle.status !== "active" || battle.phase === "summary";
   const playerTurn = battle.status === "active" && battle.phase === "player";
-  const introBusy = introPhase !== "gone" && battle.status === "active" && !summary;
+  // Intro never blocks when the fight has already progressed past brand-new.
+  const introBusy =
+    introPhase !== "gone" &&
+    battle.status === "active" &&
+    !summary &&
+    !mustSkipSplash;
   const controlsLocked = introBusy || !canAct || !!pending || !playerTurn;
 
   const pickAction = (id: SimpleBattleActionId) => {
@@ -408,18 +481,22 @@ export function SimpleBattleOverlay({
             </button>
           ))}
 
-          {introPhase !== "gone" && battle.status === "active" && !summary ? (
-            <div
+          {introPhase !== "gone" && battle.status === "active" && !summary && !mustSkipSplash ? (
+            <button
+              type="button"
               className="dt-sbat-intro"
               data-phase={introPhase}
               aria-live="assertive"
+              aria-label="Dismiss start battle splash"
               key={battle.id}
+              onClick={dismissSplash}
             >
               <span className="dt-sbat-intro-badge">START BATTLE</span>
               <span className="dt-sbat-intro-sub">
                 {enemies.map((e) => e.name).join(" · ") || "Ambush"}
               </span>
-            </div>
+              <span className="dt-sbat-intro-hint">Click or Esc to skip</span>
+            </button>
           ) : null}
         </div>
 
@@ -486,6 +563,18 @@ export function SimpleBattleOverlay({
                   {a.label}
                 </button>
               ))}
+              {onFlee ? (
+                <button
+                  type="button"
+                  className="dt-btn"
+                  data-flee="true"
+                  disabled={!!pending}
+                  onClick={onFlee}
+                  title="Flee ambush (soft recover) — escape soft-locks"
+                >
+                  Flee
+                </button>
+              ) : null}
             </div>
 
             <ul className="dt-sbat-log">

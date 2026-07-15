@@ -5,6 +5,7 @@
 
 import {
   dismissSimpleBattle,
+  fleeSimpleBattle,
   startSimpleBattle,
 } from "./simple-battle";
 import type { DtWorldSave } from "./types";
@@ -36,4 +37,12 @@ export function startDtBattleVs(
 
 export function dismissDtBattle(world: DtWorldSave): DtWorldSave {
   return dismissSimpleBattle(world);
+}
+
+/** Flee / soft-lock escape — clears active or summary overlay. */
+export function fleeDtBattle(world: DtWorldSave): {
+  world: DtWorldSave;
+  message: string;
+} {
+  return fleeSimpleBattle(world);
 }

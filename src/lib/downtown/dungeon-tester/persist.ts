@@ -7,7 +7,7 @@ import type { CreateKitPicks } from "@/lib/downtown/party-chronicle/create";
 import type { CharacterSave, ClassId, Stats } from "@/lib/downtown/party-chronicle/types";
 import type { RaceId } from "@/lib/downtown/party-chronicle/races";
 import {
-  ensureSimpleBattleId,
+  ensureSimpleBattleSplashConsistency,
   mergeSimpleBattle,
 } from "./simple-battle";
 import {
@@ -35,7 +35,9 @@ function isSimpleBattleBlob(raw: unknown): raw is SimpleBattleState {
 
 function normalizeBattle(raw: unknown): SimpleBattleState | null {
   if (!isSimpleBattleBlob(raw)) return null;
-  return ensureSimpleBattleId(raw);
+  // Mid-fight loads (round≥2 / combat log / enemy phase) stamp splashDone so
+  // remounts never restart START BATTLE.
+  return ensureSimpleBattleSplashConsistency(raw);
 }
 
 /** Save slots — each holds an independent Wilderland campaign world. */
@@ -152,6 +154,7 @@ export function createNewDtWorld(): DtWorldSave {
     partyFlags: ["ch1-started"],
     characters,
     battle: null,
+    clearedBattleId: null,
     storyPlayMs: 0,
     battlesFought: 0,
     nextEncounterAtMs: rollNextEncounterThreshold(0),
@@ -204,8 +207,10 @@ export function normalizeDtWorld(raw: unknown): DtWorldSave {
         : rollNextEncounterAtFrame(Math.max(0, Number(w.framesAdvanced) || 0)),
     partyFlags: Array.isArray(w.partyFlags) ? w.partyFlags : base.partyFlags,
     // Drop legacy Neverworld tactical battles; keep DT simple battle only.
-    // ensureSimpleBattleId is deterministic so poll/normalize never mint a new id.
+    // ensureSimpleBattleSplashConsistency stamps splashDone for mid-fight loads.
     battle: normalizeBattle(w.battle),
+    clearedBattleId:
+      typeof w.clearedBattleId === "string" ? w.clearedBattleId : w.clearedBattleId === null ? null : undefined,
     storyPlayMs: Math.max(0, Number(w.storyPlayMs) || 0),
     battlesFought: Math.max(0, Number(w.battlesFought) || 0),
     nextEncounterAtMs: Math.max(0, Number(w.nextEncounterAtMs) || 0),
@@ -336,12 +341,18 @@ export function mergeDtWorld(
   const other = preferIncoming ? a : b;
 
   // Battles: sticky splashDone + stable id; prefer active; never mint a new fight here.
-  const battle = mergeSimpleBattle(base.battle, other.battle);
+  // Never resurrect a fight the client already fled/dismissed (clearedBattleId).
+  let battle = mergeSimpleBattle(base.battle, other.battle);
+  const cleared = base.clearedBattleId || other.clearedBattleId || null;
+  if (cleared && battle?.id === cleared) {
+    battle = null;
+  }
 
   return normalizeDtWorld({
     ...base,
     characters,
     battle,
+    clearedBattleId: cleared,
     partyFlags: Array.from(new Set([...(a.partyFlags ?? []), ...(b.partyFlags ?? [])])),
     storyPlayMs: Math.max(a.storyPlayMs ?? 0, b.storyPlayMs ?? 0),
     battlesFought: Math.max(a.battlesFought ?? 0, b.battlesFought ?? 0),
