@@ -64,8 +64,8 @@
       ],
       "sceneId": "scene-dt-wanted-mark",
       "splashArtId": "splash-dt-wanted-mark",
-      "fidelity": "stub",
-      "frameCount": 60
+      "fidelity": "thorough",
+      "frameCount": 62
     },
     {
       "id": "dt-ch-04-river-of-brands",
@@ -84,14 +84,14 @@
       ],
       "sceneId": "scene-dt-river-of-brands",
       "splashArtId": "splash-dt-river-of-brands",
-      "fidelity": "stub",
-      "frameCount": 60
+      "fidelity": "thorough",
+      "frameCount": 62
     },
     {
       "id": "dt-ch-05-candlemire-gates",
       "chapter": 5,
       "title": "Candlemire Gates",
-      "tagline": "Lord Cade's border keeps smile for coin and iron for mercy; Lira is somewhere past the smoke.",
+      "tagline": "Lord Cade's border keeps smile for coin and iron for mercy; Lyra is somewhere past the smoke.",
       "startNodeId": "dt-ch05-001",
       "levelMin": 24,
       "levelMax": 36,
@@ -104,8 +104,8 @@
       ],
       "sceneId": "scene-dt-candlemire-gates",
       "splashArtId": "splash-dt-candlemire-gates",
-      "fidelity": "stub",
-      "frameCount": 65
+      "fidelity": "thorough",
+      "frameCount": 66
     },
     {
       "id": "dt-ch-06-house-of-collars",
@@ -124,8 +124,8 @@
       ],
       "sceneId": "scene-dt-house-of-collars",
       "splashArtId": "splash-dt-house-of-collars",
-      "fidelity": "stub",
-      "frameCount": 65
+      "fidelity": "thorough",
+      "frameCount": 66
     },
     {
       "id": "dt-ch-07-blood-mandolin",
@@ -144,8 +144,8 @@
       ],
       "sceneId": "scene-dt-blood-mandolin",
       "splashArtId": "splash-dt-blood-mandolin",
-      "fidelity": "stub",
-      "frameCount": 60
+      "fidelity": "thorough",
+      "frameCount": 62
     },
     {
       "id": "dt-ch-08-liberation-march",
@@ -164,8 +164,8 @@
       ],
       "sceneId": "scene-dt-liberation-march",
       "splashArtId": "splash-dt-liberation-march",
-      "fidelity": "stub",
-      "frameCount": 65
+      "fidelity": "thorough",
+      "frameCount": 66
     },
     {
       "id": "dt-ch-09-free-horizon",
@@ -184,8 +184,8 @@
       ],
       "sceneId": "scene-dt-free-horizon",
       "splashArtId": "splash-dt-free-horizon",
-      "fidelity": "stub",
-      "frameCount": 55
+      "fidelity": "thorough",
+      "frameCount": 56
     }
   ],
   "endings": [

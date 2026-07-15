@@ -6,14 +6,15 @@
  * (thrall → binder alliance → hunt for beloved → baronial stronghold → revolt).
  * No film or LOTR trademark character/place names.
  *
- * Chapters 1–2: thorough authored frames + generated connective tissue.
- * Chapters 3–9: stub connective narrative frames with enemy themes.
+ * Chapters 1–9: thorough authored landmarks + chapter-flavored connective tissue.
+ * Ending triad remains on Ch9 Horizon Vote → dt-ending-*.
  *
  * Out: data/dungeon-tester/story-spine.json (+ chapters mirror)
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { CHAPTER_CONNECTIVE, THOROUGH_LANDMARKS } from "./dt-landmarks-ch3-9.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = join(__dirname, "..", "data", "dungeon-tester");
@@ -78,7 +79,7 @@ const CHAPTERS = [
     estimatedHours: 3,
     levelMin: 12,
     levelMax: 20,
-    fidelity: "stub",
+    fidelity: "thorough",
     enemyThemes: ["mark-hunters", "spy-ravens", "orc-outriders", "paid-knights"],
     hoursHint: "Trail of ink · false allies · first map of Candlemire",
   },
@@ -90,7 +91,7 @@ const CHAPTERS = [
     estimatedHours: 3,
     levelMin: 18,
     levelMax: 28,
-    fidelity: "stub",
+    fidelity: "thorough",
     enemyThemes: ["river-slavers", "barge-trolls", "muck-spiders", "toll-orcs"],
     hoursHint: "Crossing · bribes · a drowned ledger page",
   },
@@ -98,11 +99,11 @@ const CHAPTERS = [
     chapter: 5,
     slug: "candlemire-gates",
     title: "Candlemire Gates",
-    tagline: "Lord Cade's border keeps smile for coin and iron for mercy; Lira is somewhere past the smoke.",
+    tagline: "Lord Cade's border keeps smile for coin and iron for mercy; Lyra is somewhere past the smoke.",
     estimatedHours: 3.5,
     levelMin: 24,
     levelMax: 36,
-    fidelity: "stub",
+    fidelity: "thorough",
     enemyThemes: ["gate-guards", "mire-orcs", "war-mastiffs", "wicker-sentries"],
     hoursHint: "False papers · Quill's wager · ash over the cane fields",
   },
@@ -114,9 +115,9 @@ const CHAPTERS = [
     estimatedHours: 3.5,
     levelMin: 32,
     levelMax: 44,
-    fidelity: "stub",
+    fidelity: "thorough",
     enemyThemes: ["overseer-orcs", "house-blades", "punishment-hounds", "collared-champions"],
-    hoursHint: "Dinner with Cade · thrall whispers · Lira's window",
+    hoursHint: "Dinner with Cade · thrall whispers · Lyra's window",
   },
   {
     chapter: 7,
@@ -126,7 +127,7 @@ const CHAPTERS = [
     estimatedHours: 3,
     levelMin: 40,
     levelMax: 52,
-    fidelity: "stub",
+    fidelity: "thorough",
     enemyThemes: ["pit-champions", "arena-trolls", "spectating-knights", "cade-favorites"],
     hoursHint: "Forced duel · Quill's mask slips · the revolt spark",
   },
@@ -138,9 +139,9 @@ const CHAPTERS = [
     estimatedHours: 3.5,
     levelMin: 48,
     levelMax: 60,
-    fidelity: "stub",
+    fidelity: "thorough",
     enemyThemes: ["cade-host", "elite-orcs", "burning-tower-guards", "warg-cavalry"],
-    hoursHint: "Barracks burn · Lira freed or lost · Cade at the stair",
+    hoursHint: "Barracks burn · Lyra freed · Cade at the stair",
   },
   {
     chapter: 9,
@@ -150,7 +151,7 @@ const CHAPTERS = [
     estimatedHours: 2.5,
     levelMin: 55,
     levelMax: 70,
-    fidelity: "stub",
+    fidelity: "thorough",
     enemyThemes: ["remnant-hunters", "storm-wargs", "last-enforcers", "memory-shades"],
     hoursHint: "Endings: merciful road · hard justice · shared dawn",
   },
@@ -580,80 +581,6 @@ const CH2_LANDMARKS = [
   },
 ];
 
-/** Stub chapter beat titles + one-liners expanded into multi-sentence frames. */
-const STUB_BEATS = {
-  3: [
-    ["Ink Trail", "A forger sells marks that open doors and close lives."],
-    ["False Friend", "A smiling freeman sells your description twice before noon."],
-    ["Spy Ravens", "Cade’s birds count travelers who ask too many ledger questions."],
-    ["Map Fragment", "Candlemire’s walls appear in charcoal — incomplete, hungry."],
-    ["Wanted Song", "Your freemark becomes a ballad verse in the wrong tavern."],
-    ["Quill's Debt", "Someone from Quill’s past wants payment in your skin."],
-    ["Mark Hunters", "Professionals arrive with cages built for freemen."],
-    ["Eastward Sign", "All roads argue; only one still smells like cane smoke."],
-  ],
-  4: [
-    ["Mud Toll", "Ferrymen charge more if your wrist freemark looks fresh."],
-    ["Barge of Rings", "A flatboat floats quiet with iron inventory under canvas."],
-    ["Muck Spiders", "Webs bridge reed to reed where screams go muffled."],
-    ["Drowned Page", "A ledger scrap surfaces with Lyra’s sale date still legible."],
-    ["Toll Orcs", "Spears demand tribute for pretending the river is free."],
-    ["Night Crossing", "Fog hides the middle; courage has to invent the far bank."],
-    ["Slaver Camp", "Tents circle a fire that cooks meat and bad bargains."],
-    ["Far Bank", "Candlemire’s smoke finally has a direction you can walk."],
-  ],
-  5: [
-    ["Gate Smile", "Guards grin for bribes and bare teeth for pity."],
-    ["False Papers", "Quill’s ink must outrank Cade’s paranoia by one thin lie."],
-    ["Cane Fields", "Workers move like punctuation under the overseers’ grammar."],
-    ["Guest Courtesy", "A steward offers wine that tastes like surveillance."],
-    ["Yard Glimpse", "Collars flash in sunlight beyond a polite hedge."],
-    ["Name Denied", "No servant will say Lyra — until one does, softly."],
-    ["Quill's Wager", "He bets charm against Cade’s curiosity and loses nothing yet."],
-    ["Inner Fence", "Beyond hospitality, Candlemire stops pretending."],
-  ],
-  6: [
-    ["Dinner Seals", "Lord Cade toasts guests while ledgers wait under dessert."],
-    ["Thrall Whisper", "A kitchen hand names rooms where song-thralls sleep locked."],
-    ["Window Light", "A silhouette might be Lyra — or hope wearing her outline."],
-    ["Overseer Gash", "An orc with a branded chain counts you like inventory returning."],
-    ["House Blades", "Courteous duelists practice ending conversations early."],
-    ["Collar Yard", "Rings hang on pegs labeled with numbers older than mercy."],
-    ["Midnight Pact", "Thralls offer silence for a plan that includes them."],
-    ["Quill Unmasked", "Someone at table recognizes the binder’s other name."],
-  ],
-  7: [
-    ["Mandolin Hour", "Music keeps time so the crowd can clap on the bleeding."],
-    ["Pit Call", "Your freemark is an insult Cade wants paid in public."],
-    ["Champion Ring", "A collared fighter studies you like a door he might open."],
-    ["Forced Steel", "Win ugly, lose worse — the yard watches for either miracle."],
-    ["Quill's Tell", "His calm cracks; Cade smells leverage and smiles wider."],
-    ["Lantern Drop", "A thrown light becomes the first honest signal of revolt."],
-    ["Crowd Turn", "Spectators remember they are people when the music skips."],
-    ["Spark Kept", "You leave the pit bloody and carrying tomorrow’s riot."],
-  ],
-  8: [
-    ["Cage Keys", "Keys change hands in darkness thick as cane smoke."],
-    ["Barracks Burn", "Orc quarters learn fire faster than orders."],
-    ["Lira Found", "Recognition hits like a wound that heals wrong and right."],
-    ["Warg Cavalry", "Cade’s riders try to stitch the uprising shut with teeth."],
-    ["Tower Stair", "Lord Cade waits where ledgers cannot save him."],
-    ["Choice of Fire", "Burn the house that branded the region — or leave it to trials."],
-    ["March West", "Freed feet invent a road Cade’s maps never allowed."],
-    ["Smoke Clearing", "Candlemire’s sky tries on a color without orders."],
-  ],
-  9: [
-    ["Remnant Hunters", "Coins still buy chases even after a house falls."],
-    ["Storm Wargs", "Weather takes sides with whoever still smells of iron."],
-    ["Counsel of Dust", "Quill asks what kind of freehold you will refuse to become."],
-    ["Lyra's Quiet", "She speaks of mornings that do not require permission."],
-    ["Hard Road", "Justice unfinished walks beside you like a second shadow."],
-    ["Horizon Vote", "Mercy, fire, or a shared dawn — the Wilderland waits for a mark."],
-    ["Last Enforcement", "Cade’s final loyalists demand an ending in steel."],
-    ["Free Horizon", "The frame opens onto sky; endings choose their weather."],
-  ],
-};
-
 const CONNECTIVE_OPENERS = [
   "Dust lifts off the track in pale sheets.",
   "Wind carries iron smell farther than voices.",
@@ -687,16 +614,23 @@ const CONNECTIVE_CLOSERS = [
   "Continue is the only honest verb left.",
 ];
 
-function connectiveBody(seed) {
-  const a = CONNECTIVE_OPENERS[seed % CONNECTIVE_OPENERS.length];
-  const b = CONNECTIVE_MIDDLES[(seed * 3) % CONNECTIVE_MIDDLES.length];
-  const c = CONNECTIVE_CLOSERS[(seed * 7) % CONNECTIVE_CLOSERS.length];
+function connectiveBody(seed, chapter = 1) {
+  const pool = CHAPTER_CONNECTIVE[chapter];
+  const openers = pool?.openers ?? CONNECTIVE_OPENERS;
+  const middles = pool?.middles ?? CONNECTIVE_MIDDLES;
+  const closers = pool?.closers ?? CONNECTIVE_CLOSERS;
+  const a = openers[seed % openers.length];
+  const b = middles[(seed * 3) % middles.length];
+  const c = closers[(seed * 7) % closers.length];
   return `${a} ${b} ${c}`;
 }
 
-function stubBody(titleLine, seed, chapterMeta) {
-  const opener = CONNECTIVE_OPENERS[seed % CONNECTIVE_OPENERS.length];
-  return `${opener} ${titleLine} In the arc of ${chapterMeta.title}, ${chapterMeta.hoursHint.toLowerCase()} — then the road insists on another dusty page.`;
+function landmarksForChapter(chapter) {
+  if (chapter === 1) return CH1_LANDMARKS;
+  if (chapter === 2) return CH2_LANDMARKS;
+  const lm = THOROUGH_LANDMARKS[chapter];
+  if (!lm?.length) throw new Error(`Missing thorough landmarks for chapter ${chapter}`);
+  return lm;
 }
 
 function enemyForTheme(theme, level) {
@@ -799,37 +733,49 @@ function expandLandmarkToFrame(lm, id, nextId, chapter, level) {
 }
 
 /**
- * Target frame counts: thorough chapters denser; stubs still playable connective tissue.
- * ~600 frames ≈ Oregon-Trail pacing for ~30h with battles every 10–20 frames.
+ * Target frame counts (~613 chapter frames + 3 endings ≈ prior ~610 / 30h scale).
+ * Thorough quality from authored landmarks + chapter-flavored connective — not runaway length.
  */
 const TARGET_FRAMES = {
   1: 90,
   2: 90,
-  3: 60,
-  4: 60,
-  5: 65,
-  6: 65,
-  7: 60,
-  8: 65,
-  9: 55,
+  3: 62,
+  4: 62,
+  5: 66,
+  6: 66,
+  7: 62,
+  8: 66,
+  9: 56,
 };
 
 function buildThoroughChapter(meta, landmarks) {
   const target = TARGET_FRAMES[meta.chapter];
   const level = Math.ceil((meta.levelMin + meta.levelMax) / 2);
   const nodes = [];
-  const landmarkCount = landmarks.length;
-  const slotsBetween = Math.max(1, Math.floor((target - landmarkCount) / Math.max(1, landmarkCount - 1)));
+
+  // Keep ending triad as the literal last chapter frame when present.
+  const finaleLm =
+    landmarks[landmarks.length - 1]?.flagsAdd?.includes("ch9-finale") ||
+    landmarks[landmarks.length - 1]?.title === "Horizon Vote"
+      ? landmarks[landmarks.length - 1]
+      : null;
+  const coreLandmarks = finaleLm ? landmarks.slice(0, -1) : landmarks;
+  const coreTarget = finaleLm ? target - 1 : target;
+
+  const landmarkCount = coreLandmarks.length;
+  const slotsBetween = Math.max(
+    1,
+    Math.floor((coreTarget - landmarkCount) / Math.max(1, landmarkCount - 1)),
+  );
 
   /** @type {{type:"landmark"|"connective"|"encounter", lm?:any, seed?:number}[]} */
   const plan = [];
   let seed = meta.chapter * 1000;
-  for (let i = 0; i < landmarks.length; i++) {
-    plan.push({ type: "landmark", lm: landmarks[i] });
-    if (i < landmarks.length - 1) {
+  for (let i = 0; i < coreLandmarks.length; i++) {
+    plan.push({ type: "landmark", lm: coreLandmarks[i] });
+    if (i < coreLandmarks.length - 1) {
       for (let j = 0; j < slotsBetween; j++) {
         seed++;
-        // Sprinkle scripted encounter markers roughly every 12–16 connective frames.
         if (j > 0 && j % 14 === 0) {
           plan.push({ type: "encounter", seed });
         } else {
@@ -838,11 +784,12 @@ function buildThoroughChapter(meta, landmarks) {
       }
     }
   }
-  while (plan.length < target) {
+  while (plan.length < coreTarget) {
     seed++;
     plan.push({ type: "connective", seed });
   }
-  if (plan.length > target) plan.length = target;
+  if (plan.length > coreTarget) plan.length = coreTarget;
+  if (finaleLm) plan.push({ type: "landmark", lm: finaleLm });
 
   for (let i = 0; i < plan.length; i++) {
     const id = frameId(meta.chapter, i + 1);
@@ -867,7 +814,7 @@ function buildThoroughChapter(meta, landmarks) {
         id,
         kind: "encounter",
         title: `${enemyName} Ambush`,
-        body: `${connectiveBody(step.seed)} Then ${enemyName.toLowerCase()} force the issue — a roadside lesson Quill refuses to skip.`,
+        body: `${connectiveBody(step.seed, meta.chapter)} Then ${enemyName.toLowerCase()} force the issue — a roadside lesson Quill refuses to skip.`,
         sceneId: sceneId(meta.slug),
         artId: artId(theme),
         chapter: meta.chapter,
@@ -879,7 +826,6 @@ function buildThoroughChapter(meta, landmarks) {
       continue;
     }
 
-    // connective narrative
     const beatTitle = [
       "Dust Mile",
       "Quiet Counsel",
@@ -894,185 +840,7 @@ function buildThoroughChapter(meta, landmarks) {
       id,
       kind: "narrative",
       title: `${meta.title}: ${beatTitle}`,
-      body: connectiveBody(step.seed),
-      sceneId: sceneId(meta.slug),
-      artId: artId(meta.slug),
-      chapter: meta.chapter,
-      next: nextId,
-    });
-  }
-
-  return nodes;
-}
-
-function buildStubChapter(meta) {
-  const target = TARGET_FRAMES[meta.chapter];
-  const beats = STUB_BEATS[meta.chapter];
-  const level = Math.ceil((meta.levelMin + meta.levelMax) / 2);
-  const nodes = [];
-  let seed = meta.chapter * 5000;
-
-  /** Distribute beat landmarks evenly; fill rest with connective + sparse encounters + sparse choices. */
-  const beatIndexes = beats.map((_, i) => Math.floor((i * (target - 1)) / Math.max(1, beats.length - 1)));
-
-  for (let i = 0; i < target; i++) {
-    const id = frameId(meta.chapter, i + 1);
-    const nextId = i < target - 1 ? frameId(meta.chapter, i + 2) : null;
-    const beatAt = beatIndexes.indexOf(i);
-    seed++;
-
-    // Finale endings on last frames of ch9
-    if (meta.chapter === 9 && i === target - 1) {
-      nodes.push({
-        id,
-        kind: "choice",
-        title: "Horizon Vote",
-        body: "Candlemire’s smoke thins behind you. Quill waits without advising. Lyra’s quiet is not emptiness — it is a question about what kind of free you will be.",
-        sceneId: sceneId(meta.slug),
-        artId: artId("horizon"),
-        chapter: 9,
-        flagsAdd: ["ch9-finale"],
-        choices: [
-          {
-            id: "end-mercy",
-            label: "Take the merciful road",
-            approach: "Leave leftover justice to other hunters; walk west.",
-            outcome: {
-              text: "The Wilderland softens half a degree. Not forgiveness — room.",
-              nextNodeId: "dt-ending-merciful",
-              flagsAdd: ["chose-mercy"],
-            },
-          },
-          {
-            id: "end-justice",
-            label: "Finish hard justice",
-            approach: "Burn what remains of Cade’s legal skin.",
-            outcome: {
-              text: "Fire writes the last ledger. Names stop being inventory.",
-              nextNodeId: "dt-ending-justice",
-              flagsAdd: ["chose-justice"],
-            },
-          },
-          {
-            id: "end-shared",
-            label: "Found a shared dawn",
-            approach: "Stay and build a freemark hold that keeps no collars.",
-            outcome: {
-              text: "Hammers replace brands. Quill files a warrant against slavery itself.",
-              nextNodeId: "dt-ending-shared",
-              flagsAdd: ["chose-shared"],
-            },
-          },
-        ],
-      });
-      continue;
-    }
-
-    // Scripted encounters every ~15 frames
-    if (i > 0 && i % 15 === 0 && nextId) {
-      const theme = meta.enemyThemes[i % meta.enemyThemes.length];
-      const enemyName = theme
-        .split("-")
-        .map((w) => w[0].toUpperCase() + w.slice(1))
-        .join(" ");
-      const stats = enemyForTheme(theme, level);
-      nodes.push({
-        id,
-        kind: "encounter",
-        title: `${meta.title}: ${enemyName}`,
-        body: stubBody(`Hostile ${enemyName.toLowerCase()} bar the dusty page.`, seed, meta),
-        sceneId: sceneId(meta.slug),
-        artId: artId(theme),
-        chapter: meta.chapter,
-        enemy: enemyName,
-        enemyArtId: artId(theme),
-        ...stats,
-        choices: makeEncounterChoice(nextId, enemyName, meta.chapter, level),
-      });
-      continue;
-    }
-
-    // Sparse choice beats (~every 20 frames, when not a landmark)
-    if (i > 8 && i % 20 === 0 && beatAt < 0 && nextId) {
-      nodes.push({
-        id,
-        kind: "choice",
-        title: `${meta.title}: Fork`,
-        body: stubBody("Two honest dangers and one cowardly delay present themselves.", seed, meta),
-        sceneId: sceneId(meta.slug),
-        artId: artId(meta.slug),
-        chapter: meta.chapter,
-        choices: [
-          {
-            id: `stub-${meta.chapter}-bold-${i}`,
-            label: "Push bold",
-            approach: "Favor speed and steel.",
-            outcome: {
-              text: "The bold road spends luck early and sometimes wisely.",
-              xp: 10 + meta.chapter,
-              nextNodeId: nextId,
-              flagsAdd: [`ch${meta.chapter}-bold`],
-            },
-          },
-          {
-            id: `stub-${meta.chapter}-careful-${i}`,
-            label: "Go careful",
-            approach: "Scout, bribe, or circle.",
-            stat: "wisdom",
-            dc: Math.min(20, 10 + Math.floor(meta.chapter / 2)),
-            success: {
-              text: "Care pays in fewer scars and better rumors.",
-              xp: 14 + meta.chapter,
-              nextNodeId: nextId,
-              flagsAdd: [`ch${meta.chapter}-careful`],
-            },
-            fail: {
-              text: "Care turns into delay; delay invites teeth.",
-              xp: 6 + meta.chapter,
-              damage: 3 + meta.chapter,
-              nextNodeId: nextId,
-            },
-          },
-          {
-            id: `stub-${meta.chapter}-quill-${i}`,
-            label: "Trust Quill's plan",
-            approach: "Let the binder spend his remaining charms.",
-            outcome: {
-              text: "Quill’s plan is ugly, legal-adjacent, and effective.",
-              xp: 12 + meta.chapter,
-              nextNodeId: nextId,
-              flagsAdd: [`ch${meta.chapter}-quill-lead`],
-            },
-          },
-        ],
-      });
-      continue;
-    }
-
-    if (beatAt >= 0) {
-      const [title, line] = beats[beatAt];
-      nodes.push({
-        id,
-        kind: "narrative",
-        title: `${meta.title}: ${title}`,
-        body: stubBody(line, seed, meta),
-        sceneId: sceneId(meta.slug),
-        artId: artId(meta.slug),
-        chapter: meta.chapter,
-        next: nextId,
-        ...(i === 0 ? { flagsAdd: [`ch${meta.chapter}-started`] } : {}),
-        ...(i === target - 2 && meta.chapter < 9
-          ? { flagsAdd: [`ch${meta.chapter}-complete`] }
-          : {}),
-      });
-      continue;
-    }
-
-    nodes.push({
-      id,
-      kind: "narrative",
-      title: `${meta.title}: Road`,
-      body: connectiveBody(seed + meta.chapter),
+      body: connectiveBody(step.seed, meta.chapter),
       sceneId: sceneId(meta.slug),
       artId: artId(meta.slug),
       chapter: meta.chapter,
@@ -1203,10 +971,7 @@ const allNodes = [];
 const chapterDefs = [];
 
 for (const meta of CHAPTERS) {
-  const nodes =
-    meta.fidelity === "thorough"
-      ? buildThoroughChapter(meta, meta.chapter === 1 ? CH1_LANDMARKS : CH2_LANDMARKS)
-      : buildStubChapter(meta);
+  const nodes = buildThoroughChapter(meta, landmarksForChapter(meta.chapter));
 
   const nodeIds = nodes.map((n) => n.id);
   chapterDefs.push({
@@ -1272,8 +1037,8 @@ const stats = {
   nodeKinds: kindCounts,
   perChapter,
   encounterCadence: ENCOUNTER_CADENCE,
-  thoroughChapters: [1, 2],
-  stubChapters: [3, 4, 5, 6, 7, 8, 9],
+  thoroughChapters: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  stubChapters: [],
 };
 
 const pack = {
