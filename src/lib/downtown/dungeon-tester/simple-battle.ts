@@ -2,17 +2,34 @@
  * DungeonTester crude battle — fixed clip-art spots, no movement.
  * Player party acts first (attack / buff / heal / potion / magic);
  * enemies auto-attack from place. Haste → 2 actions that round.
+ *
+ * ## Battle FSM (single authority — this file owns transitions)
+ *
+ *   WORLD (battle=null)
+ *     → startSimpleBattle → INTRO (!splashDone, phase=player, round=1)
+ *     → markSimpleBattleSplashDone → PLAYER
+ *     → performSimpleBattleAction (last hero spent) → ENEMY
+ *     → advanceSimpleBattleEnemyPhase → PLAYER (round++) | ENDED
+ *     → perform/advance kill → ENDED (summary)
+ *     → dismissSimpleBattle | fleeSimpleBattle → WORLD
+ *
+ * Illegal: PLAYER→INTRO, INTRO→INTRO, ENEMY→INTRO, mid-fight restart.
+ * UI timers may delay ENEMY resolve; they must not invent state.
+ * Entry wrappers live in battle.ts; overlays never mint battles.
  */
 
 import { getGear } from "@/lib/downtown/party-chronicle/gear";
 import type { CharacterSave, PlayerSlot } from "@/lib/downtown/party-chronicle/types";
 import { PLAYER_SLOT_ORDER } from "@/lib/downtown/party-chronicle/types";
 import {
+  getDtBattleLootItem,
   getDtBoss,
   getDtCreature,
   rollDtCreature,
+  rollDtLootFromPool,
   rollDtRandomFoe,
   type DtCreatureDef,
+  type DtLootPoolId,
 } from "./bestiary";
 import { getDtGear } from "./gear";
 import { rollDtEncounterForLevel } from "./encounters";
@@ -66,6 +83,9 @@ export type SimpleBattleUnit = {
   /** Hero class clip-art / enemy plate id. */
   artId?: string;
   classId?: string;
+  /** Enemy bestiary id (for loot pool). */
+  foeDefId?: string;
+  lootPool?: DtLootPoolId | string;
 };
 
 export type SimpleBattleFx = {
@@ -96,7 +116,104 @@ export type SimpleBattleState = {
   message: string;
   /** Set after START BATTLE splash finishes; never restart for this id. */
   splashDone?: boolean;
+  /** Running fight tallies (end screen). */
+  combatStats?: SimpleBattleCombatStats;
+  /** Items rolled on victory (defeat usually empty). */
+  lootDrops?: SimpleBattleLootDrop[];
+  /** True until dismiss applies gold/xp/loot to sealed heroes. */
+  rewardsPending?: boolean;
 };
+
+export type SimpleBattleLootDrop = {
+  itemId: string;
+  name: string;
+  blurb?: string;
+};
+
+export type SimpleBattleCombatStats = {
+  damageDealt: number;
+  damageTaken: number;
+  foesDefeated: number;
+  rounds: number;
+};
+
+/** High-level stage for logging / UI (intro is splashDone gate, not phase). */
+export type SimpleBattleFsmStage =
+  | "WORLD"
+  | "INTRO"
+  | "PLAYER"
+  | "ENEMY"
+  | "ENDED";
+
+export function simpleBattleFsmStage(
+  battle: SimpleBattleState | null | undefined
+): SimpleBattleFsmStage {
+  if (!battle) return "WORLD";
+  if (battle.status !== "active" || battle.phase === "summary") return "ENDED";
+  if (battle.phase === "enemy") return "ENEMY";
+  if (!battle.splashDone && battle.round <= 1 && battle.phase === "player") {
+    return "INTRO";
+  }
+  return "PLAYER";
+}
+
+/** DEV-only transition log — quiet in production. */
+export function logSimpleBattleFsm(
+  prev: SimpleBattleFsmStage,
+  next: SimpleBattleFsmStage,
+  via: string
+): void {
+  if (process.env.NODE_ENV !== "development") return;
+  if (prev === next) return;
+  // eslint-disable-next-line no-console -- intentional FSM debug
+  console.log(`[Battle FSM] ${prev} -> ${next} (${via})`);
+}
+
+/** Stamp FSM log on every world mutation that owns battle transitions. */
+function withBattleTransition(
+  prevWorld: DtWorldSave,
+  nextWorld: DtWorldSave,
+  via: string
+): DtWorldSave {
+  logSimpleBattleFsm(
+    simpleBattleFsmStage(prevWorld.battle),
+    simpleBattleFsmStage(nextWorld.battle),
+    via
+  );
+  return nextWorld;
+}
+
+/**
+ * Repair soft-locks without reopening auto-combat:
+ * - player + zero actionsLeft → defer ENEMY
+ * - bare enemy (no hero spent) → snap PLAYER (poll regression guard)
+ */
+export function repairSimpleBattleTurnInvariant(
+  battle: SimpleBattleState
+): SimpleBattleState {
+  if (battle.status !== "active" || battle.phase === "summary") return battle;
+  const spent = simpleBattleHeroActionsSpent(battle);
+  if (battle.phase === "enemy" && spent === 0) {
+    return {
+      ...battle,
+      phase: "player",
+      focusHeroId: nextFocusHero(battle.units),
+    };
+  }
+  if (
+    battle.phase === "player" &&
+    !heroesStillActing(battle.units) &&
+    living(battle.units, "enemy").length > 0
+  ) {
+    return {
+      ...battle,
+      phase: "enemy",
+      focusHeroId: null,
+      message: "Enemy turn…",
+    };
+  }
+  return battle;
+}
 
 export const SIMPLE_BATTLE_ACTIONS: {
   id: SimpleBattleActionId;
@@ -296,6 +413,90 @@ function syncHeroHpFromUnits(
   return characters;
 }
 
+function chapterLootPool(chapterId: string): DtLootPoolId {
+  const n = chapterNumberFromId(chapterId);
+  if (n <= 1) return "trash";
+  if (n <= 2) return "common";
+  if (n <= 4) return "magic";
+  if (n <= 6) return "rare";
+  return "legendary";
+}
+
+function lootName(itemId: string): string {
+  return (
+    getDtBattleLootItem(itemId)?.name ??
+    getDtGear(itemId)?.name ??
+    itemId.replace(/^dt-/, "").replace(/-/g, " ")
+  );
+}
+
+/** Roll comic loot for the end screen — at least one drop on victory. */
+export function rollSimpleBattleLoot(
+  battle: SimpleBattleState,
+  rng: () => number = Math.random
+): SimpleBattleLootDrop[] {
+  const fallen = battle.units.filter((u) => u.side === "enemy" && u.hp <= 0);
+  const drops: SimpleBattleLootDrop[] = [];
+  const seen = new Set<string>();
+  const pushDrop = (itemId: string | undefined) => {
+    if (!itemId || seen.has(itemId)) return;
+    seen.add(itemId);
+    const item = getDtBattleLootItem(itemId) ?? getDtGear(itemId);
+    const blurb =
+      item && "blurb" in item && (item as { blurb?: string }).blurb
+        ? String((item as { blurb?: string }).blurb)
+        : undefined;
+    drops.push({ itemId, name: lootName(itemId), blurb });
+  };
+
+  for (const foe of fallen) {
+    const pool =
+      (foe.lootPool as string | undefined) ??
+      getDtCreature(foe.foeDefId ?? "")?.lootPool ??
+      getDtBoss(foe.foeDefId ?? "")?.lootPool ??
+      chapterLootPool(battle.chapterId);
+    const always = pool === "rare" || pool === "legendary";
+    if (!always && rng() > 0.7) continue;
+    pushDrop(rollDtLootFromPool(String(pool), rng)?.id);
+  }
+
+  for (const foe of fallen) {
+    const boss = getDtBoss(foe.foeDefId ?? "");
+    if (!boss?.uniqueDrops?.length) continue;
+    if (rng() > 0.55) continue;
+    const id = boss.uniqueDrops[Math.floor(rng() * boss.uniqueDrops.length)];
+    pushDrop(id);
+  }
+
+  if (!drops.length) {
+    pushDrop(rollDtLootFromPool(chapterLootPool(battle.chapterId), rng)?.id);
+  }
+  if (!drops.length) {
+    pushDrop("dt-trail-jerky");
+  }
+  return drops.slice(0, 5);
+}
+
+function emptyCombatStats(rounds = 1): SimpleBattleCombatStats {
+  return { damageDealt: 0, damageTaken: 0, foesDefeated: 0, rounds };
+}
+
+function withCombatDelta(
+  battle: SimpleBattleState,
+  delta: Partial<SimpleBattleCombatStats>
+): SimpleBattleState {
+  const cur = battle.combatStats ?? emptyCombatStats(battle.round);
+  return {
+    ...battle,
+    combatStats: {
+      damageDealt: cur.damageDealt + (delta.damageDealt ?? 0),
+      damageTaken: cur.damageTaken + (delta.damageTaken ?? 0),
+      foesDefeated: cur.foesDefeated + (delta.foesDefeated ?? 0),
+      rounds: delta.rounds ?? cur.rounds,
+    },
+  };
+}
+
 function grantRewards(
   world: DtWorldSave,
   battle: SimpleBattleState
@@ -304,15 +505,35 @@ function grantRewards(
   if (!heroes.length) return world.characters;
   const goldEach = Math.floor(battle.goldReward / heroes.length);
   const xpEach = Math.floor(battle.xpReward / heroes.length);
+  const leftovers = {
+    gold: battle.goldReward - goldEach * heroes.length,
+    xp: battle.xpReward - xpEach * heroes.length,
+  };
   const characters = { ...world.characters };
-  for (const slot of heroes) {
+  const drops = battle.lootDrops ?? [];
+  for (let i = 0; i < heroes.length; i++) {
+    const slot = heroes[i]!;
     const c = characters[slot]!;
+    const itemIds = drops.filter((_, di) => di % heroes.length === i).map((d) => d.itemId);
     characters[slot] = {
       ...c,
-      gold: (c.gold ?? 0) + goldEach,
-      xp: (c.xp ?? 0) + xpEach,
-      hp: Math.max(1, Math.min(c.maxHp, living(battle.units, "hero").find((u) => u.slot === slot)?.hp ?? c.hp)),
-      mana: Math.max(0, Math.min(c.maxMana, living(battle.units, "hero").find((u) => u.slot === slot)?.mana ?? c.mana)),
+      gold: (c.gold ?? 0) + goldEach + (i === 0 ? leftovers.gold : 0),
+      xp: (c.xp ?? 0) + xpEach + (i === 0 ? leftovers.xp : 0),
+      inventory: [...(c.inventory ?? []), ...itemIds],
+      hp: Math.max(
+        1,
+        Math.min(
+          c.maxHp,
+          living(battle.units, "hero").find((u) => u.slot === slot)?.hp ?? c.hp
+        )
+      ),
+      mana: Math.max(
+        0,
+        Math.min(
+          c.maxMana,
+          living(battle.units, "hero").find((u) => u.slot === slot)?.mana ?? c.mana
+        )
+      ),
     };
   }
   return characters;
@@ -353,30 +574,60 @@ function pushLog(battle: SimpleBattleState, line: string): SimpleBattleState {
   return { ...battle, log: [line, ...battle.log].slice(0, 24) };
 }
 
-function checkEnd(battle: SimpleBattleState): SimpleBattleState {
-  const heroes = living(battle.units, "hero");
-  const foes = living(battle.units, "enemy");
+function checkEnd(
+  battle: SimpleBattleState,
+  rng: () => number = Math.random
+): SimpleBattleState {
+  const units = battle.units.map((u) => (u.hp < 0 ? { ...u, hp: 0 } : u));
+  const next = { ...battle, units };
+  const heroes = living(next.units, "hero");
+  const foes = living(next.units, "enemy");
+  const foesDefeated = next.units.filter((u) => u.side === "enemy" && u.hp <= 0).length;
   if (!foes.length) {
+    const lootDrops =
+      next.lootDrops && next.lootDrops.length > 0
+        ? next.lootDrops
+        : rollSimpleBattleLoot(next, rng);
+    const combatStats: SimpleBattleCombatStats = {
+      ...(next.combatStats ?? emptyCombatStats(next.round)),
+      foesDefeated,
+      rounds: next.round,
+    };
+    const lootLine =
+      lootDrops.length > 0
+        ? ` Loot: ${lootDrops.map((d) => d.name).join(", ")}.`
+        : "";
     return {
-      ...battle,
+      ...next,
       status: "victory",
       phase: "summary",
       fx: [],
-      message: `Victory! +${battle.goldReward}g · +${battle.xpReward} XP`,
+      message: `Victory! +${next.goldReward}g · +${next.xpReward} XP.${lootLine}`,
       focusHeroId: null,
+      lootDrops,
+      combatStats,
+      rewardsPending: true,
     };
   }
   if (!heroes.length) {
+    const combatStats: SimpleBattleCombatStats = {
+      ...(next.combatStats ?? emptyCombatStats(next.round)),
+      foesDefeated,
+      rounds: next.round,
+    };
     return {
-      ...battle,
+      ...next,
       status: "defeat",
       phase: "summary",
       fx: [],
       message: "Defeat — limp back to the road (soft recover).",
       focusHeroId: null,
+      lootDrops: next.lootDrops ?? [],
+      combatStats,
+      rewardsPending: false,
     };
   }
-  return battle;
+  return next;
 }
 
 function heroesStillActing(units: SimpleBattleUnit[]): boolean {
@@ -425,11 +676,12 @@ export function ensureSimpleBattleSplashConsistency(
   battle: SimpleBattleState
 ): SimpleBattleState {
   const withId = ensureSimpleBattleId(battle);
-  if (withId.splashDone) return withId;
-  if (simpleBattleShouldSkipSplash(withId)) {
-    return { ...withId, splashDone: true };
-  }
-  return withId;
+  const stamped = withId.splashDone
+    ? withId
+    : simpleBattleShouldSkipSplash(withId)
+      ? { ...withId, splashDone: true }
+      : withId;
+  return repairSimpleBattleTurnInvariant(stamped);
 }
 
 /** How many hero actions already spent this round (haste ≈ 2). */
@@ -472,10 +724,15 @@ export function simpleBattleProgressScore(battle: SimpleBattleState): number {
 
 export function markSimpleBattleSplashDone(world: DtWorldSave): DtWorldSave {
   if (!world.battle || world.battle.splashDone) return world;
-  return {
-    ...world,
-    battle: { ...world.battle, splashDone: true },
-  };
+  return withBattleTransition(
+    world,
+    {
+      ...world,
+      battle: { ...world.battle, splashDone: true },
+      updatedAt: new Date().toISOString(),
+    },
+    "markSplashDone"
+  );
 }
 
 export function startSimpleBattle(
@@ -550,13 +807,13 @@ export function startSimpleBattle(
     const power = Math.max(1, Math.round(f.power * levelScale * tuning.powerMult));
     return {
       id: `enemy-${f.id}-${i}`,
-      side: "enemy",
+      side: "enemy" as const,
       name: f.name,
       color: ENEMY_COLORS[i % ENEMY_COLORS.length]!,
       hp,
       maxHp: hp,
       power,
-      armor: chapterNum <= 2 ? 0 : (f.armor ?? 0),
+      armor: chapterNum <= 2 ? 0 : Math.min(f.armor ?? 0, 4),
       x: spot.x,
       y: spot.y,
       haste: false,
@@ -567,6 +824,8 @@ export function startSimpleBattle(
       stamina: 0,
       maxStamina: 0,
       artId: f.artId,
+      foeDefId: f.id,
+      lootPool: f.lootPool,
     };
   });
 
@@ -590,18 +849,25 @@ export function startSimpleBattle(
     xpReward,
     message: `Fight! ${foes.length} foe${foes.length === 1 ? "" : "s"} on the ${theme.replace(/-/g, " ")}.`,
     splashDone: false,
+    combatStats: emptyCombatStats(1),
+    lootDrops: [],
+    rewardsPending: false,
   };
 
   return {
-    world: {
-      ...world,
-      battle,
-      clearedBattleId: null,
-      framesSinceEncounter: 0,
-      nextEncounterAtFrame: rollNextEncounterAtFrame(world.framesAdvanced, rng),
-      updatedAt: new Date().toISOString(),
-      log: [battle.message, ...world.log].slice(0, 80),
-    },
+    world: withBattleTransition(
+      world,
+      {
+        ...world,
+        battle,
+        clearedBattleId: null,
+        framesSinceEncounter: 0,
+        nextEncounterAtFrame: rollNextEncounterAtFrame(world.framesAdvanced, rng),
+        updatedAt: new Date().toISOString(),
+        log: [battle.message, ...world.log].slice(0, 80),
+      },
+      "startSimpleBattle"
+    ),
     message: battle.message,
   };
 }
@@ -610,16 +876,19 @@ function applyDamage(
   units: SimpleBattleUnit[],
   targetId: string,
   raw: number
-): { units: SimpleBattleUnit[]; dealt: number } {
+): { units: SimpleBattleUnit[]; dealt: number; killed: boolean } {
+  let dealt = 0;
+  let killed = false;
   const next = units.map((u) => {
-    if (u.id !== targetId || u.hp <= 0) return u;
-    const dealt = Math.max(1, raw - (u.armor ?? 0));
-    return { ...u, hp: Math.max(0, u.hp - dealt) };
+    if (u.id !== targetId) return u;
+    if (u.hp <= 0) return { ...u, hp: 0 };
+    const hit = Math.max(1, raw - (u.armor ?? 0));
+    const hp = Math.max(0, u.hp - hit);
+    dealt = u.hp - hp;
+    killed = hp <= 0 && u.hp > 0;
+    return { ...u, hp };
   });
-  const before = units.find((u) => u.id === targetId);
-  const after = next.find((u) => u.id === targetId);
-  const dealt = Math.max(0, (before?.hp ?? 0) - (after?.hp ?? 0));
-  return { units: next, dealt };
+  return { units: next, dealt, killed };
 }
 
 function spendHeroAction(units: SimpleBattleUnit[], heroId: string): SimpleBattleUnit[] {
@@ -640,23 +909,26 @@ function enemyActInPlace(
   const raw = enemy.power + Math.floor(rng() * 4);
   const { units, dealt } = applyDamage(battle.units, target.id, raw);
   const fxId = uid("fx");
-  let next: SimpleBattleState = {
-    ...battle,
-    units,
-    fx: [
-      { id: fxId, kind: "ray", fromId: enemy.id, toId: target.id, color: "#c44" },
-      {
-        id: uid("flt"),
-        kind: "float",
-        fromId: enemy.id,
-        toId: target.id,
-        label: `−${dealt}`,
-        color: "#ff6b4a",
-      },
-    ],
-  };
+  let next: SimpleBattleState = withCombatDelta(
+    {
+      ...battle,
+      units,
+      fx: [
+        { id: fxId, kind: "ray", fromId: enemy.id, toId: target.id, color: "#c44" },
+        {
+          id: uid("flt"),
+          kind: "float",
+          fromId: enemy.id,
+          toId: target.id,
+          label: `−${dealt}`,
+          color: "#ff6b4a",
+        },
+      ],
+    },
+    { damageTaken: dealt }
+  );
   next = pushLog(next, `${enemy.name} strikes ${target.name} for ${dealt}.`);
-  return checkEnd(next);
+  return checkEnd(next, rng);
 }
 
 function runEnemyPhase(
@@ -680,7 +952,10 @@ function runEnemyPhase(
     phase: "player",
     round: next.round + 1,
     focusHeroId: nextFocusHero(units),
-    // Keep last enemy ray/float so the crude UI can play it out.
+    combatStats: {
+      ...(next.combatStats ?? emptyCombatStats(next.round)),
+      rounds: next.round + 1,
+    },
     message: `Round ${next.round + 1} — your party.`,
   };
   return pushLog(next, `— Round ${next.round} —`);
@@ -710,56 +985,84 @@ export function performSimpleBattleAction(
   let message = "";
 
   if (action === "attack") {
-    if (!targetId) return { world, message: "Pick an enemy." };
-    const foe = living(nextBattle.units, "enemy").find((u) => u.id === targetId);
-    if (!foe) return { world, message: "Invalid target." };
-    const raw = hero.power + Math.floor(rng() * 5);
-    const { units, dealt } = applyDamage(nextBattle.units, foe.id, raw);
-    nextBattle = {
-      ...nextBattle,
-      units: spendHeroAction(units, heroId),
-      fx: [
-        { id: uid("fx"), kind: "ray", fromId: heroId, toId: foe.id, color: "#f5d76e" },
+    const livingFoes = living(nextBattle.units, "enemy");
+    if (!livingFoes.length) {
+      nextBattle = checkEnd(nextBattle, rng);
+      message = "No foes left — victory!";
+    } else {
+      let foe = targetId ? livingFoes.find((u) => u.id === targetId) : livingFoes[0];
+      let retargetNote = "";
+      if (!foe) {
+        foe = livingFoes[0]!;
+        retargetNote = " (switched target)";
+      }
+      const raw = hero.power + Math.floor(rng() * 5);
+      const { units, dealt, killed } = applyDamage(nextBattle.units, foe.id, raw);
+      nextBattle = withCombatDelta(
         {
-          id: uid("flt"),
-          kind: "float",
-          fromId: heroId,
-          toId: foe.id,
-          label: `−${dealt}`,
-          color: "#ffef9a",
+          ...nextBattle,
+          units: spendHeroAction(units, heroId),
+          fx: [
+            { id: uid("fx"), kind: "ray", fromId: heroId, toId: foe.id, color: "#f5d76e" },
+            {
+              id: uid("flt"),
+              kind: "float",
+              fromId: heroId,
+              toId: foe.id,
+              label: killed ? "DEAD" : `−${dealt}`,
+              color: killed ? "#ff8a5c" : "#ffef9a",
+            },
+          ],
         },
-      ],
-    };
-    message = `${hero.name} hits ${foe.name} for ${dealt}.`;
-    nextBattle = pushLog(nextBattle, message);
+        { damageDealt: dealt, foesDefeated: killed ? 1 : 0 }
+      );
+      message = killed
+        ? `${hero.name} fells ${foe.name} (−${dealt})${retargetNote}!`
+        : `${hero.name} hits ${foe.name} for ${dealt}${retargetNote}.`;
+      nextBattle = pushLog(nextBattle, message);
+    }
   } else if (action === "magic") {
-    if (!targetId) return { world, message: "Pick an enemy." };
-    const foe = living(nextBattle.units, "enemy").find((u) => u.id === targetId);
-    if (!foe) return { world, message: "Invalid target." };
     if (hero.mana < MAGIC_COST) return { world, message: "Not enough mana." };
-    const char = hero.slot ? characters[hero.slot] : null;
-    const raw = (char ? heroMagicPower(char) : hero.power + 4) + Math.floor(rng() * 6);
-    const { units, dealt } = applyDamage(nextBattle.units, foe.id, raw);
-    const afterMana = units.map((u) =>
-      u.id === heroId ? { ...u, mana: Math.max(0, u.mana - MAGIC_COST) } : u
-    );
-    nextBattle = {
-      ...nextBattle,
-      units: spendHeroAction(afterMana, heroId),
-      fx: [
-        { id: uid("fx"), kind: "ray", fromId: heroId, toId: foe.id, color: "#7ec8ff" },
+    const livingFoes = living(nextBattle.units, "enemy");
+    if (!livingFoes.length) {
+      nextBattle = checkEnd(nextBattle, rng);
+      message = "No foes left — victory!";
+    } else {
+      let foe = targetId ? livingFoes.find((u) => u.id === targetId) : livingFoes[0];
+      let retargetNote = "";
+      if (!foe) {
+        foe = livingFoes[0]!;
+        retargetNote = " (switched target)";
+      }
+      const char = hero.slot ? characters[hero.slot] : null;
+      const raw = (char ? heroMagicPower(char) : hero.power + 4) + Math.floor(rng() * 6);
+      const { units, dealt, killed } = applyDamage(nextBattle.units, foe.id, raw);
+      const afterMana = units.map((u) =>
+        u.id === heroId ? { ...u, mana: Math.max(0, u.mana - MAGIC_COST) } : u
+      );
+      nextBattle = withCombatDelta(
         {
-          id: uid("flt"),
-          kind: "float",
-          fromId: heroId,
-          toId: foe.id,
-          label: `−${dealt}`,
-          color: "#a8e0ff",
+          ...nextBattle,
+          units: spendHeroAction(afterMana, heroId),
+          fx: [
+            { id: uid("fx"), kind: "ray", fromId: heroId, toId: foe.id, color: "#7ec8ff" },
+            {
+              id: uid("flt"),
+              kind: "float",
+              fromId: heroId,
+              toId: foe.id,
+              label: killed ? "DEAD" : `−${dealt}`,
+              color: killed ? "#9ad4ff" : "#a8e0ff",
+            },
+          ],
         },
-      ],
-    };
-    message = `${hero.name} casts at ${foe.name} for ${dealt}.`;
-    nextBattle = pushLog(nextBattle, message);
+        { damageDealt: dealt, foesDefeated: killed ? 1 : 0 }
+      );
+      message = killed
+        ? `${hero.name} blasts ${foe.name} (−${dealt})${retargetNote}!`
+        : `${hero.name} casts at ${foe.name} for ${dealt}${retargetNote}.`;
+      nextBattle = pushLog(nextBattle, message);
+    }
   } else if (action === "heal") {
     const allyId = targetId ?? heroId;
     const ally = living(nextBattle.units, "hero").find((u) => u.id === allyId);
@@ -860,7 +1163,7 @@ export function performSimpleBattleAction(
     return { world, message: "Unknown action." };
   }
 
-  nextBattle = checkEnd(nextBattle);
+  nextBattle = checkEnd(nextBattle, rng);
   characters = syncHeroHpFromUnits({ ...world, characters }, nextBattle.units);
 
   if (nextBattle.status === "victory" || nextBattle.status === "defeat") {
@@ -884,12 +1187,16 @@ export function performSimpleBattleAction(
   }
 
   return {
-    world: {
-      ...world,
-      characters,
-      battle: nextBattle,
-      updatedAt: new Date().toISOString(),
-    },
+    world: withBattleTransition(
+      world,
+      {
+        ...world,
+        characters,
+        battle: nextBattle,
+        updatedAt: new Date().toISOString(),
+      },
+      nextBattle.phase === "enemy" ? "perform→ENEMY" : "perform→PLAYER"
+    ),
     message: nextBattle.message || message,
   };
 }
@@ -902,8 +1209,15 @@ export function advanceSimpleBattleEnemyPhase(
   world: DtWorldSave,
   rng: () => number = Math.random
 ): { world: DtWorldSave; message: string } {
-  const battle = world.battle;
-  if (!battle || battle.status !== "active" || battle.phase !== "enemy") {
+  let battle = world.battle;
+  if (!battle || battle.status !== "active") {
+    return { world, message: "" };
+  }
+  battle = repairSimpleBattleTurnInvariant(battle);
+  if (battle !== world.battle) {
+    world = { ...world, battle };
+  }
+  if (battle.phase !== "enemy") {
     return { world, message: "" };
   }
 
@@ -915,12 +1229,16 @@ export function advanceSimpleBattleEnemyPhase(
   }
 
   return {
-    world: {
-      ...world,
-      characters,
-      battle: nextBattle,
-      updatedAt: new Date().toISOString(),
-    },
+    world: withBattleTransition(
+      world,
+      {
+        ...world,
+        characters,
+        battle: nextBattle,
+        updatedAt: new Date().toISOString(),
+      },
+      "advanceEnemy→PLAYER"
+    ),
     message: nextBattle.message,
   };
 }
@@ -929,35 +1247,52 @@ function finishBattle(
   world: DtWorldSave,
   battle: SimpleBattleState
 ): { world: DtWorldSave; message: string } {
+  // Stay on summary until dismiss — grant gold/xp/loot there so poll cannot double-pay.
   if (battle.status === "victory") {
-    const characters = grantRewards(world, battle);
     return {
-      world: {
+      world: withBattleTransition(
+        world,
+        {
+          ...world,
+          battle: {
+            ...battle,
+            phase: "summary",
+            fx: [],
+            rewardsPending: true,
+          },
+          battlesFought: (world.battlesFought ?? 0) + 1,
+          framesSinceEncounter: 0,
+          nextEncounterAtFrame: rollNextEncounterAtFrame(world.framesAdvanced),
+          updatedAt: new Date().toISOString(),
+          log: [battle.message, ...world.log].slice(0, 80),
+        },
+        "finish→VICTORY"
+      ),
+      message: battle.message,
+    };
+  }
+  const characters = softRecoverParty(world);
+  return {
+    world: withBattleTransition(
+      world,
+      {
         ...world,
         characters,
-        battle: { ...battle, phase: "summary", fx: [] },
+        battle: {
+          ...battle,
+          phase: "summary",
+          fx: [],
+          rewardsPending: false,
+          lootDrops: battle.lootDrops ?? [],
+        },
         battlesFought: (world.battlesFought ?? 0) + 1,
         framesSinceEncounter: 0,
         nextEncounterAtFrame: rollNextEncounterAtFrame(world.framesAdvanced),
         updatedAt: new Date().toISOString(),
         log: [battle.message, ...world.log].slice(0, 80),
       },
-      message: battle.message,
-    };
-  }
-  // Defeat — soft recover, stay on summary until dismiss.
-  const characters = softRecoverParty(world);
-  return {
-    world: {
-      ...world,
-      characters,
-      battle: { ...battle, phase: "summary", fx: [] },
-      battlesFought: (world.battlesFought ?? 0) + 1,
-      framesSinceEncounter: 0,
-      nextEncounterAtFrame: rollNextEncounterAtFrame(world.framesAdvanced),
-      updatedAt: new Date().toISOString(),
-      log: [battle.message, ...world.log].slice(0, 80),
-    },
+      "finish→DEFEAT"
+    ),
     message: battle.message,
   };
 }
@@ -965,13 +1300,25 @@ function finishBattle(
 /** Clear summary overlay and return to story. */
 export function dismissSimpleBattle(world: DtWorldSave): DtWorldSave {
   if (!world.battle) return world;
-  if (world.battle.status === "active") return world;
-  return {
-    ...world,
-    clearedBattleId: world.battle.id,
-    battle: null,
-    updatedAt: new Date().toISOString(),
-  };
+  if (world.battle.status === "active" && world.battle.phase !== "summary") {
+    return world;
+  }
+  const battle = world.battle;
+  let characters = world.characters;
+  if (battle.status === "victory" && battle.rewardsPending !== false) {
+    characters = grantRewards(world, battle);
+  }
+  return withBattleTransition(
+    world,
+    {
+      ...world,
+      characters,
+      clearedBattleId: battle.id,
+      battle: null,
+      updatedAt: new Date().toISOString(),
+    },
+    "dismiss→WORLD"
+  );
 }
 
 /** Clear floating FX after animation (keep battle state). */
@@ -1004,28 +1351,51 @@ export function mergeSimpleBattle(
   if (!a && b) return ensureSimpleBattleSplashConsistency(b);
   const left = ensureSimpleBattleSplashConsistency(a!);
   const right = ensureSimpleBattleSplashConsistency(b!);
-  if (left.status === "active" && right.status !== "active") return left;
-  if (right.status === "active" && left.status !== "active") return right;
+  // NEVER undo victory/defeat with a stale active poll/POST — that soft-locked kills.
+  if (left.status !== "active" && right.status === "active") {
+    return left.id === right.id || simpleBattleProgressScore(left) >= simpleBattleProgressScore(right)
+      ? left
+      : ensureSimpleBattleSplashConsistency(right);
+  }
+  if (right.status !== "active" && left.status === "active") {
+    return right.id === left.id || simpleBattleProgressScore(right) >= simpleBattleProgressScore(left)
+      ? right
+      : ensureSimpleBattleSplashConsistency(left);
+  }
   if (left.status === "active" && right.status === "active") {
-    // Prefer further-along copy (same or distinct id). Never regress a turn.
-    // On ties keep left (caller passes prefer-local first).
-    const newer =
-      simpleBattleProgressScore(right) > simpleBattleProgressScore(left)
-        ? right
-        : left;
-    const older = newer === right ? left : right;
+    const scoreL = simpleBattleProgressScore(left);
+    const scoreR = simpleBattleProgressScore(right);
+    let pick = scoreR > scoreL ? right : left;
+    if (left.id === right.id && Math.abs(scoreL - scoreR) < 6) {
+      const leftEnemyHp = left.units
+        .filter((u) => u.side === "enemy")
+        .reduce((sum, u) => sum + Math.max(0, u.hp), 0);
+      const rightEnemyHp = right.units
+        .filter((u) => u.side === "enemy")
+        .reduce((sum, u) => sum + Math.max(0, u.hp), 0);
+      if (rightEnemyHp < leftEnemyHp) pick = right;
+      else if (leftEnemyHp < rightEnemyHp) pick = left;
+    }
+    const other = pick === right ? left : right;
     return ensureSimpleBattleSplashConsistency({
-      ...newer,
-      // Stable id: prefer the one that already has a non-legacy uid when tied id churn.
-      id: newer.id || older.id,
+      ...pick,
+      id: pick.id || other.id,
       splashDone: !!(left.splashDone || right.splashDone),
-      units: newer.units.length ? newer.units : older.units,
+      units: pick.units.length ? pick.units : other.units,
+      combatStats: pick.combatStats ?? other.combatStats,
+      lootDrops: (pick.lootDrops?.length ? pick.lootDrops : other.lootDrops) ?? [],
+      rewardsPending: !!(pick.rewardsPending || other.rewardsPending),
     });
   }
-  // Summaries — prefer higher progress.
-  return simpleBattleProgressScore(right) >= simpleBattleProgressScore(left)
-    ? right
-    : left;
+  const pick =
+    simpleBattleProgressScore(right) >= simpleBattleProgressScore(left) ? right : left;
+  const other = pick === right ? left : right;
+  return {
+    ...pick,
+    lootDrops: (pick.lootDrops?.length ? pick.lootDrops : other.lootDrops) ?? [],
+    combatStats: pick.combatStats ?? other.combatStats,
+    rewardsPending: pick.rewardsPending ?? other.rewardsPending,
+  };
 }
 
 /**
@@ -1041,18 +1411,22 @@ export function fleeSimpleBattle(world: DtWorldSave): {
   const clearedId = world.battle.id;
   const characters = softRecoverParty(world);
   return {
-    world: {
-      ...world,
-      characters,
-      battle: null,
-      /** Session + persist hint: do not resurrect this fight from poll/server. */
-      clearedBattleId: clearedId,
-      battlesFought: (world.battlesFought ?? 0) + (wasActive ? 1 : 0),
-      framesSinceEncounter: 0,
-      nextEncounterAtFrame: rollNextEncounterAtFrame(world.framesAdvanced),
-      updatedAt: new Date().toISOString(),
-      log: ["Fled the ambush (soft recover).", ...world.log].slice(0, 80),
-    },
+    world: withBattleTransition(
+      world,
+      {
+        ...world,
+        characters,
+        battle: null,
+        /** Session + persist hint: do not resurrect this fight from poll/server. */
+        clearedBattleId: clearedId,
+        battlesFought: (world.battlesFought ?? 0) + (wasActive ? 1 : 0),
+        framesSinceEncounter: 0,
+        nextEncounterAtFrame: rollNextEncounterAtFrame(world.framesAdvanced),
+        updatedAt: new Date().toISOString(),
+        log: ["Fled the ambush (soft recover).", ...world.log].slice(0, 80),
+      },
+      "flee→WORLD"
+    ),
     message: "Fled the ambush — soft recover. Story resumes.",
   };
 }

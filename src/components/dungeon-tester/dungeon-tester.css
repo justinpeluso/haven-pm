@@ -723,3 +723,101 @@
   font-family: var(--dt-hud);
   font-size: 0.85rem;
 }
+
+.dungeon-tester .dt-sbat-endscreen {
+  margin-top: 0.75rem;
+  padding: 0.85rem 1rem;
+  border: 3px solid var(--dt-ink);
+  background:
+    repeating-linear-gradient(
+      -12deg,
+      rgba(255, 248, 230, 0.92),
+      rgba(255, 248, 230, 0.92) 8px,
+      rgba(255, 236, 200, 0.95) 8px,
+      rgba(255, 236, 200, 0.95) 16px
+    );
+  box-shadow: 4px 4px 0 rgba(42, 31, 20, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.dungeon-tester .dt-sbat-endscreen[data-outcome="victory"] {
+  border-color: #2f7a3e;
+}
+
+.dungeon-tester .dt-sbat-endscreen[data-outcome="defeat"] {
+  border-color: #8a2f22;
+}
+
+.dungeon-tester .dt-sbat-endscreen-banner {
+  margin: 0;
+  font-family: var(--dt-display, var(--dt-hud));
+  font-size: 1.55rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dt-ink);
+  text-shadow: 2px 2px 0 rgba(255, 200, 90, 0.55);
+}
+
+.dungeon-tester .dt-sbat-endscreen[data-outcome="defeat"] .dt-sbat-endscreen-banner {
+  text-shadow: 2px 2px 0 rgba(255, 120, 90, 0.45);
+}
+
+.dungeon-tester .dt-sbat-endscreen-stats {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.35rem 0.75rem;
+  font-family: var(--dt-hud);
+  font-size: 0.78rem;
+}
+
+.dungeon-tester .dt-sbat-endscreen-stats strong {
+  color: #7a3418;
+}
+
+.dungeon-tester .dt-sbat-endscreen-loot {
+  border-top: 2px dashed rgba(42, 31, 20, 0.35);
+  padding-top: 0.45rem;
+}
+
+.dungeon-tester .dt-sbat-endscreen-loot-title {
+  margin: 0 0 0.3rem;
+  font-family: var(--dt-hud);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dungeon-tester .dt-sbat-endscreen-loot ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-family: var(--dt-hud);
+  font-size: 0.82rem;
+}
+
+.dungeon-tester .dt-sbat-loot-name {
+  font-weight: 700;
+}
+
+.dungeon-tester .dt-sbat-loot-blurb {
+  color: var(--dt-muted);
+  font-size: 0.74rem;
+}
+
+.dungeon-tester .dt-sbat-endscreen-loot-empty {
+  margin: 0;
+  font-family: var(--dt-hud);
+  font-size: 0.78rem;
+  color: var(--dt-muted);
+  font-style: italic;
+}
+
+.dungeon-tester .dt-sbat-endscreen .dt-btn {
+  align-self: flex-start;
+  margin-top: 0.15rem;
+}

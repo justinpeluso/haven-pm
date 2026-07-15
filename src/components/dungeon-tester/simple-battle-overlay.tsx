@@ -31,7 +31,8 @@ type Props = {
 };
 
 const ENEMY_ADVANCE_MS = 700;
-const ENEMY_FALLBACK_MS = 1600;
+const ENEMY_WATCHDOG_MS = 900;
+const ENEMY_WATCHDOG_MAX_MS = 8000;
 
 const MAP_LABEL: Record<SimpleMapTheme, string> = {
   "dust-road": "Dust road",
@@ -47,12 +48,6 @@ const MAP_LABEL: Record<SimpleMapTheme, string> = {
 /** Hold splash readable then fade (~2.2s total). */
 const INTRO_HOLD_MS = 1400;
 const INTRO_FADE_MS = 800;
-
-/**
- * Survives overlay remounts within the tab (poll flicker, Strict Mode).
- * Only records ids whose intro already finished — never cleared mid-session.
- */
-const finishedSplashIds = new Set<string>();
 
 function unitArtSrc(unit: SimpleBattleUnit): string | null {
   if (unit.side === "hero" && unit.classId) {
@@ -226,10 +221,9 @@ function FloatLayer({ battle }: { battle: SimpleBattleState }) {
 }
 
 /**
- * Architectural rule: intro is Idle→Intro→Battle forward only.
- * - Timers arm once per battle.id (deps = [battle.id] only).
- * - Mid-fight / remount / poll: skip if splashDone, round≥2, enemy phase, or combat log.
- * - Never setIntroPhase("in") again for an id that already finished or must skip.
+ * Presentation only. FSM lives in simple-battle.ts.
+ * Intro: arm once per battle.id from durable splashDone (no force-off on phase churn).
+ * Enemy: one timer chain + soft watchdog; never player actions / never splash.
  */
 export function SimpleBattleOverlay({
   battle,
@@ -249,16 +243,14 @@ export function SimpleBattleOverlay({
     null
   );
 
-  const mustSkipSplash =
-    simpleBattleShouldSkipSplash(battle) || finishedSplashIds.has(battle.id);
+  const skipIntro =
+    !!battle.splashDone || simpleBattleShouldSkipSplash(battle);
 
   const [introPhase, setIntroPhase] = useState<"in" | "out" | "gone">(
-    mustSkipSplash ? "gone" : "in"
+    skipIntro ? "gone" : "in"
   );
-  /** Ids whose splash already finished in this mount tree. */
-  const splashCompletedRef = useRef<string | null>(mustSkipSplash ? battle.id : null);
-  /** Guards Strict Mode double-invoke: only one timer chain per id at a time. */
-  const splashArmedRef = useRef<string | null>(null);
+  /** Only one splash persist per battle.id for this mount. */
+  const splashCompletedRef = useRef<string | null>(skipIntro ? battle.id : null);
   const onEnemyAdvanceRef = useRef(onEnemyAdvance);
   onEnemyAdvanceRef.current = onEnemyAdvance;
   const onFxDoneRef = useRef(onFxDone);
@@ -272,14 +264,12 @@ export function SimpleBattleOverlay({
   );
 
   const finishSplash = (id: string) => {
-    if (splashCompletedRef.current === id && finishedSplashIds.has(id)) {
+    if (splashCompletedRef.current === id) {
       setIntroPhase((p) => (p === "gone" ? p : "gone"));
       return;
     }
     splashCompletedRef.current = id;
-    finishedSplashIds.add(id);
     setIntroPhase("gone");
-    // Only persist once — never re-POST splashDone on phase/log churn (flash source).
     onSplashDoneRef.current?.();
   };
 
@@ -302,8 +292,7 @@ export function SimpleBattleOverlay({
     return () => window.clearTimeout(t);
   }, [battle.fx, battle.phase]);
 
-  // Enemy phase: resolve after VFX. One timeout + one fallback — never an
-  // interval (interval + stale worldRef was double-resolving turns).
+  // One timer chain while ENEMY: initial delay + soft watchdog. Clears on leave.
   useEffect(() => {
     if (battle.status !== "active" || battle.phase !== "enemy") return;
     let cancelled = false;
@@ -313,50 +302,36 @@ export function SimpleBattleOverlay({
     };
     const delay = battle.fx.length ? ENEMY_ADVANCE_MS : 180;
     const t = window.setTimeout(tryAdvance, delay);
-    const fallback = window.setTimeout(tryAdvance, ENEMY_FALLBACK_MS);
+    const watchdog = window.setInterval(tryAdvance, ENEMY_WATCHDOG_MS);
+    const stopWatchdog = window.setTimeout(() => {
+      window.clearInterval(watchdog);
+    }, ENEMY_WATCHDOG_MAX_MS);
     return () => {
       cancelled = true;
       window.clearTimeout(t);
-      window.clearTimeout(fallback);
+      window.clearInterval(watchdog);
+      window.clearTimeout(stopWatchdog);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-arm on phase/round
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- re-arm on phase/round only
   }, [battle.status, battle.phase, battle.round]);
 
-  // Force-off path: mid-fight remount / missing splashDone / poll merge.
-  // Separate from the intro timer so phase churn cannot re-arm START BATTLE.
-  // Do not depend on log.length — combat lines would re-fire finishSplash every hit.
-  useEffect(() => {
-    if (!simpleBattleShouldSkipSplash(battle) && !finishedSplashIds.has(battle.id)) {
-      return;
-    }
-    finishSplash(battle.id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- derive from battle fields only
-  }, [battle.id, battle.round, battle.phase, battle.splashDone, battle.status]);
-
   // Comic START BATTLE — arm timers exactly once per battle.id.
-  // Deps MUST stay [battle.id] only so player→enemy phase cannot restart intro.
+  // Driven by durable splashDone / skip heuristics at arm time only.
+  // Deps MUST stay [battle.id] so mid-fight phase churn cannot restart intro.
   useEffect(() => {
     const id = battle.id;
-    if (
-      simpleBattleShouldSkipSplash(battle) ||
-      finishedSplashIds.has(id) ||
-      splashCompletedRef.current === id
-    ) {
+    if (battle.splashDone || simpleBattleShouldSkipSplash(battle)) {
       setIntroPhase("gone");
       splashCompletedRef.current = id;
-      finishedSplashIds.add(id);
       return;
     }
-    // Strict Mode: first mount cleanup clears timers; second mount re-arms once.
-    // Do not mark finished on cleanup — that would skip the real intro.
-    splashArmedRef.current = id;
+    splashCompletedRef.current = null;
     setIntroPhase("in");
     const fade = window.setTimeout(() => setIntroPhase("out"), INTRO_HOLD_MS);
     const gone = window.setTimeout(() => finishSplash(id), INTRO_HOLD_MS + INTRO_FADE_MS);
     return () => {
       window.clearTimeout(fade);
       window.clearTimeout(gone);
-      if (splashArmedRef.current === id) splashArmedRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- once per battle.id only
   }, [battle.id]);
@@ -386,12 +361,13 @@ export function SimpleBattleOverlay({
 
   const summary = battle.status !== "active" || battle.phase === "summary";
   const playerTurn = battle.status === "active" && battle.phase === "player";
-  // Intro never blocks when the fight has already progressed past brand-new.
+  // Intro never blocks when splash was already stamped or fight progressed.
   const introBusy =
     introPhase !== "gone" &&
     battle.status === "active" &&
     !summary &&
-    !mustSkipSplash;
+    !battle.splashDone &&
+    !simpleBattleShouldSkipSplash(battle);
   const controlsLocked = introBusy || !canAct || !!pending || !playerTurn;
 
   const pickAction = (id: SimpleBattleActionId) => {
@@ -459,8 +435,7 @@ export function SimpleBattleOverlay({
                 introBusy ||
                 !needTarget ||
                 (needTarget === "enemy" && u.side !== "enemy") ||
-                (needTarget === "ally" && u.side !== "hero") ||
-                (u.hp <= 0 && needTarget === "enemy")
+                (needTarget === "ally" && u.side !== "hero")
               }
               onClick={() => pickTarget(u)}
               aria-label={`Select ${u.name}`}
@@ -477,7 +452,7 @@ export function SimpleBattleOverlay({
             </button>
           ))}
 
-          {introPhase !== "gone" && battle.status === "active" && !summary && !mustSkipSplash ? (
+          {introBusy ? (
             <button
               type="button"
               className="dt-sbat-intro"
