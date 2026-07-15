@@ -203,7 +203,7 @@ Best free combo for this stack: **Neon** (Postgres) + **GitHub** + **Vercel**.
 | `DATABASE_URL` | Neon connection string (via Vercel Neon integration) |
 | `AUTH_SECRET` | `openssl rand -base64 32` |
 | `AUTH_URL` | `https://haven-pm.vercel.app` |
-| `OPENAI_API_KEY` | **Required for Downtown Computer Helper live AI** (also powers Neverworld DM). Set for Production + Preview, then redeploy. Without it, Computer Helper still returns a curated offline playbook with a clear warning. |
+| `OPENAI_API_KEY` | Optional — powers Neverworld DM. Set for Production + Preview, then redeploy. |
 | `MESSAGING_PORTAL_URL` | `https://my.quo.com/` |
 | `MESSAGING_PROVIDER_NAME` | `OpenPhone` |
 | `MESSAGING_PHONE_NUMBER` | `(412) 797-5007` |

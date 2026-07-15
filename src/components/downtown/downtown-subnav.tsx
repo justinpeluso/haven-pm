@@ -11,8 +11,7 @@ export function DowntownSubnav({
     | "news"
     | "historical"
     | "neverworld"
-    | "dungeon-tester"
-    | "computer-helper";
+    | "dungeon-tester";
 }) {
   return (
     <div className="mb-5 flex flex-wrap items-center gap-2 border-b border-[var(--dt-line)] pb-4">
@@ -32,13 +31,6 @@ export function DowntownSubnav({
         data-active={active === "dungeon-tester"}
       >
         DungeonTester
-      </Link>
-      <Link
-        href="/downtown/computer-helper"
-        className="downtown-chip"
-        data-active={active === "computer-helper"}
-      >
-        Computer Helper
       </Link>
       <Link href="/downtown/news" className="downtown-chip" data-active={active === "news"}>
         Local CBD News
