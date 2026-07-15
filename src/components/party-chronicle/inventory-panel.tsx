@@ -17,6 +17,12 @@ function tierAttr(tier: string): string {
   return tier === "magic" ? "uncommon" : tier;
 }
 
+function formatSlotLabel(slot: string): string {
+  if (slot === "offhand") return "Off-Hand";
+  if (slot === "consumable") return "Consumable";
+  return slot.charAt(0).toUpperCase() + slot.slice(1);
+}
+
 /** Shared Neverworld inventory + paperdoll — used by Party Chronicle and DungeonTester. */
 export function InventoryPanel({
   char,
@@ -98,7 +104,8 @@ export function InventoryPanel({
                   {equipped ? <span className="pc-inv-worn">Worn</span> : null}
                 </div>
                 <div className="pc-inv-card-name">{item.name}</div>
-                <div className="pc-inv-card-meta">{item.slot}</div>
+                <div className="pc-inv-card-meta">{formatSlotLabel(item.slot)}</div>
+                <div className="pc-inv-card-divider" aria-hidden />
                 {props.length > 0 ? (
                   <ul className="pc-inv-card-stats">
                     {props.map((p, i) => (
@@ -152,7 +159,7 @@ export function InventoryPanel({
                     }
                     onClick={() => onSalvage(id)}
                   >
-                    Break down
+                    Break Down
                   </button>
                 </div>
                 <GearTipBody item={item} />

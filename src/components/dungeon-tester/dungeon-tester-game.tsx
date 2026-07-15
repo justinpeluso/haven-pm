@@ -840,21 +840,33 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
       <DowntownSubnav active="dungeon-tester" />
 
       <div className="dt-hud-bar" aria-live="polite">
-        <span>
-          Slot <strong>{activeSlotId}</strong>
-        </span>
-        <span>
-          Play time <strong>{playHud}</strong>
-        </span>
-        <span>
-          Frames <strong>{world?.framesAdvanced ?? 0}</strong>
-          {world
-            ? ` · since fight ${world.framesSinceEncounter} · next ambush @ ${world.nextEncounterAtFrame}`
-            : null}
-        </span>
-        <span>
-          Party <strong>{sealedCount}/4</strong> sealed
-        </span>
+        <div className="dt-hud-group">
+          <span className="dt-hud-metric">
+            <span className="dt-hud-metric-label">Slot</span>
+            <strong className="dt-hud-metric-value">{activeSlotId}</strong>
+          </span>
+          <span className="dt-hud-metric">
+            <span className="dt-hud-metric-label">Play Time</span>
+            <strong className="dt-hud-metric-value">{playHud}</strong>
+          </span>
+        </div>
+        <div className="dt-hud-group">
+          <span className="dt-hud-metric">
+            <span className="dt-hud-metric-label">Frames</span>
+            <strong className="dt-hud-metric-value">{world?.framesAdvanced ?? 0}</strong>
+            {world ? (
+              <span className="dt-hud-metric-note">
+                since fight {world.framesSinceEncounter} · next ambush @{" "}
+                {world.nextEncounterAtFrame}
+              </span>
+            ) : null}
+          </span>
+          <span className="dt-hud-metric">
+            <span className="dt-hud-metric-label">Party</span>
+            <strong className="dt-hud-metric-value">{sealedCount}/4</strong>
+            <span className="dt-hud-metric-note">sealed</span>
+          </span>
+        </div>
       </div>
 
       {flash ? <p className="dt-flash">{flash}</p> : null}

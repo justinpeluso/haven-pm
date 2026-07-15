@@ -71,7 +71,7 @@ export function PaperdollPanel({
             >
               <span className="pc-doll-slot-label">{SLOT_LABEL[slot]}</span>
               <span className="pc-doll-slot-name">
-                {item ? item.name.slice(0, 14) : "—"}
+                {item ? item.name.slice(0, 14) : "Empty"}
               </span>
               <GearTipBody
                 item={item}
@@ -132,12 +132,12 @@ export function PaperdollPanel({
           <div className="pc-combat-stat">
             <span>ATK</span>
             <strong>{eff.atk}</strong>
-            {deltaChip(eff.deltas.atk)}
+            {deltaChip(eff.deltas.atk, "gear")}
           </div>
           <div className="pc-combat-stat">
             <span>DEF</span>
             <strong>{eff.def}</strong>
-            {deltaChip(eff.deltas.def)}
+            {deltaChip(eff.deltas.def, "gear")}
           </div>
           <div className="pc-combat-stat">
             <span>CRIT</span>
@@ -149,7 +149,7 @@ export function PaperdollPanel({
           </div>
         </div>
 
-        <p className="pc-eyebrow text-[0.65rem] mt-3">Stats (base → geared)</p>
+        <p className="pc-eyebrow mt-3">Stats (Base → Geared)</p>
         <div className="pc-stat-grid">
           {STAT_KEYS.map((key) => {
             const base = eff.baseStats[key];
@@ -158,10 +158,9 @@ export function PaperdollPanel({
             return (
               <div key={key} className="pc-stat-box text-left">
                 <strong>{key.slice(0, 3).toUpperCase()}</strong>
-                {base}
+                <span className="pc-stat-val">{base}</span>
                 {d !== 0 ? (
                   <span className={d > 0 ? "pc-delta-pos" : "pc-delta-neg"}>
-                    {" "}
                     {d > 0 ? `+${d}` : d}
                   </span>
                 ) : null}
@@ -172,36 +171,59 @@ export function PaperdollPanel({
 
         {eff.perItem.length > 0 && (
           <>
-            <p className="pc-eyebrow text-[0.65rem] mt-3">Equipped bonuses</p>
+            <p className="pc-eyebrow mt-3">Equipped Bonuses</p>
             <ul className="pc-gear-delta-list">
-              {eff.perItem.map((row) => (
-                <li key={row.itemId}>
-                  <strong>{row.name}</strong>
-                  <span>
-                    {row.properties.map(formatProperty).join(" · ") ||
-                      (row.power || row.armor
-                        ? `pwr ${row.power} / arm ${row.armor}`
-                        : "—")}
-                  </span>
-                </li>
-              ))}
+              {eff.perItem.map((row) => {
+                const pills: string[] =
+                  row.properties.length > 0
+                    ? row.properties.map(formatProperty)
+                    : [
+                        row.power ? `+${row.power} ATK` : null,
+                        row.armor ? `+${row.armor} DEF` : null,
+                      ].filter((x): x is string => Boolean(x));
+                return (
+                  <li key={row.itemId}>
+                    <strong>{row.name}</strong>
+                    {pills.length > 0 ? (
+                      <span className="pc-gear-delta-pills">
+                        {pills.map((label) => (
+                          <span key={`${row.itemId}-${label}`} className="pc-gear-delta-pill">
+                            {label}
+                          </span>
+                        ))}
+                      </span>
+                    ) : (
+                      <span className="pc-gear-delta-pill">—</span>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </>
         )}
 
         {sets.length > 0 && (
           <>
-            <p className="pc-eyebrow text-[0.65rem] mt-3">Set progress</p>
+            <p className="pc-eyebrow mt-3">Set Progress</p>
             <ul className="pc-gear-delta-list">
               {sets.map(({ set, equipped, total, active }) => (
                 <li key={set.id}>
                   <strong>
                     {set.name} ({equipped}/{total})
                   </strong>
-                  <span>
-                    {active.length
-                      ? active.map((b) => `${b.pieces}pc: ${b.blurb}`).join(" · ")
-                      : "Wear 2+ for set bonuses"}
+                  <span className="pc-gear-delta-pills">
+                    {active.length ? (
+                      active.map((b) => (
+                        <span
+                          key={`${set.id}-${b.pieces}`}
+                          className="pc-gear-delta-pill"
+                        >
+                          {b.pieces}pc: {b.blurb}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="pc-gear-delta-pill">Wear 2+ for set bonuses</span>
+                    )}
                   </span>
                 </li>
               ))}
@@ -213,11 +235,12 @@ export function PaperdollPanel({
   );
 }
 
-function deltaChip(v: number | undefined) {
+function deltaChip(v: number | undefined, mode?: "gear") {
   if (!v) return null;
+  const sign = v > 0 ? `+${v}` : `${v}`;
   return (
     <em className={v > 0 ? "pc-delta-pos" : "pc-delta-neg"}>
-      {v > 0 ? `+${v}` : v}
+      {mode === "gear" ? `(${sign} from gear)` : sign}
     </em>
   );
 }

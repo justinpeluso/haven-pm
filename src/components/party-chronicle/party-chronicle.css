@@ -2967,6 +2967,43 @@
   text-transform: uppercase;
 }
 
+.party-comic .pc-gear-delta-pills,
+.party-rpg90s .pc-gear-delta-pills,
+.party-chronicle .pc-gear-delta-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.party-comic .pc-gear-delta-pill,
+.party-rpg90s .pc-gear-delta-pill,
+.party-chronicle .pc-gear-delta-pill {
+  display: inline-block;
+  font-family: var(--pc-hud);
+  font-size: 0.58rem;
+  font-weight: 700;
+  line-height: 1.2;
+  padding: 0.12rem 0.3rem;
+  border: 1px solid rgba(46, 196, 212, 0.35);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--pc-paper);
+}
+
+.party-comic .pc-stat-val,
+.party-rpg90s .pc-stat-val,
+.party-chronicle .pc-stat-val {
+  font-weight: 800;
+}
+
+.party-comic .pc-inv-card-divider,
+.party-rpg90s .pc-inv-card-divider,
+.party-chronicle .pc-inv-card-divider {
+  height: 1px;
+  margin: 0.1rem 0;
+  background: rgba(180, 200, 160, 0.25);
+  border: none;
+}
+
 .party-comic .pc-inv-actions,
 .party-rpg90s .pc-inv-actions,
 .party-chronicle .pc-inv-actions {
