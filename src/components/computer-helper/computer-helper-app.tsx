@@ -25,6 +25,20 @@ const EXAMPLES = [
   "System update stuck",
 ];
 
+function planLooksValid(plan: ComputerHelperPlan | null | undefined): boolean {
+  return !!(
+    plan &&
+    typeof plan.summary === "string" &&
+    plan.summary.trim() &&
+    Array.isArray(plan.summarySteps) &&
+    plan.summarySteps.length > 0 &&
+    Array.isArray(plan.detailedSteps) &&
+    plan.detailedSteps.length > 0 &&
+    plan.option2 &&
+    typeof plan.option2.summary === "string"
+  );
+}
+
 export function ComputerHelperApp() {
   const [os, setOs] = useState<HelperOs | "">("");
   const [query, setQuery] = useState("");
@@ -56,9 +70,25 @@ export function ComputerHelperApp() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: q, os: selectedOs }),
       });
-      const data = (await res.json()) as ComputerHelperPlan & { error?: string };
+      let data: ComputerHelperPlan & { error?: string };
+      try {
+        data = (await res.json()) as ComputerHelperPlan & { error?: string };
+      } catch {
+        setError("Server returned an unreadable response — try again.");
+        return;
+      }
       if (!res.ok) {
-        setError(data.error || "Could not generate a plan.");
+        setError(
+          data.error ||
+            "Could not generate a plan. If this keeps happening, set OPENAI_API_KEY on Vercel and redeploy."
+        );
+        return;
+      }
+      if (!planLooksValid(data)) {
+        setError(
+          data.error ||
+            "Received an incomplete plan — try again, or set OPENAI_API_KEY for live AI."
+        );
         return;
       }
       setPlan(data);
@@ -85,6 +115,9 @@ export function ComputerHelperApp() {
       `Computer Helper — ${plan.query}`,
       `OS: ${plan.osLabel}`,
       plan.topic ? `Topic: ${plan.topic}` : "",
+      "",
+      "Summary:",
+      plan.summary,
       "",
       "Action plan:",
       ...plan.summarySteps.map((s, i) => `${i + 1}. ${s}`),
@@ -136,8 +169,8 @@ export function ComputerHelperApp() {
           />
         </div>
         <p className="max-w-2xl text-sm leading-relaxed" style={{ color: "var(--dt-muted)" }}>
-          Pick your OS, describe the problem, and live AI researches current fixes — short action
-          plan, detailed walkthrough, plus Option 2 as an alternate path.
+          Pick your OS, describe the problem, and live AI researches current fixes — a plain-language
+          summary, short action plan, detailed walkthrough, plus Option 2 as an alternate path.
         </p>
       </header>
 
@@ -225,13 +258,20 @@ export function ComputerHelperApp() {
       </form>
 
       {error ? (
-        <p
-          className="border border-[var(--dt-line)] px-4 py-3 text-sm"
+        <div
+          className="space-y-2 border border-[var(--dt-line)] px-4 py-3 text-sm"
           style={{ color: "var(--dt-warn)", background: "rgba(196,122,61,0.08)" }}
           role="alert"
         >
-          {error}
-        </p>
+          <p className="font-medium">{error}</p>
+          {/OPENAI_API_KEY/i.test(error) ? (
+            <p className="text-xs leading-relaxed" style={{ color: "var(--dt-muted)" }}>
+              Vercel: Project → Settings → Environment Variables → add{" "}
+              <code style={{ color: "var(--dt-accent)" }}>OPENAI_API_KEY</code> for Production and
+              Preview, then redeploy. Local: put it in <code>.env</code> and restart the dev server.
+            </p>
+          ) : null}
+        </div>
       ) : null}
 
       {loading ? (
@@ -246,6 +286,19 @@ export function ComputerHelperApp() {
 
       {plan ? (
         <div className="space-y-6">
+          {plan.liveError ? (
+            <div
+              className="border border-[var(--dt-line)] px-4 py-3 text-sm leading-relaxed"
+              style={{ color: "var(--dt-warn)", background: "rgba(196,122,61,0.1)" }}
+              role="status"
+            >
+              <p className="font-medium">Live AI unavailable — showing a curated plan instead.</p>
+              <p className="mt-1 text-xs" style={{ color: "var(--dt-muted)" }}>
+                {plan.liveError}
+              </p>
+            </div>
+          ) : null}
+
           <div className="flex flex-wrap items-center gap-3">
             <span
               className="text-[0.65rem] uppercase tracking-[0.12em]"
@@ -262,9 +315,9 @@ export function ComputerHelperApp() {
               </span>
             ) : null}
             <span className="text-xs" style={{ color: "var(--dt-muted)" }}>
-              Live AI
+              {plan.mode === "llm" ? "Live AI" : "Offline playbook"}
               {plan.researchUsed ? " · researched" : ""}
-              {plan.note ? ` · ${plan.note}` : ""}
+              {plan.note && !plan.liveError ? ` · ${plan.note}` : ""}
             </span>
             <button
               type="button"
@@ -276,6 +329,21 @@ export function ComputerHelperApp() {
               {copied ? "Copied" : "Copy plan"}
             </button>
           </div>
+
+          <section
+            className="downtown-panel space-y-2 border-l-2 p-4 md:p-5"
+            style={{ borderLeftColor: "var(--dt-accent)" }}
+          >
+            <h2
+              className="text-[0.65rem] uppercase tracking-[0.14em]"
+              style={{ color: "var(--dt-accent)" }}
+            >
+              AI summary
+            </h2>
+            <p className="text-base leading-relaxed md:text-lg" style={{ color: "var(--dt-fg)" }}>
+              {plan.summary}
+            </p>
+          </section>
 
           <section className="downtown-panel space-y-3 p-4 md:p-5">
             <h2 className="text-lg font-medium" style={{ color: "var(--dt-fg)" }}>

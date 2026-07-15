@@ -35,6 +35,8 @@ export type ComputerHelperPlan = {
   query: string;
   os: HelperOs;
   osLabel: string;
+  /** Plain-language diagnosis / what the plan is doing. */
+  summary: string;
   summarySteps: string[];
   detailedSteps: HelperStep[];
   option2: HelperOption2;
@@ -42,4 +44,6 @@ export type ComputerHelperPlan = {
   topic?: string;
   note?: string;
   researchUsed?: boolean;
+  /** Set when live AI could not run (missing key, timeout, etc.). */
+  liveError?: string;
 };

@@ -52,14 +52,33 @@ export async function POST(req: Request) {
       sanitized.query,
       sanitizedOs.os
     );
+    // Live or labeled offline — always a renderable plan (never blank 200).
+    if (
+      !plan?.summary?.trim() ||
+      !plan.summarySteps?.length ||
+      !plan.detailedSteps?.length ||
+      !plan.option2?.summary
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Could not build a troubleshooting plan. Set OPENAI_API_KEY in Vercel (or .env) and try again.",
+        },
+        { status: 502 }
+      );
+    }
     return NextResponse.json(plan);
   } catch (err) {
     if (err instanceof ComputerHelperLiveError) {
       return NextResponse.json({ error: err.message }, { status: err.status });
     }
+    console.error("[computer-helper]", err);
     return NextResponse.json(
-      { error: "Live AI required — add OPENAI_API_KEY" },
-      { status: 503 }
+      {
+        error:
+          "Computer Helper failed unexpectedly. If this persists, check OPENAI_API_KEY in Vercel → Settings → Environment Variables and try again.",
+      },
+      { status: 500 }
     );
   }
 }
