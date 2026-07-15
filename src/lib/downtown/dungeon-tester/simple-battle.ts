@@ -432,18 +432,41 @@ export function ensureSimpleBattleSplashConsistency(
   return withId;
 }
 
-/** Higher = further along; used so stale persist responses cannot roll back a turn. */
+/** How many hero actions already spent this round (haste ≈ 2). */
+export function simpleBattleHeroActionsSpent(battle: SimpleBattleState): number {
+  let spent = 0;
+  for (const u of battle.units) {
+    if (u.side !== "hero" || u.hp <= 0) continue;
+    const budget = u.haste || (u.hasteRounds ?? 0) > 0 ? 2 : 1;
+    spent += Math.max(0, budget - Math.max(0, u.actionsLeft));
+  }
+  return spent;
+}
+
+/**
+ * Higher = further along; stale persist/poll must never roll a turn back.
+ * Do NOT prefer bare phase:"enemy" over idle player — that caused auto enemy
+ * advances / combat loops without a click (enemy ranked above player at same
+ * round even when no hero had acted).
+ */
 export function simpleBattleProgressScore(battle: SimpleBattleState): number {
-  const phaseOrd =
-    battle.phase === "summary" ? 3 : battle.phase === "enemy" ? 1 : 0;
   const statusOrd =
-    battle.status === "victory" || battle.status === "defeat" ? 100 : 0;
+    battle.status === "victory" || battle.status === "defeat" ? 100_000 : 0;
+  const summaryOrd = battle.phase === "summary" ? 1_000 : 0;
+  const spent = simpleBattleHeroActionsSpent(battle);
+  // Enemy phase only counts after at least one hero spent an action.
+  // Bare enemy (spent===0) ranks BELOW idle player so poll/POST cannot
+  // flip a fresh fight into auto enemy-advance.
+  const enemyOrd =
+    battle.phase === "enemy" ? (spent > 0 ? 5 : -1) : 0;
   return (
     statusOrd +
-    battle.round * 10 +
-    phaseOrd +
-    (battle.splashDone ? 0.5 : 0) +
-    Math.min(battle.log.length, 24) * 0.01
+    summaryOrd +
+    battle.round * 100 +
+    spent * 10 +
+    enemyOrd +
+    (battle.splashDone ? 1 : 0) +
+    Math.min(battle.log.length, 40) * 0.01
   );
 }
 
@@ -984,23 +1007,19 @@ export function mergeSimpleBattle(
   if (left.status === "active" && right.status !== "active") return left;
   if (right.status === "active" && left.status !== "active") return right;
   if (left.status === "active" && right.status === "active") {
-    // Same fight — keep further-along copy; splashDone is sticky OR once true.
-    if (left.id === right.id) {
-      const newer =
-        simpleBattleProgressScore(right) > simpleBattleProgressScore(left)
-          ? right
-          : left;
-      const older = newer === right ? left : right;
-      return ensureSimpleBattleSplashConsistency({
-        ...newer,
-        splashDone: !!(left.splashDone || right.splashDone),
-        units: newer.units.length ? newer.units : older.units,
-      });
-    }
-    // Distinct ambushes — keep left (caller ordered prefer-local).
+    // Prefer further-along copy (same or distinct id). Never regress a turn.
+    // On ties keep left (caller passes prefer-local first).
+    const newer =
+      simpleBattleProgressScore(right) > simpleBattleProgressScore(left)
+        ? right
+        : left;
+    const older = newer === right ? left : right;
     return ensureSimpleBattleSplashConsistency({
-      ...left,
+      ...newer,
+      // Stable id: prefer the one that already has a non-legacy uid when tied id churn.
+      id: newer.id || older.id,
       splashDone: !!(left.splashDone || right.splashDone),
+      units: newer.units.length ? newer.units : older.units,
     });
   }
   // Summaries — prefer higher progress.

@@ -110,6 +110,15 @@ assert(
     simpleBattleProgressScore(advanced) > simpleBattleProgressScore(stale),
     "player round 4 outranks stale enemy round 3"
   );
+  // Bare enemy (no hero spent) must not outrank idle player at same round.
+  {
+    const idleP = { ...world.battle!, phase: "player" as const, splashDone: true };
+    const bareE = { ...idleP, phase: "enemy" as const, message: "Enemy turn…" };
+    assert(
+      simpleBattleProgressScore(idleP) >= simpleBattleProgressScore(bareE),
+      "idle player outranks bare enemy phase"
+    );
+  }
   const merged = mergeSimpleBattle(advanced, stale);
   assert(merged?.round === 4 && merged?.phase === "player", "merge must not regress turn");
   assert(merged?.splashDone === true, "merge keeps sticky splashDone");

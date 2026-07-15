@@ -31,7 +31,7 @@ type Props = {
 };
 
 const ENEMY_ADVANCE_MS = 700;
-const ENEMY_WATCHDOG_MS = 1800;
+const ENEMY_FALLBACK_MS = 1600;
 
 const MAP_LABEL: Record<SimpleMapTheme, string> = {
   "dust-road": "Dust road",
@@ -273,12 +273,13 @@ export function SimpleBattleOverlay({
 
   const finishSplash = (id: string) => {
     if (splashCompletedRef.current === id && finishedSplashIds.has(id)) {
-      setIntroPhase("gone");
+      setIntroPhase((p) => (p === "gone" ? p : "gone"));
       return;
     }
     splashCompletedRef.current = id;
     finishedSplashIds.add(id);
     setIntroPhase("gone");
+    // Only persist once — never re-POST splashDone on phase/log churn (flash source).
     onSplashDoneRef.current?.();
   };
 
@@ -301,7 +302,8 @@ export function SimpleBattleOverlay({
     return () => window.clearTimeout(t);
   }, [battle.fx, battle.phase]);
 
-  // Enemy phase: resolve after VFX, with watchdog so a missed tick cannot soft-lock.
+  // Enemy phase: resolve after VFX. One timeout + one fallback — never an
+  // interval (interval + stale worldRef was double-resolving turns).
   useEffect(() => {
     if (battle.status !== "active" || battle.phase !== "enemy") return;
     let cancelled = false;
@@ -311,31 +313,25 @@ export function SimpleBattleOverlay({
     };
     const delay = battle.fx.length ? ENEMY_ADVANCE_MS : 180;
     const t = window.setTimeout(tryAdvance, delay);
-    const watch = window.setInterval(tryAdvance, ENEMY_WATCHDOG_MS);
+    const fallback = window.setTimeout(tryAdvance, ENEMY_FALLBACK_MS);
     return () => {
       cancelled = true;
       window.clearTimeout(t);
-      window.clearInterval(watch);
+      window.clearTimeout(fallback);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-arm on phase/round
   }, [battle.status, battle.phase, battle.round]);
 
   // Force-off path: mid-fight remount / missing splashDone / poll merge.
   // Separate from the intro timer so phase churn cannot re-arm START BATTLE.
+  // Do not depend on log.length — combat lines would re-fire finishSplash every hit.
   useEffect(() => {
     if (!simpleBattleShouldSkipSplash(battle) && !finishedSplashIds.has(battle.id)) {
       return;
     }
     finishSplash(battle.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- derive from battle fields only
-  }, [
-    battle.id,
-    battle.round,
-    battle.phase,
-    battle.splashDone,
-    battle.status,
-    battle.log.length,
-  ]);
+  }, [battle.id, battle.round, battle.phase, battle.splashDone, battle.status]);
 
   // Comic START BATTLE — arm timers exactly once per battle.id.
   // Deps MUST stay [battle.id] only so player→enemy phase cannot restart intro.
@@ -488,8 +484,12 @@ export function SimpleBattleOverlay({
               data-phase={introPhase}
               aria-live="assertive"
               aria-label="Dismiss start battle splash"
-              key={battle.id}
-              onClick={dismissSplash}
+              key={`intro-${battle.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dismissSplash();
+              }}
             >
               <span className="dt-sbat-intro-badge">START BATTLE</span>
               <span className="dt-sbat-intro-sub">

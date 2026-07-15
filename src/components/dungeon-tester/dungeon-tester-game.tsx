@@ -135,6 +135,9 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     (next: DtWorldSave, opts?: { sync?: boolean; slotId?: DtSaveSlotId }) => {
       const slotId = opts?.slotId ?? activeSlotRef.current;
       const stamped = { ...next, updatedAt: new Date().toISOString() };
+      // Sync worldRef before paint so enemy-advance / action timers never see a
+      // stale phase and double-fire (looked like auto-combat + flash).
+      worldRef.current = stamped;
       setWorld(stamped);
       writeLocalDtWorld(stamped, slotId);
       refreshSlotSummaries();
@@ -177,6 +180,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     stamped.framesAdvanced ?? 0
                   ),
                 });
+                worldRef.current = next;
                 writeLocalDtWorld(next, slotId);
                 return next;
               }
@@ -199,6 +203,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   merged.framesAdvanced ?? 0
                 ),
               });
+              worldRef.current = next;
               writeLocalDtWorld(next, slotId);
               return next;
             });
@@ -310,13 +315,14 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     if (playTickRef.current) window.clearInterval(playTickRef.current);
     playTickRef.current = window.setInterval(() => {
       const slotId = activeSlotRef.current;
-      setWorld((prev) => {
-        if (!prev) return prev;
-        const next = addPlaytime(prev, 1000);
-        writeLocalDtWorld(next, slotId);
-        return next;
-      });
-    }, 1000);
+        setWorld((prev) => {
+          if (!prev) return prev;
+          const next = addPlaytime(prev, 1000);
+          worldRef.current = next;
+          writeLocalDtWorld(next, slotId);
+          return next;
+        });
+      }, 1000);
     return () => {
       if (playTickRef.current) window.clearInterval(playTickRef.current);
     };
@@ -382,6 +388,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
             storyPlayMs: Math.max(prev?.storyPlayMs ?? 0, merged.storyPlayMs ?? 0),
             framesAdvanced: Math.max(prev?.framesAdvanced ?? 0, merged.framesAdvanced ?? 0),
           });
+          worldRef.current = next;
           writeLocalDtWorld(next, slotId);
           return next;
         });
@@ -571,16 +578,28 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     if (r.message) setFlash(r.message);
   };
 
+  const pendingRef = useRef(false);
+  pendingRef.current = !!pending;
+  /** One enemy resolve per battle.id + round — blocks double-fire. */
+  const enemyAdvanceKeyRef = useRef<string | null>(null);
+
   const onBattleAction = (
     heroId: string,
     action: SimpleBattleActionId,
     targetId?: string
   ) => {
-    if (!world || pending) return;
+    // Player actions ONLY from explicit UI clicks — never from timers/effects.
+    const current = worldRef.current;
+    if (!current?.battle || pendingRef.current) return;
+    if (current.battle.phase !== "player" || current.battle.status !== "active") {
+      return;
+    }
+    pendingRef.current = true;
     setPending(true);
-    const r = performSimpleBattleAction(world, heroId, action, targetId);
+    const r = performSimpleBattleAction(current, heroId, action, targetId);
     persist(r.world);
     if (r.message) setFlash(r.message);
+    pendingRef.current = false;
     setPending(false);
   };
 
@@ -594,6 +613,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   const onFleeBattle = () => {
     const current = worldRef.current;
     if (!current?.battle) return;
+    enemyAdvanceKeyRef.current = null;
     const r = fleeDtBattle(current);
     persist(r.world);
     setTab("story");
@@ -607,27 +627,33 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     persist(clearSimpleBattleFx(world), { sync: false });
   };
 
-  const pendingRef = useRef(false);
-  pendingRef.current = !!pending;
-
   const onBattleEnemyAdvance = () => {
     const current = worldRef.current;
     if (!current?.battle || current.battle.phase !== "enemy") return;
+    const key = `${current.battle.id}:${current.battle.round}`;
+    if (enemyAdvanceKeyRef.current === key) return;
     // Never drop the advance on a transient pending tick — retry shortly.
     if (pendingRef.current) {
       window.setTimeout(() => {
         const again = worldRef.current;
-        if (again?.battle?.phase === "enemy" && !pendingRef.current) {
-          const r = advanceSimpleBattleEnemyPhase(again);
-          persist(r.world);
-          if (r.message) setFlash(r.message);
+        if (
+          again?.battle?.phase === "enemy" &&
+          !pendingRef.current &&
+          enemyAdvanceKeyRef.current !== `${again.battle.id}:${again.battle.round}`
+        ) {
+          onBattleEnemyAdvance();
         }
       }, 120);
       return;
     }
-    setPending(true);
+    enemyAdvanceKeyRef.current = key;
     pendingRef.current = true;
+    setPending(true);
     const r = advanceSimpleBattleEnemyPhase(current);
+    // If advance no-op'd (race), allow a later try.
+    if (r.world.battle?.phase === "enemy") {
+      enemyAdvanceKeyRef.current = null;
+    }
     persist(r.world);
     if (r.message) setFlash(r.message);
     pendingRef.current = false;
@@ -640,6 +666,11 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     // Sync so server/poll cannot resurrect splashDone:false mid-fight.
     persist(markSimpleBattleSplashDone(current));
   };
+
+  // New ambush → allow a fresh enemy-advance key.
+  useEffect(() => {
+    enemyAdvanceKeyRef.current = null;
+  }, [world?.battle?.id]);
 
   const battleActive = world?.battle?.status === "active";
   const battleOpen = !!world?.battle;
