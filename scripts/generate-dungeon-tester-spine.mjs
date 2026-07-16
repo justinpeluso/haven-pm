@@ -194,13 +194,13 @@ const CH1_LANDMARKS = [
   {
     kind: "narrative",
     title: "The Binder Arrives",
-    body: "A lean man in travel-stained grey tips his hat to the overseer as if haggling over mule feed and mildly disappointing weather. Halbrecht Quill — warrant binder, chain-buyer, scholar of ugly laws — pays coin for your papers without looking away from your eyes. “Pretty muscle,” he tells the overseer. “Ugly price. I’ll take him.”",
+    body: "A lean marshal in travel-stained grey tips a ruined hat to the overseer like a man haggling over mule feed and mildly disappointing weather. Halbrecht Quill — freehold marshal, warrant binder, one scarred eye that never quite closes on a lie — pays coin for your papers without looking away. “Pretty muscle,” he drawls, whiskey still on the breath. “Ugly price. I’ll take the stubborn one.”",
     art: "quill-hat",
   },
   {
     kind: "choice",
     title: "Paper Freedom",
-    body: "Quill slides a stamped sheet across the wagon board. Freedom on parchment, conditional as a hangman’s courtesy: hunt the guilty he names, keep steel sharp, ask no soft questions. “Say yes,” he offers, almost kindly, “or climb back into inventory. I don’t do poetry.”",
+    body: "Quill slides a stamped sheet across the wagon board and uncorks a dented flask like punctuation. Freedom on parchment, conditional as a hangman’s courtesy: hunt the guilty he names, keep steel sharp, ask no soft questions. “Say yes,” he offers, almost kindly, “or climb back into inventory. I don’t do poetry, and I don’t ride with quitters.”",
     art: "warrant-paper",
     choices: [
       {
@@ -208,7 +208,7 @@ const CH1_LANDMARKS = [
         label: "Take the warrant path",
         approach: "Accept conditional freedom; work for Quill.",
         outcome: {
-          text: "Quill smiles without warmth. “Good. The road hates empty hands and full sermons.”",
+          text: "Quill smiles without warmth. “Good. The road hates empty hands, full sermons, and soft guts.”",
           xp: 15,
           flagsAdd: ["quill-ally", "papers-accepted"],
         },
@@ -220,12 +220,12 @@ const CH1_LANDMARKS = [
         stat: "charisma",
         dc: 10,
         success: {
-          text: "He softens half a degree. “Lyra. Sold east years ago. Candlemire keeps pretty ledgers and uglier guests.”",
+          text: "He softens half a degree and takes a pull. “Lyra. Sold east years ago. Candlemire keeps pretty ledgers and uglier guests. You don’t quit easy — fine. Neither does that name.”",
           xp: 20,
           flagsAdd: ["quill-ally", "knows-lyra-early", "papers-accepted"],
         },
         fail: {
-          text: "Quill’s face closes like a ledger. “Earn the right to ask.” He still pushes the papers toward you.",
+          text: "Quill’s scarred eye narrows. “Earn the damn right to ask.” He still pushes the papers toward you.",
           xp: 10,
           flagsAdd: ["quill-ally", "papers-accepted"],
         },
@@ -237,12 +237,12 @@ const CH1_LANDMARKS = [
         stat: "wisdom",
         dc: 11,
         success: {
-          text: "No twitch — only tired calculation. Dangerous, yes. Aligned, for now. He notices you looking and tips his hat at the insult.",
+          text: "No twitch — only tired calculation and a flask that never quite empties. Dangerous, yes. Aligned, for now. He notices you looking and tips his hat at the insult.",
           xp: 18,
           flagsAdd: ["quill-ally", "trust-measured", "papers-accepted"],
         },
         fail: {
-          text: "You misread courtesy for cruelty. Quill shrugs. “Everyone does, once.” He hands you a short sword anyway.",
+          text: "You misread courtesy for cruelty. Quill shrugs. “Everyone does, once.” He hands you a short sword and a look that says don’t quit on the first mile.",
           xp: 8,
           flagsAdd: ["quill-ally", "papers-accepted", "distrust-quill"],
         },
@@ -273,13 +273,13 @@ const CH1_LANDMARKS = [
   {
     kind: "narrative",
     title: "Quill's Lesson",
-    body: "“Steel answers collar-law better than ink,” Quill says, wiping ichor from the bolt like a clerk correcting a sum. He drills stance, breath, and the difference between killing for a warrant and killing for rage. “Rage is fine,” he adds. “Just don’t let it hold the map.”",
+    body: "“Steel answers collar-law better than ink,” Quill says, wiping ichor from the bolt like a clerk correcting a sum that insulted him. He drills stance, breath, and the difference between killing for a warrant and killing for rage — then takes a pull and adds, “Rage is fine. Just don’t let it hold the damn map. And don’t quit mid-swing.”",
     art: "quill-drill",
   },
   {
     kind: "choice",
     title: "Campfire Question",
-    body: "Night fire snaps. Quill boils bitter tea that tastes like boiled warrants and asks what you will do if Lyra is already broken past rescue. The question sits between you like a third traveler with muddy boots and no manners.",
+    body: "Night fire snaps. Quill boils bitter tea that tastes like boiled warrants, spikes it from the flask, and asks what you will do if Lyra is already broken past rescue. The question sits between you like a third traveler with muddy boots and no manners. His scarred eye does not blink.",
     art: "campfire",
     choices: [
       {
@@ -287,7 +287,7 @@ const CH1_LANDMARKS = [
         label: "I bring her home anyway",
         approach: "Refuse the premise that anyone is past saving.",
         outcome: {
-          text: "Quill nods once. “Then we plan for stubborn miracles. I hate miracles. I’ll still pack for them.”",
+          text: "Quill nods once. “Stubborn miracles. I hate miracles. I’ll still pack for them — and for you not quitting.”",
           xp: 12,
           flagsAdd: ["path-hope"],
         },
@@ -297,7 +297,7 @@ const CH1_LANDMARKS = [
         label: "Then Candlemire pays in blood",
         approach: "If she is gone, Cade Mire still owns the debt.",
         outcome: {
-          text: "Quill’s eyes glitter. “Justice with teeth. I can work with that — carefully.”",
+          text: "Quill’s eyes glitter. “Justice with teeth. I can work with that — carefully, and drunk enough to be honest.”",
           xp: 12,
           flagsAdd: ["path-revenge"],
         },
@@ -307,7 +307,7 @@ const CH1_LANDMARKS = [
         label: "I will decide when I see her",
         approach: "Keep counsel until the yard is real.",
         outcome: {
-          text: "“Wise or evasive — same coin until spent,” Quill murmurs. “Don’t spend it drunk.”",
+          text: "“Wise or evasive — same coin until spent,” Quill murmurs. “Don’t spend it drunk. That’s my job.”",
           xp: 12,
           flagsAdd: ["path-wait"],
         },
@@ -1073,9 +1073,9 @@ const stats = {
 
 const pack = {
   version: 1,
-  title: "DungeonTester: Wilderland Liberation",
+  title: "True Grit: Wilderland Liberation",
   blurb:
-    "Oregon Trail–style comic frames. An original thrall-to-liberator arc through the Wilderland — warrants, orcs, and Candlemire’s collar yards. Inspired by Django’s beat structure; no film or LOTR trademark names.",
+    "Oregon Trail–style comic frames. An original thrall-to-liberator arc through the Wilderland — warrants, orcs, and Candlemire’s collar yards. A scarred freehold marshal and a stubborn freeman who will not quit. Inspired by liberation-Western grit; no film trademark character names.",
   targetHours: TARGET_HOURS,
   startNodeId: chapterDefs[0].startNodeId,
   encounterCadence: ENCOUNTER_CADENCE,

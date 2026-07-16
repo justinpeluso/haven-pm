@@ -167,7 +167,7 @@ export function createNewDtWorld(): DtWorldSave {
     campSleeps: [],
     explorationFinds: 0,
     lastExploration: null,
-    log: ["DungeonTester opens on the Wilderland road. Seal your heroes."],
+    log: ["True Grit opens on the Wilderland road. Seal your heroes."],
     endingId: null,
     startedAt: now,
     updatedAt: now,

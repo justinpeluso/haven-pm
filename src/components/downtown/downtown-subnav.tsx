@@ -21,7 +21,7 @@ export const JP_GAMING_LINKS = [
   {
     id: "dungeon-tester" as const,
     href: "/downtown/dungeon-tester",
-    label: "DungeonTester",
+    label: "True Grit",
   },
 ] as const;
 

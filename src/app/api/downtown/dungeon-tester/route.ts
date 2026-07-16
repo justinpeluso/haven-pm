@@ -122,7 +122,7 @@ export async function POST(req: Request) {
   if (body.deleteSlot) {
     if (!isDm && seat !== "justin") {
       return NextResponse.json(
-        { error: "Only the DM can delete a DungeonTester save slot." },
+        { error: "Only the DM can delete a True Grit save slot." },
         { status: 403 }
       );
     }
@@ -140,7 +140,7 @@ export async function POST(req: Request) {
   if (body.reset) {
     if (!isDm && seat !== "justin") {
       return NextResponse.json(
-        { error: "Only the DM can reset a DungeonTester save slot." },
+        { error: "Only the DM can reset a True Grit save slot." },
         { status: 403 }
       );
     }

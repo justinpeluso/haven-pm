@@ -565,7 +565,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     if (mySlot) setPhase("create");
     else setPhase("play");
     setTab("story");
-    setFlash(`New Wilderland march on Slot ${slotId}.`);
+    setFlash(`New True Grit march on Slot ${slotId}.`);
   };
 
   const continueSave = async (slotId: DtSaveSlotId = activeSlotId) => {
@@ -868,7 +868,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     return (
       <div className="downtown-shell dungeon-tester party-comic party-rpg90s party-chronicle space-y-3">
         <DowntownSubnav active="dungeon-tester" />
-        <p className="dt-tagline">Loading DungeonTester…</p>
+        <p className="dt-tagline">Loading True Grit…</p>
       </div>
     );
   }
@@ -915,11 +915,12 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
       {phase === "title" && (
         <div className="dt-panel dt-title-panel space-y-3">
           <DtBackBar backs={[{ label: "Downtown", href: "/downtown" }]} />
-          <h1 className="dt-title-hero">DungeonTester</h1>
+          <h1 className="dt-title-hero">True Grit</h1>
           <p className="dt-tagline">
-            Dusty Wilderland liberation march — Oregon Trail page, short comic frames, party seats
-            like Neverworld (Justin, Rusty, Elisha, Eric). Late joiners seal a hero anytime; save
-            slots keep separate campaigns. Battles stay DT-only crude combat.
+            Dusty Wilderland liberation — warrants, collar yards, and a scarred marshal who drinks
+            harder than he admits. Oregon Trail page, short comic frames, party seats like Neverworld
+            (Justin, Rusty, Elisha, Eric). Late joiners seal a hero anytime; save slots keep separate
+            campaigns. Battles stay crude combat — grit over polish.
           </p>
 
           <div className="dt-slot-list" role="list" aria-label="Save slots">
@@ -1047,7 +1048,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
             })}
           </div>
 
-          <div className="pc-tab-row dt-actions" role="tablist" aria-label="DungeonTester panels">
+          <div className="pc-tab-row dt-actions" role="tablist" aria-label="True Grit panels">
             {(
               [
                 ["story", "Story"],
@@ -1086,7 +1087,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               />
               <h2 className="dt-frame-title">March beat complete</h2>
               <p className="dt-frame-body">
-                Ending flag <strong>{world.endingId}</strong>. More Wilderland spine and hours toward
+                Ending flag <strong>{world.endingId}</strong>. More True Grit spine and hours toward
                 the thirty still wait beyond this road — or start a new campaign from the title.
               </p>
               <div className="dt-actions">
