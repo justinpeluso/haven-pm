@@ -56,6 +56,8 @@ import {
   formatPlaytimeHud,
   getDtArt,
   getFrame,
+  resolveFrameBody,
+  visibleFrameChoices,
   listLocalDtSlotSummaries,
   mergeDtWorld,
   mergeSimpleBattle,
@@ -1136,10 +1138,14 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     {world.chapterId} · {world.campaignNodeId}
                   </p>
                   <h2 className="dt-frame-title">{frame?.title ?? "Missing frame"}</h2>
-                  <p className="dt-frame-body">{frame?.body ?? "Spine gap — check data/dungeon-tester."}</p>
+                  <p className="dt-frame-body">
+                    {frame
+                      ? resolveFrameBody(frame, world.partyFlags)
+                      : "Spine gap — check data/dungeon-tester."}
+                  </p>
                   <div className="dt-actions dt-story-actions">
                     {frame?.choices?.length ? (
-                      frame.choices.map((c) => (
+                      visibleFrameChoices(frame, world.partyFlags).map((c) => (
                         <button
                           key={c.id}
                           type="button"

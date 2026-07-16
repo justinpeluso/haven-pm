@@ -45,6 +45,8 @@ export type DtFrameChoice = {
   /** Optional approach line for dusty UI. */
   approach?: string;
   flagsAdd?: string[];
+  /** Only show this choice when the party has the flag. */
+  requireFlag?: string;
   /** Optional D&D-style check (engine may ignore until wired). */
   stat?: DtStatKey;
   dc?: number;
@@ -52,6 +54,11 @@ export type DtFrameChoice = {
   nextFail?: string;
   failFlagsAdd?: string[];
   failDamage?: number;
+};
+
+export type DtFlagEcho = {
+  requireFlag: string;
+  line: string;
 };
 
 export type DtFrame = {
@@ -72,6 +79,8 @@ export type DtFrame = {
   /** Chapter enemy-theme tag (for random decks). */
   enemyTheme?: string;
   flagsAdd?: string[];
+  /** Appended to body when partyFlags include requireFlag (callbacks). */
+  flagEchoes?: DtFlagEcho[];
   endingId?: string;
 };
 

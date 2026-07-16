@@ -25,7 +25,7 @@
       "sceneId": "scene-dt-chain-road",
       "splashArtId": "splash-dt-chain-road",
       "fidelity": "thorough",
-      "frameCount": 90
+      "frameCount": 96
     },
     {
       "id": "dt-ch-02-dust-and-debt",
@@ -45,7 +45,7 @@
       "sceneId": "scene-dt-dust-and-debt",
       "splashArtId": "splash-dt-dust-and-debt",
       "fidelity": "thorough",
-      "frameCount": 90
+      "frameCount": 96
     },
     {
       "id": "dt-ch-03-wanted-mark",
@@ -65,7 +65,7 @@
       "sceneId": "scene-dt-wanted-mark",
       "splashArtId": "splash-dt-wanted-mark",
       "fidelity": "thorough",
-      "frameCount": 62
+      "frameCount": 68
     },
     {
       "id": "dt-ch-04-river-of-brands",
@@ -85,7 +85,7 @@
       "sceneId": "scene-dt-river-of-brands",
       "splashArtId": "splash-dt-river-of-brands",
       "fidelity": "thorough",
-      "frameCount": 62
+      "frameCount": 68
     },
     {
       "id": "dt-ch-05-candlemire-gates",
@@ -105,7 +105,7 @@
       "sceneId": "scene-dt-candlemire-gates",
       "splashArtId": "splash-dt-candlemire-gates",
       "fidelity": "thorough",
-      "frameCount": 66
+      "frameCount": 72
     },
     {
       "id": "dt-ch-06-house-of-collars",
@@ -125,7 +125,7 @@
       "sceneId": "scene-dt-house-of-collars",
       "splashArtId": "splash-dt-house-of-collars",
       "fidelity": "thorough",
-      "frameCount": 66
+      "frameCount": 72
     },
     {
       "id": "dt-ch-07-blood-mandolin",
@@ -145,7 +145,7 @@
       "sceneId": "scene-dt-blood-mandolin",
       "splashArtId": "splash-dt-blood-mandolin",
       "fidelity": "thorough",
-      "frameCount": 62
+      "frameCount": 68
     },
     {
       "id": "dt-ch-08-liberation-march",
@@ -165,7 +165,7 @@
       "sceneId": "scene-dt-liberation-march",
       "splashArtId": "splash-dt-liberation-march",
       "fidelity": "thorough",
-      "frameCount": 66
+      "frameCount": 72
     },
     {
       "id": "dt-ch-09-free-horizon",
@@ -185,7 +185,7 @@
       "sceneId": "scene-dt-free-horizon",
       "splashArtId": "splash-dt-free-horizon",
       "fidelity": "thorough",
-      "frameCount": 56
+      "frameCount": 62
     }
   ],
   "endings": [

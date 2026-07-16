@@ -15,6 +15,13 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { CHAPTER_CONNECTIVE, THOROUGH_LANDMARKS } from "./dt-landmarks-ch3-9.mjs";
+import {
+  ROAD_CHOICES,
+  SET_PIECES,
+  beatTitleFor,
+  buildVignetteDeck,
+  echoesForBeat,
+} from "./dt-story-enrichment.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = join(__dirname, "..", "data", "dungeon-tester");
@@ -180,20 +187,20 @@ const CH1_LANDMARKS = [
   {
     kind: "narrative",
     title: "Cage Line",
-    body: "Mist sits on the Chain-Road like damp wool. Iron cages rattle on ox-wains while overseers count numbers instead of names. You are Nine-Mark — thrall, fighter, and cargo.",
+    body: "Mist sits on the Chain-Road like damp wool soaked in livestock math. Iron cages rattle on ox-wains while overseers count numbers instead of names — and spit when the count comes up short. You are Nine-Mark: thrall, fighter, and cargo that punches back when the whip gets lazy.",
     art: "chain-cages",
     flagsAdd: ["ch1-started"],
   },
   {
     kind: "narrative",
     title: "The Binder Arrives",
-    body: "A lean man in travel-stained grey tips his hat to the overseer as if haggling over mule feed. Halbrecht Quill — warrant binder, chain-buyer, and something like a scholar of ugly laws. He pays coin for your papers without looking away from your eyes.",
+    body: "A lean man in travel-stained grey tips his hat to the overseer as if haggling over mule feed and mildly disappointing weather. Halbrecht Quill — warrant binder, chain-buyer, scholar of ugly laws — pays coin for your papers without looking away from your eyes. “Pretty muscle,” he tells the overseer. “Ugly price. I’ll take him.”",
     art: "quill-hat",
   },
   {
     kind: "choice",
     title: "Paper Freedom",
-    body: "Quill slides a stamped sheet across the wagon board. Freedom on parchment, conditional on service: hunt the guilty Quill names, keep your steel sharp, and ask no soft questions. He waits for your word.",
+    body: "Quill slides a stamped sheet across the wagon board. Freedom on parchment, conditional as a hangman’s courtesy: hunt the guilty he names, keep steel sharp, ask no soft questions. “Say yes,” he offers, almost kindly, “or climb back into inventory. I don’t do poetry.”",
     art: "warrant-paper",
     choices: [
       {
@@ -201,7 +208,7 @@ const CH1_LANDMARKS = [
         label: "Take the warrant path",
         approach: "Accept conditional freedom; work for Quill.",
         outcome: {
-          text: "Quill smiles without warmth. “Good. The road hates empty hands.”",
+          text: "Quill smiles without warmth. “Good. The road hates empty hands and full sermons.”",
           xp: 15,
           flagsAdd: ["quill-ally", "papers-accepted"],
         },
@@ -213,12 +220,12 @@ const CH1_LANDMARKS = [
         stat: "charisma",
         dc: 10,
         success: {
-          text: "He softens half a degree. “Lyra. Sold east years ago. Candlemire keeps pretty ledgers.”",
+          text: "He softens half a degree. “Lyra. Sold east years ago. Candlemire keeps pretty ledgers and uglier guests.”",
           xp: 20,
           flagsAdd: ["quill-ally", "knows-lyra-early", "papers-accepted"],
         },
         fail: {
-          text: "Quill’s face closes. “Earn the right to ask.” He still pushes the papers toward you.",
+          text: "Quill’s face closes like a ledger. “Earn the right to ask.” He still pushes the papers toward you.",
           xp: 10,
           flagsAdd: ["quill-ally", "papers-accepted"],
         },
@@ -230,12 +237,12 @@ const CH1_LANDMARKS = [
         stat: "wisdom",
         dc: 11,
         success: {
-          text: "No twitch — only tired calculation. He is dangerous and, for now, aligned.",
+          text: "No twitch — only tired calculation. Dangerous, yes. Aligned, for now. He notices you looking and tips his hat at the insult.",
           xp: 18,
           flagsAdd: ["quill-ally", "trust-measured", "papers-accepted"],
         },
         fail: {
-          text: "You misread courtesy for cruelty. Quill shrugs and hands you a short sword anyway.",
+          text: "You misread courtesy for cruelty. Quill shrugs. “Everyone does, once.” He hands you a short sword anyway.",
           xp: 8,
           flagsAdd: ["quill-ally", "papers-accepted", "distrust-quill"],
         },
@@ -245,20 +252,20 @@ const CH1_LANDMARKS = [
   {
     kind: "narrative",
     title: "Collar Off",
-    body: "The overseer pries the collar with a hooked key that smells of rust and old sweat. Skin burns where iron sat for seasons. Quill tosses the ring into roadside mud like trash that once owned a man.",
+    body: "The overseer pries the collar with a hooked key that smells of rust, old sweat, and other people’s surrender. Skin burns where iron sat for seasons. Quill tosses the ring into roadside mud like trash that once owned a man — then grinds it under his heel, just to be thorough.",
     art: "collar-off",
     flagsAdd: ["collar-off"],
   },
   {
     kind: "narrative",
     title: "First Mile Free",
-    body: "Boots that never chose a direction now choose west, then south, at Quill’s nudge. Crows watch the cages dwindle. Freedom feels like hunger with better manners.",
+    body: "Boots that never chose a direction now choose west, then south, at Quill’s nudge. Crows watch the cages dwindle and look personally offended. Freedom feels like hunger with better manners and a loaded crossbow for a chaperone.",
     art: "road-west",
   },
   {
     kind: "encounter",
     title: "Orc Chainers",
-    body: "Three chain-orcs peel from the pine edge, still smelling of the cages they sold this morning. They want their property returned. Quill calmly loads a crossbow and says, “Show them the paperwork is yours.”",
+    body: "Three chain-orcs peel from the pine edge, still smelling of the cages they sold this morning. They want their property returned with interest. Quill calmly loads a crossbow and drawls, “Show them the paperwork is yours — and that the warranty expired.”",
     enemy: "Chain-Orc Reclaimer",
     theme: "chain-orcs",
     art: "orc-chainer",
@@ -266,13 +273,13 @@ const CH1_LANDMARKS = [
   {
     kind: "narrative",
     title: "Quill's Lesson",
-    body: "“Steel answers collar-law better than ink,” Quill says, wiping ichor from the bolt. He drills stance, breath, and the difference between killing for a warrant and killing for rage. You practice until dusk makes the road one color.",
+    body: "“Steel answers collar-law better than ink,” Quill says, wiping ichor from the bolt like a clerk correcting a sum. He drills stance, breath, and the difference between killing for a warrant and killing for rage. “Rage is fine,” he adds. “Just don’t let it hold the map.”",
     art: "quill-drill",
   },
   {
     kind: "choice",
     title: "Campfire Question",
-    body: "Night fire snaps. Quill boils bitter tea and asks what you will do if Lyra is already broken past rescue. The question sits between you like a third traveler.",
+    body: "Night fire snaps. Quill boils bitter tea that tastes like boiled warrants and asks what you will do if Lyra is already broken past rescue. The question sits between you like a third traveler with muddy boots and no manners.",
     art: "campfire",
     choices: [
       {
@@ -280,7 +287,7 @@ const CH1_LANDMARKS = [
         label: "I bring her home anyway",
         approach: "Refuse the premise that anyone is past saving.",
         outcome: {
-          text: "Quill nods once. “Then we plan for stubborn miracles.”",
+          text: "Quill nods once. “Then we plan for stubborn miracles. I hate miracles. I’ll still pack for them.”",
           xp: 12,
           flagsAdd: ["path-hope"],
         },
@@ -290,7 +297,7 @@ const CH1_LANDMARKS = [
         label: "Then Candlemire pays in blood",
         approach: "If she is gone, Cade Mire still owns the debt.",
         outcome: {
-          text: "Quill’s eyes glitter. “Justice with teeth. I can work with that.”",
+          text: "Quill’s eyes glitter. “Justice with teeth. I can work with that — carefully.”",
           xp: 12,
           flagsAdd: ["path-revenge"],
         },
@@ -300,7 +307,7 @@ const CH1_LANDMARKS = [
         label: "I will decide when I see her",
         approach: "Keep counsel until the yard is real.",
         outcome: {
-          text: "“Wise or evasive — same coin until spent,” Quill murmurs.",
+          text: "“Wise or evasive — same coin until spent,” Quill murmurs. “Don’t spend it drunk.”",
           xp: 12,
           flagsAdd: ["path-wait"],
         },
@@ -310,20 +317,20 @@ const CH1_LANDMARKS = [
   {
     kind: "narrative",
     title: "Warrant One",
-    body: "A farmstead burned for unpaid tribute; the killer rides with a brand that matches Cade’s outer seals. Quill’s warrant names him Vern of Lowhedge. Catch him alive if possible — dead if the world insists.",
+    body: "A farmstead burned for unpaid tribute; the killer rides with a brand that matches Cade’s outer seals like a signature on arson. Quill’s warrant names him Vern of Lowhedge. “Alive if possible,” Quill says. “Dead if the world insists on being itself.”",
     art: "warrant-vern",
     flagsAdd: ["warrant-vern"],
   },
   {
     kind: "narrative",
     title: "Lowhedge Ruins",
-    body: "Ash roofs and a child’s doll face-down in soot. Tracks lead into scrub where wargs like soft meat. Somewhere ahead, Vern laughs at a joke only hunters hear.",
+    body: "Ash roofs. A child’s doll face-down in soot. Tracks lead into scrub where wargs like soft meat and softer excuses. Somewhere ahead, Vern laughs at a joke only hunters and monsters find funny.",
     art: "lowhedge",
   },
   {
     kind: "encounter",
     title: "Dust Wargs",
-    body: "Two dust-wargs burst from thorn. Their eyes reflect fire they did not start. Quill covers the left; yours is the right throat if you still remember cages.",
+    body: "Two dust-wargs burst from thorn. Their eyes reflect fire they did not start and do not regret. Quill covers the left; yours is the right throat — if you still remember what cages taught about hesitation.",
     enemy: "Dust-Warg Pair",
     theme: "road-wargs",
     art: "dust-warg",
@@ -331,7 +338,7 @@ const CH1_LANDMARKS = [
   {
     kind: "choice",
     title: "Vern Cornered",
-    body: "Vern sits against a tree with a leg broken by his own horse. He begs for Cade’s protection and offers a torn ledger page with women’s names. Lyra’s sits three lines down, sold as “song-thrall, unbroken.”",
+    body: "Vern sits against a tree with a leg broken by his own horse — comedy the forest did not request. He begs for Cade’s protection and offers a torn ledger page with women’s names. Lyra’s sits three lines down, sold as “song-thrall, unbroken.” Vern smiles like that should buy him sunrise.",
     art: "vern-caught",
     choices: [
       {
@@ -339,7 +346,7 @@ const CH1_LANDMARKS = [
         label: "Bind him for trial",
         approach: "Alive for Quill’s warrant and a clean conscience.",
         outcome: {
-          text: "Vern weeps gratitude he does not deserve. The ledger page is yours.",
+          text: "Vern weeps gratitude he does not deserve. Quill stamps ALIVE like it hurts. The ledger page is yours.",
           xp: 25,
           gold: 10,
           flagsAdd: ["vern-alive", "lyra-ledger"],
@@ -350,7 +357,7 @@ const CH1_LANDMARKS = [
         label: "End him for Lowhedge",
         approach: "Justice for ash roofs; take the page either way.",
         outcome: {
-          text: "The forest swallows the sound. Quill files the warrant stamped CLOSED.",
+          text: "The forest swallows the sound. Quill files the warrant CLOSED and does not congratulate you.",
           xp: 20,
           gold: 15,
           flagsAdd: ["vern-dead", "lyra-ledger", "hard-hand"],
@@ -363,12 +370,12 @@ const CH1_LANDMARKS = [
         stat: "strength",
         dc: 12,
         success: {
-          text: "Vern sketches fords and bribe posts. “Cade smiles when he sells people,” he spits.",
+          text: "Vern sketches fords and bribe posts. “Cade smiles when he sells people,” he spits. “You’ll hate how pretty it is.”",
           xp: 28,
           flagsAdd: ["vern-alive", "lyra-ledger", "candlemire-routes"],
         },
         fail: {
-          text: "Vern faints before finishing. You still have the ledger shred and a headache.",
+          text: "Vern faints before finishing. You still have the ledger shred, a headache, and Quill’s unimpressed silence.",
           xp: 14,
           damage: 4,
           flagsAdd: ["vern-alive", "lyra-ledger"],
@@ -379,7 +386,7 @@ const CH1_LANDMARKS = [
   {
     kind: "narrative",
     title: "Name on Paper",
-    body: "You say Lyra aloud until the vowels stop shaking. Quill packs Vern’s routes — or what remains of them — and points toward a freeman town that stamps men as unpaid labor instead of numbered iron. Dawn smells like pine and unfinished debts.",
+    body: "You say Lyra aloud until the vowels stop shaking and start sounding like a plan. Quill packs Vern’s routes — or what remains of them — and points toward a freeman town that stamps men as unpaid labor instead of numbered iron. Dawn smells like pine, powder, and unfinished debts.",
     art: "lyra-name",
     flagsAdd: ["ch1-complete", "knows-lyra"],
   },
@@ -389,21 +396,21 @@ const CH2_LANDMARKS = [
   {
     kind: "narrative",
     title: "Freemark Bridge",
-    body: "Freemark’s bridge exacts a toll in stories, not coins. You tell enough of Chain-Road to pass, and hide enough of Candlemire to sleep. Quill buys ink, ball, and powder like a man preparing a small war.",
+    body: "Freemark’s bridge exacts a toll in stories, not coins — and they can smell a lie the way dogs smell fear. You tell enough of Chain-Road to pass, and hide enough of Candlemire to sleep. Quill buys ink, ball, and powder like a man preparing a small, personally motivated war.",
     art: "freemark-bridge",
     flagsAdd: ["ch2-started"],
   },
   {
     kind: "narrative",
     title: "Freeman Mark",
-    body: "A clerk tattoos a pale freeman glyph on your wrist where the collar once sat. It burns less than iron and more than pride. Children stare; adults do the math of risk.",
+    body: "A clerk tattoos a pale freeman glyph on your wrist where the collar once sat. It burns less than iron and more than pride. Children stare; adults do the math of risk; Quill says, “Wear it out. Don’t let it wear you.”",
     art: "freeman-mark",
     flagsAdd: ["freeman-mark"],
   },
   {
     kind: "choice",
     title: "Which Warrant?",
-    body: "Three warrants hang like wet laundry: a goblin raid-chief, a barge cutter on the Brand-River feeder, and a knight who sold villagers under Cade’s quiet seal. Quill lets you choose the first debt to collect.",
+    body: "Three warrants hang like wet laundry: a goblin raid-chief, a barge cutter on the Brand-River feeder, and a knight who sold villagers under Cade’s quiet seal. Quill lets you choose the first debt to collect. “Pick the one that keeps you sleeping,” he says. “Or the one that doesn’t. Both teach.”",
     art: "three-warrants",
     choices: [
       {
@@ -411,7 +418,7 @@ const CH2_LANDMARKS = [
         label: "Hunt the goblin chief",
         approach: "Clear hills so freefolk stop paying ‘protection.’",
         outcome: {
-          text: "Quill packs snares. “Hills first. Rivers remember.”",
+          text: "Quill packs snares. “Hills first. Rivers remember — and so do I.”",
           xp: 15,
           flagsAdd: ["warrant-goblin"],
         },
@@ -421,7 +428,7 @@ const CH2_LANDMARKS = [
         label: "Hunt the barge cutter",
         approach: "Follow water toward Candlemire’s quiet supply.",
         outcome: {
-          text: "“Rivers teach patience,” Quill says, already smelling mud.",
+          text: "“Rivers teach patience,” Quill says, already smelling mud and worse math.",
           xp: 15,
           flagsAdd: ["warrant-barge"],
         },
@@ -431,7 +438,7 @@ const CH2_LANDMARKS = [
         label: "Hunt the selling knight",
         approach: "Strike the soft armor of Cade’s respectables.",
         outcome: {
-          text: "Quill’s smile thins. “Careful. Knights have friends with seals.”",
+          text: "Quill’s smile thins. “Careful. Knights have friends with seals and soft hands.”",
           xp: 15,
           flagsAdd: ["warrant-knight"],
         },
@@ -441,13 +448,13 @@ const CH2_LANDMARKS = [
   {
     kind: "narrative",
     title: "Hill Weather",
-    body: "Scrub hills rise like knuckles. Goblin banners stitch stolen cloth into threats. Somewhere a horn answers itself, which means ambush practice.",
+    body: "Scrub hills rise like knuckles ready to close. Goblin banners stitch stolen cloth into threats that almost look like nations. Somewhere a horn answers itself, which means ambush practice — or optimism with spears.",
     art: "goblin-hills",
   },
   {
     kind: "encounter",
     title: "Hill Goblin Spears",
-    body: "Spears rain from scrub. Quill curses in two languages and one dead dialect. You learn freeman work is still fighting other people’s math.",
+    body: "Spears rain from scrub. Quill curses in two languages and one dead dialect that sounds personally offended. You learn freeman work is still fighting other people’s arithmetic — only now the math bleeds.",
     enemy: "Hill-Goblin Spears",
     theme: "hill-goblins",
     art: "goblin-spear",
@@ -455,13 +462,13 @@ const CH2_LANDMARKS = [
   {
     kind: "narrative",
     title: "Chief Grin-Nail",
-    body: "Grin-Nail wears Vern’s stolen cape and bargains with jokes that show too many teeth. He knows Candlemire buyers visit on the new moon. Quill wants him alive for the magistrate; you want the moon calendar.",
+    body: "Grin-Nail wears Vern’s stolen cape and bargains with jokes that show too many teeth for comedy. He knows Candlemire buyers visit on the new moon and says it like a toast. Quill wants him alive for the magistrate; you want the moon calendar and maybe a tooth.",
     art: "grin-nail",
   },
   {
     kind: "choice",
     title: "Deal or Steel",
-    body: "Grin-Nail offers quiet passage maps if you break his warrant chain and let him flee north. Quill’s face says law. Your wrist freemark itches like a warning.",
+    body: "Grin-Nail offers quiet passage maps if you break his warrant chain and let him flee north. “Law,” Quill’s face says. Your freemark itches like a warning label. Grin-Nail adds, “Or we can all die principled. Boring.”",
     art: "goblin-deal",
     choices: [
       {
@@ -469,7 +476,7 @@ const CH2_LANDMARKS = [
         label: "Serve the warrant",
         approach: "Bind Grin-Nail; trust Quill’s freemark law.",
         outcome: {
-          text: "Magistrate pay is honest silver. Maps come slower, cleaner.",
+          text: "Magistrate pay is honest silver. Maps come slower, cleaner, and with fewer punchlines.",
           xp: 22,
           gold: 20,
           flagsAdd: ["grin-captured", "lawful-hand"],
@@ -480,7 +487,7 @@ const CH2_LANDMARKS = [
         label: "Take the maps; let him run",
         approach: "Trade law for Candlemire intelligence.",
         outcome: {
-          text: "Grin-Nail vanishes laughing. Quill files a different sort of debt against you.",
+          text: "Grin-Nail vanishes laughing. Quill files a different sort of debt against you — quieter, longer.",
           xp: 18,
           flagsAdd: ["grin-freed", "candlemire-maps", "quill-displeased"],
         },
@@ -492,13 +499,13 @@ const CH2_LANDMARKS = [
         stat: "dexterity",
         dc: 13,
         success: {
-          text: "Grin-Nail yields maps and a cracked tooth. Even Quill almost smiles.",
+          text: "Grin-Nail yields maps and a cracked tooth. Even Quill almost smiles. Almost.",
           xp: 30,
           gold: 12,
           flagsAdd: ["grin-bested", "candlemire-maps"],
         },
         fail: {
-          text: "A spear butt finds your ribs. Quill finishes the fight while you gasp.",
+          text: "A spear butt finds your ribs. Quill finishes the fight while you invent new vocabulary for pain.",
           xp: 12,
           damage: 8,
           flagsAdd: ["grin-captured"],
@@ -509,13 +516,13 @@ const CH2_LANDMARKS = [
   {
     kind: "narrative",
     title: "Dust School",
-    body: "Quill turns empty paddocks into a school of breath, draw, and refusal. You shoot, cut, and fall until failure becomes a teacher instead of a collar. At night he reads ledgers like scriptures of other people’s sins.",
+    body: "Quill turns empty paddocks into a school of breath, draw, and refusal. You shoot, cut, and fall until failure becomes a teacher instead of a collar. At night he reads ledgers like scriptures of other people’s sins — and underlines yours when you flinch.",
     art: "dust-school",
   },
   {
     kind: "encounter",
     title: "Bounty Thieves",
-    body: "Men who hunt binders for their warrant purses leap the paddock fence. They smell of ale and other people’s funerals. Quill says quietly, “Do not die for practice.”",
+    body: "Men who hunt binders for their warrant purses leap the paddock fence smelling of ale and other people’s funerals. Quill says quietly, “Do not die for practice. Die for something with better punctuation.”",
     enemy: "Bounty Purse-Cutters",
     theme: "bounty-thieves",
     art: "purse-cutter",
@@ -523,14 +530,14 @@ const CH2_LANDMARKS = [
   {
     kind: "narrative",
     title: "Rumors of Candlemire",
-    body: "A tavern singer mouths a ballad about cane fields that grow screams. She stops when a man in Cade’s muted check enters. Quill tips her double and you leave by the kitchen, pockets heavier with a scratched floorplan of Candlemire’s guest wing.",
+    body: "A tavern singer mouths a ballad about cane fields that grow screams, then stops cold when a man in Cade’s muted check enters. Quill tips her double. You leave by the kitchen, pockets heavier with a scratched floorplan of Candlemire’s guest wing — and a new reason to hate sugar.",
     art: "tavern-rumor",
     flagsAdd: ["guest-wing-map"],
   },
   {
     kind: "choice",
     title: "How Hard Do We Ride?",
-    body: "East means brands and gate smiles. Quill can delay for more warrants and levels of coin — or push now while Lyra’s name is still written unbroken. Your call shapes the dust.",
+    body: "East means brands and gate smiles. Quill can delay for more warrants and levels of coin — or push now while Lyra’s name is still written unbroken. “Your call shapes the dust,” he says. “I just bill for the shovel.”",
     art: "east-road",
     choices: [
       {
@@ -538,7 +545,7 @@ const CH2_LANDMARKS = [
         label: "Ride east at dawn",
         approach: "Speed over safety; Lyra first.",
         outcome: {
-          text: "Quill packs light. “Then we become the rumor.”",
+          text: "Quill packs light. “Then we become the rumor. Try not to enjoy it.”",
           xp: 20,
           flagsAdd: ["push-east", "ch2-complete"],
         },
@@ -548,7 +555,7 @@ const CH2_LANDMARKS = [
         label: "One more warrant season",
         approach: "Gather gear, allies, and thicker freeman luck.",
         outcome: {
-          text: "Weeks blur into silver and scars. East waits — hungrier, clearer.",
+          text: "Weeks blur into silver and scars. East waits — hungrier, clearer, less forgiving.",
           xp: 28,
           gold: 25,
           flagsAdd: ["warrant-season", "ch2-complete"],
@@ -561,12 +568,12 @@ const CH2_LANDMARKS = [
         stat: "intelligence",
         dc: 14,
         success: {
-          text: "Quill returns with gate schedules and a new limp. “Worth it,” he lies.",
+          text: "Quill returns with gate schedules and a new limp. “Worth it,” he lies, fondly.",
           xp: 26,
           flagsAdd: ["quill-scouted", "ch2-complete", "gate-schedules"],
         },
         fail: {
-          text: "Quill is gone too long. You ride after him into worse maps.",
+          text: "Quill is gone too long. You ride after him into worse maps and better urgency.",
           xp: 14,
           flagsAdd: ["quill-missing", "ch2-complete", "push-east"],
         },
@@ -576,7 +583,7 @@ const CH2_LANDMARKS = [
   {
     kind: "narrative",
     title: "Eastwind",
-    body: "Dust lifts like a curtain. Beyond Freemark the Wilderland pretends to be empty and is not. Somewhere past river fog, Candlemire’s chimneys write black letters on the sky — and Lyra’s name is still a reason to keep walking.",
+    body: "Dust lifts like a curtain on a bad play. Beyond Freemark the Wilderland pretends to be empty and fails the audition. Somewhere past river fog, Candlemire’s chimneys write black letters on the sky — and Lyra’s name is still a reason to keep walking.",
     art: "eastwind",
   },
 ];
@@ -614,6 +621,7 @@ const CONNECTIVE_CLOSERS = [
   "Continue is the only honest verb left.",
 ];
 
+/** Legacy fallback — prefer buildVignetteDeck unique bodies. */
 function connectiveBody(seed, chapter = 1) {
   const pool = CHAPTER_CONNECTIVE[chapter];
   const openers = pool?.openers ?? CONNECTIVE_OPENERS;
@@ -686,9 +694,10 @@ function makeEncounterChoice(nextId, enemyName, chapter, level) {
   ];
 }
 
-function expandLandmarkToFrame(lm, id, nextId, chapter, level) {
+function expandLandmarkToFrame(lm, id, nextId, chapter, level, seed = 0) {
   const scene = sceneId(CHAPTERS[chapter - 1].slug);
   const art = artId(lm.art || CHAPTERS[chapter - 1].slug);
+  const echoes = lm.flagEchoes || (lm.kind === "narrative" ? echoesForBeat(chapter, seed) : undefined);
   const base = {
     id,
     kind: lm.kind,
@@ -698,6 +707,7 @@ function expandLandmarkToFrame(lm, id, nextId, chapter, level) {
     artId: art,
     chapter,
     ...(lm.flagsAdd ? { flagsAdd: lm.flagsAdd } : {}),
+    ...(echoes ? { flagEchoes: echoes } : {}),
   };
 
   if (lm.kind === "narrative") {
@@ -733,25 +743,28 @@ function expandLandmarkToFrame(lm, id, nextId, chapter, level) {
 }
 
 /**
- * Target frame counts (~613 chapter frames + 3 endings ≈ prior ~610 / 30h scale).
- * Thorough quality from authored landmarks + chapter-flavored connective — not runaway length.
+ * Target frame counts (~30h). Slight bump for road choices + set pieces;
+ * quality upgrades preferred over runaway length.
  */
 const TARGET_FRAMES = {
-  1: 90,
-  2: 90,
-  3: 62,
-  4: 62,
-  5: 66,
-  6: 66,
-  7: 62,
-  8: 66,
-  9: 56,
+  1: 96,
+  2: 96,
+  3: 68,
+  4: 68,
+  5: 72,
+  6: 72,
+  7: 68,
+  8: 72,
+  9: 62,
 };
 
 function buildThoroughChapter(meta, landmarks) {
   const target = TARGET_FRAMES[meta.chapter];
   const level = Math.ceil((meta.levelMin + meta.levelMax) / 2);
   const nodes = [];
+  const vignettes = buildVignetteDeck(meta.chapter, target + 40);
+  let vignetteIdx = 0;
+  const nextVignette = () => vignettes[vignetteIdx++ % vignettes.length];
 
   // Keep ending triad as the literal last chapter frame when present.
   const finaleLm =
@@ -760,29 +773,47 @@ function buildThoroughChapter(meta, landmarks) {
       ? landmarks[landmarks.length - 1]
       : null;
   const coreLandmarks = finaleLm ? landmarks.slice(0, -1) : landmarks;
+  const roadChoices = ROAD_CHOICES[meta.chapter] || [];
+  const setPieces = SET_PIECES[meta.chapter] || [];
+  const specialBeats = [
+    ...roadChoices.map((lm) => ({ type: "landmark", lm })),
+    ...setPieces.map((sp) => ({
+      type: "landmark",
+      lm: { kind: "narrative", title: sp.title, body: sp.body, art: sp.art },
+    })),
+  ];
   const coreTarget = finaleLm ? target - 1 : target;
 
   const landmarkCount = coreLandmarks.length;
   const slotsBetween = Math.max(
     1,
-    Math.floor((coreTarget - landmarkCount) / Math.max(1, landmarkCount - 1)),
+    Math.floor((coreTarget - landmarkCount - specialBeats.length) / Math.max(1, landmarkCount - 1)),
   );
 
   /** @type {{type:"landmark"|"connective"|"encounter", lm?:any, seed?:number}[]} */
   const plan = [];
   let seed = meta.chapter * 1000;
+  let specialIdx = 0;
   for (let i = 0; i < coreLandmarks.length; i++) {
     plan.push({ type: "landmark", lm: coreLandmarks[i] });
     if (i < coreLandmarks.length - 1) {
       for (let j = 0; j < slotsBetween; j++) {
         seed++;
-        if (j > 0 && j % 14 === 0) {
+        // Insert sparse road choices / set pieces mid-connective.
+        if (specialIdx < specialBeats.length && (j === 2 || j === Math.floor(slotsBetween / 2))) {
+          plan.push(specialBeats[specialIdx++]);
+          continue;
+        }
+        if (j > 0 && j % 12 === 0) {
           plan.push({ type: "encounter", seed });
         } else {
           plan.push({ type: "connective", seed });
         }
       }
     }
+  }
+  while (specialIdx < specialBeats.length && plan.length < coreTarget) {
+    plan.push(specialBeats[specialIdx++]);
   }
   while (plan.length < coreTarget) {
     seed++;
@@ -797,7 +828,14 @@ function buildThoroughChapter(meta, landmarks) {
     const step = plan[i];
 
     if (step.type === "landmark") {
-      const frame = expandLandmarkToFrame(step.lm, id, nextId ?? id, meta.chapter, level);
+      const frame = expandLandmarkToFrame(
+        step.lm,
+        id,
+        nextId ?? id,
+        meta.chapter,
+        level,
+        step.seed ?? i + meta.chapter * 50,
+      );
       if (!nextId && frame.next) delete frame.next;
       nodes.push(frame);
       continue;
@@ -814,7 +852,7 @@ function buildThoroughChapter(meta, landmarks) {
         id,
         kind: "encounter",
         title: `${enemyName} Ambush`,
-        body: `${connectiveBody(step.seed, meta.chapter)} Then ${enemyName.toLowerCase()} force the issue — a roadside lesson Quill refuses to skip.`,
+        body: `${nextVignette()} Then ${enemyName.toLowerCase()} force the issue — a roadside lesson Quill refuses to skip.`,
         sceneId: sceneId(meta.slug),
         artId: artId(theme),
         chapter: meta.chapter,
@@ -822,29 +860,21 @@ function buildThoroughChapter(meta, landmarks) {
         enemyArtId: artId(theme),
         ...stats,
         choices: makeEncounterChoice(nextId, enemyName, meta.chapter, level),
+        flagEchoes: echoesForBeat(meta.chapter, step.seed),
       });
       continue;
     }
 
-    const beatTitle = [
-      "Dust Mile",
-      "Quiet Counsel",
-      "Road Hygiene",
-      "Old Hunger",
-      "Freemark Thoughts",
-      "Ledger Weather",
-      "Steel Practice",
-      "Night Watch",
-    ][step.seed % 8];
     nodes.push({
       id,
       kind: "narrative",
-      title: `${meta.title}: ${beatTitle}`,
-      body: connectiveBody(step.seed, meta.chapter),
+      title: `${meta.title}: ${beatTitleFor(step.seed)}`,
+      body: nextVignette(),
       sceneId: sceneId(meta.slug),
       artId: artId(meta.slug),
       chapter: meta.chapter,
       next: nextId,
+      flagEchoes: echoesForBeat(meta.chapter, step.seed),
     });
   }
 
@@ -1106,6 +1136,7 @@ function adaptToDtFrame(node, chapterId) {
     sceneId: node.sceneId,
     artId: node.artId,
     flagsAdd: node.flagsAdd,
+    flagEchoes: node.flagEchoes,
     endingId: node.endingId,
     enemyTheme: node.enemyTheme,
   };
@@ -1134,6 +1165,7 @@ function adaptToDtFrame(node, chapterId) {
         next,
         approach: c.approach,
         flagsAdd: success?.flagsAdd,
+        requireFlag: c.requireFlag,
       };
       if (c.stat && typeof c.dc === "number") {
         out.stat = c.stat;

@@ -12,21 +12,21 @@ export const THOROUGH_LANDMARKS = {
     {
       kind: "narrative",
       title: "Ink Trail",
-      body: "East of Freemark the road grows wanted posters like weeds. Your freemark is sketched in cheap charcoal with a price under it. Quill buys the first one and burns it; the smoke still smells like a market.",
+      body: "East of Freemark the road grows wanted posters like weeds with prices. Your freemark is sketched in cheap charcoal with a bounty under it that lies about the eyes. Quill buys the first one and burns it; the smoke still smells like a market that wants you numbered again.",
       art: "wanted-posters",
       flagsAdd: ["ch3-started"],
     },
     {
       kind: "narrative",
       title: "Forger's Alley",
-      body: "A forger sells marks that open doors and close lives. She offers to thicken your freemark into something Cade’s clerks might salute. Quill pays half in silver and half in a promise not to name her aloud.",
+      body: "A forger sells marks that open doors and close lives, smiling like a dentist with a warrant. She offers to thicken your freemark into something Cade’s clerks might salute. Quill pays half in silver and half in a promise not to name her aloud — “My best kind of receipt,” she says.",
       art: "forger-alley",
       flagsAdd: ["forged-thicker-mark"],
     },
     {
       kind: "choice",
       title: "False Friend",
-      body: "A smiling freeman buys your drinks, then sells your description twice before noon. You find him counting Cade’s copper in a stable loft. Quill asks how soft you want the lesson.",
+      body: "A smiling freeman buys your drinks, then sells your description twice before noon like a man flipping copper. You find him counting Cade’s coin in a stable loft. Quill asks how soft you want the lesson — “Soft still teaches,” he adds, “if the bruises land right.”",
       art: "false-friend",
       choices: [
         {
@@ -209,7 +209,7 @@ export const THOROUGH_LANDMARKS = {
     {
       kind: "narrative",
       title: "Mud Toll",
-      body: "The Brand-River runs mud-brown and dishonest. Ferrymen charge more if your freemark looks fresh. Quill argues law until the price drops to merely insulting.",
+      body: "The Brand-River runs mud-brown and dishonest, the kind of water that keeps secrets for a fee. Ferrymen charge more if your freemark looks fresh. Quill argues law until the price drops to merely insulting — then tips like a man buying silence, not passage.",
       art: "mud-toll",
       flagsAdd: ["ch4-started"],
     },
@@ -411,7 +411,7 @@ export const THOROUGH_LANDMARKS = {
     {
       kind: "narrative",
       title: "Gate Smile",
-      body: "Candlemire’s border keeps grin for coin and iron for mercy. Guards weigh your forged freemark like fruit. Quill tips his hat exactly the angle bribes prefer.",
+      body: "Candlemire’s border keeps grin for coin and iron for mercy — a smile with a meter. Guards weigh your forged freemark like fruit and find it almost ripe. Quill tips his hat exactly the angle bribes prefer and drawls, “We’re novelty. Novelty tips.”",
       art: "gate-smile",
       flagsAdd: ["ch5-started"],
     },
@@ -608,7 +608,7 @@ export const THOROUGH_LANDMARKS = {
     {
       kind: "narrative",
       title: "Dinner Seals",
-      body: "Lord Cade toasts guests while dessert plates hide ledgers. His jokes inventory people without raising his voice. You smile with teeth that remember cages.",
+      body: "Lord Cade toasts guests while dessert plates hide ledgers like knives under napkins. His jokes inventory people without raising his voice — comedy as accounting. You smile with teeth that remember cages and taste sugar like a threat.",
       art: "dinner-seals",
       flagsAdd: ["ch6-started", "dined-with-cade"],
     },
@@ -622,7 +622,7 @@ export const THOROUGH_LANDMARKS = {
     {
       kind: "choice",
       title: "Window Light",
-      body: "A silhouette might be Lyra — or hope wearing her outline. You can call soft, wait for Quill’s signal, or send the kitchen hand with a scrap of freemark ink as proof you are real.",
+      body: "A silhouette might be Lyra — or hope wearing her outline and your fear doing the costuming. You can call soft, wait for Quill’s signal, or send the kitchen hand with a scrap of freemark ink as proof you are real and not another of Cade’s jokes.",
       art: "window-light",
       choices: [
         {
@@ -794,14 +794,14 @@ export const THOROUGH_LANDMARKS = {
     {
       kind: "narrative",
       title: "Mandolin Hour",
-      body: "Music keeps time so the crowd can clap on the bleeding. Candlemire’s sport pits fighters under lanterns while a mandolin sweetens the accounting. Your freemark is the evening’s insult.",
+      body: "Music keeps time so the crowd can clap on the bleeding without missing dessert. Candlemire’s sport pits fighters under lanterns while a mandolin sweetens the accounting. Your freemark is the evening’s insult — and Quill’s face from the bench is an unauthorized prayer.",
       art: "mandolin-hour",
       flagsAdd: ["ch7-started", "in-pit"],
     },
     {
       kind: "choice",
       title: "Pit Call",
-      body: "The ringmaster offers styles: spectacle for Cade, clean efficiency for survivors, or a thrown fight that buys thrall whispering time. Quill cannot enter the sand with you — only counsel.",
+      body: "The ringmaster offers styles like a tailor of violence: spectacle for Cade, clean efficiency for survivors, or a thrown fight that buys thrall whispering time. Quill cannot enter the sand with you — only counsel. “Pick the lie that frees the most mouths,” he mouths.",
       art: "pit-call",
       choices: [
         {
@@ -978,7 +978,7 @@ export const THOROUGH_LANDMARKS = {
     {
       kind: "narrative",
       title: "Cage Keys",
-      body: "Keys change hands in darkness thick as cane smoke. Rings fall off wrists like rain that refused to wait for seasons. Candlemire’s polite fiction burns at the edges.",
+      body: "Keys change hands in darkness thick as cane smoke and sweeter than any guest wine. Rings fall off wrists like rain that refused to wait for seasons. Candlemire’s polite fiction burns at the edges while Quill files the night under “personal.”",
       art: "cage-keys",
       flagsAdd: ["ch8-started", "uprising"],
     },
@@ -993,7 +993,7 @@ export const THOROUGH_LANDMARKS = {
     {
       kind: "choice",
       title: "Lyra Found",
-      body: "Recognition hits like a wound that heals wrong and right. Lyra is thinner, unbroken in the ways that matter, and already helping others with the latch. She asks if you came as freeman or as storm.",
+      body: "Recognition hits like a wound that heals wrong and right at once. Lyra is thinner, unbroken in the ways that matter, and already helping others with the latch like she never stopped being free in secret. She asks if you came as freeman or as storm — and she does not make it sound like a poem.",
       art: "lyra-found",
       flagsAdd: ["lyra-freed"],
       choices: [
@@ -1155,7 +1155,7 @@ export const THOROUGH_LANDMARKS = {
     {
       kind: "narrative",
       title: "Remnant Hunters",
-      body: "Coins still buy chases after a house falls. Remnant hunters wear Cade’s check like mourning clothes with knives. The Wilderland offers little cover and less sympathy.",
+      body: "Coins still buy chases after a house falls — ledgers outlive lords if you let them. Remnant hunters wear Cade’s check like mourning clothes with knives. The Wilderland offers little cover and less sympathy; Quill offers powder and a ruined hat tip.",
       art: "remnant-hunters",
       flagsAdd: ["ch9-started"],
     },
@@ -1282,7 +1282,7 @@ export const THOROUGH_LANDMARKS = {
     {
       kind: "choice",
       title: "Horizon Vote",
-      body: "Candlemire’s smoke thins behind you. Quill waits without advising. Lyra’s quiet is not emptiness — it is a question about what kind of free you will be.",
+      body: "Candlemire’s smoke thins behind you like a bad religion losing believers. Quill waits without advising — the highest respect he knows. Lyra’s quiet is not emptiness; it is a question about what kind of free you will be, and whether free gets to invent new cages.",
       art: "horizon",
       flagsAdd: ["ch9-finale"],
       choices: [

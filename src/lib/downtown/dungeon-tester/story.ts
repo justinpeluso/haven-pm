@@ -39,6 +39,11 @@ type SpineChoice = {
   fail?: SpineOutcome;
 };
 
+type SpineFlagEcho = {
+  requireFlag: string;
+  line: string;
+};
+
 type SpineNode = {
   id: string;
   kind: DtFrameKind;
@@ -49,6 +54,7 @@ type SpineNode = {
   next?: string;
   choices?: SpineChoice[];
   flagsAdd?: string[];
+  flagEchoes?: SpineFlagEcho[];
   enemy?: string;
   enemyTheme?: string;
   enemyHp?: number;
@@ -146,6 +152,9 @@ function adaptChoice(choice: SpineChoice, fallbackNext: string): DtFrameChoice {
     approach: choice.approach,
     flagsAdd: success?.flagsAdd,
   };
+  if (choice.requireFlag) {
+    adapted.requireFlag = choice.requireFlag;
+  }
   if (choice.stat && typeof choice.dc === "number") {
     adapted.stat = choice.stat as DtStatKey;
     adapted.dc = choice.dc;
@@ -172,6 +181,7 @@ function adaptNode(node: SpineNode): DtFrame {
     sceneId: node.sceneId,
     artId: node.artId,
     flagsAdd: node.flagsAdd,
+    flagEchoes: node.flagEchoes,
     endingId: node.endingId,
     enemyTheme: node.enemyTheme,
   };
@@ -240,6 +250,32 @@ export const ENDINGS = pack.endings ?? [];
 
 export function getFrame(id: string): DtFrame | undefined {
   return FRAME_BY_ID.get(id);
+}
+
+/** Resolve panel body with flag-echo callbacks (earlier choices rewrite later text). */
+export function resolveFrameBody(
+  frame: Pick<DtFrame, "body" | "flagEchoes">,
+  partyFlags: string[] | undefined,
+): string {
+  const flags = partyFlags ?? [];
+  let body = frame.body;
+  for (const echo of frame.flagEchoes ?? []) {
+    if (flags.includes(echo.requireFlag)) {
+      body = `${body} ${echo.line}`;
+    }
+  }
+  return body;
+}
+
+/** Choices visible given current party flags (requireFlag gates). */
+export function visibleFrameChoices(
+  frame: Pick<DtFrame, "choices">,
+  partyFlags: string[] | undefined,
+): NonNullable<DtFrame["choices"]> {
+  const flags = partyFlags ?? [];
+  return (frame.choices ?? []).filter(
+    (c) => !c.requireFlag || flags.includes(c.requireFlag),
+  );
 }
 
 /** Alias for StoryNode-style callers. */
