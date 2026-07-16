@@ -268,6 +268,20 @@
     box-shadow 150ms ease,
     background 150ms ease,
     border-color 150ms ease;
+  text-decoration: none;
+}
+
+.dungeon-tester a.dt-btn {
+  display: inline-flex;
+  align-items: center;
+}
+
+.dungeon-tester .dt-back-row {
+  margin-bottom: 0.65rem;
+}
+
+.dungeon-tester .dt-btn[data-back="true"]:not([data-primary="true"]):not([data-flee="true"]) {
+  background: linear-gradient(180deg, #efe6d4, #e0d2b8);
 }
 
 .dungeon-tester .dt-btn:hover:not(:disabled) {
@@ -496,8 +510,22 @@
   flex-wrap: wrap;
   gap: 0.55rem 1.15rem;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: flex-start;
   margin-bottom: 0.7rem;
+}
+
+.dungeon-tester .dt-sbat-head-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  justify-content: flex-end;
+  max-width: min(100%, 22rem);
+}
+
+.dungeon-tester .dt-sbat-head-actions .dt-sbat-msg {
+  flex: 1 1 100%;
+  text-align: right;
 }
 
 .dungeon-tester .dt-sbat-eyebrow {
@@ -645,7 +673,15 @@
   text-transform: uppercase;
 }
 
-.dungeon-tester .dt-sbat-actions .dt-btn[data-flee="true"] {
+.dungeon-tester .dt-sbat-intro-flee {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 14;
+}
+
+.dungeon-tester .dt-sbat-actions .dt-btn[data-flee="true"],
+.dungeon-tester .dt-sbat-head-actions .dt-btn[data-flee="true"] {
   opacity: 0.85;
   border-style: dashed;
 }

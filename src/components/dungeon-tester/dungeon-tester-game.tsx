@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { DowntownSubnav } from "@/components/downtown/downtown-subnav";
 import { InventoryPanel } from "@/components/party-chronicle/inventory-panel";
 import { SimpleBattleOverlay } from "@/components/dungeon-tester/simple-battle-overlay";
@@ -84,6 +85,44 @@ type PlayTab = "story" | "camp" | "gear";
 
 const STAT_POOL = 27;
 const FALLBACK_PLATE = "/dungeon-tester/scenes/dusty-trail.svg";
+
+/** One-step / breadcrumb escape hatches — always visible on major panels. */
+function DtBackBar({
+  backs,
+}: {
+  backs: Array<{
+    label: string;
+    onClick?: () => void;
+    href?: string;
+    primary?: boolean;
+    disabled?: boolean;
+  }>;
+}) {
+  if (!backs.length) return null;
+  return (
+    <div className="dt-actions dt-back-row" role="navigation" aria-label="Back">
+      {backs.map((b) =>
+        b.href ? (
+          <Link key={b.label} href={b.href} className="dt-btn" data-back="true">
+            ← {b.label}
+          </Link>
+        ) : (
+          <button
+            key={b.label}
+            type="button"
+            className="dt-btn"
+            data-back="true"
+            data-primary={b.primary ? "true" : undefined}
+            disabled={b.disabled}
+            onClick={b.onClick}
+          >
+            ← {b.label}
+          </button>
+        )
+      )}
+    </div>
+  );
+}
 
 function frameSceneSrc(frame: Pick<DtFrame, "sceneId" | "artId"> | null | undefined): string {
   if (frame?.sceneId) return dtSceneArtSrc(frame.sceneId);
@@ -873,6 +912,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
       {phase === "title" && (
         <div className="dt-panel dt-title-panel space-y-3">
+          <DtBackBar backs={[{ label: "Downtown", href: "/downtown" }]} />
           <h1 className="dt-title-hero">DungeonTester</h1>
           <p className="dt-tagline">
             Dusty Wilderland liberation march — Oregon Trail page, short comic frames, party seats
@@ -1026,21 +1066,30 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 {label}
               </button>
             ))}
-            <button type="button" className="dt-btn" onClick={() => setPhase("title")}>
-              Title
+            <button type="button" className="dt-btn" data-back="true" onClick={() => setPhase("title")}>
+              ← Title
             </button>
+            <Link href="/downtown" className="dt-btn" data-back="true">
+              ← Downtown
+            </Link>
           </div>
 
           {world.endingId ? (
             <div className="dt-panel">
+              <DtBackBar
+                backs={[
+                  { label: "Title", onClick: () => setPhase("title"), primary: true },
+                  { label: "Downtown", href: "/downtown" },
+                ]}
+              />
               <h2 className="dt-frame-title">March beat complete</h2>
               <p className="dt-frame-body">
                 Ending flag <strong>{world.endingId}</strong>. More Wilderland spine and hours toward
                 the thirty still wait beyond this road — or start a new campaign from the title.
               </p>
               <div className="dt-actions">
-                <button type="button" className="dt-btn" onClick={() => setPhase("title")}>
-                  Title
+                <button type="button" className="dt-btn" data-primary="true" onClick={() => setPhase("title")}>
+                  ← Title
                 </button>
               </div>
             </div>
@@ -1048,6 +1097,16 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
           {!world.endingId && tab === "story" ? (
             <div className="dt-panel dt-story-panel">
+              <DtBackBar
+                backs={[
+                  { label: "Title", onClick: () => setPhase("title"), primary: true },
+                  {
+                    label: "Camp",
+                    onClick: () => setTab("camp"),
+                    disabled: !!world.battle,
+                  },
+                ]}
+              />
               <div className="dt-comic-strip">
                 <div className="dt-comic-plate">
                   <img
@@ -1116,6 +1175,17 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
           {!world.endingId && tab === "camp" ? (
             <div className="dt-panel dt-camp-panel space-y-4">
+              <DtBackBar
+                backs={[
+                  {
+                    label: "Story",
+                    onClick: () => setTab("story"),
+                    primary: true,
+                    disabled: !!world.battle,
+                  },
+                  { label: "Title", onClick: () => setPhase("title") },
+                ]}
+              />
               <div className="dt-camp-hero">
                 <p className="dt-section-label">Camp · Rest & Supply</p>
                 <p className="dt-section-title">{frame?.title ?? world.campaignNodeId}</p>
@@ -1127,10 +1197,11 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     type="button"
                     className="dt-btn"
                     data-primary="true"
+                    data-back="true"
                     disabled={!!world.battle}
                     onClick={() => setTab("story")}
                   >
-                    Back to Story →
+                    ← Back to Story
                   </button>
                   <button
                     type="button"
@@ -1138,7 +1209,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     disabled={!!world.battle || !me}
                     onClick={() => setTab("gear")}
                   >
-                    Full Gear →
+                    Gear / Inventory →
                   </button>
                 </div>
               </div>
@@ -1395,6 +1466,22 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
           {!world.endingId && tab === "gear" && me ? (
             <div className="dt-panel">
+              <DtBackBar
+                backs={[
+                  {
+                    label: "Camp",
+                    onClick: () => setTab("camp"),
+                    primary: true,
+                    disabled: !!world.battle,
+                  },
+                  {
+                    label: "Story",
+                    onClick: () => setTab("story"),
+                    disabled: !!world.battle,
+                  },
+                  { label: "Title", onClick: () => setPhase("title") },
+                ]}
+              />
               <InventoryPanel
                 char={me}
                 canEdit={!!mySlot && !battleActive}
@@ -1522,6 +1609,7 @@ function CreateSeat({
 
   return (
     <div className="dt-panel dt-create space-y-2">
+      <DtBackBar backs={[{ label: "Title", onClick: onCancel, primary: true }]} />
       <h2 className="dt-frame-title">Seal {def.displayName}&apos;s seat</h2>
       <p className="dt-tagline">
         Join anytime — seal before story or battle. Same Neverworld create kit (point-buy, weapon,
@@ -1638,8 +1726,8 @@ function CreateSeat({
         <button type="button" className="dt-btn" onClick={quickSeal}>
           Quick seal defaults
         </button>
-        <button type="button" className="dt-btn" onClick={onCancel}>
-          Back
+        <button type="button" className="dt-btn" data-back="true" onClick={onCancel}>
+          ← Back to Title
         </button>
       </div>
     </div>

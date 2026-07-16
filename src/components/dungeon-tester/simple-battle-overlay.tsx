@@ -411,7 +411,33 @@ export function SimpleBattleOverlay({
                 : "Stand and Fight"}
             </h2>
           </div>
-          <p className="dt-sbat-msg">{battle.message}</p>
+          <div className="dt-sbat-head-actions">
+            <p className="dt-sbat-msg">{battle.message}</p>
+            {!summary && onFlee ? (
+              <button
+                type="button"
+                className="dt-btn"
+                data-flee="true"
+                data-back="true"
+                disabled={!!pending}
+                onClick={onFlee}
+                title="Flee ambush (soft recover) — always available escape"
+              >
+                ← Flee
+              </button>
+            ) : null}
+            {summary ? (
+              <button
+                type="button"
+                className="dt-btn"
+                data-primary="true"
+                data-back="true"
+                onClick={onDismiss}
+              >
+                ← Return to story
+              </button>
+            ) : null}
+          </div>
         </header>
 
         <div
@@ -453,25 +479,40 @@ export function SimpleBattleOverlay({
           ))}
 
           {introBusy ? (
-            <button
-              type="button"
-              className="dt-sbat-intro"
-              data-phase={introPhase}
-              aria-live="assertive"
-              aria-label="Dismiss start battle splash"
-              key={`intro-${battle.id}`}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                dismissSplash();
-              }}
-            >
-              <span className="dt-sbat-intro-badge">START BATTLE</span>
-              <span className="dt-sbat-intro-sub">
-                {enemies.map((e) => e.name).join(" · ") || "Ambush"}
-              </span>
-              <span className="dt-sbat-intro-hint">Click or Esc to skip</span>
-            </button>
+            <>
+              <button
+                type="button"
+                className="dt-sbat-intro"
+                data-phase={introPhase}
+                aria-live="assertive"
+                aria-label="Dismiss start battle splash"
+                key={`intro-${battle.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  dismissSplash();
+                }}
+              >
+                <span className="dt-sbat-intro-badge">START BATTLE</span>
+                <span className="dt-sbat-intro-sub">
+                  {enemies.map((e) => e.name).join(" · ") || "Ambush"}
+                </span>
+                <span className="dt-sbat-intro-hint">Click or Esc to skip</span>
+              </button>
+              {onFlee ? (
+                <button
+                  type="button"
+                  className="dt-btn dt-sbat-intro-flee"
+                  data-flee="true"
+                  data-back="true"
+                  disabled={!!pending}
+                  onClick={onFlee}
+                  title="Flee ambush during intro"
+                >
+                  ← Flee
+                </button>
+              ) : null}
+            </>
           ) : null}
         </div>
 
@@ -543,11 +584,12 @@ export function SimpleBattleOverlay({
                   type="button"
                   className="dt-btn"
                   data-flee="true"
+                  data-back="true"
                   disabled={!!pending}
                   onClick={onFlee}
                   title="Flee ambush (soft recover) — escape soft-locks"
                 >
-                  Flee
+                  ← Flee
                 </button>
               ) : null}
             </div>
@@ -623,8 +665,8 @@ export function SimpleBattleOverlay({
                 </p>
               )}
             </div>
-            <button type="button" className="dt-btn" data-primary="true" onClick={onDismiss}>
-              Return to story →
+            <button type="button" className="dt-btn" data-primary="true" data-back="true" onClick={onDismiss}>
+              ← Return to story
             </button>
           </div>
         )}
