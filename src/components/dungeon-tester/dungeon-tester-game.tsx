@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { DowntownSubnav } from "@/components/downtown/downtown-subnav";
-import { InventoryPanel } from "@/components/party-chronicle/inventory-panel";
 import { SimpleBattleOverlay } from "@/components/dungeon-tester/simple-battle-overlay";
+import { DtGearSheet } from "@/components/dungeon-tester/dt-gear-sheet";
 import { DtHeroFigure } from "@/components/dungeon-tester/dt-hero-figure";
 import {
   BLANK_BASE_STATS,
@@ -1617,19 +1617,17 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
             </div>
           ) : null}
 
-          {!world.endingId && tab === "gear" && me ? (
-            <div className="dt-panel">
-              <p className="dt-section-label">Gear · Full inventory</p>
-              <InventoryPanel
+          {!world.endingId && tab === "gear" && me && mySlot ? (
+            <div className="dt-panel dt-gear-panel">
+              <DtGearSheet
                 char={me}
-                canEdit={!!mySlot && !battleActive}
+                slot={mySlot}
+                canEdit={!battleActive}
                 onEquip={onEquip}
                 onUnequip={onUnequip}
                 onUseConsumable={onUseConsumable}
                 onReadSpellbook={onReadSpellbook}
                 onSalvage={onSalvage}
-                paperdollLabel={`Worn gear — ${me.name}`}
-                inventoryLabel="Bag — Equip · Use potions · Break down scrap"
               />
             </div>
           ) : null}

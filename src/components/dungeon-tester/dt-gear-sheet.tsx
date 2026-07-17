@@ -1,0 +1,407 @@
+"use client";
+
+import { GearTipBody } from "@/components/party-chronicle/gear-hover-tip";
+import { DtHeroFigure } from "@/components/dungeon-tester/dt-hero-figure";
+import { isSpellbookItem } from "@/lib/downtown/party-chronicle/bestiary";
+import { getGear } from "@/lib/downtown/party-chronicle/gear";
+import {
+  computeEffectiveStats,
+  formatProperty,
+  itemProperties,
+} from "@/lib/downtown/party-chronicle/stats";
+import type {
+  CharacterSave,
+  EquipSlot,
+  GearItem,
+  PlayerSlot,
+} from "@/lib/downtown/party-chronicle/types";
+import { EQUIP_SLOTS, STAT_KEYS } from "@/lib/downtown/party-chronicle/types";
+import { getDtGear } from "@/lib/downtown/dungeon-tester/gear";
+import {
+  formatGearTier,
+  gearTierAttr,
+} from "@/lib/downtown/dungeon-tester/gear-display";
+import { normalizeDtHeroLook } from "@/lib/downtown/dungeon-tester/look";
+
+const SLOT_LABEL: Record<EquipSlot, string> = {
+  head: "Head",
+  chest: "Chest",
+  hands: "Hands",
+  legs: "Legs",
+  weapon: "Weapon",
+  offhand: "Off-hand",
+  accessory: "Accessory",
+};
+
+/** Gemini-inspired column order: left / center / right around the figure. */
+const DOLL_LAYOUT: { area: string; slot: EquipSlot }[] = [
+  { area: "weapon", slot: "weapon" },
+  { area: "head", slot: "head" },
+  { area: "offhand", slot: "offhand" },
+  { area: "hands", slot: "hands" },
+  { area: "chest", slot: "chest" },
+  { area: "accessory", slot: "accessory" },
+  { area: "legs", slot: "legs" },
+];
+
+function resolveItem(id: string | null | undefined): GearItem | null {
+  if (!id) return null;
+  return getDtGear(id) ?? getGear(id) ?? null;
+}
+
+function meterPct(value: number, max: number) {
+  if (max <= 0) return 0;
+  return Math.max(0, Math.min(100, Math.round((value / max) * 100)));
+}
+
+function deltaChip(v: number | undefined, mode?: "gear") {
+  if (!v) return null;
+  const sign = v > 0 ? `+${v}` : `${v}`;
+  return (
+    <em className={v > 0 ? "dt-gear-delta-pos" : "dt-gear-delta-neg"}>
+      {mode === "gear" ? `(${sign} from gear)` : sign}
+    </em>
+  );
+}
+
+function formatBagSlot(slot: string): string {
+  if (slot === "offhand") return "Off-hand";
+  if (slot === "consumable") return "Consumable";
+  return slot.charAt(0).toUpperCase() + slot.slice(1);
+}
+
+/**
+ * True Grit Gear tab — Gemini layout adapted to DT forest/parchment tokens,
+ * wired to sealed-hero equip + effective stats (not demo numbers).
+ */
+export function DtGearSheet({
+  char,
+  slot,
+  canEdit,
+  onEquip,
+  onUnequip,
+  onUseConsumable,
+  onReadSpellbook,
+  onSalvage,
+}: {
+  char: CharacterSave;
+  slot: PlayerSlot;
+  canEdit: boolean;
+  onEquip: (id: string) => void;
+  onUnequip: (equipSlot: EquipSlot) => void;
+  onUseConsumable: (id: string) => void;
+  onReadSpellbook: (id: string) => void;
+  onSalvage: (id: string) => void;
+}) {
+  const eff = computeEffectiveStats(char);
+  const look = normalizeDtHeroLook(char.dtLook, slot);
+  const worn = new Set(
+    EQUIP_SLOTS.map((s) => char.equipped[s]).filter(Boolean) as string[]
+  );
+
+  return (
+    <div className="dt-gear-sheet">
+      <header className="dt-gear-sheet-head">
+        <div>
+          <p className="dt-gear-sheet-title">Gear — Full inventory</p>
+          <p className="dt-gear-sheet-sub">Worn gear — {char.name}</p>
+        </div>
+        <p className="dt-gear-sheet-gold">{char.gold}g</p>
+      </header>
+
+      <div className="dt-gear-columns">
+        <section className="dt-gear-equip" aria-label="Equipped slots">
+          <div className="dt-gear-figure" aria-hidden>
+            <DtHeroFigure look={look} className="dt-gear-silhouette" />
+          </div>
+          {DOLL_LAYOUT.map(({ area, slot: equipSlot }) => {
+            const id = char.equipped[equipSlot];
+            const item = resolveItem(id);
+            const filled = Boolean(item);
+            return (
+              <button
+                key={equipSlot}
+                type="button"
+                className="dt-gear-slot pc-gear-hover"
+                data-area={area}
+                data-filled={filled ? "true" : "false"}
+                data-tier={filled ? gearTierAttr(item!.rarity ?? item!.tier) : "empty"}
+                disabled={!canEdit || !filled}
+                title={
+                  filled
+                    ? `${SLOT_LABEL[equipSlot]} · click to unequip`
+                    : `Empty ${SLOT_LABEL[equipSlot]}`
+                }
+                onClick={() => filled && onUnequip(equipSlot)}
+              >
+                <span className="dt-gear-slot-label">{SLOT_LABEL[equipSlot]}</span>
+                <span className="dt-gear-slot-name">
+                  {filled ? item!.name : "Empty"}
+                </span>
+                <GearTipBody
+                  item={item}
+                  emptyLabel={`Empty ${SLOT_LABEL[equipSlot]}`}
+                />
+              </button>
+            );
+          })}
+        </section>
+
+        <section className="dt-gear-stats" aria-label="Vitals and combat sheet">
+          <div className="dt-gear-block">
+            <p className="dt-gear-block-label">Vitals</p>
+            <div className="dt-gear-vitals">
+              <div className="dt-gear-vital" data-kind="hp">
+                <div className="dt-gear-vital-head">
+                  <span className="dt-gear-vital-label">HP</span>
+                  <strong className="dt-gear-vital-num">
+                    {char.hp}
+                    <span className="dt-gear-vital-max">/{eff.maxHp}</span>
+                  </strong>
+                  {deltaChip(eff.deltas.maxHp)}
+                </div>
+                <div className="dt-gear-vital-bar" aria-hidden>
+                  <span style={{ width: `${meterPct(char.hp, eff.maxHp)}%` }} />
+                </div>
+              </div>
+              <div className="dt-gear-vital" data-kind="mana">
+                <div className="dt-gear-vital-head">
+                  <span className="dt-gear-vital-label">MP</span>
+                  <strong className="dt-gear-vital-num">
+                    {char.mana}
+                    <span className="dt-gear-vital-max">/{eff.maxMana}</span>
+                  </strong>
+                  {deltaChip(eff.deltas.maxMana)}
+                </div>
+                <div className="dt-gear-vital-bar" aria-hidden>
+                  <span
+                    style={{ width: `${meterPct(char.mana, eff.maxMana)}%` }}
+                  />
+                </div>
+              </div>
+              <div className="dt-gear-vital" data-kind="stamina">
+                <div className="dt-gear-vital-head">
+                  <span className="dt-gear-vital-label">ST</span>
+                  <strong className="dt-gear-vital-num">
+                    {char.stamina}
+                    <span className="dt-gear-vital-max">/{char.maxStamina}</span>
+                  </strong>
+                </div>
+                <div className="dt-gear-vital-bar" aria-hidden>
+                  <span
+                    style={{
+                      width: `${meterPct(char.stamina, char.maxStamina)}%`,
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="dt-gear-block">
+            <p className="dt-gear-block-label">Combat</p>
+            <div className="dt-gear-combat">
+              <div className="dt-gear-combat-cell">
+                <span className="dt-gear-combat-label">
+                  ATK{deltaChip(eff.deltas.atk, "gear")}
+                </span>
+                <strong>{eff.atk}</strong>
+              </div>
+              <div className="dt-gear-combat-cell">
+                <span className="dt-gear-combat-label">
+                  DEF{deltaChip(eff.deltas.def, "gear")}
+                </span>
+                <strong>{eff.def}</strong>
+              </div>
+              <div className="dt-gear-combat-cell">
+                <span className="dt-gear-combat-label">CRIT</span>
+                <strong>{eff.crit}%</strong>
+              </div>
+              <div className="dt-gear-combat-cell">
+                <span className="dt-gear-combat-label">ARM</span>
+                <strong>{eff.resist}</strong>
+              </div>
+            </div>
+          </div>
+
+          <div className="dt-gear-block">
+            <p className="dt-gear-block-label">Stats (Base → Geared)</p>
+            <div className="dt-gear-stat-grid">
+              {STAT_KEYS.map((key) => {
+                const base = eff.baseStats[key];
+                const geared = eff.stats[key];
+                const d = geared - base;
+                return (
+                  <div key={key} className="dt-gear-stat-box">
+                    <span className="dt-gear-stat-key">
+                      {key.slice(0, 3).toUpperCase()}
+                    </span>
+                    <strong className="dt-gear-stat-val">{base}</strong>
+                    {d !== 0 ? (
+                      <span
+                        className={
+                          d > 0 ? "dt-gear-delta-pos" : "dt-gear-delta-neg"
+                        }
+                      >
+                        {d > 0 ? `+${d}` : d}
+                      </span>
+                    ) : null}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {eff.perItem.length > 0 ? (
+            <div className="dt-gear-block">
+              <p className="dt-gear-block-label">Equipped Bonuses</p>
+              <ul className="dt-gear-bonus-list">
+                {eff.perItem.map((row) => {
+                  const pills: string[] =
+                    row.properties.length > 0
+                      ? row.properties.map(formatProperty)
+                      : [
+                          row.power ? `+${row.power} ATK` : null,
+                          row.armor ? `+${row.armor} DEF` : null,
+                        ].filter((x): x is string => Boolean(x));
+                  return (
+                    <li key={row.itemId} className="dt-gear-bonus-row">
+                      <strong className="dt-gear-bonus-name">{row.name}</strong>
+                      {pills.length > 0 ? (
+                        <span className="dt-gear-bonus-pills">
+                          {pills.map((label) => (
+                            <span
+                              key={`${row.itemId}-${label}`}
+                              className="dt-gear-bonus-pill"
+                            >
+                              {label}
+                            </span>
+                          ))}
+                        </span>
+                      ) : (
+                        <span className="dt-gear-bonus-pill">—</span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ) : null}
+        </section>
+      </div>
+
+      <p className="dt-gear-actions-hint">
+        Bag — Equip · Use potions · Break down scrap
+      </p>
+
+      <section className="dt-gear-bag" aria-label="Inventory bag">
+        <div className="dt-gear-bag-grid">
+          {char.inventory.map((id, idx) => {
+            const item = resolveItem(id);
+            if (!item) return null;
+            const spellbook = isSpellbookItem(id);
+            const consumable = item.slot === "consumable";
+            const equippable =
+              item.slot !== "consumable" &&
+              item.slot !== "misc" &&
+              !spellbook &&
+              EQUIP_SLOTS.includes(item.slot as EquipSlot);
+            const equipped = worn.has(id);
+            const props = itemProperties(item).slice(0, 5);
+            const tier = gearTierAttr(item.rarity ?? item.tier);
+            const usable =
+              consumable &&
+              ((item.heal ?? 0) > 0 ||
+                (item.manaRestore ?? 0) > 0 ||
+                (item.staminaRestore ?? 0) > 0 ||
+                item.tags?.includes("stamina") ||
+                item.tags?.includes("dog"));
+
+            return (
+              <div
+                key={`${id}-${idx}`}
+                className="dt-gear-bag-card"
+                data-tier={tier}
+                data-equipped={equipped ? "true" : "false"}
+              >
+                <div className="dt-gear-bag-card-top">
+                  <span className="dt-gear-bag-tier" data-tier={tier}>
+                    {formatGearTier(item.rarity ?? item.tier)}
+                  </span>
+                  {equipped ? (
+                    <span className="dt-gear-bag-worn">Worn</span>
+                  ) : null}
+                </div>
+                <div className="dt-gear-bag-name" title={item.name}>
+                  {item.name}
+                </div>
+                <div className="dt-gear-bag-meta">{formatBagSlot(item.slot)}</div>
+                {props.length > 0 ? (
+                  <ul className="dt-gear-bag-stats">
+                    {props.map((p, i) => (
+                      <li key={`${p.key}-${i}`}>{formatProperty(p)}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="dt-gear-bag-meta">
+                    {item.heal ? `+${item.heal} HP` : ""}
+                    {item.manaRestore ? ` · +${item.manaRestore} MP` : ""}
+                    {item.staminaRestore ? ` · +${item.staminaRestore} ST` : ""}
+                  </div>
+                )}
+                <div className="dt-gear-bag-actions">
+                  {equippable ? (
+                    <button
+                      type="button"
+                      className="pc-btn-tiny"
+                      disabled={!canEdit || equipped}
+                      onClick={() => onEquip(id)}
+                    >
+                      {equipped ? "Worn" : "Equip"}
+                    </button>
+                  ) : null}
+                  {usable ? (
+                    <button
+                      type="button"
+                      className="pc-btn-tiny"
+                      disabled={!canEdit}
+                      onClick={() => onUseConsumable(id)}
+                    >
+                      Use
+                    </button>
+                  ) : null}
+                  {spellbook ? (
+                    <button
+                      type="button"
+                      className="pc-btn-tiny"
+                      disabled={!canEdit}
+                      onClick={() => onReadSpellbook(id)}
+                    >
+                      Read
+                    </button>
+                  ) : null}
+                  <button
+                    type="button"
+                    className="pc-btn-tiny"
+                    disabled={!canEdit || equipped}
+                    title={
+                      equipped
+                        ? "Unequip before breaking down"
+                        : "Break down for scrap gold"
+                    }
+                    onClick={() => onSalvage(id)}
+                  >
+                    Break Down
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        {!char.inventory.length ? (
+          <p className="dt-section-hint">Bag is empty — dig, buy, or win fights.</p>
+        ) : null}
+      </section>
+    </div>
+  );
+}
