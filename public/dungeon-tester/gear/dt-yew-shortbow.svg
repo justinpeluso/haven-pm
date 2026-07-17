@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Yew Shortbow">
+  <defs>
+    <radialGradient id="g" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#fff8ec"/>
+      <stop offset="100%" stop-color="#e8dcc4"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="58" fill="url(#g)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#c45a3a" stroke-width="1.5" opacity="0.55"/>
+
+  <!-- shortbow -->
+  <path d="M36 28 Q22 64 36 100" fill="none" stroke="#6a4420" stroke-width="7" stroke-linecap="round"/>
+  <path d="M36 28 Q22 64 36 100" fill="none" stroke="#1a120c" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M36 28 L92 64 L36 100" fill="none" stroke="#f4efe4" stroke-width="2.5"/>
+  <path d="M36 28 L92 64 L36 100" fill="none" stroke="#1a120c" stroke-width="1.5"/>
+  <circle cx="36" cy="28" r="3" fill="#1a120c"/>
+  <circle cx="36" cy="100" r="3" fill="#1a120c"/>
+
+</svg>

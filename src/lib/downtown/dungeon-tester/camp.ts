@@ -28,6 +28,7 @@ import type {
 } from "@/lib/downtown/party-chronicle/types";
 import { EQUIP_SLOTS, PLAYER_SLOT_ORDER } from "@/lib/downtown/party-chronicle/types";
 import { DT_GEAR_POOLS, getDtGear } from "./gear";
+import { dtBagItemUpgradeCue, type DtUpgradeCue } from "./gear-display";
 import { dtFillEmptyEquipSlots } from "./loadout";
 import { startDtCampAmbush } from "./battle";
 import { dtBeMeanToDog, dtFeedDog, normalizeDtDog } from "./dog";
@@ -481,7 +482,7 @@ export function dtReadSpellbook(
   return { world: applyPartyMutation(world, r.world), message: r.message };
 }
 
-/** Worn + bag snapshot for Camp UI. */
+/** Equipped + bag snapshot for Camp UI. */
 export function dtLoadoutSummary(char: CharacterSave): {
   worn: { slot: EquipSlot; id: string; name: string; tier: string }[];
   bag: {
@@ -493,6 +494,8 @@ export function dtLoadoutSummary(char: CharacterSave): {
     equippable: boolean;
     equipped: boolean;
     consumable: boolean;
+    /** Same-slot combat-score upgrade vs worn piece (see dtBagItemUpgradeCue). */
+    upgrade: DtUpgradeCue | null;
   }[];
 } {
   const wornIds = new Set(
@@ -511,6 +514,7 @@ export function dtLoadoutSummary(char: CharacterSave): {
     const equippable =
       !!g && slot !== "consumable" && slot !== "misc" && EQUIP_SLOTS.includes(slot as EquipSlot);
     const tier = g?.rarity ?? g?.tier ?? "common";
+    const equipped = wornIds.has(id);
     const stats = g
       ? itemProperties(g)
           .slice(0, 5)
@@ -526,8 +530,9 @@ export function dtLoadoutSummary(char: CharacterSave): {
       tier: tier === "magic" ? "uncommon" : tier,
       stats: stats.slice(0, 5),
       equippable,
-      equipped: wornIds.has(id),
+      equipped,
       consumable: slot === "consumable",
+      upgrade: dtBagItemUpgradeCue(char, id, { alreadyEquipped: equipped }),
     };
   });
   return { worn, bag };

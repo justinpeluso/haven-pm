@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Plank Shield">
+  <defs>
+    <radialGradient id="g" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#fff8ec"/>
+      <stop offset="100%" stop-color="#e8dcc4"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="58" fill="url(#g)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#c45a3a" stroke-width="1.5" opacity="0.55"/>
+
+  <!-- plank shield -->
+  <path d="M36 28 L92 28 L96 70 L64 108 L32 70 Z" fill="#6a4420" stroke="#1a120c" stroke-width="3"/>
+  <path d="M48 28 L48 88 M64 28 L64 104 M80 28 L80 88" stroke="#1a120c" stroke-width="1.5" opacity="0.5"/>
+  <rect x="56" y="54" width="16" height="20" rx="2" fill="#5a3a22" stroke="#1a120c" stroke-width="2"/>
+  <circle cx="64" cy="64" r="4" fill="#8a9aaa" stroke="#1a120c" stroke-width="1.5"/>
+
+</svg>

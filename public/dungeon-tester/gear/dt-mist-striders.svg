@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Mist Striders">
+  <defs>
+    <radialGradient id="g40590" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#fff8ec"/>
+      <stop offset="100%" stop-color="#e8dcc4"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="58" fill="url(#g40590)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#3d5a6a" stroke-width="1.5" opacity="0.55"/>
+
+  <path d="M42 42 L56 38 L60 68 L88 76 L86 90 L38 86 L36 68 Z" fill="#6a7a8a" stroke="#1a120c" stroke-width="2.5"/>
+  <path d="M48 56 Q64 50 72 58" fill="none" stroke="#c0d0e0" stroke-width="2" opacity="0.7"/>
+  <path d="M60 68 L38 66" stroke="#1a120c" stroke-width="2"/>
+
+</svg>

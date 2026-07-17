@@ -5,6 +5,7 @@ import Link from "next/link";
 import { DowntownSubnav } from "@/components/downtown/downtown-subnav";
 import { SimpleBattleOverlay } from "@/components/dungeon-tester/simple-battle-overlay";
 import { DtGearSheet } from "@/components/dungeon-tester/dt-gear-sheet";
+import { DtGearIcon } from "@/components/dungeon-tester/dt-gear-icon";
 import { DtHeroFigure } from "@/components/dungeon-tester/dt-hero-figure";
 import {
   BLANK_BASE_STATS,
@@ -1380,7 +1381,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               {me ? (
                 <div className="dt-camp-bag dt-camp-section space-y-2">
                   <p className="dt-section-label">
-                    Worn &amp; Bag · {me.name} · {me.gold}g
+                    Equipped &amp; Bag · {me.name} · {me.gold}g
                   </p>
                   <p className="dt-section-hint">
                     Empty slots auto-fill when you buy or dig. Equip anything else from Camp here.
@@ -1391,23 +1392,28 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     return (
                       <>
                         <div className="dt-inv-block">
-                          <p className="dt-bag-sublabel">Worn</p>
-                          <div className="dt-worn-row">
+                          <p className="dt-bag-sublabel">Equipped</p>
+                          <div className="dt-equipped-row">
                             {loadout.worn.length ? (
                               loadout.worn.map((w) => (
                                 <span
                                   key={w.slot}
-                                  className="dt-worn-chip"
+                                  className="dt-equipped-chip"
                                   data-tier={gearTierAttr(w.tier)}
                                   title={`${w.slot} · ${formatGearTier(w.tier)}`}
                                 >
-                                  <span className="dt-worn-slot">{w.slot}</span>
-                                  <span className="dt-worn-name">{w.name}</span>
+                                  <DtGearIcon
+                                    itemId={w.id}
+                                    name={w.name}
+                                    size="md"
+                                  />
+                                  <span className="dt-equipped-slot">{w.slot}</span>
+                                  <span className="dt-equipped-name">{w.name}</span>
                                 </span>
                               ))
                             ) : (
                               <span className="dt-section-hint">
-                                Nothing worn — equip from the bag.
+                                Nothing equipped — equip from the bag.
                               </span>
                             )}
                           </div>
@@ -1426,12 +1432,31 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                                 className="dt-bag-row"
                                 data-equipped={item.equipped ? "true" : "false"}
                                 data-tier={gearTierAttr(item.tier)}
+                                data-upgrade={item.upgrade ?? undefined}
                               >
                                 <div className="dt-bag-main">
                                   <div className="dt-bag-title-row">
+                                    <DtGearIcon
+                                      itemId={item.id}
+                                      name={item.name}
+                                      size="md"
+                                    />
                                     {item.equipped ? (
-                                      <span className="dt-bag-flag" data-kind="worn">
-                                        Worn
+                                      <span className="dt-bag-flag" data-kind="equipped">
+                                        Equipped
+                                      </span>
+                                    ) : null}
+                                    {item.upgrade ? (
+                                      <span
+                                        className="dt-bag-flag"
+                                        data-kind={item.upgrade}
+                                        title={
+                                          item.upgrade === "empty"
+                                            ? "Nothing equipped in this slot"
+                                            : "Better combat score than equipped"
+                                        }
+                                      >
+                                        {item.upgrade === "empty" ? "Empty slot" : "↑ Upgrade"}
                                       </span>
                                     ) : null}
                                     <strong className="dt-bag-name">{item.name}</strong>

@@ -36,6 +36,11 @@
   --dt-tier-rare: #3d5a6a;
   --dt-tier-epic: #c45a18;
   --dt-tier-legendary: #c9a227;
+  /* Soft frontier shimmers — rare = canyon steel, legendary = gold/ember */
+  --dt-glow-rare: 0 0 10px rgba(61, 90, 106, 0.34), 0 0 18px rgba(90, 120, 140, 0.16);
+  --dt-glow-rare-soft: 0 0 8px rgba(61, 90, 106, 0.26), 0 0 14px rgba(90, 120, 140, 0.12);
+  --dt-glow-legendary: 0 0 11px rgba(201, 162, 39, 0.42), 0 0 20px rgba(196, 90, 30, 0.2);
+  --dt-glow-legendary-soft: 0 0 9px rgba(201, 162, 39, 0.32), 0 0 16px rgba(196, 90, 30, 0.14);
   --dt-panel: rgba(255, 248, 236, 0.94);
   --dt-display: var(--font-pc-display), "Bangers", "Impact", sans-serif;
   --dt-body: "Courier New", "IBM Plex Mono", ui-monospace, monospace;
@@ -1724,15 +1729,15 @@
   font-weight: 700;
 }
 
-.dungeon-tester .dt-worn-row {
+.dungeon-tester .dt-equipped-row {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
 }
 
-.dungeon-tester .dt-worn-chip {
+.dungeon-tester .dt-equipped-chip {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: 0.35rem;
   font-family: var(--dt-hud);
   font-size: 0.78rem;
@@ -1744,7 +1749,7 @@
   box-shadow: inset 3px 0 0 var(--dt-tier-common);
 }
 
-.dungeon-tester .dt-worn-slot {
+.dungeon-tester .dt-equipped-slot {
   font-size: 0.65rem;
   font-weight: 800;
   letter-spacing: 0.06em;
@@ -1752,28 +1757,33 @@
   color: var(--dt-muted);
 }
 
-.dungeon-tester .dt-worn-name {
+.dungeon-tester .dt-equipped-name {
   font-weight: 800;
   color: var(--dt-ink);
 }
 
-.dungeon-tester .dt-worn-chip[data-tier="uncommon"],
-.dungeon-tester .dt-worn-chip[data-tier="magic"] {
+.dungeon-tester .dt-equipped-chip[data-tier="uncommon"],
+.dungeon-tester .dt-equipped-chip[data-tier="magic"] {
   border-color: var(--dt-tier-uncommon);
   box-shadow: inset 3px 0 0 var(--dt-tier-uncommon);
 }
-.dungeon-tester .dt-worn-chip[data-tier="rare"] {
+.dungeon-tester .dt-equipped-chip[data-tier="rare"] {
   border-color: var(--dt-tier-rare);
-  box-shadow: inset 3px 0 0 var(--dt-tier-rare);
+  box-shadow:
+    inset 3px 0 0 var(--dt-tier-rare),
+    var(--dt-glow-rare-soft);
 }
-.dungeon-tester .dt-worn-chip[data-tier="epic"] {
+.dungeon-tester .dt-equipped-chip[data-tier="epic"] {
   border-color: var(--dt-tier-epic);
   box-shadow: inset 3px 0 0 var(--dt-tier-epic);
 }
-.dungeon-tester .dt-worn-chip[data-tier="legendary"] {
+.dungeon-tester .dt-equipped-chip[data-tier="legendary"] {
   border-color: var(--dt-tier-legendary);
-  box-shadow: inset 3px 0 0 var(--dt-tier-legendary);
+  box-shadow:
+    inset 3px 0 0 var(--dt-tier-legendary),
+    var(--dt-glow-legendary);
   background: linear-gradient(180deg, #fffdf6, #f7ecbe);
+  animation: dt-legendary-ember 2.8s ease-in-out infinite;
 }
 
 .dungeon-tester .dt-bag-list {
@@ -1810,6 +1820,22 @@
     0 3px 10px rgba(26, 24, 20, 0.1);
 }
 
+.dungeon-tester .dt-bag-row[data-tier="rare"]:hover {
+  border-color: rgba(61, 90, 106, 0.55);
+  box-shadow:
+    inset 3px 0 0 var(--dt-tier-rare),
+    var(--dt-glow-rare),
+    0 3px 10px rgba(26, 24, 20, 0.08);
+}
+
+.dungeon-tester .dt-bag-row[data-tier="legendary"]:hover {
+  border-color: rgba(201, 162, 39, 0.7);
+  box-shadow:
+    inset 3px 0 0 var(--dt-tier-legendary),
+    var(--dt-glow-legendary),
+    0 3px 10px rgba(26, 24, 20, 0.08);
+}
+
 .dungeon-tester .dt-bag-main {
   min-width: 0;
   flex: 1;
@@ -1820,6 +1846,50 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.35rem 0.45rem;
+}
+
+/* Woodcut gear thumbs — sized to read on cream + forest panels */
+.dungeon-tester .dt-gear-icon {
+  flex-shrink: 0;
+  display: block;
+  object-fit: contain;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 1.5px rgba(26, 18, 12, 0.35),
+    0 2px 4px rgba(26, 18, 12, 0.28);
+  background: #e8dcc4;
+}
+.dungeon-tester .dt-gear-icon-sm {
+  width: 2rem; /* ~32px */
+  height: 2rem;
+}
+.dungeon-tester .dt-gear-icon-md {
+  width: 2.5rem; /* ~40px */
+  height: 2.5rem;
+}
+.dungeon-tester .dt-gear-icon-lg {
+  width: 3.25rem;
+  height: 3.25rem;
+}
+
+/* Rare / legendary icon shimmer (parent data-tier or on the icon itself) */
+.dungeon-tester [data-tier="rare"] > .dt-gear-icon,
+.dungeon-tester [data-tier="rare"] .dt-gear-icon,
+.dungeon-tester .dt-gear-icon[data-tier="rare"] {
+  box-shadow:
+    0 0 0 1px rgba(61, 90, 106, 0.28),
+    0 0 8px rgba(61, 90, 106, 0.4),
+    0 1px 3px rgba(26, 18, 12, 0.18);
+  filter: drop-shadow(0 0 3px rgba(61, 90, 106, 0.45));
+}
+.dungeon-tester [data-tier="legendary"] > .dt-gear-icon,
+.dungeon-tester [data-tier="legendary"] .dt-gear-icon,
+.dungeon-tester .dt-gear-icon[data-tier="legendary"] {
+  box-shadow:
+    0 0 0 1px rgba(201, 162, 39, 0.4),
+    0 0 10px rgba(201, 162, 39, 0.5),
+    0 1px 3px rgba(26, 18, 12, 0.18);
+  filter: drop-shadow(0 0 4px rgba(201, 162, 39, 0.55));
 }
 
 .dungeon-tester .dt-bag-flag {
@@ -1834,7 +1904,7 @@
   border: 1px solid currentColor;
 }
 
-.dungeon-tester .dt-bag-flag[data-kind="worn"] {
+.dungeon-tester .dt-bag-flag[data-kind="equipped"] {
   color: var(--dt-canyon-deep);
   background: rgba(196, 74, 31, 0.12);
   border-color: var(--dt-canyon);
@@ -1844,6 +1914,25 @@
   color: #6a4e10;
   background: rgba(201, 162, 39, 0.22);
   border-color: var(--dt-ochre);
+}
+
+.dungeon-tester .dt-bag-flag[data-kind="upgrade"] {
+  color: #2a4a2e;
+  background: rgba(61, 122, 74, 0.16);
+  border-color: var(--dt-forest-lit);
+}
+
+.dungeon-tester .dt-bag-flag[data-kind="empty"] {
+  color: #3d4a32;
+  background: rgba(74, 107, 66, 0.14);
+  border-color: var(--dt-moss);
+}
+
+/* Soft trail-green ring — does not replace rarity inset/glow */
+.dungeon-tester .dt-bag-row[data-upgrade="upgrade"]:not([data-equipped="true"]),
+.dungeon-tester .dt-bag-row[data-upgrade="empty"]:not([data-equipped="true"]) {
+  outline: 1px solid rgba(61, 122, 74, 0.42);
+  outline-offset: -1px;
 }
 
 .dungeon-tester .dt-bag-name {
@@ -1908,6 +1997,7 @@
 .dungeon-tester .dt-bag-row[data-tier="rare"] {
   box-shadow:
     inset 3px 0 0 var(--dt-tier-rare),
+    var(--dt-glow-rare-soft),
     0 1px 4px rgba(26, 24, 20, 0.06);
 }
 .dungeon-tester .dt-bag-row[data-tier="epic"] {
@@ -1920,16 +2010,30 @@
   background: linear-gradient(180deg, #fffdf6, #f4e7b8);
   box-shadow:
     inset 3px 0 0 var(--dt-tier-legendary),
+    var(--dt-glow-legendary-soft),
     0 1px 4px rgba(26, 24, 20, 0.06);
+  animation: dt-legendary-ember 2.8s ease-in-out infinite;
 }
 
 .dungeon-tester .dt-bag-row[data-equipped="true"][data-tier="uncommon"],
 .dungeon-tester .dt-bag-row[data-equipped="true"][data-tier="magic"],
-.dungeon-tester .dt-bag-row[data-equipped="true"][data-tier="rare"],
-.dungeon-tester .dt-bag-row[data-equipped="true"][data-tier="epic"],
+.dungeon-tester .dt-bag-row[data-equipped="true"][data-tier="epic"] {
+  box-shadow:
+    inset 3px 0 0 var(--dt-canyon),
+    0 2px 8px rgba(138, 46, 18, 0.12);
+}
+
+.dungeon-tester .dt-bag-row[data-equipped="true"][data-tier="rare"] {
+  box-shadow:
+    inset 3px 0 0 var(--dt-canyon),
+    var(--dt-glow-rare-soft),
+    0 2px 8px rgba(138, 46, 18, 0.12);
+}
+
 .dungeon-tester .dt-bag-row[data-equipped="true"][data-tier="legendary"] {
   box-shadow:
     inset 3px 0 0 var(--dt-canyon),
+    var(--dt-glow-legendary-soft),
     0 2px 8px rgba(138, 46, 18, 0.12);
 }
 
@@ -2486,18 +2590,6 @@
   background: rgba(255, 253, 246, 0.7);
 }
 
-.dungeon-tester .pc-inv-worn {
-  font-size: 0.62rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--dt-canyon-deep);
-  border: 1px solid var(--dt-canyon);
-  background: rgba(196, 74, 31, 0.12);
-  padding: 0.12rem 0.32rem;
-  line-height: 1.2;
-}
-
 .dungeon-tester .pc-inv-card-divider {
   height: 1px;
   margin: 0.2rem 0 0.15rem;
@@ -2554,6 +2646,7 @@
   background: linear-gradient(180deg, #f4f8fc, #e2ecf6);
   box-shadow:
     inset 3px 0 0 var(--dt-tier-rare),
+    var(--dt-glow-rare-soft),
     0 2px 6px rgba(26, 24, 20, 0.08);
 }
 .dungeon-tester .pc-inv-card[data-tier="epic"] {
@@ -2568,7 +2661,9 @@
   background: linear-gradient(180deg, #fff8e0, #f0d878);
   box-shadow:
     inset 3px 0 0 var(--dt-tier-legendary),
+    var(--dt-glow-legendary-soft),
     0 2px 6px rgba(26, 24, 20, 0.08);
+  animation: dt-legendary-ember 2.8s ease-in-out infinite;
 }
 
 .dungeon-tester .pc-inv-card[data-equipped="true"][data-tier] {
@@ -2889,6 +2984,10 @@
 
 .dungeon-tester .dt-gear-slot[data-filled="true"][data-tier="rare"] {
   border-color: var(--dt-tier-rare);
+  box-shadow:
+    0 0 0 1px rgba(61, 90, 106, 0.28),
+    var(--dt-glow-rare),
+    0 2px 6px rgba(10, 16, 10, 0.18);
 }
 
 .dungeon-tester .dt-gear-slot[data-filled="true"][data-tier="epic"] {
@@ -2897,12 +2996,33 @@
 
 .dungeon-tester .dt-gear-slot[data-filled="true"][data-tier="legendary"] {
   border-color: var(--dt-tier-legendary);
+  box-shadow:
+    0 0 0 1px rgba(201, 162, 39, 0.4),
+    var(--dt-glow-legendary),
+    0 2px 6px rgba(10, 16, 10, 0.18);
+  animation: dt-legendary-ember 2.8s ease-in-out infinite;
 }
 
 .dungeon-tester .dt-gear-slot:hover:not(:disabled) {
   border-color: var(--dt-forest-lit);
   background: #fff4e0;
   z-index: 30;
+}
+
+.dungeon-tester .dt-gear-slot[data-filled="true"][data-tier="rare"]:hover:not(:disabled) {
+  border-color: var(--dt-tier-rare);
+  box-shadow:
+    0 0 0 1px rgba(61, 90, 106, 0.35),
+    var(--dt-glow-rare),
+    0 3px 8px rgba(10, 16, 10, 0.2);
+}
+
+.dungeon-tester .dt-gear-slot[data-filled="true"][data-tier="legendary"]:hover:not(:disabled) {
+  border-color: var(--dt-tier-legendary);
+  box-shadow:
+    0 0 0 1px rgba(201, 162, 39, 0.5),
+    var(--dt-glow-legendary),
+    0 3px 8px rgba(10, 16, 10, 0.2);
 }
 
 .dungeon-tester .dt-gear-slot:disabled {
@@ -2919,6 +3039,14 @@
   line-height: 1.1;
 }
 
+.dungeon-tester .dt-gear-slot-body {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
 .dungeon-tester .dt-gear-slot[data-filled="false"] .dt-gear-slot-label {
   color: var(--dt-walnut-mid);
   opacity: 0.85;
@@ -2932,7 +3060,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%;
+  min-width: 0;
+  flex: 1;
 }
 
 .dungeon-tester .dt-gear-slot[data-filled="false"] .dt-gear-slot-name {
@@ -3239,10 +3368,11 @@
 }
 
 .dungeon-tester .dt-gear-bag-card[data-tier="rare"] {
-  border-color: rgba(47, 111, 168, 0.45);
+  border-color: rgba(61, 90, 106, 0.45);
   background: linear-gradient(180deg, #f4f8fc, #e2ecf6);
   box-shadow:
     inset 3px 0 0 var(--dt-tier-rare),
+    var(--dt-glow-rare-soft),
     0 2px 6px rgba(26, 24, 20, 0.08);
 }
 
@@ -3259,7 +3389,9 @@
   background: linear-gradient(180deg, #fffdf0, #f5e8b8);
   box-shadow:
     inset 3px 0 0 var(--dt-tier-legendary),
+    var(--dt-glow-legendary-soft),
     0 2px 6px rgba(26, 24, 20, 0.08);
+  animation: dt-legendary-ember 2.8s ease-in-out infinite;
 }
 
 .dungeon-tester .dt-gear-bag-card[data-equipped="true"] {
@@ -3269,11 +3401,30 @@
     0 2px 8px rgba(138, 46, 18, 0.12);
 }
 
+.dungeon-tester .dt-gear-bag-card[data-equipped="true"][data-tier="rare"] {
+  box-shadow:
+    inset 3px 0 0 var(--dt-canyon),
+    var(--dt-glow-rare-soft),
+    0 2px 8px rgba(138, 46, 18, 0.12);
+}
+
+.dungeon-tester .dt-gear-bag-card[data-equipped="true"][data-tier="legendary"] {
+  box-shadow:
+    inset 3px 0 0 var(--dt-canyon),
+    var(--dt-glow-legendary-soft),
+    0 2px 8px rgba(138, 46, 18, 0.12);
+}
+
 .dungeon-tester .dt-gear-bag-card-top {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 0.35rem;
+}
+
+.dungeon-tester .dt-gear-bag-card-top .dt-gear-bag-tier {
+  margin-right: auto;
 }
 
 .dungeon-tester .dt-gear-bag-tier {
@@ -3301,7 +3452,7 @@
   color: var(--dt-tier-legendary);
 }
 
-.dungeon-tester .dt-gear-bag-worn {
+.dungeon-tester .dt-gear-bag-equipped {
   font-family: var(--dt-hud);
   font-size: 0.58rem;
   font-weight: 800;
@@ -3313,6 +3464,41 @@
   padding: 0.1rem 0.3rem;
 }
 
+.dungeon-tester .dt-gear-bag-upgrade {
+  font-family: var(--dt-hud);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.3rem;
+  border: 1px solid currentColor;
+}
+
+.dungeon-tester .dt-gear-bag-upgrade[data-kind="upgrade"] {
+  color: #2a4a2e;
+  background: rgba(61, 122, 74, 0.16);
+  border-color: var(--dt-forest-lit);
+}
+
+.dungeon-tester .dt-gear-bag-upgrade[data-kind="empty"] {
+  color: #3d4a32;
+  background: rgba(74, 107, 66, 0.14);
+  border-color: var(--dt-moss);
+}
+
+.dungeon-tester .dt-gear-bag-card[data-upgrade="upgrade"]:not([data-equipped="true"]),
+.dungeon-tester .dt-gear-bag-card[data-upgrade="empty"]:not([data-equipped="true"]) {
+  outline: 1px solid rgba(61, 122, 74, 0.42);
+  outline-offset: -1px;
+}
+
+.dungeon-tester .dt-gear-bag-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
 .dungeon-tester .dt-gear-bag-name {
   font-family: var(--dt-hud);
   font-size: 0.98rem;
@@ -3322,6 +3508,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1;
 }
 
 .dungeon-tester .dt-gear-bag-meta {
@@ -3385,6 +3573,27 @@
 
   .dungeon-tester .dt-gear-combat {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Legendary ember pulse — warm, slow, not neon */
+@keyframes dt-legendary-ember {
+  0%,
+  100% {
+    filter: brightness(1) saturate(1);
+  }
+  50% {
+    filter: brightness(1.045) saturate(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dungeon-tester .dt-equipped-chip[data-tier="legendary"],
+  .dungeon-tester .dt-bag-row[data-tier="legendary"],
+  .dungeon-tester .dt-gear-slot[data-filled="true"][data-tier="legendary"],
+  .dungeon-tester .dt-gear-bag-card[data-tier="legendary"],
+  .dungeon-tester .pc-inv-card[data-tier="legendary"] {
+    animation: none;
   }
 }
 

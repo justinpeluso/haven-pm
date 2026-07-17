@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Hearth Mana Cider">
+  <defs>
+    <radialGradient id="g6887510" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#fff8ec"/>
+      <stop offset="100%" stop-color="#e8dcc4"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="58" fill="url(#g6887510)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#6a3a8a" stroke-width="1.5" opacity="0.55"/>
+
+  <path d="M50 44 L78 44 L82 56 L76 100 L52 100 L46 56 Z" fill="#6a3a8a" stroke="#1a120c" stroke-width="2.5"/>
+  <rect x="54" y="32" width="20" height="14" rx="2" fill="#5a3a22" stroke="#1a120c" stroke-width="2"/>
+  <path d="M54 70 Q64 64 74 70" fill="none" stroke="#c4a0d4" stroke-width="2"/>
+  <circle cx="64" cy="80" r="5" fill="#c4a0d4" opacity="0.7"/>
+
+</svg>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Liberator's Spur">
+  <defs>
+    <radialGradient id="g8799690" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#fff8ec"/>
+      <stop offset="100%" stop-color="#e8dcc4"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="58" fill="url(#g8799690)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#c9a227" stroke-width="1.5" opacity="0.55"/>
+
+  <circle cx="64" cy="44" r="12" fill="#c9a227" stroke="#1a120c" stroke-width="2.5"/>
+  <path d="M64 56 L64 78" stroke="#c9a227" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="64" cy="90" r="14" fill="none" stroke="#c9a227" stroke-width="3.5"/>
+  <circle cx="64" cy="90" r="4" fill="#1a120c"/>
+  <path d="M50 90 L44 80 M78 90 L84 80" stroke="#c9a227" stroke-width="2.5"/>
+  <path d="M58 40 L64 34 L70 40" fill="none" stroke="#1a120c" stroke-width="1.5"/>
+
+</svg>

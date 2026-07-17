@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Weapon">
+  <defs>
+    <radialGradient id="g" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#fff8ec"/>
+      <stop offset="100%" stop-color="#e8dcc4"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="58" fill="url(#g)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#c45a3a" stroke-width="1.5" opacity="0.55"/>
+
+  <!-- generic weapon -->
+  <path d="M58 24 L70 24 L72 78 L56 78 Z" fill="#8a9aaa" stroke="#1a120c" stroke-width="2.5"/>
+  <path d="M64 18 L72 28 L64 26 L56 28 Z" fill="#8a9aaa" stroke="#1a120c" stroke-width="2"/>
+  <rect x="50" y="78" width="28" height="8" rx="1" fill="#5a3a22" stroke="#1a120c" stroke-width="2"/>
+  <rect x="56" y="86" width="16" height="20" rx="2" fill="#6a4420" stroke="#1a120c" stroke-width="2.5"/>
+
+</svg>

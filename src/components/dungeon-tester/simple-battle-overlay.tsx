@@ -21,6 +21,7 @@ import { formatGearTier, gearTierAttr } from "@/lib/downtown/dungeon-tester/gear
 import { normalizeDtHeroLook } from "@/lib/downtown/dungeon-tester/look";
 import type { PlayerSlot } from "@/lib/downtown/dungeon-tester/types";
 import { DtHeroFigure } from "@/components/dungeon-tester/dt-hero-figure";
+import { DtGearIcon } from "@/components/dungeon-tester/dt-gear-icon";
 
 type Props = {
   battle: SimpleBattleState;
@@ -711,18 +712,23 @@ export function SimpleBattleOverlay({
                   {hero.name} · {hero.gold}g · loot is already in your bag
                 </p>
                 <div className="dt-inv-block">
-                  <p className="dt-bag-sublabel">Worn</p>
-                  <div className="dt-worn-row">
+                  <p className="dt-bag-sublabel">Equipped</p>
+                  <div className="dt-equipped-row">
                     {victoryLoadout.worn.length ? (
                       victoryLoadout.worn.map((w) => (
                         <span
                           key={w.slot}
-                          className="dt-worn-chip"
+                          className="dt-equipped-chip"
                           data-tier={gearTierAttr(w.tier)}
                           title={`${w.slot} · ${formatGearTier(w.tier)}`}
                         >
-                          <span className="dt-worn-slot">{w.slot}</span>
-                          <span className="dt-worn-name">{w.name}</span>
+                          <DtGearIcon
+                            itemId={w.id}
+                            name={w.name}
+                            size="md"
+                          />
+                          <span className="dt-equipped-slot">{w.slot}</span>
+                          <span className="dt-equipped-name">{w.name}</span>
                           {onUnequip ? (
                             <button
                               type="button"
@@ -736,7 +742,7 @@ export function SimpleBattleOverlay({
                         </span>
                       ))
                     ) : (
-                      <span className="dt-section-hint">Nothing worn — equip from the bag.</span>
+                      <span className="dt-section-hint">Nothing equipped — equip from the bag.</span>
                     )}
                   </div>
                 </div>
@@ -752,17 +758,36 @@ export function SimpleBattleOverlay({
                           data-equipped={item.equipped ? "true" : "false"}
                           data-tier={gearTierAttr(item.tier)}
                           data-loot={isLoot ? "true" : "false"}
+                          data-upgrade={item.upgrade ?? undefined}
                         >
                           <div className="dt-bag-main">
                             <div className="dt-bag-title-row">
+                              <DtGearIcon
+                                itemId={item.id}
+                                name={item.name}
+                                size="md"
+                              />
                               {isLoot ? (
                                 <span className="dt-bag-flag" data-kind="loot">
                                   New
                                 </span>
                               ) : null}
                               {item.equipped ? (
-                                <span className="dt-bag-flag" data-kind="worn">
-                                  Worn
+                                <span className="dt-bag-flag" data-kind="equipped">
+                                  Equipped
+                                </span>
+                              ) : null}
+                              {item.upgrade ? (
+                                <span
+                                  className="dt-bag-flag"
+                                  data-kind={item.upgrade}
+                                  title={
+                                    item.upgrade === "empty"
+                                      ? "Nothing equipped in this slot"
+                                      : "Better combat score than equipped"
+                                  }
+                                >
+                                  {item.upgrade === "empty" ? "Empty slot" : "↑ Upgrade"}
                                 </span>
                               ) : null}
                               <strong className="dt-bag-name">{item.name}</strong>

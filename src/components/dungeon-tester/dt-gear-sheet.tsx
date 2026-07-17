@@ -1,6 +1,7 @@
 "use client";
 
 import { GearTipBody } from "@/components/party-chronicle/gear-hover-tip";
+import { DtGearIcon } from "@/components/dungeon-tester/dt-gear-icon";
 import { DtHeroFigure } from "@/components/dungeon-tester/dt-hero-figure";
 import { isSpellbookItem } from "@/lib/downtown/party-chronicle/bestiary";
 import { getGear } from "@/lib/downtown/party-chronicle/gear";
@@ -18,6 +19,7 @@ import type {
 import { EQUIP_SLOTS, STAT_KEYS } from "@/lib/downtown/party-chronicle/types";
 import { getDtGear } from "@/lib/downtown/dungeon-tester/gear";
 import {
+  dtBagItemUpgradeCue,
   formatGearTier,
   gearTierAttr,
 } from "@/lib/downtown/dungeon-tester/gear-display";
@@ -95,7 +97,7 @@ export function DtGearSheet({
 }) {
   const eff = computeEffectiveStats(char);
   const look = normalizeDtHeroLook(char.dtLook, slot);
-  const worn = new Set(
+  const equippedIds = new Set(
     EQUIP_SLOTS.map((s) => char.equipped[s]).filter(Boolean) as string[]
   );
 
@@ -104,7 +106,7 @@ export function DtGearSheet({
       <header className="dt-gear-sheet-head">
         <div>
           <p className="dt-gear-sheet-title">Gear — Full inventory</p>
-          <p className="dt-gear-sheet-sub">Worn gear — {char.name}</p>
+          <p className="dt-gear-sheet-sub">Equipped gear — {char.name}</p>
         </div>
         <p className="dt-gear-sheet-gold">{char.gold}g</p>
       </header>
@@ -135,8 +137,17 @@ export function DtGearSheet({
                 onClick={() => filled && onUnequip(equipSlot)}
               >
                 <span className="dt-gear-slot-label">{SLOT_LABEL[equipSlot]}</span>
-                <span className="dt-gear-slot-name">
-                  {filled ? item!.name : "Empty"}
+                <span className="dt-gear-slot-body">
+                  {filled ? (
+                    <DtGearIcon
+                      itemId={item!.id}
+                      name={item!.name}
+                      size="md"
+                    />
+                  ) : null}
+                  <span className="dt-gear-slot-name">
+                    {filled ? item!.name : "Empty"}
+                  </span>
                 </span>
                 <GearTipBody
                   item={item}
@@ -306,7 +317,10 @@ export function DtGearSheet({
               item.slot !== "misc" &&
               !spellbook &&
               EQUIP_SLOTS.includes(item.slot as EquipSlot);
-            const equipped = worn.has(id);
+            const equipped = equippedIds.has(id);
+            const upgrade = dtBagItemUpgradeCue(char, id, {
+              alreadyEquipped: equipped,
+            });
             const props = itemProperties(item).slice(0, 5);
             const tier = gearTierAttr(item.rarity ?? item.tier);
             const usable =
@@ -323,17 +337,38 @@ export function DtGearSheet({
                 className="dt-gear-bag-card"
                 data-tier={tier}
                 data-equipped={equipped ? "true" : "false"}
+                data-upgrade={upgrade ?? undefined}
               >
                 <div className="dt-gear-bag-card-top">
                   <span className="dt-gear-bag-tier" data-tier={tier}>
                     {formatGearTier(item.rarity ?? item.tier)}
                   </span>
                   {equipped ? (
-                    <span className="dt-gear-bag-worn">Worn</span>
+                    <span className="dt-gear-bag-equipped">Equipped</span>
+                  ) : null}
+                  {upgrade ? (
+                    <span
+                      className="dt-gear-bag-upgrade"
+                      data-kind={upgrade}
+                      title={
+                        upgrade === "empty"
+                          ? "Nothing equipped in this slot"
+                          : "Better combat score than equipped"
+                      }
+                    >
+                      {upgrade === "empty" ? "Empty slot" : "↑ Upgrade"}
+                    </span>
                   ) : null}
                 </div>
-                <div className="dt-gear-bag-name" title={item.name}>
-                  {item.name}
+                <div className="dt-gear-bag-title">
+                  <DtGearIcon
+                    itemId={item.id}
+                    name={item.name}
+                    size="md"
+                  />
+                  <div className="dt-gear-bag-name" title={item.name}>
+                    {item.name}
+                  </div>
                 </div>
                 <div className="dt-gear-bag-meta">{formatBagSlot(item.slot)}</div>
                 {props.length > 0 ? (
@@ -357,7 +392,7 @@ export function DtGearSheet({
                       disabled={!canEdit || equipped}
                       onClick={() => onEquip(id)}
                     >
-                      {equipped ? "Worn" : "Equip"}
+                      {equipped ? "Equipped" : "Equip"}
                     </button>
                   ) : null}
                   {usable ? (

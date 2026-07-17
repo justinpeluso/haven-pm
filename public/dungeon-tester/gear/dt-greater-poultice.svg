@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Greater Poultice">
+  <defs>
+    <radialGradient id="g1594432" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#fff8ec"/>
+      <stop offset="100%" stop-color="#e8dcc4"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="58" fill="url(#g1594432)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#3d8a45" stroke-width="1.5" opacity="0.55"/>
+
+  <path d="M46 38 L82 38 L88 52 L82 98 L46 98 L40 52 Z" fill="#f0e8d0" stroke="#1a120c" stroke-width="2.5"/>
+  <ellipse cx="64" cy="38" rx="18" ry="9" fill="#3d8a45" stroke="#1a120c" stroke-width="2"/>
+  <path d="M50 60 Q64 50 78 60 Q64 84 50 60" fill="#5aaa60" stroke="#1a120c" stroke-width="1.5"/>
+  <circle cx="64" cy="66" r="4" fill="#fff8ec" opacity="0.6"/>
+
+</svg>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Sun-Bleached Hat">
+  <defs>
+    <radialGradient id="g7633197" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#fff8ec"/>
+      <stop offset="100%" stop-color="#e8dcc4"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="58" fill="url(#g7633197)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#c45a3a" stroke-width="1.5" opacity="0.55"/>
+
+  <ellipse cx="64" cy="78" rx="40" ry="10" fill="#c4a574" stroke="#1a120c" stroke-width="2.5"/>
+  <path d="M40 72 Q40 40 64 36 Q88 40 88 72" fill="#d4b888" stroke="#1a120c" stroke-width="2.5"/>
+  <path d="M40 72 L88 72" stroke="#1a120c" stroke-width="2"/>
+  <rect x="58" y="48" width="12" height="6" rx="1" fill="#c45a3a" stroke="#1a120c" stroke-width="1.5"/>
+
+</svg>
