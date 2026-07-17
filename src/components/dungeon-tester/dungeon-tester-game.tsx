@@ -23,6 +23,7 @@ import type {
   StatKey,
 } from "@/lib/downtown/party-chronicle/types";
 import { CLASS_IDS, PLAYER_SLOT_ORDER, STAT_KEYS } from "@/lib/downtown/party-chronicle/types";
+import { xpProgress } from "@/lib/downtown/party-chronicle/progression";
 import {
   DT_DEFAULT_SLOT_ID,
   DT_HAT_LABEL,
@@ -68,6 +69,8 @@ import {
   dtUseConsumable,
   dtLoadoutSummary,
   formatPlaytimeHud,
+  formatGearTier,
+  gearTierAttr,
   getDtArt,
   getFrame,
   normalizeDtDog,
@@ -105,7 +108,7 @@ type PlayTab = "story" | "camp" | "gear";
 const STAT_POOL = 27;
 const FALLBACK_PLATE = "/dungeon-tester/scenes/dusty-trail.svg";
 
-/** One-step / breadcrumb escape hatches — always visible on major panels. */
+/** Tertiary escape links — only for screens without the play location bar. */
 function DtBackBar({
   backs,
 }: {
@@ -122,7 +125,7 @@ function DtBackBar({
     <div className="dt-actions dt-back-row" role="navigation" aria-label="Back">
       {backs.map((b) =>
         b.href ? (
-          <Link key={b.label} href={b.href} className="dt-btn" data-back="true">
+          <Link key={b.label} href={b.href} className="dt-btn" data-variant="tertiary">
             ← {b.label}
           </Link>
         ) : (
@@ -130,8 +133,7 @@ function DtBackBar({
             key={b.label}
             type="button"
             className="dt-btn"
-            data-back="true"
-            data-primary={b.primary ? "true" : undefined}
+            data-variant={b.primary ? "primary" : "tertiary"}
             disabled={b.disabled}
             onClick={b.onClick}
           >
@@ -139,6 +141,83 @@ function DtBackBar({
           </button>
         )
       )}
+    </div>
+  );
+}
+
+function hpStatusLabel(hp: number, maxHp: number): string {
+  if (hp <= 0) return "Down";
+  const pct = hp / Math.max(1, maxHp);
+  if (pct >= 0.7) return "Healthy";
+  if (pct >= 0.35) return "Wounded";
+  return "Critical";
+}
+
+function DtPartySeat({
+  slot,
+  char,
+  isYou,
+  isTurn,
+}: {
+  slot: (typeof PLAYER_SLOT_ORDER)[number];
+  char: DtWorldSave["characters"][(typeof PLAYER_SLOT_ORDER)[number]] | undefined;
+  isYou?: boolean;
+  isTurn?: boolean;
+}) {
+  const sealed = !!char?.created;
+  const status = sealed && char ? hpStatusLabel(char.hp, char.maxHp) : "Unsealed";
+  return (
+    <div
+      className="dt-seat"
+      data-sealed={sealed ? "true" : "false"}
+      data-you={isYou ? "true" : "false"}
+      data-turn={isTurn ? "true" : "false"}
+      data-status={sealed ? status.toLowerCase() : "empty"}
+    >
+      <div className="dt-seat-portrait">
+        {sealed && char ? (
+          <DtHeroFigure
+            look={normalizeDtHeroLook(char.dtLook, slot)}
+            compact
+            className="dt-seat-figure"
+          />
+        ) : (
+          <span className="dt-seat-empty" aria-hidden>
+            ?
+          </span>
+        )}
+      </div>
+      <div className="dt-seat-body">
+        <div className="dt-seat-slot">
+          {SLOT_DEFAULTS[slot].displayName}
+          {isYou ? " · you" : ""}
+          {isTurn ? " · turn" : ""}
+        </div>
+        {sealed && char ? (
+          <>
+            <strong className="dt-seat-name">{char.name}</strong>
+            <div className="dt-seat-stats">
+              <span>Lv {char.level}</span>
+              <span className="dt-seat-hp">
+                {char.hp}/{char.maxHp} HP
+              </span>
+              <span>{char.gold}g</span>
+            </div>
+            <div className="dt-seat-status" data-status={status.toLowerCase()}>
+              {status}
+            </div>
+            <div className="dt-seat-bar" aria-hidden>
+              <span
+                style={{
+                  width: `${Math.max(0, Math.min(100, Math.round((char.hp / Math.max(1, char.maxHp)) * 100)))}%`,
+                }}
+              />
+            </div>
+          </>
+        ) : (
+          <div className="dt-seat-name dt-seat-open">Need create</div>
+        )}
+      </div>
     </div>
   );
 }
@@ -781,6 +860,25 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     !!world?.characters[mySlot]?.created &&
     (identity.isDm || world?.activeSlot === mySlot);
   const me = mySlot && world ? world.characters[mySlot] : null;
+  const meXp = me ? xpProgress(me.xp) : null;
+
+  // Space / Enter advances story when Continue is the only primary action.
+  useEffect(() => {
+    if (phase !== "play" || tab !== "story" || !world || world.endingId || world.battle) return;
+    const frameNow = getFrame(world.campaignNodeId);
+    if (!frameNow?.next || (frameNow.choices?.length ?? 0) > 0) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.tagName === "SELECT" || t.isContentEditable)) {
+        return;
+      }
+      e.preventDefault();
+      onContinue();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [phase, tab, world?.campaignNodeId, world?.endingId, world?.battle, onContinue]);
 
   const onCampSleep = () => {
     if (!world || !mySlot) return;
@@ -918,7 +1016,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
   if (!bootstrapped) {
     return (
-      <div className="downtown-shell dungeon-tester party-comic party-rpg90s party-chronicle space-y-3">
+      <div className="downtown-shell dungeon-tester party-comic party-rpg90s party-chronicle">
         <DowntownSubnav active="dungeon-tester" />
         <p className="dt-tagline">Loading True Grit…</p>
       </div>
@@ -926,47 +1024,16 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   }
 
   const shellClass =
-    "downtown-shell dungeon-tester party-comic party-rpg90s party-chronicle space-y-3";
+    "downtown-shell dungeon-tester party-comic party-rpg90s party-chronicle";
 
   return (
     <div className={shellClass}>
       <DowntownSubnav active="dungeon-tester" />
 
-      <div className="dt-hud-bar" aria-live="polite">
-        <div className="dt-hud-group">
-          <span className="dt-hud-metric">
-            <span className="dt-hud-metric-label">Slot</span>
-            <strong className="dt-hud-metric-value">{activeSlotId}</strong>
-          </span>
-          <span className="dt-hud-metric">
-            <span className="dt-hud-metric-label">Play Time</span>
-            <strong className="dt-hud-metric-value">{playHud}</strong>
-          </span>
-        </div>
-        <div className="dt-hud-group">
-          <span className="dt-hud-metric">
-            <span className="dt-hud-metric-label">Frames</span>
-            <strong className="dt-hud-metric-value">{world?.framesAdvanced ?? 0}</strong>
-            {world ? (
-              <span className="dt-hud-metric-note">
-                since fight {world.framesSinceEncounter} · next ambush @{" "}
-                {world.nextEncounterAtFrame}
-              </span>
-            ) : null}
-          </span>
-          <span className="dt-hud-metric">
-            <span className="dt-hud-metric-label">Party</span>
-            <strong className="dt-hud-metric-value">{sealedCount}/4</strong>
-            <span className="dt-hud-metric-note">sealed</span>
-          </span>
-        </div>
-      </div>
-
       {flash ? <p className="dt-flash">{flash}</p> : null}
 
       {phase === "title" && (
-        <div className="dt-panel dt-title-panel space-y-3">
-          <DtBackBar backs={[{ label: "Downtown", href: "/downtown" }]} />
+        <div className="dt-panel dt-title-panel">
           <h1 className="dt-title-hero">True Grit</h1>
           <p className="dt-tagline">
             Dusty Wilderland liberation — warrants, collar yards, and a scarred marshal who drinks
@@ -1002,7 +1069,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     <button
                       type="button"
                       className="dt-btn"
-                      data-primary="true"
+                      data-variant="primary"
                       onClick={() => void continueSave(s.id)}
                     >
                       {s.hasSave || (active && sealedCount > 0) ? "Continue" : "New"}
@@ -1010,6 +1077,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     <button
                       type="button"
                       className="dt-btn"
+                      data-variant="secondary"
                       disabled={
                         !!(s.hasSave || (active && sealedCount > 0)) &&
                         !identity.isDm &&
@@ -1031,6 +1099,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     <button
                       type="button"
                       className="dt-btn"
+                      data-variant="tertiary"
                       disabled={!s.hasSave || (!identity.isDm && mySlot !== "justin")}
                       onClick={() => {
                         if (
@@ -1051,22 +1120,14 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
           </div>
 
           <div className="dt-party-row">
-            {PLAYER_SLOT_ORDER.map((slot) => {
-              const c = world?.characters[slot];
-              return (
-                <div key={slot} className="dt-seat" data-sealed={c?.created ? "true" : "false"}>
-                  <div>{SLOT_DEFAULTS[slot].displayName}</div>
-                  <div>{c?.created ? `${c.name} · ${CLASS_DEFS[c.classId].name}` : "Need create"}</div>
-                  {c?.created ? (
-                    <DtHeroFigure
-                      look={normalizeDtHeroLook(c.dtLook, slot)}
-                      compact
-                      className="dt-seat-figure"
-                    />
-                  ) : null}
-                </div>
-              );
-            })}
+            {PLAYER_SLOT_ORDER.map((slot) => (
+              <DtPartySeat
+                key={slot}
+                slot={slot}
+                char={world?.characters[slot]}
+                isYou={slot === mySlot}
+              />
+            ))}
           </div>
           {!mySlot && (
             <p className="dt-tagline">
@@ -1087,34 +1148,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
       {phase === "play" && world && (
         <>
-          <div className="dt-party-row">
-            {PLAYER_SLOT_ORDER.map((slot) => {
-              const c = world.characters[slot];
-              return (
-                <div key={slot} className="dt-seat" data-sealed={c.created ? "true" : "false"}>
-                  <div>
-                    {SLOT_DEFAULTS[slot].displayName}
-                    {slot === mySlot ? " (you)" : ""}
-                    {world.activeSlot === slot ? " · turn" : ""}
-                  </div>
-                  <div>
-                    {c.created
-                      ? `${c.name} · Lv${c.level} · ${c.hp}/${c.maxHp} HP · ${c.gold}g`
-                      : "Unsealed"}
-                  </div>
-                  {c.created ? (
-                    <DtHeroFigure
-                      look={normalizeDtHeroLook(c.dtLook, slot)}
-                      compact
-                      className="dt-seat-figure"
-                    />
-                  ) : null}
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="pc-tab-row dt-actions" role="tablist" aria-label="True Grit panels">
+          <div className="dt-play-nav" role="tablist" aria-label="True Grit">
             {(
               [
                 ["story", "Story"],
@@ -1128,37 +1162,33 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 role="tab"
                 aria-selected={tab === id}
                 className="dt-btn"
-                data-primary={tab === id ? "true" : "false"}
+                data-variant={tab === id ? "primary" : "secondary"}
                 disabled={!!world.battle && id !== "story"}
                 onClick={() => setTab(id)}
               >
                 {label}
               </button>
             ))}
-            <button type="button" className="dt-btn" data-back="true" onClick={() => setPhase("title")}>
-              ← Title
+            <button
+              type="button"
+              className="dt-btn"
+              data-variant="tertiary"
+              onClick={() => setPhase("title")}
+            >
+              Title
             </button>
-            <Link href="/downtown" className="dt-btn" data-back="true">
-              ← Downtown
-            </Link>
           </div>
 
           {world.endingId ? (
             <div className="dt-panel">
-              <DtBackBar
-                backs={[
-                  { label: "Title", onClick: () => setPhase("title"), primary: true },
-                  { label: "Downtown", href: "/downtown" },
-                ]}
-              />
               <h2 className="dt-frame-title">March beat complete</h2>
               <p className="dt-frame-body">
                 Ending flag <strong>{world.endingId}</strong>. More True Grit spine and hours toward
                 the thirty still wait beyond this road — or start a new campaign from the title.
               </p>
               <div className="dt-actions">
-                <button type="button" className="dt-btn" data-primary="true" onClick={() => setPhase("title")}>
-                  ← Title
+                <button type="button" className="dt-btn" data-variant="primary" onClick={() => setPhase("title")}>
+                  Title
                 </button>
               </div>
             </div>
@@ -1166,16 +1196,6 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
           {!world.endingId && tab === "story" ? (
             <div className="dt-panel dt-story-panel">
-              <DtBackBar
-                backs={[
-                  { label: "Title", onClick: () => setPhase("title"), primary: true },
-                  {
-                    label: "Camp",
-                    onClick: () => setTab("camp"),
-                    disabled: !!world.battle,
-                  },
-                ]}
-              />
               <div className="dt-comic-strip">
                 <div className="dt-comic-plate">
                   <img
@@ -1217,7 +1237,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                           key={c.id}
                           type="button"
                           className="dt-btn"
-                          data-primary="true"
+                          data-variant="primary"
                           disabled={!!world.battle}
                           onClick={() => onChoose(c.id)}
                         >
@@ -1227,16 +1247,22 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     ) : (
                       <button
                         type="button"
-                        className="dt-btn"
-                        data-primary="true"
+                        className="dt-btn dt-btn-continue"
+                        data-variant="primary"
                         disabled={!!world.battle || !frame?.next}
                         onClick={onContinue}
                       >
-                        Continue →
+                        Continue
+                        <kbd className="dt-shortcut">Space</kbd>
                       </button>
                     )}
                     {mySlot && !world.characters[mySlot].created ? (
-                      <button type="button" className="dt-btn" onClick={() => setPhase("create")}>
+                      <button
+                        type="button"
+                        className="dt-btn"
+                        data-variant="secondary"
+                        onClick={() => setPhase("create")}
+                      >
                         Seal my seat
                       </button>
                     ) : null}
@@ -1247,18 +1273,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
           ) : null}
 
           {!world.endingId && tab === "camp" ? (
-            <div className="dt-panel dt-camp-panel space-y-4">
-              <DtBackBar
-                backs={[
-                  {
-                    label: "Story",
-                    onClick: () => setTab("story"),
-                    primary: true,
-                    disabled: !!world.battle,
-                  },
-                  { label: "Title", onClick: () => setPhase("title") },
-                ]}
-              />
+            <div className="dt-panel dt-camp-panel">
               <div className="dt-camp-hero">
                 <p className="dt-section-label">Camp · Rest & Supply</p>
                 <p className="dt-section-title">{frame?.title ?? world.campaignNodeId}</p>
@@ -1269,20 +1284,20 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   <button
                     type="button"
                     className="dt-btn"
-                    data-primary="true"
-                    data-back="true"
+                    data-variant="primary"
                     disabled={!!world.battle}
                     onClick={() => setTab("story")}
                   >
-                    ← Back to Story
+                    Back to Story
                   </button>
                   <button
                     type="button"
                     className="dt-btn"
+                    data-variant="secondary"
                     disabled={!!world.battle || !me}
                     onClick={() => setTab("gear")}
                   >
-                    Gear / Inventory →
+                    Gear / Inventory
                   </button>
                 </div>
               </div>
@@ -1299,7 +1314,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 <button
                   type="button"
                   className="dt-btn"
-                  data-primary="true"
+                  data-variant="primary"
                   disabled={sleepBlocked}
                   title={campSleepHint ?? "Sleep at camp — restore HP & mana"}
                   onClick={onCampSleep}
@@ -1375,69 +1390,97 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     const bagEditable = acting && !battleActive;
                     return (
                       <>
-                        <div className="dt-worn-row">
-                          {loadout.worn.length ? (
-                            loadout.worn.map((w) => (
-                              <span
-                                key={w.slot}
-                                className="dt-worn-chip"
-                                data-tier={w.tier === "magic" ? "uncommon" : w.tier}
-                                title={`${w.slot} · ${w.tier}`}
-                              >
-                                {w.slot}: {w.name}
-                              </span>
-                            ))
-                          ) : (
-                            <span className="dt-section-hint">Nothing worn — equip from the bag.</span>
-                          )}
-                        </div>
-                        <div className="dt-bag-list">
-                          {loadout.bag.map((item, idx) => (
-                            <div
-                              key={`${item.id}-${idx}`}
-                              className="dt-bag-row"
-                              data-equipped={item.equipped ? "true" : "false"}
-                              data-tier={item.tier}
-                            >
-                              <div>
-                                <strong className="dt-bag-name">
-                                  {item.equipped ? "● " : ""}
-                                  {item.name}
-                                </strong>
-                                <span className="dt-bag-meta">
-                                  {item.tier} · {item.slot}
+                        <div className="dt-inv-block">
+                          <p className="dt-bag-sublabel">Worn</p>
+                          <div className="dt-worn-row">
+                            {loadout.worn.length ? (
+                              loadout.worn.map((w) => (
+                                <span
+                                  key={w.slot}
+                                  className="dt-worn-chip"
+                                  data-tier={gearTierAttr(w.tier)}
+                                  title={`${w.slot} · ${formatGearTier(w.tier)}`}
+                                >
+                                  <span className="dt-worn-slot">{w.slot}</span>
+                                  <span className="dt-worn-name">{w.name}</span>
                                 </span>
-                                {item.stats.length ? (
-                                  <span className="dt-bag-stats">{item.stats.join(" · ")}</span>
-                                ) : null}
+                              ))
+                            ) : (
+                              <span className="dt-section-hint">
+                                Nothing worn — equip from the bag.
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="dt-inv-block">
+                          <p className="dt-bag-sublabel">
+                            Bag
+                            {loadout.bag.length ? (
+                              <span className="dt-bag-count">{loadout.bag.length}</span>
+                            ) : null}
+                          </p>
+                          <div className="dt-bag-list">
+                            {loadout.bag.map((item, idx) => (
+                              <div
+                                key={`${item.id}-${idx}`}
+                                className="dt-bag-row"
+                                data-equipped={item.equipped ? "true" : "false"}
+                                data-tier={gearTierAttr(item.tier)}
+                              >
+                                <div className="dt-bag-main">
+                                  <div className="dt-bag-title-row">
+                                    {item.equipped ? (
+                                      <span className="dt-bag-flag" data-kind="worn">
+                                        Worn
+                                      </span>
+                                    ) : null}
+                                    <strong className="dt-bag-name">{item.name}</strong>
+                                  </div>
+                                  <span className="dt-bag-meta">
+                                    <span
+                                      className="dt-bag-tier"
+                                      data-tier={gearTierAttr(item.tier)}
+                                    >
+                                      {formatGearTier(item.tier)}
+                                    </span>
+                                    <span className="dt-bag-slot">{item.slot}</span>
+                                  </span>
+                                  {item.stats.length ? (
+                                    <span className="dt-bag-stats">
+                                      {item.stats.join(" · ")}
+                                    </span>
+                                  ) : null}
+                                </div>
+                                <div className="dt-bag-actions">
+                                  {item.equippable && !item.equipped ? (
+                                    <button
+                                      type="button"
+                                      className="pc-btn-tiny"
+                                      disabled={!bagEditable}
+                                      onClick={() => onEquip(item.id)}
+                                    >
+                                      Equip
+                                    </button>
+                                  ) : null}
+                                  {item.consumable ? (
+                                    <button
+                                      type="button"
+                                      className="pc-btn-tiny"
+                                      disabled={!bagEditable}
+                                      onClick={() => onUseConsumable(item.id)}
+                                    >
+                                      Use
+                                    </button>
+                                  ) : null}
+                                </div>
                               </div>
-                              <div className="dt-bag-actions">
-                                {item.equippable && !item.equipped ? (
-                                  <button
-                                    type="button"
-                                    className="pc-btn-tiny"
-                                    disabled={!bagEditable}
-                                    onClick={() => onEquip(item.id)}
-                                  >
-                                    Equip
-                                  </button>
-                                ) : null}
-                                {item.consumable ? (
-                                  <button
-                                    type="button"
-                                    className="pc-btn-tiny"
-                                    disabled={!bagEditable}
-                                    onClick={() => onUseConsumable(item.id)}
-                                  >
-                                    Use
-                                  </button>
-                                ) : null}
-                              </div>
-                            </div>
-                          ))}
-                          {!loadout.bag.length ? (
-                            <p className="dt-section-hint">Bag empty — visit the peddler or dig.</p>
-                          ) : null}
+                            ))}
+                            {!loadout.bag.length ? (
+                              <p className="dt-section-hint">
+                                Bag empty — visit the peddler or dig.
+                              </p>
+                            ) : null}
+                          </div>
                         </div>
                       </>
                     );
@@ -1576,22 +1619,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
           {!world.endingId && tab === "gear" && me ? (
             <div className="dt-panel">
-              <DtBackBar
-                backs={[
-                  {
-                    label: "Camp",
-                    onClick: () => setTab("camp"),
-                    primary: true,
-                    disabled: !!world.battle,
-                  },
-                  {
-                    label: "Story",
-                    onClick: () => setTab("story"),
-                    disabled: !!world.battle,
-                  },
-                  { label: "Title", onClick: () => setPhase("title") },
-                ]}
-              />
+              <p className="dt-section-label">Gear · Full inventory</p>
               <InventoryPanel
                 char={me}
                 canEdit={!!mySlot && !battleActive}
@@ -1605,6 +1633,103 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               />
             </div>
           ) : null}
+
+          {me?.created ? (
+            <div className="dt-hero-panel" aria-label="Your hero">
+              <div className="dt-hero-portrait">
+                <DtHeroFigure
+                  look={normalizeDtHeroLook(me.dtLook, mySlot!)}
+                  className="dt-hero-panel-figure"
+                />
+              </div>
+              <div className="dt-hero-panel-body">
+                <p className="dt-section-label">
+                  {SLOT_DEFAULTS[mySlot!].displayName}
+                  {world.activeSlot === mySlot ? " · your turn" : ""}
+                </p>
+                <strong className="dt-hero-panel-name">{me.name}</strong>
+                <span className="dt-hero-panel-meta">
+                  Lv {me.level} · {CLASS_DEFS[me.classId].name} · {me.gold}g
+                </span>
+                <div className="dt-vitals dt-hero-vitals" aria-label="HP ST XP">
+                  <div className="dt-vital" data-kind="hp">
+                    <div className="dt-vital-head">
+                      <span className="dt-vital-label">HP</span>
+                      <strong className="dt-vital-num">
+                        {me.hp}/{me.maxHp}
+                      </strong>
+                    </div>
+                    <div className="dt-vital-bar">
+                      <span
+                        style={{
+                          width: `${Math.max(0, Math.min(100, Math.round((me.hp / Math.max(1, me.maxHp)) * 100)))}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="dt-vital" data-kind="stamina">
+                    <div className="dt-vital-head">
+                      <span className="dt-vital-label">ST</span>
+                      <strong className="dt-vital-num">
+                        {me.stamina}/{me.maxStamina}
+                      </strong>
+                    </div>
+                    <div className="dt-vital-bar">
+                      <span
+                        style={{
+                          width: `${Math.max(0, Math.min(100, Math.round((me.stamina / Math.max(1, me.maxStamina)) * 100)))}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                  {meXp ? (
+                    <div className="dt-vital" data-kind="xp">
+                      <div className="dt-vital-head">
+                        <span className="dt-vital-label">XP</span>
+                        <strong className="dt-vital-num">
+                          {meXp.into}/{meXp.need}
+                        </strong>
+                      </div>
+                      <div className="dt-vital-bar">
+                        <span style={{ width: `${meXp.pct}%` }} />
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          ) : null}
+
+          <div className="dt-party-row">
+            {PLAYER_SLOT_ORDER.map((slot) => (
+              <DtPartySeat
+                key={slot}
+                slot={slot}
+                char={world.characters[slot]}
+                isYou={slot === mySlot}
+                isTurn={world.activeSlot === slot}
+              />
+            ))}
+          </div>
+
+          <div className="dt-hud-bar" aria-live="polite">
+            <span className="dt-hud-block">
+              <span className="dt-hud-block-label">Slot</span>
+              <strong className="dt-hud-block-value">{activeSlotId}</strong>
+            </span>
+            <span className="dt-hud-block">
+              <span className="dt-hud-block-label">Playtime</span>
+              <strong className="dt-hud-block-value">{playHud}</strong>
+            </span>
+            <span className="dt-hud-block">
+              <span className="dt-hud-block-label">Frame</span>
+              <strong className="dt-hud-block-value">{world.framesAdvanced}</strong>
+            </span>
+            <span className="dt-hud-block">
+              <span className="dt-hud-block-label">Party</span>
+              <strong className="dt-hud-block-value">{sealedCount}/4</strong>
+            </span>
+          </div>
 
           {battleOpen && world.battle ? (
             <SimpleBattleOverlay
@@ -1910,7 +2035,7 @@ function CreateSeat({
               key={m.id}
               type="button"
               className="dt-btn"
-              data-primary={on ? "true" : "false"}
+              data-variant={on ? "primary" : "secondary"}
               onClick={() => {
                 setMagicIds((prev) => {
                   if (prev.includes(m.id)) return prev.filter((x) => x !== m.id);
@@ -1925,13 +2050,13 @@ function CreateSeat({
         })}
       </div>
       <div className="dt-actions">
-        <button type="button" className="dt-btn" data-primary="true" onClick={submit}>
+        <button type="button" className="dt-btn" data-variant="primary" onClick={submit}>
           Seal hero
         </button>
         <button type="button" className="dt-btn" onClick={quickSeal}>
           Quick seal defaults
         </button>
-        <button type="button" className="dt-btn" data-back="true" onClick={onCancel}>
+        <button type="button" className="dt-btn" data-variant="tertiary" onClick={onCancel}>
           ← Back to Title
         </button>
       </div>

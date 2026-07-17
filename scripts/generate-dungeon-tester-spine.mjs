@@ -28,7 +28,7 @@ const OUT_DIR = join(__dirname, "..", "data", "dungeon-tester");
 const OUT = join(OUT_DIR, "story-spine.json");
 const CHAPTERS_OUT = join(OUT_DIR, "chapters.json");
 
-const TARGET_HOURS = 30;
+const TARGET_HOURS = 34;
 const ENCOUNTER_CADENCE = {
   minFrames: 10,
   maxFrames: 20,
@@ -59,19 +59,19 @@ const CHAPTERS = [
     slug: "chain-road",
     title: "Chain-Road Dawn",
     tagline: "A numbered thrall is bought off a road of cages — and asked to kill for paper freedom.",
-    estimatedHours: 4,
+    estimatedHours: 4.5,
     levelMin: 1,
     levelMax: 8,
     fidelity: "thorough",
     enemyThemes: ["chain-orcs", "road-wargs", "cage-tenders", "brand-hounds"],
-    hoursHint: "Ashen papers · first warrant · Lira's name on a ledger",
+    hoursHint: "Ashen papers · first warrant · Lyra's name on a ledger",
   },
   {
     chapter: 2,
     slug: "dust-and-debt",
     title: "Dust and Debt",
     tagline: "Warrants pay in silver and scars while Quill teaches steel that answers to no collar.",
-    estimatedHours: 4,
+    estimatedHours: 4.5,
     levelMin: 6,
     levelMax: 14,
     fidelity: "thorough",
@@ -83,7 +83,7 @@ const CHAPTERS = [
     slug: "wanted-mark",
     title: "The Wanted Mark",
     tagline: "A carved brand leads east; friends and hunters argue over who owns the man who escaped.",
-    estimatedHours: 3,
+    estimatedHours: 3.5,
     levelMin: 12,
     levelMax: 20,
     fidelity: "thorough",
@@ -95,7 +95,7 @@ const CHAPTERS = [
     slug: "river-of-brands",
     title: "River of Brands",
     tagline: "Barges haul branded cargo across a mud-brown river the freeholds pretend not to see.",
-    estimatedHours: 3,
+    estimatedHours: 3.5,
     levelMin: 18,
     levelMax: 28,
     fidelity: "thorough",
@@ -107,7 +107,7 @@ const CHAPTERS = [
     slug: "candlemire-gates",
     title: "Candlemire Gates",
     tagline: "Lord Cade's border keeps smile for coin and iron for mercy; Lyra is somewhere past the smoke.",
-    estimatedHours: 3.5,
+    estimatedHours: 4,
     levelMin: 24,
     levelMax: 36,
     fidelity: "thorough",
@@ -119,7 +119,7 @@ const CHAPTERS = [
     slug: "house-of-collars",
     title: "House of Collars",
     tagline: "Guest rooms overlook yards of rings and numbers; friendship here is whispered at risk of skin.",
-    estimatedHours: 3.5,
+    estimatedHours: 4,
     levelMin: 32,
     levelMax: 44,
     fidelity: "thorough",
@@ -131,7 +131,7 @@ const CHAPTERS = [
     slug: "blood-mandolin",
     title: "Blood Mandolin",
     tagline: "Candlemire's sport pits fighters under lanterns while a mandolin keeps time with screams.",
-    estimatedHours: 3,
+    estimatedHours: 3.5,
     levelMin: 40,
     levelMax: 52,
     fidelity: "thorough",
@@ -143,7 +143,7 @@ const CHAPTERS = [
     slug: "liberation-march",
     title: "Liberation March",
     tagline: "Cages open. Brands break. The field that grew cane learns a different crop: uprising.",
-    estimatedHours: 3.5,
+    estimatedHours: 4,
     levelMin: 48,
     levelMax: 60,
     fidelity: "thorough",
@@ -155,7 +155,7 @@ const CHAPTERS = [
     slug: "free-horizon",
     title: "Free Horizon",
     tagline: "Roads west remember every foot that left a collar behind — and ask what freedom costs next.",
-    estimatedHours: 2.5,
+    estimatedHours: 3,
     levelMin: 55,
     levelMax: 70,
     fidelity: "thorough",
@@ -275,6 +275,19 @@ const CH1_LANDMARKS = [
     title: "Quill's Lesson",
     body: "“Steel answers collar-law better than ink,” Quill says, wiping ichor from the bolt like a clerk correcting a sum that insulted him. He drills stance, breath, and the difference between killing for a warrant and killing for rage — then takes a pull and adds, “Rage is fine. Just don’t let it hold the damn map. And don’t quit mid-swing.”",
     art: "quill-drill",
+  },
+  {
+    kind: "narrative",
+    title: "Warrant Grammar",
+    body: "Quill makes you read a blank warrant aloud until the clauses stop sounding like mercy — alive-if-possible, dead-if-necessary, property-of-no-man once the seal dries. “Paper is a leash that points both ways,” he drawls. “Hold your end. Don’t let Cade’s clerks invent the other.”",
+    art: "warrant-paper",
+    flagsAdd: ["warrant-grammar"],
+  },
+  {
+    kind: "narrative",
+    title: "Collar-Yard Rumor",
+    body: "A peddler swears Candlemire hangs rings by size, not by name — and that song-thralls get loft windows so buyers can hear before they bid. Quill does not drink to that. He drinks past it, scarred eye fixed east, and says only, “Then we learn loft latches.”",
+    art: "collar-off",
   },
   {
     kind: "choice",
@@ -520,12 +533,26 @@ const CH2_LANDMARKS = [
     art: "dust-school",
   },
   {
+    kind: "narrative",
+    title: "Marshal Mentors Mean",
+    body: "Halbrecht Quill corrects your draw the way a hangman corrects a knot — personally, without romance. “Pretty form gets you buried neat,” he says, flask tapping your wrist freemark. “Ugly form gets you home — choose ugly, choose stubborn, and don’t quit when the powder fouls.”",
+    art: "quill-drill",
+    flagsAdd: ["quill-mentor"],
+  },
+  {
     kind: "encounter",
     title: "Bounty Thieves",
     body: "Men who hunt binders for their warrant purses leap the paddock fence smelling of ale and other people’s funerals. Quill says quietly, “Do not die for practice. Die for something with better punctuation.”",
     enemy: "Bounty Purse-Cutters",
     theme: "bounty-thieves",
     art: "purse-cutter",
+  },
+  {
+    kind: "narrative",
+    title: "Yard Prices",
+    body: "A Freemark widow lists Candlemire collar-yard prices like weather: song-thralls high, fighters mid, children discounted if quiet. She does not weep. Quill pays for the list anyway, stamps it into your coat, and mutters that markets this polite deserve a warrant with teeth.",
+    art: "warrant-paper",
+    flagsAdd: ["yard-prices"],
   },
   {
     kind: "narrative",
@@ -743,19 +770,19 @@ function expandLandmarkToFrame(lm, id, nextId, chapter, level, seed = 0) {
 }
 
 /**
- * Target frame counts (~30h). Slight bump for road choices + set pieces;
- * quality upgrades preferred over runaway length.
+ * Target frame counts (~32–34h). Lengthened with authored landmarks + set pieces;
+ * connective stays unique vignettes, not sentence-spam.
  */
 const TARGET_FRAMES = {
-  1: 96,
-  2: 96,
-  3: 68,
-  4: 68,
-  5: 72,
-  6: 72,
-  7: 68,
-  8: 72,
-  9: 62,
+  1: 118,
+  2: 118,
+  3: 88,
+  4: 88,
+  5: 92,
+  6: 92,
+  7: 88,
+  8: 92,
+  9: 80,
 };
 
 function buildThoroughChapter(meta, landmarks) {
@@ -794,30 +821,42 @@ function buildThoroughChapter(meta, landmarks) {
   const plan = [];
   let seed = meta.chapter * 1000;
   let specialIdx = 0;
+  /** Scripted ambushes between landmarks — keep inside 10–20 frame cadence. */
+  const ambushEvery = 14;
+  let sinceAmbush = 0;
+  const pushAmbushOrConnective = () => {
+    seed++;
+    if (sinceAmbush >= ambushEvery) {
+      plan.push({ type: "encounter", seed });
+      sinceAmbush = 0;
+    } else {
+      plan.push({ type: "connective", seed });
+      sinceAmbush++;
+    }
+  };
   for (let i = 0; i < coreLandmarks.length; i++) {
-    plan.push({ type: "landmark", lm: coreLandmarks[i] });
+    const lm = coreLandmarks[i];
+    plan.push({ type: "landmark", lm });
+    if (lm.kind === "encounter") sinceAmbush = 0;
+    else sinceAmbush++;
     if (i < coreLandmarks.length - 1) {
       for (let j = 0; j < slotsBetween; j++) {
-        seed++;
         // Insert sparse road choices / set pieces mid-connective.
         if (specialIdx < specialBeats.length && (j === 2 || j === Math.floor(slotsBetween / 2))) {
           plan.push(specialBeats[specialIdx++]);
+          sinceAmbush++;
           continue;
         }
-        if (j > 0 && j % 12 === 0) {
-          plan.push({ type: "encounter", seed });
-        } else {
-          plan.push({ type: "connective", seed });
-        }
+        pushAmbushOrConnective();
       }
     }
   }
   while (specialIdx < specialBeats.length && plan.length < coreTarget) {
     plan.push(specialBeats[specialIdx++]);
+    sinceAmbush++;
   }
   while (plan.length < coreTarget) {
-    seed++;
-    plan.push({ type: "connective", seed });
+    pushAmbushOrConnective();
   }
   if (plan.length > coreTarget) plan.length = coreTarget;
   if (finaleLm) plan.push({ type: "landmark", lm: finaleLm });
@@ -991,7 +1030,7 @@ function validate(nodes, chapters) {
   }
 
   const hours = chapters.reduce((s, c) => s + c.estimatedHours, 0);
-  if (hours < 28 || hours > 32) throw new Error(`Hours out of range: ${hours}`);
+  if (hours < 28 || hours > 36) throw new Error(`Hours out of range: ${hours}`);
 
   return hours;
 }

@@ -19,8 +19,8 @@
     {
       "id": "dt-ch01-002",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Collar Echo",
-      "body": "Marshal Halbrecht Quill lights a match off a warrant nail, drinks, and looks almost human. Freedom still feels like hunger wearing better boots. West is a rumor; east is a debt with a smile.",
+      "title": "Chain-Road Dawn: Flask Sermon",
+      "body": "Road dust writes temporary freemarks on every boot. Memory of cages arrives uninvited, then leaves when named. Ash does not quit, and Quill notices, drinks, and almost approves.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -29,8 +29,8 @@
     {
       "id": "dt-ch01-003",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Warrant Weather",
-      "body": "Camp smoke writes temporary law across the pines. Tonight’s camp will argue theology with mosquitoes and memory. Quill packs the silence like powder — dry, useful, dangerous.",
+      "title": "Chain-Road Dawn: Yard Gossip",
+      "body": "Powder grit under your nail smells like unfinished court. You practice stance until rage becomes usable instead of loud. Freedom keeps charging rent — pay it in miles.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -127,8 +127,8 @@
     {
       "id": "dt-ch01-006",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Ash Aside",
-      "body": "Steel rides light; the flask in Quill’s coat does not. You catch yourself walking like cargo that learned a verb. Continue — soft roads make soft collars again.",
+      "title": "Chain-Road Dawn: Seal Weather",
+      "body": "Heat makes the freemark itch like unfinished business. Your wrist freemark itches whenever eyes linger too long. Quill packs the silence like powder — dry, useful, dangerous.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -137,8 +137,8 @@
     {
       "id": "dt-ch01-007",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Quill's Aside",
-      "body": "Lyra’s name sits behind your teeth like a loaded prayer. Quill drawls, “Paper freedom first. Real freedom files later. Don’t quit in between.” Another frame turns like a dusty page with teeth.",
+      "title": "Chain-Road Dawn: Powder Prayer",
+      "body": "A child’s chalk freemark on a fence post has already been scrubbed. Quill says, “Pretty country. Ugly ownership. Pass the damn bottle.” Collar mud still clings; freemark ink is drying on purpose.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -147,28 +147,28 @@
     {
       "id": "dt-ch01-008",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "The Binder Arrives",
-      "body": "A lean marshal in travel-stained grey tips a ruined hat to the overseer like a man haggling over mule feed and mildly disappointing weather. Halbrecht Quill — freehold marshal, warrant binder, one scarred eye that never quite closes on a lie — pays coin for your papers without looking away. “Pretty muscle,” he drawls, whiskey still on the breath. “Ugly price. I’ll take the stubborn one.”",
+      "title": "Chain-Road Dawn: Stubborn Mile",
+      "body": "Marshal Halbrecht Quill lights a match off a warrant nail, drinks, and looks almost human. Road vermin sell water and buy stories about numbered men who would not quit. Ash sets the pace like a man owed a name and too stubborn to renegotiate.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-quill-hat",
+      "artId": "art-dt-chain-road",
       "next": "dt-ch01-009"
     },
     {
       "id": "dt-ch01-009",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Cane Wind",
-      "body": "Lyra’s name sits behind your teeth like a loaded prayer. Freedom still feels like hunger wearing better boots. Steel rests light; resolve does not.",
+      "title": "The Binder Arrives",
+      "body": "A lean marshal in travel-stained grey tips a ruined hat to the overseer like a man haggling over mule feed and mildly disappointing weather. Halbrecht Quill — freehold marshal, warrant binder, one scarred eye that never quite closes on a lie — pays coin for your papers without looking away. “Pretty muscle,” he drawls, whiskey still on the breath. “Ugly price. I’ll take the stubborn one.”",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
+      "artId": "art-dt-quill-hat",
       "next": "dt-ch01-010"
     },
     {
       "id": "dt-ch01-010",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Dust Mile",
-      "body": "Quill buys your freedom like a man purchasing a complicated knife — and a headache. The next mile pretends to be empty and fails the audition. Night takes attendance; you answer as a freeman.",
+      "title": "Chain-Road Dawn: Ring Memory",
+      "body": "Wind carries iron smell farther than any honest voice. Somewhere east, ink still invents people into inventory. Continue — soft roads make soft collars again.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -177,38 +177,38 @@
     {
       "id": "dt-ch01-011",
       "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: East Debt",
+      "body": "Overseer laughter carries farther than any hymn on this road. Freedom still feels like hunger wearing better boots. Paper in your coat weighs less than iron and more than sleep.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-012"
+    },
+    {
+      "id": "dt-ch01-012",
+      "chapterId": "dt-ch-01-chain-road",
       "title": "Quill Names the Work",
       "body": "“I buy thralls who can ruin the men who sold them,” Quill says, not unkind, flask catching firelight. “If that offends your poetry, walk. If it fits your teeth, load — and if you quit mid-road, I’ll leave you for the crows with a receipt.” Ash loads.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-quill-hat",
-      "next": "dt-ch01-012"
+      "next": "dt-ch01-013"
     },
     {
-      "id": "dt-ch01-012",
+      "id": "dt-ch01-013",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Vern's Joke",
       "body": "A traveler repeats Vern’s favorite joke about unpaid tribute and burned kitchens. Nobody laughs. Quill tips the man a copper for the geography hidden in the cruelty, then mutters that hell of a comedian still makes hell of a warrant.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-warrant-vern",
-      "next": "dt-ch01-013"
-    },
-    {
-      "id": "dt-ch01-013",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Old Hunger",
-      "body": "Lyra’s name sits behind your teeth like a loaded prayer. Road vermin sell water and buy stories about numbered men who would not quit. The cane smell thickens like a dare.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
       "next": "dt-ch01-014"
     },
     {
       "id": "dt-ch01-014",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Freemark Thoughts",
-      "body": "Ash tastes copper on the wind and does not flinch. Quill says, “Pretty country. Ugly ownership. Pass the damn bottle.” Quill tips his ruined hat at unfinished justice and takes a pull.",
+      "title": "Chain-Road Dawn: Dust Mile",
+      "body": "Camp smoke writes temporary law across the pines. You check the freemark and find it still yours — for now. The Wilderland watches and keeps its receipts.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -216,6 +216,28 @@
     },
     {
       "id": "dt-ch01-015",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Road Wargs Ambush",
+      "body": "Bootleather remembers every mile better than maps ever will. A hanged poster of your face lies about the eyes — always the eyes. You walk because the alternative still smells like rust — and quit is not a word you own. Then road wargs force the issue — a roadside lesson Quill refuses to skip.",
+      "kind": "encounter",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-road-wargs",
+      "enemyTheme": "road-wargs",
+      "battleFoeId": "dust-trail-warg",
+      "next": "dt-ch01-016"
+    },
+    {
+      "id": "dt-ch01-016",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Road Hygiene",
+      "body": "A warrant nail still bleeds pine sap where paper used to hang. Ash rolls a shoulder that still remembers iron’s manners. Somewhere east, a ledger page waits to be rewritten.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-017"
+    },
+    {
+      "id": "dt-ch01-017",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Paper Freedom",
       "body": "Quill slides a stamped sheet across the wagon board and uncorks a dented flask like punctuation. Freedom on parchment, conditional as a hangman’s courtesy: hunt the guilty he names, keep steel sharp, ask no soft questions. “Say yes,” he offers, almost kindly, “or climb back into inventory. I don’t do poetry, and I don’t ride with quitters.”",
@@ -226,7 +248,7 @@
         {
           "id": "ch1-accept",
           "label": "Take the warrant path",
-          "next": "dt-ch01-016",
+          "next": "dt-ch01-018",
           "approach": "Accept conditional freedom; work for Quill.",
           "flagsAdd": [
             "quill-ally",
@@ -236,7 +258,7 @@
         {
           "id": "ch1-bargain",
           "label": "Bargain for a name first",
-          "next": "dt-ch01-016",
+          "next": "dt-ch01-018",
           "approach": "Ask whose name this work is really for.",
           "flagsAdd": [
             "quill-ally",
@@ -245,7 +267,7 @@
           ],
           "stat": "charisma",
           "dc": 10,
-          "nextFail": "dt-ch01-016",
+          "nextFail": "dt-ch01-018",
           "failFlagsAdd": [
             "quill-ally",
             "papers-accepted"
@@ -254,7 +276,7 @@
         {
           "id": "ch1-test",
           "label": "Test the man's honesty",
-          "next": "dt-ch01-016",
+          "next": "dt-ch01-018",
           "approach": "Watch for a twitch that says he buys thralls for worse work.",
           "flagsAdd": [
             "quill-ally",
@@ -263,7 +285,7 @@
           ],
           "stat": "wisdom",
           "dc": 11,
-          "nextFail": "dt-ch01-016",
+          "nextFail": "dt-ch01-018",
           "failFlagsAdd": [
             "quill-ally",
             "papers-accepted",
@@ -273,30 +295,10 @@
       ]
     },
     {
-      "id": "dt-ch01-016",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Ledger Weather",
-      "body": "Quill hums a tune that never finishes the same way twice. A joke dies mid-laugh when Cade’s check appears on a sleeve. The next mile does not apologize.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-017"
-    },
-    {
-      "id": "dt-ch01-017",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Steel Practice",
-      "body": "Somebody buried a whip and marked the dirt with hope. Ash keeps counsel; Quill keeps a ledger of silences and a flask of worse truths. Ash sets the pace like a man owed a name and too stubborn to renegotiate.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-018"
-    },
-    {
       "id": "dt-ch01-018",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Night Watch",
-      "body": "A child’s chalk freemark on a fence post has already been scrubbed. Quill drawls, “Paper freedom first. Real freedom files later. Don’t quit in between.” Another frame turns like a dusty page with teeth.",
+      "title": "Chain-Road Dawn: Old Hunger",
+      "body": "Dust lifts off the track in pale sheets that lie for a living. A freemark widow sells directions and warnings in the same sentence. Chain-Road shrinks behind you like a bad religion losing believers.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -305,8 +307,8 @@
     {
       "id": "dt-ch01-019",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Iron Humor",
-      "body": "Ash tastes copper on the wind and does not flinch. Tracks braid, unbraid, and lie with professional cheer. Lyra’s sale date ticks quieter than a clock and louder than fear.",
+      "title": "Chain-Road Dawn: Freemark Thoughts",
+      "body": "Cage wheels still squeak in the memory of your spine. Ash keeps counsel; Quill keeps a ledger of silences and a flask of worse truths. Night takes attendance; you answer as a freeman.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -315,18 +317,18 @@
     {
       "id": "dt-ch01-020",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Collar Echo",
-      "body": "A hanged scarecrow wears Cade’s check like a joke that landed. Quill says, “Pretty country. Ugly ownership. Pass the damn bottle.” West is a rumor; east is a debt with a smile.",
+      "title": "Nine-Mark Burial",
+      "body": "Quill has you scratch Nine-Mark into roadside dirt and kick it apart. “Numbers are cages that fit in a mouth,” he says. “Answer to Ash, freemark, Lyra — never inventory. And don’t you quit back into a digit.”",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
+      "artId": "art-dt-freeman-mark",
       "next": "dt-ch01-021"
     },
     {
       "id": "dt-ch01-021",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Warrant Weather",
-      "body": "Wagon ruts braid into a grammar only hunters read fluently. The road offers three bad choices and one worse delay. Dust settles on everything except the vow.",
+      "title": "Chain-Road Dawn: Ledger Weather",
+      "body": "Somebody buried a whip and marked the dirt with hope. Quill mutters law under his breath like a protective curse, then swears for emphasis. You spit iron taste and keep the freemark facing out.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -334,6 +336,36 @@
     },
     {
       "id": "dt-ch01-022",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Steel Practice",
+      "body": "A hanged scarecrow wears Cade’s check like a joke that landed. Ash learns freeman posture: chin up, exits counted, no bowing to seals. Dust settles on everything except the vow.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-023"
+    },
+    {
+      "id": "dt-ch01-023",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Night Watch",
+      "body": "A roadside shrine wears three names and one empty nail. The road offers three bad choices and one worse delay. Somewhere a cage door practices its last slam.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-024"
+    },
+    {
+      "id": "dt-ch01-024",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Iron Humor",
+      "body": "Quill’s ruined hat casts a verdict-shaped shadow. Quill’s crossbow speaks better law than half the magistrates east — and swears better too. Quill tips his ruined hat at unfinished justice and takes a pull.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-025"
+    },
+    {
+      "id": "dt-ch01-025",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Collar Off",
       "body": "The overseer pries the collar with a hooked key that smells of rust, old sweat, and other people’s surrender. Skin burns where iron sat for seasons. Quill tosses the ring into roadside mud like trash that once owned a man — then grinds it under his heel, just to be thorough.",
@@ -343,43 +375,13 @@
       "flagsAdd": [
         "collar-off"
       ],
-      "next": "dt-ch01-023"
-    },
-    {
-      "id": "dt-ch01-023",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Hard Mercy",
-      "body": "Ash tastes copper on the wind and does not flinch. A road-vermin kid offers directions priced in half-truths. Quill files Lowhedge under “paid in blood or nearly” and takes a pull.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-024"
-    },
-    {
-      "id": "dt-ch01-024",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Vermin Bargain",
-      "body": "The road offers a fork that is really a dare. Quill files every kindness under “possibly tactical” and drinks to the filing. Another frame turns like a dusty page with teeth.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-025"
-    },
-    {
-      "id": "dt-ch01-025",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Ash Aside",
-      "body": "Ash tastes copper on the wind and does not flinch. Freedom still feels like hunger wearing better boots. Continue — soft roads make soft collars again.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
       "next": "dt-ch01-026"
     },
     {
       "id": "dt-ch01-026",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Quill's Aside",
-      "body": "Ash tastes copper on the wind and does not flinch. Quill’s tea tastes like boiled warrants, patience, and whiskey that lost an argument. You walk because the alternative still smells like rust — and quit is not a word you own.",
+      "title": "Chain-Road Dawn: Collar Echo",
+      "body": "Your shadow arrives first and looks less free than you feel. A cage-tender spit misses your boots by manners, not mercy. The road keeps its receipts in blood and dust alike.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -388,8 +390,8 @@
     {
       "id": "dt-ch01-027",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Cane Wind",
-      "body": "A hanged scarecrow wears Cade’s check like a joke that landed. Quill files every kindness under “possibly tactical” and drinks to the filing. You spit iron taste and keep the freemark facing out.",
+      "title": "Chain-Road Dawn: Warrant Weather",
+      "body": "Two riders tip hats too friendly for the hour. Ash counts exits without moving his mouth — old habit, good habit. You walk west, then south, then wherever vengeance keeps maps — stubborn as weather.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -398,8 +400,8 @@
     {
       "id": "dt-ch01-028",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Dust Mile",
-      "body": "Quill’s hat brim cuts the sun into a usable blade; the scarred eye does the rest. A road-vermin kid offers directions priced in half-truths. Night takes attendance; you answer as a freeman.",
+      "title": "Chain-Road Dawn: Hard Mercy",
+      "body": "Quill’s hat brim cuts the sun into a usable blade; the scarred eye does the rest. You rehearse Lyra’s name until it stops sounding like a bruise. Road vermin scatter; serious hunters do not.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -408,28 +410,30 @@
     {
       "id": "dt-ch01-029",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "First Mile Free",
-      "body": "Boots that never chose a direction now choose west, then south, at Quill’s nudge. Crows watch the cages dwindle and look personally offended. Freedom feels like hunger with better manners and a loaded crossbow for a chaperone.",
+      "title": "Chain-Road Dawn: Vermin Bargain",
+      "body": "Crows argue over something dead you hope is not destiny. The Wilderland watches and declines to explain itself. West is a rumor; east is a debt with a smile.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-road-west",
+      "artId": "art-dt-chain-road",
       "next": "dt-ch01-030"
     },
     {
       "id": "dt-ch01-030",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Quiet Counsel",
-      "body": "Lyra’s name sits behind your teeth like a loaded prayer. Road vermin sell water and buy stories about numbered men who would not quit. You walk on because stopping is how numbers return.",
-      "kind": "narrative",
+      "title": "Road Wargs Ambush",
+      "body": "The collar scar itches when ox-wains pass — muscle memory of inventory. The next mile pretends to be empty and fails the audition. Somewhere a collar yard waits to learn a different inventory: revolt. Then road wargs force the issue — a roadside lesson Quill refuses to skip.",
+      "kind": "encounter",
       "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
+      "artId": "art-dt-road-wargs",
+      "enemyTheme": "road-wargs",
+      "battleFoeId": "dust-trail-warg",
       "next": "dt-ch01-031"
     },
     {
       "id": "dt-ch01-031",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Road Hygiene",
-      "body": "A creek argues with stones like a tired magistrate on half pay. A road-vermin kid offers directions priced in half-truths. Lyra’s sale date ticks quieter than a clock and louder than fear.",
+      "title": "Chain-Road Dawn: Quill's Aside",
+      "body": "Distant cane fields clap like soft applause for bad systems. Vern’s ledger scrap burns colder than any campfire comfort. Quill files Lowhedge under “paid in blood or nearly” and takes a pull.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -438,8 +442,8 @@
     {
       "id": "dt-ch01-032",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Old Hunger",
-      "body": "Chain-Road mist sits on the world like damp wool and worse math. Ash refuses to romanticize the road; the road returns the favor. Night takes attendance; you answer as a freeman.",
+      "title": "Chain-Road Dawn: Cane Wind",
+      "body": "A dead mule teaches economics better than any clerk. You practice not answering to a number when strangers call. You walk on because stopping is how numbers return.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -448,18 +452,18 @@
     {
       "id": "dt-ch01-033",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Freemark Thoughts",
-      "body": "Heat makes the freemark itch like unfinished business. Somewhere east, ink still invents people into inventory. The next mile does not apologize.",
+      "title": "First Mile Free",
+      "body": "Boots that never chose a direction now choose west, then south, at Quill’s nudge. Crows watch the cages dwindle and look personally offended. Freedom feels like hunger with better manners and a loaded crossbow for a chaperone.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
+      "artId": "art-dt-road-west",
       "next": "dt-ch01-034"
     },
     {
       "id": "dt-ch01-034",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Ledger Weather",
-      "body": "Overseer laughter carries farther than any hymn on this road. Dust becomes a third companion with poor hygiene and worse jokes. Quill files Lowhedge under “paid in blood or nearly” and takes a pull.",
+      "title": "Chain-Road Dawn: Binder Math",
+      "body": "Nine-Mark is a name you are actively murdering with each mile. A joke dies mid-laugh when Cade’s check appears on a sleeve. Steel rests light; resolve does not.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -468,8 +472,8 @@
     {
       "id": "dt-ch01-035",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Steel Practice",
-      "body": "Bootleather remembers every mile better than maps ever will. Quill’s tea tastes like boiled warrants, patience, and whiskey that lost an argument. Somewhere east, a ledger page waits to be rewritten.",
+      "title": "Chain-Road Dawn: Flask Sermon",
+      "body": "The Wilderland files today’s silence under “pending violence.” Ash refuses to romanticize the road; the road returns the favor. Freedom keeps charging rent — pay it in miles.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -478,20 +482,18 @@
     {
       "id": "dt-ch01-036",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Orc Chainers",
-      "body": "Three chain-orcs peel from the pine edge, still smelling of the cages they sold this morning. They want their property returned with interest. Quill calmly loads a crossbow and drawls, “Show them the paperwork is yours — and that the warranty expired.”",
-      "kind": "encounter",
+      "title": "Chain-Road Dawn: Yard Gossip",
+      "body": "Quill counts cartridges the way priests count sins — carefully, then drinks anyway. You check the freemark and find it still yours — for now. Paper freedom first; real freedom files later — Quill’s oldest sermon.",
+      "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-orc-chainer",
-      "enemyTheme": "chain-orcs",
-      "battleFoeId": "thorn-clan-skirmisher",
+      "artId": "art-dt-chain-road",
       "next": "dt-ch01-037"
     },
     {
       "id": "dt-ch01-037",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Night Watch",
-      "body": "Ash tastes copper on the wind and does not flinch. Quill files every kindness under “possibly tactical” and drinks to the filing. Steel rests light; resolve does not.",
+      "title": "Chain-Road Dawn: Seal Weather",
+      "body": "Night insects keep score of every secret step you still take. Quill drawls that quitters make excellent fertilizer and worse freemen. You spit iron taste and keep the freemark facing out.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -500,8 +502,8 @@
     {
       "id": "dt-ch01-038",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Iron Humor",
-      "body": "Chain-Road mist sits on the world like damp wool and worse math. A joke dies mid-laugh when Cade’s check appears on a sleeve. Quill packs the silence like powder — dry, useful, dangerous.",
+      "title": "Chain-Road Dawn: Powder Prayer",
+      "body": "Wagon ruts braid into a grammar only hunters read fluently. Somewhere a horn asks a question steel usually answers. Chain-Road shrinks behind you like a bad religion losing believers.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -510,8 +512,8 @@
     {
       "id": "dt-ch01-039",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Collar Echo",
-      "body": "Rain finds the places where collars used to teach posture. A hanged poster of your face lies about the eyes — always the eyes. The cane smell thickens like a dare.",
+      "title": "Chain-Road Dawn: Stubborn Mile",
+      "body": "Quill hums a tune that never finishes the same way twice. Your wrist freemark itches whenever eyes linger too long. Lyra’s sale date ticks quieter than a clock and louder than fear.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -520,8 +522,8 @@
     {
       "id": "dt-ch01-040",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Warrant Weather",
-      "body": "Two riders tip hats too friendly for the hour. You practice not answering to a number when strangers call. The Wilderland watches and keeps its receipts.",
+      "title": "Chain-Road Dawn: Ring Memory",
+      "body": "Quill’s ruined hat casts a verdict-shaped shadow. Rations taste like postponement, pepper, and old promises. Another frame turns like a dusty page with teeth.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -530,18 +532,20 @@
     {
       "id": "dt-ch01-041",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Hard Mercy",
-      "body": "Quill buys your freedom like a man purchasing a complicated knife — and a headache. Dust becomes a third companion with poor hygiene and worse jokes. The cane smell thickens like a dare.",
-      "kind": "narrative",
+      "title": "Orc Chainers",
+      "body": "Three chain-orcs peel from the pine edge, still smelling of the cages they sold this morning. They want their property returned with interest. Quill calmly loads a crossbow and drawls, “Show them the paperwork is yours — and that the warranty expired.”",
+      "kind": "encounter",
       "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
+      "artId": "art-dt-orc-chainer",
+      "enemyTheme": "chain-orcs",
+      "battleFoeId": "thorn-clan-skirmisher",
       "next": "dt-ch01-042"
     },
     {
       "id": "dt-ch01-042",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Vermin Bargain",
-      "body": "Clouds drag shadows across cane-colored grass like slow warrants. Your wrist freemark itches whenever eyes linger too long. The cane smell thickens like a dare.",
+      "title": "Chain-Road Dawn: East Debt",
+      "body": "Lyra’s name sits behind your teeth like a loaded prayer. Dust becomes a third companion with poor hygiene and worse jokes. The road keeps its receipts in blood and dust alike.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -550,18 +554,18 @@
     {
       "id": "dt-ch01-043",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Quill's Lesson",
-      "body": "“Steel answers collar-law better than ink,” Quill says, wiping ichor from the bolt like a clerk correcting a sum that insulted him. He drills stance, breath, and the difference between killing for a warrant and killing for rage — then takes a pull and adds, “Rage is fine. Just don’t let it hold the damn map. And don’t quit mid-swing.”",
+      "title": "Chain-Road Dawn: Dust Mile",
+      "body": "A freeman laughs too loud, then checks who heard him. You trade a story for water and keep the ending private. The Wilderland watches and keeps its receipts.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-quill-drill",
+      "artId": "art-dt-chain-road",
       "next": "dt-ch01-044"
     },
     {
       "id": "dt-ch01-044",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Ash Aside",
-      "body": "Overseer laughter carries farther than any hymn on this road. Vern’s ledger scrap burns colder than any campfire comfort. You walk because the alternative still smells like rust — and quit is not a word you own.",
+      "title": "Chain-Road Dawn: Quiet Counsel",
+      "body": "Quill buys your freedom like a man purchasing a complicated knife — and a headache. Tracks braid, unbraid, and lie with professional cheer. Quill files Lowhedge under “paid in blood or nearly” and takes a pull.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -570,8 +574,8 @@
     {
       "id": "dt-ch01-045",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Quill's Aside",
-      "body": "Clouds drag shadows across cane-colored grass like slow warrants. A hanged poster of your face lies about the eyes — always the eyes. Paper in your coat weighs less than iron and more than sleep.",
+      "title": "Chain-Road Dawn: Road Hygiene",
+      "body": "East wind brings sugar lies and iron honesty in the same breath. A road-vermin kid offers directions priced in half-truths. Somewhere east, a ledger page waits to be rewritten.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -580,8 +584,8 @@
     {
       "id": "dt-ch01-046",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Cane Wind",
-      "body": "Camp smoke writes temporary law across the pines. Quill’s crossbow speaks better law than half the magistrates east — and swears better too. Quill nods toward the darker horizon without ceremony.",
+      "title": "Chain-Road Dawn: Old Hunger",
+      "body": "Clouds drag shadows across cane-colored grass like slow warrants. Road vermin sell water and buy stories about numbered men who would not quit. Lyra’s name leaves your mouth without shaking — progress, of a kind.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -590,8 +594,8 @@
     {
       "id": "dt-ch01-047",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Dust Mile",
-      "body": "Bootleather remembers every mile better than maps ever will. Tracks braid, unbraid, and lie with professional cheer. Dust settles on everything except the vow.",
+      "title": "Chain-Road Dawn: Freemark Thoughts",
+      "body": "A collar ring half-buried in mud still remembers a neck. Somewhere east, ink still invents people into inventory. Ash sets the pace like a man owed a name and too stubborn to renegotiate.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -600,8 +604,8 @@
     {
       "id": "dt-ch01-048",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Quiet Counsel",
-      "body": "Your shadow arrives first and looks less free than you feel. Tracks braid, unbraid, and lie with professional cheer. You walk because the alternative still smells like rust — and quit is not a word you own.",
+      "title": "Chain-Road Dawn: Ledger Weather",
+      "body": "The road offers a fork that is really a dare. Ash rolls a shoulder that still remembers iron’s manners. Continue — soft roads make soft collars again.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -610,15 +614,252 @@
     {
       "id": "dt-ch01-049",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Road Hygiene",
-      "body": "Wind carries iron smell farther than any honest voice. Road vermin sell water and buy stories about numbered men who would not quit. Quill nods toward the darker horizon without ceremony.",
+      "title": "Quill's Lesson",
+      "body": "“Steel answers collar-law better than ink,” Quill says, wiping ichor from the bolt like a clerk correcting a sum that insulted him. He drills stance, breath, and the difference between killing for a warrant and killing for rage — then takes a pull and adds, “Rage is fine. Just don’t let it hold the damn map. And don’t quit mid-swing.”",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
+      "artId": "art-dt-quill-drill",
       "next": "dt-ch01-050"
     },
     {
       "id": "dt-ch01-050",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Steel Practice",
+      "body": "Your shadow arrives first and looks less free than you feel. Tonight’s camp will argue theology with mosquitoes and memory. Night takes attendance; you answer as a freeman.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-051"
+    },
+    {
+      "id": "dt-ch01-051",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Night Watch",
+      "body": "Powder grit under your nail smells like unfinished court. Memory of cages arrives uninvited, then leaves when named. The cane smell thickens like a dare.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-052"
+    },
+    {
+      "id": "dt-ch01-052",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Iron Humor",
+      "body": "A warrant nail still bleeds pine sap where paper used to hang. Quill’s scarred eye never quite closes on a lie — useful, exhausting, honest. You walk west, then south, then wherever vengeance keeps maps — stubborn as weather.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-053"
+    },
+    {
+      "id": "dt-ch01-053",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Collar Echo",
+      "body": "Two riders tip hats too friendly for the hour. Hope and suspicion share the same waterskin without apology. Quill tips his ruined hat at unfinished justice and takes a pull.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-054"
+    },
+    {
+      "id": "dt-ch01-054",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Warrant Weather",
+      "body": "Heat makes the freemark itch like unfinished business. Continue is the only honest verb left, and even it hesitates — Ash does not. You walk because the alternative still smells like rust — and quit is not a word you own.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-055"
+    },
+    {
+      "id": "dt-ch01-055",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Hard Mercy",
+      "body": "A freeman laughs too loud, then checks who heard him. Quill files every kindness under “possibly tactical” and drinks to the filing. Paper in your coat weighs less than iron and more than sleep.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-056"
+    },
+    {
+      "id": "dt-ch01-056",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain Orcs Ambush",
+      "body": "Camp smoke writes temporary law across the pines. Collar-yard gossip rides cheaper than truth and farther than mercy. Collar mud still clings; freemark ink is drying on purpose. Then chain orcs force the issue — a roadside lesson Quill refuses to skip.",
+      "kind": "encounter",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-orcs",
+      "enemyTheme": "chain-orcs",
+      "battleFoeId": "thorn-clan-skirmisher",
+      "next": "dt-ch01-057"
+    },
+    {
+      "id": "dt-ch01-057",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Warrant Grammar",
+      "body": "Quill makes you read a blank warrant aloud until the clauses stop sounding like mercy — alive-if-possible, dead-if-necessary, property-of-no-man once the seal dries. “Paper is a leash that points both ways,” he drawls. “Hold your end. Don’t let Cade’s clerks invent the other.”",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-warrant-paper",
+      "flagsAdd": [
+        "warrant-grammar"
+      ],
+      "next": "dt-ch01-058"
+    },
+    {
+      "id": "dt-ch01-058",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Ash Aside",
+      "body": "Road dust writes temporary freemarks on every boot. Quill’s crossbow speaks better law than half the magistrates east — and swears better too. Quill nods toward the darker horizon without ceremony.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-059"
+    },
+    {
+      "id": "dt-ch01-059",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Quill's Aside",
+      "body": "A creek argues with stones like a tired magistrate on half pay. You practice stance until rage becomes usable instead of loud. West is a rumor; east is a debt with a smile.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-060"
+    },
+    {
+      "id": "dt-ch01-060",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Cane Wind",
+      "body": "Quill counts cartridges the way priests count sins — carefully, then drinks anyway. A thrall brand on a fence rail dares you to look away. Somewhere a collar yard waits to learn a different inventory: revolt.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-061"
+    },
+    {
+      "id": "dt-ch01-061",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Binder Math",
+      "body": "Quill hums a tune that never finishes the same way twice. Freedom still feels like hunger wearing better boots. Road vermin scatter; serious hunters do not.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-062"
+    },
+    {
+      "id": "dt-ch01-062",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Flask Sermon",
+      "body": "Your shadow arrives first and looks less free than you feel. A freemark widow sells directions and warnings in the same sentence. The next mile does not apologize.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-063"
+    },
+    {
+      "id": "dt-ch01-063",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Yard Gossip",
+      "body": "Quill’s hat brim cuts the sun into a usable blade; the scarred eye does the rest. Ash learns freeman posture: chin up, exits counted, no bowing to seals. Dust settles on everything except the vow.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-064"
+    },
+    {
+      "id": "dt-ch01-064",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Seal Weather",
+      "body": "Steel rides light; the flask in Quill’s coat does not. Quill mutters law under his breath like a protective curse, then swears for emphasis. The road keeps its receipts in blood and dust alike.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-065"
+    },
+    {
+      "id": "dt-ch01-065",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Collar-Yard Rumor",
+      "body": "A peddler swears Candlemire hangs rings by size, not by name — and that song-thralls get loft windows so buyers can hear before they bid. Quill does not drink to that. He drinks past it, scarred eye fixed east, and says only, “Then we learn loft latches.”",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-collar-off",
+      "next": "dt-ch01-066"
+    },
+    {
+      "id": "dt-ch01-066",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Powder Prayer",
+      "body": "Marshal Halbrecht Quill lights a match off a warrant nail, drinks, and looks almost human. Quill drawls, “Paper freedom first — real freedom files later — don’t quit in between.” Paper freedom first; real freedom files later — Quill’s oldest sermon.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-067"
+    },
+    {
+      "id": "dt-ch01-067",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Stubborn Mile",
+      "body": "A dead mule teaches economics better than any clerk. The Wilderland watches and declines to explain itself. Lyra’s sale date ticks quieter than a clock and louder than fear.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-068"
+    },
+    {
+      "id": "dt-ch01-068",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Ring Memory",
+      "body": "A binder’s seal scrapes your palm like a polite threat. Vern’s ledger scrap burns colder than any campfire comfort. The Wilderland watches and keeps its receipts.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-069"
+    },
+    {
+      "id": "dt-ch01-069",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: East Debt",
+      "body": "Quill buys your freedom like a man purchasing a complicated knife — and a headache. The road offers three bad choices and one worse delay. Lyra’s name leaves your mouth without shaking — progress, of a kind.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-070"
+    },
+    {
+      "id": "dt-ch01-070",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Dust Mile",
+      "body": "Ash tastes copper on the wind and does not flinch. Ash counts exits without moving his mouth — old habit, good habit. Somewhere east, a ledger page waits to be rewritten.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-071"
+    },
+    {
+      "id": "dt-ch01-071",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Road Wargs Ambush",
+      "body": "Crows argue over something dead you hope is not destiny. You catch yourself walking like cargo that learned a verb. Quill tips his ruined hat at unfinished justice and takes a pull. Then road wargs force the issue — a roadside lesson Quill refuses to skip.",
+      "kind": "encounter",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-road-wargs",
+      "enemyTheme": "road-wargs",
+      "battleFoeId": "dust-trail-warg",
+      "next": "dt-ch01-072"
+    },
+    {
+      "id": "dt-ch01-072",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Road Hygiene",
+      "body": "Dust lifts off the track in pale sheets that lie for a living. Somewhere a horn asks a question steel usually answers. Somewhere a cage door practices its last slam.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-073"
+    },
+    {
+      "id": "dt-ch01-073",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Campfire Question",
       "body": "Night fire snaps. Quill boils bitter tea that tastes like boiled warrants, spikes it from the flask, and asks what you will do if Lyra is already broken past rescue. The question sits between you like a third traveler with muddy boots and no manners. His scarred eye does not blink.",
@@ -629,7 +870,7 @@
         {
           "id": "ch1-hope",
           "label": "I bring her home anyway",
-          "next": "dt-ch01-051",
+          "next": "dt-ch01-074",
           "approach": "Refuse the premise that anyone is past saving.",
           "flagsAdd": [
             "path-hope"
@@ -638,7 +879,7 @@
         {
           "id": "ch1-revenge",
           "label": "Then Candlemire pays in blood",
-          "next": "dt-ch01-051",
+          "next": "dt-ch01-074",
           "approach": "If she is gone, Cade Mire still owns the debt.",
           "flagsAdd": [
             "path-revenge"
@@ -647,7 +888,7 @@
         {
           "id": "ch1-quiet",
           "label": "I will decide when I see her",
-          "next": "dt-ch01-051",
+          "next": "dt-ch01-074",
           "approach": "Keep counsel until the yard is real.",
           "flagsAdd": [
             "path-wait"
@@ -656,67 +897,77 @@
       ]
     },
     {
-      "id": "dt-ch01-051",
+      "id": "dt-ch01-074",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Old Hunger",
-      "body": "A warrant nail still bleeds pine sap where paper used to hang. A thrall brand on a fence rail dares you to look away. Chain-Road shrinks behind you like a bad religion losing believers.",
+      "body": "Somebody buried a whip and marked the dirt with hope. You practice not answering to a number when strangers call. Ash does not quit, and Quill notices, drinks, and almost approves.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-052"
+      "next": "dt-ch01-075"
     },
     {
-      "id": "dt-ch01-052",
+      "id": "dt-ch01-075",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Freemark Thoughts",
-      "body": "Cage wheels still squeak in the memory of your spine. Quill mutters law under his breath like a protective curse, then swears for emphasis. Quill nods toward the darker horizon without ceremony.",
+      "body": "Night insects keep score of every secret step you still take. Tonight’s camp will argue theology with mosquitoes and memory. Quill packs the silence like powder — dry, useful, dangerous.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-053"
+      "next": "dt-ch01-076"
     },
     {
-      "id": "dt-ch01-053",
+      "id": "dt-ch01-076",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Ledger Weather",
-      "body": "Steel rides light; the flask in Quill’s coat does not. Ash refuses to romanticize the road; the road returns the favor. West is a rumor; east is a debt with a smile.",
+      "body": "A collar ring half-buried in mud still remembers a neck. Quill files every kindness under “possibly tactical” and drinks to the filing. The next mile does not apologize.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-054"
+      "next": "dt-ch01-077"
     },
     {
-      "id": "dt-ch01-054",
+      "id": "dt-ch01-077",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Steel Practice",
-      "body": "Your shadow arrives first and looks less free than you feel. Continue is the only honest verb left, and even it hesitates — Ash does not. The cane smell thickens like a dare.",
+      "body": "Nine-Mark is a name you are actively murdering with each mile. Ash keeps counsel; Quill keeps a ledger of silences and a flask of worse truths. You spit iron taste and keep the freemark facing out.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-055"
+      "next": "dt-ch01-078"
     },
     {
-      "id": "dt-ch01-055",
+      "id": "dt-ch01-078",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Night Watch",
-      "body": "Ash tastes copper on the wind and does not flinch. You check the freemark and find it still yours — for now. Chain-Road shrinks behind you like a bad religion losing believers.",
+      "body": "Lyra’s name sits behind your teeth like a loaded prayer. Ash learns that freemen still bleed; they just choose the reason and refuse the exit. You walk west, then south, then wherever vengeance keeps maps — stubborn as weather.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-056"
+      "next": "dt-ch01-079"
     },
     {
-      "id": "dt-ch01-056",
+      "id": "dt-ch01-079",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Iron Humor",
-      "body": "Bootleather remembers every mile better than maps ever will. Somewhere east, ink still invents people into inventory. The Wilderland watches and keeps its receipts.",
+      "body": "Chain-Road mist sits on the world like damp wool and worse math. Quill drawls, “Paper freedom first — real freedom files later — don’t quit in between.” Somewhere a collar yard waits to learn a different inventory: revolt.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-057"
+      "next": "dt-ch01-080"
     },
     {
-      "id": "dt-ch01-057",
+      "id": "dt-ch01-080",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Collar Echo",
+      "body": "Nine-Mark is a name you are actively murdering with each mile. You spit iron taste and keep walking like authorship, not cargo. Quill nods toward the darker horizon without ceremony.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-081"
+    },
+    {
+      "id": "dt-ch01-081",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Warrant One",
       "body": "A farmstead burned for unpaid tribute; the killer rides with a brand that matches Cade’s outer seals like a signature on arson. Quill’s warrant names him Vern of Lowhedge. “Alive if possible,” Quill says. “Dead if the world insists on being itself.”",
@@ -726,140 +977,162 @@
       "flagsAdd": [
         "warrant-vern"
       ],
-      "next": "dt-ch01-058"
+      "next": "dt-ch01-082"
     },
     {
-      "id": "dt-ch01-058",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Collar Echo",
-      "body": "A child’s chalk freemark on a fence post has already been scrubbed. A thrall brand on a fence rail dares you to look away. Paper in your coat weighs less than iron and more than sleep.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-059"
-    },
-    {
-      "id": "dt-ch01-059",
+      "id": "dt-ch01-082",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Warrant Weather",
-      "body": "Quill counts cartridges the way priests count sins — carefully, then drinks anyway. Vern’s ledger scrap burns colder than any campfire comfort. Lyra’s sale date ticks quieter than a clock and louder than fear.",
+      "body": "Wind carries iron smell farther than any honest voice. Road vermin sell water and buy stories about numbered men who would not quit. Steel rests light; resolve does not.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-060"
+      "next": "dt-ch01-083"
     },
     {
-      "id": "dt-ch01-060",
+      "id": "dt-ch01-083",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Hard Mercy",
-      "body": "A creek argues with stones like a tired magistrate on half pay. Quill files every kindness under “possibly tactical” and drinks to the filing. Collar mud still clings; freemark ink is drying on purpose.",
+      "body": "Steel rides light; the flask in Quill’s coat does not. Dust becomes a third companion with poor hygiene and worse jokes. Chain-Road shrinks behind you like a bad religion losing believers.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-061"
+      "next": "dt-ch01-084"
     },
     {
-      "id": "dt-ch01-061",
+      "id": "dt-ch01-084",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Vermin Bargain",
-      "body": "Camp smoke writes temporary law across the pines. Tracks braid, unbraid, and lie with professional cheer. Somewhere a cage door practices its last slam.",
+      "body": "Wagon ruts braid into a grammar only hunters read fluently. Hope and suspicion share the same waterskin without apology. Quill files Lowhedge under “paid in blood or nearly” and takes a pull.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-062"
+      "next": "dt-ch01-085"
     },
     {
-      "id": "dt-ch01-062",
+      "id": "dt-ch01-085",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Ash Aside",
-      "body": "Wagon ruts braid into a grammar only hunters read fluently. A hanged poster of your face lies about the eyes — always the eyes. Dust settles on everything except the vow.",
+      "body": "Somewhere a horn practices the sound of ownership. Quill drawls that quitters make excellent fertilizer and worse freemen. The Wilderland watches and keeps its receipts.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-063"
+      "next": "dt-ch01-086"
     },
     {
-      "id": "dt-ch01-063",
+      "id": "dt-ch01-086",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Quill's Aside",
-      "body": "Nine-Mark is a name you are actively murdering with each mile. Quill files every kindness under “possibly tactical” and drinks to the filing. You walk because the alternative still smells like rust — and quit is not a word you own.",
+      "title": "Cage Tenders Ambush",
+      "body": "Ash tastes copper on the wind and does not flinch. A cage-tender spit misses your boots by manners, not mercy. Paper in your coat weighs less than iron and more than sleep. Then cage tenders force the issue — a roadside lesson Quill refuses to skip.",
+      "kind": "encounter",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-cage-tenders",
+      "enemyTheme": "cage-tenders",
+      "battleFoeId": "coffle-guard",
+      "next": "dt-ch01-087"
+    },
+    {
+      "id": "dt-ch01-087",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Cane Wind",
+      "body": "Rain finds the places where collars used to teach posture. A freemark widow sells directions and warnings in the same sentence. Continue — soft roads make soft collars again.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-064"
+      "next": "dt-ch01-088"
     },
     {
-      "id": "dt-ch01-064",
+      "id": "dt-ch01-088",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Binder Math",
+      "body": "Fence wire hums a note that used to mean inventory. Freedom still feels like hunger wearing better boots. Ash sets the pace like a man owed a name and too stubborn to renegotiate.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-089"
+    },
+    {
+      "id": "dt-ch01-089",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Lowhedge Ruins",
       "body": "Ash roofs. A child’s doll face-down in soot. Tracks lead into scrub where wargs like soft meat and softer excuses. Somewhere ahead, Vern laughs at a joke only hunters and monsters find funny.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-lowhedge",
-      "next": "dt-ch01-065"
+      "next": "dt-ch01-090"
     },
     {
-      "id": "dt-ch01-065",
+      "id": "dt-ch01-090",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Cane Wind",
-      "body": "Dust lifts off the track in pale sheets that lie for a living. Vern’s ledger scrap burns colder than any campfire comfort. Quill nods toward the darker horizon without ceremony.",
+      "title": "Chain-Road Dawn: Flask Sermon",
+      "body": "The Wilderland files today’s silence under “pending violence.” Somewhere east, ink still invents people into inventory. The cane smell thickens like a dare.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-066"
+      "next": "dt-ch01-091"
     },
     {
-      "id": "dt-ch01-066",
+      "id": "dt-ch01-091",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Dust Mile",
-      "body": "Somewhere a horn practices the sound of ownership. A thrall brand on a fence rail dares you to look away. Quill nods toward the darker horizon without ceremony.",
+      "title": "Chain-Road Dawn: Yard Gossip",
+      "body": "A child’s chalk freemark on a fence post has already been scrubbed. A hanged poster of your face lies about the eyes — always the eyes. Somewhere east, a ledger page waits to be rewritten.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-067"
+      "next": "dt-ch01-092"
     },
     {
-      "id": "dt-ch01-067",
+      "id": "dt-ch01-092",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Quiet Counsel",
-      "body": "Your shadow arrives first and looks less free than you feel. Ash learns that freemen still bleed; they just choose the reason and refuse the exit. Paper in your coat weighs less than iron and more than sleep.",
+      "title": "Chain-Road Dawn: Seal Weather",
+      "body": "Quill’s ruined hat casts a verdict-shaped shadow. Continue is the only honest verb left, and even it hesitates — Ash does not. Quill packs the silence like powder — dry, useful, dangerous.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-068"
+      "next": "dt-ch01-093"
     },
     {
-      "id": "dt-ch01-068",
+      "id": "dt-ch01-093",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Road Hygiene",
-      "body": "Nine-Mark is a name you are actively murdering with each mile. The first warrant tastes like ash roofs and unfinished graves. Collar mud still clings; freemark ink is drying on purpose.",
+      "title": "Chain-Road Dawn: Powder Prayer",
+      "body": "Somebody buried a whip and marked the dirt with hope. Your wrist freemark itches whenever eyes linger too long. You walk on because stopping is how numbers return.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-069"
+      "next": "dt-ch01-094"
     },
     {
-      "id": "dt-ch01-069",
+      "id": "dt-ch01-094",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Old Hunger",
-      "body": "Somewhere a horn practices the sound of ownership. A road-vermin kid offers directions priced in half-truths. Quill packs the silence like powder — dry, useful, dangerous.",
+      "title": "Chain-Road Dawn: Stubborn Mile",
+      "body": "Powder grit under your nail smells like unfinished court. Quill says, “Pretty country. Ugly ownership. Pass the damn bottle.” West is a rumor; east is a debt with a smile.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-070"
+      "next": "dt-ch01-095"
     },
     {
-      "id": "dt-ch01-070",
+      "id": "dt-ch01-095",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Freemark Thoughts",
-      "body": "A freeman laughs too loud, then checks who heard him. The road offers three bad choices and one worse delay. Night takes attendance; you answer as a freeman.",
+      "title": "Chain-Road Dawn: Ring Memory",
+      "body": "Night insects keep score of every secret step you still take. A joke dies mid-laugh when Cade’s check appears on a sleeve. Collar mud still clings; freemark ink is drying on purpose.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-071"
+      "next": "dt-ch01-096"
     },
     {
-      "id": "dt-ch01-071",
+      "id": "dt-ch01-096",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: East Debt",
+      "body": "Bootleather remembers every mile better than maps ever will. Ash learns freeman posture: chin up, exits counted, no bowing to seals. Dust settles on everything except the vow.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-097"
+    },
+    {
+      "id": "dt-ch01-097",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Dust Wargs",
       "body": "Two dust-wargs burst from thorn. Their eyes reflect fire they did not start and do not regret. Quill covers the left; yours is the right throat — if you still remember what cages taught about hesitation.",
@@ -868,70 +1141,80 @@
       "artId": "art-dt-dust-warg",
       "enemyTheme": "road-wargs",
       "battleFoeId": "dust-trail-warg",
-      "next": "dt-ch01-072"
+      "next": "dt-ch01-098"
     },
     {
-      "id": "dt-ch01-072",
+      "id": "dt-ch01-098",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Dust Mile",
+      "body": "A hanged scarecrow wears Cade’s check like a joke that landed. Quill mutters law under his breath like a protective curse, then swears for emphasis. Lyra’s sale date ticks quieter than a clock and louder than fear.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-099"
+    },
+    {
+      "id": "dt-ch01-099",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Quiet Counsel",
+      "body": "A child’s doll face-down in soot teaches Vern’s sermon without words. Collar-yard gossip rides cheaper than truth and farther than mercy. Collar mud still clings; freemark ink is drying on purpose.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-100"
+    },
+    {
+      "id": "dt-ch01-100",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Road Hygiene",
+      "body": "Quill hums a tune that never finishes the same way twice. The next mile pretends to be empty and fails the audition. Night takes attendance; you answer as a freeman.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-101"
+    },
+    {
+      "id": "dt-ch01-101",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Old Hunger",
+      "body": "Road dust writes temporary freemarks on every boot. Quill’s tea tastes like boiled warrants, patience, and whiskey that lost an argument. The road keeps its receipts in blood and dust alike.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-102"
+    },
+    {
+      "id": "dt-ch01-102",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Freemark Thoughts",
+      "body": "East wind brings sugar lies and iron honesty in the same breath. Ash rolls a shoulder that still remembers iron’s manners. You walk because the alternative still smells like rust — and quit is not a word you own.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-103"
+    },
+    {
+      "id": "dt-ch01-103",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Ledger Weather",
-      "body": "A warrant nail still bleeds pine sap where paper used to hang. You trade a story for water and keep the ending private. West is a rumor; east is a debt with a smile.",
+      "body": "A warrant nail still bleeds pine sap where paper used to hang. Hope and suspicion share the same waterskin without apology. Another frame turns like a dusty page with teeth.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-073"
+      "next": "dt-ch01-104"
     },
     {
-      "id": "dt-ch01-073",
+      "id": "dt-ch01-104",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Steel Practice",
-      "body": "A child’s chalk freemark on a fence post has already been scrubbed. A cage-tender spit misses your boots by manners, not mercy. You walk because the alternative still smells like rust — and quit is not a word you own.",
+      "body": "Wind carries iron smell farther than any honest voice. The first warrant tastes like ash roofs and unfinished graves. Quill packs the silence like powder — dry, useful, dangerous.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-074"
+      "next": "dt-ch01-105"
     },
     {
-      "id": "dt-ch01-074",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Night Watch",
-      "body": "A warrant nail still bleeds pine sap where paper used to hang. Quill’s tea tastes like boiled warrants, patience, and whiskey that lost an argument. Somewhere a cage door practices its last slam.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-075"
-    },
-    {
-      "id": "dt-ch01-075",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Iron Humor",
-      "body": "Ash tastes copper on the wind and does not flinch. Hope and suspicion share the same waterskin without apology. You walk because the alternative still smells like rust — and quit is not a word you own.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-076"
-    },
-    {
-      "id": "dt-ch01-076",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Collar Echo",
-      "body": "Heat makes the freemark itch like unfinished business. You trade a story for water and keep the ending private. You spit iron taste and keep the freemark facing out.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-077"
-    },
-    {
-      "id": "dt-ch01-077",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Warrant Weather",
-      "body": "Wind carries iron smell farther than any honest voice. You trade a story for water and keep the ending private. Quill files Lowhedge under “paid in blood or nearly” and takes a pull.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-078"
-    },
-    {
-      "id": "dt-ch01-078",
+      "id": "dt-ch01-105",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Vern Cornered",
       "body": "Vern sits against a tree with a leg broken by his own horse — comedy the forest did not request. He begs for Cade’s protection and offers a torn ledger page with women’s names. Lyra’s sits three lines down, sold as “song-thrall, unbroken.” Vern smiles like that should buy him sunrise.",
@@ -942,7 +1225,7 @@
         {
           "id": "ch1-spare",
           "label": "Bind him for trial",
-          "next": "dt-ch01-079",
+          "next": "dt-ch01-106",
           "approach": "Alive for Quill’s warrant and a clean conscience.",
           "flagsAdd": [
             "vern-alive",
@@ -952,7 +1235,7 @@
         {
           "id": "ch1-execute",
           "label": "End him for Lowhedge",
-          "next": "dt-ch01-079",
+          "next": "dt-ch01-106",
           "approach": "Justice for ash roofs; take the page either way.",
           "flagsAdd": [
             "vern-dead",
@@ -963,7 +1246,7 @@
         {
           "id": "ch1-interrogate",
           "label": "Press for Candlemire routes",
-          "next": "dt-ch01-079",
+          "next": "dt-ch01-106",
           "approach": "Pain or promise — get the eastern road correct.",
           "flagsAdd": [
             "vern-alive",
@@ -972,7 +1255,7 @@
           ],
           "stat": "strength",
           "dc": 12,
-          "nextFail": "dt-ch01-079",
+          "nextFail": "dt-ch01-106",
           "failFlagsAdd": [
             "vern-alive",
             "lyra-ledger"
@@ -982,67 +1265,79 @@
       ]
     },
     {
-      "id": "dt-ch01-079",
+      "id": "dt-ch01-106",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Night Watch",
+      "body": "Crows argue over something dead you hope is not destiny. A road-vermin kid offers directions priced in half-truths. Road vermin scatter; serious hunters do not.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-107"
+    },
+    {
+      "id": "dt-ch01-107",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Iron Humor",
+      "body": "The road offers a fork that is really a dare. Quill drawls that quitters make excellent fertilizer and worse freemen. Somewhere a cage door practices its last slam.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-108"
+    },
+    {
+      "id": "dt-ch01-108",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Collar Echo",
+      "body": "Overseer laughter carries farther than any hymn on this road. You check the freemark and find it still yours — for now. You walk west, then south, then wherever vengeance keeps maps — stubborn as weather.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-109"
+    },
+    {
+      "id": "dt-ch01-109",
+      "chapterId": "dt-ch-01-chain-road",
+      "title": "Chain-Road Dawn: Warrant Weather",
+      "body": "Clouds drag shadows across cane-colored grass like slow warrants. You practice stance until rage becomes usable instead of loud. Continue — soft roads make soft collars again.",
+      "kind": "narrative",
+      "sceneId": "scene-dt-chain-road",
+      "artId": "art-dt-chain-road",
+      "next": "dt-ch01-110"
+    },
+    {
+      "id": "dt-ch01-110",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Hard Mercy",
-      "body": "A hanged scarecrow wears Cade’s check like a joke that landed. Quill mutters law under his breath like a protective curse, then swears for emphasis. You walk on because stopping is how numbers return.",
+      "body": "Cage wheels still squeak in the memory of your spine. Road vermin sell water and buy stories about numbered men who would not quit. Ash does not quit, and Quill notices, drinks, and almost approves.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-080"
+      "next": "dt-ch01-111"
     },
     {
-      "id": "dt-ch01-080",
+      "id": "dt-ch01-111",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Vermin Bargain",
-      "body": "Camp smoke writes temporary law across the pines. The first warrant tastes like ash roofs and unfinished graves. Lyra’s sale date ticks quieter than a clock and louder than fear.",
+      "body": "Quill counts cartridges the way priests count sins — carefully, then drinks anyway. Ash keeps counsel; Quill keeps a ledger of silences and a flask of worse truths. The cane smell thickens like a dare.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-081"
+      "next": "dt-ch01-112"
     },
     {
-      "id": "dt-ch01-081",
+      "id": "dt-ch01-112",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Ash Aside",
-      "body": "A child’s doll face-down in soot teaches Vern’s sermon without words. Rations taste like postponement, pepper, and old promises. Another frame turns like a dusty page with teeth.",
-      "kind": "narrative",
+      "title": "Road Wargs Ambush",
+      "body": "A collar ring half-buried in mud still remembers a neck. Warrant ink under your coat weighs more than the steel above it. The cane smell thickens like a dare. Then road wargs force the issue — a roadside lesson Quill refuses to skip.",
+      "kind": "encounter",
       "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-082"
+      "artId": "art-dt-road-wargs",
+      "enemyTheme": "road-wargs",
+      "battleFoeId": "dust-trail-warg",
+      "next": "dt-ch01-113"
     },
     {
-      "id": "dt-ch01-082",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Quill's Aside",
-      "body": "The road offers a fork that is really a dare. You catch yourself walking like cargo that learned a verb. West is a rumor; east is a debt with a smile.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-083"
-    },
-    {
-      "id": "dt-ch01-083",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Cane Wind",
-      "body": "Quill counts cartridges the way priests count sins — carefully, then drinks anyway. Ash rolls a shoulder that still remembers iron’s manners. Steel rests light; resolve does not.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-084"
-    },
-    {
-      "id": "dt-ch01-084",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Dust Mile",
-      "body": "A roadside shrine wears three names and one empty nail. The first warrant tastes like ash roofs and unfinished graves. Steel rests light; resolve does not.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-085"
-    },
-    {
-      "id": "dt-ch01-085",
+      "id": "dt-ch01-113",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Name on Paper",
       "body": "You say Lyra aloud until the vowels stop shaking and start sounding like a plan. Quill packs Vern’s routes — or what remains of them — and points toward a freeman town that stamps men as unpaid labor instead of numbered iron. Dawn smells like pine, powder, and unfinished debts.",
@@ -1053,113 +1348,53 @@
         "ch1-complete",
         "knows-lyra"
       ],
-      "next": "dt-ch01-086"
+      "next": "dt-ch01-114"
     },
     {
-      "id": "dt-ch01-086",
+      "id": "dt-ch01-114",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Quiet Counsel",
-      "body": "Marshal Halbrecht Quill lights a match off a warrant nail, drinks, and looks almost human. Quill says, “Pretty country. Ugly ownership. Pass the damn bottle.” Collar mud still clings; freemark ink is drying on purpose.",
+      "title": "Chain-Road Dawn: Quill's Aside",
+      "body": "Marshal Halbrecht Quill lights a match on a warrant nail and looks almost merciful. The first warrant tastes like ash roofs and unfinished graves. Collar mud still clings; freemark ink is drying on purpose.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-087"
+      "next": "dt-ch01-115"
     },
     {
-      "id": "dt-ch01-087",
+      "id": "dt-ch01-115",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Road Hygiene",
-      "body": "Overseer laughter carries farther than any hymn on this road. Your wrist freemark itches whenever eyes linger too long. Lyra’s name leaves your mouth without shaking — progress, of a kind.",
+      "title": "Chain-Road Dawn: Cane Wind",
+      "body": "Distant cane fields clap like soft applause for bad systems. Rations taste like postponement, pepper, and old promises. Freedom keeps charging rent — pay it in miles.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-088"
+      "next": "dt-ch01-116"
     },
     {
-      "id": "dt-ch01-088",
+      "id": "dt-ch01-116",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Old Hunger",
-      "body": "Lyra’s name sits behind your teeth like a loaded prayer. Memory of cages arrives uninvited, then leaves when named. Steel rests light; resolve does not.",
+      "title": "Chain-Road Dawn: Binder Math",
+      "body": "Marshal Halbrecht Quill lights a match off a warrant nail, drinks, and looks almost human. Ash refuses to romanticize the road; the road returns the favor. Quill tips his ruined hat at unfinished justice and takes a pull.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-089"
+      "next": "dt-ch01-117"
     },
     {
-      "id": "dt-ch01-089",
+      "id": "dt-ch01-117",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Freemark Thoughts",
-      "body": "Night insects keep score of every secret step you still take. Quill files every kindness under “possibly tactical” and drinks to the filing. Another frame turns like a dusty page with teeth.",
+      "title": "Chain-Road Dawn: Flask Sermon",
+      "body": "Chain-Road mist sits on the world like damp wool and worse math. The Wilderland watches and declines to explain itself. Ash sets the pace like a man owed a name and too stubborn to renegotiate.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
-      "next": "dt-ch01-090"
+      "next": "dt-ch01-118"
     },
     {
-      "id": "dt-ch01-090",
+      "id": "dt-ch01-118",
       "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Ledger Weather",
-      "body": "The collar scar itches when ox-wains pass — muscle memory of inventory. You practice not answering to a number when strangers call. The cane smell thickens like a dare.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-091"
-    },
-    {
-      "id": "dt-ch01-091",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Steel Practice",
-      "body": "Quill counts cartridges the way priests count sins — carefully, then drinks anyway. Ash refuses to romanticize the road; the road returns the favor. Ash sets the pace like a man owed a name and too stubborn to renegotiate.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-092"
-    },
-    {
-      "id": "dt-ch01-092",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Night Watch",
-      "body": "Two riders tip hats too friendly for the hour. Quill drawls, “Paper freedom first. Real freedom files later. Don’t quit in between.” Somewhere east, a ledger page waits to be rewritten.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-093"
-    },
-    {
-      "id": "dt-ch01-093",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Iron Humor",
-      "body": "A freeman laughs too loud, then checks who heard him. You trade a story for water and keep the ending private. Another frame turns like a dusty page with teeth.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-094"
-    },
-    {
-      "id": "dt-ch01-094",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Collar Echo",
-      "body": "The Wilderland files today’s silence under “pending violence.” A hanged poster of your face lies about the eyes — always the eyes. Another frame turns like a dusty page with teeth.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-095"
-    },
-    {
-      "id": "dt-ch01-095",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Warrant Weather",
-      "body": "Somewhere a horn practices the sound of ownership. Vern’s ledger scrap burns colder than any campfire comfort. Ash sets the pace like a man owed a name and too stubborn to renegotiate.",
-      "kind": "narrative",
-      "sceneId": "scene-dt-chain-road",
-      "artId": "art-dt-chain-road",
-      "next": "dt-ch01-096"
-    },
-    {
-      "id": "dt-ch01-096",
-      "chapterId": "dt-ch-01-chain-road",
-      "title": "Chain-Road Dawn: Hard Mercy",
-      "body": "A creek argues with stones like a tired magistrate on half pay. A joke dies mid-laugh when Cade’s check appears on a sleeve. Road vermin scatter; serious hunters do not.",
+      "title": "Chain-Road Dawn: Yard Gossip",
+      "body": "A roadside shrine wears three names and one empty nail. A thrall brand on a fence rail dares you to look away. The road keeps its receipts in blood and dust alike.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",

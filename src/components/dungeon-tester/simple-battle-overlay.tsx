@@ -17,6 +17,7 @@ import {
 } from "@/lib/downtown/dungeon-tester/simple-battle";
 import { dtEnemyArtSrc, simpleBattleMapSrc } from "@/lib/downtown/dungeon-tester/art";
 import { dtLoadoutSummary } from "@/lib/downtown/dungeon-tester/camp";
+import { formatGearTier, gearTierAttr } from "@/lib/downtown/dungeon-tester/gear-display";
 import { normalizeDtHeroLook } from "@/lib/downtown/dungeon-tester/look";
 import type { PlayerSlot } from "@/lib/downtown/dungeon-tester/types";
 import { DtHeroFigure } from "@/components/dungeon-tester/dt-hero-figure";
@@ -709,76 +710,100 @@ export function SimpleBattleOverlay({
                 <p className="dt-section-hint">
                   {hero.name} · {hero.gold}g · loot is already in your bag
                 </p>
-                <div className="dt-worn-row">
-                  {victoryLoadout.worn.length ? (
-                    victoryLoadout.worn.map((w) => (
-                      <span
-                        key={w.slot}
-                        className="dt-worn-chip"
-                        data-tier={w.tier === "magic" ? "uncommon" : w.tier}
-                        title={`${w.slot} · ${w.tier}`}
-                      >
-                        {w.slot}: {w.name}
-                        {onUnequip ? (
-                          <button
-                            type="button"
-                            className="dt-sbat-unequip"
-                            onClick={() => onUnequip(w.slot)}
-                            aria-label={`Unequip ${w.name}`}
-                          >
-                            ×
-                          </button>
-                        ) : null}
-                      </span>
-                    ))
-                  ) : (
-                    <span className="dt-section-hint">Nothing worn — equip from the bag.</span>
-                  )}
-                </div>
-                <div className="dt-sbat-endscreen-bag">
-                  {victoryLoadout.bag.map((item, idx) => (
-                    <div
-                      key={`${item.id}-${idx}`}
-                      className="dt-bag-row"
-                      data-equipped={item.equipped ? "true" : "false"}
-                      data-tier={item.tier}
-                      data-loot={lootIds.has(item.id) ? "true" : "false"}
-                    >
-                      <div>
-                        <strong className="dt-bag-name">
-                          {lootIds.has(item.id) ? "★ " : item.equipped ? "● " : ""}
-                          {item.name}
-                        </strong>
-                        <span className="dt-bag-meta">
-                          {item.tier} · {item.slot}
-                          {lootIds.has(item.id) ? " · new" : ""}
+                <div className="dt-inv-block">
+                  <p className="dt-bag-sublabel">Worn</p>
+                  <div className="dt-worn-row">
+                    {victoryLoadout.worn.length ? (
+                      victoryLoadout.worn.map((w) => (
+                        <span
+                          key={w.slot}
+                          className="dt-worn-chip"
+                          data-tier={gearTierAttr(w.tier)}
+                          title={`${w.slot} · ${formatGearTier(w.tier)}`}
+                        >
+                          <span className="dt-worn-slot">{w.slot}</span>
+                          <span className="dt-worn-name">{w.name}</span>
+                          {onUnequip ? (
+                            <button
+                              type="button"
+                              className="dt-sbat-unequip"
+                              onClick={() => onUnequip(w.slot)}
+                              aria-label={`Unequip ${w.name}`}
+                            >
+                              ×
+                            </button>
+                          ) : null}
                         </span>
-                        {item.stats.length ? (
-                          <span className="dt-bag-stats">{item.stats.join(" · ")}</span>
-                        ) : null}
-                      </div>
-                      <div className="dt-bag-actions">
-                        {item.equippable && !item.equipped && onEquip ? (
-                          <button
-                            type="button"
-                            className="pc-btn-tiny"
-                            onClick={() => onEquip(item.id)}
-                          >
-                            Equip
-                          </button>
-                        ) : null}
-                        {item.consumable && onUseConsumable ? (
-                          <button
-                            type="button"
-                            className="pc-btn-tiny"
-                            onClick={() => onUseConsumable(item.id)}
-                          >
-                            Use
-                          </button>
-                        ) : null}
-                      </div>
-                    </div>
-                  ))}
+                      ))
+                    ) : (
+                      <span className="dt-section-hint">Nothing worn — equip from the bag.</span>
+                    )}
+                  </div>
+                </div>
+                <div className="dt-inv-block">
+                  <p className="dt-bag-sublabel">Bag</p>
+                  <div className="dt-sbat-endscreen-bag">
+                    {victoryLoadout.bag.map((item, idx) => {
+                      const isLoot = lootIds.has(item.id);
+                      return (
+                        <div
+                          key={`${item.id}-${idx}`}
+                          className="dt-bag-row"
+                          data-equipped={item.equipped ? "true" : "false"}
+                          data-tier={gearTierAttr(item.tier)}
+                          data-loot={isLoot ? "true" : "false"}
+                        >
+                          <div className="dt-bag-main">
+                            <div className="dt-bag-title-row">
+                              {isLoot ? (
+                                <span className="dt-bag-flag" data-kind="loot">
+                                  New
+                                </span>
+                              ) : null}
+                              {item.equipped ? (
+                                <span className="dt-bag-flag" data-kind="worn">
+                                  Worn
+                                </span>
+                              ) : null}
+                              <strong className="dt-bag-name">{item.name}</strong>
+                            </div>
+                            <span className="dt-bag-meta">
+                              <span
+                                className="dt-bag-tier"
+                                data-tier={gearTierAttr(item.tier)}
+                              >
+                                {formatGearTier(item.tier)}
+                              </span>
+                              <span className="dt-bag-slot">{item.slot}</span>
+                            </span>
+                            {item.stats.length ? (
+                              <span className="dt-bag-stats">{item.stats.join(" · ")}</span>
+                            ) : null}
+                          </div>
+                          <div className="dt-bag-actions">
+                            {item.equippable && !item.equipped && onEquip ? (
+                              <button
+                                type="button"
+                                className="pc-btn-tiny"
+                                onClick={() => onEquip(item.id)}
+                              >
+                                Equip
+                              </button>
+                            ) : null}
+                            {item.consumable && onUseConsumable ? (
+                              <button
+                                type="button"
+                                className="pc-btn-tiny"
+                                onClick={() => onUseConsumable(item.id)}
+                              >
+                                Use
+                              </button>
+                            ) : null}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             ) : null}

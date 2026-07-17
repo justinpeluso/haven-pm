@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "targetHours": 30,
+  "targetHours": 34,
   "encounterCadence": {
     "minFrames": 10,
     "maxFrames": 20,
@@ -15,7 +15,7 @@
       "startNodeId": "dt-ch01-001",
       "levelMin": 1,
       "levelMax": 8,
-      "estimatedHours": 4,
+      "estimatedHours": 4.5,
       "enemyThemes": [
         "chain-orcs",
         "road-wargs",
@@ -25,7 +25,7 @@
       "sceneId": "scene-dt-chain-road",
       "splashArtId": "splash-dt-chain-road",
       "fidelity": "thorough",
-      "frameCount": 96
+      "frameCount": 118
     },
     {
       "id": "dt-ch-02-dust-and-debt",
@@ -35,7 +35,7 @@
       "startNodeId": "dt-ch02-001",
       "levelMin": 6,
       "levelMax": 14,
-      "estimatedHours": 4,
+      "estimatedHours": 4.5,
       "enemyThemes": [
         "warrant-runners",
         "hill-goblins",
@@ -45,7 +45,7 @@
       "sceneId": "scene-dt-dust-and-debt",
       "splashArtId": "splash-dt-dust-and-debt",
       "fidelity": "thorough",
-      "frameCount": 96
+      "frameCount": 118
     },
     {
       "id": "dt-ch-03-wanted-mark",
@@ -55,7 +55,7 @@
       "startNodeId": "dt-ch03-001",
       "levelMin": 12,
       "levelMax": 20,
-      "estimatedHours": 3,
+      "estimatedHours": 3.5,
       "enemyThemes": [
         "mark-hunters",
         "spy-ravens",
@@ -65,7 +65,7 @@
       "sceneId": "scene-dt-wanted-mark",
       "splashArtId": "splash-dt-wanted-mark",
       "fidelity": "thorough",
-      "frameCount": 68
+      "frameCount": 88
     },
     {
       "id": "dt-ch-04-river-of-brands",
@@ -75,7 +75,7 @@
       "startNodeId": "dt-ch04-001",
       "levelMin": 18,
       "levelMax": 28,
-      "estimatedHours": 3,
+      "estimatedHours": 3.5,
       "enemyThemes": [
         "river-slavers",
         "barge-trolls",
@@ -85,7 +85,7 @@
       "sceneId": "scene-dt-river-of-brands",
       "splashArtId": "splash-dt-river-of-brands",
       "fidelity": "thorough",
-      "frameCount": 68
+      "frameCount": 88
     },
     {
       "id": "dt-ch-05-candlemire-gates",
@@ -95,7 +95,7 @@
       "startNodeId": "dt-ch05-001",
       "levelMin": 24,
       "levelMax": 36,
-      "estimatedHours": 3.5,
+      "estimatedHours": 4,
       "enemyThemes": [
         "gate-guards",
         "mire-orcs",
@@ -105,7 +105,7 @@
       "sceneId": "scene-dt-candlemire-gates",
       "splashArtId": "splash-dt-candlemire-gates",
       "fidelity": "thorough",
-      "frameCount": 72
+      "frameCount": 92
     },
     {
       "id": "dt-ch-06-house-of-collars",
@@ -115,7 +115,7 @@
       "startNodeId": "dt-ch06-001",
       "levelMin": 32,
       "levelMax": 44,
-      "estimatedHours": 3.5,
+      "estimatedHours": 4,
       "enemyThemes": [
         "overseer-orcs",
         "house-blades",
@@ -125,7 +125,7 @@
       "sceneId": "scene-dt-house-of-collars",
       "splashArtId": "splash-dt-house-of-collars",
       "fidelity": "thorough",
-      "frameCount": 72
+      "frameCount": 92
     },
     {
       "id": "dt-ch-07-blood-mandolin",
@@ -135,7 +135,7 @@
       "startNodeId": "dt-ch07-001",
       "levelMin": 40,
       "levelMax": 52,
-      "estimatedHours": 3,
+      "estimatedHours": 3.5,
       "enemyThemes": [
         "pit-champions",
         "arena-trolls",
@@ -145,7 +145,7 @@
       "sceneId": "scene-dt-blood-mandolin",
       "splashArtId": "splash-dt-blood-mandolin",
       "fidelity": "thorough",
-      "frameCount": 68
+      "frameCount": 88
     },
     {
       "id": "dt-ch-08-liberation-march",
@@ -155,7 +155,7 @@
       "startNodeId": "dt-ch08-001",
       "levelMin": 48,
       "levelMax": 60,
-      "estimatedHours": 3.5,
+      "estimatedHours": 4,
       "enemyThemes": [
         "cade-host",
         "elite-orcs",
@@ -165,7 +165,7 @@
       "sceneId": "scene-dt-liberation-march",
       "splashArtId": "splash-dt-liberation-march",
       "fidelity": "thorough",
-      "frameCount": 72
+      "frameCount": 92
     },
     {
       "id": "dt-ch-09-free-horizon",
@@ -175,7 +175,7 @@
       "startNodeId": "dt-ch09-001",
       "levelMin": 55,
       "levelMax": 70,
-      "estimatedHours": 2.5,
+      "estimatedHours": 3,
       "enemyThemes": [
         "remnant-hunters",
         "storm-wargs",
@@ -185,7 +185,7 @@
       "sceneId": "scene-dt-free-horizon",
       "splashArtId": "splash-dt-free-horizon",
       "fidelity": "thorough",
-      "frameCount": 62
+      "frameCount": 80
     }
   ],
   "endings": [

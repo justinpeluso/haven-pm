@@ -58,6 +58,14 @@ const SHARED_OPENERS = [
   "Lyra’s name sits behind your teeth like a loaded prayer.",
   "A freeman laughs too loud, then checks who heard him.",
   "Steel rides light; the flask in Quill’s coat does not.",
+  "Marshal Halbrecht Quill lights a match on a warrant nail and looks almost merciful.",
+  "Fence wire hums a note that used to mean inventory.",
+  "A collar ring half-buried in mud still remembers a neck.",
+  "Powder grit under your nail smells like unfinished court.",
+  "Quill’s ruined hat casts a verdict-shaped shadow.",
+  "East wind brings sugar lies and iron honesty in the same breath.",
+  "A binder’s seal scrapes your palm like a polite threat.",
+  "Road dust writes temporary freemarks on every boot.",
 ];
 
 const SHARED_MIDDLES = [
@@ -91,6 +99,14 @@ const SHARED_MIDDLES = [
   "A hanged poster of your face lies about the eyes — always the eyes.",
   "Tonight’s camp will argue theology with mosquitoes and memory.",
   "Continue is the only honest verb left, and even it hesitates — Ash does not.",
+  "Quill drawls that quitters make excellent fertilizer and worse freemen.",
+  "You rehearse Lyra’s name until it stops sounding like a bruise.",
+  "Collar-yard gossip rides cheaper than truth and farther than mercy.",
+  "Warrant ink under your coat weighs more than the steel above it.",
+  "Ash learns freeman posture: chin up, exits counted, no bowing to seals.",
+  "Quill’s scarred eye never quite closes on a lie — useful, exhausting, honest.",
+  "A freemark widow sells directions and warnings in the same sentence.",
+  "You spit iron taste and keep walking like authorship, not cargo.",
 ];
 
 const SHARED_CLOSERS = [
@@ -114,6 +130,12 @@ const SHARED_CLOSERS = [
   "Quill packs the silence like powder — dry, useful, dangerous.",
   "West is a rumor; east is a debt with a smile.",
   "You walk because the alternative still smells like rust — and quit is not a word you own.",
+  "Paper freedom first; real freedom files later — Quill’s oldest sermon.",
+  "Ash does not quit, and Quill notices, drinks, and almost approves.",
+  "The road keeps its receipts in blood and dust alike.",
+  "Somewhere a collar yard waits to learn a different inventory: revolt.",
+  "Warrant weather gathers; you load anyway.",
+  "Freedom keeps charging rent — pay it in miles.",
 ];
 
 const CHAPTER_FLAVOR = {
@@ -129,7 +151,7 @@ const CHAPTER_FLAVOR = {
       "Marshal Halbrecht Quill lights a match off a warrant nail, drinks, and looks almost human.",
     ],
     middles: [
-      "Quill drawls, “Paper freedom first. Real freedom files later. Don’t quit in between.”",
+      "Quill drawls, “Paper freedom first — real freedom files later — don’t quit in between.”",
       "Ash learns that freemen still bleed; they just choose the reason and refuse the exit.",
       "A cage-tender spit misses your boots by manners, not mercy.",
       "Vern’s ledger scrap burns colder than any campfire comfort.",
@@ -406,10 +428,19 @@ const BEAT_TITLES = [
   "Ash Aside",
   "Quill's Aside",
   "Cane Wind",
+  "Binder Math",
+  "Flask Sermon",
+  "Yard Gossip",
+  "Seal Weather",
+  "Powder Prayer",
+  "Stubborn Mile",
+  "Ring Memory",
+  "East Debt",
 ];
 
 /**
  * Build a large unique deck of 2–3 sentence connective bodies for a chapter.
+ * Greedy pick prefers fresher openers/middles/closers to cut sentence echo.
  */
 export function buildVignetteDeck(chapter, needed) {
   const flavor = CHAPTER_FLAVOR[chapter] || { openers: [], middles: [], closers: [] };
@@ -417,41 +448,59 @@ export function buildVignetteDeck(chapter, needed) {
   const middles = [...SHARED_MIDDLES, ...(flavor.middles || [])];
   const closers = [...SHARED_CLOSERS, ...(flavor.closers || [])];
 
-  /** @type {string[]} */
+  /** @type {{body:string, parts:string[]}[]} */
   const combos = [];
   for (let o = 0; o < openers.length; o++) {
     for (let m = 0; m < middles.length; m++) {
       for (let c = 0; c < closers.length; c++) {
-        // Sparse sampling — skip most triples to keep deck sharp + finite.
-        if ((o * 17 + m * 31 + c * 13 + chapter * 7) % 11 !== 0) continue;
-        combos.push(`${openers[o]} ${middles[m]} ${closers[c]}`);
+        if ((o * 17 + m * 31 + c * 13 + chapter * 7) % 5 !== 0) continue;
+        const parts = [openers[o], middles[m], closers[c]];
+        combos.push({ body: parts.join(" "), parts });
       }
     }
   }
 
   const deck = shuffle(combos, 9000 + chapter * 137);
-  // Guarantee uniqueness within chapter.
   const unique = [];
-  const seen = new Set();
-  for (const body of deck) {
-    if (seen.has(body)) continue;
-    seen.add(body);
-    unique.push(body);
-    if (unique.length >= needed + 20) break;
+  const seenBody = new Set();
+  const partUses = new Map();
+  const score = (parts) => parts.reduce((s, p) => s + (partUses.get(p) || 0), 0);
+
+  // Multi-pass greedy: keep taking lowest-echo unused bodies.
+  const pool = deck.slice();
+  while (unique.length < needed + 20 && pool.length) {
+    let bestIdx = 0;
+    let bestScore = Infinity;
+    const scan = Math.min(pool.length, 80);
+    for (let i = 0; i < scan; i++) {
+      const cand = pool[i];
+      if (seenBody.has(cand.body)) continue;
+      const sc = score(cand.parts);
+      if (sc < bestScore) {
+        bestScore = sc;
+        bestIdx = i;
+      }
+    }
+    const pick = pool.splice(bestIdx, 1)[0];
+    if (!pick || seenBody.has(pick.body)) continue;
+    seenBody.add(pick.body);
+    unique.push(pick.body);
+    for (const p of pick.parts) partUses.set(p, (partUses.get(p) || 0) + 1);
   }
 
-  // Fallback: if still short, append numbered variants (should be rare).
+  // Fallback: if still short, append remaining unique bodies.
   let n = 0;
   while (unique.length < needed) {
     const o = openers[n % openers.length];
     const m = middles[(n * 3) % middles.length];
     const c = closers[(n * 7 + chapter) % closers.length];
-    const body = `${o} ${m} ${c} (Mile ${chapter}.${n + 1}.)`;
-    if (!seen.has(body)) {
-      seen.add(body);
+    const body = `${o} ${m} ${c}`;
+    if (!seenBody.has(body)) {
+      seenBody.add(body);
       unique.push(body);
     }
     n++;
+    if (n > needed * 50) break;
   }
 
   return unique;
@@ -598,6 +647,44 @@ export const ROAD_CHOICES = {
             xp: 8,
             damage: 5,
             flagsAdd: ["odds-brawl"],
+          },
+        },
+      ],
+    },
+    {
+      kind: "choice",
+      title: "Flask Catechism",
+      body: "Quill offers the flask and a question with teeth: when a warrant names a man who once wore a collar like yours, do you hesitate? His scarred eye waits. The paddock wind does not.",
+      art: "quill-aside",
+      choices: [
+        {
+          id: "ch2-flask-hesitate",
+          label: "Hesitate — then decide",
+          approach: "Mercy is not quit; it is timing.",
+          outcome: {
+            text: "“Timing,” Quill allows. “Just don’t dress it up as poetry.”",
+            xp: 12,
+            flagsAdd: ["warrant-hesitation", "path-wait"],
+          },
+        },
+        {
+          id: "ch2-flask-no",
+          label: "No hesitation",
+          approach: "Paper freedom means finishing the page.",
+          outcome: {
+            text: "He nods once. “Ugly. Useful. Don’t enjoy it.”",
+            xp: 12,
+            flagsAdd: ["warrant-hard", "path-revenge"],
+          },
+        },
+        {
+          id: "ch2-flask-refuse",
+          label: "Refuse the flask; keep the question",
+          approach: "Stay sharp; Quill can drink for both of you.",
+          outcome: {
+            text: "“Smart,” he mutters, drinking your share. “Stubborn too. Good.”",
+            xp: 14,
+            flagsAdd: ["sober-hand", "quill-mentor"],
           },
         },
       ],
@@ -817,7 +904,7 @@ export const ROAD_CHOICES = {
     {
       kind: "choice",
       title: "Which Fire First?",
-      body: "Barracks, tower records, or cane sheds — three fires, one night. Lyra wants records. Quill wants barracks. Freed thralls want cane that fed the house. Ash gets one match’s worth of authorship.",
+      body: "Barracks, tower records, or cane sheds — three fires, one night. Lyra wants records; Quill wants barracks; freed thralls want cane that fed the house. Ash gets one match’s worth of authorship.",
       art: "which-fire",
       choices: [
         {
@@ -936,6 +1023,15 @@ export const FLAG_ECHOES = [
   { minChapter: 9, requireFlag: "lyra-leads", line: "You asked what she needed first; she still sets the column’s true north." },
   { minChapter: 9, requireFlag: "burned-records", line: "Ash from tower records still seasons the wind — inventory died screaming." },
   { minChapter: 9, requireFlag: "burned-barracks", line: "Barracks smoke still clings; teeth that bite back learned mortality." },
+  { minChapter: 2, requireFlag: "quill-mentor", line: "Quill’s ugly mentoring still rides your draw — choose stubborn over pretty." },
+  { minChapter: 2, requireFlag: "warrant-grammar", line: "Warrant grammar still sits under your tongue: alive if possible, dead if the world insists." },
+  { minChapter: 3, requireFlag: "yard-prices", line: "Candlemire yard prices still itch in your coat like a market that deserves vandalism." },
+  { minChapter: 3, requireFlag: "binder-school", line: "Binder school still corrects your mercy before your steel — Quill’s favorite lecture." },
+  { minChapter: 5, requireFlag: "yard-priced", line: "You already priced the collar yard; the locks have not forgotten your math." },
+  { minChapter: 6, requireFlag: "peg-theology", line: "Peg theology still hums: each ring a name filed wrong, waiting on teeth." },
+  { minChapter: 8, requireFlag: "west-hymn", line: "WEST still travels the column like a hymn with a pulse." },
+  { minChapter: 8, requireFlag: "named-living", line: "You named the living aloud once; the road still answers in freemark grammar." },
+  { minChapter: 9, requireFlag: "quill-no-seal", line: "Quill refused the seal; the march still uses his refusal as law." },
   { minChapter: 9, requireFlag: "identity-vow", line: "You refused Quill’s categories — still a vow with a sword, not a category." },
   { minChapter: 9, requireFlag: "counsel-anti-cade", line: "Never Cade is already becoming the march’s favorite swear and safest law." },
 ];
@@ -968,12 +1064,22 @@ export const SET_PIECES = {
       body: "A traveler repeats Vern’s favorite joke about unpaid tribute and burned kitchens. Nobody laughs. Quill tips the man a copper for the geography hidden in the cruelty, then mutters that hell of a comedian still makes hell of a warrant.",
       art: "warrant-vern",
     },
+    {
+      title: "Nine-Mark Burial",
+      body: "Quill has you scratch Nine-Mark into roadside dirt and kick it apart. “Numbers are cages that fit in a mouth,” he says. “Answer to Ash, freemark, Lyra — never inventory. And don’t you quit back into a digit.”",
+      art: "freeman-mark",
+    },
   ],
   2: [
     {
       title: "Freemark Children",
       body: "Children stare at your wrist glyph and do quiet math about risk. One asks if freemen dream in numbers. You say no. Quill adds, “Dream in exits.”",
       art: "freeman-mark",
+    },
+    {
+      title: "Warrant Board Sermon",
+      body: "Quill walks you past Freemark’s warrant board like a chapel tour with worse hymns. He taps three seals — goblin, barge, knight — and drawls, “Pick debts that teach. Coin is a side effect. Stubbornness is the curriculum.”",
+      art: "three-warrants",
     },
   ],
   3: [
@@ -982,12 +1088,22 @@ export const SET_PIECES = {
       body: "A grey woman calls Quill “Halbrecht” like a summons. He flinches half a degree — the first honest thing you’ve seen him do all week. “Old ink,” he tells you. “Ugly. Mine.”",
       art: "quill-debt",
     },
+    {
+      title: "Poster Weather",
+      body: "Rain softens your charcoal twin until the eyes smear honest. Quill watches the bounty dissolve and does not smile. “Ink lies less when wet,” he drawls. “People don’t.”",
+      art: "wanted-posters",
+    },
   ],
   4: [
     {
       title: "Canvas Hymn",
       body: "Under barge canvas someone hums a work song that is not work. It is inventory refusing the count. Ash hums one bar back — soft, criminal, necessary.",
       art: "barge-rings",
+    },
+    {
+      title: "Mud Warrant",
+      body: "Quill stamps a soaked warrant dry on his thigh and swears the Brand-River invents new crimes just to stay relevant. “Alive if possible,” he reminds you. “Dead if the mud insists on being itself.”",
+      art: "warrant-paper",
     },
   ],
   5: [
@@ -996,12 +1112,22 @@ export const SET_PIECES = {
       body: "A steward practices Cade’s welcome speech on a mule. The mule looks unconvinced. Quill tips his hat at the animal. “Smartest guest here.”",
       art: "gate-smile",
     },
+    {
+      title: "Collar Sunlight",
+      body: "Afternoon light flashes off a yard of hanging rings like cheap jewelry for a god of inventory. Quill’s flask pauses mid-air. “Pretty,” he says. “We’re going to vandalize the theology.”",
+      art: "yard-glimpse",
+    },
   ],
   6: [
     {
       title: "Lyra Through Glass",
       body: "For one breath the silhouette is surely her — chin, stubborn angle, the way she used to refuse to bow to weather. Then fear invents doubles. You do not call out. Not yet.",
       art: "window-lyra",
+    },
+    {
+      title: "Guest Peg Sermon",
+      body: "Quill counts collar pegs in the guest corridor the way other men count rosaries. “Each ring is a name Cade filed wrong,” he murmurs. “We are the clerical error with teeth.”",
+      art: "collar-yard",
     },
   ],
   7: [
@@ -1010,12 +1136,22 @@ export const SET_PIECES = {
       body: "The mandolin player finds a key that makes freemarks sound funny. Cade laughs on the beat. Quill’s jaw ticks once. “After,” he mouths. After means fire.",
       art: "mandolin",
     },
+    {
+      title: "Sand Catechism",
+      body: "Between bouts Quill leans close enough for whiskey and law. “Spectacle is a leash,” he says. “Bleed for cover if you must — bleed for quitters never — and WEST is the only hymn worth learning.”",
+      art: "pit-call",
+    },
   ],
   8: [
     {
       title: "Lyra's First Order",
-      body: "Lyra does not weep into reunion. She points at a latch row and says, “Those. Then the children. Then we argue about feelings.” Ash grins like a man given back a language.",
+      body: "Lyra does not weep into reunion. She points at a latch row and says, “Those — then the children — then we argue about feelings.” Ash grins like a man given back a language.",
       art: "lyra-found",
+    },
+    {
+      title: "Quill's Personal Warrant",
+      body: "Quill pins Cade’s name to a burning post with a bolt and does not look away. “Professional courtesy ends here,” he tells the fire. “This one’s mine — and yours, if you still refuse to quit.”",
+      art: "tower-stair",
     },
   ],
   9: [
@@ -1023,6 +1159,11 @@ export const SET_PIECES = {
       title: "Quill Declines the Crown",
       body: "Someone offers Quill a freemark captaincy with a seal. He refuses like a man declining plague, flask already half-empty. “I hunt binders,” he says — “not become one with better stationery. Find somebody prettier; this kid won’t quit.”",
       art: "quill-aside",
+    },
+    {
+      title: "Ash's Quiet Inventory",
+      body: "You count living names the way Cade once counted rings — and stop when the list becomes a cage of its own. Lyra nods. Quill drinks to the refusal. West weather asks nothing branded of anyone.",
+      art: "horizon",
     },
   ],
 };

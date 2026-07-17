@@ -81,9 +81,16 @@ export const THOROUGH_LANDMARKS = {
     {
       kind: "narrative",
       title: "Map Fragment",
-      body: "In a ditch under a dead mule you find charcoal walls of Candlemire — incomplete, hungry. Guest wing, collar yards, and a tower stair marked with a personal scribble: CADES KEEP. Quill traces the lines like scripture.",
+      body: "In a ditch under a dead mule you find charcoal walls of Candlemire — incomplete, hungry. Guest wing, collar yards, and a tower stair marked with a personal scribble: CADES KEEP. Quill traces the lines like scripture written by a committed bastard.",
       art: "map-fragment",
       flagsAdd: ["candlemire-charcoal"],
+    },
+    {
+      kind: "narrative",
+      title: "Binder School",
+      body: "Quill drills warrant language the way priests drill catechism — who may be taken, who may be left, who is owned by paper versus owned by fear. “Cade sells both,” he says, flask catching dustlight. “We collect the first kind until the second learns manners. Don’t quit the lesson early.”",
+      art: "quill-aside",
+      flagsAdd: ["binder-school"],
     },
     {
       kind: "narrative",
@@ -282,6 +289,12 @@ export const THOROUGH_LANDMARKS = {
       body: "A ledger scrap surfaces against a snag, ink blurred but cruelly legible. Lyra’s sale date sits beside “song-thrall, unbroken.” You dry it on Quill’s hat brim like a relic that can still file charges.",
       art: "drowned-page",
       flagsAdd: ["lyra-sale-date"],
+    },
+    {
+      kind: "narrative",
+      title: "Ring Count",
+      body: "Through barge canvas you hear an overseer count rings the way other men count coins — lovingly, without names. Ash’s freemark burns. Quill mouths, “Inventory night — freedom’s the audit — don’t quit the count halfway.”",
+      art: "barge-rings",
     },
     {
       kind: "encounter",
@@ -489,6 +502,13 @@ export const THOROUGH_LANDMARKS = {
       body: "Past a trimmed hedge, collars flash in sunlight like cheap jewelry. Numbers march between posts. Somewhere in that grammar, Lyra is still a sentence unfinished.",
       art: "yard-glimpse",
       flagsAdd: ["saw-collar-yard"],
+    },
+    {
+      kind: "narrative",
+      title: "Quill Prices the Yard",
+      body: "Quill estimates lock types, dog routes, and bribe windows the way other guests estimate wine. “Pretty inventory,” he drawls. “Ugly arithmetic. We break both before dessert — and we do not quit at the hedge.”",
+      art: "yard-glimpse",
+      flagsAdd: ["yard-priced"],
     },
     {
       kind: "choice",
@@ -738,6 +758,13 @@ export const THOROUGH_LANDMARKS = {
       art: "collar-yard",
     },
     {
+      kind: "narrative",
+      title: "Peg Theology",
+      body: "Halbrecht Quill stops under a peg row and tips his ruined hat like a man in church. “Each ring is a name filed wrong,” he murmurs. “Tonight we become the clerical error with teeth. Don’t you damn quit at the first latch.”",
+      art: "collar-yard",
+      flagsAdd: ["peg-theology"],
+    },
+    {
       kind: "choice",
       title: "Quill Unmasked",
       body: "At table, a rival binder recognizes Halbrecht Quill’s other name and smiles like a bill coming due. Cade watches the recognition with delighted hunger. Damage control is now a course.",
@@ -919,6 +946,13 @@ export const THOROUGH_LANDMARKS = {
       body: "Whether early or on cue, light becomes the first honest signal. Kitchen oil meets latch; collars open like bad punctuation corrected. The mandolin skips — and the crowd remembers it has legs.",
       art: "lantern-drop",
       flagsAdd: ["revolt-spark"],
+    },
+    {
+      kind: "narrative",
+      title: "WEST Hymn",
+      body: "Somewhere in the collared row a voice mouths WEST like a complete battle plan. Quill’s scarred eye finds yours across sand and silk. “That’s the hymn,” he mouths back. “Bleed for that — not for Cade’s applause.”",
+      art: "crowd-favor",
+      flagsAdd: ["west-hymn"],
     },
     {
       kind: "encounter",
@@ -1106,6 +1140,13 @@ export const THOROUGH_LANDMARKS = {
       flagsAdd: ["liberation-march"],
     },
     {
+      kind: "narrative",
+      title: "Ash Names the Living",
+      body: "You say living names louder than dead seals ever shouted — not as inventory, as roll call for a road that finally answers back. Quill stamps no paper. He drinks to the absence of paper.",
+      art: "march-west",
+      flagsAdd: ["named-living"],
+    },
+    {
       kind: "choice",
       title: "Smoke Clearing",
       body: "Candlemire’s sky tries on a color without orders. Remnant hunters will follow. Quill asks whether you scatter west tonight or hold the freemark ground and teach it new laws at dawn.",
@@ -1227,6 +1268,13 @@ export const THOROUGH_LANDMARKS = {
       art: "hard-road",
     },
     {
+      kind: "narrative",
+      title: "Marshal Without a Seal",
+      body: "Someone tries to hand Quill a freemark seal “for order.” He refuses like plague, flask already half-empty. “I hunt binders,” he tells the column. “I don’t become one with prettier stationery. This freeman won’t quit — follow that.”",
+      art: "quill-aside",
+      flagsAdd: ["quill-no-seal"],
+    },
+    {
       kind: "choice",
       title: "Memory Shades",
       body: "At a crossroads shrine, memory itself seems to ask whether you bury Candlemire’s name, museum it as warning, or rebuild over its footprint until children forget the smell of rings.",
@@ -1282,7 +1330,7 @@ export const THOROUGH_LANDMARKS = {
     {
       kind: "choice",
       title: "Horizon Vote",
-      body: "Candlemire’s smoke thins behind you like a bad religion losing believers. Quill waits without advising — the highest respect he knows. Lyra’s quiet is not emptiness; it is a question about what kind of free you will be, and whether free gets to invent new cages.",
+      body: "Candlemire’s smoke thins behind you like a bad religion losing believers. Quill waits without advising — the highest respect he knows — flask quiet for once. Lyra’s quiet is not emptiness; it is a question about what kind of free you will be. “Don’t quit the ending,” he finally drawls. “Endings are where quitters hide.”",
       art: "horizon",
       flagsAdd: ["ch9-finale"],
       choices: [

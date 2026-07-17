@@ -14,6 +14,7 @@ export * from "./art";
 export * from "./encounters";
 export * from "./bestiary";
 export * from "./gear";
+export * from "./gear-display";
 export * from "./look";
 export * from "./dog";
 
