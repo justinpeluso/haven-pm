@@ -30,6 +30,7 @@ import { EQUIP_SLOTS, PLAYER_SLOT_ORDER } from "@/lib/downtown/party-chronicle/t
 import { DT_GEAR_POOLS, getDtGear } from "./gear";
 import { dtFillEmptyEquipSlots } from "./loadout";
 import { startDtCampAmbush } from "./battle";
+import { dtBeMeanToDog, dtFeedDog, normalizeDtDog } from "./dog";
 import { applyPartyMutation, asPartyWorld, type DtWorldSave } from "./types";
 
 export {
@@ -400,6 +401,7 @@ export function dtUseConsumable(
   const bits: string[] = [];
   if (item?.heal) bits.push(`+${item.heal} HP`);
   if (item?.manaRestore) bits.push(`+${item.manaRestore} Mana`);
+  if (item?.tags?.includes("dog")) bits.push("dog fed");
   return {
     world: {
       ...world,
@@ -407,6 +409,48 @@ export function dtUseConsumable(
       updatedAt: new Date().toISOString(),
     },
     message: `Used ${item?.name ?? itemId}${bits.length ? ` (${bits.join(", ")})` : ""}.`,
+  };
+}
+
+/** Share scraps without spending an item — keeps the dog in ambushes. */
+export function dtCampFeedDog(
+  world: DtWorldSave,
+  slot: PlayerSlot
+): { world: DtWorldSave; message: string } | { error: string } {
+  const c = world.characters[slot];
+  if (!c?.created) return { error: "Seal your hero first." };
+  if (world.battle?.status === "active") return { error: "Finish the battle first." };
+  const next = dtFeedDog(c, { bond: 3 });
+  const dog = normalizeDtDog(next.dog);
+  return {
+    world: {
+      ...world,
+      characters: { ...world.characters, [slot]: next },
+      updatedAt: new Date().toISOString(),
+      log: [`${c.name} feeds ${dog.name} — hunger cleared.`, ...world.log].slice(0, 80),
+    },
+    message: `${dog.name} eats trail scraps — ready for the next fight.`,
+  };
+}
+
+/** Mean treatment — dog sulks and hides at camp until fed. */
+export function dtCampMeanToDog(
+  world: DtWorldSave,
+  slot: PlayerSlot
+): { world: DtWorldSave; message: string } | { error: string } {
+  const c = world.characters[slot];
+  if (!c?.created) return { error: "Seal your hero first." };
+  if (world.battle?.status === "active") return { error: "Finish the battle first." };
+  const next = dtBeMeanToDog(c);
+  const dog = normalizeDtDog(next.dog);
+  return {
+    world: {
+      ...world,
+      characters: { ...world.characters, [slot]: next },
+      updatedAt: new Date().toISOString(),
+      log: [`${c.name} shoved ${dog.name} away — the dog sulks.`, ...world.log].slice(0, 80),
+    },
+    message: `${dog.name} runs to hide at camp. Feed them before they'll fight again.`,
   };
 }
 

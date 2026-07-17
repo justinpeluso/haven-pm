@@ -14,6 +14,8 @@ export * from "./art";
 export * from "./encounters";
 export * from "./bestiary";
 export * from "./gear";
+export * from "./look";
+export * from "./dog";
 
 import { DT_ART } from "./art";
 import { dtEncounterStats } from "./encounters";

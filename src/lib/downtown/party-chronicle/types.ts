@@ -394,6 +394,10 @@ export type DogCompanion = {
   bond: number;
   hp: number;
   maxHp: number;
+  /** Battles since last feed — True Grit dogs flee when this climbs. */
+  hunger?: number;
+  /** Player was mean — dog hides at camp until fed / called. */
+  sulking?: boolean;
 };
 
 export type HotbarSlot = string | null;
@@ -421,6 +425,17 @@ export type CharacterSave = {
   mana: number;
   maxMana: number;
   dog: DogCompanion;
+  /**
+   * True Grit frontier appearance (optional).
+   * Neverworld ignores this; DT create + battle use it instead of class comic plates.
+   */
+  dtLook?: {
+    skin: string;
+    hair: string;
+    hairColor: string;
+    outfit: string;
+    hat: string;
+  };
   /** Unlocked skill node ids */
   unlockedNodes: string[];
   /** Ability ids learned */

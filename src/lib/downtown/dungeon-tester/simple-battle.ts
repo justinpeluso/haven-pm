@@ -40,6 +40,13 @@ import { rollDtEncounterForLevel } from "./encounters";
 import { chapterForFrame } from "./story";
 import { rollNextEncounterAtFrame } from "./persist";
 import type { DtWorldSave } from "./types";
+import {
+  dtDogAfterBattle,
+  dtDogBattlePower,
+  dtDogJoinsBattle,
+  normalizeDtDog,
+} from "./dog";
+import { normalizeDtHeroLook, type DtHeroLook } from "./look";
 
 export type SimpleBattleActionId =
   | "attack"
@@ -87,6 +94,10 @@ export type SimpleBattleUnit = {
   /** Hero class clip-art / enemy plate id. */
   artId?: string;
   classId?: string;
+  /** Companion dog — present on field, no player action budget. */
+  isDog?: boolean;
+  /** Frontier look for DT hero art (not Neverworld class plates). */
+  look?: DtHeroLook;
   /** Enemy bestiary id (for loot pool). */
   foeDefId?: string;
   lootPool?: DtLootPoolId | string;
@@ -266,50 +277,46 @@ export function chapterNumberFromId(chapterId: string): number {
 }
 
 /**
- * Early chapters: fewer foes + softer HP/damage.
- * Later chapters ramp toward full bestiary stats and 1–3 packs.
+ * Early chapters: softer HP/damage; testing dial currently floors packs at 2 foes.
+ * Later chapters ramp toward full bestiary stats and 2–3 packs.
  */
 export function encounterSpawnTuning(
   chapterNum: number,
   battlesFought: number
 ): { foeCount: (rng: () => number) => number; hpMult: number; powerMult: number } {
   const firstAmbush = battlesFought <= 0;
+  // Difficulty dial-in: always 2 foes from the first ambush so packs feel real.
   if (chapterNum <= 1) {
     return {
-      foeCount: () => 1,
+      foeCount: () => 2,
       hpMult: firstAmbush ? 0.55 : 0.65,
       powerMult: firstAmbush ? 0.5 : 0.6,
     };
   }
   if (chapterNum === 2) {
     return {
-      foeCount: (rng) => (rng() < 0.75 ? 1 : 2),
+      foeCount: () => 2,
       hpMult: 0.75,
       powerMult: 0.7,
     };
   }
   if (chapterNum === 3) {
     return {
-      foeCount: (rng) => (rng() < 0.55 ? 1 : 2),
+      foeCount: (rng) => (rng() < 0.65 ? 2 : 3),
       hpMult: 0.85,
       powerMult: 0.8,
     };
   }
   if (chapterNum <= 5) {
     return {
-      foeCount: (rng) => {
-        const roll = rng();
-        if (roll < 0.4) return 1;
-        if (roll < 0.85) return 2;
-        return 3;
-      },
+      foeCount: (rng) => (rng() < 0.7 ? 2 : 3),
       hpMult: 0.95,
       powerMult: 0.9,
     };
   }
-  // Ch 6–9: full pressure
+  // Ch 6–9: full pressure, still at least a pair
   return {
-    foeCount: (rng) => 1 + Math.floor(rng() * 3),
+    foeCount: (rng) => 2 + Math.floor(rng() * 2),
     hpMult: 1,
     powerMult: 1,
   };
@@ -388,6 +395,9 @@ const HERO_SPOTS: { x: number; y: number }[] = [
   { x: 12, y: 86 },
 ];
 
+/** Dog sits slightly ahead/below their owner. */
+const DOG_SPOT_OFFSET = { x: 10, y: 10 };
+
 /** Fixed enemy lanes — right side. */
 const ENEMY_SPOTS: { x: number; y: number }[] = [
   { x: 78, y: 32 },
@@ -399,6 +409,15 @@ function living(units: SimpleBattleUnit[], side?: "hero" | "enemy"): SimpleBattl
   return units.filter((u) => u.hp > 0 && (!side || u.side === side));
 }
 
+/** Sealed player heroes only — dogs do not hold the turn or decide defeat. */
+function livingPlayerHeroes(units: SimpleBattleUnit[]): SimpleBattleUnit[] {
+  return living(units, "hero").filter((u) => !u.isDog);
+}
+
+function livingDogs(units: SimpleBattleUnit[]): SimpleBattleUnit[] {
+  return living(units, "hero").filter((u) => !!u.isDog);
+}
+
 function syncHeroHpFromUnits(
   world: DtWorldSave,
   units: SimpleBattleUnit[]
@@ -408,6 +427,17 @@ function syncHeroHpFromUnits(
     if (u.side !== "hero" || !u.slot) continue;
     const c = characters[u.slot];
     if (!c?.created) continue;
+    if (u.isDog) {
+      const dog = normalizeDtDog(c.dog);
+      characters[u.slot] = {
+        ...c,
+        dog: {
+          ...dog,
+          hp: Math.max(0, Math.min(dog.maxHp, u.hp)),
+        },
+      };
+      continue;
+    }
     characters[u.slot] = {
       ...c,
       hp: Math.max(0, Math.min(c.maxHp, u.hp)),
@@ -519,25 +549,19 @@ function grantRewards(
     const slot = heroes[i]!;
     const c = characters[slot]!;
     const itemIds = drops.filter((_, di) => di % heroes.length === i).map((d) => d.itemId);
+    const heroUnit = battle.units.find((u) => u.side === "hero" && u.slot === slot && !u.isDog);
+    const dogUnit = battle.units.find((u) => u.side === "hero" && u.slot === slot && u.isDog);
+    const dog = normalizeDtDog(c.dog);
     characters[slot] = {
       ...c,
       gold: (c.gold ?? 0) + goldEach + (i === 0 ? leftovers.gold : 0),
       xp: (c.xp ?? 0) + xpEach + (i === 0 ? leftovers.xp : 0),
       inventory: [...(c.inventory ?? []), ...itemIds],
-      hp: Math.max(
-        1,
-        Math.min(
-          c.maxHp,
-          living(battle.units, "hero").find((u) => u.slot === slot)?.hp ?? c.hp
-        )
-      ),
-      mana: Math.max(
-        0,
-        Math.min(
-          c.maxMana,
-          living(battle.units, "hero").find((u) => u.slot === slot)?.mana ?? c.mana
-        )
-      ),
+      hp: Math.max(1, Math.min(c.maxHp, heroUnit?.hp ?? c.hp)),
+      mana: Math.max(0, Math.min(c.maxMana, heroUnit?.mana ?? c.mana)),
+      dog: dogUnit
+        ? { ...dog, hp: Math.max(0, Math.min(dog.maxHp, dogUnit.hp)) }
+        : dog,
     };
   }
   return characters;
@@ -560,7 +584,7 @@ function softRecoverParty(world: DtWorldSave): DtWorldSave["characters"] {
 
 function resetRoundActions(units: SimpleBattleUnit[]): SimpleBattleUnit[] {
   return units.map((u) => {
-    if (u.hp <= 0) return { ...u, actionsLeft: 0 };
+    if (u.hp <= 0 || u.isDog) return { ...u, actionsLeft: 0 };
     return { ...u, actionsLeft: u.haste ? 2 : 1 };
   });
 }
@@ -584,7 +608,7 @@ function checkEnd(
 ): SimpleBattleState {
   const units = battle.units.map((u) => (u.hp < 0 ? { ...u, hp: 0 } : u));
   const next = { ...battle, units };
-  const heroes = living(next.units, "hero");
+  const heroes = livingPlayerHeroes(next.units);
   const foes = living(next.units, "enemy");
   const foesDefeated = next.units.filter((u) => u.side === "enemy" && u.hp <= 0).length;
   if (!foes.length) {
@@ -606,7 +630,7 @@ function checkEnd(
       status: "victory",
       phase: "summary",
       fx: [],
-      message: `Victory! +${next.goldReward}g · +${next.xpReward} XP.${lootLine}`,
+      message: `You Won! +${next.goldReward}g · +${next.xpReward} XP.${lootLine}`,
       focusHeroId: null,
       lootDrops,
       combatStats,
@@ -635,11 +659,11 @@ function checkEnd(
 }
 
 function heroesStillActing(units: SimpleBattleUnit[]): boolean {
-  return living(units, "hero").some((u) => u.actionsLeft > 0);
+  return livingPlayerHeroes(units).some((u) => u.actionsLeft > 0);
 }
 
 function nextFocusHero(units: SimpleBattleUnit[], preferId?: string | null): string | null {
-  const ready = living(units, "hero").filter((u) => u.actionsLeft > 0);
+  const ready = livingPlayerHeroes(units).filter((u) => u.actionsLeft > 0);
   if (!ready.length) return null;
   if (preferId && ready.some((u) => u.id === preferId)) return preferId;
   return ready[0]!.id;
@@ -692,7 +716,7 @@ export function ensureSimpleBattleSplashConsistency(
 export function simpleBattleHeroActionsSpent(battle: SimpleBattleState): number {
   let spent = 0;
   for (const u of battle.units) {
-    if (u.side !== "hero" || u.hp <= 0) continue;
+    if (u.side !== "hero" || u.isDog || u.hp <= 0) continue;
     const budget = u.haste || (u.hasteRounds ?? 0) > 0 ? 2 : 1;
     spent += Math.max(0, budget - Math.max(0, u.actionsLeft));
   }
@@ -778,10 +802,13 @@ export function startSimpleBattle(
     }
   }
 
-  const heroUnits: SimpleBattleUnit[] = sealed.map((slot, i) => {
+  const dogNotes: string[] = [];
+  const heroUnits: SimpleBattleUnit[] = [];
+  const dogUnits: SimpleBattleUnit[] = [];
+  sealed.forEach((slot, i) => {
     const c = world.characters[slot]!;
     const spot = HERO_SPOTS[i] ?? { x: 16, y: 40 + i * 18 };
-    return {
+    heroUnits.push({
       id: `hero-${slot}`,
       side: "hero",
       slot,
@@ -801,7 +828,36 @@ export function startSimpleBattle(
       stamina: c.stamina ?? 0,
       maxStamina: c.maxStamina ?? 0,
       classId: c.classId,
-    };
+      look: normalizeDtHeroLook(c.dtLook, slot),
+    });
+    const presence = dtDogJoinsBattle(c);
+    if (!presence.joins) {
+      if (presence.note) dogNotes.push(presence.note);
+      return;
+    }
+    const dog = normalizeDtDog(c.dog);
+    dogUnits.push({
+      id: `dog-${slot}`,
+      side: "hero",
+      slot,
+      name: dog.name,
+      color: "#8a6a3a",
+      hp: Math.max(1, dog.hp),
+      maxHp: dog.maxHp,
+      power: dtDogBattlePower(dog, c.level ?? 1),
+      armor: Math.max(0, Math.floor(dog.bond / 50)),
+      x: Math.min(36, spot.x + DOG_SPOT_OFFSET.x),
+      y: Math.min(92, spot.y + DOG_SPOT_OFFSET.y),
+      haste: false,
+      hasteRounds: 0,
+      actionsLeft: 0,
+      mana: 0,
+      maxMana: 0,
+      stamina: 0,
+      maxStamina: 0,
+      isDog: true,
+      artId: "art-dog-companion",
+    });
   });
 
   const enemyUnits: SimpleBattleUnit[] = foes.map((f, i) => {
@@ -836,6 +892,14 @@ export function startSimpleBattle(
   const { theme, variant } = mapThemeForWorld(world, rng);
   const goldReward = foes.reduce((s, f) => s + (f.gold ?? 0), 0);
   const xpReward = foes.reduce((s, f) => s + (f.xp ?? 0), 0);
+  const dogJoinLine =
+    dogUnits.length > 0
+      ? ` ${dogUnits.map((d) => d.name).join(", ")} at your side.`
+      : "";
+  const ambushLog = [
+    `Ambush! ${foes.map((f) => f.name).join(", ")} — party acts first.${dogJoinLine}`,
+    ...dogNotes,
+  ];
 
   const battle: SimpleBattleState = {
     id: uid("bat"),
@@ -845,13 +909,15 @@ export function startSimpleBattle(
     mapTheme: theme,
     mapVariant: variant,
     chapterId: world.chapterId,
-    units: [...heroUnits, ...enemyUnits],
+    units: [...heroUnits, ...dogUnits, ...enemyUnits],
     focusHeroId: heroUnits[0]?.id ?? null,
-    log: [`Ambush! ${foes.map((f) => f.name).join(", ")} — party acts first.`],
+    log: ambushLog,
     fx: [],
     goldReward,
     xpReward,
-    message: `Fight! ${foes.length} foe${foes.length === 1 ? "" : "s"} on the ${theme.replace(/-/g, " ")}.`,
+    message: `Fight! ${foes.length} foe${foes.length === 1 ? "" : "s"} on the ${theme.replace(/-/g, " ")}.${
+      dogNotes[0] ? ` ${dogNotes[0]}` : dogJoinLine
+    }`,
     splashDone: false,
     combatStats: emptyCombatStats(1),
     lootDrops: [],
@@ -935,11 +1001,54 @@ function enemyActInPlace(
   return checkEnd(next, rng);
 }
 
+/** Dog companions bite once before foes swing. */
+function dogActInPlace(
+  battle: SimpleBattleState,
+  dog: SimpleBattleUnit,
+  rng: () => number
+): SimpleBattleState {
+  const foes = living(battle.units, "enemy");
+  if (!foes.length || dog.hp <= 0) return battle;
+  const target = foes[Math.floor(rng() * foes.length)]!;
+  const raw = dog.power + Math.floor(rng() * 3);
+  const { units, dealt, killed } = applyDamage(battle.units, target.id, raw);
+  let next: SimpleBattleState = withCombatDelta(
+    {
+      ...battle,
+      units,
+      fx: [
+        {
+          id: uid("fx"),
+          kind: "ray",
+          fromId: dog.id,
+          toId: target.id,
+          color: "#c9a24a",
+        },
+        {
+          id: uid("flt"),
+          kind: "float",
+          fromId: dog.id,
+          toId: target.id,
+          label: `−${dealt}`,
+          color: "#e8c46a",
+        },
+      ],
+    },
+    { damageDealt: dealt, foesDefeated: killed ? 1 : 0 }
+  );
+  next = pushLog(next, `${dog.name} bites ${target.name} for ${dealt}.`);
+  return checkEnd(next, rng);
+}
+
 function runEnemyPhase(
   battle: SimpleBattleState,
   rng: () => number = Math.random
 ): SimpleBattleState {
   let next: SimpleBattleState = { ...battle, phase: "enemy", fx: [] };
+  for (const dog of livingDogs(next.units)) {
+    if (next.status !== "active") break;
+    next = dogActInPlace(next, dog, rng);
+  }
   const foes = living(next.units, "enemy");
   for (const foe of foes) {
     if (next.status !== "active") break;
@@ -982,6 +1091,7 @@ export function performSimpleBattleAction(
 
   const hero = battle.units.find((u) => u.id === heroId && u.side === "hero");
   if (!hero || hero.hp <= 0) return { world, message: "That hero is down." };
+  if (hero.isDog) return { world, message: "Your dog acts on their own." };
   if (hero.actionsLeft <= 0) return { world, message: "That hero already acted." };
 
   let nextBattle: SimpleBattleState = { ...battle, fx: [], focusHeroId: heroId };
@@ -1251,18 +1361,29 @@ function finishBattle(
   world: DtWorldSave,
   battle: SimpleBattleState
 ): { world: DtWorldSave; message: string } {
-  // Stay on summary until dismiss — grant gold/xp/loot there so poll cannot double-pay.
+  // Grant gold/xp/loot as soon as victory hits so the end screen can show
+  // a live inventory for equip. rewardsPending stays false after grant so
+  // dismiss/poll cannot double-pay.
   if (battle.status === "victory") {
+    const pending = battle.rewardsPending !== false;
+    let characters = pending ? grantRewards(world, battle) : world.characters;
+    characters = Object.fromEntries(
+      PLAYER_SLOT_ORDER.map((slot) => {
+        const c = characters[slot];
+        return [slot, c?.created ? dtDogAfterBattle(c) : c];
+      })
+    ) as DtWorldSave["characters"];
     return {
       world: withBattleTransition(
         world,
         {
           ...world,
+          characters,
           battle: {
             ...battle,
             phase: "summary",
             fx: [],
-            rewardsPending: true,
+            rewardsPending: false,
           },
           battlesFought: (world.battlesFought ?? 0) + 1,
           framesSinceEncounter: 0,
@@ -1275,7 +1396,13 @@ function finishBattle(
       message: battle.message,
     };
   }
-  const characters = softRecoverParty(world);
+  let characters = softRecoverParty(world);
+  characters = Object.fromEntries(
+    PLAYER_SLOT_ORDER.map((slot) => {
+      const c = characters[slot];
+      return [slot, c?.created ? dtDogAfterBattle(c) : c];
+    })
+  ) as DtWorldSave["characters"];
   return {
     world: withBattleTransition(
       world,
@@ -1323,6 +1450,23 @@ export function dismissSimpleBattle(world: DtWorldSave): DtWorldSave {
     },
     "dismiss→WORLD"
   );
+}
+
+/**
+ * Apply victory gold/xp/loot while keeping the end screen open so the player
+ * can equip immediately. Idempotent via rewardsPending.
+ */
+export function claimSimpleBattleVictoryRewards(world: DtWorldSave): DtWorldSave {
+  const battle = world.battle;
+  if (!battle || battle.status !== "victory" || battle.rewardsPending === false) {
+    return world;
+  }
+  return {
+    ...world,
+    characters: grantRewards(world, battle),
+    battle: { ...battle, rewardsPending: false },
+    updatedAt: new Date().toISOString(),
+  };
 }
 
 /** Clear floating FX after animation (keep battle state). */

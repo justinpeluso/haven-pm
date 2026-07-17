@@ -5,6 +5,7 @@ import Link from "next/link";
 import { DowntownSubnav } from "@/components/downtown/downtown-subnav";
 import { InventoryPanel } from "@/components/party-chronicle/inventory-panel";
 import { SimpleBattleOverlay } from "@/components/dungeon-tester/simple-battle-overlay";
+import { DtHeroFigure } from "@/components/dungeon-tester/dt-hero-figure";
 import {
   BLANK_BASE_STATS,
   listCreateMagic,
@@ -24,6 +25,14 @@ import type {
 import { CLASS_IDS, PLAYER_SLOT_ORDER, STAT_KEYS } from "@/lib/downtown/party-chronicle/types";
 import {
   DT_DEFAULT_SLOT_ID,
+  DT_HAT_LABEL,
+  DT_HATS,
+  DT_HAIR_COLORS,
+  DT_HAIR_LABEL,
+  DT_HAIR_STYLES,
+  DT_OUTFIT_HEX,
+  DT_OUTFITS,
+  DT_SKIN_TONES,
   DT_SLOT_IDS,
   DT_TARGET_PLAYTIME_HOURS,
   addPlaytime,
@@ -38,11 +47,16 @@ import {
   clearSimpleBattleFx,
   continueFrame,
   createNewDtWorld,
+  defaultDtHeroLook,
   dismissDtBattle,
   fleeDtBattle,
+  claimSimpleBattleVictoryRewards,
   dtArtSrc,
   dtBuyFromCampMerchant,
+  dtCampFeedDog,
+  dtCampMeanToDog,
   dtDigForLoot,
+  dtDogJoinsBattle,
   dtEquipItem,
   dtForceAmbush,
   dtReadSpellbook,
@@ -56,6 +70,8 @@ import {
   formatPlaytimeHud,
   getDtArt,
   getFrame,
+  normalizeDtDog,
+  normalizeDtHeroLook,
   resolveFrameBody,
   visibleFrameChoices,
   listLocalDtSlotSummaries,
@@ -74,6 +90,7 @@ import {
   writeActiveDtSlotId,
   writeLocalDtWorld,
   type DtFrame,
+  type DtHeroLook,
   type DtSaveSlotId,
   type DtSlotSummary,
   type DtWorldSave,
@@ -707,7 +724,11 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     enemyAdvanceInFlightRef.current = false;
     persist(dismissDtBattle(current));
     setTab("story");
-    setFlash("Road clears — story resumes.");
+    setFlash(
+      current.battle.status === "victory"
+        ? "You won — gear stowed. Story resumes."
+        : "Road clears — story resumes."
+    );
   };
 
   const onFleeBattle = () => {
@@ -744,6 +765,15 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
       enemyAdvanceInFlightRef.current = false;
     }
   }, [world?.battle?.phase, world?.battle?.round]);
+
+  // Older saves may still be on victory with rewardsPending — claim so inventory shows loot.
+  useEffect(() => {
+    const current = worldRef.current;
+    const b = current?.battle;
+    if (!current || !b || b.status !== "victory" || b.rewardsPending === false) return;
+    persist(claimSimpleBattleVictoryRewards(current));
+  }, [world?.battle?.id, world?.battle?.status, world?.battle?.rewardsPending]);
+
   const battleActive = world?.battle?.status === "active";
   const battleOpen = !!world?.battle;
   const acting =
@@ -774,6 +804,28 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   const onForceAmbush = () => {
     if (!world) return;
     const r = dtForceAmbush(world);
+    persist(r.world);
+    setFlash(r.message);
+  };
+
+  const onFeedDog = () => {
+    if (!world || !mySlot) return;
+    const r = dtCampFeedDog(world, mySlot);
+    if ("error" in r) {
+      setFlash(r.error);
+      return;
+    }
+    persist(r.world);
+    setFlash(r.message);
+  };
+
+  const onMeanToDog = () => {
+    if (!world || !mySlot) return;
+    const r = dtCampMeanToDog(world, mySlot);
+    if ("error" in r) {
+      setFlash(r.error);
+      return;
+    }
     persist(r.world);
     setFlash(r.message);
   };
@@ -1005,6 +1057,13 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 <div key={slot} className="dt-seat" data-sealed={c?.created ? "true" : "false"}>
                   <div>{SLOT_DEFAULTS[slot].displayName}</div>
                   <div>{c?.created ? `${c.name} · ${CLASS_DEFS[c.classId].name}` : "Need create"}</div>
+                  {c?.created ? (
+                    <DtHeroFigure
+                      look={normalizeDtHeroLook(c.dtLook, slot)}
+                      compact
+                      className="dt-seat-figure"
+                    />
+                  ) : null}
                 </div>
               );
             })}
@@ -1043,6 +1102,13 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                       ? `${c.name} · Lv${c.level} · ${c.hp}/${c.maxHp} HP · ${c.gold}g`
                       : "Unsealed"}
                   </div>
+                  {c.created ? (
+                    <DtHeroFigure
+                      look={normalizeDtHeroLook(c.dtLook, slot)}
+                      compact
+                      className="dt-seat-figure"
+                    />
+                  ) : null}
                 </div>
               );
             })}
@@ -1420,6 +1486,43 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               </div>
 
               <div className="dt-camp-section">
+                <p className="dt-section-label">Hound · Camp Companion</p>
+                {me?.created ? (
+                  <>
+                    <p className="dt-section-hint">
+                      {normalizeDtDog(me.dog).name} · bond {normalizeDtDog(me.dog).bond} · hunger{" "}
+                      {normalizeDtDog(me.dog).hunger ?? 0}
+                      {normalizeDtDog(me.dog).sulking ? " · sulking" : ""}
+                      {" · "}
+                      {dtDogJoinsBattle(me).joins
+                        ? "joins ambushes"
+                        : dtDogJoinsBattle(me).note ?? "hiding at camp"}
+                    </p>
+                    <div className="dt-actions">
+                      <button
+                        type="button"
+                        className="dt-btn"
+                        disabled={!acting || battleActive}
+                        onClick={onFeedDog}
+                      >
+                        Feed dog →
+                      </button>
+                      <button
+                        type="button"
+                        className="dt-btn"
+                        disabled={!acting || battleActive}
+                        onClick={onMeanToDog}
+                      >
+                        Shove dog away (mean) →
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <p className="dt-section-hint">Seal a hero to bring a dog.</p>
+                )}
+              </div>
+
+              <div className="dt-camp-section">
                 <p className="dt-section-label">Road Battle · Crude Ambush</p>
                 {battleOpen ? (
                   <p className="dt-section-title">Battle in progress — finish the overlay.</p>
@@ -1515,6 +1618,10 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               onFxDone={onBattleFxDone}
               onEnemyAdvance={onBattleEnemyAdvance}
               onSplashDone={onBattleSplashDone}
+              hero={me}
+              onEquip={onEquip}
+              onUnequip={onUnequip}
+              onUseConsumable={onUseConsumable}
             />
           ) : null}
         </>
@@ -1543,6 +1650,9 @@ function CreateSeat({
   const [raceId, setRaceId] = useState<RaceId>(base.raceId ?? "human");
   const [dogName, setDogName] = useState(base.dog.name || def.dogName);
   const [dogBreed, setDogBreed] = useState(base.dog.breed || def.dogBreed);
+  const [look, setLook] = useState<DtHeroLook>(() =>
+    normalizeDtHeroLook(base.dtLook, slot)
+  );
   const [bumps, setBumps] = useState<Partial<Record<StatKey, number>>>({});
   const weapons = useMemo(() => weaponsForClass(classId), [classId]);
   const [weaponId, setWeaponId] = useState(() => weaponsForClass(def.suggestedClass)[0]?.id ?? "iron-sword");
@@ -1578,6 +1688,7 @@ function CreateSeat({
       raceId: "human",
       dogName: def.dogName,
       dogBreed: def.dogBreed,
+      look: defaultDtHeroLook(slot),
       statBumps: { strength: 5, constitution: 5, dexterity: 5, wisdom: 4, intelligence: 4, charisma: 4 },
       kit: {
         weaponId: weaponsForClass(def.suggestedClass)[0]?.id ?? "iron-sword",
@@ -1604,6 +1715,7 @@ function CreateSeat({
       raceId,
       dogName,
       dogBreed,
+      look,
       statBumps: bumps,
       kit: { weaponId, skillAbilityId: skillId, magicAbilityIds: magicIds },
     });
@@ -1614,15 +1726,101 @@ function CreateSeat({
     onSeal(result);
   };
 
+  const setLookKey = <K extends keyof DtHeroLook>(key: K, value: DtHeroLook[K]) => {
+    setLook((prev) => ({ ...prev, [key]: value }));
+  };
+
   return (
     <div className="dt-panel dt-create space-y-2">
       <DtBackBar backs={[{ label: "Title", onClick: onCancel, primary: true }]} />
       <h2 className="dt-frame-title">Seal {def.displayName}&apos;s seat</h2>
       <p className="dt-tagline">
-        Join anytime — seal before story or battle. Same Neverworld create kit (point-buy, weapon,
-        skill, magic). Dogs optional; name them now if you want. Sealing does not reset the campaign.
+        Start with your look — then name, class, and kit. Your frontier figure shows in camp, party
+        row, and ambushes (not the old class comic plates). Dogs optional.
       </p>
       {error ? <p className="dt-flash">{error}</p> : null}
+
+      <div className="dt-look-studio">
+        <p className="dt-section-label">Character look</p>
+        <div className="dt-look-studio-row">
+          <DtHeroFigure look={look} label={name || def.displayName} className="dt-look-preview" />
+          <div className="dt-look-controls">
+            <label>
+              Skin
+              <select
+                value={look.skin}
+                onChange={(e) => setLookKey("skin", e.target.value as DtHeroLook["skin"])}
+              >
+                {DT_SKIN_TONES.map((id) => (
+                  <option key={id} value={id}>
+                    {id}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Hair
+              <select
+                value={look.hair}
+                onChange={(e) => setLookKey("hair", e.target.value as DtHeroLook["hair"])}
+              >
+                {DT_HAIR_STYLES.map((id) => (
+                  <option key={id} value={id}>
+                    {DT_HAIR_LABEL[id]}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Hair color
+              <select
+                value={look.hairColor}
+                onChange={(e) => setLookKey("hairColor", e.target.value as DtHeroLook["hairColor"])}
+              >
+                {DT_HAIR_COLORS.map((id) => (
+                  <option key={id} value={id}>
+                    {id}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Outfit
+              <select
+                value={look.outfit}
+                onChange={(e) => setLookKey("outfit", e.target.value as DtHeroLook["outfit"])}
+              >
+                {DT_OUTFITS.map((id) => (
+                  <option key={id} value={id}>
+                    {DT_OUTFIT_HEX[id].label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Hat
+              <select
+                value={look.hat}
+                onChange={(e) => setLookKey("hat", e.target.value as DtHeroLook["hat"])}
+              >
+                {DT_HATS.map((id) => (
+                  <option key={id} value={id}>
+                    {DT_HAT_LABEL[id]}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button
+              type="button"
+              className="dt-btn"
+              onClick={() => setLook(defaultDtHeroLook(slot))}
+            >
+              Reset seat default
+            </button>
+          </div>
+        </div>
+      </div>
+
       <label>
         Name
         <input value={name} onChange={(e) => setName(e.target.value)} />

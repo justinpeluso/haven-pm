@@ -71,13 +71,14 @@
     {
       "id": "dt-trail-jerky",
       "name": "Trail Jerky",
-      "blurb": "Salted prairie beef. Chewy as a bad promise.",
+      "blurb": "Salted prairie beef. Chewy as a bad promise. Share with your dog to keep them in the fight.",
       "tier": "common",
       "slot": "consumable",
       "heal": 12,
       "tags": [
         "food",
-        "frontier"
+        "frontier",
+        "dog"
       ],
       "rarity": "common"
     },

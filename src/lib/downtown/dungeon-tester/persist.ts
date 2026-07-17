@@ -8,6 +8,7 @@ import type { CharacterSave, ClassId, Stats } from "@/lib/downtown/party-chronic
 import type { RaceId } from "@/lib/downtown/party-chronicle/races";
 import { DT_STARTER_LOADOUT } from "./gear";
 import { dtFillEmptyEquipSlots } from "./loadout";
+import { normalizeDtHeroLook, type DtHeroLook } from "./look";
 import {
   ensureSimpleBattleSplashConsistency,
   mergeSimpleBattle,
@@ -247,6 +248,8 @@ export function sealDtCharacter(
     dogBreed: string;
     statBumps: Partial<Stats>;
     kit: CreateKitPicks;
+    /** Frontier look — required for new seals so battle art isn’t a class comic plate. */
+    look?: DtHeroLook;
   }
 ): DtWorldSave | { error: string } {
   const base = world.characters[slot];
@@ -258,7 +261,11 @@ export function sealDtCharacter(
   for (const id of DT_STARTER_LOADOUT) {
     if (!inventory.includes(id)) inventory.push(id);
   }
-  const sealed = dtFillEmptyEquipSlots({ ...result, inventory });
+  const sealed = dtFillEmptyEquipSlots({
+    ...result,
+    inventory,
+    dtLook: normalizeDtHeroLook(opts.look ?? result.dtLook, slot),
+  });
 
   const characters = { ...world.characters, [slot]: sealed };
   return {

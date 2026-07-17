@@ -14,8 +14,10 @@ DT-only crude battle. Fixed positions (no walking). Neverworld `BattleOverlay` i
 - Browser Playwright helpers live under local `.qa-nm/` (gitignored), not `scripts/`
 
 ## Contract
-- Fixed spots, no move; foe count + HP/power scaled by **chapter** (Ch1 = 1 soft foe; later chapters ramp to 1–3)
+- Fixed spots, no move; foe count + HP/power scaled by **chapter** (Ch1–2 = 2 soft foes for difficulty dial-in; later chapters ramp to 2–3)
 - First ambush (`battlesFought === 0`) gets an extra HP/power nerf
+- Dog companion joins by default (`look.ts` / `dog.ts`); flees to camp if mean/sulking or hunger ≥ 2 (feed at Camp / Trail Jerky)
+- Hero art uses frontier `dtLook` + `DtHeroFigure` (not Neverworld class comic plates)
 - Actions: Attack / Buff (Haste) / Heal / Potion / Magic
 - Rays + Diablo-style −dmg floats (player FX hold before deferred enemy phase)
 - FF-style HP / MP / ST bars; **START BATTLE** splash; Haste = 2 actions

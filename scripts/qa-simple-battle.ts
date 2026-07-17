@@ -78,6 +78,17 @@ world = r.world;
 assert(world.battle?.status === "active", "battle should start");
 assert(typeof world.battle!.id === "string" && world.battle!.id.length > 0, "stable battle id");
 assert(world.battle!.splashDone !== true, "splash not done yet");
+const foesAtStart = world.battle!.units.filter((u) => u.side === "enemy");
+assert(foesAtStart.length >= 2, `expected ≥2 foes, got ${foesAtStart.length}`);
+const dogsAtStart = world.battle!.units.filter((u) => u.isDog);
+assert(dogsAtStart.length >= 1, "dog companion should join by default");
+assert(dogsAtStart[0]!.name === "Scout", "dog name on field");
+console.log(
+  "ambush pack:",
+  foesAtStart.map((f) => f.name).join(", "),
+  "+ dog",
+  dogsAtStart[0]!.name
+);
 const battleId0 = world.battle!.id;
 
 // Splash skip: brand-new fight must show; mid-fight must never restart.
@@ -132,7 +143,7 @@ assert(
 assert(!("tactical" in (world.battle as object)), "no Neverworld tactical grid");
 const enemies0 = world.battle!.units.filter((u) => u.side === "enemy");
 const heroes0 = world.battle!.units.filter((u) => u.side === "hero");
-assert(enemies0.length === 1, "ch1 first ambush should be 1 foe");
+assert(enemies0.length === 2, "ch1 first ambush should be 2 foes (difficulty dial-in)");
 assert(
   typeof heroes0[0]?.stamina === "number" && typeof heroes0[0]?.maxStamina === "number",
   "hero stamina for FF bars"
@@ -158,8 +169,12 @@ r = performSimpleBattleAction(world, hero0.id, "attack", foe0.id);
 world = r.world;
 assert(world.battle!.fx.some((f) => f.kind === "ray"), "attack ray");
 assert(
-  world.battle!.fx.some((f) => f.kind === "float" && (f.label ?? "").includes("−")),
-  "float −dmg"
+  world.battle!.fx.some(
+    (f) =>
+      f.kind === "float" &&
+      ((f.label ?? "").includes("−") || (f.label ?? "") === "DEAD")
+  ),
+  "float −dmg or DEAD"
 );
 console.log(
   "attack:",
@@ -244,6 +259,16 @@ assert(
   "battle should end"
 );
 console.log("end:", world.battle?.status, world.battle?.message);
+
+if (world.battle?.status === "victory") {
+  assert(world.battle.rewardsPending === false, "victory grants rewards before dismiss");
+  const inv = world.characters.justin?.inventory ?? [];
+  const drops = world.battle.lootDrops ?? [];
+  for (const d of drops) {
+    assert(inv.includes(d.itemId), `loot ${d.itemId} already in inventory on You Won`);
+  }
+  console.log("victory loot in bag:", drops.map((d) => d.name).join(", ") || "(none)");
+}
 
 world = dismissSimpleBattle(world);
 assert(world.battle === null, "dismiss clears battle");

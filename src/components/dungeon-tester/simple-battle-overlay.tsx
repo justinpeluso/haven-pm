@@ -1,8 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { battleClassArtSrc } from "@/lib/downtown/party-chronicle/art";
-import type { ClassId } from "@/lib/downtown/party-chronicle/types";
+import { battleClassArtSrc, battlePetArtSrc } from "@/lib/downtown/party-chronicle/art";
+import type {
+  CharacterSave,
+  ClassId,
+  EquipSlot,
+} from "@/lib/downtown/party-chronicle/types";
 import {
   SIMPLE_BATTLE_ACTIONS,
   simpleBattleShouldSkipSplash,
@@ -12,7 +16,10 @@ import {
   type SimpleMapTheme,
 } from "@/lib/downtown/dungeon-tester/simple-battle";
 import { dtEnemyArtSrc, simpleBattleMapSrc } from "@/lib/downtown/dungeon-tester/art";
+import { dtLoadoutSummary } from "@/lib/downtown/dungeon-tester/camp";
+import { normalizeDtHeroLook } from "@/lib/downtown/dungeon-tester/look";
 import type { PlayerSlot } from "@/lib/downtown/dungeon-tester/types";
+import { DtHeroFigure } from "@/components/dungeon-tester/dt-hero-figure";
 
 type Props = {
   battle: SimpleBattleState;
@@ -28,6 +35,11 @@ type Props = {
   onEnemyAdvance?: () => void;
   /** Persist splashDone for this battle id (sync:false is fine). */
   onSplashDone?: () => void;
+  /** Your sealed hero — used on victory for immediate equip from loot. */
+  hero?: CharacterSave | null;
+  onEquip?: (itemId: string) => void;
+  onUnequip?: (slot: EquipSlot) => void;
+  onUseConsumable?: (itemId: string) => void;
 };
 
 const ENEMY_ADVANCE_MS = 700;
@@ -50,6 +62,8 @@ const INTRO_HOLD_MS = 1400;
 const INTRO_FADE_MS = 800;
 
 function unitArtSrc(unit: SimpleBattleUnit): string | null {
+  if (unit.isDog) return battlePetArtSrc();
+  if (unit.side === "hero" && unit.look) return null; // rendered via DtHeroFigure
   if (unit.side === "hero" && unit.classId) {
     return battleClassArtSrc(unit.classId as ClassId);
   }
@@ -72,7 +86,7 @@ function StatBars({
   compact?: boolean;
 }) {
   const down = unit.hp <= 0;
-  const hero = unit.side === "hero";
+  const hero = unit.side === "hero" && !unit.isDog;
   return (
     <div className="dt-sbat-bars" data-compact={compact ? "true" : "false"} data-down={down ? "true" : "false"}>
       <div className="dt-sbat-bar" data-kind="hp" title={`HP ${unit.hp}/${unit.maxHp}`}>
@@ -117,16 +131,23 @@ function StatBars({
 function ClipUnit({ unit, active }: { unit: SimpleBattleUnit; active?: boolean }) {
   const down = unit.hp <= 0;
   const art = unitArtSrc(unit);
+  const look =
+    unit.side === "hero" && !unit.isDog
+      ? normalizeDtHeroLook(unit.look, unit.slot)
+      : null;
   return (
     <div
       className="dt-sbat-unit"
       data-side={unit.side}
+      data-dog={unit.isDog ? "true" : "false"}
       data-down={down ? "true" : "false"}
       data-active={active ? "true" : "false"}
       data-haste={unit.haste ? "true" : "false"}
       style={{ ["--unit-color" as string]: unit.color }}
     >
-      {art ? (
+      {look ? (
+        <DtHeroFigure look={look} compact className="dt-sbat-hero-figure" />
+      ) : art ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img className="dt-sbat-clip" src={art} alt="" draggable={false} />
       ) : (
@@ -145,9 +166,9 @@ function ClipUnit({ unit, active }: { unit: SimpleBattleUnit; active?: boolean }
         </svg>
       )}
       <div className="dt-sbat-name">
-        {unit.name}
+        {unit.isDog ? `${unit.name} (dog)` : unit.name}
         {unit.haste ? " ·!" : ""}
-        {unit.side === "hero" && unit.actionsLeft > 0 && !down
+        {unit.side === "hero" && !unit.isDog && unit.actionsLeft > 0 && !down
           ? ` · ${unit.actionsLeft}`
           : ""}
       </div>
@@ -236,6 +257,10 @@ export function SimpleBattleOverlay({
   onFxDone,
   onEnemyAdvance,
   onSplashDone,
+  hero,
+  onEquip,
+  onUnequip,
+  onUseConsumable,
 }: Props) {
   const [selectedHeroId, setSelectedHeroId] = useState<string | null>(battle.focusHeroId);
   const [action, setAction] = useState<SimpleBattleActionId | null>(null);
@@ -350,7 +375,7 @@ export function SimpleBattleOverlay({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [introPhase, battle.id]);
 
-  const heroes = battle.units.filter((u) => u.side === "hero");
+  const heroes = battle.units.filter((u) => u.side === "hero" && !u.isDog);
   const enemies = battle.units.filter((u) => u.side === "enemy");
   const selected = heroes.find((u) => u.id === selectedHeroId) ?? null;
   const myHero = mySlot ? (heroes.find((u) => u.slot === mySlot) ?? null) : null;
@@ -369,6 +394,15 @@ export function SimpleBattleOverlay({
     !battle.splashDone &&
     !simpleBattleShouldSkipSplash(battle);
   const controlsLocked = introBusy || !canAct || !!pending || !playerTurn;
+
+  const lootIds = useMemo(
+    () => new Set((battle.lootDrops ?? []).map((d) => d.itemId)),
+    [battle.lootDrops]
+  );
+  const victoryLoadout = useMemo(
+    () => (summary && battle.status === "victory" && hero ? dtLoadoutSummary(hero) : null),
+    [summary, battle.status, hero]
+  );
 
   const pickAction = (id: SimpleBattleActionId) => {
     if (!actingHero || controlsLocked) return;
@@ -406,8 +440,8 @@ export function SimpleBattleOverlay({
             <h2 className="dt-sbat-title">
               {summary
                 ? battle.status === "victory"
-                  ? "Victory"
-                  : "Defeat"
+                  ? "You Won!"
+                  : "You Lost"
                 : "Stand and Fight"}
             </h2>
           </div>
@@ -610,7 +644,7 @@ export function SimpleBattleOverlay({
         ) : (
           <div className="dt-sbat-endscreen" data-outcome={battle.status}>
             <p className="dt-sbat-endscreen-banner">
-              {battle.status === "victory" ? "VICTORY" : "DEFEAT"}
+              {battle.status === "victory" ? "You Won!" : "You Lost"}
             </p>
             <ul className="dt-sbat-endscreen-stats">
               <li>
@@ -645,7 +679,9 @@ export function SimpleBattleOverlay({
               )}
             </ul>
             <div className="dt-sbat-endscreen-loot">
-              <p className="dt-sbat-endscreen-loot-title">Items dropped</p>
+              <p className="dt-sbat-endscreen-loot-title">
+                {battle.status === "victory" ? "Items you got" : "Nothing claimed"}
+              </p>
               {(battle.lootDrops?.length ?? 0) > 0 ? (
                 <ul>
                   {battle.lootDrops!.map((d) => (
@@ -665,8 +701,89 @@ export function SimpleBattleOverlay({
                 </p>
               )}
             </div>
+            {battle.status === "victory" && victoryLoadout && hero ? (
+              <div className="dt-sbat-endscreen-inv">
+                <p className="dt-sbat-endscreen-loot-title">
+                  Inventory — equip what you need now
+                </p>
+                <p className="dt-section-hint">
+                  {hero.name} · {hero.gold}g · loot is already in your bag
+                </p>
+                <div className="dt-worn-row">
+                  {victoryLoadout.worn.length ? (
+                    victoryLoadout.worn.map((w) => (
+                      <span
+                        key={w.slot}
+                        className="dt-worn-chip"
+                        data-tier={w.tier === "magic" ? "uncommon" : w.tier}
+                        title={`${w.slot} · ${w.tier}`}
+                      >
+                        {w.slot}: {w.name}
+                        {onUnequip ? (
+                          <button
+                            type="button"
+                            className="dt-sbat-unequip"
+                            onClick={() => onUnequip(w.slot)}
+                            aria-label={`Unequip ${w.name}`}
+                          >
+                            ×
+                          </button>
+                        ) : null}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="dt-section-hint">Nothing worn — equip from the bag.</span>
+                  )}
+                </div>
+                <div className="dt-sbat-endscreen-bag">
+                  {victoryLoadout.bag.map((item, idx) => (
+                    <div
+                      key={`${item.id}-${idx}`}
+                      className="dt-bag-row"
+                      data-equipped={item.equipped ? "true" : "false"}
+                      data-tier={item.tier}
+                      data-loot={lootIds.has(item.id) ? "true" : "false"}
+                    >
+                      <div>
+                        <strong className="dt-bag-name">
+                          {lootIds.has(item.id) ? "★ " : item.equipped ? "● " : ""}
+                          {item.name}
+                        </strong>
+                        <span className="dt-bag-meta">
+                          {item.tier} · {item.slot}
+                          {lootIds.has(item.id) ? " · new" : ""}
+                        </span>
+                        {item.stats.length ? (
+                          <span className="dt-bag-stats">{item.stats.join(" · ")}</span>
+                        ) : null}
+                      </div>
+                      <div className="dt-bag-actions">
+                        {item.equippable && !item.equipped && onEquip ? (
+                          <button
+                            type="button"
+                            className="pc-btn-tiny"
+                            onClick={() => onEquip(item.id)}
+                          >
+                            Equip
+                          </button>
+                        ) : null}
+                        {item.consumable && onUseConsumable ? (
+                          <button
+                            type="button"
+                            className="pc-btn-tiny"
+                            onClick={() => onUseConsumable(item.id)}
+                          >
+                            Use
+                          </button>
+                        ) : null}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
             <button type="button" className="dt-btn" data-primary="true" data-back="true" onClick={onDismiss}>
-              ← Return to story
+              {battle.status === "victory" ? "Done — back to story" : "← Return to story"}
             </button>
           </div>
         )}

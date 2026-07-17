@@ -436,6 +436,8 @@ export function useInventoryConsumable(
         ...next.dog,
         hp: Math.min(next.dog.maxHp, next.dog.hp + Math.max(5, Math.floor(heal / 2) || 8)),
         bond: Math.min(100, next.dog.bond + 2),
+        hunger: 0,
+        sulking: false,
       },
     };
   }
