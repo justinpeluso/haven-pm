@@ -103,13 +103,25 @@ export type SimpleBattleUnit = {
   lootPool?: DtLootPoolId | string;
 };
 
+/** Visual recipe for overlay VFX — keeps actions visually distinct. */
+export type SimpleBattleFxStyle =
+  | "slash"
+  | "magic"
+  | "heal"
+  | "haste"
+  | "potion"
+  | "enemy"
+  | "dog";
+
 export type SimpleBattleFx = {
   id: string;
-  kind: "ray" | "float";
+  /** ray = line, bolt = traveling projectile, burst = impact ring, aura = ally pulse/shimmer, float = number/label */
+  kind: "ray" | "float" | "bolt" | "burst" | "aura";
   fromId: string;
   toId: string;
   label?: string;
   color?: string;
+  style?: SimpleBattleFxStyle;
 };
 
 export type SimpleBattleState = {
@@ -984,14 +996,30 @@ function enemyActInPlace(
       ...battle,
       units,
       fx: [
-        { id: fxId, kind: "ray", fromId: enemy.id, toId: target.id, color: "#c44" },
+        {
+          id: fxId,
+          kind: "ray",
+          style: "enemy",
+          fromId: enemy.id,
+          toId: target.id,
+          color: "#c44",
+        },
+        {
+          id: uid("fxb"),
+          kind: "burst",
+          style: "enemy",
+          fromId: enemy.id,
+          toId: target.id,
+          color: "#e85a3a",
+        },
         {
           id: uid("flt"),
           kind: "float",
+          style: "enemy",
           fromId: enemy.id,
           toId: target.id,
           label: `−${dealt}`,
-          color: "#ff6b4a",
+          color: "#ffc4b0",
         },
       ],
     },
@@ -1020,17 +1048,27 @@ function dogActInPlace(
         {
           id: uid("fx"),
           kind: "ray",
+          style: "dog",
           fromId: dog.id,
           toId: target.id,
           color: "#c9a24a",
         },
         {
+          id: uid("fxb"),
+          kind: "burst",
+          style: "dog",
+          fromId: dog.id,
+          toId: target.id,
+          color: "#d4b05a",
+        },
+        {
           id: uid("flt"),
           kind: "float",
+          style: "dog",
           fromId: dog.id,
           toId: target.id,
           label: `−${dealt}`,
-          color: "#e8c46a",
+          color: "#ffe7a8",
         },
       ],
     },
@@ -1117,14 +1155,30 @@ export function performSimpleBattleAction(
           ...nextBattle,
           units: spendHeroAction(units, heroId),
           fx: [
-            { id: uid("fx"), kind: "ray", fromId: heroId, toId: foe.id, color: "#f5d76e" },
+            {
+              id: uid("fx"),
+              kind: "ray",
+              style: "slash",
+              fromId: heroId,
+              toId: foe.id,
+              color: "#e8c547",
+            },
+            {
+              id: uid("fxb"),
+              kind: "burst",
+              style: "slash",
+              fromId: heroId,
+              toId: foe.id,
+              color: "#f5d76e",
+            },
             {
               id: uid("flt"),
               kind: "float",
+              style: "slash",
               fromId: heroId,
               toId: foe.id,
               label: killed ? "DEAD" : `−${dealt}`,
-              color: killed ? "#ff8a5c" : "#ffef9a",
+              color: killed ? "#ffb090" : "#fff3c4",
             },
           ],
         },
@@ -1159,14 +1213,38 @@ export function performSimpleBattleAction(
           ...nextBattle,
           units: spendHeroAction(afterMana, heroId),
           fx: [
-            { id: uid("fx"), kind: "ray", fromId: heroId, toId: foe.id, color: "#7ec8ff" },
+            {
+              id: uid("fx"),
+              kind: "ray",
+              style: "magic",
+              fromId: heroId,
+              toId: foe.id,
+              color: "#c45c28",
+            },
+            {
+              id: uid("fxbolt"),
+              kind: "bolt",
+              style: "magic",
+              fromId: heroId,
+              toId: foe.id,
+              color: "#e07a3a",
+            },
+            {
+              id: uid("fxb"),
+              kind: "burst",
+              style: "magic",
+              fromId: heroId,
+              toId: foe.id,
+              color: "#f0a05a",
+            },
             {
               id: uid("flt"),
               kind: "float",
+              style: "magic",
               fromId: heroId,
               toId: foe.id,
               label: killed ? "DEAD" : `−${dealt}`,
-              color: killed ? "#9ad4ff" : "#a8e0ff",
+              color: killed ? "#ffd0a0" : "#ffe0b8",
             },
           ],
         },
@@ -1190,12 +1268,29 @@ export function performSimpleBattleAction(
       units: spendHeroAction(units, heroId),
       fx: [
         {
+          id: uid("fxr"),
+          kind: "ray",
+          style: "heal",
+          fromId: heroId,
+          toId: allyId,
+          color: "#6a9e5a",
+        },
+        {
+          id: uid("fxa"),
+          kind: "aura",
+          style: "heal",
+          fromId: heroId,
+          toId: allyId,
+          color: "#8bc47a",
+        },
+        {
           id: uid("flt"),
           kind: "float",
+          style: "heal",
           fromId: heroId,
           toId: allyId,
           label: `+${heal}`,
-          color: "#7dff9a",
+          color: "#d8f0c4",
         },
       ],
     };
@@ -1230,12 +1325,29 @@ export function performSimpleBattleAction(
       units: after,
       fx: [
         {
+          id: uid("fxa"),
+          kind: "aura",
+          style: "haste",
+          fromId: heroId,
+          toId: allyId,
+          color: "#e8c547",
+        },
+        {
+          id: uid("fxb"),
+          kind: "burst",
+          style: "haste",
+          fromId: heroId,
+          toId: allyId,
+          color: "#f5d76e",
+        },
+        {
           id: uid("flt"),
           kind: "float",
+          style: "haste",
           fromId: heroId,
           toId: allyId,
           label: "Haste!",
-          color: "#ffe066",
+          color: "#ffe9a0",
         },
       ],
     };
@@ -1260,12 +1372,29 @@ export function performSimpleBattleAction(
       units: spendHeroAction(units, heroId),
       fx: [
         {
+          id: uid("fxb"),
+          kind: "burst",
+          style: "potion",
+          fromId: heroId,
+          toId: heroId,
+          color: "#c45c70",
+        },
+        {
+          id: uid("fxa"),
+          kind: "aura",
+          style: "potion",
+          fromId: heroId,
+          toId: heroId,
+          color: "#d47888",
+        },
+        {
           id: uid("flt"),
           kind: "float",
+          style: "potion",
           fromId: heroId,
           toId: heroId,
           label: `+${heal}`,
-          color: "#ff8ec8",
+          color: "#f2b4c2",
         },
       ],
     };

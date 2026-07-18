@@ -1004,22 +1004,521 @@
   height: 100%;
   pointer-events: none;
   z-index: 3;
+  overflow: visible;
 }
 
 .dungeon-tester .dt-sbat-ray {
   stroke-linecap: round;
-  filter: drop-shadow(0 0 2px rgba(255, 240, 160, 0.85));
-  animation: dt-sbat-ray-flash 0.55s ease-out;
+  filter: drop-shadow(0 0 1.5px rgba(255, 220, 140, 0.7));
+  animation: dt-sbat-ray-flash 0.42s cubic-bezier(0.2, 0.8, 0.25, 1) forwards;
+}
+
+.dungeon-tester .dt-sbat-ray[data-style="magic"] {
+  stroke-dasharray: 3.5 2.2;
+  filter: drop-shadow(0 0 2px rgba(192, 80, 30, 0.75));
+  animation: dt-sbat-ray-magic 0.48s cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
+  opacity: 0.85;
+}
+
+.dungeon-tester .dt-sbat-ray[data-style="heal"] {
+  stroke-dasharray: 2 3.5;
+  filter: drop-shadow(0 0 1.5px rgba(107, 158, 90, 0.65));
+  animation: dt-sbat-ray-heal 0.48s cubic-bezier(0.25, 0.8, 0.3, 1) forwards;
+}
+
+.dungeon-tester .dt-sbat-ray[data-style="enemy"] {
+  filter: drop-shadow(0 0 2px rgba(200, 60, 40, 0.85));
+}
+
+.dungeon-tester .dt-sbat-ray-ink {
+  opacity: 0.5;
+  animation: dt-sbat-ray-ink-fade 0.38s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+
+.dungeon-tester .dt-sbat-ray-slash-ghost {
+  opacity: 0.6;
+  stroke-dasharray: 3 2;
+  animation: dt-sbat-ray-flash 0.36s 0.04s cubic-bezier(0.15, 0.85, 0.25, 1) both;
 }
 
 @keyframes dt-sbat-ray-flash {
-  from {
+  0% {
     stroke-opacity: 1;
-    stroke-width: 2.4;
+  }
+  70% {
+    stroke-opacity: 0.45;
+  }
+  100% {
+    stroke-opacity: 0.08;
+  }
+}
+
+@keyframes dt-sbat-ray-magic {
+  0% {
+    stroke-opacity: 0.7;
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-opacity: 0;
+    stroke-dashoffset: -14;
+  }
+}
+
+@keyframes dt-sbat-ray-heal {
+  0% {
+    stroke-opacity: 0.9;
+  }
+  45% {
+    stroke-opacity: 0.5;
+  }
+  100% {
+    stroke-opacity: 0;
+  }
+}
+
+@keyframes dt-sbat-ray-ink-fade {
+  from {
+    stroke-opacity: 0.75;
   }
   to {
-    stroke-opacity: 0.15;
-    stroke-width: 0.8;
+    stroke-opacity: 0;
+  }
+}
+
+/* Canyon-ember magic bolt */
+.dungeon-tester .dt-sbat-bolt-trail {
+  stroke-linecap: round;
+  stroke-dasharray: 2.5 1.8;
+  filter: drop-shadow(0 0 2px rgba(192, 80, 30, 0.85));
+  animation: dt-sbat-bolt-trail 0.42s cubic-bezier(0.2, 0.8, 0.25, 1) forwards;
+}
+
+.dungeon-tester .dt-sbat-bolt-core {
+  filter: drop-shadow(0 0 3px rgba(240, 160, 90, 0.95));
+}
+
+.dungeon-tester .dt-sbat-bolt-spark {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dt-sbat-bolt-spark 0.38s cubic-bezier(0.2, 0.85, 0.3, 1) forwards;
+}
+
+@keyframes dt-sbat-bolt-trail {
+  0% {
+    stroke-opacity: 0.95;
+  }
+  55% {
+    stroke-opacity: 0.55;
+  }
+  100% {
+    stroke-opacity: 0;
+  }
+}
+
+@keyframes dt-sbat-bolt-spark {
+  0% {
+    opacity: 0;
+    transform: scale(0.35);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.65);
+  }
+}
+
+/* Impact bursts — above units, below floats */
+.dungeon-tester .dt-sbat-bursts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.dungeon-tester .dt-sbat-burst {
+  position: absolute;
+  width: 2.9rem;
+  height: 2.9rem;
+  transform: translate(-50%, -50%);
+  --dt-fx: #f5d76e;
+}
+
+.dungeon-tester .dt-sbat-burst-ring,
+.dungeon-tester .dt-sbat-burst-ring-2 {
+  position: absolute;
+  inset: 18%;
+  border: 2px solid var(--dt-fx);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(26, 16, 8, 0.45);
+  animation: dt-sbat-burst-ring 0.42s cubic-bezier(0.15, 0.85, 0.3, 1) forwards;
+}
+
+.dungeon-tester .dt-sbat-burst-ring-2 {
+  inset: 30%;
+  animation-delay: 0.05s;
+  opacity: 0.65;
+}
+
+.dungeon-tester .dt-sbat-burst[data-style="magic"] .dt-sbat-burst-ring {
+  border-width: 2.5px;
+  border-style: solid;
+  animation-name: dt-sbat-burst-magic;
+  animation-delay: 0.22s;
+  animation-duration: 0.4s;
+}
+
+.dungeon-tester .dt-sbat-burst[data-style="magic"] .dt-sbat-burst-ring-2 {
+  animation-delay: 0.28s;
+}
+
+.dungeon-tester .dt-sbat-burst[data-style="magic"] .dt-sbat-burst-spark {
+  animation-delay: 0.24s;
+}
+
+.dungeon-tester .dt-sbat-burst[data-style="magic"] .dt-sbat-burst-spark[data-i="1"] {
+  animation-delay: 0.28s;
+}
+.dungeon-tester .dt-sbat-burst[data-style="magic"] .dt-sbat-burst-spark[data-i="2"] {
+  animation-delay: 0.3s;
+}
+.dungeon-tester .dt-sbat-burst[data-style="magic"] .dt-sbat-burst-spark[data-i="3"] {
+  animation-delay: 0.32s;
+}
+
+.dungeon-tester .dt-sbat-burst[data-style="haste"] .dt-sbat-burst-ring {
+  border-style: dashed;
+  border-width: 1.5px;
+  animation-name: dt-sbat-burst-haste;
+  animation-duration: 0.38s;
+}
+
+.dungeon-tester .dt-sbat-burst[data-style="potion"] .dt-sbat-burst-ring {
+  border-radius: 40% 60% 45% 55%;
+  animation-name: dt-sbat-burst-potion;
+}
+
+.dungeon-tester .dt-sbat-burst[data-style="potion"] .dt-sbat-burst-spark {
+  border-radius: 50%;
+  width: 0.3rem;
+  height: 0.3rem;
+  margin: -0.15rem;
+}
+
+.dungeon-tester .dt-sbat-burst-spark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.32rem;
+  height: 0.32rem;
+  margin: -0.16rem;
+  background: var(--dt-fx);
+  border: 1px solid #1a1008;
+  border-radius: 1px;
+  animation: dt-sbat-burst-spark 0.42s cubic-bezier(0.15, 0.85, 0.3, 1) forwards;
+}
+
+.dungeon-tester .dt-sbat-burst-spark[data-i="0"] {
+  --sx: 1rem;
+  --sy: -0.85rem;
+}
+.dungeon-tester .dt-sbat-burst-spark[data-i="1"] {
+  --sx: -0.95rem;
+  --sy: -0.65rem;
+  animation-delay: 0.03s;
+}
+.dungeon-tester .dt-sbat-burst-spark[data-i="2"] {
+  --sx: 0.8rem;
+  --sy: 0.85rem;
+  animation-delay: 0.05s;
+}
+.dungeon-tester .dt-sbat-burst-spark[data-i="3"] {
+  --sx: -0.85rem;
+  --sy: 0.75rem;
+  animation-delay: 0.07s;
+}
+
+@keyframes dt-sbat-burst-ring {
+  0% {
+    transform: scale(0.3);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.28);
+    opacity: 0;
+  }
+}
+
+@keyframes dt-sbat-burst-magic {
+  0% {
+    transform: scale(0.2) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5) rotate(18deg);
+    opacity: 0;
+  }
+}
+
+@keyframes dt-sbat-burst-haste {
+  0% {
+    transform: scale(0.45) rotate(0deg);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.25) rotate(-28deg);
+    opacity: 0;
+  }
+}
+
+@keyframes dt-sbat-burst-potion {
+  0% {
+    transform: scale(0.25) rotate(-8deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.35) rotate(12deg);
+    opacity: 0;
+  }
+}
+
+@keyframes dt-sbat-burst-spark {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--sx), var(--sy)) scale(0.25);
+    opacity: 0;
+  }
+}
+
+/* Ally auras sit behind units so art stays readable */
+.dungeon-tester .dt-sbat-auras {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.dungeon-tester .dt-sbat-aura {
+  position: absolute;
+  width: 3.8rem;
+  height: 4.4rem;
+  transform: translate(-50%, -58%);
+  --dt-fx: #8bc47a;
+}
+
+.dungeon-tester .dt-sbat-aura-pulse,
+.dungeon-tester .dt-sbat-aura-pulse-2 {
+  position: absolute;
+  inset: 10% 14%;
+  border: 2px solid var(--dt-fx);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(26, 16, 8, 0.22);
+  animation: dt-sbat-aura-pulse 0.52s cubic-bezier(0.2, 0.85, 0.3, 1) forwards;
+}
+
+.dungeon-tester .dt-sbat-aura-pulse-2 {
+  inset: 20% 22%;
+  animation-delay: 0.08s;
+  opacity: 0.7;
+}
+
+.dungeon-tester .dt-sbat-aura[data-style="heal"] .dt-sbat-aura-pulse {
+  background: radial-gradient(circle, rgba(139, 196, 122, 0.32) 0%, transparent 68%);
+}
+
+.dungeon-tester .dt-sbat-aura[data-style="haste"] {
+  width: 4rem;
+  height: 4.5rem;
+}
+
+.dungeon-tester .dt-sbat-aura[data-style="haste"] .dt-sbat-aura-pulse {
+  border-style: dashed;
+  border-width: 1.5px;
+  background: radial-gradient(circle, rgba(232, 197, 71, 0.28) 0%, transparent 66%);
+  animation-name: dt-sbat-aura-haste;
+  animation-duration: 0.48s;
+}
+
+.dungeon-tester .dt-sbat-aura[data-style="potion"] .dt-sbat-aura-pulse {
+  border-radius: 42% 58% 48% 52%;
+  background: radial-gradient(circle, rgba(196, 92, 112, 0.3) 0%, transparent 68%);
+}
+
+.dungeon-tester .dt-sbat-aura-orbit {
+  position: absolute;
+  inset: 6% 12%;
+  border: 1.5px dashed var(--dt-fx);
+  border-radius: 50%;
+  opacity: 0.9;
+  animation: dt-sbat-aura-spin 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+
+.dungeon-tester .dt-sbat-aura-streak {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: 0.55rem;
+  height: 0.12rem;
+  margin: -0.06rem -0.28rem;
+  background: var(--dt-fx);
+  border: 1px solid #1a1008;
+  border-radius: 1px;
+  opacity: 0;
+  animation: dt-sbat-aura-streak 0.45s cubic-bezier(0.2, 0.85, 0.3, 1) forwards;
+}
+
+.dungeon-tester .dt-sbat-aura-streak[data-i="0"] {
+  --sx: 1.15rem;
+  --sy: -0.85rem;
+  --rot: -28deg;
+}
+
+.dungeon-tester .dt-sbat-aura-streak[data-i="1"] {
+  --sx: -1.05rem;
+  --sy: -0.55rem;
+  --rot: 22deg;
+  animation-delay: 0.05s;
+}
+
+.dungeon-tester .dt-sbat-aura-dust {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.26rem;
+  height: 0.26rem;
+  margin: -0.13rem;
+  background: var(--dt-fx);
+  border: 1px solid #1a1008;
+  border-radius: 50%;
+  animation: dt-sbat-aura-dust 0.5s cubic-bezier(0.2, 0.85, 0.3, 1) forwards;
+}
+
+.dungeon-tester .dt-sbat-aura-dust[data-i="0"] {
+  --ax: 1.2rem;
+  --ay: -0.95rem;
+}
+.dungeon-tester .dt-sbat-aura-dust[data-i="1"] {
+  --ax: -1.1rem;
+  --ay: -0.45rem;
+  animation-delay: 0.04s;
+}
+.dungeon-tester .dt-sbat-aura-dust[data-i="2"] {
+  --ax: 0.15rem;
+  --ay: 1.1rem;
+  animation-delay: 0.08s;
+}
+
+.dungeon-tester .dt-sbat-aura-cross {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  width: 0.85rem;
+  height: 0.85rem;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation: dt-sbat-aura-cross 0.48s cubic-bezier(0.2, 0.85, 0.3, 1) forwards;
+}
+
+.dungeon-tester .dt-sbat-aura-cross::before,
+.dungeon-tester .dt-sbat-aura-cross::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: var(--dt-fx);
+  box-shadow: 0 0 0 1px #1a1008;
+  transform: translate(-50%, -50%);
+}
+
+.dungeon-tester .dt-sbat-aura-cross::before {
+  width: 0.2rem;
+  height: 100%;
+}
+
+.dungeon-tester .dt-sbat-aura-cross::after {
+  width: 100%;
+  height: 0.2rem;
+}
+
+@keyframes dt-sbat-aura-pulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.95;
+  }
+  100% {
+    transform: scale(1.18);
+    opacity: 0;
+  }
+}
+
+@keyframes dt-sbat-aura-haste {
+  0% {
+    transform: scale(0.48) rotate(0deg);
+    opacity: 0.95;
+  }
+  55% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.22) rotate(36deg);
+    opacity: 0;
+  }
+}
+
+@keyframes dt-sbat-aura-spin {
+  from {
+    transform: rotate(0deg) scale(0.72);
+    opacity: 0.85;
+  }
+  to {
+    transform: rotate(200deg) scale(1.12);
+    opacity: 0;
+  }
+}
+
+@keyframes dt-sbat-aura-streak {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(var(--rot, 0deg)) scaleX(0.4);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--sx), var(--sy)) rotate(var(--rot, 0deg)) scaleX(1.1);
+  }
+}
+
+@keyframes dt-sbat-aura-dust {
+  from {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--ax), var(--ay)) scale(0.35);
+    opacity: 0;
+  }
+}
+
+@keyframes dt-sbat-aura-cross {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.35);
+  }
+  22% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.12);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -62%) scale(0.9);
   }
 }
 
@@ -1027,28 +1526,130 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 4;
+  z-index: 6;
 }
 
 .dungeon-tester .dt-sbat-float {
   position: absolute;
   transform: translate(-50%, -50%);
   font-family: var(--dt-display);
-  font-size: 1.35rem;
-  letter-spacing: 0.02em;
-  text-shadow: 1px 1px 0 #1a1008, -1px 0 0 #1a1008;
-  animation: dt-sbat-float-up 0.7s ease-out forwards;
+  font-size: 1.28rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  -webkit-text-stroke: 0.5px #1a1008;
+  paint-order: stroke fill;
+  text-shadow:
+    0 1px 0 #1a1008,
+    1px 0 0 #1a1008,
+    -1px 0 0 #1a1008,
+    0 -1px 0 #1a1008,
+    1px 1px 0 #1a1008,
+    -1px 1px 0 #1a1008,
+    0 2px 4px rgba(26, 16, 8, 0.45);
+  animation: dt-sbat-float-up 0.55s cubic-bezier(0.2, 0.85, 0.3, 1) forwards;
   white-space: nowrap;
 }
 
+.dungeon-tester .dt-sbat-float[data-style="slash"],
+.dungeon-tester .dt-sbat-float[data-style="enemy"],
+.dungeon-tester .dt-sbat-float[data-style="dog"] {
+  animation-name: dt-sbat-float-hit;
+}
+
+.dungeon-tester .dt-sbat-float[data-style="magic"] {
+  font-size: 1.38rem;
+  letter-spacing: 0.04em;
+  animation-name: dt-sbat-float-magic;
+  animation-delay: 0.2s;
+  animation-fill-mode: both;
+}
+
+.dungeon-tester .dt-sbat-float[data-style="heal"],
+.dungeon-tester .dt-sbat-float[data-style="potion"] {
+  font-size: 1.32rem;
+  animation-name: dt-sbat-float-heal;
+}
+
+.dungeon-tester .dt-sbat-float[data-style="haste"] {
+  font-size: 1.22rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  animation-name: dt-sbat-float-haste;
+}
+
 @keyframes dt-sbat-float-up {
-  from {
+  0% {
     opacity: 1;
-    transform: translate(-50%, -30%);
+    transform: translate(-50%, -20%) scale(0.92);
   }
-  to {
+  18% {
+    opacity: 1;
+    transform: translate(-50%, -35%) scale(1.08);
+  }
+  100% {
     opacity: 0;
-    transform: translate(-50%, -120%);
+    transform: translate(-50%, -95%) scale(1);
+  }
+}
+
+@keyframes dt-sbat-float-hit {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -10%) scale(0.75);
+  }
+  16% {
+    opacity: 1;
+    transform: translate(-50%, -32%) scale(1.14);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -98%) scale(1);
+  }
+}
+
+@keyframes dt-sbat-float-magic {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -8%) scale(0.7);
+  }
+  18% {
+    opacity: 1;
+    transform: translate(-50%, -28%) scale(1.16);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -100%) scale(1);
+  }
+}
+
+@keyframes dt-sbat-float-heal {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 6%) scale(0.72);
+  }
+  14% {
+    opacity: 1;
+    transform: translate(-50%, -18%) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -90%) scale(1);
+  }
+}
+
+@keyframes dt-sbat-float-haste {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -5%) scale(0.8) skewX(-3deg);
+  }
+  18% {
+    opacity: 1;
+    transform: translate(-50%, -28%) scale(1.12) skewX(2deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -92%) scale(1) skewX(0deg);
   }
 }
 
@@ -1154,11 +1755,29 @@
   border: 0;
   background: transparent;
   cursor: pointer;
+  /* Same stack as auras; later DOM paints units over aura glow. Rays/bursts/floats sit above. */
   z-index: 2;
 }
 
 .dungeon-tester .dt-sbat-hit:disabled {
   cursor: default;
+}
+
+.dungeon-tester .dt-sbat-unit[data-haste="true"] .dt-sbat-sil,
+.dungeon-tester .dt-sbat-unit[data-haste="true"] .dt-sbat-clip,
+.dungeon-tester .dt-sbat-unit[data-haste="true"] .dt-sbat-hero-figure {
+  filter: drop-shadow(0 0 3px rgba(232, 197, 71, 0.42));
+  animation: dt-sbat-unit-haste 1.35s ease-in-out infinite;
+}
+
+@keyframes dt-sbat-unit-haste {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 2px rgba(232, 197, 71, 0.28));
+  }
+  50% {
+    filter: drop-shadow(0 0 5px rgba(255, 220, 120, 0.55));
+  }
 }
 
 .dungeon-tester .dt-sbat-unit {
@@ -1854,10 +2473,15 @@
   display: block;
   object-fit: contain;
   border-radius: 50%;
+  overflow: hidden;
   box-shadow:
-    0 0 0 1.5px rgba(26, 18, 12, 0.35),
-    0 2px 4px rgba(26, 18, 12, 0.28);
-  background: #e8dcc4;
+    0 0 0 1.5px rgba(26, 18, 12, 0.4),
+    0 2px 5px rgba(26, 18, 12, 0.28);
+  background:
+    radial-gradient(circle at 50% 42%, #fff8ec 0%, #e8dcc4 100%);
+  image-rendering: auto;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 .dungeon-tester .dt-gear-icon-sm {
   width: 2rem; /* ~32px */
@@ -1870,6 +2494,16 @@
 .dungeon-tester .dt-gear-icon-lg {
   width: 3.25rem;
   height: 3.25rem;
+}
+/* Camp / victory bag rows: stronger plate rim on darker panels */
+.dungeon-tester .dt-camp-panel .dt-gear-icon,
+.dungeon-tester .dt-sbat-endscreen-loot .dt-gear-icon,
+.dungeon-tester .dt-gear-bag .dt-gear-icon,
+.dungeon-tester .dt-bag-row .dt-gear-icon {
+  box-shadow:
+    0 0 0 1.5px rgba(244, 239, 228, 0.22),
+    0 0 0 2.5px rgba(26, 18, 12, 0.55),
+    0 2px 6px rgba(10, 16, 12, 0.4);
 }
 
 /* Rare / legendary icon shimmer (parent data-tier or on the icon itself) */
