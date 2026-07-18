@@ -120,14 +120,20 @@ export function SidebarNav({
             <button
               type="button"
               className={cn(
-                "flex h-full min-w-0 flex-1 items-center gap-2 rounded-lg px-2 py-1.5 text-left transition-colors",
-                "hover:bg-sidebar-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring"
+                "group flex h-full min-w-0 flex-1 origin-left items-center gap-2 rounded-lg px-2 py-1.5 text-left",
+                "transition-[background-color,transform,box-shadow] duration-200 ease-out",
+                "hover:scale-[1.03] hover:bg-sidebar-accent hover:shadow-sm",
+                "dark:hover:bg-white/12 dark:hover:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring",
+                "data-[state=open]:bg-sidebar-accent data-[state=open]:scale-[1.03]",
+                "dark:data-[state=open]:bg-white/12"
               )}
               aria-label="Switch workspace"
             >
               <div
                 className={cn(
-                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
+                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-transform duration-200 ease-out",
+                  "group-hover:scale-110 group-data-[state=open]:scale-110",
                   isGaming
                     ? "bg-amber-600 text-white"
                     : "bg-primary text-primary-foreground"
@@ -150,7 +156,10 @@ export function SidebarNav({
                 </div>
               )}
               {!collapsed && (
-                <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+                <ChevronDown
+                  className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-hover:translate-y-px group-data-[state=open]:rotate-180"
+                  aria-hidden
+                />
               )}
             </button>
           </DropdownMenuTrigger>
