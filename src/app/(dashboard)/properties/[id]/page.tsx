@@ -179,9 +179,10 @@ export default async function PropertyDetailPage({
           ) : (
             <div className="grid gap-3 sm:grid-cols-2">
               {occupants.map((occ) => (
-                <div
+                <Link
                   key={`${occ.tenantId}-${occ.unitId}`}
-                  className="rounded-lg border p-4"
+                  href={`/tenants/${occ.tenantId}`}
+                  className="block rounded-lg border p-4 transition-colors hover:bg-muted/50"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2">
@@ -207,16 +208,14 @@ export default async function PropertyDetailPage({
                       </p>
                     )}
                     {occ.phone && (
-                      <div className="flex items-center gap-1.5">
-                        <PhoneLink phone={occ.phone} inboxUrl={messaging.portalUrl} />
-                      </div>
+                      <p className="text-sm">{occ.phone}</p>
                     )}
                     <p>
                       Lease {formatDate(occ.leaseStart)} – {formatDate(occ.leaseEnd)}
                     </p>
                     {occ.pets && <p>Pets: {occ.pets}</p>}
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}

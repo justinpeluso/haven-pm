@@ -1,36 +1,34 @@
+import Link from "next/link";
 import { requirePermission } from "@/lib/auth/session";
 import { db } from "@/lib/db";
-import { getMessagingSettings } from "@/lib/settings";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/shared/empty-state";
-import { PhoneLink } from "@/components/shared/phone-link";
 import { AppFolioTenantHints } from "@/components/shared/appfolio-extras-section";
 import { UserCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { formatPhone } from "@/lib/phone";
 
 export default async function TenantsPage() {
   await requirePermission("tenants:read");
 
-  const [tenants, messaging] = await Promise.all([
-    db.tenant.findMany({
-      where: { deletedAt: null },
-      include: {
-        user: { select: { name: true, email: true, phone: true } },
-        leases: {
-          where: { status: "ACTIVE" },
-          include: {
-            unit: {
-              include: { property: { select: { name: true } } },
-            },
+  const tenants = await db.tenant.findMany({
+    where: { deletedAt: null },
+    include: {
+      user: { select: { name: true, email: true, phone: true } },
+      leases: {
+        where: { status: "ACTIVE" },
+        include: {
+          unit: {
+            include: { property: { select: { name: true } } },
           },
-          take: 1,
         },
+        take: 1,
       },
-      orderBy: { createdAt: "desc" },
-    }),
-    getMessagingSettings(),
-  ]);
+    },
+    orderBy: { createdAt: "desc" },
+  });
 
   return (
     <div className="space-y-6">
@@ -52,30 +50,35 @@ export default async function TenantsPage() {
             const lease = tenant.leases[0];
             const phone = tenant.phone || tenant.user.phone;
             return (
-              <Card key={tenant.id}>
-                <CardContent className="space-y-2 p-4">
-                  <p className="font-medium">{tenant.user.name}</p>
-                  <p className="text-sm text-muted-foreground">{tenant.user.email}</p>
-                  <AppFolioTenantHints
-                    extras={tenant.appfolioExtras as Record<string, unknown> | null}
-                  />
-                  {phone && (
-                    <PhoneLink
-                      phone={phone}
-                      inboxUrl={messaging.portalUrl}
-                      className="text-sm"
+              <Link
+                key={tenant.id}
+                href={`/tenants/${tenant.id}`}
+                className={cn(
+                  "block rounded-xl outline-none transition-colors",
+                  "hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring"
+                )}
+              >
+                <Card className="h-full">
+                  <CardContent className="space-y-2 p-4">
+                    <p className="font-medium">{tenant.user.name}</p>
+                    <p className="text-sm text-muted-foreground">{tenant.user.email}</p>
+                    <AppFolioTenantHints
+                      extras={tenant.appfolioExtras as Record<string, unknown> | null}
                     />
-                  )}
-                  {lease && (
-                    <>
-                      <p className="text-sm">
-                        {lease.unit.property.name} · Unit {lease.unit.unitNumber}
-                      </p>
-                      <Badge variant="success">Active Lease</Badge>
-                    </>
-                  )}
-                </CardContent>
-              </Card>
+                    {phone ? (
+                      <p className="text-sm text-muted-foreground">{formatPhone(phone)}</p>
+                    ) : null}
+                    {lease && (
+                      <>
+                        <p className="text-sm">
+                          {lease.unit.property.name} · Unit {lease.unit.unitNumber}
+                        </p>
+                        <Badge variant="success">Active Lease</Badge>
+                      </>
+                    )}
+                  </CardContent>
+                </Card>
+              </Link>
             );
           })}
         </div>
