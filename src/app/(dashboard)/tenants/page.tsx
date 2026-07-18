@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/shared/empty-state";
 import { PhoneLink } from "@/components/shared/phone-link";
+import { AppFolioTenantHints } from "@/components/shared/appfolio-extras-section";
 import { UserCircle } from "lucide-react";
 
 export default async function TenantsPage() {
@@ -55,6 +56,9 @@ export default async function TenantsPage() {
                 <CardContent className="space-y-2 p-4">
                   <p className="font-medium">{tenant.user.name}</p>
                   <p className="text-sm text-muted-foreground">{tenant.user.email}</p>
+                  <AppFolioTenantHints
+                    extras={tenant.appfolioExtras as Record<string, unknown> | null}
+                  />
                   {phone && (
                     <PhoneLink
                       phone={phone}

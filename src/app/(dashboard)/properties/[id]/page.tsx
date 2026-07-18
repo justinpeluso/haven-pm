@@ -15,6 +15,7 @@ import { ActivityTimeline } from "@/components/shared/activity-timeline";
 import { PropertyEditForm } from "@/components/properties/property-edit-form";
 import { UnitsManager } from "@/components/properties/units-manager";
 import { PhoneLink } from "@/components/shared/phone-link";
+import { AppFolioExtrasSection } from "@/components/shared/appfolio-extras-section";
 import { formatCurrency, formatDate, toNumber } from "@/lib/utils";
 
 export default async function PropertyDetailPage({
@@ -148,6 +149,15 @@ export default async function PropertyDetailPage({
           </CardContent>
         </Card>
       </div>
+
+      <AppFolioExtrasSection
+        extras={[
+          property.appfolioExtras as Record<string, unknown> | null,
+          ...(property.units.map(
+            (u) => u.appfolioExtras as Record<string, unknown> | null
+          ) ?? []),
+        ]}
+      />
 
       <Card>
         <CardHeader className="pb-3">

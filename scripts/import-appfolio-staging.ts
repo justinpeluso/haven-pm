@@ -24,6 +24,8 @@ const REDACT = process.argv.includes("--redact");
 const prisma = new PrismaClient();
 const STAGING = path.join(process.cwd(), "data/appfolio-staging");
 
+type Extras = Record<string, unknown>;
+
 type ParsedUnit = {
   label: string;
   addressLine1: string;
@@ -37,6 +39,7 @@ type ParsedUnit = {
   beds: number | null;
   baths: number | null;
   revenue: boolean;
+  extras?: Extras;
 };
 
 type ParsedTenant = {
@@ -52,9 +55,39 @@ type ParsedTenant = {
   rent: number | null;
   deposit: number | null;
   unitLabel: string | null;
+  extras?: Extras;
 };
 
 type ParsedOwner = { name: string; phone: string | null; email: string | null };
+
+type ParsedProperty = {
+  label: string;
+  addressLine1: string;
+  city: string;
+  state: string;
+  zip: string;
+  marketRent: number | null;
+  sqft: number | null;
+  ownerName: string | null;
+  ownerPhone: string | null;
+  extras?: Extras;
+};
+
+function resolveOwnerId(
+  ownerName: string | null | undefined,
+  ownerIds: Map<string, string>,
+  defaultOwnerId: string
+): string {
+  if (!ownerName) return defaultOwnerId;
+  const exact = ownerIds.get(ownerName);
+  if (exact) return exact;
+  const nk = normKey(ownerName);
+  for (const [name, id] of ownerIds) {
+    const nn = normKey(name);
+    if (nn === nk || nn.includes(nk) || nk.includes(nn)) return id;
+  }
+  return defaultOwnerId;
+}
 
 function readJson<T>(name: string): T {
   return JSON.parse(fs.readFileSync(path.join(STAGING, name), "utf8")) as T;
@@ -216,9 +249,14 @@ function redactPhone(i: number): string {
 }
 
 async function main() {
+  // Prefer explicit DATABASE_URL. Only fall back to UNPOOLED when
+  // APPFOLIO_USE_UNPOOLED=1 (prod Neon imports) so local .env isn't hijacked.
+  if (process.env.APPFOLIO_USE_UNPOOLED === "1" && process.env.DATABASE_URL_UNPOOLED) {
+    process.env.DATABASE_URL = process.env.DATABASE_URL_UNPOOLED;
+  }
   const dbHost = (() => {
     try {
-      const u = process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL || "";
+      const u = process.env.DATABASE_URL || "";
       return u ? new URL(u).hostname : "(none)";
     } catch {
       return "(unparseable)";
@@ -231,6 +269,15 @@ async function main() {
   const units = readJson<ParsedUnit[]>("parsed-units.json");
   const tenants = readJson<ParsedTenant[]>("parsed-tenants.json");
   const ownersIn = readJson<ParsedOwner[]>("parsed-owners.json");
+  let propertiesMeta: ParsedProperty[] = [];
+  try {
+    propertiesMeta = readJson<ParsedProperty[]>("parsed-properties.json");
+  } catch {
+    propertiesMeta = [];
+  }
+  const propMetaByLabel = new Map(
+    propertiesMeta.map((p) => [normKey(p.label), p] as const)
+  );
 
   await clearPortfolioKeepStaff();
   await ensureStaff();
@@ -248,6 +295,18 @@ async function main() {
       },
     });
     ownerIds.set(o.name, created.id);
+  }
+  // Also register owners discovered only on property rows
+  for (const pm of propertiesMeta) {
+    if (!pm.ownerName || ownerIds.has(pm.ownerName)) continue;
+    const created = await prisma.owner.create({
+      data: {
+        name: pm.ownerName,
+        phone: REDACT ? null : pm.ownerPhone,
+        notes: "Imported from AppFolio Property Directory",
+      },
+    });
+    ownerIds.set(pm.ownerName, created.id);
   }
   const defaultOwnerId =
     ownerIds.get("Bill Schneider") ??
@@ -268,6 +327,16 @@ async function main() {
 
   for (const u of units) {
     const rent = u.marketRent && u.marketRent > 0 ? u.marketRent : 0;
+    const meta = propMetaByLabel.get(normKey(u.label));
+    const ownerId = resolveOwnerId(meta?.ownerName, ownerIds, defaultOwnerId);
+    const propertyExtras: Extras = {
+      ...(meta?.extras ?? {}),
+    };
+    // Prefer unit description on property if property has none
+    if (!propertyExtras.description && u.extras?.description) {
+      propertyExtras.listingDescription = u.extras.description;
+    }
+
     const property = await prisma.property.create({
       data: {
         name: u.label,
@@ -276,14 +345,15 @@ async function main() {
         state: u.state || "PA",
         zipCode: u.zip,
         status: PropertyStatus.ACTIVE,
-        ownerId: defaultOwnerId,
-        squareFootage: u.sqft ?? undefined,
+        ownerId,
+        squareFootage: u.sqft ?? meta?.sqft ?? undefined,
         bedrooms: u.beds ?? undefined,
         bathrooms: u.baths ?? undefined,
-        rentAmount: rent > 0 ? rent : undefined,
+        rentAmount: rent > 0 ? rent : meta?.marketRent && meta.marketRent > 0 ? meta.marketRent : undefined,
         securityDeposit: u.deposit && u.deposit > 0 ? u.deposit : undefined,
         tags: ["appfolio-import"],
         internalNotes: `AppFolio unit label: ${u.unitName}`,
+        appfolioExtras: Object.keys(propertyExtras).length ? propertyExtras : undefined,
       },
     });
     propCount++;
@@ -292,6 +362,9 @@ async function main() {
       u.unitName !== u.label && u.unitName.length < 40
         ? u.unitName.replace(u.label, "").trim() || "1"
         : "1";
+
+    const unitExtras: Extras = { ...(u.extras ?? {}) };
+    if (u.revenue === false) unitExtras.revenue = false;
 
     const unit = await prisma.unit.create({
       data: {
@@ -304,6 +377,7 @@ async function main() {
         rentAmount: rent > 0 ? rent : 1, // schema requires Decimal
         depositAmount: u.deposit && u.deposit > 0 ? u.deposit : undefined,
         internalNotes: u.revenue === false ? "Non-revenue unit (AppFolio)" : undefined,
+        appfolioExtras: Object.keys(unitExtras).length ? unitExtras : undefined,
       },
     });
     unitCount++;
@@ -364,11 +438,18 @@ async function main() {
       },
     });
 
+    const tenantExtras: Extras = {
+      ...(t.extras ?? {}),
+      tenantType: t.tenantType,
+      appfolioStatus: t.status,
+    };
+
     const tenant = await prisma.tenant.create({
       data: {
         userId: user.id,
         phone,
         internalNotes: `AppFolio status=${t.status}; type=${t.tenantType}${REDACT ? "; contacts redacted" : ""}`,
+        appfolioExtras: tenantExtras,
       },
     });
     tenantCount++;

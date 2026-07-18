@@ -13,6 +13,7 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
+    "db:seed:appfolio": "python3 scripts/parse-appfolio-pdfs.py && tsx scripts/import-appfolio-staging.ts",
     "db:seed:party": "tsx scripts/seed-party-players.ts",
     "db:studio": "prisma studio",
     "postinstall": "prisma generate",

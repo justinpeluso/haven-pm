@@ -278,6 +278,8 @@ model Property {
   parking         String?
   internalNotes   String?        @db.Text
   tags            String[]       @default([])
+  /// Overflow AppFolio fields (fees, warranty, description, etc.)
+  appfolioExtras  Json?
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
   deletedAt       DateTime?
@@ -327,6 +329,8 @@ model Unit {
   moveInDate      DateTime?
   moveOutDate     DateTime?
   internalNotes   String?    @db.Text
+  /// Overflow AppFolio fields (revenue flag, tags, description, etc.)
+  appfolioExtras  Json?
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
   deletedAt       DateTime?
@@ -355,6 +359,8 @@ model Tenant {
   emergencyPhone   String?
   pets           String?
   internalNotes  String?   @db.Text
+  /// Overflow AppFolio fields (tenantType, status, tags, etc.)
+  appfolioExtras  Json?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   deletedAt      DateTime?
