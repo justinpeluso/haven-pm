@@ -1,0 +1,24 @@
+---
+description: Chunk work into logical commits and commit after each chunk
+alwaysApply: true
+---
+
+# Commit as you go
+
+When addressing a multi-part request, **plan and execute work in chunks that each make one logical commit**, then **commit that chunk before starting the next**.
+
+## Workflow
+
+1. Break the request into focused chunks (e.g. routes, then nav, then polish) where each chunk is a coherent commit.
+2. Implement one chunk fully.
+3. Commit it immediately (follow the repo’s git commit protocol / HEREDOC messages).
+4. Only then start the next chunk.
+5. Do not accumulate unrelated changes across chunks to commit all at once at the end.
+
+## Scope
+
+- This applies whenever you are making git-tracked code changes for a user request.
+- Treat the user’s request as authorizing these interim commits (do not wait for a separate “please commit” after each chunk).
+- Still do **not** push or deploy unless the user asks.
+- Still do **not** commit secrets, PII dumps, venvs, or scratch files.
+- Tiny single-purpose fixes may be one chunk / one commit.
