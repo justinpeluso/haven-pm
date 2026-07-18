@@ -10,6 +10,7 @@
  * Point at a DB with DATABASE_URL (or DATABASE_URL_UNPOOLED) in the env.
  */
 import {
+  Prisma,
   PrismaClient,
   UserRole,
   PropertyStatus,
@@ -353,7 +354,9 @@ async function main() {
         securityDeposit: u.deposit && u.deposit > 0 ? u.deposit : undefined,
         tags: ["appfolio-import"],
         internalNotes: `AppFolio unit label: ${u.unitName}`,
-        appfolioExtras: Object.keys(propertyExtras).length ? propertyExtras : undefined,
+        appfolioExtras: Object.keys(propertyExtras).length
+          ? (propertyExtras as Prisma.InputJsonValue)
+          : undefined,
       },
     });
     propCount++;
@@ -377,7 +380,9 @@ async function main() {
         rentAmount: rent > 0 ? rent : 1, // schema requires Decimal
         depositAmount: u.deposit && u.deposit > 0 ? u.deposit : undefined,
         internalNotes: u.revenue === false ? "Non-revenue unit (AppFolio)" : undefined,
-        appfolioExtras: Object.keys(unitExtras).length ? unitExtras : undefined,
+        appfolioExtras: Object.keys(unitExtras).length
+          ? (unitExtras as Prisma.InputJsonValue)
+          : undefined,
       },
     });
     unitCount++;
@@ -449,7 +454,7 @@ async function main() {
         userId: user.id,
         phone,
         internalNotes: `AppFolio status=${t.status}; type=${t.tenantType}${REDACT ? "; contacts redacted" : ""}`,
-        appfolioExtras: tenantExtras,
+        appfolioExtras: tenantExtras as Prisma.InputJsonValue,
       },
     });
     tenantCount++;
