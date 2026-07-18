@@ -49,3 +49,7 @@ next-env.d.ts
 # local QA sandboxes / playwright scratch
 .qa-nm/
 tmp-qa-dt/
+
+# AppFolio / portfolio dumps (may contain PII) — keep README only
+/data/appfolio-staging/*
+!/data/appfolio-staging/README.md
