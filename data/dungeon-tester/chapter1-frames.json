@@ -7,7 +7,7 @@
       "id": "dt-ch01-001",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Cage Line",
-      "body": "Mist sits on the Chain-Road like damp wool soaked in livestock math. Iron cages rattle on ox-wains while overseers count numbers instead of names — and spit when the count comes up short. You are Nine-Mark: thrall, fighter, and cargo that punches back when the whip gets lazy.",
+      "body": "Mist sits on the Chain-Road like damp wool over a livestock count. Iron cages rattle on ox-wains while overseers tally numbers instead of names — and spit when the count comes up short. You are Nine-Mark: thrall, fighter, and cargo that punches back when the whip gets lazy.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-cages",
@@ -20,7 +20,7 @@
       "id": "dt-ch01-002",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Flask Sermon",
-      "body": "Road dust writes temporary freemarks on every boot. Memory of cages arrives uninvited, then leaves when named. Ash does not quit, and Quill notices, drinks, and almost approves.",
+      "body": "Cage wheels squeak a rhythm into your spine. Somewhere an overseer jokes that stubborn meat fetches better coin — then proves it with the whip. You keep your eyes on the road east and refuse to answer when they call the number.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -30,7 +30,7 @@
       "id": "dt-ch01-003",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Yard Gossip",
-      "body": "Powder grit under your nail smells like unfinished court. You practice stance until rage becomes usable instead of loud. Freedom keeps charging rent — pay it in miles.",
+      "body": "Powder grit from the brake blocks sticks under your nails. The yard dogs know thrall-scent better than mercy. Freedom is a rumor sold by men with keys; you file the rumor under later and watch the dust for a way out.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -40,7 +40,7 @@
       "id": "dt-ch01-004",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Road Vermin Tax",
-      "body": "Three road vermin block a ford with a rope and a grin. Their leader — missing two fingers and all shame — offers “protection” for coin, a story, or a bruise. Quill’s hand rests near his bolt like punctuation.",
+      "body": "Three road vermin block a ford with a rope and a grin, taxing the coffle like they own the mud. Their leader — missing two fingers and all shame — offers “protection” for coin pried from thrall pockets. A lean stranger in a ruined grey hat watches from the bank, hand near a crossbow bolt he has not spent yet.",
       "kind": "choice",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-road-vermin",
@@ -48,38 +48,56 @@
         {
           "id": "ch1-vermin-pay",
           "label": "Pay the damn rope",
-          "next": "dt-ch01-005",
-          "approach": "Buy the ford; save steel for Vern.",
-          "flagsAdd": [
-            "vermin-paid",
-            "loot-hint-ford-cache"
-          ]
+          "approach": "Buy the ford with what the overseers won’t miss; save steel.",
+          "outcome": {
+            "text": "They salute with stolen manners. The grey-hatted stranger mutters, “Inflation,” and does not leave.",
+            "xp": 8,
+            "gold": -6,
+            "flagsAdd": [
+              "vermin-paid",
+              "loot-hint-ford-cache"
+            ],
+            "nextNodeId": "dt-ch01-005"
+          }
         },
         {
           "id": "ch1-vermin-scare",
           "label": "Scare them honest",
-          "next": "dt-ch01-005",
-          "approach": "Show the freemark and the crossbow’s opinion.",
-          "flagsAdd": [
-            "vermin-scared",
-            "hard-hand"
-          ]
+          "approach": "Show teeth the cages haven’t filed down — and the stranger’s bolt.",
+          "outcome": {
+            "text": "Rope drops. One kid whispers, “Nine-Mark walks.” Word travels usefully — maybe too usefully.",
+            "xp": 12,
+            "flagsAdd": [
+              "vermin-scared",
+              "hard-hand"
+            ],
+            "nextNodeId": "dt-ch01-005"
+          }
         },
         {
           "id": "ch1-vermin-story",
           "label": "Trade a Chain-Road story",
-          "next": "dt-ch01-005",
-          "approach": "Give them a tale sharp enough to sell twice.",
-          "flagsAdd": [
-            "vermin-story",
-            "loot-hint-ford-cache"
-          ],
+          "approach": "Give them a Chain-Road tale sharp enough to sell twice.",
           "stat": "charisma",
           "dc": 11,
-          "nextFail": "dt-ch01-005",
-          "failFlagsAdd": [
-            "vermin-paid"
-          ]
+          "success": {
+            "text": "They point you to a dry cache under the ford stones — amateurs with useful greed. The stranger tips his ruined hat a fraction.",
+            "xp": 16,
+            "flagsAdd": [
+              "vermin-story",
+              "loot-hint-ford-cache"
+            ],
+            "nextNodeId": "dt-ch01-005"
+          },
+          "fail": {
+            "text": "They laugh wrong. The stranger pays a copper anyway and files the insult for later.",
+            "xp": 6,
+            "gold": -4,
+            "flagsAdd": [
+              "vermin-paid"
+            ],
+            "nextNodeId": "dt-ch01-005"
+          }
         }
       ]
     },
@@ -87,7 +105,7 @@
       "id": "dt-ch01-005",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Quill's Ugly Joke",
-      "body": "At dusk Quill asks whether you want to be a freeman who hunts, or a hunter who happens to be free — then drinks like the answer might offend him. The difference, he says, is who you apologize to when the smoke clears. “And don’t you damn quit either way.”",
+      "body": "The grey-hatted stranger steps close enough that whiskey rides his breath. He asks — not unkind, not soft — whether you want to be a freeman who hunts, or a hunter who happens to be free. The difference, he says, is who you apologize to when the smoke clears. “And don’t you damn quit either way.”",
       "kind": "choice",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-quill-aside",
@@ -95,32 +113,44 @@
         {
           "id": "ch1-joke-free",
           "label": "Freeman who hunts",
-          "next": "dt-ch01-006",
           "approach": "Keep the moral order: freedom first, warrants second.",
-          "flagsAdd": [
-            "identity-freeman",
-            "path-hope"
-          ]
+          "outcome": {
+            "text": "“Then we hunt like guests,” he drawls. “Violent guests. Stubborn ones. If I buy you.”",
+            "xp": 10,
+            "flagsAdd": [
+              "identity-freeman",
+              "path-hope"
+            ],
+            "nextNodeId": "dt-ch01-006"
+          }
         },
         {
           "id": "ch1-joke-hunter",
           "label": "Hunter who is free",
-          "next": "dt-ch01-006",
           "approach": "Admit the work shapes the man.",
-          "flagsAdd": [
-            "identity-hunter",
-            "path-revenge"
-          ]
+          "outcome": {
+            "text": "He almost smiles with the scarred eye. “Honest. Ugly. Useful.” Coin already weighs in his palm.",
+            "xp": 10,
+            "flagsAdd": [
+              "identity-hunter",
+              "path-revenge"
+            ],
+            "nextNodeId": "dt-ch01-006"
+          }
         },
         {
           "id": "ch1-joke-neither",
           "label": "Neither — Lyra’s man",
-          "next": "dt-ch01-006",
-          "approach": "Refuse Quill’s categories; keep the vow central.",
-          "flagsAdd": [
-            "identity-vow",
-            "lyra-first"
-          ]
+          "approach": "Refuse his categories; keep the vow central.",
+          "outcome": {
+            "text": "“Categories are cages,” he allows. “Fine. Be a vow with a sword — if the overseer takes my price.”",
+            "xp": 12,
+            "flagsAdd": [
+              "identity-vow",
+              "lyra-first"
+            ],
+            "nextNodeId": "dt-ch01-006"
+          }
         }
       ]
     },
@@ -128,7 +158,7 @@
       "id": "dt-ch01-006",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Seal Weather",
-      "body": "Heat makes the freemark itch like unfinished business. Your wrist freemark itches whenever eyes linger too long. Quill packs the silence like powder — dry, useful, dangerous.",
+      "body": "Heat makes the collar itch like unfinished business. Eyes linger on your number the way buyers linger on mule teeth. The stranger packs silence like powder — dry, useful, dangerous — and waits for the overseer’s ledger to catch up.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -138,7 +168,7 @@
       "id": "dt-ch01-007",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Powder Prayer",
-      "body": "A child’s chalk freemark on a fence post has already been scrubbed. Quill says, “Pretty country. Ugly ownership. Pass the damn bottle.” Collar mud still clings; freemark ink is drying on purpose.",
+      "body": "A child’s chalk number on a fence post has already been scrubbed. The stranger says, “Pretty country. Ugly ownership. Pass the damn bottle.” Collar mud still clings; whatever comes next will have to wash harder than rain.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -148,7 +178,7 @@
       "id": "dt-ch01-008",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Stubborn Mile",
-      "body": "Marshal Halbrecht Quill lights a match off a warrant nail, drinks, and looks almost human. Road vermin sell water and buy stories about numbered men who would not quit. Ash sets the pace like a man owed a name and too stubborn to renegotiate.",
+      "body": "Road vermin sell water and buy stories about numbered men who would not quit. You set your own pace like a man owed a name and too stubborn to renegotiate. The stranger lights a match off a warrant nail, drinks, and looks almost human — almost ready to spend.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -158,7 +188,7 @@
       "id": "dt-ch01-009",
       "chapterId": "dt-ch-01-chain-road",
       "title": "The Binder Arrives",
-      "body": "A lean marshal in travel-stained grey tips a ruined hat to the overseer like a man haggling over mule feed and mildly disappointing weather. Halbrecht Quill — freehold marshal, warrant binder, one scarred eye that never quite closes on a lie — pays coin for your papers without looking away. “Pretty muscle,” he drawls, whiskey still on the breath. “Ugly price. I’ll take the stubborn one.”",
+      "body": "The lean marshal tips his ruined hat to the overseer like a man haggling over mule feed and mildly disappointing weather. Halbrecht Quill — freehold marshal, warrant binder, one scarred eye that never quite closes on a lie — pays coin for your papers without looking away. “Pretty muscle,” he drawls. “Ugly price. I’ll take the stubborn one.”",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-quill-hat",
@@ -188,7 +218,7 @@
       "id": "dt-ch01-012",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Quill Names the Work",
-      "body": "“I buy thralls who can ruin the men who sold them,” Quill says, not unkind, flask catching firelight. “If that offends your poetry, walk. If it fits your teeth, load — and if you quit mid-road, I’ll leave you for the crows with a receipt.” Ash loads.",
+      "body": "“I buy thralls who can ruin the men who sold them,” Quill says, flask catching firelight. “If that offends your poetry, walk. If it fits your teeth, load — and if you quit mid-road, I’ll leave you for the crows with a receipt.” You load.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-quill-hat",
@@ -208,7 +238,7 @@
       "id": "dt-ch01-014",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Dust Mile",
-      "body": "Camp smoke writes temporary law across the pines. You check the freemark and find it still yours — for now. The Wilderland watches and keeps its receipts.",
+      "body": "Camp smoke writes temporary law across the pines. You check the collar scar and find it still arguing with the air. The Wilderland watches and keeps its receipts.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -224,7 +254,58 @@
       "artId": "art-dt-road-wargs",
       "enemyTheme": "road-wargs",
       "battleFoeId": "dust-trail-warg",
-      "next": "dt-ch01-016"
+      "next": "dt-ch01-016",
+      "enemy": "Road Wargs",
+      "enemyHp": 43,
+      "enemyPower": 8,
+      "enemyArtId": "art-dt-road-wargs",
+      "choices": [
+        {
+          "id": "fight-1-dt-ch01-016",
+          "label": "Stand and fight",
+          "approach": "Use hotbar steel; clocks stay off — take your time.",
+          "outcome": {
+            "text": "Road Wargs falls. The road tastes like iron and relief.",
+            "xp": 22,
+            "gold": 7,
+            "nextNodeId": "dt-ch01-016",
+            "flagsAdd": [
+              "fought-1"
+            ]
+          }
+        },
+        {
+          "id": "outwit-1-dt-ch01-016",
+          "label": "Outwit the terrain",
+          "approach": "Use cover, noise, and Quill’s nasty little tricks.",
+          "stat": "wisdom",
+          "dc": 10,
+          "success": {
+            "text": "The ambush becomes your board. They break first.",
+            "xp": 25,
+            "nextNodeId": "dt-ch01-016"
+          },
+          "fail": {
+            "text": "Clever turns loud. You bleed for the lesson and win anyway.",
+            "xp": 14,
+            "damage": 5,
+            "nextNodeId": "dt-ch01-016"
+          }
+        },
+        {
+          "id": "flee-1-dt-ch01-016",
+          "label": "Break past and run",
+          "approach": "Freedom first; honor later.",
+          "outcome": {
+            "text": "Dust and speed. Quill calls it strategic cowardice — fondly.",
+            "xp": 9,
+            "nextNodeId": "dt-ch01-016",
+            "flagsAdd": [
+              "fled-1"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "dt-ch01-016",
@@ -240,7 +321,7 @@
       "id": "dt-ch01-017",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Paper Freedom",
-      "body": "Quill slides a stamped sheet across the wagon board and uncorks a dented flask like punctuation. Freedom on parchment, conditional as a hangman’s courtesy: hunt the guilty he names, keep steel sharp, ask no soft questions. “Say yes,” he offers, almost kindly, “or climb back into inventory. I don’t do poetry, and I don’t ride with quitters.”",
+      "body": "Quill slides a stamped sheet across the wagon board and uncorks a dented flask. Freedom on parchment, conditional as a hangman’s courtesy: hunt the guilty he names, keep steel sharp, ask no soft questions. “Say yes,” he offers, almost kindly, “or climb back into inventory. I don’t do poetry, and I don’t ride with quitters.”",
       "kind": "choice",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-warrant-paper",
@@ -248,49 +329,69 @@
         {
           "id": "ch1-accept",
           "label": "Take the warrant path",
-          "next": "dt-ch01-018",
           "approach": "Accept conditional freedom; work for Quill.",
-          "flagsAdd": [
-            "quill-ally",
-            "papers-accepted"
-          ]
+          "outcome": {
+            "text": "Quill smiles without warmth. “Good. The road hates empty hands, full sermons, and soft guts.”",
+            "xp": 15,
+            "flagsAdd": [
+              "quill-ally",
+              "papers-accepted"
+            ],
+            "nextNodeId": "dt-ch01-018"
+          }
         },
         {
           "id": "ch1-bargain",
           "label": "Bargain for a name first",
-          "next": "dt-ch01-018",
           "approach": "Ask whose name this work is really for.",
-          "flagsAdd": [
-            "quill-ally",
-            "knows-lyra-early",
-            "papers-accepted"
-          ],
           "stat": "charisma",
           "dc": 10,
-          "nextFail": "dt-ch01-018",
-          "failFlagsAdd": [
-            "quill-ally",
-            "papers-accepted"
-          ]
+          "success": {
+            "text": "He softens half a degree and takes a pull. “Lyra. Sold east years ago. Candlemire keeps pretty ledgers and uglier guests. You don’t quit easy — fine. Neither does that name.”",
+            "xp": 20,
+            "flagsAdd": [
+              "quill-ally",
+              "knows-lyra-early",
+              "papers-accepted"
+            ],
+            "nextNodeId": "dt-ch01-018"
+          },
+          "fail": {
+            "text": "Quill’s scarred eye narrows. “Earn the damn right to ask.” He still pushes the papers toward you.",
+            "xp": 10,
+            "flagsAdd": [
+              "quill-ally",
+              "papers-accepted"
+            ],
+            "nextNodeId": "dt-ch01-018"
+          }
         },
         {
           "id": "ch1-test",
           "label": "Test the man's honesty",
-          "next": "dt-ch01-018",
           "approach": "Watch for a twitch that says he buys thralls for worse work.",
-          "flagsAdd": [
-            "quill-ally",
-            "trust-measured",
-            "papers-accepted"
-          ],
           "stat": "wisdom",
           "dc": 11,
-          "nextFail": "dt-ch01-018",
-          "failFlagsAdd": [
-            "quill-ally",
-            "papers-accepted",
-            "distrust-quill"
-          ]
+          "success": {
+            "text": "No twitch — only tired calculation and a flask that never quite empties. Dangerous, yes. Aligned, for now. He notices you looking and tips his hat at the insult.",
+            "xp": 18,
+            "flagsAdd": [
+              "quill-ally",
+              "trust-measured",
+              "papers-accepted"
+            ],
+            "nextNodeId": "dt-ch01-018"
+          },
+          "fail": {
+            "text": "You misread courtesy for cruelty. Quill shrugs. “Everyone does, once.” He hands you a short sword and a look that says don’t quit on the first mile.",
+            "xp": 8,
+            "flagsAdd": [
+              "quill-ally",
+              "papers-accepted",
+              "distrust-quill"
+            ],
+            "nextNodeId": "dt-ch01-018"
+          }
         }
       ]
     },
@@ -298,7 +399,7 @@
       "id": "dt-ch01-018",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Old Hunger",
-      "body": "Dust lifts off the track in pale sheets that lie for a living. A freemark widow sells directions and warnings in the same sentence. Chain-Road shrinks behind you like a bad religion losing believers.",
+      "body": "Dust lifts off the track in pale sheets that lie for a living. A road widow sells directions and warnings in the same sentence. Chain-Road shrinks behind you like a bad religion losing believers.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -318,7 +419,7 @@
       "id": "dt-ch01-020",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Nine-Mark Burial",
-      "body": "Quill has you scratch Nine-Mark into roadside dirt and kick it apart. “Numbers are cages that fit in a mouth,” he says. “Answer to Ash, freemark, Lyra — never inventory. And don’t you quit back into a digit.”",
+      "body": "Quill has you scratch Nine-Mark into roadside dirt and kick it apart. “Numbers are cages that fit in a mouth,” he says. “Answer to Ash — or freemark, or Lyra — never inventory. And don’t you quit back into a digit.”",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-freeman-mark",
@@ -328,7 +429,7 @@
       "id": "dt-ch01-021",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Ledger Weather",
-      "body": "Somebody buried a whip and marked the dirt with hope. Quill mutters law under his breath like a protective curse, then swears for emphasis. You spit iron taste and keep the freemark facing out.",
+      "body": "Somebody buried a whip and marked the dirt with hope. Quill mutters law under his breath like a protective curse, then swears for emphasis. You spit iron taste and keep your number turned away from strangers.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -421,13 +522,64 @@
       "id": "dt-ch01-030",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Road Wargs Ambush",
-      "body": "The collar scar itches when ox-wains pass — muscle memory of inventory. The next mile pretends to be empty and fails the audition. Somewhere a collar yard waits to learn a different inventory: revolt. Then road wargs force the issue — a roadside lesson Quill refuses to skip.",
+      "body": "The collar scar itches when ox-wains pass — muscle memory of inventory. The next mile pretends to be empty and lies about being empty. Somewhere a collar yard waits to learn a different inventory: revolt. Then road wargs force the issue — a roadside lesson Quill refuses to skip.",
       "kind": "encounter",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-road-wargs",
       "enemyTheme": "road-wargs",
       "battleFoeId": "dust-trail-warg",
-      "next": "dt-ch01-031"
+      "next": "dt-ch01-031",
+      "enemy": "Road Wargs",
+      "enemyHp": 43,
+      "enemyPower": 8,
+      "enemyArtId": "art-dt-road-wargs",
+      "choices": [
+        {
+          "id": "fight-1-dt-ch01-031",
+          "label": "Stand and fight",
+          "approach": "Use hotbar steel; clocks stay off — take your time.",
+          "outcome": {
+            "text": "Road Wargs falls. The road tastes like iron and relief.",
+            "xp": 22,
+            "gold": 7,
+            "nextNodeId": "dt-ch01-031",
+            "flagsAdd": [
+              "fought-1"
+            ]
+          }
+        },
+        {
+          "id": "outwit-1-dt-ch01-031",
+          "label": "Outwit the terrain",
+          "approach": "Use cover, noise, and Quill’s nasty little tricks.",
+          "stat": "wisdom",
+          "dc": 10,
+          "success": {
+            "text": "The ambush becomes your board. They break first.",
+            "xp": 25,
+            "nextNodeId": "dt-ch01-031"
+          },
+          "fail": {
+            "text": "Clever turns loud. You bleed for the lesson and win anyway.",
+            "xp": 14,
+            "damage": 5,
+            "nextNodeId": "dt-ch01-031"
+          }
+        },
+        {
+          "id": "flee-1-dt-ch01-031",
+          "label": "Break past and run",
+          "approach": "Freedom first; honor later.",
+          "outcome": {
+            "text": "Dust and speed. Quill calls it strategic cowardice — fondly.",
+            "xp": 9,
+            "nextNodeId": "dt-ch01-031",
+            "flagsAdd": [
+              "fled-1"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "dt-ch01-031",
@@ -453,7 +605,7 @@
       "id": "dt-ch01-033",
       "chapterId": "dt-ch-01-chain-road",
       "title": "First Mile Free",
-      "body": "Boots that never chose a direction now choose west, then south, at Quill’s nudge. Crows watch the cages dwindle and look personally offended. Freedom feels like hunger with better manners and a loaded crossbow for a chaperone.",
+      "body": "Boots that never chose a direction now choose west, then south, at Quill’s nudge. Crows watch the cages dwindle and look personally offended. Freedom feels like hunger with better manners — and a loaded crossbow for a chaperone.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-road-west",
@@ -513,7 +665,7 @@
       "id": "dt-ch01-039",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Stubborn Mile",
-      "body": "Quill hums a tune that never finishes the same way twice. Your wrist freemark itches whenever eyes linger too long. Lyra’s sale date ticks quieter than a clock and louder than fear.",
+      "body": "Quill hums a tune that never finishes the same way twice. Your wrist freemark itches whenever eyes linger too long. Lyra’s quiet ticks quieter than a clock and louder than leftover fear.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -523,7 +675,7 @@
       "id": "dt-ch01-040",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Ring Memory",
-      "body": "Quill’s ruined hat casts a verdict-shaped shadow. Rations taste like postponement, pepper, and old promises. Another frame turns like a dusty page with teeth.",
+      "body": "Quill’s ruined hat casts a verdict-shaped shadow. Rations taste like postponement, pepper, and old promises. The mile turns over like a dusty page with teeth.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -539,13 +691,64 @@
       "artId": "art-dt-orc-chainer",
       "enemyTheme": "chain-orcs",
       "battleFoeId": "thorn-clan-skirmisher",
-      "next": "dt-ch01-042"
+      "next": "dt-ch01-042",
+      "enemy": "Chain-Orc Reclaimer",
+      "enemyHp": 43,
+      "enemyPower": 8,
+      "enemyArtId": "art-dt-orc-chainer",
+      "choices": [
+        {
+          "id": "fight-1-dt-ch01-042",
+          "label": "Stand and fight",
+          "approach": "Use hotbar steel; clocks stay off — take your time.",
+          "outcome": {
+            "text": "Chain-Orc Reclaimer falls. The road tastes like iron and relief.",
+            "xp": 22,
+            "gold": 7,
+            "nextNodeId": "dt-ch01-042",
+            "flagsAdd": [
+              "fought-1"
+            ]
+          }
+        },
+        {
+          "id": "outwit-1-dt-ch01-042",
+          "label": "Outwit the terrain",
+          "approach": "Use cover, noise, and Quill’s nasty little tricks.",
+          "stat": "wisdom",
+          "dc": 10,
+          "success": {
+            "text": "The ambush becomes your board. They break first.",
+            "xp": 25,
+            "nextNodeId": "dt-ch01-042"
+          },
+          "fail": {
+            "text": "Clever turns loud. You bleed for the lesson and win anyway.",
+            "xp": 14,
+            "damage": 5,
+            "nextNodeId": "dt-ch01-042"
+          }
+        },
+        {
+          "id": "flee-1-dt-ch01-042",
+          "label": "Break past and run",
+          "approach": "Freedom first; honor later.",
+          "outcome": {
+            "text": "Dust and speed. Quill calls it strategic cowardice — fondly.",
+            "xp": 9,
+            "nextNodeId": "dt-ch01-042",
+            "flagsAdd": [
+              "fled-1"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "dt-ch01-042",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: East Debt",
-      "body": "Lyra’s name sits behind your teeth like a loaded prayer. Dust becomes a third companion with poor hygiene and worse jokes. The road keeps its receipts in blood and dust alike.",
+      "body": "Lyra’s name sits behind your teeth like a loaded prayer. Dust becomes a third companion with poor hygiene and worse jokes. The road bills in blood, dust, and unfinished names.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -555,7 +758,7 @@
       "id": "dt-ch01-043",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Dust Mile",
-      "body": "A freeman laughs too loud, then checks who heard him. You trade a story for water and keep the ending private. The Wilderland watches and keeps its receipts.",
+      "body": "A freeman laughs too loud, then checks who heard him. You trade a story for water and keep the ending private. The Wilderland watches and does not offer refunds.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -565,7 +768,7 @@
       "id": "dt-ch01-044",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Quiet Counsel",
-      "body": "Quill buys your freedom like a man purchasing a complicated knife — and a headache. Tracks braid, unbraid, and lie with professional cheer. Quill files Lowhedge under “paid in blood or nearly” and takes a pull.",
+      "body": "Quill still treats your freedom like a complicated knife — useful, dangerous, his headache. Tracks braid, unbraid, and lie with professional cheer. Quill files Lowhedge under “paid in blood or nearly” and takes a pull.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -575,7 +778,7 @@
       "id": "dt-ch01-045",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Road Hygiene",
-      "body": "East wind brings sugar lies and iron honesty in the same breath. A road-vermin kid offers directions priced in half-truths. Somewhere east, a ledger page waits to be rewritten.",
+      "body": "East wind brings sugar lies and iron honesty in the same breath. A road-vermin kid offers directions priced in half-truths. Somewhere east, ink still thinks it owns a throat.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -615,7 +818,7 @@
       "id": "dt-ch01-049",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Quill's Lesson",
-      "body": "“Steel answers collar-law better than ink,” Quill says, wiping ichor from the bolt like a clerk correcting a sum that insulted him. He drills stance, breath, and the difference between killing for a warrant and killing for rage — then takes a pull and adds, “Rage is fine. Just don’t let it hold the damn map. And don’t quit mid-swing.”",
+      "body": "“Steel answers collar-law better than ink,” Quill says, wiping ichor from the bolt like a clerk correcting a sum that insulted him. He drills stance, breath, and the difference between killing for a warrant and killing for rage — then takes a pull. “Rage is fine. Just don’t let it hold the damn map. And don’t quit mid-swing.”",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-quill-drill",
@@ -625,7 +828,7 @@
       "id": "dt-ch01-050",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Steel Practice",
-      "body": "Your shadow arrives first and looks less free than you feel. Tonight’s camp will argue theology with mosquitoes and memory. Night takes attendance; you answer as a freeman.",
+      "body": "Your shadow arrives first and looks less free than you feel. Tonight’s camp will argue theology with mosquitoes and memory. Night calls roll; you answer without a number.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -655,7 +858,7 @@
       "id": "dt-ch01-053",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Collar Echo",
-      "body": "Two riders tip hats too friendly for the hour. Hope and suspicion share the same waterskin without apology. Quill tips his ruined hat at unfinished justice and takes a pull.",
+      "body": "Two riders tip hats too friendly for the hour. Hope and suspicion share the same waterskin without apology. Quill tips the ruined hat at unfinished business and drinks.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -665,7 +868,7 @@
       "id": "dt-ch01-054",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Warrant Weather",
-      "body": "Heat makes the freemark itch like unfinished business. Continue is the only honest verb left, and even it hesitates — Ash does not. You walk because the alternative still smells like rust — and quit is not a word you own.",
+      "body": "Heat makes the freemark itch like unfinished business. Continue is the only honest verb left, and even it hesitates — Ash does not. You walk because stopping still smells like inventory — and quit is not a word you own.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -691,7 +894,58 @@
       "artId": "art-dt-chain-orcs",
       "enemyTheme": "chain-orcs",
       "battleFoeId": "thorn-clan-skirmisher",
-      "next": "dt-ch01-057"
+      "next": "dt-ch01-057",
+      "enemy": "Chain Orcs",
+      "enemyHp": 43,
+      "enemyPower": 8,
+      "enemyArtId": "art-dt-chain-orcs",
+      "choices": [
+        {
+          "id": "fight-1-dt-ch01-057",
+          "label": "Stand and fight",
+          "approach": "Use hotbar steel; clocks stay off — take your time.",
+          "outcome": {
+            "text": "Chain Orcs falls. The road tastes like iron and relief.",
+            "xp": 22,
+            "gold": 7,
+            "nextNodeId": "dt-ch01-057",
+            "flagsAdd": [
+              "fought-1"
+            ]
+          }
+        },
+        {
+          "id": "outwit-1-dt-ch01-057",
+          "label": "Outwit the terrain",
+          "approach": "Use cover, noise, and Quill’s nasty little tricks.",
+          "stat": "wisdom",
+          "dc": 10,
+          "success": {
+            "text": "The ambush becomes your board. They break first.",
+            "xp": 25,
+            "nextNodeId": "dt-ch01-057"
+          },
+          "fail": {
+            "text": "Clever turns loud. You bleed for the lesson and win anyway.",
+            "xp": 14,
+            "damage": 5,
+            "nextNodeId": "dt-ch01-057"
+          }
+        },
+        {
+          "id": "flee-1-dt-ch01-057",
+          "label": "Break past and run",
+          "approach": "Freedom first; honor later.",
+          "outcome": {
+            "text": "Dust and speed. Quill calls it strategic cowardice — fondly.",
+            "xp": 9,
+            "nextNodeId": "dt-ch01-057",
+            "flagsAdd": [
+              "fled-1"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "dt-ch01-057",
@@ -720,7 +974,7 @@
       "id": "dt-ch01-059",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Quill's Aside",
-      "body": "A creek argues with stones like a tired magistrate on half pay. You practice stance until rage becomes usable instead of loud. West is a rumor; east is a debt with a smile.",
+      "body": "A creek argues with stones like a tired magistrate on half pay. You practice stance until rage becomes usable instead of loud. West whispers; east invoices with teeth.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -730,7 +984,7 @@
       "id": "dt-ch01-060",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Cane Wind",
-      "body": "Quill counts cartridges the way priests count sins — carefully, then drinks anyway. A thrall brand on a fence rail dares you to look away. Somewhere a collar yard waits to learn a different inventory: revolt.",
+      "body": "Quill counts cartridges the way priests count sins — carefully, then drinks anyway. A thrall brand on a fence rail dares you to look away. Somewhere a collar yard is overdue for a different count: revolt.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -740,7 +994,7 @@
       "id": "dt-ch01-061",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Binder Math",
-      "body": "Quill hums a tune that never finishes the same way twice. Freedom still feels like hunger wearing better boots. Road vermin scatter; serious hunters do not.",
+      "body": "Quill hums a tune that never finishes the same way twice. Freedom still feels like hunger wearing better boots. Petty thieves blink first; professionals wait.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -760,7 +1014,7 @@
       "id": "dt-ch01-063",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Yard Gossip",
-      "body": "Quill’s hat brim cuts the sun into a usable blade; the scarred eye does the rest. Ash learns freeman posture: chin up, exits counted, no bowing to seals. Dust settles on everything except the vow.",
+      "body": "Quill’s hat brim cuts the sun into a usable blade; the scarred eye does the rest. Ash learns freeman posture: chin up, exits counted, no bowing to seals. Dust coats the road, the flask, everything but the vow.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -770,7 +1024,7 @@
       "id": "dt-ch01-064",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Seal Weather",
-      "body": "Steel rides light; the flask in Quill’s coat does not. Quill mutters law under his breath like a protective curse, then swears for emphasis. The road keeps its receipts in blood and dust alike.",
+      "body": "Steel rides light; the flask in Quill’s coat does not. Quill mutters law under his breath like a protective curse, then swears for emphasis. Dust keeps the books; blood settles the accounts.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -790,7 +1044,7 @@
       "id": "dt-ch01-066",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Powder Prayer",
-      "body": "Marshal Halbrecht Quill lights a match off a warrant nail, drinks, and looks almost human. Quill drawls, “Paper freedom first — real freedom files later — don’t quit in between.” Paper freedom first; real freedom files later — Quill’s oldest sermon.",
+      "body": "Marshal Halbrecht Quill lights a match off a warrant nail, drinks, and looks almost human. Quill drawls, “Paper freedom first — real freedom files later — don’t quit in between.” Ink buys the door; grit keeps it open — Quill’s oldest sermon.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -800,7 +1054,7 @@
       "id": "dt-ch01-067",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Stubborn Mile",
-      "body": "A dead mule teaches economics better than any clerk. The Wilderland watches and declines to explain itself. Lyra’s sale date ticks quieter than a clock and louder than fear.",
+      "body": "A dead mule teaches economics better than any clerk. The Wilderland watches and declines to explain itself. Lyra’s quiet ticks quieter than a clock and louder than leftover fear.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -810,7 +1064,7 @@
       "id": "dt-ch01-068",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Ring Memory",
-      "body": "A binder’s seal scrapes your palm like a polite threat. Vern’s ledger scrap burns colder than any campfire comfort. The Wilderland watches and keeps its receipts.",
+      "body": "A binder’s seal scrapes your palm like a polite threat. Vern’s ledger scrap burns colder than any campfire comfort. Country like this remembers every unpaid mile.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -820,7 +1074,7 @@
       "id": "dt-ch01-069",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: East Debt",
-      "body": "Quill buys your freedom like a man purchasing a complicated knife — and a headache. The road offers three bad choices and one worse delay. Lyra’s name leaves your mouth without shaking — progress, of a kind.",
+      "body": "Freedom still feels like a knife Quill bought without reading the manual. The road offers three bad choices and one worse delay. Lyra’s name leaves your mouth without shaking — progress, of a kind.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -830,7 +1084,7 @@
       "id": "dt-ch01-070",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Dust Mile",
-      "body": "Ash tastes copper on the wind and does not flinch. Ash counts exits without moving his mouth — old habit, good habit. Somewhere east, a ledger page waits to be rewritten.",
+      "body": "Ash tastes copper on the wind and does not flinch. Ash counts exits without moving his mouth — old habit, good habit. East keeps a page that has not learned it can burn.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -840,19 +1094,70 @@
       "id": "dt-ch01-071",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Road Wargs Ambush",
-      "body": "Crows argue over something dead you hope is not destiny. You catch yourself walking like cargo that learned a verb. Quill tips his ruined hat at unfinished justice and takes a pull. Then road wargs force the issue — a roadside lesson Quill refuses to skip.",
+      "body": "Crows argue over something dead you hope is not destiny. You catch yourself walking like cargo that learned a verb. A ruined-hat tip; a pull; justice left on the ledger. Then road wargs force the issue — a roadside lesson Quill refuses to skip.",
       "kind": "encounter",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-road-wargs",
       "enemyTheme": "road-wargs",
       "battleFoeId": "dust-trail-warg",
-      "next": "dt-ch01-072"
+      "next": "dt-ch01-072",
+      "enemy": "Road Wargs",
+      "enemyHp": 43,
+      "enemyPower": 8,
+      "enemyArtId": "art-dt-road-wargs",
+      "choices": [
+        {
+          "id": "fight-1-dt-ch01-072",
+          "label": "Stand and fight",
+          "approach": "Use hotbar steel; clocks stay off — take your time.",
+          "outcome": {
+            "text": "Road Wargs falls. The road tastes like iron and relief.",
+            "xp": 22,
+            "gold": 7,
+            "nextNodeId": "dt-ch01-072",
+            "flagsAdd": [
+              "fought-1"
+            ]
+          }
+        },
+        {
+          "id": "outwit-1-dt-ch01-072",
+          "label": "Outwit the terrain",
+          "approach": "Use cover, noise, and Quill’s nasty little tricks.",
+          "stat": "wisdom",
+          "dc": 10,
+          "success": {
+            "text": "The ambush becomes your board. They break first.",
+            "xp": 25,
+            "nextNodeId": "dt-ch01-072"
+          },
+          "fail": {
+            "text": "Clever turns loud. You bleed for the lesson and win anyway.",
+            "xp": 14,
+            "damage": 5,
+            "nextNodeId": "dt-ch01-072"
+          }
+        },
+        {
+          "id": "flee-1-dt-ch01-072",
+          "label": "Break past and run",
+          "approach": "Freedom first; honor later.",
+          "outcome": {
+            "text": "Dust and speed. Quill calls it strategic cowardice — fondly.",
+            "xp": 9,
+            "nextNodeId": "dt-ch01-072",
+            "flagsAdd": [
+              "fled-1"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "dt-ch01-072",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Road Hygiene",
-      "body": "Dust lifts off the track in pale sheets that lie for a living. Somewhere a horn asks a question steel usually answers. Somewhere a cage door practices its last slam.",
+      "body": "Dust lifts off the track in pale sheets that lie for a living. Somewhere a horn asks a question steel usually answers. Somewhere a cage latch rehearses retirement.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -862,7 +1167,7 @@
       "id": "dt-ch01-073",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Campfire Question",
-      "body": "Night fire snaps. Quill boils bitter tea that tastes like boiled warrants, spikes it from the flask, and asks what you will do if Lyra is already broken past rescue. The question sits between you like a third traveler with muddy boots and no manners. His scarred eye does not blink.",
+      "body": "Night fire snaps. Quill boils bitter tea that tastes like boiled warrants, spikes it from the flask, and asks what you will do if Lyra is already broken past rescue. The question sits between you like a third traveler with muddy boots. His scarred eye does not blink.",
       "kind": "choice",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-campfire",
@@ -870,29 +1175,41 @@
         {
           "id": "ch1-hope",
           "label": "I bring her home anyway",
-          "next": "dt-ch01-074",
           "approach": "Refuse the premise that anyone is past saving.",
-          "flagsAdd": [
-            "path-hope"
-          ]
+          "outcome": {
+            "text": "Quill nods once. “Stubborn miracles. I hate miracles. I’ll still pack for them — and for you not quitting.”",
+            "xp": 12,
+            "flagsAdd": [
+              "path-hope"
+            ],
+            "nextNodeId": "dt-ch01-074"
+          }
         },
         {
           "id": "ch1-revenge",
           "label": "Then Candlemire pays in blood",
-          "next": "dt-ch01-074",
           "approach": "If she is gone, Cade Mire still owns the debt.",
-          "flagsAdd": [
-            "path-revenge"
-          ]
+          "outcome": {
+            "text": "Quill’s eyes glitter. “Justice with teeth. I can work with that — carefully, and drunk enough to be honest.”",
+            "xp": 12,
+            "flagsAdd": [
+              "path-revenge"
+            ],
+            "nextNodeId": "dt-ch01-074"
+          }
         },
         {
           "id": "ch1-quiet",
           "label": "I will decide when I see her",
-          "next": "dt-ch01-074",
           "approach": "Keep counsel until the yard is real.",
-          "flagsAdd": [
-            "path-wait"
-          ]
+          "outcome": {
+            "text": "“Wise or evasive — same coin until spent,” Quill murmurs. “Don’t spend it drunk. That’s my job.”",
+            "xp": 12,
+            "flagsAdd": [
+              "path-wait"
+            ],
+            "nextNodeId": "dt-ch01-074"
+          }
         }
       ]
     },
@@ -950,7 +1267,7 @@
       "id": "dt-ch01-079",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Iron Humor",
-      "body": "Chain-Road mist sits on the world like damp wool and worse math. Quill drawls, “Paper freedom first — real freedom files later — don’t quit in between.” Somewhere a collar yard waits to learn a different inventory: revolt.",
+      "body": "Chain-Road mist sits on the world like damp wool and worse math. Quill drawls, “Paper freedom first — real freedom files later — don’t quit in between.” East keeps yards that have not yet learned uprising arithmetic.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -1003,7 +1320,7 @@
       "id": "dt-ch01-084",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Vermin Bargain",
-      "body": "Wagon ruts braid into a grammar only hunters read fluently. Hope and suspicion share the same waterskin without apology. Quill files Lowhedge under “paid in blood or nearly” and takes a pull.",
+      "body": "Wagon ruts braid into a grammar only hunters read fluently. Hope and suspicion pass the same waterskin and neither apologizes. Quill files Lowhedge under “paid in blood or nearly” and takes a pull.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -1013,7 +1330,7 @@
       "id": "dt-ch01-085",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Ash Aside",
-      "body": "Somewhere a horn practices the sound of ownership. Quill drawls that quitters make excellent fertilizer and worse freemen. The Wilderland watches and keeps its receipts.",
+      "body": "Somewhere a horn practices the sound of ownership. Quill drawls that quitters make excellent fertilizer and worse freemen. The land files what men pretend to forget.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -1029,7 +1346,58 @@
       "artId": "art-dt-cage-tenders",
       "enemyTheme": "cage-tenders",
       "battleFoeId": "coffle-guard",
-      "next": "dt-ch01-087"
+      "next": "dt-ch01-087",
+      "enemy": "Cage Tenders",
+      "enemyHp": 43,
+      "enemyPower": 8,
+      "enemyArtId": "art-dt-cage-tenders",
+      "choices": [
+        {
+          "id": "fight-1-dt-ch01-087",
+          "label": "Stand and fight",
+          "approach": "Use hotbar steel; clocks stay off — take your time.",
+          "outcome": {
+            "text": "Cage Tenders falls. The road tastes like iron and relief.",
+            "xp": 22,
+            "gold": 7,
+            "nextNodeId": "dt-ch01-087",
+            "flagsAdd": [
+              "fought-1"
+            ]
+          }
+        },
+        {
+          "id": "outwit-1-dt-ch01-087",
+          "label": "Outwit the terrain",
+          "approach": "Use cover, noise, and Quill’s nasty little tricks.",
+          "stat": "wisdom",
+          "dc": 10,
+          "success": {
+            "text": "The ambush becomes your board. They break first.",
+            "xp": 25,
+            "nextNodeId": "dt-ch01-087"
+          },
+          "fail": {
+            "text": "Clever turns loud. You bleed for the lesson and win anyway.",
+            "xp": 14,
+            "damage": 5,
+            "nextNodeId": "dt-ch01-087"
+          }
+        },
+        {
+          "id": "flee-1-dt-ch01-087",
+          "label": "Break past and run",
+          "approach": "Freedom first; honor later.",
+          "outcome": {
+            "text": "Dust and speed. Quill calls it strategic cowardice — fondly.",
+            "xp": 9,
+            "nextNodeId": "dt-ch01-087",
+            "flagsAdd": [
+              "fled-1"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "dt-ch01-087",
@@ -1075,7 +1443,7 @@
       "id": "dt-ch01-091",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Yard Gossip",
-      "body": "A child’s chalk freemark on a fence post has already been scrubbed. A hanged poster of your face lies about the eyes — always the eyes. Somewhere east, a ledger page waits to be rewritten.",
+      "body": "A child’s chalk freemark on a fence post has already been scrubbed. A hanged poster of your face lies about the eyes — always the eyes. A ledger waits east — and it will not like the edit.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -1105,7 +1473,7 @@
       "id": "dt-ch01-094",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Stubborn Mile",
-      "body": "Powder grit under your nail smells like unfinished court. Quill says, “Pretty country. Ugly ownership. Pass the damn bottle.” West is a rumor; east is a debt with a smile.",
+      "body": "Powder grit under your nail smells like unfinished court. Quill says, “Pretty country. Ugly ownership. Pass the damn bottle.” West is weather; east is a bill that grins.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -1125,7 +1493,7 @@
       "id": "dt-ch01-096",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: East Debt",
-      "body": "Bootleather remembers every mile better than maps ever will. Ash learns freeman posture: chin up, exits counted, no bowing to seals. Dust settles on everything except the vow.",
+      "body": "Bootleather remembers every mile better than maps ever will. Ash learns freeman posture: chin up, exits counted, no bowing to seals. The vow stays clean enough to cut; dust can have the rest.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -1141,13 +1509,64 @@
       "artId": "art-dt-dust-warg",
       "enemyTheme": "road-wargs",
       "battleFoeId": "dust-trail-warg",
-      "next": "dt-ch01-098"
+      "next": "dt-ch01-098",
+      "enemy": "Dust-Warg Pair",
+      "enemyHp": 43,
+      "enemyPower": 8,
+      "enemyArtId": "art-dt-dust-warg",
+      "choices": [
+        {
+          "id": "fight-1-dt-ch01-098",
+          "label": "Stand and fight",
+          "approach": "Use hotbar steel; clocks stay off — take your time.",
+          "outcome": {
+            "text": "Dust-Warg Pair falls. The road tastes like iron and relief.",
+            "xp": 22,
+            "gold": 7,
+            "nextNodeId": "dt-ch01-098",
+            "flagsAdd": [
+              "fought-1"
+            ]
+          }
+        },
+        {
+          "id": "outwit-1-dt-ch01-098",
+          "label": "Outwit the terrain",
+          "approach": "Use cover, noise, and Quill’s nasty little tricks.",
+          "stat": "wisdom",
+          "dc": 10,
+          "success": {
+            "text": "The ambush becomes your board. They break first.",
+            "xp": 25,
+            "nextNodeId": "dt-ch01-098"
+          },
+          "fail": {
+            "text": "Clever turns loud. You bleed for the lesson and win anyway.",
+            "xp": 14,
+            "damage": 5,
+            "nextNodeId": "dt-ch01-098"
+          }
+        },
+        {
+          "id": "flee-1-dt-ch01-098",
+          "label": "Break past and run",
+          "approach": "Freedom first; honor later.",
+          "outcome": {
+            "text": "Dust and speed. Quill calls it strategic cowardice — fondly.",
+            "xp": 9,
+            "nextNodeId": "dt-ch01-098",
+            "flagsAdd": [
+              "fled-1"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "dt-ch01-098",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Dust Mile",
-      "body": "A hanged scarecrow wears Cade’s check like a joke that landed. Quill mutters law under his breath like a protective curse, then swears for emphasis. Lyra’s sale date ticks quieter than a clock and louder than fear.",
+      "body": "A hanged scarecrow wears Cade’s check like a joke that landed. Quill mutters law under his breath like a protective curse, then swears for emphasis. Lyra’s quiet ticks quieter than a clock and louder than leftover fear.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -1167,7 +1586,7 @@
       "id": "dt-ch01-100",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Road Hygiene",
-      "body": "Quill hums a tune that never finishes the same way twice. The next mile pretends to be empty and fails the audition. Night takes attendance; you answer as a freeman.",
+      "body": "Quill hums a tune that never finishes the same way twice. The next mile wears emptiness like a cheap disguise. Darkness checks the list; you give it a name instead.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -1177,7 +1596,7 @@
       "id": "dt-ch01-101",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Old Hunger",
-      "body": "Road dust writes temporary freemarks on every boot. Quill’s tea tastes like boiled warrants, patience, and whiskey that lost an argument. The road keeps its receipts in blood and dust alike.",
+      "body": "Road dust writes temporary freemarks on every boot. Quill’s tea tastes like boiled warrants, patience, and whiskey that lost an argument. Every mile files its own ugly receipt.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -1187,7 +1606,7 @@
       "id": "dt-ch01-102",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Freemark Thoughts",
-      "body": "East wind brings sugar lies and iron honesty in the same breath. Ash rolls a shoulder that still remembers iron’s manners. You walk because the alternative still smells like rust — and quit is not a word you own.",
+      "body": "East wind brings sugar lies and iron honesty in the same breath. Ash rolls a shoulder that still remembers iron’s manners. You keep moving because rust has a longer memory than rest — and quit is not a word you own.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -1197,7 +1616,7 @@
       "id": "dt-ch01-103",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Ledger Weather",
-      "body": "A warrant nail still bleeds pine sap where paper used to hang. Hope and suspicion share the same waterskin without apology. Another frame turns like a dusty page with teeth.",
+      "body": "A warrant nail still bleeds pine sap where paper used to hang. You drink hope and suspicion from one skin; both taste like metal. Another mile turns over, dust-toothed and unpaid.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -1225,42 +1644,60 @@
         {
           "id": "ch1-spare",
           "label": "Bind him for trial",
-          "next": "dt-ch01-106",
           "approach": "Alive for Quill’s warrant and a clean conscience.",
-          "flagsAdd": [
-            "vern-alive",
-            "lyra-ledger"
-          ]
+          "outcome": {
+            "text": "Vern weeps gratitude he does not deserve. Quill stamps ALIVE like it hurts. The ledger page is yours.",
+            "xp": 25,
+            "gold": 10,
+            "flagsAdd": [
+              "vern-alive",
+              "lyra-ledger"
+            ],
+            "nextNodeId": "dt-ch01-106"
+          }
         },
         {
           "id": "ch1-execute",
           "label": "End him for Lowhedge",
-          "next": "dt-ch01-106",
           "approach": "Justice for ash roofs; take the page either way.",
-          "flagsAdd": [
-            "vern-dead",
-            "lyra-ledger",
-            "hard-hand"
-          ]
+          "outcome": {
+            "text": "The forest swallows the sound. Quill files the warrant CLOSED and does not congratulate you.",
+            "xp": 20,
+            "gold": 15,
+            "flagsAdd": [
+              "vern-dead",
+              "lyra-ledger",
+              "hard-hand"
+            ],
+            "nextNodeId": "dt-ch01-106"
+          }
         },
         {
           "id": "ch1-interrogate",
           "label": "Press for Candlemire routes",
-          "next": "dt-ch01-106",
           "approach": "Pain or promise — get the eastern road correct.",
-          "flagsAdd": [
-            "vern-alive",
-            "lyra-ledger",
-            "candlemire-routes"
-          ],
           "stat": "strength",
           "dc": 12,
-          "nextFail": "dt-ch01-106",
-          "failFlagsAdd": [
-            "vern-alive",
-            "lyra-ledger"
-          ],
-          "failDamage": 4
+          "success": {
+            "text": "Vern sketches fords and bribe posts. “Cade smiles when he sells people,” he spits. “You’ll hate how pretty it is.”",
+            "xp": 28,
+            "flagsAdd": [
+              "vern-alive",
+              "lyra-ledger",
+              "candlemire-routes"
+            ],
+            "nextNodeId": "dt-ch01-106"
+          },
+          "fail": {
+            "text": "Vern faints before finishing. You still have the ledger shred, a headache, and Quill’s unimpressed silence.",
+            "xp": 14,
+            "damage": 4,
+            "flagsAdd": [
+              "vern-alive",
+              "lyra-ledger"
+            ],
+            "nextNodeId": "dt-ch01-106"
+          }
         }
       ]
     },
@@ -1268,7 +1705,7 @@
       "id": "dt-ch01-106",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Night Watch",
-      "body": "Crows argue over something dead you hope is not destiny. A road-vermin kid offers directions priced in half-truths. Road vermin scatter; serious hunters do not.",
+      "body": "Crows argue over something dead you hope is not destiny. A road-vermin kid offers directions priced in half-truths. Small dangers flinch; the real ones smile and follow.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -1278,7 +1715,7 @@
       "id": "dt-ch01-107",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Iron Humor",
-      "body": "The road offers a fork that is really a dare. Quill drawls that quitters make excellent fertilizer and worse freemen. Somewhere a cage door practices its last slam.",
+      "body": "The road offers a fork that is really a dare. Quill drawls that quitters make excellent fertilizer and worse freemen. Far off, iron complains one last time and goes quiet.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -1308,7 +1745,7 @@
       "id": "dt-ch01-110",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Hard Mercy",
-      "body": "Cage wheels still squeak in the memory of your spine. Road vermin sell water and buy stories about numbered men who would not quit. Ash does not quit, and Quill notices, drinks, and almost approves.",
+      "body": "Cage wheels still squeak in the memory of your spine. Road vermin sell water and buy stories about numbered men who would not quit. Ash does not quit; Quill drinks to the fact and almost smiles.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -1334,7 +1771,58 @@
       "artId": "art-dt-road-wargs",
       "enemyTheme": "road-wargs",
       "battleFoeId": "dust-trail-warg",
-      "next": "dt-ch01-113"
+      "next": "dt-ch01-113",
+      "enemy": "Road Wargs",
+      "enemyHp": 43,
+      "enemyPower": 8,
+      "enemyArtId": "art-dt-road-wargs",
+      "choices": [
+        {
+          "id": "fight-1-dt-ch01-113",
+          "label": "Stand and fight",
+          "approach": "Use hotbar steel; clocks stay off — take your time.",
+          "outcome": {
+            "text": "Road Wargs falls. The road tastes like iron and relief.",
+            "xp": 22,
+            "gold": 7,
+            "nextNodeId": "dt-ch01-113",
+            "flagsAdd": [
+              "fought-1"
+            ]
+          }
+        },
+        {
+          "id": "outwit-1-dt-ch01-113",
+          "label": "Outwit the terrain",
+          "approach": "Use cover, noise, and Quill’s nasty little tricks.",
+          "stat": "wisdom",
+          "dc": 10,
+          "success": {
+            "text": "The ambush becomes your board. They break first.",
+            "xp": 25,
+            "nextNodeId": "dt-ch01-113"
+          },
+          "fail": {
+            "text": "Clever turns loud. You bleed for the lesson and win anyway.",
+            "xp": 14,
+            "damage": 5,
+            "nextNodeId": "dt-ch01-113"
+          }
+        },
+        {
+          "id": "flee-1-dt-ch01-113",
+          "label": "Break past and run",
+          "approach": "Freedom first; honor later.",
+          "outcome": {
+            "text": "Dust and speed. Quill calls it strategic cowardice — fondly.",
+            "xp": 9,
+            "nextNodeId": "dt-ch01-113",
+            "flagsAdd": [
+              "fled-1"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "dt-ch01-113",
@@ -1374,7 +1862,7 @@
       "id": "dt-ch01-116",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Binder Math",
-      "body": "Marshal Halbrecht Quill lights a match off a warrant nail, drinks, and looks almost human. Ash refuses to romanticize the road; the road returns the favor. Quill tips his ruined hat at unfinished justice and takes a pull.",
+      "body": "Marshal Halbrecht Quill lights a match off a warrant nail, drinks, and looks almost human. Ash refuses to romanticize the road; the road returns the favor. Quill salutes the undone work with whiskey and a brim.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
@@ -1394,7 +1882,7 @@
       "id": "dt-ch01-118",
       "chapterId": "dt-ch-01-chain-road",
       "title": "Chain-Road Dawn: Yard Gossip",
-      "body": "A roadside shrine wears three names and one empty nail. A thrall brand on a fence rail dares you to look away. The road keeps its receipts in blood and dust alike.",
+      "body": "A roadside shrine wears three names and one empty nail. A thrall brand on a fence rail dares you to look away. The road bills in blood, dust, and unfinished names.",
       "kind": "narrative",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",

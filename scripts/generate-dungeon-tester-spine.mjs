@@ -187,20 +187,20 @@ const CH1_LANDMARKS = [
   {
     kind: "narrative",
     title: "Cage Line",
-    body: "Mist sits on the Chain-Road like damp wool soaked in livestock math. Iron cages rattle on ox-wains while overseers count numbers instead of names — and spit when the count comes up short. You are Nine-Mark: thrall, fighter, and cargo that punches back when the whip gets lazy.",
+    body: "Mist sits on the Chain-Road like damp wool over a livestock count. Iron cages rattle on ox-wains while overseers tally numbers instead of names — and spit when the count comes up short. You are Nine-Mark: thrall, fighter, and cargo that punches back when the whip gets lazy.",
     art: "chain-cages",
     flagsAdd: ["ch1-started"],
   },
   {
     kind: "narrative",
     title: "The Binder Arrives",
-    body: "A lean marshal in travel-stained grey tips a ruined hat to the overseer like a man haggling over mule feed and mildly disappointing weather. Halbrecht Quill — freehold marshal, warrant binder, one scarred eye that never quite closes on a lie — pays coin for your papers without looking away. “Pretty muscle,” he drawls, whiskey still on the breath. “Ugly price. I’ll take the stubborn one.”",
+    body: "The lean marshal tips his ruined hat to the overseer like a man haggling over mule feed and mildly disappointing weather. Halbrecht Quill — freehold marshal, warrant binder, one scarred eye that never quite closes on a lie — pays coin for your papers without looking away. “Pretty muscle,” he drawls. “Ugly price. I’ll take the stubborn one.”",
     art: "quill-hat",
   },
   {
     kind: "choice",
     title: "Paper Freedom",
-    body: "Quill slides a stamped sheet across the wagon board and uncorks a dented flask like punctuation. Freedom on parchment, conditional as a hangman’s courtesy: hunt the guilty he names, keep steel sharp, ask no soft questions. “Say yes,” he offers, almost kindly, “or climb back into inventory. I don’t do poetry, and I don’t ride with quitters.”",
+    body: "Quill slides a stamped sheet across the wagon board and uncorks a dented flask. Freedom on parchment, conditional as a hangman’s courtesy: hunt the guilty he names, keep steel sharp, ask no soft questions. “Say yes,” he offers, almost kindly, “or climb back into inventory. I don’t do poetry, and I don’t ride with quitters.”",
     art: "warrant-paper",
     choices: [
       {
