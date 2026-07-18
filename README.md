@@ -97,7 +97,7 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ### Demo Accounts
 
-All accounts use password: `password123`
+All accounts use password: `Chomps123`
 
 | Email | Role |
 |-------|------|
@@ -189,7 +189,7 @@ The tenant "Pay Rent" button links to `PAYMENT_PORTAL_URL` in settings. Replace 
 ## Deploy for free (public URL)
 
 **Live demo:** https://haven-pm.vercel.app  
-**Login:** `admin@havenpm.com`, `justin@havenpm.com`, or `michelle@havenpm.com` / `password123`  
+**Login:** `admin@havenpm.com`, `justin@havenpm.com`, or `michelle@havenpm.com` / `Chomps123`  
 **Local:** http://localhost:3000 (separate Postgres — do not point `.env` at Neon)
 
 **Downtown Properties:** `/downtown` — 250+ CBDs within ~40 miles of Allegheny County (PA + OH), section search, vibrancy/vacancy estimates, business mix, US peer comparisons. Uses OpenStreetMap when available; baked baselines work offline of Overpass (local + Vercel).

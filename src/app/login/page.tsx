@@ -9,12 +9,40 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
+const DEMO_PASSWORD = "Chomps123";
+
+const PM_ACCOUNTS = [
+  { email: "justin@havenpm.com", label: "Justin Peluso (Administrator)" },
+  { email: "admin@havenpm.com", label: "Alex (Administrator)" },
+  { email: "michelle@havenpm.com", label: "Michelle Turcan (Administrator)" },
+  { email: "manager@havenpm.com", label: "Property Manager" },
+  { email: "agent@havenpm.com", label: "Leasing Agent" },
+  { email: "maintenance@havenpm.com", label: "Maintenance Staff" },
+  { email: "office@havenpm.com", label: "Office Staff" },
+] as const;
+
+const PARTY_ACCOUNTS = [
+  { email: "player1@havenpm.com", label: "Justin — DM + Player 1" },
+  { email: "player2@havenpm.com", label: "Rusty — Player 2" },
+  { email: "player3@havenpm.com", label: "Elisha — Player 3" },
+  { email: "player4@havenpm.com", label: "Eric Prendergast — Player 4" },
+] as const;
+
+const PARTY_EMAILS = new Set(PARTY_ACCOUNTS.map((p) => p.email));
+
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [partyOpen, setPartyOpen] = useState(false);
+
+  const fillAccount = (accountEmail: string) => {
+    setEmail(accountEmail);
+    setPassword(DEMO_PASSWORD);
+    setError("");
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,12 +62,7 @@ export default function LoginPage() {
       return;
     }
 
-    const partyEmails = new Set([
-      "player1@havenpm.com",
-      "player2@havenpm.com",
-      "player3@havenpm.com",
-    ]);
-    const dest = partyEmails.has(email.trim().toLowerCase())
+    const dest = PARTY_EMAILS.has(email.trim().toLowerCase())
       ? "/neverworld"
       : "/dashboard";
     router.push(dest);
@@ -79,9 +102,7 @@ export default function LoginPage() {
                 required
               />
             </div>
-            {error && (
-              <p className="text-sm text-destructive">{error}</p>
-            )}
+            {error && <p className="text-sm text-destructive">{error}</p>}
             <Button type="submit" className="w-full" disabled={loading}>
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Sign in
@@ -89,26 +110,15 @@ export default function LoginPage() {
           </form>
 
           <div className="mt-6 space-y-3">
-            <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-xs">
-              <p className="font-semibold mb-2 text-amber-900 dark:text-amber-100">
-                Neverworld party logins
-              </p>
-              <ul className="space-y-2 text-muted-foreground">
-                {[
-                  { email: "player1@havenpm.com", label: "Justin — DM + Player 1" },
-                  { email: "player2@havenpm.com", label: "Rusty — Player 2" },
-                  { email: "player3@havenpm.com", label: "Elisha — Player 3" },
-                  { email: "player4@havenpm.com", label: "Eric Prendergast — Player 4" },
-                ].map((p) => (
+            <div className="rounded-lg bg-muted p-4 text-xs text-muted-foreground">
+              <p className="mb-2 font-medium text-foreground">Haven PM accounts</p>
+              <ul className="space-y-2">
+                {PM_ACCOUNTS.map((p) => (
                   <li key={p.email} className="flex flex-wrap items-center gap-2">
                     <button
                       type="button"
-                      className="rounded border border-amber-500/50 bg-background px-2 py-1 font-mono text-[0.7rem] hover:bg-amber-500/15"
-                      onClick={() => {
-                        setEmail(p.email);
-                        setPassword("");
-                        setError("");
-                      }}
+                      className="rounded border bg-background px-2 py-1 font-mono text-[0.7rem] hover:bg-accent"
+                      onClick={() => fillAccount(p.email)}
                     >
                       {p.email}
                     </button>
@@ -117,17 +127,35 @@ export default function LoginPage() {
                 ))}
               </ul>
             </div>
-            <div className="rounded-lg bg-muted p-4 text-xs text-muted-foreground">
-              <p className="font-medium mb-2">Haven PM accounts</p>
-              <ul className="space-y-1">
-                <li>admin@havenpm.com — Alex (Administrator)</li>
-                <li>justin@havenpm.com — Justin Peluso (Administrator)</li>
-                <li>michelle@havenpm.com — Michelle Turcan (Administrator)</li>
-                <li>manager@havenpm.com — Property Manager</li>
-                <li>agent@havenpm.com / agent2@ / agent3@ — Agents</li>
-                <li>maintenance@havenpm.com — Maintenance Staff</li>
-                <li>office@havenpm.com — Office Staff</li>
-              </ul>
+
+            <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-xs">
+              <button
+                type="button"
+                className="mb-2 flex w-full items-center justify-between font-semibold text-amber-900 dark:text-amber-100"
+                onClick={() => setPartyOpen((o) => !o)}
+                aria-expanded={partyOpen}
+              >
+                <span>Neverworld party logins</span>
+                <span className="text-[0.65rem] font-normal opacity-80">
+                  {partyOpen ? "Hide" : "Show"}
+                </span>
+              </button>
+              {partyOpen ? (
+                <ul className="space-y-2 text-muted-foreground">
+                  {PARTY_ACCOUNTS.map((p) => (
+                    <li key={p.email} className="flex flex-wrap items-center gap-2">
+                      <button
+                        type="button"
+                        className="rounded border border-amber-500/50 bg-background px-2 py-1 font-mono text-[0.7rem] hover:bg-amber-500/15"
+                        onClick={() => fillAccount(p.email)}
+                      >
+                        {p.email}
+                      </button>
+                      <span>{p.label}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
             </div>
           </div>
         </CardContent>

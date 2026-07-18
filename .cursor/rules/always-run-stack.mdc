@@ -26,7 +26,7 @@ export PATH="/opt/homebrew/opt/node@20/bin:/opt/homebrew/opt/postgresql@16/bin:/
 ## Demo login
 
 - URL: http://localhost:3000
-- Admins (same password): `admin@havenpm.com` (Alex), `justin@havenpm.com` (Justin Peluso), `michelle@havenpm.com` (Michelle Turcan) / `password123`
+- Admins (same password): `admin@havenpm.com` (Alex), `justin@havenpm.com` (Justin Peluso), `michelle@havenpm.com` (Michelle Turcan) / `Chomps123`
 
 ## After code changes
 
