@@ -41,10 +41,20 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-.tmp-intel/
-.tmp-youtube/
-.tmp-documents/
 .cache/
+
+# local scratch / temp artifacts
+.tmp*/
+.tmp-*
+*.tmp
+
+# Python virtualenvs & bytecode (PDF parsers, etc.)
+.venv/
+.venv-*/
+venv/
+__pycache__/
+*.py[cod]
+.Python
 
 # local QA sandboxes / playwright scratch
 .qa-nm/
