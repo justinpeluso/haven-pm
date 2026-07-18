@@ -52,28 +52,6 @@ export default async function DashboardPage() {
         </p>
       </div>
 
-      <DashboardSideWidgets
-        weather={weatherResult.weather}
-        weatherError={weatherResult.error}
-        events={events.map((e) => ({
-          id: e.id,
-          title: e.title,
-          type: e.type,
-          startAt: e.startAt,
-          color: e.color,
-          propertyName: e.property?.name ?? null,
-        }))}
-      />
-
-      <PittsburghTrafficWidget />
-
-      <PittsburghHousingWidget />
-
-      <div className="grid gap-4 lg:grid-cols-2">
-        <PittsburghAirQualityWidget />
-        <MortgageRatesWidget />
-      </div>
-
       <PortfolioPulseWidget data={pulse} />
 
       {dashboard.type === "admin" && dashboard.data && (
@@ -99,6 +77,28 @@ export default async function DashboardPage() {
           </p>
         </div>
       )}
+
+      <DashboardSideWidgets
+        weather={weatherResult.weather}
+        weatherError={weatherResult.error}
+        events={events.map((e) => ({
+          id: e.id,
+          title: e.title,
+          type: e.type,
+          startAt: e.startAt,
+          color: e.color,
+          propertyName: e.property?.name ?? null,
+        }))}
+      />
+
+      <PittsburghTrafficWidget />
+
+      <PittsburghHousingWidget />
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <PittsburghAirQualityWidget />
+        <MortgageRatesWidget />
+      </div>
     </div>
   );
 }

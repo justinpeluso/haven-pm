@@ -9,6 +9,7 @@ export async function getAdminDashboardData() {
     overdueMaintenance,
     prospectsWaiting,
     upcomingShowings,
+    recentOpenMaintenance,
     recentActivity,
     occupancyData,
   ] = await Promise.all([
@@ -46,6 +47,24 @@ export async function getAdminDashboardData() {
         status: { in: ["SCHEDULED", "CONFIRMED"] },
       },
     }),
+    db.maintenanceRequest.findMany({
+      where: {
+        deletedAt: null,
+        status: { notIn: ["COMPLETED", "CLOSED"] },
+      },
+      orderBy: [{ priority: "desc" }, { targetCompletion: "asc" }, { createdAt: "desc" }],
+      take: 6,
+      select: {
+        id: true,
+        title: true,
+        priority: true,
+        status: true,
+        targetCompletion: true,
+        property: { select: { name: true } },
+        unit: { select: { unitNumber: true } },
+        assignedStaff: { select: { name: true } },
+      },
+    }),
     db.activityLog.findMany({
       take: 10,
       orderBy: { createdAt: "desc" },
@@ -73,6 +92,7 @@ export async function getAdminDashboardData() {
     overdueMaintenance,
     prospectsWaiting,
     upcomingShowings,
+    recentOpenMaintenance,
     recentActivity,
     totalUnits,
     occupiedUnits,

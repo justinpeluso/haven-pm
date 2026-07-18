@@ -13,6 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ActivityTimeline } from "@/components/shared/activity-timeline";
 import { Button } from "@/components/ui/button";
+import { formatDate } from "@/lib/utils";
 import type { getAdminDashboardData } from "@/lib/queries/dashboard";
 
 type AdminData = Awaited<ReturnType<typeof getAdminDashboardData>>;
@@ -63,10 +64,37 @@ export function AdminDashboard({ data }: { data: AdminData }) {
                   <span>{data.overdueMaintenance} requests past target completion</span>
                 </div>
               )}
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Total open requests</span>
-                <Badge variant="warning">{data.openMaintenance}</Badge>
-              </div>
+              {data.recentOpenMaintenance.length ? (
+                <ul className="space-y-2">
+                  {data.recentOpenMaintenance.map((mr) => (
+                    <li key={mr.id}>
+                      <Link
+                        href={`/maintenance/${mr.id}`}
+                        className="flex flex-col gap-1 rounded-lg border p-3 text-sm transition-colors hover:bg-muted/50"
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <span className="font-medium leading-snug">{mr.title}</span>
+                          <Badge variant={priorityVariant(mr.priority)}>{mr.priority}</Badge>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          {mr.property.name}
+                          {mr.unit ? ` · Unit ${mr.unit.unitNumber}` : ""}
+                          {mr.assignedStaff?.name ? ` · ${mr.assignedStaff.name}` : " · Unassigned"}
+                        </p>
+                        {mr.targetCompletion ? (
+                          <p className="text-xs text-muted-foreground">
+                            Due {formatDate(mr.targetCompletion)}
+                          </p>
+                        ) : null}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="py-4 text-center text-sm text-muted-foreground">
+                  No open maintenance requests
+                </p>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -124,4 +152,12 @@ function formatAction(action: string, entityType: string): string {
     PRIORITY_CHANGED: "Priority changed",
   };
   return actions[action] || action;
+}
+
+function priorityVariant(
+  priority: string
+): "default" | "secondary" | "destructive" | "outline" | "warning" {
+  if (priority === "EMERGENCY" || priority === "HIGH") return "destructive";
+  if (priority === "MEDIUM") return "warning";
+  return "secondary";
 }
