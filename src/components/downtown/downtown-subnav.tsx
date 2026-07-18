@@ -4,9 +4,6 @@ import Link from "next/link";
 
 export type DowntownSubnavActive = "intel" | "gallery" | "news" | "historical";
 
-/** @deprecated Import from `@/lib/jp-gaming` instead */
-export { JP_GAMING_LINKS, type JpGamingId } from "@/lib/jp-gaming";
-
 export function DowntownSubnav({
   active,
 }: {

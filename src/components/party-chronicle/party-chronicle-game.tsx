@@ -1221,7 +1221,7 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
             <div className="pc-panel p-4 text-left space-y-2 max-w-sm mx-auto">
               <p className="pc-eyebrow">Party logins</p>
               <p className="text-xs">
-                Use these at the Haven login screen (password <strong>password67</strong>):
+                Use these at the Haven login screen (password <strong>Chomps123</strong>):
               </p>
               <ul className="text-xs font-mono space-y-1">
                 <li>player1@havenpm.com — Justin (DM)</li>

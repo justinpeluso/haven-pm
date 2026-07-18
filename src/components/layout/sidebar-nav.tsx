@@ -6,7 +6,13 @@ import { usePathname, useRouter } from "next/navigation";
 import { Building2, Check, ChevronDown, Gamepad2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getNavItemsForRole } from "@/lib/navigation";
-import { isJpGamingPath, JP_GAMING_LINKS } from "@/lib/jp-gaming";
+import {
+  isJpGamingPath,
+  jpGamingHrefForPath,
+  JP_GAMING_LINKS,
+  readLastJpGamingHref,
+  writeLastJpGamingHref,
+} from "@/lib/jp-gaming";
 import { UserRole } from "@prisma/client";
 import {
   DropdownMenu,
@@ -70,6 +76,8 @@ export function SidebarNav({
     if (gamingPath) {
       setWorkspace("jp-gaming");
       writeStoredWorkspace("jp-gaming");
+      const href = jpGamingHrefForPath(pathname);
+      if (href) writeLastJpGamingHref(href);
       return;
     }
     // Dashboard is shared — keep stored workspace if set
@@ -96,7 +104,7 @@ export function SidebarNav({
     writeStoredWorkspace(next);
     if (next === "jp-gaming") {
       if (!gamingPath) {
-        router.push(JP_GAMING_LINKS[0]?.href ?? "/neverworld");
+        router.push(readLastJpGamingHref());
       }
     } else if (gamingPath) {
       router.push("/dashboard");

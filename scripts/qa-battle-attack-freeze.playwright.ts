@@ -16,14 +16,14 @@ function assert(cond: unknown, msg: string): asserts cond {
 async function login(page: Page) {
   await page.goto(`${BASE}/login`);
   await page.fill('input[type="email"]', "justin@havenpm.com");
-  await page.fill('input[type="password"]', "password123");
+  await page.fill('input[type="password"]', "Chomps123");
   await page.click('button[type="submit"]');
   await page.waitForURL((u) => !u.pathname.includes("/login"), { timeout: 20_000 });
   await page.waitForTimeout(600);
 }
 
 async function enterPlay(page: Page) {
-  await page.goto(`${BASE}/downtown/dungeon-tester`);
+  await page.goto(`${BASE}/true-grit`);
   await page.waitForSelector(".dungeon-tester", { timeout: 20_000 });
   await page.waitForTimeout(500);
 

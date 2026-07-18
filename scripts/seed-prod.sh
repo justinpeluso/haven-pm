@@ -116,5 +116,5 @@ fi
 
 echo ""
 echo "DONE — live: https://haven-pm.vercel.app"
-echo "Demo login: admin@ / justin@ / michelle@havenpm.com / password123"
+echo "Demo login: admin@ / justin@ / michelle@havenpm.com / Chomps123"
 echo "Log: $LOG"

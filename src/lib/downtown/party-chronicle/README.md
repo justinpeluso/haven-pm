@@ -36,9 +36,9 @@ Estimates assume three players rotating turns. Solo play compresses ~30–40%.
 ## How to play (local)
 
 1. `npm run dev` → http://localhost:3000
-2. Log in: `player1@havenpm.com` / `player2@havenpm.com` / `player3@havenpm.com` — password `password67`
-3. Downtown → **Party Chronicle**
-4. Each login only creates/controls their own character; turn order Justin → Rusty → Elisha
+2. Log in: `player1@havenpm.com` … `player4@havenpm.com` — password `Chomps123`
+3. Open **JP Gaming** workspace → **Neverworld** (`/neverworld`)
+4. Each login only creates/controls their own character; turn order Justin → Rusty → Elisha → Eric
 
 ## Endings
 

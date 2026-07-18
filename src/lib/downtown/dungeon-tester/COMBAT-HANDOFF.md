@@ -25,10 +25,10 @@ DT-only crude battle. Fixed positions (no walking). Neverworld `BattleOverlay` i
 - Stale Neverworld `battle` blobs dropped in `normalizeDtWorld`
 
 ## Play
-1. `/downtown/dungeon-tester` (justin@havenpm.com / password123)
+1. `/true-grit` (justin@havenpm.com / Chomps123)
 2. Seal seat → Story → **Continue →** (HUD: `Frames N · next ambush @ M`)
 3. Or **Camp → Force road ambush →**
 4. Fight → summary → **Return to story →**
 
 ## Prod
-`https://haven-pm.vercel.app/downtown/dungeon-tester`
+`https://haven-pm.vercel.app/true-grit`
