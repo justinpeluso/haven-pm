@@ -38,12 +38,19 @@ npx tsx scripts/import-appfolio-staging.ts
 
 **Do not** use `npm run db:seed` after this unless you want the old synthetic Portland demo back (full wipe).
 
+After AppFolio import, populate demo ops (maintenance / prospects / calendar) without wiping the portfolio:
+
+```bash
+npm run db:seed:ops
+```
+
 ## Commands
 
 ```bash
 export PATH="/opt/homebrew/opt/node@20/bin:/opt/homebrew/opt/postgresql@16/bin:/opt/homebrew/bin:$PATH"
 npm run db:push             # schema only
 npm run db:seed:appfolio    # AppFolio portfolio import
+npm run db:seed:ops         # demo maintenance + prospects + calendar (safe re-run)
 npm run db:seed             # FULL WIPE + synthetic Portland demo
 npm run db:studio           # inspect rows
 ```
