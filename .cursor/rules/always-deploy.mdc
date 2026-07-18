@@ -1,0 +1,15 @@
+---
+description: Push and deploy to Vercel production after each shipped change
+alwaysApply: true
+---
+
+# Always update production
+
+When you finish a user-facing change (feature, fix, seed that affects prod demo data):
+
+1. Commit the chunk (commit-as-you-go).
+2. **Push to `main`** and **deploy with `npx vercel --prod --yes`** in the same turn — do not leave work only on localhost.
+3. Confirm the deploy aliased to https://haven-pm.vercel.app (or report failure).
+4. Only skip push/deploy if the user explicitly says not to publish, or the change is purely local tooling with no app impact.
+
+Request approval when required for protected `main` / production deploy; do not stop after a local-only commit without attempting publish.
