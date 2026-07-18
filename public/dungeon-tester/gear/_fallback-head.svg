@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Hat">
   <defs>
-    <radialGradient id="g794837" cx="50%" cy="45%" r="55%">
+    <radialGradient id="gfallbackhead" cx="50%" cy="45%" r="55%">
       <stop offset="0%" stop-color="#fff8ec"/>
       <stop offset="100%" stop-color="#e8dcc4"/>
     </radialGradient>
   </defs>
-  <circle cx="64" cy="64" r="58" fill="url(#g794837)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="58" fill="url(#gfallbackhead)" stroke="#1a120c" stroke-width="3"/>
   <circle cx="64" cy="64" r="52" fill="none" stroke="#c45a3a" stroke-width="1.5" opacity="0.55"/>
 
-  <ellipse cx="64" cy="78" rx="36" ry="9" fill="#8a7060" stroke="#1a120c" stroke-width="2.5"/>
-  <path d="M44 72 Q44 42 64 38 Q84 42 84 72" fill="#a08870" stroke="#1a120c" stroke-width="2.5"/>
-
+  <ellipse cx="64" cy="82" rx="40" ry="11" fill="#6a4420" stroke="#1a120c" stroke-width="2.5"/>
+  <path d="M40 76 Q40 42 64 36 Q88 42 88 76" fill="#8a6a40" stroke="#1a120c" stroke-width="2.5"/>
+  <path d="M40 76 L88 76" stroke="#1a120c" stroke-width="2.5"/>
 </svg>

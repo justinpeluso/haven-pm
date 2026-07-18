@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Ridge-Scale Greaves">
   <defs>
-    <radialGradient id="g2252244" cx="50%" cy="45%" r="55%">
+    <radialGradient id="gdtridgescalegreaves" cx="50%" cy="45%" r="55%">
       <stop offset="0%" stop-color="#fff8ec"/>
       <stop offset="100%" stop-color="#e8dcc4"/>
     </radialGradient>
   </defs>
-  <circle cx="64" cy="64" r="58" fill="url(#g2252244)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="58" fill="url(#gdtridgescalegreaves)" stroke="#1a120c" stroke-width="3"/>
   <circle cx="64" cy="64" r="52" fill="none" stroke="#3d6a4a" stroke-width="1.5" opacity="0.55"/>
 
-  <path d="M44 36 L60 34 L64 72 L92 80 L90 94 L40 90 L38 72 Z" fill="#5a7060" stroke="#1a120c" stroke-width="2.5"/>
-  <path d="M48 50 L58 48 L60 58 L50 60 Z" fill="#8aaa90" stroke="#1a120c" stroke-width="1.5"/>
-  <path d="M50 62 L60 60 L62 70 L52 72 Z" fill="#8aaa90" stroke="#1a120c" stroke-width="1.5"/>
-  <path d="M64 72 L40 70" stroke="#1a120c" stroke-width="2"/>
-
+  <!-- scaled greave + boot -->
+  <path d="M42 26 L64 24 L68 70 L60 72 L60 88 L98 94 L100 108 L36 102 L34 74 L42 72 Z" fill="#5a7060" stroke="#1a120c" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M46 40 L62 36 L64 50 L48 54 Z" fill="#8aaa90" stroke="#1a120c" stroke-width="2"/>
+  <path d="M48 56 L64 52 L66 66 L50 70 Z" fill="#8aaa90" stroke="#1a120c" stroke-width="2"/>
+  <path d="M50 72 L62 70 L60 80 L48 82 Z" fill="#8aaa90" stroke="#1a120c" stroke-width="2"/>
+  <path d="M60 88 L36 84" stroke="#1a120c" stroke-width="2.5"/>
 </svg>

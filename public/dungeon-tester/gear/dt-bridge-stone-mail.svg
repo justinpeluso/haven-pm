@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Bridge-Stone Mail">
   <defs>
-    <radialGradient id="g9632743" cx="50%" cy="45%" r="55%">
+    <radialGradient id="gdtbridgestonemail" cx="50%" cy="45%" r="55%">
       <stop offset="0%" stop-color="#fff8ec"/>
       <stop offset="100%" stop-color="#e8dcc4"/>
     </radialGradient>
   </defs>
-  <circle cx="64" cy="64" r="58" fill="url(#g9632743)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="58" fill="url(#gdtbridgestonemail)" stroke="#1a120c" stroke-width="3"/>
   <circle cx="64" cy="64" r="52" fill="none" stroke="#5a6058" stroke-width="1.5" opacity="0.55"/>
 
-  <path d="M40 38 L64 30 L88 38 L92 52 L84 96 L44 96 L36 52 Z" fill="#6a7068" stroke="#1a120c" stroke-width="2.5"/>
-  <rect x="48" y="52" width="14" height="12" fill="#8a9088" stroke="#1a120c" stroke-width="1.5"/>
-  <rect x="66" y="52" width="14" height="12" fill="#8a9088" stroke="#1a120c" stroke-width="1.5"/>
-  <rect x="48" y="68" width="14" height="12" fill="#8a9088" stroke="#1a120c" stroke-width="1.5"/>
-  <rect x="66" y="68" width="14" height="12" fill="#8a9088" stroke="#1a120c" stroke-width="1.5"/>
-  <rect x="57" y="84" width="14" height="8" fill="#8a9088" stroke="#1a120c" stroke-width="1.5"/>
-
+  <!-- stone-plate cuirass with pauldrons -->
+  <ellipse cx="38" cy="48" rx="12" ry="10" fill="#6a7068" stroke="#1a120c" stroke-width="2.5"/>
+  <ellipse cx="90" cy="48" rx="12" ry="10" fill="#6a7068" stroke="#1a120c" stroke-width="2.5"/>
+  <path d="M42 40 L64 30 L86 40 L90 56 L84 102 L44 102 L38 56 Z" fill="#6a7068" stroke="#1a120c" stroke-width="2.5" stroke-linejoin="round"/>
+  <rect x="48" y="54" width="14" height="14" rx="1" fill="#8a9088" stroke="#1a120c" stroke-width="2"/>
+  <rect x="66" y="54" width="14" height="14" rx="1" fill="#8a9088" stroke="#1a120c" stroke-width="2"/>
+  <rect x="48" y="72" width="14" height="14" rx="1" fill="#8a9088" stroke="#1a120c" stroke-width="2"/>
+  <rect x="66" y="72" width="14" height="14" rx="1" fill="#8a9088" stroke="#1a120c" stroke-width="2"/>
+  <path d="M54 40 L64 48 L74 40" fill="none" stroke="#c4a574" stroke-width="2" stroke-linecap="round"/>
 </svg>

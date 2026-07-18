@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Broken Chain Scarf">
   <defs>
-    <radialGradient id="g9769225" cx="50%" cy="45%" r="55%">
+    <radialGradient id="gdtchainscarf" cx="50%" cy="45%" r="55%">
       <stop offset="0%" stop-color="#fff8ec"/>
       <stop offset="100%" stop-color="#e8dcc4"/>
     </radialGradient>
   </defs>
-  <circle cx="64" cy="64" r="58" fill="url(#g9769225)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="58" fill="url(#gdtchainscarf)" stroke="#1a120c" stroke-width="3"/>
   <circle cx="64" cy="64" r="52" fill="none" stroke="#c45a3a" stroke-width="1.5" opacity="0.55"/>
 
-  <path d="M30 58 Q48 40 64 58 Q80 40 98 58" fill="none" stroke="#8a9aaa" stroke-width="5" stroke-linecap="round"/>
-  <circle cx="40" cy="52" r="5" fill="none" stroke="#1a120c" stroke-width="2"/>
-  <circle cx="52" cy="48" r="5" fill="none" stroke="#1a120c" stroke-width="2"/>
-  <circle cx="64" cy="52" r="5" fill="none" stroke="#1a120c" stroke-width="2"/>
-  <circle cx="76" cy="48" r="5" fill="none" stroke="#1a120c" stroke-width="2"/>
-  <circle cx="88" cy="52" r="5" fill="none" stroke="#1a120c" stroke-width="2"/>
-  <path d="M58 62 L54 78 L70 72" fill="none" stroke="#8a9aaa" stroke-width="3" stroke-linecap="round"/>
-
+  <!-- U-drape of chain links around neck -->
+  <path d="M28 48 Q40 70 64 74 Q88 70 100 48" fill="none" stroke="#8a9aaa" stroke-width="7" stroke-linecap="round"/>
+  <path d="M28 48 Q40 70 64 74 Q88 70 100 48" fill="none" stroke="#1a120c" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="34" cy="52" rx="8" ry="6" fill="none" stroke="#1a120c" stroke-width="2.5"/>
+  <ellipse cx="50" cy="66" rx="8" ry="6" fill="none" stroke="#1a120c" stroke-width="2.5"/>
+  <ellipse cx="64" cy="74" rx="8" ry="6" fill="none" stroke="#1a120c" stroke-width="2.5"/>
+  <ellipse cx="78" cy="66" rx="8" ry="6" fill="none" stroke="#1a120c" stroke-width="2.5"/>
+  <ellipse cx="94" cy="52" rx="8" ry="6" fill="none" stroke="#1a120c" stroke-width="2.5"/>
+  <path d="M58 78 L52 102 L74 96" fill="none" stroke="#8a9aaa" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M58 78 L52 102 L74 96" fill="none" stroke="#1a120c" stroke-width="2" stroke-linecap="round"/>
+  <path d="M54 94 L48 104" stroke="#c45a3a" stroke-width="3" stroke-linecap="round"/>
 </svg>

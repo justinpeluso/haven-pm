@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Moonsteel Saber">
   <defs>
-    <radialGradient id="g" cx="50%" cy="45%" r="55%">
+    <radialGradient id="gdtmoonsteelsaber" cx="50%" cy="45%" r="55%">
       <stop offset="0%" stop-color="#fff8ec"/>
       <stop offset="100%" stop-color="#e8dcc4"/>
     </radialGradient>
   </defs>
-  <circle cx="64" cy="64" r="58" fill="url(#g)" stroke="#1a120c" stroke-width="3"/>
-  <circle cx="64" cy="64" r="52" fill="none" stroke="#c45a3a" stroke-width="1.5" opacity="0.55"/>
+  <circle cx="64" cy="64" r="58" fill="url(#gdtmoonsteelsaber)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#3d5a6a" stroke-width="1.5" opacity="0.55"/>
 
-  <!-- curved saber -->
-  <path d="M40 96 L48 88 L52 50 Q58 28 78 22 Q92 20 98 28 Q88 34 78 42 Q62 58 58 78 L54 96 Z" fill="#c8d4e0" stroke="#1a120c" stroke-width="2.5"/>
-  <path d="M52 50 Q62 32 80 26" fill="none" stroke="#fff" stroke-width="2" opacity="0.6"/>
-  <rect x="36" y="92" width="24" height="10" rx="2" fill="#5a3a22" stroke="#1a120c" stroke-width="2"/>
-  <path d="M34 90 L62 90" stroke="#c9a227" stroke-width="3"/>
-
+  <path d="M38 100 L48 90 L54 46 Q62 22 84 18 Q100 16 106 28 Q94 34 82 44 Q64 62 58 84 L52 104 Z" fill="#c8d4e0" stroke="#1a120c" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M56 48 Q68 28 88 24" fill="none" stroke="#fff" stroke-width="2.5" opacity="0.65" stroke-linecap="round"/>
+  <rect x="32" y="96" width="28" height="12" rx="2" fill="#5a3a22" stroke="#1a120c" stroke-width="2.5"/>
+  <path d="M30 94 L64 94" stroke="#c9a227" stroke-width="3.5" stroke-linecap="round"/>
 </svg>

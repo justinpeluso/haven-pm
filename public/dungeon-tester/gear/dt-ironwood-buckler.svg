@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Ironwood Buckler">
   <defs>
-    <radialGradient id="g" cx="50%" cy="45%" r="55%">
+    <radialGradient id="gdtironwoodbuckler" cx="50%" cy="45%" r="55%">
       <stop offset="0%" stop-color="#fff8ec"/>
       <stop offset="100%" stop-color="#e8dcc4"/>
     </radialGradient>
   </defs>
-  <circle cx="64" cy="64" r="58" fill="url(#g)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="58" fill="url(#gdtironwoodbuckler)" stroke="#1a120c" stroke-width="3"/>
   <circle cx="64" cy="64" r="52" fill="none" stroke="#c45a3a" stroke-width="1.5" opacity="0.55"/>
 
-  <!-- ironwood buckler -->
-  <circle cx="64" cy="64" r="40" fill="#4a3a28" stroke="#1a120c" stroke-width="3"/>
-  <circle cx="64" cy="64" r="28" fill="#6a4420" stroke="#1a120c" stroke-width="2"/>
-  <circle cx="64" cy="64" r="12" fill="#8a9aaa" stroke="#1a120c" stroke-width="2.5"/>
-  <!-- wolf brand -->
-  <path d="M56 60 L64 48 L72 60 L68 72 L60 72 Z" fill="none" stroke="#1a120c" stroke-width="2"/>
-  <circle cx="60" cy="58" r="1.5" fill="#1a120c"/>
-  <circle cx="68" cy="58" r="1.5" fill="#1a120c"/>
-
+  <circle cx="64" cy="64" r="42" fill="#4a3a28" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="30" fill="#6a4420" stroke="#1a120c" stroke-width="2.5"/>
+  <circle cx="64" cy="64" r="14" fill="#8a9aaa" stroke="#1a120c" stroke-width="2.5"/>
+  <path d="M54 58 L64 46 L74 58 L70 74 L58 74 Z" fill="none" stroke="#1a120c" stroke-width="2.5"/>
+  <circle cx="60" cy="58" r="2" fill="#1a120c"/>
+  <circle cx="68" cy="58" r="2" fill="#1a120c"/>
 </svg>

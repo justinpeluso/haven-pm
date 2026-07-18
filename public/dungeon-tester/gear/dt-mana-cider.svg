@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Hearth Mana Cider">
   <defs>
-    <radialGradient id="g6887510" cx="50%" cy="45%" r="55%">
+    <radialGradient id="gdtmanacider" cx="50%" cy="45%" r="55%">
       <stop offset="0%" stop-color="#fff8ec"/>
       <stop offset="100%" stop-color="#e8dcc4"/>
     </radialGradient>
   </defs>
-  <circle cx="64" cy="64" r="58" fill="url(#g6887510)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="58" fill="url(#gdtmanacider)" stroke="#1a120c" stroke-width="3"/>
   <circle cx="64" cy="64" r="52" fill="none" stroke="#6a3a8a" stroke-width="1.5" opacity="0.55"/>
 
-  <path d="M50 44 L78 44 L82 56 L76 100 L52 100 L46 56 Z" fill="#6a3a8a" stroke="#1a120c" stroke-width="2.5"/>
-  <rect x="54" y="32" width="20" height="14" rx="2" fill="#5a3a22" stroke="#1a120c" stroke-width="2"/>
-  <path d="M54 70 Q64 64 74 70" fill="none" stroke="#c4a0d4" stroke-width="2"/>
-  <circle cx="64" cy="80" r="5" fill="#c4a0d4" opacity="0.7"/>
-
+  <!-- jug of violet cider -->
+  <path d="M48 52 L80 52 L86 64 L80 106 L48 106 L42 64 Z" fill="#6a3a8a" stroke="#1a120c" stroke-width="2.5" stroke-linejoin="round"/>
+  <rect x="52" y="34" width="24" height="20" rx="3" fill="#5a3a22" stroke="#1a120c" stroke-width="2.5"/>
+  <ellipse cx="64" cy="34" rx="12" ry="5" fill="#6a4420" stroke="#1a120c" stroke-width="2"/>
+  <path d="M52 78 Q64 70 76 78" fill="none" stroke="#c4a0d4" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="64" cy="90" r="6" fill="#c4a0d4" opacity="0.75" stroke="#1a120c" stroke-width="1.5"/>
+  <path d="M78 58 L94 52 L94 66 L82 68" fill="#5a3a22" stroke="#1a120c" stroke-width="2" stroke-linejoin="round"/>
 </svg>

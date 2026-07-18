@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Wilderland Oathblade">
   <defs>
-    <radialGradient id="g" cx="50%" cy="45%" r="55%">
+    <radialGradient id="gdtwilderlandoathblade" cx="50%" cy="45%" r="55%">
       <stop offset="0%" stop-color="#fff8ec"/>
       <stop offset="100%" stop-color="#e8dcc4"/>
     </radialGradient>
   </defs>
-  <circle cx="64" cy="64" r="58" fill="url(#g)" stroke="#1a120c" stroke-width="3"/>
-  <circle cx="64" cy="64" r="52" fill="none" stroke="#c45a3a" stroke-width="1.5" opacity="0.55"/>
+  <circle cx="64" cy="64" r="58" fill="url(#gdtwilderlandoathblade)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#c9a227" stroke-width="1.5" opacity="0.55"/>
 
-  <!-- legendary oathblade -->
-  <path d="M60 22 L72 22 L74 78 L58 78 Z" fill="#c8d4e0" stroke="#1a120c" stroke-width="2.5"/>
-  <path d="M66 18 L74 26 L66 24 L58 26 Z" fill="#c9a227" stroke="#1a120c" stroke-width="2"/>
-  <path d="M62 30 L70 30 M62 42 L70 42 M62 54 L70 54" stroke="#fff" stroke-width="1.5" opacity="0.5"/>
-  <rect x="52" y="78" width="28" height="8" rx="1" fill="#c9a227" stroke="#1a120c" stroke-width="2"/>
-  <rect x="58" y="86" width="16" height="22" rx="2" fill="#5a3a22" stroke="#1a120c" stroke-width="2.5"/>
-  <path d="M54 82 L48 76 M78 82 L84 76" stroke="#c9a227" stroke-width="2"/>
-  <circle cx="66" cy="98" r="3" fill="#c45a3a" stroke="#1a120c" stroke-width="1.5"/>
-
+  <path d="M56 18 L76 18 L78 76 L54 76 Z" fill="#c8d4e0" stroke="#1a120c" stroke-width="2.5"/>
+  <path d="M66 12 L78 24 L66 22 L54 24 Z" fill="#c9a227" stroke="#1a120c" stroke-width="2"/>
+  <path d="M60 30 L72 30 M60 44 L72 44 M60 58 L72 58" stroke="#fff" stroke-width="2" opacity="0.55"/>
+  <rect x="48" y="76" width="36" height="10" rx="1" fill="#c9a227" stroke="#1a120c" stroke-width="2.5"/>
+  <rect x="56" y="86" width="20" height="24" rx="3" fill="#5a3a22" stroke="#1a120c" stroke-width="2.5"/>
+  <path d="M50 80 L42 72 M82 80 L90 72" stroke="#c9a227" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="66" cy="100" r="3.5" fill="#c45a3a" stroke="#1a120c" stroke-width="1.5"/>
 </svg>

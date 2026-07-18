@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Mist Striders">
   <defs>
-    <radialGradient id="g40590" cx="50%" cy="45%" r="55%">
+    <radialGradient id="gdtmiststriders" cx="50%" cy="45%" r="55%">
       <stop offset="0%" stop-color="#fff8ec"/>
       <stop offset="100%" stop-color="#e8dcc4"/>
     </radialGradient>
   </defs>
-  <circle cx="64" cy="64" r="58" fill="url(#g40590)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="58" fill="url(#gdtmiststriders)" stroke="#1a120c" stroke-width="3"/>
   <circle cx="64" cy="64" r="52" fill="none" stroke="#3d5a6a" stroke-width="1.5" opacity="0.55"/>
 
-  <path d="M42 42 L56 38 L60 68 L88 76 L86 90 L38 86 L36 68 Z" fill="#6a7a8a" stroke="#1a120c" stroke-width="2.5"/>
-  <path d="M48 56 Q64 50 72 58" fill="none" stroke="#c0d0e0" stroke-width="2" opacity="0.7"/>
-  <path d="M60 68 L38 66" stroke="#1a120c" stroke-width="2"/>
-
+  <path d="M42 20 L66 18 L70 66 L60 68 L60 84 L96 90 L98 106 L36 100 L34 70 L42 68 Z" fill="#6a7a8a" stroke="#1a120c" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M44 38 Q60 30 68 38" fill="none" stroke="#c0d0e0" stroke-width="3" stroke-linecap="round"/>
+  <path d="M46 54 Q60 46 68 54" fill="none" stroke="#c0d0e0" stroke-width="2.5" opacity="0.75" stroke-linecap="round"/>
+  <path d="M60 84 L36 80" stroke="#1a120c" stroke-width="2.5"/>
+  <ellipse cx="86" cy="98" rx="14" ry="6" fill="#c0d0e0" opacity="0.5"/>
+  <ellipse cx="72" cy="104" rx="10" ry="4" fill="#c0d0e0" opacity="0.35"/>
 </svg>

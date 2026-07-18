@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="Trail Jerky">
   <defs>
-    <radialGradient id="g6716540" cx="50%" cy="45%" r="55%">
+    <radialGradient id="gdttrailjerky" cx="50%" cy="45%" r="55%">
       <stop offset="0%" stop-color="#fff8ec"/>
       <stop offset="100%" stop-color="#e8dcc4"/>
     </radialGradient>
   </defs>
-  <circle cx="64" cy="64" r="58" fill="url(#g6716540)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="58" fill="url(#gdttrailjerky)" stroke="#1a120c" stroke-width="3"/>
   <circle cx="64" cy="64" r="52" fill="none" stroke="#8a4a2a" stroke-width="1.5" opacity="0.55"/>
 
-  <path d="M40 50 Q50 36 70 42 Q90 48 84 70 Q74 92 52 86 Q34 78 40 50 Z" fill="#8a4a2a" stroke="#1a120c" stroke-width="2.5"/>
-  <path d="M48 56 Q60 50 72 58 Q68 72 54 70" fill="none" stroke="#5a2a14" stroke-width="2"/>
-  <circle cx="58" cy="62" r="2" fill="#5a2a14"/>
-
+  <!-- two meat strips tied -->
+  <path d="M34 40 Q42 30 54 36 L70 90 Q60 106 46 100 L30 52 Q28 44 34 40 Z" fill="#8a4a2a" stroke="#1a120c" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M54 34 Q64 26 76 34 L90 84 Q82 100 68 94 L54 48 Q52 38 54 34 Z" fill="#a05a32" stroke="#1a120c" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M42 48 Q52 42 60 50" fill="none" stroke="#5a2a14" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M62 44 Q72 38 80 48" fill="none" stroke="#5a2a14" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M48 28 Q64 20 80 28" fill="none" stroke="#5a3a22" stroke-width="3" stroke-linecap="round"/>
 </svg>
