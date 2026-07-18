@@ -6,7 +6,6 @@ import { getProperty } from "@/lib/actions/properties";
 import { db } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
 import { getOccupancy, unitStatusBadgeVariant, formatUnitStatus } from "@/lib/occupancy";
-import { getMessagingSettings } from "@/lib/settings";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -14,7 +13,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ActivityTimeline } from "@/components/shared/activity-timeline";
 import { PropertyEditForm } from "@/components/properties/property-edit-form";
 import { UnitsManager } from "@/components/properties/units-manager";
-import { PhoneLink } from "@/components/shared/phone-link";
 import { AppFolioExtrasSection } from "@/components/shared/appfolio-extras-section";
 import { formatCurrency, formatDate, toNumber } from "@/lib/utils";
 
@@ -25,7 +23,7 @@ export default async function PropertyDetailPage({
 }) {
   const session = await requirePermission("properties:read");
   const { id } = await params;
-  const [property, owners, messaging] = await Promise.all([
+  const [property, owners] = await Promise.all([
     getProperty(id),
     hasPermission(session.user.role, "properties:write")
       ? db.owner.findMany({
@@ -34,7 +32,6 @@ export default async function PropertyDetailPage({
           orderBy: { name: "asc" },
         })
       : Promise.resolve([]),
-    getMessagingSettings(),
   ]);
 
   if (!property) notFound();
