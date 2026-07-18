@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-const PARTY_PASSWORD = "password67";
+const PARTY_PASSWORD = "Chomps123";
 
 const PLAYERS = [
   {

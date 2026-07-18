@@ -91,7 +91,7 @@ export default function LoginPage() {
           <div className="mt-6 space-y-3">
             <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-xs">
               <p className="font-semibold mb-2 text-amber-900 dark:text-amber-100">
-                Neverworld party logins (password: password67)
+                Neverworld party logins (password: Chomps123)
               </p>
               <ul className="space-y-2 text-muted-foreground">
                 {[
@@ -106,7 +106,7 @@ export default function LoginPage() {
                       className="rounded border border-amber-500/50 bg-background px-2 py-1 font-mono text-[0.7rem] hover:bg-amber-500/15"
                       onClick={() => {
                         setEmail(p.email);
-                        setPassword("password67");
+                        setPassword("Chomps123");
                         setError("");
                       }}
                     >
@@ -118,7 +118,7 @@ export default function LoginPage() {
               </ul>
             </div>
             <div className="rounded-lg bg-muted p-4 text-xs text-muted-foreground">
-              <p className="font-medium mb-2">Haven PM demo (password: password123)</p>
+              <p className="font-medium mb-2">Haven PM demo (password: Chomps123)</p>
               <ul className="space-y-1">
                 <li>admin@havenpm.com — Alex (Administrator)</li>
                 <li>justin@havenpm.com — Justin Peluso (Administrator)</li>

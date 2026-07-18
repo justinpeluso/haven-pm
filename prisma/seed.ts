@@ -126,8 +126,8 @@ async function main() {
 
   await clearDatabase();
 
-  const passwordHash = await bcrypt.hash("password123", 12);
-  const partyPasswordHash = await bcrypt.hash("password67", 12);
+  const passwordHash = await bcrypt.hash("Chomps123", 12);
+  const partyPasswordHash = passwordHash;
 
   // ─── Core staff ──────────────────────────────────────────────────────────
   const admin = await prisma.user.create({
@@ -935,13 +935,13 @@ async function main() {
   console.log(`  Agents:      ${agents.length} (showings: ${byAgent.join(" / ")})`);
   console.log(`  Showings:    ${showingsCreated.length} (Jul 15–31, 2026)`);
   console.log(`  Vendors:     ${VENDORS.length}`);
-  console.log("\nDemo logins (password: password123):");
+  console.log("\nDemo logins (password: Chomps123):");
   console.log("  admin@havenpm.com / justin@havenpm.com / michelle@havenpm.com");
   console.log("  manager@havenpm.com / office@havenpm.com");
   console.log("  agent@havenpm.com / agent2@havenpm.com / agent3@havenpm.com");
   console.log("  maintenance@havenpm.com");
   console.log("  tenant@havenpm.com … tenant10@havenpm.com");
-  console.log("\nParty game logins (password: password67):");
+  console.log("\nParty game logins (password: Chomps123):");
   console.log("  player1@havenpm.com → Justin (DM)");
   console.log("  player2@havenpm.com → Rusty");
   console.log("  player3@havenpm.com → Elisha");
