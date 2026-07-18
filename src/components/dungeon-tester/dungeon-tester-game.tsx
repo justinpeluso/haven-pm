@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { DowntownSubnav } from "@/components/downtown/downtown-subnav";
 import { SimpleBattleOverlay } from "@/components/dungeon-tester/simple-battle-overlay";
 import { DtGearSheet } from "@/components/dungeon-tester/dt-gear-sheet";
 import { DtGearIcon } from "@/components/dungeon-tester/dt-gear-icon";
@@ -1018,7 +1017,6 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   if (!bootstrapped) {
     return (
       <div className="downtown-shell dungeon-tester party-comic party-rpg90s party-chronicle">
-        <DowntownSubnav active="dungeon-tester" />
         <p className="dt-tagline">Loading True Grit…</p>
       </div>
     );
@@ -1029,7 +1027,6 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
   return (
     <div className={shellClass}>
-      <DowntownSubnav active="dungeon-tester" />
 
       {flash ? <p className="dt-flash">{flash}</p> : null}
 

@@ -1,22 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Building2, ChevronDown, Gamepad2 } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Building2, Check, ChevronDown, Gamepad2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getNavItemsForRole } from "@/lib/navigation";
-import { JP_GAMING_LINKS } from "@/components/downtown/downtown-subnav";
+import { isJpGamingPath, JP_GAMING_LINKS } from "@/lib/jp-gaming";
 import { UserRole } from "@prisma/client";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
+type WorkspaceId = "haven" | "jp-gaming";
+
+const WORKSPACE_KEY = "haven-workspace";
 
 interface SidebarNavProps {
   role: UserRole;
@@ -28,10 +31,15 @@ interface SidebarNavProps {
   };
 }
 
-function isJpGamingPath(pathname: string): boolean {
-  return JP_GAMING_LINKS.some(
-    (g) => pathname === g.href || pathname.startsWith(`${g.href}/`)
-  );
+function readStoredWorkspace(): WorkspaceId | null {
+  if (typeof window === "undefined") return null;
+  const v = window.localStorage.getItem(WORKSPACE_KEY);
+  return v === "haven" || v === "jp-gaming" ? v : null;
+}
+
+function writeStoredWorkspace(id: WorkspaceId) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(WORKSPACE_KEY, id);
 }
 
 const navLinkClass = (active: boolean) =>
@@ -49,194 +57,188 @@ export function SidebarNav({
   company,
 }: SidebarNavProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const navItems = getNavItemsForRole(role);
-  const brandName = company?.name || "Haven PM";
-  const showJpGaming = navItems.some((item) => item.href === "/downtown");
-  const gamingActive = isJpGamingPath(pathname);
-  const [havenOpen, setHavenOpen] = useState(true);
-  const [gamesOpen, setGamesOpen] = useState(gamingActive);
+  const canAccessGaming = navItems.some((item) => item.href === "/downtown");
+  const gamingPath = isJpGamingPath(pathname);
+
+  const [workspace, setWorkspace] = useState<WorkspaceId>(() =>
+    gamingPath ? "jp-gaming" : "haven"
+  );
 
   useEffect(() => {
-    if (gamingActive) {
-      setHavenOpen(true);
-      setGamesOpen(true);
+    if (gamingPath) {
+      setWorkspace("jp-gaming");
+      writeStoredWorkspace("jp-gaming");
+      return;
     }
-  }, [gamingActive, pathname]);
+    // Dashboard is shared — keep stored workspace if set
+    if (pathname === "/dashboard" || pathname.startsWith("/dashboard/")) {
+      const stored = readStoredWorkspace();
+      if (stored) setWorkspace(stored);
+      return;
+    }
+    // Any other Haven route forces Haven workspace
+    setWorkspace("haven");
+    writeStoredWorkspace("haven");
+  }, [pathname, gamingPath]);
+
+  const brandName = company?.name || "Haven PM";
+  const isGaming = workspace === "jp-gaming" && canAccessGaming;
+
+  const havenItems = useMemo(
+    () => navItems.filter((item) => item.href !== "/dashboard"),
+    [navItems]
+  );
+
+  const switchWorkspace = (next: WorkspaceId) => {
+    setWorkspace(next);
+    writeStoredWorkspace(next);
+    if (next === "jp-gaming") {
+      if (!gamingPath) {
+        router.push(JP_GAMING_LINKS[0]?.href ?? "/neverworld");
+      }
+    } else if (gamingPath) {
+      router.push("/dashboard");
+    }
+    onNavigate?.();
+  };
 
   return (
     <>
-      <div className="flex h-14 items-center gap-2 border-b px-4">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-          <Building2 className="h-4 w-4" />
-        </div>
-        {!collapsed && (
-          <div className="min-w-0 flex-1">
-            <span className="block truncate text-sm font-semibold">{brandName}</span>
-            <span className="text-xs text-muted-foreground">Property Management</span>
-          </div>
-        )}
+      <div className="flex h-14 items-center gap-1 border-b px-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              type="button"
+              className={cn(
+                "flex h-full min-w-0 flex-1 items-center gap-2 rounded-lg px-2 py-1.5 text-left transition-colors",
+                "hover:bg-sidebar-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring"
+              )}
+              aria-label="Switch workspace"
+            >
+              <div
+                className={cn(
+                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
+                  isGaming
+                    ? "bg-amber-600 text-white"
+                    : "bg-primary text-primary-foreground"
+                )}
+              >
+                {isGaming ? (
+                  <Gamepad2 className="h-4 w-4" />
+                ) : (
+                  <Building2 className="h-4 w-4" />
+                )}
+              </div>
+              {!collapsed && (
+                <div className="min-w-0 flex-1">
+                  <span className="block truncate text-sm font-semibold">
+                    {isGaming ? "JP Gaming" : brandName}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {isGaming ? "Games" : "Property Management"}
+                  </span>
+                </div>
+              )}
+              {!collapsed && (
+                <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+              )}
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="min-w-[14rem]">
+            <DropdownMenuLabel>Switch workspace</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onSelect={() => switchWorkspace("haven")}
+              className="gap-2"
+            >
+              <Building2 className="h-4 w-4" />
+              <span className="flex-1">Haven</span>
+              {!isGaming ? <Check className="h-4 w-4" /> : null}
+            </DropdownMenuItem>
+            {canAccessGaming ? (
+              <DropdownMenuItem
+                onSelect={() => switchWorkspace("jp-gaming")}
+                className="gap-2"
+              >
+                <Gamepad2 className="h-4 w-4" />
+                <span className="flex-1">JP Gaming</span>
+                {isGaming ? <Check className="h-4 w-4" /> : null}
+              </DropdownMenuItem>
+            ) : null}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto p-2">
-        {showJpGaming && collapsed ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                type="button"
-                className={cn(
-                  "flex w-full items-center justify-center rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                  gamingActive
-                    ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                    : "text-sidebar-foreground hover:bg-sidebar-accent/50"
-                )}
-                title="Haven"
-                aria-label="Haven"
-                aria-haspopup="menu"
+        {navItems.some((i) => i.href === "/dashboard") ? (
+          <Link
+            href="/dashboard"
+            onClick={onNavigate}
+            className={navLinkClass(
+              pathname === "/dashboard" || pathname.startsWith("/dashboard/")
+            )}
+            title={collapsed ? "Dashboard" : undefined}
+          >
+            {(() => {
+              const dash = navItems.find((i) => i.href === "/dashboard");
+              const Icon = dash?.icon;
+              return Icon ? <Icon className="h-4 w-4 shrink-0" /> : null;
+            })()}
+            {!collapsed && <span>Dashboard</span>}
+          </Link>
+        ) : null}
+
+        {isGaming ? (
+          JP_GAMING_LINKS.map((game) => {
+            const isCurrent =
+              pathname === game.href || pathname.startsWith(`${game.href}/`);
+            return (
+              <Link
+                key={game.id}
+                href={game.href}
+                onClick={onNavigate}
+                aria-current={isCurrent ? "page" : undefined}
+                className={navLinkClass(isCurrent)}
+                title={collapsed ? game.label : undefined}
               >
-                <Building2 className="h-4 w-4 shrink-0" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent side="right" align="start" className="min-w-[12rem]">
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger
-                  className={cn(
-                    "font-medium",
-                    gamingActive && "bg-accent"
-                  )}
-                >
-                  <Gamepad2 className="mr-2 h-4 w-4" />
-                  JP Gaming
-                </DropdownMenuSubTrigger>
-                <DropdownMenuSubContent className="min-w-[12rem]">
-                  {JP_GAMING_LINKS.map((game) => {
-                    const isCurrent =
-                      pathname === game.href || pathname.startsWith(`${game.href}/`);
-                    return (
-                      <DropdownMenuItem key={game.id} asChild>
-                        <Link
-                          href={game.href}
-                          onClick={onNavigate}
-                          aria-current={isCurrent ? "page" : undefined}
-                          className={cn(isCurrent && "bg-accent")}
-                        >
-                          <span className="flex flex-col gap-0.5">
-                            <span>{game.label}</span>
-                            {"hint" in game && game.hint ? (
-                              <span className="text-xs text-muted-foreground">{game.hint}</span>
-                            ) : null}
-                          </span>
-                        </Link>
-                      </DropdownMenuItem>
-                    );
-                  })}
-                </DropdownMenuSubContent>
-              </DropdownMenuSub>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : null}
-
-        {showJpGaming && !collapsed ? (
-          <div className="space-y-1">
-            <button
-              type="button"
-              onClick={() => setHavenOpen((o) => !o)}
-              className={navLinkClass(gamingActive)}
-              aria-expanded={havenOpen}
-              aria-controls="haven-nav"
-            >
-              <Building2 className="h-4 w-4 shrink-0" />
-              <span className="flex-1 text-left">Haven</span>
-              <ChevronDown
-                className={cn(
-                  "h-4 w-4 shrink-0 text-sidebar-foreground/80 transition-transform",
-                  havenOpen && "rotate-180"
+                <Gamepad2 className="h-4 w-4 shrink-0" />
+                {!collapsed && (
+                  <span className="min-w-0">
+                    <span className="block">{game.label}</span>
+                    {"hint" in game && game.hint ? (
+                      <span className="block text-xs font-normal text-muted-foreground">
+                        {game.hint}
+                      </span>
+                    ) : null}
+                  </span>
                 )}
-                aria-hidden
-              />
-            </button>
-
-            {havenOpen ? (
-              <div id="haven-nav" className="space-y-1 pl-3" role="group" aria-label="Haven">
-                <button
-                  type="button"
-                  onClick={() => setGamesOpen((o) => !o)}
-                  className={cn(
-                    "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                    gamingActive
-                      ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent/50"
-                  )}
-                  aria-expanded={gamesOpen}
-                  aria-controls="jp-gaming-nav"
-                >
-                  <Gamepad2 className="h-4 w-4 shrink-0" />
-                  <span className="flex-1 text-left">JP Gaming</span>
-                  <ChevronDown
-                    className={cn(
-                      "h-4 w-4 shrink-0 text-sidebar-foreground/80 transition-transform",
-                      gamesOpen && "rotate-180"
-                    )}
-                    aria-hidden
-                  />
-                </button>
-
-                {gamesOpen ? (
-                  <div
-                    id="jp-gaming-nav"
-                    className="space-y-0.5 pl-4"
-                    role="group"
-                    aria-label="JP Gaming"
-                  >
-                    {JP_GAMING_LINKS.map((game) => {
-                      const isCurrent =
-                        pathname === game.href || pathname.startsWith(`${game.href}/`);
-                      return (
-                        <Link
-                          key={game.id}
-                          href={game.href}
-                          onClick={onNavigate}
-                          aria-current={isCurrent ? "page" : undefined}
-                          className={cn(
-                            "block rounded-lg px-3 py-2 text-sm transition-colors",
-                            isCurrent
-                              ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
-                              : "text-sidebar-foreground hover:bg-sidebar-accent/50"
-                          )}
-                        >
-                          <span className="block">{game.label}</span>
-                          {"hint" in game && game.hint ? (
-                            <span className="block text-xs text-muted-foreground">{game.hint}</span>
-                          ) : null}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                ) : null}
-              </div>
-            ) : null}
-          </div>
-        ) : null}
-
-        {navItems.map((item) => {
-          const isActive =
-            item.href === "/downtown"
-              ? pathname === "/downtown" ||
-                (pathname.startsWith("/downtown/") && !isJpGamingPath(pathname))
-              : pathname === item.href || pathname.startsWith(`${item.href}/`);
-          const Icon = item.icon;
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={onNavigate}
-              className={navLinkClass(isActive)}
-              title={collapsed ? item.title : undefined}
-            >
-              <Icon className="h-4 w-4 shrink-0" />
-              {!collapsed && <span>{item.title}</span>}
-            </Link>
-          );
-        })}
+              </Link>
+            );
+          })
+        ) : (
+          havenItems.map((item) => {
+            const isActive =
+              item.href === "/downtown"
+                ? pathname === "/downtown" ||
+                  (pathname.startsWith("/downtown/") && !isJpGamingPath(pathname))
+                : pathname === item.href || pathname.startsWith(`${item.href}/`);
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={onNavigate}
+                className={navLinkClass(isActive)}
+                title={collapsed ? item.title : undefined}
+              >
+                <Icon className="h-4 w-4 shrink-0" />
+                {!collapsed && <span>{item.title}</span>}
+              </Link>
+            );
+          })
+        )}
       </nav>
     </>
   );

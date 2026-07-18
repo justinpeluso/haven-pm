@@ -11,7 +11,17 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/downtown/party-chronicle",
-        destination: "/downtown/neverworld",
+        destination: "/neverworld",
+        permanent: false,
+      },
+      {
+        source: "/downtown/neverworld",
+        destination: "/neverworld",
+        permanent: false,
+      },
+      {
+        source: "/downtown/dungeon-tester",
+        destination: "/true-grit",
         permanent: false,
       },
       {

@@ -40,7 +40,7 @@ export default function LoginPage() {
       "player3@havenpm.com",
     ]);
     const dest = partyEmails.has(email.trim().toLowerCase())
-      ? "/downtown/neverworld"
+      ? "/neverworld"
       : "/dashboard";
     router.push(dest);
     router.refresh();

@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState, useTransition } from "react";
-import { DowntownSubnav } from "@/components/downtown/downtown-subnav";
 import { ENDING_BY_ID } from "@/lib/downtown/party-chronicle/alignment";
 import { getAnimalNpc } from "@/lib/downtown/party-chronicle/animals";
 import { comicArtSrc, getComicArt } from "@/lib/downtown/party-chronicle/art";
@@ -1182,7 +1181,6 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   if (phase === "boot") {
     return (
       <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
-        <DowntownSubnav active="neverworld" />
         <p className="text-sm" style={{ color: "var(--dt-muted)" }}>
           Loading Neverworld…
         </p>
@@ -1202,7 +1200,6 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
       : [];
     return (
       <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
-        <DowntownSubnav active="neverworld" />
         {flash && (
           <div className="pc-turn-banner" role="status" data-forest="true">
             {flash}
@@ -1330,7 +1327,6 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
     const endNode = getStoryNode(world.campaignNodeId);
     return (
       <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
-        <DowntownSubnav active="neverworld" />
         <div className="pc-ending space-y-4">
           <p className="pc-eyebrow" style={{ color: "var(--pc-cyan)" }}>
             Chronicle Complete
@@ -1376,7 +1372,6 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
   if (!world || !storyNode) {
     return (
       <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
-        <DowntownSubnav active="neverworld" />
         <p className="text-sm">Story node missing — reset the campaign.</p>
         {identity.isDm ? (
           <button type="button" className="pc-chip" onClick={resetCampaign}>
@@ -1467,7 +1462,6 @@ export function PartyChronicleGame({ identity }: { identity: PlayerIdentity }) {
 
   return (
     <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
-      <DowntownSubnav active="neverworld" />
       {showBattleOverlay && world.battle && (
         <BattleOverlay
           world={world}
@@ -2440,7 +2434,6 @@ function CreatePhase({
 
   return (
     <div className="downtown-shell party-comic party-rpg90s party-chronicle space-y-5">
-      <DowntownSubnav active="neverworld" />
       {campaignStarted && (
         <div className="pc-turn-banner" data-forest="true">
           Campaign already rolling — seal {def.displayName} to jump in. Turn:{" "}
