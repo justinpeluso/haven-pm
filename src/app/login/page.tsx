@@ -28,7 +28,7 @@ const PARTY_ACCOUNTS = [
   { email: "player4@havenpm.com", label: "Eric Prendergast — Player 4" },
 ] as const;
 
-const PARTY_EMAILS = new Set(PARTY_ACCOUNTS.map((p) => p.email));
+const PARTY_EMAILS: Set<string> = new Set(PARTY_ACCOUNTS.map((p) => p.email));
 
 export default function LoginPage() {
   const router = useRouter();
