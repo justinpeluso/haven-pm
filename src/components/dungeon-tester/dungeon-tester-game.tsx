@@ -1956,8 +1956,8 @@ function CreateSeat({
       <DtBackBar backs={[{ label: "Title", onClick: onCancel, primary: true }]} />
       <h2 className="dt-frame-title">Seal {def.displayName}&apos;s seat</h2>
       <p className="dt-tagline">
-        Start with your look — then name, class, and kit. Your frontier figure shows in camp, party
-        row, and ambushes (not the old class comic plates). Dogs optional.
+        You woke without a name — pick a look, then claim one. Class and kit next. Your figure shows
+        in camp, party row, and ambushes. Dogs optional; the woods do not care.
       </p>
       {error ? <p className="dt-flash">{error}</p> : null}
 

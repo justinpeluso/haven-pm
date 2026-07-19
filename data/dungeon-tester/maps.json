@@ -5,8 +5,8 @@
   "regions": [
     {
       "id": "region-chain-road",
-      "name": "Chain-Road",
-      "blurb": "Cages on ox-wains and mist that tastes like livestock math.",
+      "name": "Woods Without Names",
+      "blurb": "Biolume pines, chrome knives, and three brothers with no names.",
       "chapterId": "dt-ch-01-chain-road",
       "chapter": 1,
       "localMapId": "local-ch-01",

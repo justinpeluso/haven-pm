@@ -1,7 +1,7 @@
 {
   "version": 1,
   "title": "Dungeons and Dogs: Lost Brothers",
-  "blurb": "Oregon Trail–style comic frames. Three brothers wake in a future Wilderland with no names and no map — cyberpunk steel under a Middle-earth canopy, spirits in the fog, dragons on the ridgeline. Guns, blades, and half-remembered bonds. Survive the woods. Remember who you are.",
+  "blurb": "Oregon Trail–style comic frames. Three brothers wake in a future Wilderland with no names and no map — cyberpunk steel under a Middle-earth canopy, spirits in the fog, dragons on the ridgeline. Guns, blades, and half-remembered bonds. Opening march rewritten; chapters 2–9 still mostly old thrall/liberation prose until the next pass.",
   "targetHours": 34,
   "startNodeId": "dt-ch01-001",
   "encounterCadence": {
@@ -1060,21 +1060,22 @@
     {
       "id": "dt-ch01-001",
       "kind": "narrative",
-      "title": "Wake in the Woods",
-      "body": "Three of you wake under a canopy that should not exist — ancient oaks tangled with neon filament and drone-wire. No names. No road home. Just the taste of ozone, a dragon’s distant cry, and the stubborn sense that you are brothers — even if none of you can prove it.",
+      "title": "Wake Cold",
+      "body": "You come to face-down in pine needles that glow a sick biolume green. Rain tastes like ozone and iron. Two other men — your brothers, somehow, even if none of you can prove it — sit against a shattered neon waymarker humming in Elvish and static. No names. No phones. Only a skyline of future towers beyond the trees, and something winged blotting the moon.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-cages",
       "chapter": 1,
       "flagsAdd": [
-        "ch1-started"
+        "ch1-started",
+        "bros-awake"
       ],
       "next": "dt-ch01-002"
     },
     {
       "id": "dt-ch01-002",
       "kind": "narrative",
-      "title": "Empty Pockets, Loud Future",
-      "body": "Your coats hold future steel — stub pistols, mono-edged knives, a cracked holo that won’t load a face. Somewhere a spirit-bell rings through fog. One of you swears the trees are watching. Another swears the trees owe rent. None of you remember yesterday.",
+      "title": "Neon Glade: Empty Pockets",
+      "body": "Pockets hold chrome knives, a cracked plasma pack, a charm carved from bone that still whispers when you shake it. The woods are Middle-earth wrong: ancient oaks wrapped in fiber-optic vines, a stream running silver like coolant. One brother swears he hears a dragon’s radio-chatter. Another laughs once, then stops, because laughing without a name feels like theft.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
       "chapter": 1,
@@ -1083,8 +1084,8 @@
     {
       "id": "dt-ch01-003",
       "kind": "narrative",
-      "title": "Brother Math",
-      "body": "Counting helps. Three heartbeats. Three shadows. Three blank spots where childhood should be. A wolf-dog with chrome-capped teeth trots from the brush as if it already chose a pack. The Wilderland smells like rain on copper and old myth.",
+      "title": "Neon Glade: Who Are We",
+      "body": "You try the usual inventory of self — job, city, last fight — and bounce off blank. The trees watch like old spirits wearing new cameras. Somewhere deeper, a synth-choir and a war-horn argue over the same note. You three decide the only true thing left: stick together until the woods spit out an answer or a corpse.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
       "chapter": 1,
@@ -1093,16 +1094,16 @@
     {
       "id": "dt-ch01-004",
       "kind": "choice",
-      "title": "Toll in the Mist",
-      "body": "Three road scavengers block a stream-ford with a laser-tripwire and a grin, taxing travelers like they own the mist. Their leader — missing two fingers and all shame — offers “protection” for coin you may not have. A lean stranger in a ruined grey hat watches from the bank, hand near a crossbow bolt that hums like charged crystal.",
+      "title": "Trail Tax in Chrome",
+      "body": "Three scavengers block a root-bridge with a trip-laser and a grin. Their leader — missing two fingers and all shame — taxes travelers in coin, batteries, or blood. A lean stranger in a ruined grey hat watches from the bank, hand near a crossbow bolt wired to a microcell he has not spent yet. Spirits flicker in the mist like bad holograms.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-road-vermin",
       "chapter": 1,
       "choices": [
         {
           "id": "ch1-vermin-pay",
-          "label": "Pay the damn tripwire",
-          "approach": "Buy the ford with scrap you can spare; save steel.",
+          "label": "Pay the damn rope",
+          "approach": "Buy the bridge with cells and coin; save steel for worse.",
           "outcome": {
             "text": "They salute with stolen manners. The grey-hatted stranger mutters, “Inflation,” and does not leave.",
             "xp": 8,
@@ -1117,9 +1118,9 @@
         {
           "id": "ch1-vermin-scare",
           "label": "Scare them honest",
-          "approach": "Show teeth the woods haven’t filed down — and the stranger’s humming bolt.",
+          "approach": "Show chrome teeth and the stranger’s wired bolt.",
           "outcome": {
-            "text": "Tripwire drops. One kid whispers, “The blank brothers walk.” Word travels usefully — maybe too usefully.",
+            "text": "Laser drops. One kid whispers, “The lost brothers walk.” Word travels usefully — maybe too usefully.",
             "xp": 12,
             "flagsAdd": [
               "vermin-scared",
@@ -1130,12 +1131,12 @@
         },
         {
           "id": "ch1-vermin-story",
-          "label": "Trade a half-true woods story",
-          "approach": "Give them a tale sharp enough to sell twice — dragons optional, truth negotiable.",
+          "label": "Trade a woods story",
+          "approach": "Sell them a tale sharp enough to buy safe passage twice.",
           "stat": "charisma",
           "dc": 11,
           "success": {
-            "text": "They point you to a dry cache under the ford stones — amateurs with useful greed. The stranger tips his ruined hat a fraction.",
+            "text": "They point you to a dry cache under the bridge roots — amateurs with useful greed. The stranger tips his ruined hat a fraction.",
             "xp": 16,
             "flagsAdd": [
               "vermin-story",
@@ -1158,8 +1159,8 @@
     {
       "id": "dt-ch01-005",
       "kind": "choice",
-      "title": "The Stranger's Ugly Joke",
-      "body": "The grey-hatted stranger steps close enough that whiskey and ozone ride his breath. He asks — not unkind, not soft — whether you want to be brothers who hunt, or hunters who happen to be brothers. The difference, he says, is who you apologize to when the smoke clears. “And don’t you damn quit either way.”",
+      "title": "The Stranger's Ugly Question",
+      "body": "The grey-hatted stranger steps close enough that whiskey and ozone ride his breath. He asks — not unkind, not soft — whether you three want to be brothers who hunt, or hunters who happen to be brothers. The difference, he says, is who you apologize to when the smoke clears. “And don’t you damn quit either way. Woods like these eat quitters and sell the bones as charms.”",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-quill-aside",
       "chapter": 1,
@@ -1167,13 +1168,14 @@
         {
           "id": "ch1-joke-free",
           "label": "Brothers who hunt",
-          "approach": "Keep the bond first: pack before warrants.",
+          "approach": "Keep the moral order: kinship first, the kill second.",
           "outcome": {
-            "text": "“Then we hunt like guests,” he drawls. “Violent guests. Stubborn ones. If I take you.”",
+            "text": "“Then we hunt like guests,” he drawls. “Violent guests. Stubborn ones. If the woods let you keep each other.”",
             "xp": 10,
             "flagsAdd": [
               "identity-freeman",
-              "path-hope"
+              "path-hope",
+              "bros-kin-first"
             ],
             "nextNodeId": "dt-ch01-006"
           }
@@ -1181,27 +1183,29 @@
         {
           "id": "ch1-joke-hunter",
           "label": "Hunters who are brothers",
-          "approach": "Admit the work shapes the man — and the pack.",
+          "approach": "Admit the work shapes the men — and the bond.",
           "outcome": {
-            "text": "He almost smiles with the scarred eye. “Honest. Ugly. Useful.” Coin already weighs in his palm.",
+            "text": "He almost smiles with the scarred eye. “Honest. Ugly. Useful.” A drone-spirit circles once and leaves.",
             "xp": 10,
             "flagsAdd": [
               "identity-hunter",
-              "path-revenge"
+              "path-revenge",
+              "bros-work-first"
             ],
             "nextNodeId": "dt-ch01-006"
           }
         },
         {
           "id": "ch1-joke-neither",
-          "label": "Neither — we want our names",
-          "approach": "Refuse his categories; keep memory central.",
+          "label": "Neither — find our names",
+          "approach": "Refuse his categories; chase memory before identity.",
           "outcome": {
-            "text": "“Categories are cages,” he allows. “Fine. Be a vow with a sword — if the woods take my price.”",
+            "text": "“Categories are cages,” he allows. “Fine. Be a vow with three blades — if the forest takes your price.”",
             "xp": 12,
             "flagsAdd": [
               "identity-vow",
-              "lyra-first"
+              "lyra-first",
+              "bros-names-first"
             ],
             "nextNodeId": "dt-ch01-006"
           }
@@ -1211,8 +1215,8 @@
     {
       "id": "dt-ch01-006",
       "kind": "narrative",
-      "title": "Blank Names",
-      "body": "Heat makes your temples itch like unfinished business. Eyes linger on your empty faces the way buyers linger on gear. The stranger packs silence like powder — dry, useful, dangerous — and waits for the woods to spit out a reason.",
+      "title": "Neon Glade: Signal Weather",
+      "body": "Heat makes the biolume itch like unfinished code. Eyes linger on your blank faces the way buyers linger on mule teeth — and servers linger on fresh accounts. The stranger packs silence like powder — dry, useful, dangerous — and waits for the woods to decide if you are prey, players, or both.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
       "chapter": 1,
@@ -1221,8 +1225,8 @@
     {
       "id": "dt-ch01-007",
       "kind": "narrative",
-      "title": "Spirit Bell",
-      "body": "A child’s chalk rune on a fence post has already been scrubbed by rain and neon flicker. The stranger says, “Pretty country. Ugly ownership. Pass the damn bottle.” Dragon-shadow slides across the canopy; whatever comes next will have to wash harder than rain.",
+      "title": "Neon Glade: Powder Prayer",
+      "body": "A child’s chalk name on a fence post has already been scrubbed to static. The stranger says, “Pretty country. Ugly ownership. Pass the damn bottle.” Spirit-fog still clings; whatever comes next will have to wash harder than rain — chrome, prayer, or both.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
       "chapter": 1,
@@ -1231,8 +1235,8 @@
     {
       "id": "dt-ch01-008",
       "kind": "narrative",
-      "title": "Stubborn Mile",
-      "body": "Road scavengers sell water and buy stories about lost men who would not quit. You set your own pace like brothers owed a name and too stubborn to renegotiate. The stranger lights a match off a data-spike, drinks, and looks almost human — almost ready to spend.",
+      "title": "Neon Glade: Stubborn Mile",
+      "body": "Scavengers sell water and buy stories about nameless men who would not quit. You set your pace like brothers owed a past and too stubborn to renegotiate. The stranger lights a match off a warrant nail wired into a data-spike, drinks, and looks almost human — almost ready to spend truth.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
       "chapter": 1,
@@ -1242,7 +1246,7 @@
       "id": "dt-ch01-009",
       "kind": "narrative",
       "title": "The Binder Arrives",
-      "body": "The lean marshal tips his ruined hat like a man haggling over mule feed and mildly disappointing weather. Halbrecht Quill — freehold marshal, warrant binder, one scarred eye that never quite closes on a lie — studies your blank stares without flinching. “Pretty muscle,” he drawls. “Ugly amnesia. I’ll take the stubborn ones.”",
+      "body": "The lean marshal tips his ruined hat like a man haggling over mule feed and mildly disappointing weather. Halbrecht Quill — freehold binder, warrant-runner, one scarred eye that never quite closes on a lie — does not buy your papers. He buys your attention. “Pretty muscle. Ugly amnesia. I’ll take the stubborn set. Woods east of here eat solo heroes.”",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-quill-hat",
       "chapter": 1,
@@ -1251,8 +1255,8 @@
     {
       "id": "dt-ch01-010",
       "kind": "narrative",
-      "title": "Ring Memory",
-      "body": "Wind carries iron and spirit-smoke farther than any honest voice. Somewhere east, machines still invent people into inventory — and dragons still invent fear. Continue — soft roads make soft memories again.",
+      "title": "Neon Glade: Ring Memory",
+      "body": "Wind carries iron smell and dragon-static farther than any honest voice. Somewhere east, old spirits still invent people into inventory — and new networks invent people into debt. Continue — soft roads make soft collars again, even in chrome.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
       "chapter": 1,
@@ -1261,8 +1265,8 @@
     {
       "id": "dt-ch01-011",
       "kind": "narrative",
-      "title": "East Debt",
-      "body": "Laughter carries farther than any hymn on this road. Identity still feels like hunger wearing better boots. Steel in your coat weighs less than myth and more than sleep.",
+      "title": "Neon Glade: East Debt",
+      "body": "Overseer laughter and server fans carry farther than any hymn on this road. Freedom still feels like hunger wearing better boots. The empty place where your names should be weighs less than iron and more than sleep.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
       "chapter": 1,
@@ -1272,7 +1276,7 @@
       "id": "dt-ch01-012",
       "kind": "narrative",
       "title": "Quill Names the Work",
-      "body": "“I hire lost boys who can ruin the men who erased them,” Quill says, flask catching firelight and neon. “If that offends your poetry, walk. If it fits your teeth, load — and if you quit mid-road, I’ll leave you for the crows with a receipt.” You load.",
+      "body": "“I walk with lost men who can ruin the things that lost them,” Quill says, flask catching firelight and neon. “If that offends your poetry, walk. If it fits your teeth, load — and if you quit mid-woods, I’ll leave you for the crows with a receipt.” You three load — plasma, steel, and a charm that still whispers.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-quill-hat",
       "chapter": 1,
