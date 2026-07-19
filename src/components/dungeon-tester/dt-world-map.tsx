@@ -34,6 +34,8 @@ const DEFAULT_FOOTER =
   "Hover a pin, side job, or landmark. Future roads stay visible but locked.";
 const ATLAS_HINT =
   "Scroll zoom · drag pan · unlocked pins revisit · side jobs pause the main story";
+/** Manhattan px before a pan counts as a drag (suppresses pin click). */
+const DRAG_THRESHOLD_PX = 10;
 
 type BandFilter = "all" | DtSideQuestBand;
 
@@ -114,6 +116,8 @@ export function DtWorldMap({
     ty: number;
     moved: boolean;
   } | null>(null);
+  /** Survives pointerup→click so drag suppression still works after dragRef clears. */
+  const didDragRef = useRef(false);
   const viewportRef = useRef<HTMLDivElement | null>(null);
 
   const currentRegion = dtRegionForChapter(chapterId);
@@ -158,6 +162,9 @@ export function DtWorldMap({
   };
 
   const onPointerDown = (e: PointerEvent) => {
+    // Pin buttons stopPropagation on their own pointerdown so capture here never
+    // steals their click. Only pan-drag from empty map / art.
+    didDragRef.current = false;
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
     dragRef.current = { x: e.clientX, y: e.clientY, tx, ty, moved: false };
   };
@@ -167,18 +174,28 @@ export function DtWorldMap({
     if (!d) return;
     const dx = e.clientX - d.x;
     const dy = e.clientY - d.y;
-    if (Math.abs(dx) + Math.abs(dy) > 4) d.moved = true;
+    if (!d.moved && Math.abs(dx) + Math.abs(dy) <= DRAG_THRESHOLD_PX) return;
+    d.moved = true;
+    didDragRef.current = true;
     setTx(d.tx + dx);
     setTy(d.ty + dy);
   };
 
   const onPointerUp = () => {
+    if (dragRef.current?.moved) didDragRef.current = true;
+    dragRef.current = null;
+  };
+
+  /** Keep viewport pan from capturing the pin gesture (capture kills button click). */
+  const onPinPointerDown = (e: PointerEvent) => {
+    e.stopPropagation();
+    didDragRef.current = false;
     dragRef.current = null;
   };
 
   const pinClick = (region: DtMapRegion, e: MouseEvent) => {
     e.stopPropagation();
-    if (dragRef.current?.moved) return;
+    if (didDragRef.current) return;
     if (!dtRegionUnlocked(region, furthestChapterId)) {
       flashFooter(LOCKED_FOOTER);
       return;
@@ -188,7 +205,7 @@ export function DtWorldMap({
 
   const sideClick = (quest: DtSideQuest, e: MouseEvent) => {
     e.stopPropagation();
-    if (dragRef.current?.moved) return;
+    if (didDragRef.current) return;
     if (!dtSideQuestUnlocked(quest, furthestNum)) {
       flashFooter(LOCKED_SIDE_FOOTER);
       return;
@@ -387,6 +404,7 @@ export function DtWorldMap({
               className="dt-world-map-landmark"
               style={{ left: `${lm.x}%`, top: `${lm.y}%` }}
               aria-label={lm.blurb ? `${lm.name}: ${lm.blurb}` : lm.name}
+              onPointerDown={onPinPointerDown}
               onMouseEnter={() => setHover({ kind: "landmark", id: lm.id })}
               onMouseLeave={() => setHover(null)}
               onFocus={() => setHover({ kind: "landmark", id: lm.id })}
@@ -430,6 +448,7 @@ export function DtWorldMap({
                         : `${quest.title} — side job, pauses main story`
                 }
                 aria-disabled={!unlocked}
+                onPointerDown={onPinPointerDown}
                 onMouseEnter={() => setHover({ kind: "side", id: quest.id })}
                 onMouseLeave={() => setHover(null)}
                 onFocus={() => setHover({ kind: "side", id: quest.id })}
@@ -484,6 +503,7 @@ export function DtWorldMap({
                         : `${region.name} — cleared, practice revisit`
                 }
                 aria-disabled={!unlocked}
+                onPointerDown={onPinPointerDown}
                 onMouseEnter={() => setHover({ kind: "region", id: region.id })}
                 onMouseLeave={() => setHover(null)}
                 onFocus={() => setHover({ kind: "region", id: region.id })}

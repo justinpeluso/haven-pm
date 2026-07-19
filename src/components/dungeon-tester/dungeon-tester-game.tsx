@@ -769,11 +769,15 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
   const onEnterSideQuest = (questId: string) => {
     if (!world) return;
-    const r = enterDtSideQuest(world, questId);
-    persist(r.world);
-    if (r.message) setFlash(r.message);
-    setWorldMapOpen(false);
-    setTab("story");
+    try {
+      const r = enterDtSideQuest(world, questId);
+      persist(r.world);
+      if (r.message) setFlash(r.message);
+    } finally {
+      // Always leave the atlas — even soft failures should not trap the player.
+      setWorldMapOpen(false);
+      setTab("story");
+    }
   };
 
   const onReturnToMarch = () => {
@@ -1038,6 +1042,9 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   };
 
   const frame = world ? getFrame(world.campaignNodeId) : undefined;
+  const activeSideQuestTitle = world?.sideQuest
+    ? getDtSideQuest(world.sideQuest.questId)?.title
+    : undefined;
   const plateScene = frameSceneSrc(frame);
   const plateSubject = frameSubjectSrc(frame);
   const sealedCount = world
@@ -1279,12 +1286,9 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 ) : null}
                 {world.sideQuest ? (
                   <p className="dt-map-side-quest-banner">
-                    Side quest
-                    {(() => {
-                      const title = getDtSideQuest(world.sideQuest!.questId)?.title;
-                      return title ? ` — ${title}` : "";
-                    })()}
-                    {" — main story paused"}
+                    {`Side quest${
+                      activeSideQuestTitle ? ` — ${activeSideQuestTitle}` : ""
+                    } — main story paused`}
                   </p>
                 ) : null}
                 {world.mapReplay ? (

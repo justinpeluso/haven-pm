@@ -12,10 +12,16 @@
  */
 import questsPack from "../../../../data/dungeon-tester/side-quests.json";
 import framesPack from "../../../../data/dungeon-tester/side-quest-frames.json";
-import { dtFurthestChapterNumber } from "./maps";
-import { getSpineFrame } from "./story";
 import type { DtFrame, DtWorldSave } from "./types";
 import { DT_START_CHAPTER_ID, DT_START_NODE_ID } from "./types";
+
+/** Local chapter# parse — avoids importing maps/story (init cycle). */
+function furthestChapterNumber(furthestChapterId: string | null | undefined): number {
+  if (!furthestChapterId) return 1;
+  const m = /ch-0?(\d+)/i.exec(furthestChapterId) || /ch0?(\d+)/i.exec(furthestChapterId);
+  if (m) return Math.max(1, Number(m[1]) || 1);
+  return 1;
+}
 
 export type DtSideQuestBand = 1 | 2 | 3 | 4;
 
@@ -84,9 +90,19 @@ export function getDtSideQuestFrame(id: string): DtFrame | undefined {
   return FRAME_BY_ID.get(id);
 }
 
-/** Main spine first, then side-quest frames. */
+/** Main spine first, then side-quest frames (lazy spine import — avoid init cycles). */
 export function getPlayableFrame(id: string): DtFrame | undefined {
-  return getSpineFrame(id) ?? getDtSideQuestFrame(id);
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const mod = require("./story") as {
+      getSpineFrame: (frameId: string) => DtFrame | undefined;
+    };
+    const spine = mod.getSpineFrame(id);
+    if (spine) return spine;
+  } catch {
+    /* ignore */
+  }
+  return getDtSideQuestFrame(id);
 }
 
 export function listDtSideQuestsForBand(band: DtSideQuestBand): DtSideQuest[] {
@@ -124,10 +140,7 @@ export function dtSideQuestUnlockedForWorld(
   quest: Pick<DtSideQuest, "unlockBand">,
   world: Pick<DtWorldSave, "furthestChapterId">
 ): boolean {
-  return dtSideQuestUnlocked(
-    quest,
-    dtFurthestChapterNumber(world.furthestChapterId)
-  );
+  return dtSideQuestUnlocked(quest, furthestChapterNumber(world.furthestChapterId));
 }
 
 export function isDtSideQuest(world: Pick<DtWorldSave, "sideQuest">): boolean {
@@ -167,7 +180,8 @@ export function enterDtSideQuest(
     world: {
       ...world,
       campaignNodeId: fromNodeId,
-      chapterId: quest.id,
+      // Keep resume chapter for local-map strip; side frames resolve by node id.
+      chapterId: resumeChapterId || world.chapterId,
       mapReplay: null,
       sideQuest: {
         questId: quest.id,
