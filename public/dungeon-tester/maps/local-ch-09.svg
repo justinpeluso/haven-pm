@@ -1,21 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="720" height="200" viewBox="0 0 720 200" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="260" viewBox="0 0 960 260" fill="none">
   <defs>
-    <linearGradient id="bg-local-ch-09" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#4a5a68"/>
-      <stop offset="100%" stop-color="#101418"/>
+    <linearGradient id="sky9" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2038"/>
+      <stop offset="30%" stop-color="#5a4038"/>
+      <stop offset="65%" stop-color="#3a2818"/>
+      <stop offset="100%" stop-color="#1a1008"/>
     </linearGradient>
+    <radialGradient id="sun9" cx="78%" cy="28%" r="48%">
+      <stop offset="0%" stop-color="#ff9060" stop-opacity="0.58"/>
+      <stop offset="55%" stop-color="#ff6040" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ff9060" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cyber9" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#40c8ff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#40c8ff" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#ff60a0" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="trail9" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8a6840"/>
+      <stop offset="50%" stop-color="#d4a878"/>
+      <stop offset="100%" stop-color="#9a7048"/>
+    </linearGradient>
+    <filter id="blur9" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.5"/>
+    </filter>
   </defs>
-  <rect width="720" height="200" fill="url(#bg-local-ch-09)"/>
-  <ellipse cx="120" cy="150" rx="90" ry="28" fill="#8090a0" opacity="0.55"/>
-  <ellipse cx="360" cy="145" rx="110" ry="32" fill="#8090a0" opacity="0.5"/>
-  <ellipse cx="600" cy="150" rx="95" ry="30" fill="#8090a0" opacity="0.55"/>
-  <path d="M40 120 Q180 70 360 110 T680 90" fill="none" stroke="#c4a35a" stroke-width="10" stroke-linecap="round" opacity="0.85"/>
-  <path d="M40 120 Q180 70 360 110 T680 90" fill="none" stroke="#1a120c" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-  <circle cx="70" cy="120" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="150" cy="93.96190475734466" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="230" cy="92.40740756032312" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="310" cy="87.83013773383153" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="390" cy="110.62033179563466" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="470" cy="121.82193037530936" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="550" cy="144.40412162758045" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="630" cy="139.5086731534813" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/>
-  <rect x="6" y="6" width="708" height="188" fill="none" stroke="#1a120c" stroke-width="8"/>
-  <rect x="12" y="12" width="696" height="176" fill="none" stroke="#c4a35a" stroke-width="2"/>
-  <text x="24" y="40" font-family="Impact, Arial Black, sans-serif" font-size="22"
-    fill="#f4efe4" stroke="#1a120c" stroke-width="4" paint-order="stroke">FREE HORIZON</text>
-  <text x="24" y="175" font-family="Courier New, monospace" font-size="12" fill="#e8dcc8" opacity="0.8">LOCAL MARCH — NO FOG</text>
+  <rect width="960" height="260" fill="url(#sky9)"/>
+  <ellipse cx="740" cy="70" rx="280" ry="110" fill="url(#sun9)"/>
+
+  <!-- ash sun -->
+  <circle cx="780" cy="52" r="36" fill="#ffb080" opacity="0.32"/>
+  <circle cx="780" cy="52" r="24" fill="#ff8060" opacity="0.22"/>
+  <circle cx="780" cy="52" r="12" fill="#ffe0c0" opacity="0.25"/>
+
+  <!-- cyber dusk scan / neon vein -->
+  <rect x="0" y="40" width="960" height="70" fill="url(#cyber9)"/>
+  <path d="M40 35 Q200 20 360 45 T680 30 T920 50" fill="none" stroke="#40c8ff" stroke-width="1" opacity="0.22" filter="url(#blur9)"/>
+  <path d="M80 55 Q280 40 480 60 T860 48" fill="none" stroke="#ff60a0" stroke-width="0.8" opacity="0.18"/>
+
+  <!-- distant ridgeline -->
+  <path d="M0 105 L70 62 L150 98 L250 48 L340 92 L460 42 L560 88 L680 50 L800 92 L900 55 L960 80 L960 0 L0 0Z" fill="#1a1420" opacity="0.9"/>
+  <path d="M0 118 L90 80 L180 110 L280 70 L380 105 L500 65 L620 100 L760 72 L900 105 L960 90 L960 0 L0 0Z" fill="#2a2030" opacity="0.45"/>
+  <path d="M100 95 L160 68 L200 98" fill="#342838" opacity="0.55"/>
+  <path d="M520 85 L590 52 L650 95" fill="#342838" opacity="0.55"/>
+
+  <!-- dragon foreshadow on horizon -->
+  <path d="M580 52 C630 40 690 58 740 45 C710 68 650 62 610 74 C590 62 582 52 580 52Z" fill="#0a080c" opacity="0.48"/>
+  <path d="M680 48 L715 36 L708 55Z" fill="#0a080c" opacity="0.35"/>
+
+  <!-- ash plains bands -->
+  <path d="M0 128 C200 112 400 142 600 122 S860 118 960 138 L960 175 L0 175Z" fill="#4a3428" opacity="0.55"/>
+  <path d="M0 148 C180 132 400 160 620 142 S880 138 960 155" fill="none" stroke="#6a4a30" stroke-width="1.2" opacity="0.4"/>
+  <path d="M0 165 C220 150 440 172 680 158 S900 155 960 168" fill="none" stroke="#5a3a28" stroke-width="1" opacity="0.3"/>
+
+  <!-- vanishing roads west -->
+  <path d="M120 205 L480 145 L840 205" fill="none" stroke="#2a1c10" stroke-width="1.5" opacity="0.35"/>
+  <path d="M200 210 L480 155 L760 210" fill="none" stroke="#3a2818" stroke-width="1" opacity="0.25"/>
+
+  <!-- rune stones / name-return markers -->
+  <g fill="#2a2030" stroke="#c4a35a" stroke-width="1.2" opacity="0.7">
+    <path d="M130 168 L148 140 L166 172Z"/>
+    <path d="M800 162 L818 134 L836 166Z"/>
+    <path d="M400 175 L412 155 L424 178Z"/>
+  </g>
+  <g fill="#60d0ff" opacity="0.4" font-family="Georgia, serif" font-size="11">
+    <text x="140" y="162">ᚱ</text>
+    <text x="810" y="156">ᚾ</text>
+  </g>
+  <!-- freedom glint / sharp name -->
+  <path d="M478 128 L485 112 L492 128" fill="none" stroke="#f4efe4" stroke-width="1.8" opacity="0.45"/>
+  <circle cx="485" cy="120" r="2" fill="#ffe8c0" opacity="0.5"/>
+
+  <!-- remnant hunter silhouettes far -->
+  <g fill="#0a080c" opacity="0.45">
+    <path d="M300 170 L304 150 L312 150 L314 170Z"/>
+    <path d="M620 168 L625 148 L633 148 L636 168Z"/>
+  </g>
+
+  <!-- ground -->
+  <path d="M0 188 C200 172 400 198 600 180 S860 175 960 192 L960 260 L0 260Z" fill="#3a2818"/>
+  <path d="M0 215 C200 208 420 228 700 212 S900 210 960 222 L960 260 L0 260Z" fill="#1a1008"/>
+  <g fill="#e0c0a0" opacity="0.28" filter="url(#blur9)">
+    <circle cx="180" cy="85" r="2.2"/><circle cx="340" cy="68" r="1.6"/><circle cx="500" cy="95" r="2"/>
+    <circle cx="640" cy="75" r="1.4"/><circle cx="280" cy="115" r="1.8"/><circle cx="860" cy="90" r="2"/>
+    <circle cx="420" cy="130" r="1.2"/><circle cx="720" cy="110" r="1.5"/>
+  </g>
+  <!-- ash drift -->
+  <ellipse cx="240" cy="200" rx="70" ry="10" fill="#c4a080" opacity="0.08" filter="url(#blur9)"/>
+  <ellipse cx="700" cy="195" rx="90" ry="12" fill="#c4a080" opacity="0.07" filter="url(#blur9)"/>
+
+  <!-- trail band (~42% vertical / 12–88% horizontal for YOU overlay) -->
+  <path d="M80 117 C180 91 280 123 380 103 S580 125 680 105 S860 119 900 109"
+    fill="none" stroke="#ff9060" stroke-width="22" stroke-linecap="round" opacity="0.28"/>
+  <path d="M80 117 C180 91 280 123 380 103 S580 125 680 105 S860 119 900 109"
+    fill="none" stroke="url(#trail9)" stroke-width="14" stroke-linecap="round" opacity="0.92"/>
+  <path d="M80 117 C180 91 280 123 380 103 S580 125 680 105 S860 119 900 109"
+    fill="none" stroke="#1a1008" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="10 8" opacity="0.55"/>
+  <g>
+    <circle cx="100" cy="115" r="4" fill="#1a1008" opacity="0.7"/><circle cx="100" cy="115" r="2" fill="#d4a878"/>
+    <circle cx="220" cy="98" r="4" fill="#1a1008" opacity="0.7"/><circle cx="220" cy="98" r="2" fill="#d4a878"/>
+    <circle cx="340" cy="112" r="4" fill="#1a1008" opacity="0.7"/><circle cx="340" cy="112" r="2" fill="#d4a878"/>
+    <circle cx="460" cy="108" r="4" fill="#1a1008" opacity="0.7"/><circle cx="460" cy="108" r="2" fill="#d4a878"/>
+    <circle cx="580" cy="118" r="4" fill="#1a1008" opacity="0.7"/><circle cx="580" cy="118" r="2" fill="#d4a878"/>
+    <circle cx="700" cy="106" r="4" fill="#1a1008" opacity="0.7"/><circle cx="700" cy="106" r="2" fill="#d4a878"/>
+    <circle cx="820" cy="114" r="4" fill="#1a1008" opacity="0.7"/><circle cx="820" cy="114" r="2" fill="#d4a878"/>
+  </g>
+  <!-- woodcut frame -->
+  <rect x="6" y="6" width="948" height="248" fill="none" stroke="#0d0a08" stroke-width="10"/>
+  <rect x="14" y="14" width="932" height="232" fill="none" stroke="#c4a35a" stroke-width="2.5"/>
+  <rect x="10" y="10" width="12" height="12" fill="#c4a35a"/>
+  <rect x="938" y="10" width="12" height="12" fill="#c4a35a"/>
+  <rect x="10" y="238" width="12" height="12" fill="#8b3a2a"/>
+  <rect x="938" y="238" width="12" height="12" fill="#8b3a2a"/>
+  <text x="28" y="42" font-family="Impact, Arial Black, sans-serif" font-size="22"
+    fill="#f4efe4" stroke="#0d0a08" stroke-width="5" paint-order="stroke">ASH HORIZON</text>
+  <text x="28" y="238" font-family="Courier New, monospace" font-size="11" fill="#e8dcc8" opacity="0.75">LOCAL MARCH — ROADS WEST · CYBER DUSK · NO FOG</text>
 </svg>

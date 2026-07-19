@@ -1,21 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="720" height="200" viewBox="0 0 720 200" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="260" viewBox="0 0 960 260" fill="none">
   <defs>
-    <linearGradient id="bg-local-ch-07" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#5a2a28"/>
-      <stop offset="100%" stop-color="#180808"/>
+    <linearGradient id="sky7" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#08060a"/>
+      <stop offset="40%" stop-color="#1a1018"/>
+      <stop offset="100%" stop-color="#040308"/>
     </linearGradient>
+    <radialGradient id="pit7" cx="50%" cy="52%" r="48%">
+      <stop offset="0%" stop-color="#4a1428"/>
+      <stop offset="45%" stop-color="#1a0810"/>
+      <stop offset="100%" stop-color="#040308"/>
+    </radialGradient>
+    <radialGradient id="lantern7a" cx="30%" cy="28%" r="18%">
+      <stop offset="0%" stop-color="#ff3060" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#ff3060" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="lantern7b" cx="72%" cy="26%" r="18%">
+      <stop offset="0%" stop-color="#ff2040" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#ff2040" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="trail7" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6a4050"/>
+      <stop offset="50%" stop-color="#c48898"/>
+      <stop offset="100%" stop-color="#7a4860"/>
+    </linearGradient>
+    <filter id="blur7" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.2"/>
+    </filter>
   </defs>
-  <rect width="720" height="200" fill="url(#bg-local-ch-07)"/>
-  <ellipse cx="120" cy="150" rx="90" ry="28" fill="#8a4038" opacity="0.55"/>
-  <ellipse cx="360" cy="145" rx="110" ry="32" fill="#8a4038" opacity="0.5"/>
-  <ellipse cx="600" cy="150" rx="95" ry="30" fill="#8a4038" opacity="0.55"/>
-  <path d="M40 120 Q180 70 360 110 T680 90" fill="none" stroke="#c4a35a" stroke-width="10" stroke-linecap="round" opacity="0.85"/>
-  <path d="M40 120 Q180 70 360 110 T680 90" fill="none" stroke="#1a120c" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-  <circle cx="70" cy="120" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="150" cy="93.96190475734466" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="230" cy="92.40740756032312" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="310" cy="87.83013773383153" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="390" cy="110.62033179563466" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="470" cy="121.82193037530936" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="550" cy="144.40412162758045" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="630" cy="139.5086731534813" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/>
-  <rect x="6" y="6" width="708" height="188" fill="none" stroke="#1a120c" stroke-width="8"/>
-  <rect x="12" y="12" width="696" height="176" fill="none" stroke="#c4a35a" stroke-width="2"/>
-  <text x="24" y="40" font-family="Impact, Arial Black, sans-serif" font-size="22"
-    fill="#f4efe4" stroke="#1a120c" stroke-width="4" paint-order="stroke">BLOOD MANDOLIN</text>
-  <text x="24" y="175" font-family="Courier New, monospace" font-size="12" fill="#e8dcc8" opacity="0.8">LOCAL MARCH — NO FOG</text>
+  <rect width="960" height="260" fill="url(#sky7)"/>
+  <ellipse cx="280" cy="70" rx="120" ry="70" fill="url(#lantern7a)"/>
+  <ellipse cx="700" cy="65" rx="130" ry="75" fill="url(#lantern7b)"/>
+
+  <!-- vault ceiling ribs -->
+  <g stroke="#2a1a28" stroke-width="10" fill="none" opacity="0.85">
+    <path d="M0 38 Q240 95 480 38 Q720 95 960 38"/>
+    <path d="M0 18 Q240 72 480 18 Q720 72 960 18"/>
+  </g>
+  <g stroke="#3a2030" stroke-width="3" fill="none" opacity="0.45">
+    <path d="M80 10 Q240 80 400 10"/><path d="M560 8 Q720 78 900 12"/>
+  </g>
+
+  <!-- stone side arches -->
+  <path d="M0 40 Q140 150 20 220 L0 220Z" fill="#100814" stroke="#3a2030" stroke-width="2" opacity="0.85"/>
+  <path d="M960 40 Q820 150 940 220 L960 220Z" fill="#100814" stroke="#3a2030" stroke-width="2" opacity="0.85"/>
+  <path d="M0 55 Q100 140 30 200" fill="none" stroke="#5a3040" stroke-width="1.5" opacity="0.4"/>
+  <path d="M960 55 Q860 140 930 200" fill="none" stroke="#5a3040" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- stacked lantern pits / fight rings -->
+  <ellipse cx="220" cy="155" rx="90" ry="38" fill="#120810" stroke="#8b2030" stroke-width="1.5" opacity="0.7"/>
+  <ellipse cx="480" cy="148" rx="160" ry="55" fill="url(#pit7)"/>
+  <ellipse cx="480" cy="148" rx="160" ry="55" fill="none" stroke="#8b2030" stroke-width="2.5" opacity="0.55"/>
+  <ellipse cx="480" cy="148" rx="110" ry="36" fill="#060308" opacity="0.85"/>
+  <ellipse cx="740" cy="152" rx="85" ry="36" fill="#120810" stroke="#8b2030" stroke-width="1.5" opacity="0.7"/>
+
+  <!-- bone rails -->
+  <g stroke="#6a5060" stroke-width="2" opacity="0.5">
+    <path d="M160 125 Q480 95 800 125"/>
+    <path d="M140 170 Q480 205 820 168"/>
+    <path d="M200 140 Q480 120 760 140"/>
+  </g>
+  <g fill="#a090a0" opacity="0.35">
+    <ellipse cx="200" cy="128" rx="6" ry="3"/><ellipse cx="760" cy="126" rx="6" ry="3"/>
+    <ellipse cx="320" cy="188" rx="5" ry="2.5"/><ellipse cx="640" cy="190" rx="5" ry="2.5"/>
+  </g>
+
+  <!-- synth-mandolin stage glow -->
+  <ellipse cx="480" cy="142" rx="54" ry="20" fill="#ff3060" opacity="0.28" filter="url(#blur7)"/>
+  <path d="M455 138 Q480 118 505 138" fill="none" stroke="#ff6080" stroke-width="2.2" opacity="0.7"/>
+  <path d="M450 150 L510 150" stroke="#c4a35a" stroke-width="1.8" opacity="0.55"/>
+  <path d="M462 132 L468 148 L476 132 L484 148 L492 132" fill="none" stroke="#ff90a8" stroke-width="1" opacity="0.45"/>
+
+  <!-- blood lanterns -->
+  <g>
+    <line x1="200" y1="28" x2="200" y2="72" stroke="#3a2030" stroke-width="2"/>
+    <line x1="360" y1="22" x2="360" y2="68" stroke="#3a2030" stroke-width="2"/>
+    <line x1="600" y1="20" x2="600" y2="66" stroke="#3a2030" stroke-width="2"/>
+    <line x1="760" y1="26" x2="760" y2="70" stroke="#3a2030" stroke-width="2"/>
+    <circle cx="200" cy="78" r="9" fill="#ff2040" opacity="0.55" filter="url(#blur7)"/>
+    <circle cx="360" cy="74" r="8" fill="#ff3060" opacity="0.5" filter="url(#blur7)"/>
+    <circle cx="600" cy="72" r="9" fill="#ff2040" opacity="0.55" filter="url(#blur7)"/>
+    <circle cx="760" cy="76" r="8" fill="#ff4060" opacity="0.5" filter="url(#blur7)"/>
+    <circle cx="200" cy="78" r="3" fill="#ffc0d0" opacity="0.7"/>
+    <circle cx="600" cy="72" r="3" fill="#ffc0d0" opacity="0.7"/>
+  </g>
+
+  <!-- crowd ledge -->
+  <g fill="#0a0608" opacity="0.72">
+    <ellipse cx="250" cy="88" rx="7" ry="10"/><ellipse cx="278" cy="88" rx="7" ry="10"/><ellipse cx="306" cy="88" rx="7" ry="10"/><ellipse cx="334" cy="88" rx="7" ry="10"/><ellipse cx="362" cy="88" rx="7" ry="10"/><ellipse cx="390" cy="88" rx="7" ry="10"/><ellipse cx="418" cy="88" rx="7" ry="10"/><ellipse cx="446" cy="88" rx="7" ry="10"/><ellipse cx="474" cy="88" rx="7" ry="10"/><ellipse cx="502" cy="88" rx="7" ry="10"/><ellipse cx="530" cy="88" rx="7" ry="10"/><ellipse cx="558" cy="88" rx="7" ry="10"/><ellipse cx="586" cy="88" rx="7" ry="10"/><ellipse cx="614" cy="88" rx="7" ry="10"/><ellipse cx="642" cy="88" rx="7" ry="10"/><ellipse cx="670" cy="88" rx="7" ry="10"/><ellipse cx="698" cy="88" rx="7" ry="10"/>
+  </g>
+  <!-- fighter silhouettes in pit -->
+  <g fill="#1a0c10" opacity="0.75">
+    <path d="M430 155 L436 128 L448 128 L452 155Z"/>
+    <path d="M510 158 L518 130 L528 130 L532 158Z"/>
+  </g>
+  <ellipse cx="440" cy="156" rx="10" ry="4" fill="#2a1018" opacity="0.5"/>
+  <ellipse cx="522" cy="159" rx="10" ry="4" fill="#2a1018" opacity="0.5"/>
+
+  <!-- floor grit / blood stains -->
+  <path d="M0 195 C200 182 400 208 600 190 S860 185 960 200 L960 260 L0 260Z" fill="#140c14"/>
+  <path d="M0 220 C200 214 450 232 700 218 S900 216 960 228 L960 260 L0 260Z" fill="#080408"/>
+  <ellipse cx="300" cy="205" rx="40" ry="8" fill="#5a1020" opacity="0.35"/>
+  <ellipse cx="680" cy="200" rx="50" ry="9" fill="#5a1020" opacity="0.3"/>
+  <g stroke="#3a2030" stroke-width="1.5" opacity="0.35">
+    <path d="M80 210 Q140 198 200 215"/><path d="M720 205 Q800 192 880 212"/>
+  </g>
+
+  <!-- trail band (~42% vertical / 12–88% horizontal for YOU overlay) -->
+  <path d="M80 117 C180 91 280 123 380 103 S580 125 680 105 S860 119 900 109"
+    fill="none" stroke="#ff3060" stroke-width="22" stroke-linecap="round" opacity="0.28"/>
+  <path d="M80 117 C180 91 280 123 380 103 S580 125 680 105 S860 119 900 109"
+    fill="none" stroke="url(#trail7)" stroke-width="14" stroke-linecap="round" opacity="0.92"/>
+  <path d="M80 117 C180 91 280 123 380 103 S580 125 680 105 S860 119 900 109"
+    fill="none" stroke="#080408" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="10 8" opacity="0.55"/>
+  <g>
+    <circle cx="100" cy="115" r="4" fill="#080408" opacity="0.7"/><circle cx="100" cy="115" r="2" fill="#c48898"/>
+    <circle cx="220" cy="98" r="4" fill="#080408" opacity="0.7"/><circle cx="220" cy="98" r="2" fill="#c48898"/>
+    <circle cx="340" cy="112" r="4" fill="#080408" opacity="0.7"/><circle cx="340" cy="112" r="2" fill="#c48898"/>
+    <circle cx="460" cy="108" r="4" fill="#080408" opacity="0.7"/><circle cx="460" cy="108" r="2" fill="#c48898"/>
+    <circle cx="580" cy="118" r="4" fill="#080408" opacity="0.7"/><circle cx="580" cy="118" r="2" fill="#c48898"/>
+    <circle cx="700" cy="106" r="4" fill="#080408" opacity="0.7"/><circle cx="700" cy="106" r="2" fill="#c48898"/>
+    <circle cx="820" cy="114" r="4" fill="#080408" opacity="0.7"/><circle cx="820" cy="114" r="2" fill="#c48898"/>
+  </g>
+  <!-- woodcut frame -->
+  <rect x="6" y="6" width="948" height="248" fill="none" stroke="#0d0a08" stroke-width="10"/>
+  <rect x="14" y="14" width="932" height="232" fill="none" stroke="#c4a35a" stroke-width="2.5"/>
+  <rect x="10" y="10" width="12" height="12" fill="#c4a35a"/>
+  <rect x="938" y="10" width="12" height="12" fill="#c4a35a"/>
+  <rect x="10" y="238" width="12" height="12" fill="#8b3a2a"/>
+  <rect x="938" y="238" width="12" height="12" fill="#8b3a2a"/>
+  <text x="28" y="42" font-family="Impact, Arial Black, sans-serif" font-size="22"
+    fill="#f4efe4" stroke="#0d0a08" stroke-width="5" paint-order="stroke">UNDERVAULT</text>
+  <text x="28" y="238" font-family="Courier New, monospace" font-size="11" fill="#e8dcc8" opacity="0.75">LOCAL MARCH — LANTERN PITS · SYNTH-MANDOLIN · NO FOG</text>
 </svg>

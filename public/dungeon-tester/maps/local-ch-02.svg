@@ -1,21 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="720" height="200" viewBox="0 0 720 200" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="260" viewBox="0 0 960 260" fill="none">
   <defs>
-    <linearGradient id="bg-local-ch-02" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#7a5a32"/>
-      <stop offset="100%" stop-color="#1c140c"/>
+    <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a2410"/>
+      <stop offset="45%" stop-color="#5c3a16"/>
+      <stop offset="100%" stop-color="#1a1008"/>
     </linearGradient>
+    <radialGradient id="sun2" cx="86%" cy="18%" r="42%">
+      <stop offset="0%" stop-color="#ffb040" stop-opacity="0.5"/>
+      <stop offset="55%" stop-color="#ff8040" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ff6040" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="trail2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#a07038"/>
+      <stop offset="50%" stop-color="#e0b060"/>
+      <stop offset="100%" stop-color="#b88848"/>
+    </linearGradient>
+    <filter id="blur2" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.2"/>
+    </filter>
   </defs>
-  <rect width="720" height="200" fill="url(#bg-local-ch-02)"/>
-  <ellipse cx="120" cy="150" rx="90" ry="28" fill="#a08050" opacity="0.55"/>
-  <ellipse cx="360" cy="145" rx="110" ry="32" fill="#a08050" opacity="0.5"/>
-  <ellipse cx="600" cy="150" rx="95" ry="30" fill="#a08050" opacity="0.55"/>
-  <path d="M40 120 Q180 70 360 110 T680 90" fill="none" stroke="#c4a35a" stroke-width="10" stroke-linecap="round" opacity="0.85"/>
-  <path d="M40 120 Q180 70 360 110 T680 90" fill="none" stroke="#1a120c" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-  <circle cx="70" cy="120" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="150" cy="93.96190475734466" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="230" cy="92.40740756032312" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="310" cy="87.83013773383153" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="390" cy="110.62033179563466" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="470" cy="121.82193037530936" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="550" cy="144.40412162758045" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/><circle cx="630" cy="139.5086731534813" r="7" fill="#f4efe4" stroke="#1a120c" stroke-width="2"/>
-  <rect x="6" y="6" width="708" height="188" fill="none" stroke="#1a120c" stroke-width="8"/>
-  <rect x="12" y="12" width="696" height="176" fill="none" stroke="#c4a35a" stroke-width="2"/>
-  <text x="24" y="40" font-family="Impact, Arial Black, sans-serif" font-size="22"
-    fill="#f4efe4" stroke="#1a120c" stroke-width="4" paint-order="stroke">DUST & DEBT</text>
-  <text x="24" y="175" font-family="Courier New, monospace" font-size="12" fill="#e8dcc8" opacity="0.8">LOCAL MARCH — NO FOG</text>
+
+  <rect width="960" height="260" fill="url(#sky2)"/>
+  <ellipse cx="820" cy="48" rx="200" ry="90" fill="url(#sun2)"/>
+
+  <!-- dust haze -->
+  <ellipse cx="200" cy="98" rx="290" ry="42" fill="#c48a40" opacity="0.16" filter="url(#blur2)"/>
+  <ellipse cx="620" cy="78" rx="320" ry="38" fill="#e0a050" opacity="0.13" filter="url(#blur2)"/>
+  <ellipse cx="420" cy="130" rx="260" ry="30" fill="#f0b060" opacity="0.1" filter="url(#blur2)"/>
+
+  <!-- mesa / ridge -->
+  <path d="M0 118 L55 88 L140 108 L220 68 L305 102 L400 62 L505 98 L605 52 L725 94 L845 58 L960 88 L960 0 L0 0Z" fill="#2a180c"/>
+  <path d="M95 100 L160 72 L205 102Z" fill="#4a2e14" opacity="0.85"/>
+  <path d="M475 84 L545 48 L595 92Z" fill="#3a2410" opacity="0.88"/>
+  <path d="M715 78 L785 42 L845 88Z" fill="#4a2e14" opacity="0.8"/>
+  <path d="M300 90 L350 60 L390 95Z" fill="#5a3818" opacity="0.45"/>
+
+  <!-- stim dust plumes -->
+  <g fill="#f0b060" opacity="0.22" filter="url(#blur2)">
+    <ellipse cx="150" cy="138" rx="52" ry="22"/><ellipse cx="325" cy="152" rx="64" ry="20"/>
+    <ellipse cx="525" cy="142" rx="58" ry="24"/><ellipse cx="755" cy="148" rx="74" ry="22"/>
+    <ellipse cx="880" cy="125" rx="40" ry="16"/>
+  </g>
+
+  <!-- warrant poles -->
+  <g stroke="#1a1008" stroke-width="3.2">
+    <line x1="128" y1="128" x2="128" y2="192"/><line x1="278" y1="122" x2="278" y2="198"/>
+    <line x1="448" y1="126" x2="448" y2="194"/><line x1="638" y1="120" x2="638" y2="200"/>
+    <line x1="818" y1="128" x2="818" y2="192"/>
+  </g>
+  <g fill="#8b2a1a" opacity="0.88">
+    <rect x="116" y="122" width="24" height="16" rx="1"/><rect x="266" y="116" width="24" height="16" rx="1"/>
+    <rect x="436" y="120" width="24" height="16" rx="1"/><rect x="626" y="114" width="24" height="16" rx="1"/>
+    <rect x="806" y="122" width="24" height="16" rx="1"/>
+  </g>
+  <g fill="#f4d0a0" opacity="0.35" font-family="Impact, Arial Black, sans-serif" font-size="7">
+    <text x="120" y="133">WANT</text><text x="270" y="127">DEBT</text>
+    <text x="440" y="131">STIM</text><text x="630" y="125">MARK</text>
+  </g>
+
+  <!-- mentor flask glint -->
+  <ellipse cx="365" cy="172" rx="9" ry="13" fill="#6a8a9a" opacity="0.4" stroke="#c4e0f0" stroke-width="1.2"/>
+  <path d="M361 162 L369 162" stroke="#e8f4ff" stroke-width="1" opacity="0.5"/>
+
+  <!-- chrome scrap -->
+  <path d="M198 182 L232 176 L226 196Z" fill="#b0a090" opacity="0.42"/>
+  <path d="M698 178 L736 172 L728 194Z" fill="#c0b0a0" opacity="0.38"/>
+  <path d="M520 186 L548 180 L542 198Z" fill="#908070" opacity="0.35"/>
+
+  <!-- ground -->
+  <path d="M0 188 C160 172 320 202 480 186 S800 174 960 196 L960 260 L0 260Z" fill="#4a3018"/>
+  <path d="M0 214 C200 204 400 226 600 210 S860 206 960 222 L960 260 L0 260Z" fill="#2a180c"/>
+  <g stroke="#6a4828" stroke-width="1.5" opacity="0.35">
+    <path d="M40 200 Q120 190 180 205"/><path d="M400 198 Q500 188 580 208"/><path d="M720 200 Q820 190 900 210"/>
+  </g>
+
+  <!-- dust motes -->
+  <g fill="#ffd080" opacity="0.38">
+    <circle cx="180" cy="98" r="1.6"/><circle cx="400" cy="88" r="2"/><circle cx="560" cy="108" r="1.5"/>
+    <circle cx="720" cy="82" r="2"/><circle cx="860" cy="98" r="1.5"/><circle cx="300" cy="118" r="1.2"/>
+    <circle cx="640" cy="130" r="1.4"/><circle cx="100" cy="140" r="1"/>
+  </g>
+
+  <!-- spirit heat shimmer -->
+  <path d="M250 70 Q320 55 390 75 T530 65" fill="none" stroke="#ff9040" stroke-width="1" opacity="0.2" filter="url(#blur2)"/>
+
+  <!-- trail band -->
+  <path d="M80 117 C180 91 280 123 380 103 S580 125 680 105 S860 119 900 109"
+    fill="none" stroke="#ff9040" stroke-width="22" stroke-linecap="round" opacity="0.3"/>
+  <path d="M80 117 C180 91 280 123 380 103 S580 125 680 105 S860 119 900 109"
+    fill="none" stroke="url(#trail2)" stroke-width="14" stroke-linecap="round" opacity="0.92"/>
+  <path d="M80 117 C180 91 280 123 380 103 S580 125 680 105 S860 119 900 109"
+    fill="none" stroke="#1a1008" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="10 8" opacity="0.55"/>
+  <g>
+    <circle cx="100" cy="115" r="4" fill="#1a1008" opacity="0.7"/><circle cx="100" cy="115" r="2" fill="#e0b060"/>
+    <circle cx="220" cy="98" r="4" fill="#1a1008" opacity="0.7"/><circle cx="220" cy="98" r="2" fill="#e0b060"/>
+    <circle cx="340" cy="112" r="4" fill="#1a1008" opacity="0.7"/><circle cx="340" cy="112" r="2" fill="#e0b060"/>
+    <circle cx="460" cy="108" r="4" fill="#1a1008" opacity="0.7"/><circle cx="460" cy="108" r="2" fill="#e0b060"/>
+    <circle cx="580" cy="118" r="4" fill="#1a1008" opacity="0.7"/><circle cx="580" cy="118" r="2" fill="#e0b060"/>
+    <circle cx="700" cy="106" r="4" fill="#1a1008" opacity="0.7"/><circle cx="700" cy="106" r="2" fill="#e0b060"/>
+    <circle cx="820" cy="114" r="4" fill="#1a1008" opacity="0.7"/><circle cx="820" cy="114" r="2" fill="#e0b060"/>
+  </g>
+
+  <!-- woodcut frame -->
+  <rect x="6" y="6" width="948" height="248" fill="none" stroke="#0d0a08" stroke-width="10"/>
+  <rect x="14" y="14" width="932" height="232" fill="none" stroke="#c4a35a" stroke-width="2.5"/>
+  <rect x="10" y="10" width="12" height="12" fill="#c4a35a"/>
+  <rect x="938" y="10" width="12" height="12" fill="#c4a35a"/>
+  <rect x="10" y="238" width="12" height="12" fill="#8b3a2a"/>
+  <rect x="938" y="238" width="12" height="12" fill="#8b3a2a"/>
+  <text x="28" y="42" font-family="Impact, Arial Black, sans-serif" font-size="22"
+    fill="#f4efe4" stroke="#0d0a08" stroke-width="5" paint-order="stroke">STIM DUST</text>
+  <text x="28" y="238" font-family="Courier New, monospace" font-size="11" fill="#e8dcc8" opacity="0.75">LOCAL MARCH — WARRANT COUNTRY · NO FOG</text>
 </svg>
