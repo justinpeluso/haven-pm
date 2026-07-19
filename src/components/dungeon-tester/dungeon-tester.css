@@ -4231,3 +4231,270 @@
   }
 }
 
+/* ——— Local + world maps ——— */
+.dungeon-tester .dt-local-map {
+  margin-bottom: calc(var(--dt-space) * 2);
+}
+
+.dungeon-tester .dt-local-map-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: calc(var(--dt-space) * 1.5);
+  margin-bottom: calc(var(--dt-space) * 1);
+}
+
+.dungeon-tester .dt-local-map-title {
+  margin: 0;
+  font-family: var(--dt-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--dt-ink);
+}
+
+.dungeon-tester .dt-local-map-replay {
+  color: var(--dt-orange);
+  font-family: var(--dt-hud);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+
+.dungeon-tester .dt-local-map-meta {
+  margin: 0;
+  margin-left: auto;
+  font-family: var(--dt-hud);
+  font-size: 0.8rem;
+  color: var(--dt-muted);
+}
+
+.dungeon-tester .dt-local-map-plate {
+  position: relative;
+  border: 2px solid var(--dt-walnut);
+  box-shadow: var(--dt-shadow-card);
+  overflow: hidden;
+  background: var(--dt-walnut);
+}
+
+.dungeon-tester .dt-local-map-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 160px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.dungeon-tester .dt-local-map-you {
+  position: absolute;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.dungeon-tester .dt-local-map-you-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--dt-orange);
+  border: 2px solid var(--dt-cream);
+  box-shadow: 0 0 0 2px var(--dt-walnut), 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.dungeon-tester .dt-local-map-you-label {
+  font-family: var(--dt-hud);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dt-cream);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.dungeon-tester .dt-map-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--dt-space) * 1.5);
+  margin-bottom: calc(var(--dt-space) * 2);
+}
+
+.dungeon-tester .dt-map-replay-banner {
+  margin: 0;
+  font-family: var(--dt-hud);
+  font-size: 0.8rem;
+  color: var(--dt-orange-deep);
+}
+
+.dungeon-tester .dt-world-map {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  background: rgba(20, 12, 6, 0.92);
+  padding: calc(var(--dt-space) * 2);
+  color: var(--dt-cream);
+}
+
+.dungeon-tester .dt-world-map-chrome {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: calc(var(--dt-space) * 2);
+  margin-bottom: calc(var(--dt-space) * 1.5);
+}
+
+.dungeon-tester .dt-world-map-title {
+  margin: 0;
+  font-family: var(--dt-display);
+  font-size: clamp(1.4rem, 3vw, 1.85rem);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.dungeon-tester .dt-world-map-hint {
+  margin: 4px 0 0;
+  font-family: var(--dt-hud);
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.dungeon-tester .dt-world-map-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--dt-space) * 1);
+  align-items: flex-start;
+}
+
+.dungeon-tester .dt-world-map-viewport {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border: 2px solid #c4a35a;
+  background: #2a1f14;
+  cursor: grab;
+  touch-action: none;
+}
+
+.dungeon-tester .dt-world-map-viewport:active {
+  cursor: grabbing;
+}
+
+.dungeon-tester .dt-world-map-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.dungeon-tester .dt-world-map-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+
+.dungeon-tester .dt-world-map-pin,
+.dungeon-tester .dt-world-map-landmark {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.dungeon-tester .dt-world-map-pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.dungeon-tester .dt-world-map-pin-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--dt-forest-lit);
+  border: 2px solid var(--dt-cream);
+  box-shadow: 0 0 0 2px #1a120c;
+}
+
+.dungeon-tester .dt-world-map-pin[data-here="1"] .dt-world-map-pin-dot {
+  background: var(--dt-orange);
+}
+
+.dungeon-tester .dt-world-map-pin[data-replay="1"] .dt-world-map-pin-dot {
+  background: var(--dt-ochre);
+}
+
+.dungeon-tester .dt-world-map-pin[data-unlocked="0"] {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.dungeon-tester .dt-world-map-pin[data-unlocked="0"] .dt-world-map-pin-dot {
+  background: #6a6054;
+}
+
+.dungeon-tester .dt-world-map-pin-label {
+  font-family: var(--dt-hud);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff8ec;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+  white-space: nowrap;
+}
+
+.dungeon-tester .dt-world-map-landmark-dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6a8a9a;
+  border: 1px solid #1a120c;
+  opacity: 0.85;
+}
+
+.dungeon-tester .dt-world-map-landmark-dot[data-kind="mountains"] {
+  background: #5a4a38;
+}
+
+.dungeon-tester .dt-world-map-landmark-dot[data-kind="valley"],
+.dungeon-tester .dt-world-map-landmark-dot[data-kind="mire"] {
+  background: #4a6b42;
+}
+
+.dungeon-tester .dt-world-map-footer {
+  margin-top: calc(var(--dt-space) * 1.5);
+  font-family: var(--dt-hud);
+  font-size: 0.85rem;
+  min-height: 1.4em;
+}
+
+.dungeon-tester .dt-world-map-footer p {
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .dungeon-tester .dt-local-map-art {
+    max-height: 120px;
+  }
+
+  .dungeon-tester .dt-world-map-pin-label {
+    font-size: 0.55rem;
+  }
+}
+

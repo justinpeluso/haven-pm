@@ -7,7 +7,34 @@ import {
   startDtBattleVs,
   startDtRandomBattle,
 } from "./battle";
+import { dtChapterNumber } from "./maps";
 import type { DtWorldSave } from "./types";
+
+function isReplay(world: DtWorldSave): boolean {
+  return !!world.mapReplay;
+}
+
+function withFurthest(world: DtWorldSave): DtWorldSave {
+  if (isReplay(world)) return world;
+  const prevCh = dtChapterNumber(world.furthestChapterId);
+  const nextCh = dtChapterNumber(world.chapterId);
+  if (nextCh < prevCh) return world;
+  if (nextCh === prevCh && world.campaignNodeId === world.furthestCampaignNodeId) {
+    return world;
+  }
+  // Same chapter: always accept newer node id as furthest (spine ids sort roughly).
+  if (nextCh > prevCh) {
+    return {
+      ...world,
+      furthestChapterId: world.chapterId,
+      furthestCampaignNodeId: world.campaignNodeId,
+    };
+  }
+  return {
+    ...world,
+    furthestCampaignNodeId: world.campaignNodeId,
+  };
+}
 
 export function maybeTriggerEncounter(
   world: DtWorldSave,
@@ -18,6 +45,8 @@ export function maybeTriggerEncounter(
     return { world, triggered: false };
   }
   if (world.endingId) return { world, triggered: false };
+  // Replay walks don't burn live cadence — use Camp force-ambush / scripted fights.
+  if (isReplay(world)) return { world, triggered: false };
   // Cadence: nextEncounterAtFrame = framesAdvanced + roll(10..20) after each fight.
   // framesSinceEncounter increments on each counted frame advance and resets on battle start.
   const due = world.framesAdvanced >= world.nextEncounterAtFrame;
@@ -50,13 +79,18 @@ export function goToFrame(
   const frame = getFrame(nextId);
   if (!frame) return { world, message: `Missing frame ${nextId}.` };
 
-  const countAdvance = opts?.countAdvance !== false;
+  const replay = isReplay(world);
+  const countAdvance = !replay && opts?.countAdvance !== false;
   const framesAdvanced = countAdvance
     ? world.framesAdvanced + 1
     : world.framesAdvanced;
   const framesSinceEncounter = countAdvance
     ? world.framesSinceEncounter + 1
     : world.framesSinceEncounter;
+
+  const storyFlags = replay
+    ? []
+    : [...(opts?.flagsAdd ?? []), ...(frame.flagsAdd ?? [])];
 
   let next: DtWorldSave = {
     ...world,
@@ -65,18 +99,23 @@ export function goToFrame(
     framesAdvanced,
     framesSinceEncounter,
     partyFlags: Array.from(
-      new Set([
-        ...(world.partyFlags ?? []),
-        ...(opts?.flagsAdd ?? []),
-        ...(frame.flagsAdd ?? []),
-      ])
+      new Set([...(world.partyFlags ?? []), ...storyFlags])
     ),
-    endingId: frame.endingId ?? world.endingId,
+    // Replay never locks the live campaign ending.
+    endingId: replay ? world.endingId : frame.endingId ?? world.endingId,
     updatedAt: new Date().toISOString(),
-    log: [`→ ${frame.title ?? frame.id}`, ...world.log].slice(0, 80),
+    log: [
+      `${replay ? "↻" : "→"} ${frame.title ?? frame.id}`,
+      ...world.log,
+    ].slice(0, 80),
   };
 
+  if (!replay) {
+    next = withFurthest(next);
+  }
+
   // Scripted fight on this frame (once per visit unless already fought flag).
+  // In replay, allow re-fight by using a soft session flag only when not already fought.
   if (frame.battleFoeId && !next.partyFlags.includes(`fought:${frame.id}`)) {
     const fight = startDtBattleVs(next, frame.battleFoeId);
     if (fight.world.battle?.status === "active") {
@@ -100,11 +139,14 @@ export function continueFrame(
   if (cur.choices?.length) {
     return { world, message: "Choose a path." };
   }
-  if (cur.endingId) {
+  if (cur.endingId && !isReplay(world)) {
     return {
-      world: { ...world, endingId: cur.endingId },
+      world: withFurthest({ ...world, endingId: cur.endingId }),
       message: "Chapter beat resolved.",
     };
+  }
+  if (cur.endingId && isReplay(world)) {
+    return { world, message: "Replay end — return to march or pick another region." };
   }
   if (!cur.next) return { world, message: "End of authored spine." };
   return goToFrame(world, cur.next);
@@ -120,11 +162,17 @@ export function chooseFrame(
   const choice = cur.choices.find((c) => c.id === choiceId);
   if (!choice) return { world, message: "Unknown choice." };
 
+  const replay = isReplay(world);
+
   // Optional D&D-style DC: pass roll (1–20 + mod) from UI, else treat as success branch.
   if (choice.stat && typeof choice.dc === "number" && typeof opts?.checkRoll === "number") {
     const passed = opts.checkRoll >= choice.dc;
     const next = passed ? choice.next : (choice.nextFail ?? choice.next);
-    const flagsAdd = passed ? choice.flagsAdd : (choice.failFlagsAdd ?? choice.flagsAdd);
+    const flagsAdd = replay
+      ? undefined
+      : passed
+        ? choice.flagsAdd
+        : (choice.failFlagsAdd ?? choice.flagsAdd);
     let nextWorld = goToFrame(world, next, { flagsAdd });
     if (!passed && choice.failDamage && nextWorld.world.characters) {
       // Soft flavor only — shell UI may mirror damage into the active hero later.
@@ -145,7 +193,9 @@ export function chooseFrame(
     return nextWorld;
   }
 
-  return goToFrame(world, choice.next, { flagsAdd: choice.flagsAdd });
+  return goToFrame(world, choice.next, {
+    flagsAdd: replay ? undefined : choice.flagsAdd,
+  });
 }
 
 export function addPlaytime(world: DtWorldSave, deltaMs: number): DtWorldSave {

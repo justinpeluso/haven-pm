@@ -6,6 +6,8 @@ import { SimpleBattleOverlay } from "@/components/dungeon-tester/simple-battle-o
 import { DtGearSheet } from "@/components/dungeon-tester/dt-gear-sheet";
 import { DtGearIcon } from "@/components/dungeon-tester/dt-gear-icon";
 import { DtHeroFigure } from "@/components/dungeon-tester/dt-hero-figure";
+import { DtLocalMap } from "@/components/dungeon-tester/dt-local-map";
+import { DtWorldMap } from "@/components/dungeon-tester/dt-world-map";
 import {
   BLANK_BASE_STATS,
   listCreateMagic,
@@ -68,6 +70,8 @@ import {
   dtUnequipSlot,
   dtUseConsumable,
   dtLoadoutSummary,
+  enterDtMapReplay,
+  exitDtMapReplay,
   formatPlaytimeHud,
   formatGearTier,
   gearTierAttr,
@@ -243,6 +247,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   const mySlot = identity.slot;
   const [phase, setPhase] = useState<Phase>("title");
   const [tab, setTab] = useState<PlayTab>("story");
+  const [worldMapOpen, setWorldMapOpen] = useState(false);
   const [world, setWorld] = useState<DtWorldSave | null>(null);
   const [activeSlotId, setActiveSlotId] = useState<DtSaveSlotId>(DT_DEFAULT_SLOT_ID);
   const [slotSummaries, setSlotSummaries] = useState<DtSlotSummary[]>(() =>
@@ -750,6 +755,24 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     if (r.message) setFlash(r.message);
   };
 
+  const onEnterMapRegion = (regionId: string) => {
+    if (!world) return;
+    const r = enterDtMapReplay(world, regionId);
+    persist(r.world);
+    if (r.message) setFlash(r.message);
+    setWorldMapOpen(false);
+    setTab("story");
+  };
+
+  const onReturnToMarch = () => {
+    if (!world) return;
+    const r = exitDtMapReplay(world);
+    persist(r.world);
+    if (r.message) setFlash(r.message);
+    setWorldMapOpen(false);
+    setTab("story");
+  };
+
   /** Handler-owned pending flag — never mirror React `pending` every render. */
   const pendingRef = useRef(false);
   /** Short in-flight lock only (not a permanent id:round latch). */
@@ -1194,6 +1217,38 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
           {!world.endingId && tab === "story" ? (
             <div className="dt-panel dt-story-panel">
+              <DtLocalMap
+                chapterId={world.chapterId}
+                campaignNodeId={world.campaignNodeId}
+                replay={!!world.mapReplay}
+              />
+              <div className="dt-map-toolbar">
+                <button
+                  type="button"
+                  className="dt-btn"
+                  data-variant="secondary"
+                  disabled={!!world.battle}
+                  onClick={() => setWorldMapOpen(true)}
+                >
+                  World Map
+                </button>
+                {world.mapReplay ? (
+                  <button
+                    type="button"
+                    className="dt-btn"
+                    data-variant="primary"
+                    disabled={!!world.battle}
+                    onClick={onReturnToMarch}
+                  >
+                    Return to march
+                  </button>
+                ) : null}
+                {world.mapReplay ? (
+                  <p className="dt-map-replay-banner">
+                    Revisiting — no story rewards. Practice fights keep battle loot.
+                  </p>
+                ) : null}
+              </div>
               <div className="dt-comic-strip">
                 <div className="dt-comic-plate">
                   <img
@@ -1221,6 +1276,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 <div className="dt-frame-copy">
                   <p className="dt-hud-meta">
                     {world.chapterId} · {world.campaignNodeId}
+                    {world.mapReplay ? " · revisit" : ""}
                   </p>
                   <h2 className="dt-frame-title">{frame?.title ?? "Missing frame"}</h2>
                   <p className="dt-frame-body">
@@ -1268,6 +1324,18 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 </div>
               </div>
             </div>
+          ) : null}
+
+          {phase === "play" && world && !world.endingId ? (
+            <DtWorldMap
+              open={worldMapOpen}
+              chapterId={world.chapterId}
+              furthestChapterId={world.furthestChapterId}
+              replayRegionId={world.mapReplay?.regionId}
+              onClose={() => setWorldMapOpen(false)}
+              onEnterRegion={onEnterMapRegion}
+              onReturnToMarch={world.mapReplay ? onReturnToMarch : undefined}
+            />
           ) : null}
 
           {!world.endingId && tab === "camp" ? (

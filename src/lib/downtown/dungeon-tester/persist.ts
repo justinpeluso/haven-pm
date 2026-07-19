@@ -9,6 +9,7 @@ import type { RaceId } from "@/lib/downtown/party-chronicle/races";
 import { DT_STARTER_LOADOUT } from "./gear";
 import { dtFillEmptyEquipSlots } from "./loadout";
 import { normalizeDtHeroLook, type DtHeroLook } from "./look";
+import { preferFurthestChapterId } from "./maps";
 import {
   ensureSimpleBattleSplashConsistency,
   mergeSimpleBattle,
@@ -151,6 +152,9 @@ export function createNewDtWorld(): DtWorldSave {
     turnIndex: 1,
     campaignNodeId: DT_START_NODE_ID,
     chapterId: DT_START_CHAPTER_ID,
+    furthestChapterId: DT_START_CHAPTER_ID,
+    furthestCampaignNodeId: DT_START_NODE_ID,
+    mapReplay: null,
     framesAdvanced: 0,
     framesSinceEncounter: 0,
     nextEncounterAtFrame: rollNextEncounterAtFrame(0),
@@ -202,6 +206,37 @@ export function normalizeDtWorld(raw: unknown): DtWorldSave {
     activeSlot,
     campaignNodeId: w.campaignNodeId || DT_START_NODE_ID,
     chapterId: w.chapterId || DT_START_CHAPTER_ID,
+    furthestChapterId:
+      (typeof w.furthestChapterId === "string" && w.furthestChapterId) ||
+      w.chapterId ||
+      DT_START_CHAPTER_ID,
+    furthestCampaignNodeId:
+      (typeof w.furthestCampaignNodeId === "string" && w.furthestCampaignNodeId) ||
+      w.campaignNodeId ||
+      DT_START_NODE_ID,
+    mapReplay: (() => {
+      if (!w.mapReplay || typeof w.mapReplay !== "object") return null;
+      const raw = w.mapReplay as {
+        regionId?: string;
+        chapterId?: string;
+        fromNodeId?: string;
+        resumeNodeId?: string;
+        resumeChapterId?: string;
+      };
+      const regionId = String(raw.regionId ?? "");
+      if (!regionId) return null;
+      return {
+        regionId,
+        chapterId: String(raw.chapterId ?? w.chapterId ?? DT_START_CHAPTER_ID),
+        fromNodeId: String(raw.fromNodeId ?? w.campaignNodeId ?? DT_START_NODE_ID),
+        resumeNodeId: String(
+          raw.resumeNodeId ?? w.campaignNodeId ?? DT_START_NODE_ID
+        ),
+        resumeChapterId: String(
+          raw.resumeChapterId ?? w.chapterId ?? DT_START_CHAPTER_ID
+        ),
+      };
+    })(),
     framesAdvanced: Math.max(0, Number(w.framesAdvanced) || 0),
     framesSinceEncounter: Math.max(0, Number(w.framesSinceEncounter) || 0),
     nextEncounterAtFrame:
@@ -458,6 +493,21 @@ export function mergeDtWorld(
       a.nextEncounterAtFrame ?? 0,
       b.nextEncounterAtFrame ?? 0
     ),
+    furthestChapterId:
+      (b.furthestChapterId &&
+      preferFurthestChapterId(a.furthestChapterId, b.furthestChapterId) ===
+        b.furthestChapterId
+        ? b.furthestChapterId
+        : a.furthestChapterId) ||
+      base.furthestChapterId ||
+      DT_START_CHAPTER_ID,
+    furthestCampaignNodeId:
+      preferFurthestChapterId(a.furthestChapterId, b.furthestChapterId) ===
+      (b.furthestChapterId || "")
+        ? b.furthestCampaignNodeId || base.furthestCampaignNodeId
+        : a.furthestCampaignNodeId || base.furthestCampaignNodeId,
+    // Don't carry a peer's mid-replay cursor across devices — prefer live march.
+    mapReplay: preferIncoming ? b.mapReplay ?? null : a.mapReplay ?? null,
     campSleeps,
     explorationFinds,
     lastExploration: lastExploration ?? null,

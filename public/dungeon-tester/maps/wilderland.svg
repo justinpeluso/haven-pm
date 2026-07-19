@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" fill="none">
+  <defs>
+    <linearGradient id="atlas-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d8d4c0"/>
+      <stop offset="45%" stop-color="#c4b896"/>
+      <stop offset="100%" stop-color="#8a7a52"/>
+    </linearGradient>
+    <radialGradient id="lake-fill" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#6a8a9a"/>
+      <stop offset="100%" stop-color="#3a5560"/>
+    </radialGradient>
+    <filter id="paper" x="-2%" y="-2%" width="104%" height="104%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" result="n"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.2  0 0 0 0 0.15  0 0 0 0 0.08  0 0 0 0.08 0" in="n" result="t"/>
+      <feBlend in="SourceGraphic" in2="t" mode="multiply"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#atlas-sky)"/>
+  <!-- mountain chains -->
+  <path d="M80 320 L180 140 L260 300 L340 120 L420 290 L520 100 L620 280 L700 130 L780 270 L900 90 L1020 260 L1140 110 L1260 250 L1400 130 L1520 280 L1600 200 L1600 0 L0 0 L0 340Z" fill="#5a4a38" opacity="0.95"/>
+  <path d="M100 300 L190 170 L250 290 L340 150 L410 280 L510 130 L600 270 L690 160 L770 260 L890 120 L1010 250 L1130 140 L1250 240 L1390 155 L1510 270" fill="none" stroke="#2a1f14" stroke-width="3" opacity="0.45"/>
+  <path d="M200 250 L280 180 L320 240" fill="#6a5a44"/>
+  <path d="M560 220 L640 140 L700 230" fill="#6a5a44"/>
+  <path d="M980 210 L1060 130 L1120 220" fill="#6a5a44"/>
+  <path d="M1280 200 L1360 120 L1420 210" fill="#6a5a44"/>
+  <!-- valleys / downs -->
+  <ellipse cx="920" cy="620" rx="220" ry="90" fill="#6a8048" opacity="0.55"/>
+  <ellipse cx="1400" cy="640" rx="160" ry="70" fill="#7a9058" opacity="0.5"/>
+  <ellipse cx="280" cy="540" rx="180" ry="70" fill="#6a7848" opacity="0.45"/>
+  <!-- mires -->
+  <ellipse cx="840" cy="740" rx="160" ry="60" fill="#4a5a38" opacity="0.55"/>
+  <ellipse cx="900" cy="460" rx="100" ry="40" fill="#4a5a40" opacity="0.4"/>
+  <!-- lakes -->
+  <ellipse cx="450" cy="700" rx="110" ry="55" fill="url(#lake-fill)"/>
+  <ellipse cx="290" cy="420" rx="70" ry="35" fill="url(#lake-fill)"/>
+  <ellipse cx="450" cy="700" rx="110" ry="55" fill="none" stroke="#2a3a40" stroke-width="2" opacity="0.5"/>
+  <ellipse cx="290" cy="420" rx="70" ry="35" fill="none" stroke="#2a3a40" stroke-width="2" opacity="0.5"/>
+  <!-- rivers -->
+  <path d="M300 420 Q380 480 450 700" fill="none" stroke="#4a7080" stroke-width="10" opacity="0.75"/>
+  <path d="M450 700 Q620 620 760 540 Q900 470 1100 420 Q1280 380 1480 500" fill="none" stroke="#4a7080" stroke-width="12" opacity="0.8"/>
+  <path d="M450 700 Q620 620 760 540 Q900 470 1100 420 Q1280 380 1480 500" fill="none" stroke="#2a4050" stroke-width="3" opacity="0.45"/>
+  <path d="M760 540 Q820 680 900 760" fill="none" stroke="#4a7080" stroke-width="7" opacity="0.65"/>
+  <!-- forests -->
+  <g fill="#2f5e3a" opacity="0.55">
+    <circle cx="520" cy="480" r="18"/><circle cx="545" cy="470" r="14"/><circle cx="500" cy="500" r="12"/>
+    <circle cx="560" cy="500" r="16"/><circle cx="530" cy="520" r="13"/>
+    <circle cx="700" cy="400" r="20"/><circle cx="730" cy="390" r="15"/><circle cx="680" cy="420" r="14"/>
+    <circle cx="1050" cy="520" r="16"/><circle cx="1080" cy="510" r="12"/><circle cx="1030" cy="540" r="14"/>
+  </g>
+  <!-- chain road -->
+  <path d="M120 640 Q280 560 380 500 Q520 440 700 480 Q900 520 1060 420 Q1220 340 1400 420 Q1500 460 1560 520" fill="none" stroke="#c4893a" stroke-width="14" stroke-linecap="round" opacity="0.9"/>
+  <path d="M120 640 Q280 560 380 500 Q520 440 700 480 Q900 520 1060 420 Q1220 340 1400 420 Q1500 460 1560 520" fill="none" stroke="#2a1f14" stroke-width="4" stroke-dasharray="18 12" opacity="0.55"/>
+  <!-- landmark labels -->
+  <g font-family="Georgia, serif" fill="#2a1f14" opacity="0.75">
+    <text x="400" y="690" font-size="18" font-style="italic">Ashfen Lake</text>
+    <text x="220" y="400" font-size="16" font-style="italic">Widowmere</text>
+    <text x="720" y="500" font-size="18" font-style="italic">Silverthread</text>
+    <text x="520" y="250" font-size="20" font-style="italic">Thornspine Mountains</text>
+    <text x="880" y="640" font-size="16" font-style="italic">Mirehollow</text>
+    <text x="1080" y="220" font-size="18" font-style="italic">Coldgate Pass</text>
+    <text x="780" y="770" font-size="16" font-style="italic">Reedfen Marshes</text>
+    <text x="1320" y="680" font-size="16" font-style="italic">Westwind Downs</text>
+  </g>
+  <!-- frame -->
+  <rect x="12" y="12" width="1576" height="976" fill="none" stroke="#1a120c" stroke-width="14"/>
+  <rect x="24" y="24" width="1552" height="952" fill="none" stroke="#c4a35a" stroke-width="3"/>
+  <text x="48" y="70" font-family="Impact, Arial Black, sans-serif" font-size="36"
+    fill="#f4efe4" stroke="#1a120c" stroke-width="6" paint-order="stroke">WILDERLAND ATLAS</text>
+  <text x="48" y="100" font-family="Courier New, monospace" font-size="14" fill="#2a1f14" opacity="0.7">Dungeons and Dogs — nine marches, no fog of war</text>
+</svg>

@@ -19,6 +19,7 @@ export * from "./gear-icons";
 export * from "./look";
 export * from "./dog";
 export * from "./night-creatures";
+export * from "./maps";
 
 import { DT_ART } from "./art";
 import { dtEncounterStats } from "./encounters";

@@ -17,6 +17,15 @@ export { PLAYER_SLOT_ORDER };
 export type { CharacterSave, PlayerSlot };
 export type { SimpleBattleState };
 
+/** Atlas revisit — Story walks a cleared chapter without story rewards. */
+export type DtMapReplay = {
+  regionId: string;
+  chapterId: string;
+  fromNodeId: string;
+  resumeNodeId: string;
+  resumeChapterId: string;
+};
+
 export const DT_GAME_ID = "dungeon-tester" as const;
 /** Matches data/dungeon-tester/story-spine.json chapter 1. */
 export const DT_START_CHAPTER_ID = "dt-ch-01-chain-road";
@@ -95,6 +104,12 @@ export type DtWorldSave = {
   turnIndex: number;
   campaignNodeId: string;
   chapterId: string;
+  /** Furthest chapter reached on the live march (unlocks atlas pins). */
+  furthestChapterId: string;
+  /** Furthest story node reached on the live march. */
+  furthestCampaignNodeId: string;
+  /** When set, Story is revisiting a cleared region without story rewards. */
+  mapReplay: DtMapReplay | null;
   framesAdvanced: number;
   framesSinceEncounter: number;
   nextEncounterAtFrame: number;
@@ -184,6 +199,9 @@ export function fromPartyWorld(
     turnIndex: party.turnIndex,
     campaignNodeId: party.campaignNodeId,
     chapterId: party.chapterId,
+    furthestChapterId: party.chapterId || DT_START_CHAPTER_ID,
+    furthestCampaignNodeId: party.campaignNodeId || DT_START_NODE_ID,
+    mapReplay: null,
     framesAdvanced: frames.framesAdvanced,
     framesSinceEncounter: frames.framesSinceEncounter,
     nextEncounterAtFrame: frames.nextEncounterAtFrame,
@@ -212,10 +230,17 @@ export function applyPartyMutation(
   world: DtWorldSave,
   party: PartyWorldSave
 ): DtWorldSave {
-  return fromPartyWorld(party, {
+  const next = fromPartyWorld(party, {
     framesAdvanced: world.framesAdvanced,
     framesSinceEncounter: world.framesSinceEncounter,
     nextEncounterAtFrame: world.nextEncounterAtFrame,
     battle: world.battle,
   });
+  return {
+    ...next,
+    furthestChapterId: world.furthestChapterId,
+    furthestCampaignNodeId: world.furthestCampaignNodeId,
+    mapReplay: world.mapReplay,
+    clearedBattleId: world.clearedBattleId,
+  };
 }
