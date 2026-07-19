@@ -661,7 +661,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     if (mySlot) setPhase("create");
     else setPhase("play");
     setTab("story");
-    setFlash(`New True Grit march on Slot ${slotId}.`);
+    setFlash(`New Dungeons and Dogs march on Slot ${slotId}.`);
   };
 
   const continueSave = async (slotId: DtSaveSlotId = activeSlotId) => {
@@ -1017,7 +1017,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   if (!bootstrapped) {
     return (
       <div className="downtown-shell dungeon-tester party-comic party-rpg90s party-chronicle">
-        <p className="dt-tagline">Loading True Grit…</p>
+        <p className="dt-tagline">Loading Dungeons and Dogs…</p>
       </div>
     );
   }
@@ -1032,7 +1032,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
       {phase === "title" && (
         <div className="dt-panel dt-title-panel">
-          <h1 className="dt-title-hero">True Grit</h1>
+          <h1 className="dt-title-hero">Dungeons and Dogs</h1>
           <p className="dt-tagline">
             Dusty Wilderland liberation — warrants, collar yards, and a scarred marshal who drinks
             harder than he admits. Oregon Trail page, short comic frames, party seats like Neverworld
@@ -1146,7 +1146,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
       {phase === "play" && world && (
         <>
-          <div className="dt-play-nav" role="tablist" aria-label="True Grit">
+          <div className="dt-play-nav" role="tablist" aria-label="Dungeons and Dogs">
             {(
               [
                 ["story", "Story"],
@@ -1181,7 +1181,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
             <div className="dt-panel">
               <h2 className="dt-frame-title">March beat complete</h2>
               <p className="dt-frame-body">
-                Ending flag <strong>{world.endingId}</strong>. More True Grit spine and hours toward
+                Ending flag <strong>{world.endingId}</strong>. More Dungeons and Dogs spine and hours toward
                 the thirty still wait beyond this road — or start a new campaign from the title.
               </p>
               <div className="dt-actions">

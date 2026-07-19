@@ -6,12 +6,12 @@ import { isDmEmail, slotFromEmail } from "@/lib/downtown/party-chronicle/players
 import type { PlayerIdentity } from "@/lib/downtown/party-chronicle/types";
 
 export const metadata: Metadata = {
-  title: "True Grit",
+  title: "Dungeons and Dogs",
   description:
     "Wilderland liberation march — warrants, collar yards, and a scarred marshal who drinks harder than he admits.",
 };
 
-export default async function TrueGritPage() {
+export default async function DungeonsAndDogsPage() {
   const session = await requirePermission("downtowns:read");
   const email = session.user.email ?? "";
   const identity: PlayerIdentity = {

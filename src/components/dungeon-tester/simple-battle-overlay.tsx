@@ -611,7 +611,7 @@ export function SimpleBattleOverlay({
   };
 
   return (
-    <div className="dt-sbat-overlay" role="dialog" aria-label="True Grit battle">
+    <div className="dt-sbat-overlay" role="dialog" aria-label="Dungeons and Dogs battle">
       <div className="dt-sbat-panel">
         <header className="dt-sbat-head">
           <div>

@@ -8,8 +8,8 @@ export const JP_GAMING_LINKS = [
   {
     id: "true-grit" as const,
     href: "/true-grit",
-    label: "True Grit",
-    hint: "Wilderland march",
+    label: "Dungeons and Dogs",
+    hint: "Dogs, dungeons, Wilderland",
   },
 ] as const;
 
