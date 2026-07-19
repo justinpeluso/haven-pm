@@ -4337,7 +4337,8 @@
   margin: 0;
   font-family: var(--dt-hud);
   font-size: 0.8rem;
-  color: #7affc4;
+  /* Dark forest on cream toolbar — never pale biolume/neon */
+  color: var(--dt-forest);
   flex: 1 1 12rem;
 }
 
