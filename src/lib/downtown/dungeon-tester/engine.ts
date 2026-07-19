@@ -14,8 +14,35 @@ function isReplay(world: DtWorldSave): boolean {
   return !!world.mapReplay;
 }
 
+function isSideQuest(world: DtWorldSave): boolean {
+  return !!world.sideQuest;
+}
+
+/** Atlas replay or side-quest pause — neither advances live march furthest. */
+function isPausedMarch(world: DtWorldSave): boolean {
+  return isReplay(world) || isSideQuest(world);
+}
+
+/**
+ * Flags applied when landing on a frame / choice.
+ * - Live march: all story flags
+ * - Atlas replay: none
+ * - Side quest: only `sq-*` (and keep `fought:*` for scripted fights)
+ */
+function allowedStoryFlags(
+  world: DtWorldSave,
+  flags: string[] | undefined
+): string[] {
+  if (!flags?.length) return [];
+  if (isReplay(world)) return [];
+  if (isSideQuest(world)) {
+    return flags.filter((f) => f.startsWith("sq-") || f.startsWith("fought:"));
+  }
+  return flags;
+}
+
 function withFurthest(world: DtWorldSave): DtWorldSave {
-  if (isReplay(world)) return world;
+  if (isPausedMarch(world)) return world;
   const prevCh = dtChapterNumber(world.furthestChapterId);
   const nextCh = dtChapterNumber(world.chapterId);
   if (nextCh < prevCh) return world;
@@ -45,8 +72,8 @@ export function maybeTriggerEncounter(
     return { world, triggered: false };
   }
   if (world.endingId) return { world, triggered: false };
-  // Replay walks don't burn live cadence — use Camp force-ambush / scripted fights.
-  if (isReplay(world)) return { world, triggered: false };
+  // Paused walks don't burn live cadence — use Camp force-ambush / scripted fights.
+  if (isPausedMarch(world)) return { world, triggered: false };
   // Cadence: nextEncounterAtFrame = framesAdvanced + roll(10..20) after each fight.
   // framesSinceEncounter increments on each counted frame advance and resets on battle start.
   const due = world.framesAdvanced >= world.nextEncounterAtFrame;
@@ -79,8 +106,8 @@ export function goToFrame(
   const frame = getFrame(nextId);
   if (!frame) return { world, message: `Missing frame ${nextId}.` };
 
-  const replay = isReplay(world);
-  const countAdvance = !replay && opts?.countAdvance !== false;
+  const paused = isPausedMarch(world);
+  const countAdvance = !paused && opts?.countAdvance !== false;
   const framesAdvanced = countAdvance
     ? world.framesAdvanced + 1
     : world.framesAdvanced;
@@ -88,9 +115,10 @@ export function goToFrame(
     ? world.framesSinceEncounter + 1
     : world.framesSinceEncounter;
 
-  const storyFlags = replay
-    ? []
-    : [...(opts?.flagsAdd ?? []), ...(frame.flagsAdd ?? [])];
+  const storyFlags = allowedStoryFlags(world, [
+    ...(opts?.flagsAdd ?? []),
+    ...(frame.flagsAdd ?? []),
+  ]);
 
   let next: DtWorldSave = {
     ...world,
@@ -101,16 +129,16 @@ export function goToFrame(
     partyFlags: Array.from(
       new Set([...(world.partyFlags ?? []), ...storyFlags])
     ),
-    // Replay never locks the live campaign ending.
-    endingId: replay ? world.endingId : frame.endingId ?? world.endingId,
+    // Replay / side quest never locks the live campaign ending.
+    endingId: paused ? world.endingId : frame.endingId ?? world.endingId,
     updatedAt: new Date().toISOString(),
     log: [
-      `${replay ? "↻" : "→"} ${frame.title ?? frame.id}`,
+      `${isReplay(world) ? "↻" : isSideQuest(world) ? "◇" : "→"} ${frame.title ?? frame.id}`,
       ...world.log,
     ].slice(0, 80),
   };
 
-  if (!replay) {
+  if (!paused) {
     next = withFurthest(next);
   }
 
@@ -139,7 +167,7 @@ export function continueFrame(
   if (cur.choices?.length) {
     return { world, message: "Choose a path." };
   }
-  if (cur.endingId && !isReplay(world)) {
+  if (cur.endingId && !isPausedMarch(world)) {
     return {
       world: withFurthest({ ...world, endingId: cur.endingId }),
       message: "Chapter beat resolved.",
@@ -148,7 +176,18 @@ export function continueFrame(
   if (cur.endingId && isReplay(world)) {
     return { world, message: "Replay end — return to march or pick another region." };
   }
-  if (!cur.next) return { world, message: "End of authored spine." };
+  if (cur.endingId && isSideQuest(world)) {
+    return { world, message: "Side quest end — return to the march." };
+  }
+  if (!cur.next) {
+    if (isSideQuest(world)) {
+      return { world, message: "Side quest complete — return to the march." };
+    }
+    if (isReplay(world)) {
+      return { world, message: "Replay end — return to march or pick another region." };
+    }
+    return { world, message: "End of authored spine." };
+  }
   return goToFrame(world, cur.next);
 }
 
@@ -163,17 +202,22 @@ export function chooseFrame(
   if (!choice) return { world, message: "Unknown choice." };
 
   const replay = isReplay(world);
+  const sideQuest = isSideQuest(world);
 
   // Optional D&D-style DC: pass roll (1–20 + mod) from UI, else treat as success branch.
   if (choice.stat && typeof choice.dc === "number" && typeof opts?.checkRoll === "number") {
     const passed = opts.checkRoll >= choice.dc;
     const next = passed ? choice.next : (choice.nextFail ?? choice.next);
-    const flagsAdd = replay
-      ? undefined
-      : passed
-        ? choice.flagsAdd
-        : (choice.failFlagsAdd ?? choice.flagsAdd);
-    let nextWorld = goToFrame(world, next, { flagsAdd });
+    const rawFlags = passed
+      ? choice.flagsAdd
+      : (choice.failFlagsAdd ?? choice.flagsAdd);
+    const flagsAdd =
+      replay || sideQuest
+        ? allowedStoryFlags(world, rawFlags)
+        : (rawFlags ?? []);
+    let nextWorld = goToFrame(world, next, {
+      flagsAdd: flagsAdd.length ? flagsAdd : undefined,
+    });
     if (!passed && choice.failDamage && nextWorld.world.characters) {
       // Soft flavor only — shell UI may mirror damage into the active hero later.
       nextWorld = {
@@ -193,8 +237,11 @@ export function chooseFrame(
     return nextWorld;
   }
 
+  const choiceFlags = replay || sideQuest
+    ? allowedStoryFlags(world, choice.flagsAdd)
+    : choice.flagsAdd;
   return goToFrame(world, choice.next, {
-    flagsAdd: replay ? undefined : choice.flagsAdd,
+    flagsAdd: choiceFlags?.length ? choiceFlags : undefined,
   });
 }
 

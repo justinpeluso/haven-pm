@@ -251,8 +251,27 @@ export const CHAPTERS = pack.chapters.map((c) => ({
 
 export const ENDINGS = pack.endings ?? [];
 
-export function getFrame(id: string): DtFrame | undefined {
+/** Main campaign spine only (no side-quest frames). */
+export function getSpineFrame(id: string): DtFrame | undefined {
   return FRAME_BY_ID.get(id);
+}
+
+/**
+ * Playable frame: main spine, then side-quest frames (lazy to avoid init cycles).
+ */
+export function getFrame(id: string): DtFrame | undefined {
+  const spine = FRAME_BY_ID.get(id);
+  if (spine) return spine;
+  try {
+    // Lazy require — side-quests imports getSpineFrame, not getFrame.
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const mod = require("./side-quests") as {
+      getDtSideQuestFrame: (frameId: string) => DtFrame | undefined;
+    };
+    return mod.getDtSideQuestFrame(id);
+  } catch {
+    return undefined;
+  }
 }
 
 /** Resolve panel body with flag-echo callbacks (earlier choices rewrite later text). */

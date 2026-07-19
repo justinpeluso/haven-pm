@@ -26,6 +26,17 @@ export type DtMapReplay = {
   resumeChapterId: string;
 };
 
+/**
+ * Side-quest pause — Story walks a side pin; march cursor parked in resume*.
+ * Mutually exclusive with mapReplay (only one pause mode).
+ */
+export type DtSideQuestPause = {
+  questId: string;
+  fromNodeId: string;
+  resumeNodeId: string;
+  resumeChapterId: string;
+};
+
 export const DT_GAME_ID = "dungeon-tester" as const;
 /** Matches data/dungeon-tester/story-spine.json chapter 1. */
 export const DT_START_CHAPTER_ID = "dt-ch-01-chain-road";
@@ -110,6 +121,8 @@ export type DtWorldSave = {
   furthestCampaignNodeId: string;
   /** When set, Story is revisiting a cleared region without story rewards. */
   mapReplay: DtMapReplay | null;
+  /** When set, Story is on a side-quest pin; live march parked at resume*. */
+  sideQuest: DtSideQuestPause | null;
   framesAdvanced: number;
   framesSinceEncounter: number;
   nextEncounterAtFrame: number;
@@ -202,6 +215,7 @@ export function fromPartyWorld(
     furthestChapterId: party.chapterId || DT_START_CHAPTER_ID,
     furthestCampaignNodeId: party.campaignNodeId || DT_START_NODE_ID,
     mapReplay: null,
+    sideQuest: null,
     framesAdvanced: frames.framesAdvanced,
     framesSinceEncounter: frames.framesSinceEncounter,
     nextEncounterAtFrame: frames.nextEncounterAtFrame,
@@ -241,6 +255,7 @@ export function applyPartyMutation(
     furthestChapterId: world.furthestChapterId,
     furthestCampaignNodeId: world.furthestCampaignNodeId,
     mapReplay: world.mapReplay,
+    sideQuest: world.sideQuest,
     clearedBattleId: world.clearedBattleId,
   };
 }

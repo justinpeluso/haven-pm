@@ -71,7 +71,10 @@ import {
   dtUseConsumable,
   dtLoadoutSummary,
   enterDtMapReplay,
+  enterDtSideQuest,
   exitDtMapReplay,
+  exitDtSideQuest,
+  getDtSideQuest,
   formatPlaytimeHud,
   formatGearTier,
   gearTierAttr,
@@ -764,9 +767,27 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     setTab("story");
   };
 
+  const onEnterSideQuest = (questId: string) => {
+    if (!world) return;
+    const r = enterDtSideQuest(world, questId);
+    persist(r.world);
+    if (r.message) setFlash(r.message);
+    setWorldMapOpen(false);
+    setTab("story");
+  };
+
   const onReturnToMarch = () => {
     if (!world) return;
     const r = exitDtMapReplay(world);
+    persist(r.world);
+    if (r.message) setFlash(r.message);
+    setWorldMapOpen(false);
+    setTab("story");
+  };
+
+  const onReturnToMainStory = () => {
+    if (!world) return;
+    const r = exitDtSideQuest(world);
     persist(r.world);
     if (r.message) setFlash(r.message);
     setWorldMapOpen(false);
@@ -1234,6 +1255,17 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 >
                   World Map
                 </button>
+                {world.sideQuest ? (
+                  <button
+                    type="button"
+                    className="dt-btn"
+                    data-variant="primary"
+                    disabled={!!world.battle}
+                    onClick={onReturnToMainStory}
+                  >
+                    Return to main story
+                  </button>
+                ) : null}
                 {world.mapReplay ? (
                   <button
                     type="button"
@@ -1244,6 +1276,16 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   >
                     Return to march
                   </button>
+                ) : null}
+                {world.sideQuest ? (
+                  <p className="dt-map-side-quest-banner">
+                    Side quest
+                    {(() => {
+                      const title = getDtSideQuest(world.sideQuest!.questId)?.title;
+                      return title ? ` — ${title}` : "";
+                    })()}
+                    {" — main story paused"}
+                  </p>
                 ) : null}
                 {world.mapReplay ? (
                   <p className="dt-map-replay-banner">
@@ -1279,6 +1321,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   <p className="dt-hud-meta">
                     {world.chapterId} · {world.campaignNodeId}
                     {world.mapReplay ? " · revisit" : ""}
+                    {world.sideQuest ? " · side quest" : ""}
                   </p>
                   <h2 className="dt-frame-title">{frame?.title ?? "Missing frame"}</h2>
                   <p className="dt-frame-body">
@@ -1334,9 +1377,18 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               chapterId={world.chapterId}
               furthestChapterId={world.furthestChapterId}
               replayRegionId={world.mapReplay?.regionId}
+              activeSideQuestId={world.sideQuest?.questId}
+              completedSideQuestIds={world.completedSideQuests}
               onClose={() => setWorldMapOpen(false)}
               onEnterRegion={onEnterMapRegion}
-              onReturnToMarch={world.mapReplay ? onReturnToMarch : undefined}
+              onEnterSideQuest={onEnterSideQuest}
+              onReturnToMarch={
+                world.mapReplay
+                  ? onReturnToMarch
+                  : world.sideQuest
+                    ? onReturnToMainStory
+                    : undefined
+              }
             />
           ) : null}
 

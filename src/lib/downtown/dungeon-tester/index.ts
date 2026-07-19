@@ -20,18 +20,21 @@ export * from "./look";
 export * from "./dog";
 export * from "./night-creatures";
 export * from "./maps";
+export * from "./side-quests";
 
 import { DT_ART } from "./art";
 import { dtEncounterStats } from "./encounters";
 import { dtBestiaryStats } from "./bestiary";
 import { dtGearStats } from "./gear";
 import { DT_GEAR_ICON_IDS } from "./gear-icons";
+import { dtSideQuestStats } from "./side-quests";
 
 export function dungeonTesterPackStats() {
   return {
     ...dtEncounterStats(),
     ...dtBestiaryStats(),
     ...dtGearStats(),
+    ...dtSideQuestStats(),
     artEntries: Object.keys(DT_ART).length,
     gearIcons: DT_GEAR_ICON_IDS.length,
   };

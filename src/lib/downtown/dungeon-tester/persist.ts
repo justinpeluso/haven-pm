@@ -155,6 +155,7 @@ export function createNewDtWorld(): DtWorldSave {
     furthestChapterId: DT_START_CHAPTER_ID,
     furthestCampaignNodeId: DT_START_NODE_ID,
     mapReplay: null,
+    sideQuest: null,
     framesAdvanced: 0,
     framesSinceEncounter: 0,
     nextEncounterAtFrame: rollNextEncounterAtFrame(0),
@@ -197,7 +198,7 @@ export function normalizeDtWorld(raw: unknown): DtWorldSave {
     characters[slot] = c ? { ...createBlankCharacter(slot), ...c, slot } : createBlankCharacter(slot);
   }
   let activeSlot = (w.activeSlot as PlayerSlot) || "justin";
-  const draft: DtWorldSave = {
+  let draft: DtWorldSave = {
     ...base,
     ...w,
     version: 1,
@@ -228,6 +229,27 @@ export function normalizeDtWorld(raw: unknown): DtWorldSave {
       return {
         regionId,
         chapterId: String(raw.chapterId ?? w.chapterId ?? DT_START_CHAPTER_ID),
+        fromNodeId: String(raw.fromNodeId ?? w.campaignNodeId ?? DT_START_NODE_ID),
+        resumeNodeId: String(
+          raw.resumeNodeId ?? w.campaignNodeId ?? DT_START_NODE_ID
+        ),
+        resumeChapterId: String(
+          raw.resumeChapterId ?? w.chapterId ?? DT_START_CHAPTER_ID
+        ),
+      };
+    })(),
+    sideQuest: (() => {
+      if (!w.sideQuest || typeof w.sideQuest !== "object") return null;
+      const raw = w.sideQuest as {
+        questId?: string;
+        fromNodeId?: string;
+        resumeNodeId?: string;
+        resumeChapterId?: string;
+      };
+      const questId = String(raw.questId ?? "");
+      if (!questId) return null;
+      return {
+        questId,
         fromNodeId: String(raw.fromNodeId ?? w.campaignNodeId ?? DT_START_NODE_ID),
         resumeNodeId: String(
           raw.resumeNodeId ?? w.campaignNodeId ?? DT_START_NODE_ID
@@ -268,6 +290,10 @@ export function normalizeDtWorld(raw: unknown): DtWorldSave {
   };
   if (!draft.characters[activeSlot]?.created) {
     activeSlot = nextSealedSlot(draft, activeSlot);
+  }
+  // Only one pause mode — prefer atlas replay if a corrupt save has both.
+  if (draft.mapReplay && draft.sideQuest) {
+    draft = { ...draft, sideQuest: null };
   }
   return { ...draft, activeSlot };
 }
@@ -506,8 +532,9 @@ export function mergeDtWorld(
       (b.furthestChapterId || "")
         ? b.furthestCampaignNodeId || base.furthestCampaignNodeId
         : a.furthestCampaignNodeId || base.furthestCampaignNodeId,
-    // Don't carry a peer's mid-replay cursor across devices — prefer live march.
+    // Don't carry a peer's mid-replay / side-quest cursor across devices — prefer live march.
     mapReplay: preferIncoming ? b.mapReplay ?? null : a.mapReplay ?? null,
+    sideQuest: preferIncoming ? b.sideQuest ?? null : a.sideQuest ?? null,
     campSleeps,
     explorationFinds,
     lastExploration: lastExploration ?? null,

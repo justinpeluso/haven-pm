@@ -1,0 +1,3283 @@
+{
+  "version": 1,
+  "title": "Neon Wilderland Side Quest Frames",
+  "note": "Short reconverging DtFrame-compatible chains. Terminal nodes omit next for Side quest complete → return to march. Ids: dt-sq-NN-###.",
+  "frames": [
+    {
+      "id": "dt-sq-01-001",
+      "chapterId": "sq-01",
+      "title": "Biolume Tithe",
+      "body": "The canopy bleeds green neon into the mud. Something in the pines meters your pulse like Helix meters spirit debt.",
+      "kind": "narrative",
+      "next": "dt-sq-01-002"
+    },
+    {
+      "id": "dt-sq-01-002",
+      "chapterId": "sq-01",
+      "title": "Biolume Tithe: The Ask",
+      "body": "A dryad of fiber and sap steps from a trunk, hand out. Tithe: three drops brother-blood, or the chrome knife on your belt.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-01-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-01-003"
+        },
+        {
+          "id": "sq-01-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-01-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-01-003",
+      "chapterId": "sq-01",
+      "title": "Biolume Tithe: Loud Answer",
+      "body": "You refuse with steel. The tree-line answers — a webling fat on neon sap, silk sticky with code-light.",
+      "kind": "encounter",
+      "battleFoeId": "whip-hand-thug",
+      "next": "dt-sq-01-005"
+    },
+    {
+      "id": "dt-sq-01-004",
+      "chapterId": "sq-01",
+      "title": "Biolume Tithe: Quiet Answer",
+      "body": "You cut a palm and drip. The dryad licks the air, not the blood, and marks a ford that was not there.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-01-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-01-005"
+        },
+        {
+          "id": "sq-01-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-01-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-01-003b",
+      "chapterId": "sq-01",
+      "title": "Biolume Tithe: Handshake Breaks",
+      "body": "The spirit seals the bargain with a hum in your teeth. Trail opens. Debt logged somewhere older than Helix.",
+      "kind": "encounter",
+      "battleFoeId": "whip-hand-thug",
+      "next": "dt-sq-01-005"
+    },
+    {
+      "id": "dt-sq-01-005",
+      "chapterId": "sq-01",
+      "title": "Biolume Tithe: Side Quest Complete",
+      "body": "Sap vial cools in your pack, humming when anyone says a name too true. Pin goes cold. March waits. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-01"
+      ]
+    },
+    {
+      "id": "dt-sq-02-001",
+      "chapterId": "sq-02",
+      "title": "Chrome Knife Cache",
+      "body": "Fresh dirt under a fiber-vine oak. Someone buried inventory and forgot to kill the witnesses.",
+      "kind": "narrative",
+      "next": "dt-sq-02-002"
+    },
+    {
+      "id": "dt-sq-02-002",
+      "chapterId": "sq-02",
+      "title": "Chrome Knife Cache: The Ask",
+      "body": "A scav crew circles the dig with plasma tips. Dig with them, or dig through them.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-02-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-02-003"
+        },
+        {
+          "id": "sq-02-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-02-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-02-003",
+      "chapterId": "sq-02",
+      "title": "Chrome Knife Cache: Loud Answer",
+      "body": "Shovels become knives. A whip-hand leftover from some coffle job wants the crate alone.",
+      "kind": "encounter",
+      "battleFoeId": "coffle-shade",
+      "next": "dt-sq-02-005"
+    },
+    {
+      "id": "dt-sq-02-004",
+      "chapterId": "sq-02",
+      "title": "Chrome Knife Cache: Quiet Answer",
+      "body": "You trade a stim strip for first pick. They smile like thieves who plan a second tax.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-02-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-02-005"
+        },
+        {
+          "id": "sq-02-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-02-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-02-003b",
+      "chapterId": "sq-02",
+      "title": "Chrome Knife Cache: Handshake Breaks",
+      "body": "Handshake turns into a grab for your pack. Quiet dies on schedule.",
+      "kind": "encounter",
+      "battleFoeId": "coffle-shade",
+      "next": "dt-sq-02-005"
+    },
+    {
+      "id": "dt-sq-02-005",
+      "chapterId": "sq-02",
+      "title": "Chrome Knife Cache: Side Quest Complete",
+      "body": "One chrome blade fits your palm like it was cast from an old callsign. The rest of the crate can rot. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-02"
+      ]
+    },
+    {
+      "id": "dt-sq-03-001",
+      "chapterId": "sq-03",
+      "title": "Wake-Glade Whisper",
+      "body": "Wake-glade dirt still smells like ozone and forgotten birthdays. The dog sits, staring at empty air.",
+      "kind": "narrative",
+      "next": "dt-sq-03-002"
+    },
+    {
+      "id": "dt-sq-03-002",
+      "chapterId": "sq-03",
+      "title": "Wake-Glade Whisper: The Ask",
+      "body": "A whisper offers one syllable of a true name. Price: sleep tonight without dreaming — or fight the shade that owns the rest.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-03-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-03-003"
+        },
+        {
+          "id": "sq-03-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-03-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-03-003",
+      "chapterId": "sq-03",
+      "title": "Wake-Glade Whisper: Loud Answer",
+      "body": "You spit on the offer. The shade wears your face wrong and comes in swinging.",
+      "kind": "encounter",
+      "battleFoeId": "dust-trail-warg",
+      "next": "dt-sq-03-005"
+    },
+    {
+      "id": "dt-sq-03-004",
+      "chapterId": "sq-03",
+      "title": "Wake-Glade Whisper: Quiet Answer",
+      "body": "You take the syllable. It burns under the tongue like a SKU waiting to hatch.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-03-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-03-005"
+        },
+        {
+          "id": "sq-03-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-03-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-03-003b",
+      "chapterId": "sq-03",
+      "title": "Wake-Glade Whisper: Handshake Breaks",
+      "body": "The whisper wants a second payment mid-deal — your dog's name. You refuse with chrome.",
+      "kind": "encounter",
+      "battleFoeId": "dust-trail-warg",
+      "next": "dt-sq-03-005"
+    },
+    {
+      "id": "dt-sq-03-005",
+      "chapterId": "sq-03",
+      "title": "Wake-Glade Whisper: Side Quest Complete",
+      "body": "A scar itches when drones pass. One syllable lives in your mouth. Do not say it drunk. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-03"
+      ]
+    },
+    {
+      "id": "dt-sq-04-001",
+      "chapterId": "sq-04",
+      "title": "Stim Patch Peddlers",
+      "body": "Kids with barcode freckles hawk forget-patches off a busted drone sled. Their eyes are too steady.",
+      "kind": "narrative",
+      "next": "dt-sq-04-002"
+    },
+    {
+      "id": "dt-sq-04-002",
+      "chapterId": "sq-04",
+      "title": "Stim Patch Peddlers: The Ask",
+      "body": "Buy a patch, smash the sled, or ask who taught children Project Pale slang.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-04-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-04-003"
+        },
+        {
+          "id": "sq-04-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-04-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-04-003",
+      "chapterId": "sq-04",
+      "title": "Stim Patch Peddlers: Loud Answer",
+      "body": "You kick the sled. A thug in a kid's coat stands up with adult knuckles.",
+      "kind": "encounter",
+      "battleFoeId": "camp-thief-gremlin",
+      "next": "dt-sq-04-005"
+    },
+    {
+      "id": "dt-sq-04-004",
+      "chapterId": "sq-04",
+      "title": "Stim Patch Peddlers: Quiet Answer",
+      "body": "You buy one strip. The dog growls at your cheek like you smell like a stranger.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-04-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-04-005"
+        },
+        {
+          "id": "sq-04-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-04-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-04-003b",
+      "chapterId": "sq-04",
+      "title": "Stim Patch Peddlers: Handshake Breaks",
+      "body": "They try to upsell a full wipe-lite. You end the sales pitch with a boot.",
+      "kind": "encounter",
+      "battleFoeId": "camp-thief-gremlin",
+      "next": "dt-sq-04-005"
+    },
+    {
+      "id": "dt-sq-04-005",
+      "chapterId": "sq-04",
+      "title": "Stim Patch Peddlers: Side Quest Complete",
+      "body": "Half-spent strip ticks in your pocket. Clarity on demand. Relapse on layaway. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-04"
+      ]
+    },
+    {
+      "id": "dt-sq-05-001",
+      "chapterId": "sq-05",
+      "title": "Widowmere Mirror",
+      "body": "Widowmere holds your reflection like a product photo. The eyes in the water blink first.",
+      "kind": "narrative",
+      "next": "dt-sq-05-002"
+    },
+    {
+      "id": "dt-sq-05-002",
+      "chapterId": "sq-05",
+      "title": "Widowmere Mirror: The Ask",
+      "body": "Drink, smash the mirror-calm, or let the dog decide which face is prey.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-05-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-05-003"
+        },
+        {
+          "id": "sq-05-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-05-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-05-003",
+      "chapterId": "sq-05",
+      "title": "Widowmere Mirror: Loud Answer",
+      "body": "You break the surface with a blade. A coffle-shade climbs out wearing wet iron.",
+      "kind": "encounter",
+      "battleFoeId": "ash-wisp-stalker",
+      "next": "dt-sq-05-005"
+    },
+    {
+      "id": "dt-sq-05-004",
+      "chapterId": "sq-05",
+      "title": "Widowmere Mirror: Quiet Answer",
+      "body": "You drink. Taste: someone else's overtime and a name that almost fits.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-05-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-05-005"
+        },
+        {
+          "id": "sq-05-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-05-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-05-003b",
+      "chapterId": "sq-05",
+      "title": "Widowmere Mirror: Handshake Breaks",
+      "body": "The lake wants a second sip — brother blood. You offer chrome instead.",
+      "kind": "encounter",
+      "battleFoeId": "ash-wisp-stalker",
+      "next": "dt-sq-05-005"
+    },
+    {
+      "id": "dt-sq-05-005",
+      "chapterId": "sq-05",
+      "title": "Widowmere Mirror: Side Quest Complete",
+      "body": "Coolant shard fogs when you lie to the pack. Useful. Insulting. Keep it. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-05"
+      ]
+    },
+    {
+      "id": "dt-sq-06-001",
+      "chapterId": "sq-06",
+      "title": "Barcode Saplings",
+      "body": "Saplings stand in rows like a nursery for property. Each trunk already wears a SKU scar.",
+      "kind": "narrative",
+      "next": "dt-sq-06-002"
+    },
+    {
+      "id": "dt-sq-06-002",
+      "chapterId": "sq-06",
+      "title": "Barcode Saplings: The Ask",
+      "body": "Burn the row, peel evidence, or wait for the planter who treats woods like warehouse.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-06-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-06-003"
+        },
+        {
+          "id": "sq-06-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-06-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-06-003",
+      "chapterId": "sq-06",
+      "title": "Barcode Saplings: Loud Answer",
+      "body": "The planter arrives early — ash-wisp stalker on a Helix leash of smoke.",
+      "kind": "encounter",
+      "battleFoeId": "trail-webling",
+      "next": "dt-sq-06-005"
+    },
+    {
+      "id": "dt-sq-06-004",
+      "chapterId": "sq-06",
+      "title": "Barcode Saplings: Quiet Answer",
+      "body": "You peel a barcode strip. The trees bleed green light and scream like radios.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-06-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-06-005"
+        },
+        {
+          "id": "sq-06-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-06-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-06-003b",
+      "chapterId": "sq-06",
+      "title": "Barcode Saplings: Handshake Breaks",
+      "body": "A scav offers coin for the peel, then decides murder is cheaper.",
+      "kind": "encounter",
+      "battleFoeId": "trail-webling",
+      "next": "dt-sq-06-005"
+    },
+    {
+      "id": "dt-sq-06-005",
+      "chapterId": "sq-06",
+      "title": "Barcode Saplings: Side Quest Complete",
+      "body": "Dead product code on bark. Someone catalogued a forest. You stole a receipt. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-06"
+      ]
+    },
+    {
+      "id": "dt-sq-07-001",
+      "chapterId": "sq-07",
+      "title": "Pack Dog's Dig",
+      "body": "The dog digs like the dirt owes him rent. Chrome jawbone. Fresh. Never buried by weather.",
+      "kind": "narrative",
+      "next": "dt-sq-07-002"
+    },
+    {
+      "id": "dt-sq-07-002",
+      "chapterId": "sq-07",
+      "title": "Pack Dog's Dig: The Ask",
+      "body": "Keep the bone, rebury it, or follow the scent trail that smells like your own sweat.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-07-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-07-003"
+        },
+        {
+          "id": "sq-07-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-07-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-07-003",
+      "chapterId": "sq-07",
+      "title": "Pack Dog's Dig: Loud Answer",
+      "body": "Owner comes on four legs and bad intentions — dust-trail warg with chrome in its gums.",
+      "kind": "encounter",
+      "battleFoeId": "whip-hand-thug",
+      "next": "dt-sq-07-005"
+    },
+    {
+      "id": "dt-sq-07-004",
+      "chapterId": "sq-07",
+      "title": "Pack Dog's Dig: Quiet Answer",
+      "body": "You rebury with respect. The ground spits the bone back like a rejected contract.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-07-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-07-005"
+        },
+        {
+          "id": "sq-07-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-07-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-07-003b",
+      "chapterId": "sq-07",
+      "title": "Pack Dog's Dig: Handshake Breaks",
+      "body": "A camp thief tries to pocket the jaw while you pray. Prayer ends.",
+      "kind": "encounter",
+      "battleFoeId": "whip-hand-thug",
+      "next": "dt-sq-07-005"
+    },
+    {
+      "id": "dt-sq-07-005",
+      "chapterId": "sq-07",
+      "title": "Pack Dog's Dig: Side Quest Complete",
+      "body": "Chrome canine on wire. The dog approves. Your neck feels watched. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-07"
+      ]
+    },
+    {
+      "id": "dt-sq-08-001",
+      "chapterId": "sq-08",
+      "title": "Neon Dryad Bargain",
+      "body": "Fiber-optic hair hangs from a willow that should not grow here. It speaks in modem-hiss and old Elvish junk.",
+      "kind": "narrative",
+      "next": "dt-sq-08-002"
+    },
+    {
+      "id": "dt-sq-08-002",
+      "chapterId": "sq-08",
+      "title": "Neon Dryad Bargain: The Ask",
+      "body": "Safe ford for blood, or force the crossing and drown the polite way.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-08-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-08-003"
+        },
+        {
+          "id": "sq-08-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-08-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-08-003",
+      "chapterId": "sq-08",
+      "title": "Neon Dryad Bargain: Loud Answer",
+      "body": "You take the ford by force. River vermin and a webling share the toll booth.",
+      "kind": "encounter",
+      "battleFoeId": "coffle-shade",
+      "next": "dt-sq-08-005"
+    },
+    {
+      "id": "dt-sq-08-004",
+      "chapterId": "sq-08",
+      "title": "Neon Dryad Bargain: Quiet Answer",
+      "body": "Three drops. Three brothers. The ford hardens like glass under boot.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-08-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-08-005"
+        },
+        {
+          "id": "sq-08-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-08-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-08-003b",
+      "chapterId": "sq-08",
+      "title": "Neon Dryad Bargain: Handshake Breaks",
+      "body": "Mid-crossing the dryad asks for a fourth drop — the dog's. You decline violently.",
+      "kind": "encounter",
+      "battleFoeId": "coffle-shade",
+      "next": "dt-sq-08-005"
+    },
+    {
+      "id": "dt-sq-08-005",
+      "chapterId": "sq-08",
+      "title": "Neon Dryad Bargain: Side Quest Complete",
+      "body": "Token of favor: one trail lie forgiven by the woods. Spend it before Helix does. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-08"
+      ]
+    },
+    {
+      "id": "dt-sq-09-001",
+      "chapterId": "sq-09",
+      "title": "Coffle Shade Detour",
+      "body": "Mist builds cages that do not cast shadows. Inside: the sound of numbers being counted.",
+      "kind": "narrative",
+      "next": "dt-sq-09-002"
+    },
+    {
+      "id": "dt-sq-09-002",
+      "chapterId": "sq-09",
+      "title": "Coffle Shade Detour: The Ask",
+      "body": "Walk around, walk through, or let the dog piss on the ghost iron.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-09-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-09-003"
+        },
+        {
+          "id": "sq-09-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-09-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-09-003",
+      "chapterId": "sq-09",
+      "title": "Coffle Shade Detour: Loud Answer",
+      "body": "Through means fight. Coffle-shade rattles empty manacles at your throat.",
+      "kind": "encounter",
+      "battleFoeId": "dust-trail-warg",
+      "next": "dt-sq-09-005"
+    },
+    {
+      "id": "dt-sq-09-004",
+      "chapterId": "sq-09",
+      "title": "Coffle Shade Detour: Quiet Answer",
+      "body": "Around means longer road and a whisper that calls you Nine-Mark anyway.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-09-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-09-005"
+        },
+        {
+          "id": "sq-09-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-09-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-09-003b",
+      "chapterId": "sq-09",
+      "title": "Coffle Shade Detour: Handshake Breaks",
+      "body": "The whisper offers a shortcut for a stim. You take the shortcut's throat instead.",
+      "kind": "encounter",
+      "battleFoeId": "dust-trail-warg",
+      "next": "dt-sq-09-005"
+    },
+    {
+      "id": "dt-sq-09-005",
+      "chapterId": "sq-09",
+      "title": "Coffle Shade Detour: Side Quest Complete",
+      "body": "Cold iron flake cools rage. Pocket it for the night you want to burn a tower sober. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-09"
+      ]
+    },
+    {
+      "id": "dt-sq-10-001",
+      "chapterId": "sq-10",
+      "title": "Fiber-Vine Snare",
+      "body": "Living cable drops from oaks like hanging sentences. A scav screams mid-sentence.",
+      "kind": "narrative",
+      "next": "dt-sq-10-002"
+    },
+    {
+      "id": "dt-sq-10-002",
+      "chapterId": "sq-10",
+      "title": "Fiber-Vine Snare: The Ask",
+      "body": "Cut him free, cut the vine for salvage, or wait and loot the quiet.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-10-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-10-003"
+        },
+        {
+          "id": "sq-10-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-10-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-10-003",
+      "chapterId": "sq-10",
+      "title": "Fiber-Vine Snare: Loud Answer",
+      "body": "You cut. The vine fights like a snake paid in stock options. Thug on the winch end.",
+      "kind": "encounter",
+      "battleFoeId": "camp-thief-gremlin",
+      "next": "dt-sq-10-005"
+    },
+    {
+      "id": "dt-sq-10-004",
+      "chapterId": "sq-10",
+      "title": "Fiber-Vine Snare: Quiet Answer",
+      "body": "You wait. The scav dies. The vine offers you the same contract in green light.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-10-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-10-005"
+        },
+        {
+          "id": "sq-10-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-10-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-10-003b",
+      "chapterId": "sq-10",
+      "title": "Fiber-Vine Snare: Handshake Breaks",
+      "body": "You fake acceptance, then garrote the winch-hand with his own cable.",
+      "kind": "encounter",
+      "battleFoeId": "camp-thief-gremlin",
+      "next": "dt-sq-10-005"
+    },
+    {
+      "id": "dt-sq-10-005",
+      "chapterId": "sq-10",
+      "title": "Fiber-Vine Snare: Side Quest Complete",
+      "body": "Coil of fiber-vine. Ties gear. Chokes informants. Smells like ozone guilt. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-10"
+      ]
+    },
+    {
+      "id": "dt-sq-11-001",
+      "chapterId": "sq-11",
+      "title": "Warrant Nail Auction",
+      "body": "Auction tent smells like ozone and bad coffee. Lot twelve is a sketch of three blank faces.",
+      "kind": "narrative",
+      "next": "dt-sq-11-002"
+    },
+    {
+      "id": "dt-sq-11-002",
+      "chapterId": "sq-11",
+      "title": "Warrant Nail Auction: The Ask",
+      "body": "Bid with stolen coin, crash the auction, or brand the auctioneer with his own nail.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-11-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-11-003"
+        },
+        {
+          "id": "sq-11-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-11-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-11-003",
+      "chapterId": "sq-11",
+      "title": "Warrant Nail Auction: Loud Answer",
+      "body": "Crash. Pale-host scout draws first. The crowd bets on blood instead of faces.",
+      "kind": "encounter",
+      "battleFoeId": "bridge-brute",
+      "next": "dt-sq-11-005"
+    },
+    {
+      "id": "dt-sq-11-004",
+      "chapterId": "sq-11",
+      "title": "Warrant Nail Auction: Quiet Answer",
+      "body": "You bid. Win a nail. Lose the anonymity you were pretending to have.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-11-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-11-005"
+        },
+        {
+          "id": "sq-11-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-11-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-11-003b",
+      "chapterId": "sq-11",
+      "title": "Warrant Nail Auction: Handshake Breaks",
+      "body": "Seller tries a second sale — your dog as a tracking add-on. Transaction voided in teeth.",
+      "kind": "encounter",
+      "battleFoeId": "bridge-brute",
+      "next": "dt-sq-11-005"
+    },
+    {
+      "id": "dt-sq-11-005",
+      "chapterId": "sq-11",
+      "title": "Warrant Nail Auction: Side Quest Complete",
+      "body": "Bent warrant nail. One soft spoof. After that, you are inventory again. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-11"
+      ]
+    },
+    {
+      "id": "dt-sq-12-001",
+      "chapterId": "sq-12",
+      "title": "SKU Hunter Duel",
+      "body": "Two crews, one clearing, zero manners. You are the argument with a pulse.",
+      "kind": "narrative",
+      "next": "dt-sq-12-002"
+    },
+    {
+      "id": "dt-sq-12-002",
+      "chapterId": "sq-12",
+      "title": "SKU Hunter Duel: The Ask",
+      "body": "Pick a crew, kill both ideas, or walk and become the chase.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-12-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-12-003"
+        },
+        {
+          "id": "sq-12-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-12-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-12-003",
+      "chapterId": "sq-12",
+      "title": "SKU Hunter Duel: Loud Answer",
+      "body": "You refuse ownership. Red-maw hunter takes that personal.",
+      "kind": "encounter",
+      "battleFoeId": "thorn-clan-skirmisher",
+      "next": "dt-sq-12-005"
+    },
+    {
+      "id": "dt-sq-12-004",
+      "chapterId": "sq-12",
+      "title": "SKU Hunter Duel: Quiet Answer",
+      "body": "You pick a side. They smile like employers. Employers always invoice in blood later.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-12-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-12-005"
+        },
+        {
+          "id": "sq-12-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-12-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-12-003b",
+      "chapterId": "sq-12",
+      "title": "SKU Hunter Duel: Handshake Breaks",
+      "body": "Your chosen crew sells you mid-handshake. Predicted. Punished.",
+      "kind": "encounter",
+      "battleFoeId": "thorn-clan-skirmisher",
+      "next": "dt-sq-12-005"
+    },
+    {
+      "id": "dt-sq-12-005",
+      "chapterId": "sq-12",
+      "title": "SKU Hunter Duel: Side Quest Complete",
+      "body": "Melted hunter badge. Scrap chrome with a serial that almost matches your scar. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-12"
+      ]
+    },
+    {
+      "id": "dt-sq-13-001",
+      "chapterId": "sq-13",
+      "title": "Palefen Coolant Sip",
+      "body": "Palefen Reservoir mirrors biolume pines and a sky that forgot stars. The dog will not drink.",
+      "kind": "narrative",
+      "next": "dt-sq-13-002"
+    },
+    {
+      "id": "dt-sq-13-002",
+      "chapterId": "sq-13",
+      "title": "Palefen Coolant Sip: The Ask",
+      "body": "Sip the code, bottle it, or fight the mist-hounds that guard the thirst.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-13-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-13-003"
+        },
+        {
+          "id": "sq-13-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-13-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-13-003",
+      "chapterId": "sq-13",
+      "title": "Palefen Coolant Sip: Loud Answer",
+      "body": "You bottle without asking. Grave-mist hound objects with lungs full of fog.",
+      "kind": "encounter",
+      "battleFoeId": "ash-cloak-outrider",
+      "next": "dt-sq-13-005"
+    },
+    {
+      "id": "dt-sq-13-004",
+      "chapterId": "sq-13",
+      "title": "Palefen Coolant Sip: Quiet Answer",
+      "body": "One sip. Taste: overtime, wetwork, a woman's laugh that is not yours.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-13-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-13-005"
+        },
+        {
+          "id": "sq-13-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-13-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-13-003b",
+      "chapterId": "sq-13",
+      "title": "Palefen Coolant Sip: Handshake Breaks",
+      "body": "A pilgrim wants your flask for a hymn. Hymn ends when he draws.",
+      "kind": "encounter",
+      "battleFoeId": "ash-cloak-outrider",
+      "next": "dt-sq-13-005"
+    },
+    {
+      "id": "dt-sq-13-005",
+      "chapterId": "sq-13",
+      "title": "Palefen Coolant Sip: Side Quest Complete",
+      "body": "Flask steadies stim shakes. Dreams get louder. Fair trade in this country. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-13"
+      ]
+    },
+    {
+      "id": "dt-sq-14-001",
+      "chapterId": "sq-14",
+      "title": "Thornspine Ambush",
+      "body": "Tooth-black ridges. Crossbows click like insects. Someone already spent a bolt on your silhouette.",
+      "kind": "narrative",
+      "next": "dt-sq-14-002"
+    },
+    {
+      "id": "dt-sq-14-002",
+      "chapterId": "sq-14",
+      "title": "Thornspine Ambush: The Ask",
+      "body": "Charge the ridge, negotiate under white flag, or send the dog as a rumor.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-14-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-14-003"
+        },
+        {
+          "id": "sq-14-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-14-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-14-003",
+      "chapterId": "sq-14",
+      "title": "Thornspine Ambush: Loud Answer",
+      "body": "Charge. Ash-cloak outrider meets you in shale and bad poetry.",
+      "kind": "encounter",
+      "battleFoeId": "pale-host-scout",
+      "next": "dt-sq-14-005"
+    },
+    {
+      "id": "dt-sq-14-004",
+      "chapterId": "sq-14",
+      "title": "Thornspine Ambush: Quiet Answer",
+      "body": "White flag. They want a finger as proof you are the lot. You offer a different finger — theirs.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-14-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-14-005"
+        },
+        {
+          "id": "sq-14-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-14-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-14-003b",
+      "chapterId": "sq-14",
+      "title": "Thornspine Ambush: Handshake Breaks",
+      "body": "Talking ends when a second crew tags in. Ambush inside the ambush.",
+      "kind": "encounter",
+      "battleFoeId": "pale-host-scout",
+      "next": "dt-sq-14-005"
+    },
+    {
+      "id": "dt-sq-14-005",
+      "chapterId": "sq-14",
+      "title": "Thornspine Ambush: Side Quest Complete",
+      "body": "One plasma bolt left. Spend it on something that deserves a hole. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-14"
+      ]
+    },
+    {
+      "id": "dt-sq-15-001",
+      "chapterId": "sq-15",
+      "title": "Stim Den Confession",
+      "body": "Den light is purple bruise. The priest wears a collar that used to meter spirits, now meters sins.",
+      "kind": "narrative",
+      "next": "dt-sq-15-002"
+    },
+    {
+      "id": "dt-sq-15-002",
+      "chapterId": "sq-15",
+      "title": "Stim Den Confession: The Ask",
+      "body": "Confess for an ampule, rob the altar, or make him confess who taught him Pale slang.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-15-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-15-003"
+        },
+        {
+          "id": "sq-15-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-15-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-15-003",
+      "chapterId": "sq-15",
+      "title": "Stim Den Confession: Loud Answer",
+      "body": "Rob the altar. Thorn-clan skirmisher was the usher. Bad usher.",
+      "kind": "encounter",
+      "battleFoeId": "red-maw-hunter",
+      "next": "dt-sq-15-005"
+    },
+    {
+      "id": "dt-sq-15-004",
+      "chapterId": "sq-15",
+      "title": "Stim Den Confession: Quiet Answer",
+      "body": "You confess a fake sin. He answers with a real Project Pale phrase. Skin crawls.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-15-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-15-005"
+        },
+        {
+          "id": "sq-15-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-15-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-15-003b",
+      "chapterId": "sq-15",
+      "title": "Stim Den Confession: Handshake Breaks",
+      "body": "He offers PALE-LITE for a brother's true name. You offer violence.",
+      "kind": "encounter",
+      "battleFoeId": "red-maw-hunter",
+      "next": "dt-sq-15-005"
+    },
+    {
+      "id": "dt-sq-15-005",
+      "chapterId": "sq-15",
+      "title": "Stim Den Confession: Side Quest Complete",
+      "body": "Ampule labeled PALE-LITE. Illegal. Effective. Do not stack with conscience. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-15"
+      ]
+    },
+    {
+      "id": "dt-sq-16-001",
+      "chapterId": "sq-16",
+      "title": "Smuggler's Chrome Cut",
+      "body": "Chromeveil barge idles with cages that hum prayers backwards. Skipper's smile is a invoice.",
+      "kind": "narrative",
+      "next": "dt-sq-16-002"
+    },
+    {
+      "id": "dt-sq-16-002",
+      "chapterId": "sq-16",
+      "title": "Smuggler's Chrome Cut: The Ask",
+      "body": "Guard the freight, dump it, or free whatever is rattling the spirit-bars.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-16-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-16-003"
+        },
+        {
+          "id": "sq-16-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-16-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-16-003",
+      "chapterId": "sq-16",
+      "title": "Smuggler's Chrome Cut: Loud Answer",
+      "body": "Dump it. Bridge-brute hired as insurance disagrees with charity.",
+      "kind": "encounter",
+      "battleFoeId": "grave-mist-hound",
+      "next": "dt-sq-16-005"
+    },
+    {
+      "id": "dt-sq-16-004",
+      "chapterId": "sq-16",
+      "title": "Smuggler's Chrome Cut: Quiet Answer",
+      "body": "You guard. Coin is good. The humming gets into your fillings.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-16-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-16-005"
+        },
+        {
+          "id": "sq-16-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-16-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-16-003b",
+      "chapterId": "sq-16",
+      "title": "Smuggler's Chrome Cut: Handshake Breaks",
+      "body": "Freehold inspectors board. Skipper points at you as the cargo. Classic.",
+      "kind": "encounter",
+      "battleFoeId": "grave-mist-hound",
+      "next": "dt-sq-16-005"
+    },
+    {
+      "id": "dt-sq-16-005",
+      "chapterId": "sq-16",
+      "title": "Smuggler's Chrome Cut: Side Quest Complete",
+      "body": "Chemical coin and an empty spirit jar. Emptiness still feels watched. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-16"
+      ]
+    },
+    {
+      "id": "dt-sq-17-001",
+      "chapterId": "sq-17",
+      "title": "Dragon-Cult Pamphlets",
+      "body": "Paper on a nail: BURN THE BARCODE, BECOME THE WEATHER. Blood already dried in the margins.",
+      "kind": "narrative",
+      "next": "dt-sq-17-002"
+    },
+    {
+      "id": "dt-sq-17-002",
+      "chapterId": "sq-17",
+      "title": "Dragon-Cult Pamphlets: The Ask",
+      "body": "Join the circle, burn the pamphlets, or follow the ink to the recruiter's throat.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-17-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-17-003"
+        },
+        {
+          "id": "sq-17-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-17-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-17-003",
+      "chapterId": "sq-17",
+      "title": "Dragon-Cult Pamphlets: Loud Answer",
+      "body": "Burn the paper. Recruiter was a pale-host scout moonlighting as prophet.",
+      "kind": "encounter",
+      "battleFoeId": "bridge-brute",
+      "next": "dt-sq-17-005"
+    },
+    {
+      "id": "dt-sq-17-004",
+      "chapterId": "sq-17",
+      "title": "Dragon-Cult Pamphlets: Quiet Answer",
+      "body": "You kneel for the sermon. They brand initiates with heated chrome. Almost you.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-17-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-17-005"
+        },
+        {
+          "id": "sq-17-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-17-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-17-003b",
+      "chapterId": "sq-17",
+      "title": "Dragon-Cult Pamphlets: Handshake Breaks",
+      "body": "Initiation requires a brother's scream. You rewrite the liturgy.",
+      "kind": "encounter",
+      "battleFoeId": "bridge-brute",
+      "next": "dt-sq-17-005"
+    },
+    {
+      "id": "dt-sq-17-005",
+      "chapterId": "sq-17",
+      "title": "Dragon-Cult Pamphlets: Side Quest Complete",
+      "body": "Ink that glows under Helix neon. Propaganda that doubles as a blacklight. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-17"
+      ]
+    },
+    {
+      "id": "dt-sq-18-001",
+      "chapterId": "sq-18",
+      "title": "Crashed Scout Drone",
+      "body": "Smoking drone in a coolant creek. Lens still blinking like it is taking attendance.",
+      "kind": "narrative",
+      "next": "dt-sq-18-002"
+    },
+    {
+      "id": "dt-sq-18-002",
+      "chapterId": "sq-18",
+      "title": "Crashed Scout Drone: The Ask",
+      "body": "Salvage, smash, or bait the recall pack into a killbox.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-18-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-18-003"
+        },
+        {
+          "id": "sq-18-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-18-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-18-003",
+      "chapterId": "sq-18",
+      "title": "Crashed Scout Drone: Loud Answer",
+      "body": "Smash first. Recall pack arrives as red-maw hunters on a timer.",
+      "kind": "encounter",
+      "battleFoeId": "thorn-clan-skirmisher",
+      "next": "dt-sq-18-005"
+    },
+    {
+      "id": "dt-sq-18-004",
+      "chapterId": "sq-18",
+      "title": "Crashed Scout Drone: Quiet Answer",
+      "body": "You pocket the lens. It whispers coordinates in your palm — home that is not home.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-18-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-18-005"
+        },
+        {
+          "id": "sq-18-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-18-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-18-003b",
+      "chapterId": "sq-18",
+      "title": "Crashed Scout Drone: Handshake Breaks",
+      "body": "A scav claims salvage rights with a plasma cutter. Negotiate in the old dialect.",
+      "kind": "encounter",
+      "battleFoeId": "thorn-clan-skirmisher",
+      "next": "dt-sq-18-005"
+    },
+    {
+      "id": "dt-sq-18-005",
+      "chapterId": "sq-18",
+      "title": "Crashed Scout Drone: Side Quest Complete",
+      "body": "Cracked lens shows heat ghosts at night. Including ones that look like you, older. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-18"
+      ]
+    },
+    {
+      "id": "dt-sq-19-001",
+      "chapterId": "sq-19",
+      "title": "Fist Prelims Under Reed",
+      "body": "Reeds hide a circle of mud and teeth. Synth drum keeps time. Betting chalk on thighs.",
+      "kind": "narrative",
+      "next": "dt-sq-19-002"
+    },
+    {
+      "id": "dt-sq-19-002",
+      "chapterId": "sq-19",
+      "title": "Fist Prelims Under Reed: The Ask",
+      "body": "Fight a bout, fix a bout, or rob the bookie while the crowd screams.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-19-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-19-003"
+        },
+        {
+          "id": "sq-19-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-19-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-19-003",
+      "chapterId": "sq-19",
+      "title": "Fist Prelims Under Reed: Loud Answer",
+      "body": "Bout. Opponent is a thorn-clan leftover who fights like rent is due in blood.",
+      "kind": "encounter",
+      "battleFoeId": "ash-cloak-outrider",
+      "next": "dt-sq-19-005"
+    },
+    {
+      "id": "dt-sq-19-004",
+      "chapterId": "sq-19",
+      "title": "Fist Prelims Under Reed: Quiet Answer",
+      "body": "You fix with the bookie. He smiles. Fixes always include a betrayal clause.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-19-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-19-005"
+        },
+        {
+          "id": "sq-19-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-19-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-19-003b",
+      "chapterId": "sq-19",
+      "title": "Fist Prelims Under Reed: Handshake Breaks",
+      "body": "Betrayal clause activates. Bookie's muscle steps in smelling like reed rot.",
+      "kind": "encounter",
+      "battleFoeId": "ash-cloak-outrider",
+      "next": "dt-sq-19-005"
+    },
+    {
+      "id": "dt-sq-19-005",
+      "chapterId": "sq-19",
+      "title": "Fist Prelims Under Reed: Side Quest Complete",
+      "body": "Knuckle wrap stained with odds. Wear it when you need the pit to recognize you. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-19"
+      ]
+    },
+    {
+      "id": "dt-sq-20-001",
+      "chapterId": "sq-20",
+      "title": "Rememberer's Trail",
+      "body": "The Rememberer pulls east like a compass with teeth. Scent: you, plus gun oil, plus a woman's perfume.",
+      "kind": "narrative",
+      "next": "dt-sq-20-002"
+    },
+    {
+      "id": "dt-sq-20-002",
+      "chapterId": "sq-20",
+      "title": "Rememberer's Trail: The Ask",
+      "body": "Follow, leash him, or let him choose which brother's scent is loudest.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-20-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-20-003"
+        },
+        {
+          "id": "sq-20-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-20-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-20-003",
+      "chapterId": "sq-20",
+      "title": "Rememberer's Trail: Loud Answer",
+      "body": "Follow into an ambush of ash-cloak outriders who expected the old you.",
+      "kind": "encounter",
+      "battleFoeId": "pale-host-scout",
+      "next": "dt-sq-20-005"
+    },
+    {
+      "id": "dt-sq-20-004",
+      "chapterId": "sq-20",
+      "title": "Rememberer's Trail: Quiet Answer",
+      "body": "You leash him. He looks at you like a stranger wearing his favorite jacket.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-20-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-20-005"
+        },
+        {
+          "id": "sq-20-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-20-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-20-003b",
+      "chapterId": "sq-20",
+      "title": "Rememberer's Trail: Handshake Breaks",
+      "body": "Scent ends at a grave with your callsign misspelled. Grave robber objects to company.",
+      "kind": "encounter",
+      "battleFoeId": "pale-host-scout",
+      "next": "dt-sq-20-005"
+    },
+    {
+      "id": "dt-sq-20-005",
+      "chapterId": "sq-20",
+      "title": "Rememberer's Trail: Side Quest Complete",
+      "body": "Fur sample that other dogs treat as pack. Proof the Rememberer is more than pet. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-20"
+      ]
+    },
+    {
+      "id": "dt-sq-21-001",
+      "chapterId": "sq-21",
+      "title": "Gate Smile Tax",
+      "body": "Helix Gate grins in pink neon: WELCOME / COMPLY / SMILE. Drones hover like polite vultures.",
+      "kind": "narrative",
+      "next": "dt-sq-21-002"
+    },
+    {
+      "id": "dt-sq-21-002",
+      "chapterId": "sq-21",
+      "title": "Gate Smile Tax: The Ask",
+      "body": "Pay the smile-tax, forge a smile-chip, or walk the mire around and fight the fog instead.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-21-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-21-003"
+        },
+        {
+          "id": "sq-21-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-21-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-21-003",
+      "chapterId": "sq-21",
+      "title": "Gate Smile Tax: Loud Answer",
+      "body": "Forge fails mid-scan. Citadel gate-brute comes to collect facial compliance.",
+      "kind": "encounter",
+      "battleFoeId": "bond-chain-enforcer",
+      "next": "dt-sq-21-005"
+    },
+    {
+      "id": "dt-sq-21-004",
+      "chapterId": "sq-21",
+      "title": "Gate Smile Tax: Quiet Answer",
+      "body": "You pay. Chip stamps your cheek warm. Feels like a collar without the honesty.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-21-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-21-005"
+        },
+        {
+          "id": "sq-21-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-21-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-21-003b",
+      "chapterId": "sq-21",
+      "title": "Gate Smile Tax: Handshake Breaks",
+      "body": "Clerk upgrades your tax to a full seal inspection. You upgrade his day to pain.",
+      "kind": "encounter",
+      "battleFoeId": "bond-chain-enforcer",
+      "next": "dt-sq-21-005"
+    },
+    {
+      "id": "dt-sq-21-005",
+      "chapterId": "sq-21",
+      "title": "Gate Smile Tax: Side Quest Complete",
+      "body": "Counterfeit smile-chip. One soft checkpoint. After that, teeth. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-21"
+      ]
+    },
+    {
+      "id": "dt-sq-22-001",
+      "chapterId": "sq-22",
+      "title": "Blacksite Soft Entry",
+      "body": "Mirehollow stacks breathe green fog. A soft door in a hard wall blinks ACCESS DENIED like a dare.",
+      "kind": "narrative",
+      "next": "dt-sq-22-002"
+    },
+    {
+      "id": "dt-sq-22-002",
+      "chapterId": "sq-22",
+      "title": "Blacksite Soft Entry: The Ask",
+      "body": "Card-skim, vent-crawl, or blow the seal and announce yourselves to every meter in range.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-22-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-22-003"
+        },
+        {
+          "id": "sq-22-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-22-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-22-003",
+      "chapterId": "sq-22",
+      "title": "Blacksite Soft Entry: Loud Answer",
+      "body": "Blow the seal. Iron-cuff overseer was napping on stim waste dreams. Rude awakening.",
+      "kind": "encounter",
+      "battleFoeId": "gloomwood-spinner",
+      "next": "dt-sq-22-005"
+    },
+    {
+      "id": "dt-sq-22-004",
+      "chapterId": "sq-22",
+      "title": "Blacksite Soft Entry: Quiet Answer",
+      "body": "Vent-crawl works until the vents scream. Something pale nests in the duct.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-22-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-22-005"
+        },
+        {
+          "id": "sq-22-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-22-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-22-003b",
+      "chapterId": "sq-22",
+      "title": "Blacksite Soft Entry: Handshake Breaks",
+      "body": "Soft entry succeeds. Soft exit fails. Alarm tastes like copper and HR.",
+      "kind": "encounter",
+      "battleFoeId": "gloomwood-spinner",
+      "next": "dt-sq-22-005"
+    },
+    {
+      "id": "dt-sq-22-005",
+      "chapterId": "sq-22",
+      "title": "Blacksite Soft Entry: Side Quest Complete",
+      "body": "Half-burned keycard, still warm. Opens one more door — or fries in your pocket. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-22"
+      ]
+    },
+    {
+      "id": "dt-sq-23-001",
+      "chapterId": "sq-23",
+      "title": "Neural Collar Yard",
+      "body": "Rings hang like wind chimes for the owned. One collar blinks unlocked. The dog snarls at empty air.",
+      "kind": "narrative",
+      "next": "dt-sq-23-002"
+    },
+    {
+      "id": "dt-sq-23-002",
+      "chapterId": "sq-23",
+      "title": "Neural Collar Yard: The Ask",
+      "body": "Take the collar, smash the yard meters, or wait for whoever set the bait.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-23-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-23-003"
+        },
+        {
+          "id": "sq-23-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-23-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-23-003",
+      "chapterId": "sq-23",
+      "title": "Neural Collar Yard: Loud Answer",
+      "body": "Smash. Bond-chain enforcer was the caretaker. He liked the chimes.",
+      "kind": "encounter",
+      "battleFoeId": "pale-ember-moth",
+      "next": "dt-sq-23-005"
+    },
+    {
+      "id": "dt-sq-23-004",
+      "chapterId": "sq-23",
+      "title": "Neural Collar Yard: Quiet Answer",
+      "body": "You take the unlocked collar. It clicks toward your throat like a homesick eel.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-23-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-23-005"
+        },
+        {
+          "id": "sq-23-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-23-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-23-003b",
+      "chapterId": "sq-23",
+      "title": "Neural Collar Yard: Handshake Breaks",
+      "body": "Bait spring. Trap crew wants live blanks for the numbered beds.",
+      "kind": "encounter",
+      "battleFoeId": "pale-ember-moth",
+      "next": "dt-sq-23-005"
+    },
+    {
+      "id": "dt-sq-23-005",
+      "chapterId": "sq-23",
+      "title": "Neural Collar Yard: Side Quest Complete",
+      "body": "Dead collar ring. Bluffs a seal-guard once if you act like furniture. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-23"
+      ]
+    },
+    {
+      "id": "dt-sq-24-001",
+      "chapterId": "sq-24",
+      "title": "Guest Suite Mirror",
+      "body": "Guest suite smells like citrus and sedation. The mirror does not wait for you to look — it looks first.",
+      "kind": "narrative",
+      "next": "dt-sq-24-002"
+    },
+    {
+      "id": "dt-sq-24-002",
+      "chapterId": "sq-24",
+      "title": "Guest Suite Mirror: The Ask",
+      "body": "Study the wetwork face, smash the glass, or ask the suite AI who paid for the reflection.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-24-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-24-003"
+        },
+        {
+          "id": "sq-24-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-24-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-24-003",
+      "chapterId": "sq-24",
+      "title": "Guest Suite Mirror: Loud Answer",
+      "body": "Smash. Cold-iron haunt pours out of the silver like mercury with a grudge.",
+      "kind": "encounter",
+      "battleFoeId": "iron-cuff-overseer",
+      "next": "dt-sq-24-005"
+    },
+    {
+      "id": "dt-sq-24-004",
+      "chapterId": "sq-24",
+      "title": "Guest Suite Mirror: Quiet Answer",
+      "body": "You study. Muscle memory salutes. Stomach turns. The face knows how you kill.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-24-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-24-005"
+        },
+        {
+          "id": "sq-24-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-24-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-24-003b",
+      "chapterId": "sq-24",
+      "title": "Guest Suite Mirror: Handshake Breaks",
+      "body": "AI offers a full identity restore for a brother's consent. Consent is not for sale.",
+      "kind": "encounter",
+      "battleFoeId": "iron-cuff-overseer",
+      "next": "dt-sq-24-005"
+    },
+    {
+      "id": "dt-sq-24-005",
+      "chapterId": "sq-24",
+      "title": "Guest Suite Mirror: Side Quest Complete",
+      "body": "Shard clouds when you lie to brothers. Bathroom honesty, trail edition. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-24"
+      ]
+    },
+    {
+      "id": "dt-sq-25-001",
+      "chapterId": "sq-25",
+      "title": "Mirehollow Stack Raid",
+      "body": "Stack stumps like broken teeth. Fog at knee height. Scav bells ring wrong notes.",
+      "kind": "narrative",
+      "next": "dt-sq-25-002"
+    },
+    {
+      "id": "dt-sq-25-002",
+      "chapterId": "sq-25",
+      "title": "Mirehollow Stack Raid: The Ask",
+      "body": "Raid with scavs, raid alone, or broker peace between chrome and spirit — briefly.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-25-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-25-003"
+        },
+        {
+          "id": "sq-25-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-25-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-25-003",
+      "chapterId": "sq-25",
+      "title": "Mirehollow Stack Raid: Loud Answer",
+      "body": "Alone. Gloomwood spinner drops from a stack lip, silk tasting of coolant.",
+      "kind": "encounter",
+      "battleFoeId": "citadel-gate-brute",
+      "next": "dt-sq-25-005"
+    },
+    {
+      "id": "dt-sq-25-004",
+      "chapterId": "sq-25",
+      "title": "Mirehollow Stack Raid: Quiet Answer",
+      "body": "Broker. Both sides agree you are the fee. Predicted. Corrected.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-25-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-25-005"
+        },
+        {
+          "id": "sq-25-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-25-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-25-003b",
+      "chapterId": "sq-25",
+      "title": "Mirehollow Stack Raid: Handshake Breaks",
+      "body": "Peace lasts eleven seconds. Twelfth second is a fight.",
+      "kind": "encounter",
+      "battleFoeId": "citadel-gate-brute",
+      "next": "dt-sq-25-005"
+    },
+    {
+      "id": "dt-sq-25-005",
+      "chapterId": "sq-25",
+      "title": "Mirehollow Stack Raid: Side Quest Complete",
+      "body": "Green fog ampule. Cameras go snowblind. Lungs hate you. Worth it. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-25"
+      ]
+    },
+    {
+      "id": "dt-sq-26-001",
+      "chapterId": "sq-26",
+      "title": "Director's Leftover Memo",
+      "body": "Trash chute behind Helix Gate coughs a slate. Header: PALE CELL ROTATION — EYES ONLY.",
+      "kind": "narrative",
+      "next": "dt-sq-26-002"
+    },
+    {
+      "id": "dt-sq-26-002",
+      "chapterId": "sq-26",
+      "title": "Director's Leftover Memo: The Ask",
+      "body": "Read, burn, or sell to freehold brokers who pay in stim and regret.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-26-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-26-003"
+        },
+        {
+          "id": "sq-26-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-26-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-26-003",
+      "chapterId": "sq-26",
+      "title": "Director's Leftover Memo: Loud Answer",
+      "body": "Read aloud. Hunter ping hits like a migraine. Pale-host leftovers triangulate.",
+      "kind": "encounter",
+      "battleFoeId": "cold-iron-haunt",
+      "next": "dt-sq-26-005"
+    },
+    {
+      "id": "dt-sq-26-004",
+      "chapterId": "sq-26",
+      "title": "Director's Leftover Memo: Quiet Answer",
+      "body": "You burn unread. Ash forms letters anyway. The woods learns faster than fire.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-26-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-26-005"
+        },
+        {
+          "id": "sq-26-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-26-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-26-003b",
+      "chapterId": "sq-26",
+      "title": "Director's Leftover Memo: Handshake Breaks",
+      "body": "Broker pays, then sells your face to the next bidder before you leave the alley.",
+      "kind": "encounter",
+      "battleFoeId": "cold-iron-haunt",
+      "next": "dt-sq-26-005"
+    },
+    {
+      "id": "dt-sq-26-005",
+      "chapterId": "sq-26",
+      "title": "Director's Leftover Memo: Side Quest Complete",
+      "body": "Memo fragment: three callsigns that might be yours. Saying them feels like loading a gun. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-26"
+      ]
+    },
+    {
+      "id": "dt-sq-27-001",
+      "chapterId": "sq-27",
+      "title": "Spirit Meter Calibration",
+      "body": "Techs in white coats feed biolume spirits into glass meters. The spirits scream in sine waves.",
+      "kind": "narrative",
+      "next": "dt-sq-27-002"
+    },
+    {
+      "id": "dt-sq-27-002",
+      "chapterId": "sq-27",
+      "title": "Spirit Meter Calibration: The Ask",
+      "body": "Sabotage the calibration, free a spirit, or sell the meter schematics to scavs.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-27-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-27-003"
+        },
+        {
+          "id": "sq-27-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-27-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-27-003",
+      "chapterId": "sq-27",
+      "title": "Spirit Meter Calibration: Loud Answer",
+      "body": "Sabotage. Pale-ember moths boil out of a cracked meter hungry for heat.",
+      "kind": "encounter",
+      "battleFoeId": "bond-chain-enforcer",
+      "next": "dt-sq-27-005"
+    },
+    {
+      "id": "dt-sq-27-004",
+      "chapterId": "sq-27",
+      "title": "Spirit Meter Calibration: Quiet Answer",
+      "body": "You free one spirit. It thanks you by biting a name into your forearm.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-27-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-27-005"
+        },
+        {
+          "id": "sq-27-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-27-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-27-003b",
+      "chapterId": "sq-27",
+      "title": "Spirit Meter Calibration: Handshake Breaks",
+      "body": "Techs offer hush money. Hush money comes with a collar in the briefcase.",
+      "kind": "encounter",
+      "battleFoeId": "bond-chain-enforcer",
+      "next": "dt-sq-27-005"
+    },
+    {
+      "id": "dt-sq-27-005",
+      "chapterId": "sq-27",
+      "title": "Spirit Meter Calibration: Side Quest Complete",
+      "body": "Dial that reads spirit debt in air. Points at brothers when the night is honest. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-27"
+      ]
+    },
+    {
+      "id": "dt-sq-28-001",
+      "chapterId": "sq-28",
+      "title": "Reedfen Body Drop",
+      "body": "Reedfen coughs up bodies with your unit ink. Fresh enough to steam. Dog goes rigid.",
+      "kind": "narrative",
+      "next": "dt-sq-28-002"
+    },
+    {
+      "id": "dt-sq-28-002",
+      "chapterId": "sq-28",
+      "title": "Reedfen Body Drop: The Ask",
+      "body": "Harvest a tattoo scrap, burn the drop site, or hunt whoever is staging your obituaries.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-28-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-28-003"
+        },
+        {
+          "id": "sq-28-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-28-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-28-003",
+      "chapterId": "sq-28",
+      "title": "Reedfen Body Drop: Loud Answer",
+      "body": "Hunt. Bond-chain enforcer was planting evidence like seeds.",
+      "kind": "encounter",
+      "battleFoeId": "gloomwood-spinner",
+      "next": "dt-sq-28-005"
+    },
+    {
+      "id": "dt-sq-28-004",
+      "chapterId": "sq-28",
+      "title": "Reedfen Body Drop: Quiet Answer",
+      "body": "You take a scrap. Ink still wet. It tries to crawl onto your skin.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-28-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-28-005"
+        },
+        {
+          "id": "sq-28-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-28-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-28-003b",
+      "chapterId": "sq-28",
+      "title": "Reedfen Body Drop: Handshake Breaks",
+      "body": "A \"rescuer\" offers to hide the dog. Offer declined with prejudice.",
+      "kind": "encounter",
+      "battleFoeId": "gloomwood-spinner",
+      "next": "dt-sq-28-005"
+    },
+    {
+      "id": "dt-sq-28-005",
+      "chapterId": "sq-28",
+      "title": "Reedfen Body Drop: Side Quest Complete",
+      "body": "Tattoo scrap in waterproof sleeve. Proof you were inventory with a team logo. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-28"
+      ]
+    },
+    {
+      "id": "dt-sq-29-001",
+      "chapterId": "sq-29",
+      "title": "Seal Kitchen Brawl",
+      "body": "House of Seals kitchen: steam, blood, and a union dispute settled in meat cuts.",
+      "kind": "narrative",
+      "next": "dt-sq-29-002"
+    },
+    {
+      "id": "dt-sq-29-002",
+      "chapterId": "sq-29",
+      "title": "Seal Kitchen Brawl: The Ask",
+      "body": "Pick a side, steal the night's stim ration, or turn the brawl into a kitchen fire.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-29-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-29-003"
+        },
+        {
+          "id": "sq-29-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-29-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-29-003",
+      "chapterId": "sq-29",
+      "title": "Seal Kitchen Brawl: Loud Answer",
+      "body": "Pick wrong side on purpose. Iron-cuff overseer moonlights as head chef. Of course.",
+      "kind": "encounter",
+      "battleFoeId": "pale-ember-moth",
+      "next": "dt-sq-29-005"
+    },
+    {
+      "id": "dt-sq-29-004",
+      "chapterId": "sq-29",
+      "title": "Seal Kitchen Brawl: Quiet Answer",
+      "body": "Steal ration. Almost clean. Dishwasher has a shock baton and opinions.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-29-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-29-005"
+        },
+        {
+          "id": "sq-29-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-29-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-29-003b",
+      "chapterId": "sq-29",
+      "title": "Seal Kitchen Brawl: Handshake Breaks",
+      "body": "Both sides pause to jump the outsiders. Kitchen democracy.",
+      "kind": "encounter",
+      "battleFoeId": "pale-ember-moth",
+      "next": "dt-sq-29-005"
+    },
+    {
+      "id": "dt-sq-29-005",
+      "chapterId": "sq-29",
+      "title": "Seal Kitchen Brawl: Side Quest Complete",
+      "body": "Cleaver that cooks and kills. Season with ash. Serve cold. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-29"
+      ]
+    },
+    {
+      "id": "dt-sq-30-001",
+      "chapterId": "sq-30",
+      "title": "Coldgate Uplink Sabotage",
+      "body": "Coldgate Uplink hums in the notch like a prayer to machinery. Drones drink from it.",
+      "kind": "narrative",
+      "next": "dt-sq-30-002"
+    },
+    {
+      "id": "dt-sq-30-002",
+      "chapterId": "sq-30",
+      "title": "Coldgate Uplink Sabotage: The Ask",
+      "body": "Cut the fuse, reverse the feed, or leave a virus that smiles back at Helix.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-30-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-30-003"
+        },
+        {
+          "id": "sq-30-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-30-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-30-003",
+      "chapterId": "sq-30",
+      "title": "Coldgate Uplink Sabotage: Loud Answer",
+      "body": "Cut. Citadel gate-brute was the mountain's night watch. Loud mountain.",
+      "kind": "encounter",
+      "battleFoeId": "iron-cuff-overseer",
+      "next": "dt-sq-30-005"
+    },
+    {
+      "id": "dt-sq-30-004",
+      "chapterId": "sq-30",
+      "title": "Coldgate Uplink Sabotage: Quiet Answer",
+      "body": "Virus planted. Uplink coughs. Somewhere a neon smile flickers.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-30-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-30-005"
+        },
+        {
+          "id": "sq-30-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-30-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-30-003b",
+      "chapterId": "sq-30",
+      "title": "Coldgate Uplink Sabotage: Handshake Breaks",
+      "body": "Helix remote-locks the notch. Exit becomes a fight in thin air.",
+      "kind": "encounter",
+      "battleFoeId": "iron-cuff-overseer",
+      "next": "dt-sq-30-005"
+    },
+    {
+      "id": "dt-sq-30-005",
+      "chapterId": "sq-30",
+      "title": "Coldgate Uplink Sabotage: Side Quest Complete",
+      "body": "Uplink fuse. Throw it into a swarm and watch polite machines become weather. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-30"
+      ]
+    },
+    {
+      "id": "dt-sq-31-001",
+      "chapterId": "sq-31",
+      "title": "Undervault Open Mic",
+      "body": "Undervault stage light is the color of old bruises. Crowd laughs like they owe blood for the joke.",
+      "kind": "narrative",
+      "next": "dt-sq-31-002"
+    },
+    {
+      "id": "dt-sq-31-002",
+      "chapterId": "sq-31",
+      "title": "Undervault Open Mic: The Ask",
+      "body": "Heckle the name-seller, fight the bout that follows, or buy a name and refuse to say it.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-31-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-31-003"
+        },
+        {
+          "id": "sq-31-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-31-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-31-003",
+      "chapterId": "sq-31",
+      "title": "Undervault Open Mic: Loud Answer",
+      "body": "Heckle. Bone-drum captain is tonight's bouncer. Comedy dies screaming.",
+      "kind": "encounter",
+      "battleFoeId": "warcamp-berserker",
+      "next": "dt-sq-31-005"
+    },
+    {
+      "id": "dt-sq-31-004",
+      "chapterId": "sq-31",
+      "title": "Undervault Open Mic: Quiet Answer",
+      "body": "You buy a name. It is almost yours. Saying it would complete a Helix form.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-31-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-31-005"
+        },
+        {
+          "id": "sq-31-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-31-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-31-003b",
+      "chapterId": "sq-31",
+      "title": "Undervault Open Mic: Handshake Breaks",
+      "body": "Comedian's handlers want the rest of the syllables from your throat.",
+      "kind": "encounter",
+      "battleFoeId": "warcamp-berserker",
+      "next": "dt-sq-31-005"
+    },
+    {
+      "id": "dt-sq-31-005",
+      "chapterId": "sq-31",
+      "title": "Undervault Open Mic: Side Quest Complete",
+      "body": "Mandolin string hums fight tempo into your pulse. Undervault souvenir. Keep it off your neck. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-31"
+      ]
+    },
+    {
+      "id": "dt-sq-32-001",
+      "chapterId": "sq-32",
+      "title": "Bone Mandolin Bout",
+      "body": "Booked. Odds board shows three silhouettes priced as one weapon. The dog is not listed. Insult.",
+      "kind": "narrative",
+      "next": "dt-sq-32-002"
+    },
+    {
+      "id": "dt-sq-32-002",
+      "chapterId": "sq-32",
+      "title": "Bone Mandolin Bout: The Ask",
+      "body": "Fight clean, fight dirty, or throw the second round and rob the betting cage.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-32-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-32-003"
+        },
+        {
+          "id": "sq-32-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-32-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-32-003",
+      "chapterId": "sq-32",
+      "title": "Bone Mandolin Bout: Loud Answer",
+      "body": "Clean is a lie. Warcamp berserker eats clean for breakfast.",
+      "kind": "encounter",
+      "battleFoeId": "chain-lord-lieutenant",
+      "next": "dt-sq-32-005"
+    },
+    {
+      "id": "dt-sq-32-004",
+      "chapterId": "sq-32",
+      "title": "Bone Mandolin Bout: Quiet Answer",
+      "body": "You throw round two. Cage man smiles like he invented betrayal.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-32-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-32-005"
+        },
+        {
+          "id": "sq-32-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-32-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-32-003b",
+      "chapterId": "sq-32",
+      "title": "Bone Mandolin Bout: Handshake Breaks",
+      "body": "Robbing the cage requires surviving the berserker who noticed the limp.",
+      "kind": "encounter",
+      "battleFoeId": "chain-lord-lieutenant",
+      "next": "dt-sq-32-005"
+    },
+    {
+      "id": "dt-sq-32-005",
+      "chapterId": "sq-32",
+      "title": "Bone Mandolin Bout: Side Quest Complete",
+      "body": "Purse heavy. Tooth souvenir lighter. Crowd chants a callsign you did not give them. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-32"
+      ]
+    },
+    {
+      "id": "dt-sq-33-001",
+      "chapterId": "sq-33",
+      "title": "Project Pale Echo",
+      "body": "Abandoned briefing booth in Spirefall ash. Play button glows like a guilty conscience.",
+      "kind": "narrative",
+      "next": "dt-sq-33-002"
+    },
+    {
+      "id": "dt-sq-33-002",
+      "chapterId": "sq-33",
+      "title": "Project Pale Echo: The Ask",
+      "body": "Play full, play mute with subtitles, or smash before the voice finishes owning you.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-33-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-33-003"
+        },
+        {
+          "id": "sq-33-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-33-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-33-003",
+      "chapterId": "sq-33",
+      "title": "Project Pale Echo: Loud Answer",
+      "body": "Smash. Shadow-pack alpha was nested in the booth foam. Helix pet, freed wrong.",
+      "kind": "encounter",
+      "battleFoeId": "shadow-pack-alpha",
+      "next": "dt-sq-33-005"
+    },
+    {
+      "id": "dt-sq-33-004",
+      "chapterId": "sq-33",
+      "title": "Project Pale Echo: Quiet Answer",
+      "body": "Play. Voice teaches a kill sequence your hands already know. Stomach leaves the room.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-33-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-33-005"
+        },
+        {
+          "id": "sq-33-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-33-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-33-003b",
+      "chapterId": "sq-33",
+      "title": "Project Pale Echo: Handshake Breaks",
+      "body": "Booth locks. Completion certificate prints with your blood type. Fight the printer's guards.",
+      "kind": "encounter",
+      "battleFoeId": "shadow-pack-alpha",
+      "next": "dt-sq-33-005"
+    },
+    {
+      "id": "dt-sq-33-005",
+      "chapterId": "sq-33",
+      "title": "Project Pale Echo: Side Quest Complete",
+      "body": "Chip the dog hears clean. He looks at you like the briefing named him too. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-33"
+      ]
+    },
+    {
+      "id": "dt-sq-34-001",
+      "chapterId": "sq-34",
+      "title": "Spirefall Loot Run",
+      "body": "Spirefall Fields: warehouses cough fire. Scavs sprint like the apocalypse is a clearance sale.",
+      "kind": "narrative",
+      "next": "dt-sq-34-002"
+    },
+    {
+      "id": "dt-sq-34-002",
+      "chapterId": "sq-34",
+      "title": "Spirefall Loot Run: The Ask",
+      "body": "Loot with a crew, loot alone, or torch the warehouse so nobody eats Helix leftovers.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-34-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-34-003"
+        },
+        {
+          "id": "sq-34-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-34-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-34-003",
+      "chapterId": "sq-34",
+      "title": "Spirefall Loot Run: Loud Answer",
+      "body": "Alone. Chain-lord lieutenant was guarding the good stims. Still on the clock somehow.",
+      "kind": "encounter",
+      "battleFoeId": "mountain-hammer",
+      "next": "dt-sq-34-005"
+    },
+    {
+      "id": "dt-sq-34-004",
+      "chapterId": "sq-34",
+      "title": "Spirefall Loot Run: Quiet Answer",
+      "body": "Crew up. Split is fair until the fire makes math emotional.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-34-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-34-005"
+        },
+        {
+          "id": "sq-34-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-34-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-34-003b",
+      "chapterId": "sq-34",
+      "title": "Spirefall Loot Run: Handshake Breaks",
+      "body": "Torch option attracts mountain-hammer cultists who worship the burn.",
+      "kind": "encounter",
+      "battleFoeId": "mountain-hammer",
+      "next": "dt-sq-34-005"
+    },
+    {
+      "id": "dt-sq-34-005",
+      "chapterId": "sq-34",
+      "title": "Spirefall Loot Run: Side Quest Complete",
+      "body": "Half-melted crate: stims and wire. Smells like victory and plastic cancer. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-34"
+      ]
+    },
+    {
+      "id": "dt-sq-35-001",
+      "chapterId": "sq-35",
+      "title": "Dragon Weather Prayer",
+      "body": "Ash rain clicks on chrome prayer beads. Cultists chant for a dragon welded from scrap and myth.",
+      "kind": "narrative",
+      "next": "dt-sq-35-002"
+    },
+    {
+      "id": "dt-sq-35-002",
+      "chapterId": "sq-35",
+      "title": "Dragon Weather Prayer: The Ask",
+      "body": "Join the prayer, interrupt with steel, or claim you have seen the dragon and sell the lie.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-35-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-35-003"
+        },
+        {
+          "id": "sq-35-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-35-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-35-003",
+      "chapterId": "sq-35",
+      "title": "Dragon Weather Prayer: Loud Answer",
+      "body": "Interrupt. Nest-mother drops from a burnt gantry like the prayer got answered wrong.",
+      "kind": "encounter",
+      "battleFoeId": "nest-mother",
+      "next": "dt-sq-35-005"
+    },
+    {
+      "id": "dt-sq-35-004",
+      "chapterId": "sq-35",
+      "title": "Dragon Weather Prayer: Quiet Answer",
+      "body": "You sell the lie. They pay in beads. Then ask you to bleed proof.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-35-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-35-005"
+        },
+        {
+          "id": "sq-35-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-35-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-35-003b",
+      "chapterId": "sq-35",
+      "title": "Dragon Weather Prayer: Handshake Breaks",
+      "body": "Proof demand becomes a hunt. You become unwilling scripture.",
+      "kind": "encounter",
+      "battleFoeId": "nest-mother",
+      "next": "dt-sq-35-005"
+    },
+    {
+      "id": "dt-sq-35-005",
+      "chapterId": "sq-35",
+      "title": "Dragon Weather Prayer: Side Quest Complete",
+      "body": "Bead warms before dragon weather. Early warning for sky that hates barcodes. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-35"
+      ]
+    },
+    {
+      "id": "dt-sq-36-001",
+      "chapterId": "sq-36",
+      "title": "Identity Burn Party",
+      "body": "Bonfire of warrants and smile-chips. Music too happy for the corpses at the edge.",
+      "kind": "narrative",
+      "next": "dt-sq-36-002"
+    },
+    {
+      "id": "dt-sq-36-002",
+      "chapterId": "sq-36",
+      "title": "Identity Burn Party: The Ask",
+      "body": "Burn your scrap, free the Helix meat, or ask who invited a live collar to a freedom party.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-36-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-36-003"
+        },
+        {
+          "id": "sq-36-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-36-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-36-003",
+      "chapterId": "sq-36",
+      "title": "Identity Burn Party: Loud Answer",
+      "body": "Free the meat. Warcamp berserker was the party crasher with a smile-chip still warm.",
+      "kind": "encounter",
+      "battleFoeId": "bone-drum-captain",
+      "next": "dt-sq-36-005"
+    },
+    {
+      "id": "dt-sq-36-004",
+      "chapterId": "sq-36",
+      "title": "Identity Burn Party: Quiet Answer",
+      "body": "You burn scrap. Ash spells a callsign in the air. Crowd cheers the wrong name.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-36-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-36-005"
+        },
+        {
+          "id": "sq-36-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-36-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-36-003b",
+      "chapterId": "sq-36",
+      "title": "Identity Burn Party: Handshake Breaks",
+      "body": "Host tries to throw a brother in for authenticity. Party foul.",
+      "kind": "encounter",
+      "battleFoeId": "bone-drum-captain",
+      "next": "dt-sq-36-005"
+    },
+    {
+      "id": "dt-sq-36-005",
+      "chapterId": "sq-36",
+      "title": "Identity Burn Party: Side Quest Complete",
+      "body": "Ash that smells like your first callsign. Keep it in a vial. Do not snort it. Tempting. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-36"
+      ]
+    },
+    {
+      "id": "dt-sq-37-001",
+      "chapterId": "sq-37",
+      "title": "Freehold Betrayal Bid",
+      "body": "Westwind Freeholds: auction block, moral fog. Defector smiles like a man who sold weather.",
+      "kind": "narrative",
+      "next": "dt-sq-37-002"
+    },
+    {
+      "id": "dt-sq-37-002",
+      "chapterId": "sq-37",
+      "title": "Freehold Betrayal Bid: The Ask",
+      "body": "Buy him, kill him, or make him finish the sentence about Project Pale in public.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-37-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-37-003"
+        },
+        {
+          "id": "sq-37-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-37-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-37-003",
+      "chapterId": "sq-37",
+      "title": "Freehold Betrayal Bid: Loud Answer",
+      "body": "Kill. Shadow-pack alpha was his handler, still loyal to the paycheck.",
+      "kind": "encounter",
+      "battleFoeId": "warcamp-berserker",
+      "next": "dt-sq-37-005"
+    },
+    {
+      "id": "dt-sq-37-004",
+      "chapterId": "sq-37",
+      "title": "Freehold Betrayal Bid: Quiet Answer",
+      "body": "Buy. He whispers three syllables and asks for protection you cannot afford.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-37-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-37-005"
+        },
+        {
+          "id": "sq-37-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-37-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-37-003b",
+      "chapterId": "sq-37",
+      "title": "Freehold Betrayal Bid: Handshake Breaks",
+      "body": "He bolts mid-deal toward a Helix soft lock. Chase becomes theology.",
+      "kind": "encounter",
+      "battleFoeId": "warcamp-berserker",
+      "next": "dt-sq-37-005"
+    },
+    {
+      "id": "dt-sq-37-005",
+      "chapterId": "sq-37",
+      "title": "Freehold Betrayal Bid: Side Quest Complete",
+      "body": "His ring opens one soft lock. Trust expires faster than the metal. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-37"
+      ]
+    },
+    {
+      "id": "dt-sq-38-001",
+      "chapterId": "sq-38",
+      "title": "Ash Horizon Duel",
+      "body": "Three silhouettes on the ash line wear your posture. Helix recycled the look. Not the soul — allegedly.",
+      "kind": "narrative",
+      "next": "dt-sq-38-002"
+    },
+    {
+      "id": "dt-sq-38-002",
+      "chapterId": "sq-38",
+      "title": "Ash Horizon Duel: The Ask",
+      "body": "Duel their Anchor, duel all three, or refuse and let them hunt you into legend.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-38-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-38-003"
+        },
+        {
+          "id": "sq-38-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-38-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-38-003",
+      "chapterId": "sq-38",
+      "title": "Ash Horizon Duel: Loud Answer",
+      "body": "All three. Chain-lord lieutenant coaches from a drone like a proud parent.",
+      "kind": "encounter",
+      "battleFoeId": "chain-lord-lieutenant",
+      "next": "dt-sq-38-005"
+    },
+    {
+      "id": "dt-sq-38-004",
+      "chapterId": "sq-38",
+      "title": "Ash Horizon Duel: Quiet Answer",
+      "body": "Duel their Anchor. He fights like your mirror on a bad night.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-38-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-38-005"
+        },
+        {
+          "id": "sq-38-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-38-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-38-003b",
+      "chapterId": "sq-38",
+      "title": "Ash Horizon Duel: Handshake Breaks",
+      "body": "Refuse means ambush at dusk. Ambush arrives early.",
+      "kind": "encounter",
+      "battleFoeId": "chain-lord-lieutenant",
+      "next": "dt-sq-38-005"
+    },
+    {
+      "id": "dt-sq-38-005",
+      "chapterId": "sq-38",
+      "title": "Ash Horizon Duel: Side Quest Complete",
+      "body": "Callsign plate scratched out mid-fight. Their name died. Yours stayed ugly. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-38"
+      ]
+    },
+    {
+      "id": "dt-sq-39-001",
+      "chapterId": "sq-39",
+      "title": "Vale's Private Pit",
+      "body": "Under-Spire velvet and blood. Vale's private pit: invite-only, morality optional, cameras everywhere.",
+      "kind": "narrative",
+      "next": "dt-sq-39-002"
+    },
+    {
+      "id": "dt-sq-39-002",
+      "chapterId": "sq-39",
+      "title": "Vale's Private Pit: The Ask",
+      "body": "Crash the gate, fake an invite, or poison the betting wine and watch elites panic.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-39-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-39-003"
+        },
+        {
+          "id": "sq-39-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-39-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-39-003",
+      "chapterId": "sq-39",
+      "title": "Vale's Private Pit: Loud Answer",
+      "body": "Crash. Bone-drum captain is VIP security. He drums with femurs. Cute.",
+      "kind": "encounter",
+      "battleFoeId": "shadow-pack-alpha",
+      "next": "dt-sq-39-005"
+    },
+    {
+      "id": "dt-sq-39-004",
+      "chapterId": "sq-39",
+      "title": "Vale's Private Pit: Quiet Answer",
+      "body": "Fake invite works until biometric breathalyzer asks for a name you do not have.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-39-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-39-005"
+        },
+        {
+          "id": "sq-39-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-39-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-39-003b",
+      "chapterId": "sq-39",
+      "title": "Vale's Private Pit: Handshake Breaks",
+      "body": "Poison plan works. Panic includes armed panic. You are the designated adult.",
+      "kind": "encounter",
+      "battleFoeId": "shadow-pack-alpha",
+      "next": "dt-sq-39-005"
+    },
+    {
+      "id": "dt-sq-39-005",
+      "chapterId": "sq-39",
+      "title": "Vale's Private Pit: Side Quest Complete",
+      "body": "Token stamped with Vale's seal. Flex it once. Then throw it in a fire. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-39"
+      ]
+    },
+    {
+      "id": "dt-sq-40-001",
+      "chapterId": "sq-40",
+      "title": "Three Names Returned",
+      "body": "Ash wind. A spirit holds a frost slate like a menu. Three names. Your mouths water. Your dog whines.",
+      "kind": "narrative",
+      "next": "dt-sq-40-002"
+    },
+    {
+      "id": "dt-sq-40-002",
+      "chapterId": "sq-40",
+      "title": "Three Names Returned: The Ask",
+      "body": "Read silent, speak one, or smash the slate and keep being nobody.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-40-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-40-003"
+        },
+        {
+          "id": "sq-40-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-40-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-40-003",
+      "chapterId": "sq-40",
+      "title": "Three Names Returned: Loud Answer",
+      "body": "Smash. Mountain-hammer cultist was bound to the slate as punctuation.",
+      "kind": "encounter",
+      "battleFoeId": "mountain-hammer",
+      "next": "dt-sq-40-005"
+    },
+    {
+      "id": "dt-sq-40-004",
+      "chapterId": "sq-40",
+      "title": "Three Names Returned: Quiet Answer",
+      "body": "Speak one. The air changes pressure. Somewhere a hunter ping lights.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-40-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-40-005"
+        },
+        {
+          "id": "sq-40-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-40-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-40-003b",
+      "chapterId": "sq-40",
+      "title": "Three Names Returned: Handshake Breaks",
+      "body": "Spirit demands the other two names said in unison. Unison is a fight when one brother refuses.",
+      "kind": "encounter",
+      "battleFoeId": "mountain-hammer",
+      "next": "dt-sq-40-005"
+    },
+    {
+      "id": "dt-sq-40-005",
+      "chapterId": "sq-40",
+      "title": "Three Names Returned: Side Quest Complete",
+      "body": "Frost slate fragment. Three names. Do not read drunk. Do not read alone. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-40"
+      ]
+    },
+    {
+      "id": "dt-sq-41-001",
+      "chapterId": "sq-41",
+      "title": "Chrome Dragon Rumor",
+      "body": "Coolant fog thick enough to chew. Scavs point at a silhouette with too many wings made of scrap.",
+      "kind": "narrative",
+      "next": "dt-sq-41-002"
+    },
+    {
+      "id": "dt-sq-41-002",
+      "chapterId": "sq-41",
+      "title": "Chrome Dragon Rumor: The Ask",
+      "body": "Prove the dragon, debunk it, or sell the rumor twice to rival freeholds.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-41-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-41-003"
+        },
+        {
+          "id": "sq-41-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-41-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-41-003",
+      "chapterId": "sq-41",
+      "title": "Chrome Dragon Rumor: Loud Answer",
+      "body": "Prove. Nest-mother again — or something wearing her silhouette in welded plates.",
+      "kind": "encounter",
+      "battleFoeId": "nest-mother",
+      "next": "dt-sq-41-005"
+    },
+    {
+      "id": "dt-sq-41-004",
+      "chapterId": "sq-41",
+      "title": "Chrome Dragon Rumor: Quiet Answer",
+      "body": "Debunk. You find a projector and a very committed puppeteer with Helix funding.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-41-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-41-005"
+        },
+        {
+          "id": "sq-41-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-41-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-41-003b",
+      "chapterId": "sq-41",
+      "title": "Chrome Dragon Rumor: Handshake Breaks",
+      "body": "Selling the rumor twice means two crews arrive to kill the exclusive.",
+      "kind": "encounter",
+      "battleFoeId": "nest-mother",
+      "next": "dt-sq-41-005"
+    },
+    {
+      "id": "dt-sq-41-005",
+      "chapterId": "sq-41",
+      "title": "Chrome Dragon Rumor: Side Quest Complete",
+      "body": "Welded scale ticks like a Geiger. Dragon or drone, it still bites. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-41"
+      ]
+    },
+    {
+      "id": "dt-sq-42-001",
+      "chapterId": "sq-42",
+      "title": "Last Stim Before Dawn",
+      "body": "Last den before Ash Horizon proper. Neon sign half-dead: REMEMBER / FORGET / PAY.",
+      "kind": "narrative",
+      "next": "dt-sq-42-002"
+    },
+    {
+      "id": "dt-sq-42-002",
+      "chapterId": "sq-42",
+      "title": "Last Stim Before Dawn: The Ask",
+      "body": "Take the hit, smash the den, or make the dealer confess who still ships PALE-LITE west.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-42-steel",
+          "label": "Take it loud",
+          "approach": "Fists, chrome, and whatever the dog decides is prey.",
+          "next": "dt-sq-42-003"
+        },
+        {
+          "id": "sq-42-quiet",
+          "label": "Take it quiet",
+          "approach": "Talk, trade, or sneak — until the quiet breaks.",
+          "next": "dt-sq-42-004"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-42-003",
+      "chapterId": "sq-42",
+      "title": "Last Stim Before Dawn: Loud Answer",
+      "body": "Smash. Warcamp berserker was the bouncer and the best customer. Multitasking.",
+      "kind": "encounter",
+      "battleFoeId": "bone-drum-captain",
+      "next": "dt-sq-42-005"
+    },
+    {
+      "id": "dt-sq-42-004",
+      "chapterId": "sq-42",
+      "title": "Last Stim Before Dawn: Quiet Answer",
+      "body": "Hit. Dream: the wipe room, three tables, one dog barking outside a door that should not exist.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "sq-42-commit",
+          "label": "Commit to the deal",
+          "approach": "Pay the price and walk out owing someone uglier.",
+          "next": "dt-sq-42-005"
+        },
+        {
+          "id": "sq-42-double",
+          "label": "Double-cross mid-handshake",
+          "approach": "Smile, then make it a fight.",
+          "next": "dt-sq-42-003b"
+        }
+      ]
+    },
+    {
+      "id": "dt-sq-42-003b",
+      "chapterId": "sq-42",
+      "title": "Last Stim Before Dawn: Handshake Breaks",
+      "body": "Dealer's confession includes your old handler's address. Handler's friends object.",
+      "kind": "encounter",
+      "battleFoeId": "bone-drum-captain",
+      "next": "dt-sq-42-005"
+    },
+    {
+      "id": "dt-sq-42-005",
+      "chapterId": "sq-42",
+      "title": "Last Stim Before Dawn: Side Quest Complete",
+      "body": "Final ampule. Clarity or relapse. The road west does not care which you pick. Side quest complete — return to the march.",
+      "kind": "ending",
+      "flagsAdd": [
+        "sq-done-sq-42"
+      ]
+    }
+  ]
+}

@@ -113,6 +113,24 @@
     <path d="M980 470 L998 462 L994 480Z"/><path d="M1360 400 L1378 392 L1374 410Z"/>
   </g>
 
+  <!-- faint off-road POI marks (decorative; interactive pins overlay in UI) -->
+  <g opacity="0.55" fill="none" stroke="#c4a35a" stroke-width="1.4">
+    <rect x="175" y="555" width="10" height="10" transform="rotate(45 180 560)"/>
+    <rect x="395" y="335" width="9" height="9" transform="rotate(45 400 340)"/>
+    <rect x="715" y="615" width="9" height="9" transform="rotate(45 720 620)"/>
+    <rect x="955" y="275" width="10" height="10" transform="rotate(45 960 280)"/>
+    <rect x="1195" y="455" width="9" height="9" transform="rotate(45 1200 460)"/>
+    <rect x="1415" y="555" width="10" height="10" transform="rotate(45 1420 560)"/>
+  </g>
+  <g fill="#ffe0a0" opacity="0.35" font-family="Courier New, monospace" font-size="11" font-weight="700">
+    <text x="188" y="558">!</text>
+    <text x="408" y="338">!</text>
+    <text x="728" y="618">!</text>
+    <text x="968" y="278">!</text>
+    <text x="1208" y="458">!</text>
+    <text x="1428" y="558">!</text>
+  </g>
+
   <rect width="1600" height="1000" fill="url(#nwMist)"/>
 
   <!-- landmark labels (story-bible display names) -->
@@ -137,5 +155,5 @@
 
   <text x="48" y="70" font-family="Impact, Arial Black, sans-serif" font-size="36"
     fill="#f4efe4" stroke="#0d0a08" stroke-width="6" paint-order="stroke">NEON WILDERLAND</text>
-  <text x="48" y="100" font-family="Courier New, monospace" font-size="14" fill="#7affc4" opacity="0.8">Nine marches · roads stay visible</text>
+  <text x="48" y="100" font-family="Courier New, monospace" font-size="14" fill="#7affc4" opacity="0.8">Nine marches · side jobs off the chrome road</text>
 </svg>

@@ -121,15 +121,23 @@ export function enterDtMapReplay(
   const chapter = CHAPTERS.find((c) => c.id === region.chapterId);
   const fromNodeId = chapter?.startNodeId ?? DT_START_NODE_ID;
 
-  // Already replaying this region — just jump to its start.
-  const resumeNodeId = world.mapReplay?.resumeNodeId ?? world.campaignNodeId;
-  const resumeChapterId = world.mapReplay?.resumeChapterId ?? world.chapterId;
+  // Park live march; if already paused (replay or side quest), keep original resume.
+  const resumeNodeId =
+    world.mapReplay?.resumeNodeId ??
+    world.sideQuest?.resumeNodeId ??
+    world.campaignNodeId;
+  const resumeChapterId =
+    world.mapReplay?.resumeChapterId ??
+    world.sideQuest?.resumeChapterId ??
+    world.chapterId;
 
   return {
     world: {
       ...world,
       campaignNodeId: fromNodeId,
       chapterId: region.chapterId,
+      // Only one pause mode — clear side quest when entering atlas replay.
+      sideQuest: null,
       mapReplay: {
         regionId: region.id,
         chapterId: region.chapterId,

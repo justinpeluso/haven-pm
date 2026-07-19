@@ -1,0 +1,553 @@
+{
+  "version": 1,
+  "title": "Neon Wilderland Side Quests",
+  "note": "Adult dark pulp side pins for Lost Brothers. Atlas % pins offset from main chapter pins. Bands 1–4 ≈ campaign quarters; unlock by furthest chapter (see side-quests.ts).",
+  "quests": [
+    {
+      "id": "sq-01",
+      "title": "Biolume Tithe",
+      "blurb": "Pines pulse neon and demand a cut of blood or chrome before the trail opens.",
+      "pin": {
+        "x": 8,
+        "y": 58
+      },
+      "unlockBand": 1,
+      "regionHint": "Woods Without Names",
+      "rewardHint": "Biolume sap vial that hums near spoken names.",
+      "startNodeId": "dt-sq-01-001"
+    },
+    {
+      "id": "sq-02",
+      "title": "Chrome Knife Cache",
+      "blurb": "Scavengers buried chrome blades under a fiber-vine oak. Dig or bleed.",
+      "pin": {
+        "x": 16,
+        "y": 70
+      },
+      "unlockBand": 1,
+      "regionHint": "Woods Without Names",
+      "rewardHint": "Chrome paring knife that never dulls on bark.",
+      "startNodeId": "dt-sq-02-001"
+    },
+    {
+      "id": "sq-03",
+      "title": "Wake-Glade Whisper",
+      "blurb": "A spirit in the wipe-glade offers one syllable of a true name — for a price.",
+      "pin": {
+        "x": 10,
+        "y": 48
+      },
+      "unlockBand": 1,
+      "regionHint": "Woods Without Names",
+      "rewardHint": "Callsign scar that itches near Helix drones.",
+      "startNodeId": "dt-sq-03-001"
+    },
+    {
+      "id": "sq-04",
+      "title": "Stim Patch Peddlers",
+      "blurb": "Road kids sell forget-patches. One dose and the dog growls at your face.",
+      "pin": {
+        "x": 18,
+        "y": 64
+      },
+      "unlockBand": 1,
+      "regionHint": "Woods Without Names",
+      "rewardHint": "Half-spent stim strip — useful, addictive, dirty.",
+      "startNodeId": "dt-sq-04-001"
+    },
+    {
+      "id": "sq-05",
+      "title": "Widowmere Mirror",
+      "blurb": "Still water shows faces you do not remember owning. Something climbs out with them.",
+      "pin": {
+        "x": 20,
+        "y": 38
+      },
+      "unlockBand": 1,
+      "regionHint": "Widowmere Mirror",
+      "rewardHint": "Reflective coolant shard that fogs near lies.",
+      "startNodeId": "dt-sq-05-001"
+    },
+    {
+      "id": "sq-06",
+      "title": "Barcode Saplings",
+      "blurb": "Young pines grow with SKU scars already cut into bark. Someone is planting property.",
+      "pin": {
+        "x": 14,
+        "y": 74
+      },
+      "unlockBand": 1,
+      "regionHint": "Woods Without Names",
+      "rewardHint": "Bark peel stamped with a dead product code.",
+      "startNodeId": "dt-sq-06-001"
+    },
+    {
+      "id": "sq-07",
+      "title": "Pack Dog's Dig",
+      "blurb": "The Rememberer digs up a chrome jawbone. The rest of the body wants it back.",
+      "pin": {
+        "x": 6,
+        "y": 66
+      },
+      "unlockBand": 1,
+      "regionHint": "Woods Without Names",
+      "rewardHint": "Chrome canine tooth on a wire cord.",
+      "startNodeId": "dt-sq-07-001"
+    },
+    {
+      "id": "sq-08",
+      "title": "Neon Dryad Bargain",
+      "blurb": "A spirit in fiber-optic hair offers a safe ford for three drops of brother-blood.",
+      "pin": {
+        "x": 24,
+        "y": 66
+      },
+      "unlockBand": 1,
+      "regionHint": "Palefen Reservoir",
+      "rewardHint": "Spirit-favor token — one trail lie forgiven.",
+      "startNodeId": "dt-sq-08-001"
+    },
+    {
+      "id": "sq-09",
+      "title": "Coffle Shade Detour",
+      "blurb": "Night mist shapes old coffle cages. Walking through means fighting a memory with teeth.",
+      "pin": {
+        "x": 26,
+        "y": 50
+      },
+      "unlockBand": 1,
+      "regionHint": "Stim Dust Marches",
+      "rewardHint": "Cold iron flake that cools rage for an hour.",
+      "startNodeId": "dt-sq-09-001"
+    },
+    {
+      "id": "sq-10",
+      "title": "Fiber-Vine Snare",
+      "blurb": "Living cable lashes travelers for Helix scrap. Cut free or become inventory.",
+      "pin": {
+        "x": 28,
+        "y": 60
+      },
+      "unlockBand": 1,
+      "regionHint": "Stim Dust Marches",
+      "rewardHint": "Fiber-vine coil — rope or garrote.",
+      "startNodeId": "dt-sq-10-001"
+    },
+    {
+      "id": "sq-11",
+      "title": "Warrant Nail Auction",
+      "blurb": "Hunters auction warrant-nails wired into data-spikes. Your blank face is tonight's lot.",
+      "pin": {
+        "x": 30,
+        "y": 44
+      },
+      "unlockBand": 2,
+      "regionHint": "SKU Trace",
+      "rewardHint": "Bent warrant nail — spoofs a low-tier scan once.",
+      "startNodeId": "dt-sq-11-001"
+    },
+    {
+      "id": "sq-12",
+      "title": "SKU Hunter Duel",
+      "blurb": "Two bounty crews argue over who owns men with no names. They decide with fists.",
+      "pin": {
+        "x": 36,
+        "y": 54
+      },
+      "unlockBand": 2,
+      "regionHint": "SKU Trace",
+      "rewardHint": "Hunter badge melted into scrap chrome.",
+      "startNodeId": "dt-sq-12-001"
+    },
+    {
+      "id": "sq-13",
+      "title": "Palefen Coolant Sip",
+      "blurb": "Drink the reservoir and taste someone else's code. Refuse and the thirsty dead notice.",
+      "pin": {
+        "x": 30,
+        "y": 72
+      },
+      "unlockBand": 2,
+      "regionHint": "Palefen Reservoir",
+      "rewardHint": "Coolant flask that steadies stim shakes.",
+      "startNodeId": "dt-sq-13-001"
+    },
+    {
+      "id": "sq-14",
+      "title": "Thornspine Ambush",
+      "blurb": "Ridgeline hunters still argue over blank-faced men — with crossbows and plasma tips.",
+      "pin": {
+        "x": 40,
+        "y": 32
+      },
+      "unlockBand": 2,
+      "regionHint": "Thornspine Ridgeline",
+      "rewardHint": "Plasma tip bolt, one shot left.",
+      "startNodeId": "dt-sq-14-001"
+    },
+    {
+      "id": "sq-15",
+      "title": "Stim Den Confession",
+      "blurb": "A dust den priest takes confession for ampules. He knows Project Pale slang.",
+      "pin": {
+        "x": 32,
+        "y": 58
+      },
+      "unlockBand": 2,
+      "regionHint": "Stim Dust Marches",
+      "rewardHint": "Ampule labeled PALE-LITE — illegal as hell.",
+      "startNodeId": "dt-sq-15-001"
+    },
+    {
+      "id": "sq-16",
+      "title": "Smuggler's Chrome Cut",
+      "blurb": "A barge skipper needs mute muscle to move spirit-caged freight past freehold eyes.",
+      "pin": {
+        "x": 42,
+        "y": 64
+      },
+      "unlockBand": 2,
+      "regionHint": "Chromeveil River",
+      "rewardHint": "Chemical coin + sealed empty spirit jar.",
+      "startNodeId": "dt-sq-16-001"
+    },
+    {
+      "id": "sq-17",
+      "title": "Dragon-Cult Pamphlets",
+      "blurb": "Leaflets promise a dragon that burns SKUs off skin. The cult wants initiates bloody.",
+      "pin": {
+        "x": 38,
+        "y": 42
+      },
+      "unlockBand": 2,
+      "regionHint": "SKU Trace",
+      "rewardHint": "Pamphlet ink that glows under Helix neon.",
+      "startNodeId": "dt-sq-17-001"
+    },
+    {
+      "id": "sq-18",
+      "title": "Crashed Scout Drone",
+      "blurb": "A Helix eye fell in the pines. Salvage the lens before the recall pack arrives.",
+      "pin": {
+        "x": 46,
+        "y": 44
+      },
+      "unlockBand": 2,
+      "regionHint": "Silverthread Coolant",
+      "rewardHint": "Cracked drone lens — shows heat ghosts at night.",
+      "startNodeId": "dt-sq-18-001"
+    },
+    {
+      "id": "sq-19",
+      "title": "Fist Prelims Under Reed",
+      "blurb": "Reedfen pits run warm-up bloodsport for stim and bragging rights.",
+      "pin": {
+        "x": 50,
+        "y": 68
+      },
+      "unlockBand": 2,
+      "regionHint": "Reedfen Marshes",
+      "rewardHint": "Knuckle wrap stained with other men's odds.",
+      "startNodeId": "dt-sq-19-001"
+    },
+    {
+      "id": "sq-20",
+      "title": "Rememberer's Trail",
+      "blurb": "The dog tracks a scent that is your own — from a life you do not own yet.",
+      "pin": {
+        "x": 48,
+        "y": 56
+      },
+      "unlockBand": 2,
+      "regionHint": "Chromeveil River",
+      "rewardHint": "Matted fur sample dogs treat as pack.",
+      "startNodeId": "dt-sq-20-001"
+    },
+    {
+      "id": "sq-21",
+      "title": "Gate Smile Tax",
+      "blurb": "Border neon smiles for coin. Refuse and the drones smile with guns.",
+      "pin": {
+        "x": 54,
+        "y": 52
+      },
+      "unlockBand": 3,
+      "regionHint": "Helix Gate",
+      "rewardHint": "Counterfeit smile-chip — buys one soft checkpoint.",
+      "startNodeId": "dt-sq-21-001"
+    },
+    {
+      "id": "sq-22",
+      "title": "Blacksite Soft Entry",
+      "blurb": "A Helix blacksite leaks stim waste into the mire. Soft entry means hard exit.",
+      "pin": {
+        "x": 60,
+        "y": 56
+      },
+      "unlockBand": 3,
+      "regionHint": "Mirehollow Stacks",
+      "rewardHint": "Half-burned blacksite keycard, still warm.",
+      "startNodeId": "dt-sq-22-001"
+    },
+    {
+      "id": "sq-23",
+      "title": "Neural Collar Yard",
+      "blurb": "Yard of rings and meters. Someone left a collar unlocked — bait or mercy.",
+      "pin": {
+        "x": 64,
+        "y": 46
+      },
+      "unlockBand": 3,
+      "regionHint": "House of Seals",
+      "rewardHint": "Dead collar ring — bluffs seal-guards once.",
+      "startNodeId": "dt-sq-23-001"
+    },
+    {
+      "id": "sq-24",
+      "title": "Guest Suite Mirror",
+      "blurb": "Luxury glass shows your wetwork face before the wipe. Smash it or learn it.",
+      "pin": {
+        "x": 68,
+        "y": 34
+      },
+      "unlockBand": 3,
+      "regionHint": "House of Seals",
+      "rewardHint": "Mirror shard that clouds when you lie to brothers.",
+      "startNodeId": "dt-sq-24-001"
+    },
+    {
+      "id": "sq-25",
+      "title": "Mirehollow Stack Raid",
+      "blurb": "Smokestack stumps hide Helix leftovers. Scavs and spirits both claim the fog.",
+      "pin": {
+        "x": 58,
+        "y": 66
+      },
+      "unlockBand": 3,
+      "regionHint": "Mirehollow Stacks",
+      "rewardHint": "Green fog ampule — blinds cameras for a minute.",
+      "startNodeId": "dt-sq-25-001"
+    },
+    {
+      "id": "sq-26",
+      "title": "Director's Leftover Memo",
+      "blurb": "A discarded slate names Project Pale cells. Reading it tags you for a hunter ping.",
+      "pin": {
+        "x": 62,
+        "y": 42
+      },
+      "unlockBand": 3,
+      "regionHint": "Helix Gate",
+      "rewardHint": "Memo fragment with three callsigns that might be yours.",
+      "startNodeId": "dt-sq-26-001"
+    },
+    {
+      "id": "sq-27",
+      "title": "Spirit Meter Calibration",
+      "blurb": "Helix techs force woods spirits through meters. Sabotage or sell them out.",
+      "pin": {
+        "x": 52,
+        "y": 40
+      },
+      "unlockBand": 3,
+      "regionHint": "Helix Gate",
+      "rewardHint": "Spirit-meter dial that reads debt in air.",
+      "startNodeId": "dt-sq-27-001"
+    },
+    {
+      "id": "sq-28",
+      "title": "Reedfen Body Drop",
+      "blurb": "Marsh corpses wear your old unit tattoos. Something wants the dog next.",
+      "pin": {
+        "x": 54,
+        "y": 74
+      },
+      "unlockBand": 3,
+      "regionHint": "Reedfen Marshes",
+      "rewardHint": "Unit tattoo scrap in a waterproof sleeve.",
+      "startNodeId": "dt-sq-28-001"
+    },
+    {
+      "id": "sq-29",
+      "title": "Seal Kitchen Brawl",
+      "blurb": "Kitchen staff fight with cleavers over who services the numbered beds.",
+      "pin": {
+        "x": 70,
+        "y": 44
+      },
+      "unlockBand": 3,
+      "regionHint": "House of Seals",
+      "rewardHint": "Bloodied cleaver that cooks and kills.",
+      "startNodeId": "dt-sq-29-001"
+    },
+    {
+      "id": "sq-30",
+      "title": "Coldgate Uplink Sabotage",
+      "blurb": "Mountain notch wired for drones. Cut the uplink and the gate smile dies.",
+      "pin": {
+        "x": 72,
+        "y": 28
+      },
+      "unlockBand": 3,
+      "regionHint": "Coldgate Uplink",
+      "rewardHint": "Uplink fuse — fries one drone swarm if thrown right.",
+      "startNodeId": "dt-sq-30-001"
+    },
+    {
+      "id": "sq-31",
+      "title": "Undervault Open Mic",
+      "blurb": "Synth-mandolin keeps time with bone. A comedian sells true names as jokes.",
+      "pin": {
+        "x": 76,
+        "y": 40
+      },
+      "unlockBand": 4,
+      "regionHint": "The Undervault",
+      "rewardHint": "Mandolin string that hums fight tempo into your pulse.",
+      "startNodeId": "dt-sq-31-001"
+    },
+    {
+      "id": "sq-32",
+      "title": "Bone Mandolin Bout",
+      "blurb": "Three-round pit booking. Betting odds treat brothers as one body.",
+      "pin": {
+        "x": 78,
+        "y": 32
+      },
+      "unlockBand": 4,
+      "regionHint": "The Undervault",
+      "rewardHint": "Pit purse + a broken tooth souvenir.",
+      "startNodeId": "dt-sq-32-001"
+    },
+    {
+      "id": "sq-33",
+      "title": "Project Pale Echo",
+      "blurb": "A booth plays your old wetwork briefing. Listening may finish the wipe — or undo it.",
+      "pin": {
+        "x": 80,
+        "y": 48
+      },
+      "unlockBand": 4,
+      "regionHint": "Spirefall Fields",
+      "rewardHint": "Briefing chip only the dog hears cleanly.",
+      "startNodeId": "dt-sq-33-001"
+    },
+    {
+      "id": "sq-34",
+      "title": "Spirefall Loot Run",
+      "blurb": "Towers burn. Scavs race for chrome before righteous fire eats warehouses.",
+      "pin": {
+        "x": 84,
+        "y": 36
+      },
+      "unlockBand": 4,
+      "regionHint": "Spirefall Fields",
+      "rewardHint": "Half-melted Helix crate of stims and wire.",
+      "startNodeId": "dt-sq-34-001"
+    },
+    {
+      "id": "sq-35",
+      "title": "Dragon Weather Prayer",
+      "blurb": "Cultists kneel under ash rain, begging a chrome dragon to unmake barcodes.",
+      "pin": {
+        "x": 86,
+        "y": 54
+      },
+      "unlockBand": 4,
+      "regionHint": "Ash Horizon",
+      "rewardHint": "Ash-prayer bead that warms before dragon weather.",
+      "startNodeId": "dt-sq-35-001"
+    },
+    {
+      "id": "sq-36",
+      "title": "Identity Burn Party",
+      "blurb": "Freeholds burn SKU papers. Someone brought live Helix meat to the bonfire.",
+      "pin": {
+        "x": 88,
+        "y": 44
+      },
+      "unlockBand": 4,
+      "regionHint": "Spirefall Fields",
+      "rewardHint": "Burnt paper ash that smells like your first callsign.",
+      "startNodeId": "dt-sq-36-001"
+    },
+    {
+      "id": "sq-37",
+      "title": "Freehold Betrayal Bid",
+      "blurb": "Westwind holders auction a Dominion defector who claims he helped wipe you.",
+      "pin": {
+        "x": 92,
+        "y": 58
+      },
+      "unlockBand": 4,
+      "regionHint": "Westwind Freeholds",
+      "rewardHint": "Defector ring — opens one Helix soft lock.",
+      "startNodeId": "dt-sq-37-001"
+    },
+    {
+      "id": "sq-38",
+      "title": "Ash Horizon Duel",
+      "blurb": "A rival cell with your old faces wants a clean kill before the road west.",
+      "pin": {
+        "x": 94,
+        "y": 46
+      },
+      "unlockBand": 4,
+      "regionHint": "Ash Horizon",
+      "rewardHint": "Rival callsign plate, scratched out mid-fight.",
+      "startNodeId": "dt-sq-38-001"
+    },
+    {
+      "id": "sq-39",
+      "title": "Vale's Private Pit",
+      "blurb": "Director Vale keeps private bloodsport under the Spire. Invite-only — crash it.",
+      "pin": {
+        "x": 82,
+        "y": 28
+      },
+      "unlockBand": 4,
+      "regionHint": "The Undervault",
+      "rewardHint": "Private pit token stamped with Vale's seal.",
+      "startNodeId": "dt-sq-39-001"
+    },
+    {
+      "id": "sq-40",
+      "title": "Three Names Returned",
+      "blurb": "A spirit offers three true names on a slate. Saying them may summon hunters — or brothers.",
+      "pin": {
+        "x": 90,
+        "y": 36
+      },
+      "unlockBand": 4,
+      "regionHint": "Ash Horizon",
+      "rewardHint": "Slate fragment with three names under frost.",
+      "startNodeId": "dt-sq-40-001"
+    },
+    {
+      "id": "sq-41",
+      "title": "Chrome Dragon Rumor",
+      "blurb": "Scavs swear a dragon of welded chrome nests in coolant fog. Rumor pays if you prove it.",
+      "pin": {
+        "x": 76,
+        "y": 58
+      },
+      "unlockBand": 4,
+      "regionHint": "Spirefall Fields",
+      "rewardHint": "Welded chrome scale that ticks like a Geiger.",
+      "startNodeId": "dt-sq-41-001"
+    },
+    {
+      "id": "sq-42",
+      "title": "Last Stim Before Dawn",
+      "blurb": "One last den on the ash road. Dream the wipe — or smash the den for sober coin.",
+      "pin": {
+        "x": 96,
+        "y": 52
+      },
+      "unlockBand": 4,
+      "regionHint": "Ash Horizon",
+      "rewardHint": "Final ampule — clarity or relapse, your call.",
+      "startNodeId": "dt-sq-42-001"
+    }
+  ]
+}
