@@ -27,6 +27,7 @@ export type DtMapLandmark = {
   x: number;
   y: number;
   kind: string;
+  blurb?: string;
 };
 
 type RawPack = {

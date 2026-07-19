@@ -1,71 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" fill="none">
   <defs>
-    <linearGradient id="atlas-sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#d8d4c0"/>
-      <stop offset="45%" stop-color="#c4b896"/>
-      <stop offset="100%" stop-color="#8a7a52"/>
+    <linearGradient id="nwSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#061510"/>
+      <stop offset="40%" stop-color="#0e2418"/>
+      <stop offset="100%" stop-color="#08140e"/>
     </linearGradient>
-    <radialGradient id="lake-fill" cx="50%" cy="40%" r="60%">
-      <stop offset="0%" stop-color="#6a8a9a"/>
-      <stop offset="100%" stop-color="#3a5560"/>
+    <radialGradient id="nwBiolume" cx="28%" cy="42%" r="48%">
+      <stop offset="0%" stop-color="#3dff9a" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#3dff9a" stop-opacity="0"/>
     </radialGradient>
-    <filter id="paper" x="-2%" y="-2%" width="104%" height="104%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" result="n"/>
-      <feColorMatrix type="matrix" values="0 0 0 0 0.2  0 0 0 0 0.15  0 0 0 0 0.08  0 0 0 0.08 0" in="n" result="t"/>
-      <feBlend in="SourceGraphic" in2="t" mode="multiply"/>
+    <radialGradient id="nwSpireGlow" cx="82%" cy="38%" r="36%">
+      <stop offset="0%" stop-color="#ff3d9a" stop-opacity="0.28"/>
+      <stop offset="55%" stop-color="#3dffe8" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#3dffe8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="nwCoolant" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#4ad4e8"/>
+      <stop offset="100%" stop-color="#1a5a68"/>
+    </radialGradient>
+    <linearGradient id="nwRoad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8a6a3a"/>
+      <stop offset="45%" stop-color="#d4b070"/>
+      <stop offset="75%" stop-color="#9ad4c0"/>
+      <stop offset="100%" stop-color="#c0e8ff"/>
+    </linearGradient>
+    <linearGradient id="nwMist" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7affc4" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#7affc4" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#ff6ab8" stop-opacity="0.1"/>
+    </linearGradient>
+    <filter id="nwBlur" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="2.2"/>
     </filter>
   </defs>
-  <rect width="1600" height="1000" fill="url(#atlas-sky)"/>
-  <!-- mountain chains -->
-  <path d="M80 320 L180 140 L260 300 L340 120 L420 290 L520 100 L620 280 L700 130 L780 270 L900 90 L1020 260 L1140 110 L1260 250 L1400 130 L1520 280 L1600 200 L1600 0 L0 0 L0 340Z" fill="#5a4a38" opacity="0.95"/>
-  <path d="M100 300 L190 170 L250 290 L340 150 L410 280 L510 130 L600 270 L690 160 L770 260 L890 120 L1010 250 L1130 140 L1250 240 L1390 155 L1510 270" fill="none" stroke="#2a1f14" stroke-width="3" opacity="0.45"/>
-  <path d="M200 250 L280 180 L320 240" fill="#6a5a44"/>
-  <path d="M560 220 L640 140 L700 230" fill="#6a5a44"/>
-  <path d="M980 210 L1060 130 L1120 220" fill="#6a5a44"/>
-  <path d="M1280 200 L1360 120 L1420 210" fill="#6a5a44"/>
-  <!-- valleys / downs -->
-  <ellipse cx="920" cy="620" rx="220" ry="90" fill="#6a8048" opacity="0.55"/>
-  <ellipse cx="1400" cy="640" rx="160" ry="70" fill="#7a9058" opacity="0.5"/>
-  <ellipse cx="280" cy="540" rx="180" ry="70" fill="#6a7848" opacity="0.45"/>
-  <!-- mires -->
-  <ellipse cx="840" cy="740" rx="160" ry="60" fill="#4a5a38" opacity="0.55"/>
-  <ellipse cx="900" cy="460" rx="100" ry="40" fill="#4a5a40" opacity="0.4"/>
-  <!-- lakes -->
-  <ellipse cx="450" cy="700" rx="110" ry="55" fill="url(#lake-fill)"/>
-  <ellipse cx="290" cy="420" rx="70" ry="35" fill="url(#lake-fill)"/>
-  <ellipse cx="450" cy="700" rx="110" ry="55" fill="none" stroke="#2a3a40" stroke-width="2" opacity="0.5"/>
-  <ellipse cx="290" cy="420" rx="70" ry="35" fill="none" stroke="#2a3a40" stroke-width="2" opacity="0.5"/>
-  <!-- rivers -->
-  <path d="M300 420 Q380 480 450 700" fill="none" stroke="#4a7080" stroke-width="10" opacity="0.75"/>
-  <path d="M450 700 Q620 620 760 540 Q900 470 1100 420 Q1280 380 1480 500" fill="none" stroke="#4a7080" stroke-width="12" opacity="0.8"/>
-  <path d="M450 700 Q620 620 760 540 Q900 470 1100 420 Q1280 380 1480 500" fill="none" stroke="#2a4050" stroke-width="3" opacity="0.45"/>
-  <path d="M760 540 Q820 680 900 760" fill="none" stroke="#4a7080" stroke-width="7" opacity="0.65"/>
-  <!-- forests -->
-  <g fill="#2f5e3a" opacity="0.55">
+
+  <rect width="1600" height="1000" fill="url(#nwSky)"/>
+  <ellipse cx="420" cy="380" rx="380" ry="220" fill="url(#nwBiolume)"/>
+  <ellipse cx="1280" cy="360" rx="320" ry="260" fill="url(#nwSpireGlow)"/>
+
+  <!-- distant ridge / canopy mountains -->
+  <path d="M0 340 L120 180 L220 300 L340 120 L460 290 L580 100 L720 280 L860 110 L1000 260 L1140 100 L1280 240 L1420 130 L1600 220 L1600 0 L0 0Z" fill="#04140e"/>
+  <path d="M0 360 L140 220 L250 320 L370 160 L480 300 L620 140 L760 290 L900 150 L1040 270 L1180 140 L1320 250 L1460 170 L1600 240 L1600 0 L0 0Z" fill="#0a1f16" opacity="0.55"/>
+
+  <!-- canopy silhouettes -->
+  <g fill="#030c08" opacity="0.92">
+    <ellipse cx="90" cy="90" rx="110" ry="70"/><ellipse cx="260" cy="70" rx="90" ry="58"/>
+    <ellipse cx="440" cy="95" rx="100" ry="66"/><ellipse cx="640" cy="68" rx="88" ry="56"/>
+    <ellipse cx="860" cy="88" rx="120" ry="72"/><ellipse cx="1080" cy="64" rx="96" ry="58"/>
+    <ellipse cx="1280" cy="80" rx="110" ry="68"/><ellipse cx="1480" cy="70" rx="100" ry="60"/>
+  </g>
+
+  <!-- valleys / downs (corp-stained) -->
+  <ellipse cx="920" cy="620" rx="220" ry="90" fill="#143028" opacity="0.7"/>
+  <ellipse cx="1400" cy="640" rx="160" ry="70" fill="#1a3830" opacity="0.55"/>
+  <ellipse cx="280" cy="540" rx="180" ry="70" fill="#122820" opacity="0.5"/>
+  <ellipse cx="840" cy="740" rx="160" ry="60" fill="#0e2018" opacity="0.65"/>
+  <ellipse cx="900" cy="460" rx="100" ry="40" fill="#163428" opacity="0.45"/>
+
+  <!-- coolant reservoirs -->
+  <ellipse cx="450" cy="700" rx="110" ry="55" fill="url(#nwCoolant)" opacity="0.9"/>
+  <ellipse cx="290" cy="420" rx="70" ry="35" fill="url(#nwCoolant)" opacity="0.85"/>
+  <ellipse cx="450" cy="700" rx="110" ry="55" fill="none" stroke="#3dff9a" stroke-width="1.5" opacity="0.35"/>
+  <ellipse cx="290" cy="420" rx="70" ry="35" fill="none" stroke="#3dff9a" stroke-width="1.2" opacity="0.3"/>
+
+  <!-- coolant rivers -->
+  <path d="M300 420 Q380 480 450 700" fill="none" stroke="#3ab0c4" stroke-width="12" opacity="0.75" filter="url(#nwBlur)"/>
+  <path d="M450 700 Q620 620 760 540 Q900 470 1100 420 Q1280 380 1480 500" fill="none" stroke="#3ab0c4" stroke-width="14" opacity="0.8" filter="url(#nwBlur)"/>
+  <path d="M450 700 Q620 620 760 540 Q900 470 1100 420 Q1280 380 1480 500" fill="none" stroke="#7affc4" stroke-width="3" opacity="0.35"/>
+  <path d="M760 540 Q820 680 900 760" fill="none" stroke="#3ab0c4" stroke-width="8" opacity="0.6"/>
+
+  <!-- biolume forest clusters -->
+  <g fill="#0a2818" opacity="0.75">
     <circle cx="520" cy="480" r="18"/><circle cx="545" cy="470" r="14"/><circle cx="500" cy="500" r="12"/>
     <circle cx="560" cy="500" r="16"/><circle cx="530" cy="520" r="13"/>
     <circle cx="700" cy="400" r="20"/><circle cx="730" cy="390" r="15"/><circle cx="680" cy="420" r="14"/>
     <circle cx="1050" cy="520" r="16"/><circle cx="1080" cy="510" r="12"/><circle cx="1030" cy="540" r="14"/>
   </g>
-  <!-- chain road -->
-  <path d="M120 640 Q280 560 380 500 Q520 440 700 480 Q900 520 1060 420 Q1220 340 1400 420 Q1500 460 1560 520" fill="none" stroke="#c4893a" stroke-width="14" stroke-linecap="round" opacity="0.9"/>
-  <path d="M120 640 Q280 560 380 500 Q520 440 700 480 Q900 520 1060 420 Q1220 340 1400 420 Q1500 460 1560 520" fill="none" stroke="#2a1f14" stroke-width="4" stroke-dasharray="18 12" opacity="0.55"/>
-  <!-- landmark labels -->
-  <g font-family="Georgia, serif" fill="#2a1f14" opacity="0.75">
-    <text x="400" y="690" font-size="18" font-style="italic">Ashfen Lake</text>
-    <text x="220" y="400" font-size="16" font-style="italic">Widowmere</text>
-    <text x="720" y="500" font-size="18" font-style="italic">Silverthread</text>
-    <text x="520" y="250" font-size="20" font-style="italic">Thornspine Mountains</text>
-    <text x="880" y="640" font-size="16" font-style="italic">Mirehollow</text>
-    <text x="1080" y="220" font-size="18" font-style="italic">Coldgate Pass</text>
-    <text x="780" y="770" font-size="16" font-style="italic">Reedfen Marshes</text>
-    <text x="1320" y="680" font-size="16" font-style="italic">Westwind Downs</text>
+  <g fill="#3dff9a" opacity="0.35">
+    <circle cx="528" cy="472" r="2.5"/><circle cx="548" cy="486" r="2"/><circle cx="708" cy="392" r="2.8"/>
+    <circle cx="1060" cy="512" r="2.2"/><circle cx="1042" cy="528" r="1.8"/>
   </g>
-  <!-- frame -->
-  <rect x="12" y="12" width="1576" height="976" fill="none" stroke="#1a120c" stroke-width="14"/>
+
+  <!-- Helix Spire mass (east third silhouette) -->
+  <g opacity="0.95">
+    <path d="M1180 520 L1240 180 L1280 200 L1340 140 L1380 210 L1440 160 L1480 520Z" fill="#061018"/>
+    <path d="M1220 520 L1260 240 L1300 260 L1340 200 L1380 270 L1420 520Z" fill="#0a1824" opacity="0.85"/>
+    <rect x="1295" y="160" width="14" height="360" fill="#1a2838"/>
+    <rect x="1288" y="140" width="28" height="28" fill="#ff3d9a" opacity="0.55"/>
+    <circle cx="1302" cy="154" r="18" fill="#3dffe8" opacity="0.35" filter="url(#nwBlur)"/>
+    <path d="M1240 280 L1260 260 L1280 280" fill="none" stroke="#ff3d9a" stroke-width="2" opacity="0.5"/>
+    <path d="M1340 240 L1360 220 L1380 240" fill="none" stroke="#3dffe8" stroke-width="2" opacity="0.45"/>
+    <g stroke="#ff3d9a" stroke-width="1.2" opacity="0.4">
+      <line x1="1260" y1="340" x2="1288" y2="340"/><line x1="1316" y1="380" x2="1348" y2="380"/>
+      <line x1="1270" y1="420" x2="1295" y2="420"/><line x1="1310" y1="460" x2="1350" y2="460"/>
+    </g>
+  </g>
+
+  <!-- chrome / dashed corp road under pin arc -->
+  <path d="M120 640 Q280 560 380 500 Q520 440 700 480 Q900 520 1060 420 Q1220 340 1400 420 Q1500 460 1560 520"
+    fill="none" stroke="#3dff9a" stroke-width="22" stroke-linecap="round" opacity="0.18"/>
+  <path d="M120 640 Q280 560 380 500 Q520 440 700 480 Q900 520 1060 420 Q1220 340 1400 420 Q1500 460 1560 520"
+    fill="none" stroke="url(#nwRoad)" stroke-width="14" stroke-linecap="round" opacity="0.92"/>
+  <path d="M120 640 Q280 560 380 500 Q520 440 700 480 Q900 520 1060 420 Q1220 340 1400 420 Q1500 460 1560 520"
+    fill="none" stroke="#0a1810" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="16 11" opacity="0.55"/>
+  <path d="M120 640 Q280 560 380 500 Q520 440 700 480 Q900 520 1060 420 Q1220 340 1400 420 Q1500 460 1560 520"
+    fill="none" stroke="#c8ffe8" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="4 20" opacity="0.4"/>
+
+  <!-- chrome scrap glints along road -->
+  <g fill="#9ad4c0" opacity="0.45">
+    <path d="M300 560 L318 552 L314 570Z"/><path d="M620 470 L638 462 L634 480Z"/>
+    <path d="M980 470 L998 462 L994 480Z"/><path d="M1360 400 L1378 392 L1374 410Z"/>
+  </g>
+
+  <rect width="1600" height="1000" fill="url(#nwMist)"/>
+
+  <!-- landmark labels (story-bible display names) -->
+  <g font-family="Courier New, monospace" fill="#e8dcc8" opacity="0.72">
+    <text x="380" y="690" font-size="16">Palefen Reservoir</text>
+    <text x="200" y="400" font-size="15">Widowmere Mirror</text>
+    <text x="700" y="500" font-size="16">Silverthread Coolant</text>
+    <text x="480" y="250" font-size="18">Thornspine Ridgeline</text>
+    <text x="860" y="640" font-size="15">Mirehollow Stacks</text>
+    <text x="1040" y="210" font-size="16">Coldgate Uplink</text>
+    <text x="760" y="770" font-size="15">Reedfen Marshes</text>
+    <text x="1280" y="680" font-size="15">Westwind Freeholds</text>
+  </g>
+
+  <!-- woodcut frame -->
+  <rect x="12" y="12" width="1576" height="976" fill="none" stroke="#0d0a08" stroke-width="14"/>
   <rect x="24" y="24" width="1552" height="952" fill="none" stroke="#c4a35a" stroke-width="3"/>
+  <rect x="20" y="20" width="14" height="14" fill="#c4a35a"/>
+  <rect x="1566" y="20" width="14" height="14" fill="#c4a35a"/>
+  <rect x="20" y="966" width="14" height="14" fill="#8b3a2a"/>
+  <rect x="1566" y="966" width="14" height="14" fill="#8b3a2a"/>
+
   <text x="48" y="70" font-family="Impact, Arial Black, sans-serif" font-size="36"
-    fill="#f4efe4" stroke="#1a120c" stroke-width="6" paint-order="stroke">WILDERLAND ATLAS</text>
-  <text x="48" y="100" font-family="Courier New, monospace" font-size="14" fill="#2a1f14" opacity="0.7">Dungeons and Dogs — nine marches, no fog of war</text>
+    fill="#f4efe4" stroke="#0d0a08" stroke-width="6" paint-order="stroke">NEON WILDERLAND</text>
+  <text x="48" y="100" font-family="Courier New, monospace" font-size="14" fill="#7affc4" opacity="0.8">Nine marches · roads stay visible</text>
 </svg>

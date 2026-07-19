@@ -2,6 +2,7 @@
 
 import {
   useCallback,
+  useEffect,
   useRef,
   useState,
   type MouseEvent,
@@ -18,6 +19,12 @@ import {
   type DtMapRegion,
 } from "@/lib/downtown/dungeon-tester/maps";
 
+const LOCKED_FOOTER = "Still ahead of the march.";
+const DEFAULT_FOOTER =
+  "Hover a pin or landmark. Future roads stay visible but locked.";
+const ATLAS_HINT =
+  "Scroll zoom · drag pan · unlocked pins revisit without story rewards";
+
 type Props = {
   open: boolean;
   chapterId: string;
@@ -27,6 +34,20 @@ type Props = {
   onEnterRegion: (regionId: string) => void;
   onReturnToMarch?: () => void;
 };
+
+function pinStatus(
+  region: DtMapRegion,
+  furthestChapterId: string,
+  currentRegionId: string | undefined,
+  replayRegionId: string | null | undefined
+): "here" | "revisit" | "unlocked" | "locked" {
+  const unlocked = dtRegionUnlocked(region, furthestChapterId);
+  if (!unlocked) return "locked";
+  if (replayRegionId === region.id) return "revisit";
+  if (currentRegionId === region.id && !replayRegionId) return "here";
+  if (currentRegionId === region.id && replayRegionId) return "unlocked";
+  return "unlocked";
+}
 
 export function DtWorldMap({
   open,
@@ -41,6 +62,8 @@ export function DtWorldMap({
   const [tx, setTx] = useState(0);
   const [ty, setTy] = useState(0);
   const [hoverId, setHoverId] = useState<string | null>(null);
+  const [footerFlash, setFooterFlash] = useState<string | null>(null);
+  const flashTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const dragRef = useRef<{
     x: number;
     y: number;
@@ -59,6 +82,21 @@ export function DtWorldMap({
     setScale(1);
     setTx(0);
     setTy(0);
+  }, []);
+
+  const flashFooter = useCallback((message: string) => {
+    if (flashTimerRef.current) clearTimeout(flashTimerRef.current);
+    setFooterFlash(message);
+    flashTimerRef.current = setTimeout(() => {
+      setFooterFlash(null);
+      flashTimerRef.current = null;
+    }, 2200);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (flashTimerRef.current) clearTimeout(flashTimerRef.current);
+    };
   }, []);
 
   if (!open) return null;
@@ -91,9 +129,57 @@ export function DtWorldMap({
   const pinClick = (region: DtMapRegion, e: MouseEvent) => {
     e.stopPropagation();
     if (dragRef.current?.moved) return;
-    if (!dtRegionUnlocked(region, furthestChapterId)) return;
+    if (!dtRegionUnlocked(region, furthestChapterId)) {
+      flashFooter(LOCKED_FOOTER);
+      return;
+    }
     onEnterRegion(region.id);
   };
+
+  const footerCopy = (() => {
+    if (footerFlash) {
+      return (
+        <p className="dt-world-map-footer-flash" data-tone="locked">
+          {footerFlash}
+        </p>
+      );
+    }
+    if (hoverRegion && "blurb" in hoverRegion && hoverRegion.blurb) {
+      const status =
+        "chapter" in hoverRegion
+          ? pinStatus(
+              hoverRegion,
+              furthestChapterId,
+              currentRegion?.id,
+              replayRegionId
+            )
+          : null;
+      const statusNote =
+        status === "locked"
+          ? " · Locked"
+          : status === "here"
+            ? " · Live march"
+            : status === "revisit"
+              ? " · Practice revisit"
+              : status === "unlocked"
+                ? " · Cleared — practice"
+                : "";
+      return (
+        <p>
+          <strong>{hoverRegion.name}</strong> — {hoverRegion.blurb}
+          {statusNote}
+        </p>
+      );
+    }
+    if (hoverRegion) {
+      return (
+        <p>
+          <strong>{hoverRegion.name}</strong> — landmark
+        </p>
+      );
+    }
+    return <p>{DEFAULT_FOOTER}</p>;
+  })();
 
   return (
     <div className="dt-world-map" role="dialog" aria-modal="true" aria-label={DT_MAP_TITLE}>
@@ -101,9 +187,7 @@ export function DtWorldMap({
         <div>
           <p className="dt-section-label">World map</p>
           <h2 className="dt-world-map-title">{DT_MAP_TITLE}</h2>
-          <p className="dt-world-map-hint">
-            Scroll to zoom · drag to pan · unlocked pins revisit without story rewards
-          </p>
+          <p className="dt-world-map-hint">{ATLAS_HINT}</p>
         </div>
         <div className="dt-world-map-actions">
           <button type="button" className="dt-btn" data-variant="secondary" onClick={resetView}>
@@ -142,8 +226,8 @@ export function DtWorldMap({
         >
           <img
             className="dt-world-map-art"
-            src={dtWorldMapSrc()}
-            alt="Wilderland atlas"
+            src={`${dtWorldMapSrc()}?v=2`}
+            alt="Neon Wilderland atlas"
             draggable={false}
           />
           {DT_MAP_LANDMARKS.map((lm) => (
@@ -152,60 +236,79 @@ export function DtWorldMap({
               type="button"
               className="dt-world-map-landmark"
               style={{ left: `${lm.x}%`, top: `${lm.y}%` }}
-              title={lm.name}
+              aria-label={lm.blurb ? `${lm.name}: ${lm.blurb}` : lm.name}
               onMouseEnter={() => setHoverId(lm.id)}
               onMouseLeave={() => setHoverId(null)}
+              onFocus={() => setHoverId(lm.id)}
+              onBlur={() => setHoverId(null)}
             >
               <span className="dt-world-map-landmark-dot" data-kind={lm.kind} />
             </button>
           ))}
           {DT_MAP_REGIONS.map((region) => {
-            const unlocked = dtRegionUnlocked(region, furthestChapterId);
-            const here = currentRegion?.id === region.id;
-            const replaying = replayRegionId === region.id;
+            const status = pinStatus(
+              region,
+              furthestChapterId,
+              currentRegion?.id,
+              replayRegionId
+            );
+            const unlocked = status !== "locked";
+            const chip =
+              status === "here"
+                ? "HERE"
+                : status === "revisit"
+                  ? "REVISIT"
+                  : status === "locked"
+                    ? "LOCKED"
+                    : null;
             return (
               <button
                 key={region.id}
                 type="button"
                 className="dt-world-map-pin"
+                data-status={status}
                 data-unlocked={unlocked ? "1" : "0"}
-                data-here={here ? "1" : "0"}
-                data-replay={replaying ? "1" : "0"}
+                data-here={status === "here" ? "1" : "0"}
+                data-replay={status === "revisit" ? "1" : "0"}
                 style={{ left: `${region.pin.x}%`, top: `${region.pin.y}%` }}
-                title={
-                  unlocked
-                    ? `${region.name} — click to revisit`
-                    : `${region.name} — locked until the march reaches it`
+                aria-label={
+                  status === "locked"
+                    ? `${region.name} — locked`
+                    : status === "here"
+                      ? `${region.name} — live march here`
+                      : status === "revisit"
+                        ? `${region.name} — practice revisit`
+                        : `${region.name} — cleared, practice revisit`
                 }
-                disabled={!unlocked}
+                aria-disabled={!unlocked}
                 onMouseEnter={() => setHoverId(region.id)}
                 onMouseLeave={() => setHoverId(null)}
+                onFocus={() => setHoverId(region.id)}
+                onBlur={() => setHoverId(null)}
                 onClick={(e) => pinClick(region, e)}
               >
-                <span className="dt-world-map-pin-dot" />
-                <span className="dt-world-map-pin-label">{region.name}</span>
+                <span className="dt-world-map-pin-dot" aria-hidden="true" />
+                {chip ? (
+                  <span className="dt-world-map-pin-chip" data-status={status}>
+                    {chip}
+                  </span>
+                ) : null}
+                <span className="dt-world-map-pin-label">
+                  {region.name}
+                  {status === "locked" ? (
+                    <span className="dt-world-map-pin-lock" aria-hidden="true">
+                      {" "}
+                      ⬡
+                    </span>
+                  ) : null}
+                </span>
               </button>
             );
           })}
         </div>
       </div>
 
-      <div className="dt-world-map-footer">
-        {hoverRegion && "blurb" in hoverRegion ? (
-          <p>
-            <strong>{hoverRegion.name}</strong> — {hoverRegion.blurb}
-            {!dtRegionUnlocked(hoverRegion, furthestChapterId)
-              ? " (locked)"
-              : ""}
-          </p>
-        ) : hoverRegion ? (
-          <p>
-            <strong>{hoverRegion.name}</strong> — landmark
-          </p>
-        ) : (
-          <p>Hover a pin or landmark. Future roads stay visible but locked.</p>
-        )}
-      </div>
+      <div className="dt-world-map-footer">{footerCopy}</div>
     </div>
   );
 }

@@ -95,13 +95,69 @@
     }
   ],
   "landmarks": [
-    { "id": "lm-ashfen-lake", "name": "Ashfen Lake", "x": 28, "y": 68, "kind": "lake" },
-    { "id": "lm-silverthread", "name": "Silverthread River", "x": 48, "y": 52, "kind": "river" },
-    { "id": "lm-thornspine", "name": "Thornspine Mountains", "x": 38, "y": 28, "kind": "mountains" },
-    { "id": "lm-mirehollow", "name": "Mirehollow Valley", "x": 58, "y": 62, "kind": "valley" },
-    { "id": "lm-coldgate-pass", "name": "Coldgate Pass", "x": 70, "y": 24, "kind": "mountains" },
-    { "id": "lm-widowmere", "name": "Widowmere", "x": 18, "y": 40, "kind": "lake" },
-    { "id": "lm-reedfen", "name": "Reedfen Marshes", "x": 52, "y": 72, "kind": "mire" },
-    { "id": "lm-westwind-downs", "name": "Westwind Downs", "x": 88, "y": 62, "kind": "valley" }
+    {
+      "id": "lm-ashfen-lake",
+      "name": "Palefen Reservoir",
+      "x": 28,
+      "y": 68,
+      "kind": "lake",
+      "blurb": "Coolant mirror under biolume pines — drink and you taste someone else's code."
+    },
+    {
+      "id": "lm-silverthread",
+      "name": "Silverthread Coolant",
+      "x": 48,
+      "y": 52,
+      "kind": "river",
+      "blurb": "A chrome vein of industrial meltwater cutting the east road in half."
+    },
+    {
+      "id": "lm-thornspine",
+      "name": "Thornspine Ridgeline",
+      "x": 38,
+      "y": 28,
+      "kind": "mountains",
+      "blurb": "Tooth-black ridges where hunters still argue over blank-faced men."
+    },
+    {
+      "id": "lm-mirehollow",
+      "name": "Mirehollow Stacks",
+      "x": 58,
+      "y": 62,
+      "kind": "valley",
+      "blurb": "Smokestack stumps in the bog — Helix leftovers breathing low green fog."
+    },
+    {
+      "id": "lm-coldgate-pass",
+      "name": "Coldgate Uplink",
+      "x": 70,
+      "y": 24,
+      "kind": "mountains",
+      "blurb": "Mountain notch wired for drones; the smile on the gate is neon, not mercy."
+    },
+    {
+      "id": "lm-widowmere",
+      "name": "Widowmere Mirror",
+      "x": 18,
+      "y": 40,
+      "kind": "lake",
+      "blurb": "Still water that reflects faces you don't remember owning."
+    },
+    {
+      "id": "lm-reedfen",
+      "name": "Reedfen Marshes",
+      "x": 52,
+      "y": 72,
+      "kind": "mire",
+      "blurb": "Reed corridors that swallow boot prints and radio chatter alike."
+    },
+    {
+      "id": "lm-westwind-downs",
+      "name": "Westwind Freeholds",
+      "x": 88,
+      "y": 62,
+      "kind": "valley",
+      "blurb": "Ash-edge holdings that ask what freedom costs when the name comes back sharp."
+    }
   ]
 }
