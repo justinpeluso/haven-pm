@@ -92,7 +92,7 @@ export const DT_ART: Record<string, DtArtEntry> = {
   "frame-panel": entry("frame-panel", "frame", "Comic panel frame", "panel-frame"),
 
   // --- Story spine scenes ---
-  "scene-dt-chain-road": entry("scene-dt-chain-road", "scene", "Chain-Road", "coffle-camp"),
+  "scene-dt-chain-road": entry("scene-dt-chain-road", "scene", "Woods Without Names", "coffle-camp"),
   "scene-dt-dust-and-debt": entry("scene-dt-dust-and-debt", "scene", "Dust and Debt", "dusty-trail"),
   "scene-dt-wanted-mark": entry("scene-dt-wanted-mark", "scene", "Wanted Mark", "pine-pass"),
   "scene-dt-river-of-brands": entry("scene-dt-river-of-brands", "scene", "River of Brands", "troll-bridge"),
@@ -103,7 +103,7 @@ export const DT_ART: Record<string, DtArtEntry> = {
   "scene-dt-free-horizon": entry("scene-dt-free-horizon", "scene", "Free Horizon", "moonlit-ridge"),
 
   // --- Chapter splashes (chapters.json) ---
-  "splash-dt-chain-road": entry("splash-dt-chain-road", "splash", "Chain-Road dawn", "splash-ch1"),
+  "splash-dt-chain-road": entry("splash-dt-chain-road", "splash", "Woods Without Names", "splash-ch1"),
   "splash-dt-dust-and-debt": entry("splash-dt-dust-and-debt", "splash", "Dust and Debt", "dusty-trail"),
   "splash-dt-wanted-mark": entry("splash-dt-wanted-mark", "splash", "Wanted Mark", "pine-pass"),
   "splash-dt-river-of-brands": entry("splash-dt-river-of-brands", "splash", "River of Brands", "troll-bridge"),

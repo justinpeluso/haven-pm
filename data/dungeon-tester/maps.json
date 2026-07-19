@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "title": "Wilderland Atlas",
+  "title": "The Neon Wilderland",
   "worldMapId": "map-wilderland",
   "regions": [
     {
       "id": "region-chain-road",
       "name": "Woods Without Names",
-      "blurb": "Biolume pines, chrome knives, and three brothers with no names.",
+      "blurb": "Biolume pines, chrome knives, three brothers with no names.",
       "chapterId": "dt-ch-01-chain-road",
       "chapter": 1,
       "localMapId": "local-ch-01",

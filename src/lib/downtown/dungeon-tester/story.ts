@@ -97,9 +97,12 @@ const pack = spinePack as SpineFile;
 /** Map story enemy themes → bestiary foe ids (encounters/art packs). */
 const THEME_TO_FOE: Record<string, string> = {
   "chain-orcs": "thorn-clan-skirmisher",
+  "glade-raiders": "thorn-clan-skirmisher",
   "road-wargs": "dust-trail-warg",
   "cage-tenders": "coffle-guard",
+  "neon-scavs": "coffle-guard",
   "brand-hounds": "night-howler",
+  "spirit-hounds": "night-howler",
   "warrant-runners": "whip-hand-thug",
   "hill-goblins": "ash-gut-raider",
   "dust-wargs": "dust-trail-warg",

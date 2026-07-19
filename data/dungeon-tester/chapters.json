@@ -17,10 +17,10 @@
       "levelMax": 8,
       "estimatedHours": 4.5,
       "enemyThemes": [
-        "chain-orcs",
+        "glade-raiders",
         "road-wargs",
-        "cage-tenders",
-        "brand-hounds"
+        "spirit-hounds",
+        "neon-scavs"
       ],
       "sceneId": "scene-dt-chain-road",
       "splashArtId": "splash-dt-chain-road",
@@ -191,18 +191,18 @@
   "endings": [
     {
       "id": "ending-merciful-road",
-      "title": "The Merciful Road",
-      "blurb": "Ash and Lyra leave Cade's fall to other hunters and walk west under open sky."
+      "title": "The Quiet Path",
+      "blurb": "The brothers walk out without burning the world that forgot them — woods, spirits, and neon left standing."
     },
     {
       "id": "ending-hard-justice",
-      "title": "Hard Justice",
-      "blurb": "Candlemire burns by Ash's hand; the Wilderland remembers the fire longer than the names."
+      "title": "Hard Reset",
+      "blurb": "They torch the systems that stole their names; dragons and drones both remember the fire."
     },
     {
       "id": "ending-shared-dawn",
       "title": "Shared Dawn",
-      "blurb": "Quill, Ash, and the freed march forge a freehold that keeps no brands and no guests with chains."
+      "blurb": "Three brothers and their pack forge a freehold where steel, spirits, and dogs share one sky — no seals, no Pale."
     }
   ]
 }

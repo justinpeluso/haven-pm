@@ -6,9 +6,9 @@ import { isDmEmail, slotFromEmail } from "@/lib/downtown/party-chronicle/players
 import type { PlayerIdentity } from "@/lib/downtown/party-chronicle/types";
 
 export const metadata: Metadata = {
-  title: "Dungeons and Dogs",
+  title: "Dungeons and Dogs: Lost Brothers",
   description:
-    "Three brothers lost in the woods with no idea who they are — future cyberpunk, spirits, dragons, Middle-earth vibe.",
+    "Adult pulp. Three amnesiac brothers and a dog in the Neon Wilderland — Helix Dominion, Project Pale, woods without names.",
 };
 
 export default async function DungeonsAndDogsPage() {

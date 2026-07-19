@@ -666,7 +666,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     if (mySlot) setPhase("create");
     else setPhase("play");
     setTab("story");
-    setFlash(`New Dungeons and Dogs march on Slot ${slotId}.`);
+    setFlash(`New Lost Brothers march on Slot ${slotId}.`);
   };
 
   const continueSave = async (slotId: DtSaveSlotId = activeSlotId) => {
@@ -1057,11 +1057,12 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
         <div className="dt-panel dt-title-panel">
           <h1 className="dt-title-hero">Dungeons and Dogs</h1>
           <p className="dt-tagline">
-            Three brothers lost in the woods with no idea who they are — future cyberpunk steel under
-            a Middle-earth canopy, spirits in the fog, dragons on the ridgeline. Oregon Trail page,
-            short comic frames, party seats like Neverworld (Justin, Rusty, Elisha, Eric). Late
-            joiners seal a hero anytime; save slots keep separate campaigns. Battles stay crude
-            combat — grit over polish.
+            Lost Brothers — three amnesiac men and a dog wake in the Neon Wilderland: cyberpunk steel
+            under a Middle-earth canopy, spirits in the fog, dragons on the ridgeline. Adult R-rated
+            pulp. Helix Dominion sells names; Project Pale wiped theirs. Oregon Trail page, short
+            comic frames, party seats like Neverworld (Justin, Rusty, Elisha, Eric). Late joiners
+            seal a hero anytime; save slots keep separate campaigns. Battles stay crude combat —
+            grit over polish.
           </p>
 
           <div className="dt-slot-list" role="list" aria-label="Save slots">
@@ -1956,8 +1957,9 @@ function CreateSeat({
       <DtBackBar backs={[{ label: "Title", onClick: onCancel, primary: true }]} />
       <h2 className="dt-frame-title">Seal {def.displayName}&apos;s seat</h2>
       <p className="dt-tagline">
-        You woke without a name — pick a look, then claim one. Class and kit next. Your figure shows
-        in camp, party row, and ambushes. Dogs optional; the woods do not care.
+        You woke without a name in the Woods Without Names — pick a look, then claim a callsign.
+        Class and kit next. Your figure shows in camp, party row, and ambushes. Dogs optional; the
+        Rememberer already knows more than you do.
       </p>
       {error ? <p className="dt-flash">{error}</p> : null}
 

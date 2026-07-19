@@ -9,7 +9,7 @@ export const JP_GAMING_LINKS = [
     id: "true-grit" as const,
     href: "/true-grit",
     label: "Dungeons and Dogs",
-    hint: "Lost brothers, cyber woods",
+    hint: "Lost Brothers — Neon Wilderland",
   },
 ] as const;
 

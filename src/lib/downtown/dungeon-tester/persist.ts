@@ -172,7 +172,7 @@ export function createNewDtWorld(): DtWorldSave {
     campSleeps: [],
     explorationFinds: 0,
     lastExploration: null,
-    log: ["Dungeons and Dogs opens in the amnesia woods. Seal your heroes."],
+    log: ["Lost Brothers opens in the Woods Without Names. Seal your heroes."],
     endingId: null,
     startedAt: now,
     updatedAt: now,
