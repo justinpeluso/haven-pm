@@ -1057,10 +1057,11 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
         <div className="dt-panel dt-title-panel">
           <h1 className="dt-title-hero">Dungeons and Dogs</h1>
           <p className="dt-tagline">
-            Dusty Wilderland liberation — warrants, collar yards, and a scarred marshal who drinks
-            harder than he admits. Oregon Trail page, short comic frames, party seats like Neverworld
-            (Justin, Rusty, Elisha, Eric). Late joiners seal a hero anytime; save slots keep separate
-            campaigns. Battles stay crude combat — grit over polish.
+            Three brothers lost in the woods with no idea who they are — future cyberpunk steel under
+            a Middle-earth canopy, spirits in the fog, dragons on the ridgeline. Oregon Trail page,
+            short comic frames, party seats like Neverworld (Justin, Rusty, Elisha, Eric). Late
+            joiners seal a hero anytime; save slots keep separate campaigns. Battles stay crude
+            combat — grit over polish.
           </p>
 
           <div className="dt-slot-list" role="list" aria-label="Save slots">

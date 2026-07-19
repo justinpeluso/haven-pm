@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "title": "Dungeons and Dogs: Wilderland Liberation",
-  "blurb": "Oregon Trail–style comic frames. An original thrall-to-liberator arc through the Wilderland — warrants, orcs, and Candlemire’s collar yards. Marshal Halbrecht Quill and a stubborn freeman who will not quit. Liberation-Western grit; no film trademark character names.",
+  "title": "Dungeons and Dogs: Lost Brothers",
+  "blurb": "Oregon Trail–style comic frames. Three brothers wake in a future Wilderland with no names and no map — cyberpunk steel under a Middle-earth canopy, spirits in the fog, dragons on the ridgeline. Guns, blades, and half-remembered bonds. Survive the woods. Remember who you are.",
   "targetHours": 34,
   "startNodeId": "dt-ch01-001",
   "encounterCadence": {
@@ -13,8 +13,8 @@
     {
       "id": "dt-ch-01-chain-road",
       "chapter": 1,
-      "title": "Chain-Road Dawn",
-      "tagline": "A numbered thrall is bought off a road of cages — and asked to kill for paper freedom.",
+      "title": "Woods Without Names",
+      "tagline": "Three brothers wake lost among neon ruins and ancient trees — no idea who they are.",
       "startNodeId": "dt-ch01-001",
       "nodeIds": [
         "dt-ch01-001",
@@ -1060,8 +1060,8 @@
     {
       "id": "dt-ch01-001",
       "kind": "narrative",
-      "title": "Cage Line",
-      "body": "Mist sits on the Chain-Road like damp wool over a livestock count. Iron cages rattle on ox-wains while overseers tally numbers instead of names — and spit when the count comes up short. You are Nine-Mark: thrall, fighter, and cargo that punches back when the whip gets lazy.",
+      "title": "Wake in the Woods",
+      "body": "Three of you wake under a canopy that should not exist — ancient oaks tangled with neon filament and drone-wire. No names. No road home. Just the taste of ozone, a dragon’s distant cry, and the stubborn sense that you are brothers — even if none of you can prove it.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-cages",
       "chapter": 1,
@@ -1073,8 +1073,8 @@
     {
       "id": "dt-ch01-002",
       "kind": "narrative",
-      "title": "Chain-Road Dawn: Flask Sermon",
-      "body": "Cage wheels squeak a rhythm into your spine. Somewhere an overseer jokes that stubborn meat fetches better coin — then proves it with the whip. You keep your eyes on the road east and refuse to answer when they call the number.",
+      "title": "Empty Pockets, Loud Future",
+      "body": "Your coats hold future steel — stub pistols, mono-edged knives, a cracked holo that won’t load a face. Somewhere a spirit-bell rings through fog. One of you swears the trees are watching. Another swears the trees owe rent. None of you remember yesterday.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
       "chapter": 1,
@@ -1083,8 +1083,8 @@
     {
       "id": "dt-ch01-003",
       "kind": "narrative",
-      "title": "Chain-Road Dawn: Yard Gossip",
-      "body": "Powder grit from the brake blocks sticks under your nails. The yard dogs know thrall-scent better than mercy. Freedom is a rumor sold by men with keys; you file the rumor under later and watch the dust for a way out.",
+      "title": "Brother Math",
+      "body": "Counting helps. Three heartbeats. Three shadows. Three blank spots where childhood should be. A wolf-dog with chrome-capped teeth trots from the brush as if it already chose a pack. The Wilderland smells like rain on copper and old myth.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
       "chapter": 1,
@@ -1093,16 +1093,16 @@
     {
       "id": "dt-ch01-004",
       "kind": "choice",
-      "title": "Road Vermin Tax",
-      "body": "Three road vermin block a ford with a rope and a grin, taxing the coffle like they own the mud. Their leader — missing two fingers and all shame — offers “protection” for coin pried from thrall pockets. A lean stranger in a ruined grey hat watches from the bank, hand near a crossbow bolt he has not spent yet.",
+      "title": "Toll in the Mist",
+      "body": "Three road scavengers block a stream-ford with a laser-tripwire and a grin, taxing travelers like they own the mist. Their leader — missing two fingers and all shame — offers “protection” for coin you may not have. A lean stranger in a ruined grey hat watches from the bank, hand near a crossbow bolt that hums like charged crystal.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-road-vermin",
       "chapter": 1,
       "choices": [
         {
           "id": "ch1-vermin-pay",
-          "label": "Pay the damn rope",
-          "approach": "Buy the ford with what the overseers won’t miss; save steel.",
+          "label": "Pay the damn tripwire",
+          "approach": "Buy the ford with scrap you can spare; save steel.",
           "outcome": {
             "text": "They salute with stolen manners. The grey-hatted stranger mutters, “Inflation,” and does not leave.",
             "xp": 8,
@@ -1117,9 +1117,9 @@
         {
           "id": "ch1-vermin-scare",
           "label": "Scare them honest",
-          "approach": "Show teeth the cages haven’t filed down — and the stranger’s bolt.",
+          "approach": "Show teeth the woods haven’t filed down — and the stranger’s humming bolt.",
           "outcome": {
-            "text": "Rope drops. One kid whispers, “Nine-Mark walks.” Word travels usefully — maybe too usefully.",
+            "text": "Tripwire drops. One kid whispers, “The blank brothers walk.” Word travels usefully — maybe too usefully.",
             "xp": 12,
             "flagsAdd": [
               "vermin-scared",
@@ -1130,8 +1130,8 @@
         },
         {
           "id": "ch1-vermin-story",
-          "label": "Trade a Chain-Road story",
-          "approach": "Give them a Chain-Road tale sharp enough to sell twice.",
+          "label": "Trade a half-true woods story",
+          "approach": "Give them a tale sharp enough to sell twice — dragons optional, truth negotiable.",
           "stat": "charisma",
           "dc": 11,
           "success": {
@@ -1158,18 +1158,18 @@
     {
       "id": "dt-ch01-005",
       "kind": "choice",
-      "title": "Quill's Ugly Joke",
-      "body": "The grey-hatted stranger steps close enough that whiskey rides his breath. He asks — not unkind, not soft — whether you want to be a freeman who hunts, or a hunter who happens to be free. The difference, he says, is who you apologize to when the smoke clears. “And don’t you damn quit either way.”",
+      "title": "The Stranger's Ugly Joke",
+      "body": "The grey-hatted stranger steps close enough that whiskey and ozone ride his breath. He asks — not unkind, not soft — whether you want to be brothers who hunt, or hunters who happen to be brothers. The difference, he says, is who you apologize to when the smoke clears. “And don’t you damn quit either way.”",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-quill-aside",
       "chapter": 1,
       "choices": [
         {
           "id": "ch1-joke-free",
-          "label": "Freeman who hunts",
-          "approach": "Keep the moral order: freedom first, warrants second.",
+          "label": "Brothers who hunt",
+          "approach": "Keep the bond first: pack before warrants.",
           "outcome": {
-            "text": "“Then we hunt like guests,” he drawls. “Violent guests. Stubborn ones. If I buy you.”",
+            "text": "“Then we hunt like guests,” he drawls. “Violent guests. Stubborn ones. If I take you.”",
             "xp": 10,
             "flagsAdd": [
               "identity-freeman",
@@ -1180,8 +1180,8 @@
         },
         {
           "id": "ch1-joke-hunter",
-          "label": "Hunter who is free",
-          "approach": "Admit the work shapes the man.",
+          "label": "Hunters who are brothers",
+          "approach": "Admit the work shapes the man — and the pack.",
           "outcome": {
             "text": "He almost smiles with the scarred eye. “Honest. Ugly. Useful.” Coin already weighs in his palm.",
             "xp": 10,
@@ -1194,10 +1194,10 @@
         },
         {
           "id": "ch1-joke-neither",
-          "label": "Neither — Lyra’s man",
-          "approach": "Refuse his categories; keep the vow central.",
+          "label": "Neither — we want our names",
+          "approach": "Refuse his categories; keep memory central.",
           "outcome": {
-            "text": "“Categories are cages,” he allows. “Fine. Be a vow with a sword — if the overseer takes my price.”",
+            "text": "“Categories are cages,” he allows. “Fine. Be a vow with a sword — if the woods take my price.”",
             "xp": 12,
             "flagsAdd": [
               "identity-vow",
@@ -1211,8 +1211,8 @@
     {
       "id": "dt-ch01-006",
       "kind": "narrative",
-      "title": "Chain-Road Dawn: Seal Weather",
-      "body": "Heat makes the collar itch like unfinished business. Eyes linger on your number the way buyers linger on mule teeth. The stranger packs silence like powder — dry, useful, dangerous — and waits for the overseer’s ledger to catch up.",
+      "title": "Blank Names",
+      "body": "Heat makes your temples itch like unfinished business. Eyes linger on your empty faces the way buyers linger on gear. The stranger packs silence like powder — dry, useful, dangerous — and waits for the woods to spit out a reason.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
       "chapter": 1,
@@ -1221,8 +1221,8 @@
     {
       "id": "dt-ch01-007",
       "kind": "narrative",
-      "title": "Chain-Road Dawn: Powder Prayer",
-      "body": "A child’s chalk number on a fence post has already been scrubbed. The stranger says, “Pretty country. Ugly ownership. Pass the damn bottle.” Collar mud still clings; whatever comes next will have to wash harder than rain.",
+      "title": "Spirit Bell",
+      "body": "A child’s chalk rune on a fence post has already been scrubbed by rain and neon flicker. The stranger says, “Pretty country. Ugly ownership. Pass the damn bottle.” Dragon-shadow slides across the canopy; whatever comes next will have to wash harder than rain.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
       "chapter": 1,
@@ -1231,8 +1231,8 @@
     {
       "id": "dt-ch01-008",
       "kind": "narrative",
-      "title": "Chain-Road Dawn: Stubborn Mile",
-      "body": "Road vermin sell water and buy stories about numbered men who would not quit. You set your own pace like a man owed a name and too stubborn to renegotiate. The stranger lights a match off a warrant nail, drinks, and looks almost human — almost ready to spend.",
+      "title": "Stubborn Mile",
+      "body": "Road scavengers sell water and buy stories about lost men who would not quit. You set your own pace like brothers owed a name and too stubborn to renegotiate. The stranger lights a match off a data-spike, drinks, and looks almost human — almost ready to spend.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
       "chapter": 1,
@@ -1242,7 +1242,7 @@
       "id": "dt-ch01-009",
       "kind": "narrative",
       "title": "The Binder Arrives",
-      "body": "The lean marshal tips his ruined hat to the overseer like a man haggling over mule feed and mildly disappointing weather. Halbrecht Quill — freehold marshal, warrant binder, one scarred eye that never quite closes on a lie — pays coin for your papers without looking away. “Pretty muscle,” he drawls. “Ugly price. I’ll take the stubborn one.”",
+      "body": "The lean marshal tips his ruined hat like a man haggling over mule feed and mildly disappointing weather. Halbrecht Quill — freehold marshal, warrant binder, one scarred eye that never quite closes on a lie — studies your blank stares without flinching. “Pretty muscle,” he drawls. “Ugly amnesia. I’ll take the stubborn ones.”",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-quill-hat",
       "chapter": 1,
@@ -1251,8 +1251,8 @@
     {
       "id": "dt-ch01-010",
       "kind": "narrative",
-      "title": "Chain-Road Dawn: Ring Memory",
-      "body": "Wind carries iron smell farther than any honest voice. Somewhere east, ink still invents people into inventory. Continue — soft roads make soft collars again.",
+      "title": "Ring Memory",
+      "body": "Wind carries iron and spirit-smoke farther than any honest voice. Somewhere east, machines still invent people into inventory — and dragons still invent fear. Continue — soft roads make soft memories again.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
       "chapter": 1,
@@ -1261,8 +1261,8 @@
     {
       "id": "dt-ch01-011",
       "kind": "narrative",
-      "title": "Chain-Road Dawn: East Debt",
-      "body": "Overseer laughter carries farther than any hymn on this road. Freedom still feels like hunger wearing better boots. Paper in your coat weighs less than iron and more than sleep.",
+      "title": "East Debt",
+      "body": "Laughter carries farther than any hymn on this road. Identity still feels like hunger wearing better boots. Steel in your coat weighs less than myth and more than sleep.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
       "chapter": 1,
@@ -1272,7 +1272,7 @@
       "id": "dt-ch01-012",
       "kind": "narrative",
       "title": "Quill Names the Work",
-      "body": "“I buy thralls who can ruin the men who sold them,” Quill says, flask catching firelight. “If that offends your poetry, walk. If it fits your teeth, load — and if you quit mid-road, I’ll leave you for the crows with a receipt.” You load.",
+      "body": "“I hire lost boys who can ruin the men who erased them,” Quill says, flask catching firelight and neon. “If that offends your poetry, walk. If it fits your teeth, load — and if you quit mid-road, I’ll leave you for the crows with a receipt.” You load.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-quill-hat",
       "chapter": 1,
@@ -1282,7 +1282,7 @@
       "id": "dt-ch01-013",
       "kind": "narrative",
       "title": "Vern's Joke",
-      "body": "A traveler repeats Vern’s favorite joke about unpaid tribute and burned kitchens. Nobody laughs. Quill tips the man a copper for the geography hidden in the cruelty, then mutters that hell of a comedian still makes hell of a warrant.",
+      "body": "A traveler repeats Vern’s favorite joke about unpaid tribute and burned kitchens — half cyberpunk bar story, half orc-raid yarn. Nobody laughs. Quill tips the man a copper for the geography hidden in the cruelty, then mutters that hell of a comedian still makes hell of a warrant.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-warrant-vern",
       "chapter": 1,
@@ -1291,8 +1291,8 @@
     {
       "id": "dt-ch01-014",
       "kind": "narrative",
-      "title": "Chain-Road Dawn: Dust Mile",
-      "body": "Camp smoke writes temporary law across the pines. You check the collar scar and find it still arguing with the air. The Wilderland watches and keeps its receipts.",
+      "title": "Dust Mile",
+      "body": "Camp smoke writes temporary law across the pines. You check for a brand, a barcode, a collar scar — and find only the itch of missing names. The Wilderland watches and keeps its receipts.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-chain-road",
       "chapter": 1,
@@ -1302,7 +1302,7 @@
       "id": "dt-ch01-015",
       "kind": "encounter",
       "title": "Road Wargs Ambush",
-      "body": "Bootleather remembers every mile better than maps ever will. A hanged poster of your face lies about the eyes — always the eyes. You walk because the alternative still smells like rust — and quit is not a word you own. Then road wargs force the issue — a roadside lesson Quill refuses to skip.",
+      "body": "Bootleather remembers every mile better than maps ever will. A hanged poster of three blank faces lies about the eyes — always the eyes. You walk because the alternative still smells like rust — and quit is not a word you own. Then road wargs force the issue — a roadside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-chain-road",
       "artId": "art-dt-road-wargs",
       "chapter": 1,
@@ -1315,9 +1315,9 @@
         {
           "id": "fight-1-dt-ch01-016",
           "label": "Stand and fight",
-          "approach": "Use hotbar steel; clocks stay off — take your time.",
+          "approach": "Use hotbar steel and future scrap; clocks stay off — take your time.",
           "outcome": {
-            "text": "Road Wargs falls. The road tastes like iron and relief.",
+            "text": "Road Wargs falls. The woods taste like iron, ozone, and relief.",
             "xp": 22,
             "gold": 7,
             "nextNodeId": "dt-ch01-016",
@@ -1329,7 +1329,7 @@
         {
           "id": "outwit-1-dt-ch01-016",
           "label": "Outwit the terrain",
-          "approach": "Use cover, noise, and Quill’s nasty little tricks.",
+          "approach": "Use cover, spirit-noise, and Quill’s nasty little tricks.",
           "stat": "wisdom",
           "dc": 10,
           "success": {
@@ -1347,7 +1347,7 @@
         {
           "id": "flee-1-dt-ch01-016",
           "label": "Break past and run",
-          "approach": "Freedom first; honor later.",
+          "approach": "Memory first; honor later.",
           "outcome": {
             "text": "Dust and speed. Quill calls it strategic cowardice — fondly.",
             "xp": 9,
@@ -20005,18 +20005,18 @@
   "endings": [
     {
       "id": "ending-merciful-road",
-      "title": "The Merciful Road",
-      "blurb": "Ash and Lyra leave Cade's fall to other hunters and walk west under open sky."
+      "title": "The Quiet Path",
+      "blurb": "The brothers walk out without burning the world that forgot them — woods, spirits, and neon left standing."
     },
     {
       "id": "ending-hard-justice",
-      "title": "Hard Justice",
-      "blurb": "Candlemire burns by Ash's hand; the Wilderland remembers the fire longer than the names."
+      "title": "Hard Reset",
+      "blurb": "They torch the systems that stole their names; dragons and drones both remember the fire."
     },
     {
       "id": "ending-shared-dawn",
       "title": "Shared Dawn",
-      "blurb": "Quill, Ash, and the freed march forge a freehold that keeps no brands and no guests with chains."
+      "blurb": "Three brothers and their pack forge a freehold where steel, spirits, and dragons share one sky."
     }
   ],
   "stats": {

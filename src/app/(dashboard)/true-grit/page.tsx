@@ -8,7 +8,7 @@ import type { PlayerIdentity } from "@/lib/downtown/party-chronicle/types";
 export const metadata: Metadata = {
   title: "Dungeons and Dogs",
   description:
-    "Wilderland liberation march — warrants, collar yards, and a scarred marshal who drinks harder than he admits.",
+    "Three brothers lost in the woods with no idea who they are — future cyberpunk, spirits, dragons, Middle-earth vibe.",
 };
 
 export default async function DungeonsAndDogsPage() {
