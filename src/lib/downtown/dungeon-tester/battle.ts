@@ -26,6 +26,14 @@ export function startDtCampAmbush(
   return startSimpleBattle(world, { rng });
 }
 
+/** Sleep interrupted by a night creature (campfire map). */
+export function startDtNightAmbush(
+  world: DtWorldSave,
+  rng: () => number = Math.random
+): { world: DtWorldSave; message: string } {
+  return startSimpleBattle(world, { rng, nightAmbush: true });
+}
+
 /** Scripted frame fight / Force ambush vs a known foe id. */
 export function startDtBattleVs(
   world: DtWorldSave,

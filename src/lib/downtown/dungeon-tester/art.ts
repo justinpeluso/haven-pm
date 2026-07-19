@@ -200,10 +200,14 @@ export function dtEnemyArtSrc(enemy: {
   if (preferred) return dtArtSrc(preferred);
 
   const key = `${enemy.id ?? ""} ${enemy.name ?? ""}`.toLowerCase();
-  if (/warg|howler|wolf|alpha|pack|hound|mastiff/.test(key)) return dtArtSrc("enemy-night-howler");
-  if (/spider|widow|webling|nest|silk|spinner|muck/.test(key)) return dtArtSrc("enemy-silk-widow");
-  if (/troll|brute|knuckle|hammer|gate|barge|arena/.test(key)) return dtArtSrc("enemy-bridge-brute");
-  if (/ash-cloak|pale-host|outrider|herald|shade/.test(key)) return dtArtSrc("enemy-ash-cloak");
+  if (/warg|howler|wolf|alpha|pack|hound|mastiff|grave-mist|bat swarm/.test(key))
+    return dtArtSrc("enemy-night-howler");
+  if (/spider|widow|webling|nest|silk|spinner|muck|moth|tickler|dream-tick/.test(key))
+    return dtArtSrc("enemy-silk-widow");
+  if (/troll|brute|knuckle|hammer|gate|barge|arena|haunt|cold-iron/.test(key))
+    return dtArtSrc("enemy-bridge-brute");
+  if (/ash-cloak|pale-host|outrider|herald|shade|ash-wisp|coffle shade/.test(key))
+    return dtArtSrc("enemy-ash-cloak");
   if (/whip|overseer|coffle|chain|guard|lieutenant|vorn|cade|warrant|quill/.test(key)) {
     return dtArtSrc("enemy-whip-hand");
   }

@@ -47,6 +47,7 @@ import {
   normalizeDtDog,
 } from "./dog";
 import { normalizeDtHeroLook, type DtHeroLook } from "./look";
+import { rollNightCreature } from "./night-creatures";
 
 export type SimpleBattleActionId =
   | "attack"
@@ -777,25 +778,32 @@ export function markSimpleBattleSplashDone(world: DtWorldSave): DtWorldSave {
 
 export function startSimpleBattle(
   world: DtWorldSave,
-  opts?: { foeId?: string; rng?: () => number }
+  opts?: { foeId?: string; rng?: () => number; nightAmbush?: boolean }
 ): { world: DtWorldSave; message: string } {
   // Block while any battle overlay is open (active or summary).
   if (world.battle) {
     return { world, message: "Already in a fight." };
   }
   const rng = opts?.rng ?? Math.random;
+  const nightAmbush = !!opts?.nightAmbush;
   const lvl = partyLevel(world);
   const sealed = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created);
   if (!sealed.length) return { world, message: "Seal a hero first." };
 
   const chapterNum = chapterNumberFromId(world.chapterId);
   const tuning = encounterSpawnTuning(chapterNum, world.battlesFought ?? 0);
-  const foeCount = tuning.foeCount(rng);
+  /** Night camp attacks: usually one creature from the night pool. */
+  const foeCount = nightAmbush ? (rng() < 0.22 ? 2 : 1) : tuning.foeCount(rng);
   /** Cap creature level by chapter so Ch1 never rolls Night-Howlers, etc. */
   const maxCreatureLevel =
     chapterNum <= 1 ? 3 : chapterNum <= 2 ? 6 : chapterNum <= 3 ? 10 : chapterNum <= 5 ? 18 : 99;
   const foes: DtCreatureDef[] = [];
-  if (opts?.foeId) {
+  if (nightAmbush) {
+    foes.push(opts?.foeId ? resolveFoeDef(opts.foeId, lvl, rng) : rollNightCreature(rng));
+    while (foes.length < foeCount) {
+      foes.push(rollNightCreature(rng));
+    }
+  } else if (opts?.foeId) {
     foes.push(resolveFoeDef(opts.foeId, lvl, rng));
     while (foes.length < foeCount) {
       foes.push(rollDtCreature(lvl, rng, { maxCreatureLevel }));
@@ -901,7 +909,9 @@ export function startSimpleBattle(
     };
   });
 
-  const { theme, variant } = mapThemeForWorld(world, rng);
+  const mapped = mapThemeForWorld(world, rng);
+  const theme: SimpleMapTheme = nightAmbush ? "campfire" : mapped.theme;
+  const variant = nightAmbush ? Math.floor(rng() * 3) : mapped.variant;
   const goldReward = foes.reduce((s, f) => s + (f.gold ?? 0), 0);
   const xpReward = foes.reduce((s, f) => s + (f.xp ?? 0), 0);
   const dogJoinLine =
@@ -909,7 +919,9 @@ export function startSimpleBattle(
       ? ` ${dogUnits.map((d) => d.name).join(", ")} at your side.`
       : "";
   const ambushLog = [
-    `Ambush! ${foes.map((f) => f.name).join(", ")} — party acts first.${dogJoinLine}`,
+    nightAmbush
+      ? `Night ambush! ${foes.map((f) => f.name).join(", ")} slips past the firelight — party acts first.${dogJoinLine}`
+      : `Ambush! ${foes.map((f) => f.name).join(", ")} — party acts first.${dogJoinLine}`,
     ...dogNotes,
   ];
 
@@ -927,9 +939,13 @@ export function startSimpleBattle(
     fx: [],
     goldReward,
     xpReward,
-    message: `Fight! ${foes.length} foe${foes.length === 1 ? "" : "s"} on the ${theme.replace(/-/g, " ")}.${
-      dogNotes[0] ? ` ${dogNotes[0]}` : dogJoinLine
-    }`,
+    message: nightAmbush
+      ? `Night creature! ${foes.map((f) => f.name).join(", ")} attack the camp.${
+          dogNotes[0] ? ` ${dogNotes[0]}` : dogJoinLine
+        }`
+      : `Fight! ${foes.length} foe${foes.length === 1 ? "" : "s"} on the ${theme.replace(/-/g, " ")}.${
+          dogNotes[0] ? ` ${dogNotes[0]}` : dogJoinLine
+        }`,
     splashDone: false,
     combatStats: emptyCombatStats(1),
     lootDrops: [],

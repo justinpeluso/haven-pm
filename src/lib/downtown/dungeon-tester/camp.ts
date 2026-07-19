@@ -30,7 +30,8 @@ import { EQUIP_SLOTS, PLAYER_SLOT_ORDER } from "@/lib/downtown/party-chronicle/t
 import { DT_GEAR_POOLS, getDtGear } from "./gear";
 import { dtBagItemUpgradeCue, type DtUpgradeCue } from "./gear-display";
 import { dtFillEmptyEquipSlots } from "./loadout";
-import { startDtCampAmbush } from "./battle";
+import { startDtCampAmbush, startDtNightAmbush } from "./battle";
+import { NIGHT_AMBUSH_CHANCE } from "./night-creatures";
 import { dtBeMeanToDog, dtFeedDog, normalizeDtDog } from "./dog";
 import { applyPartyMutation, asPartyWorld, type DtWorldSave } from "./types";
 
@@ -270,10 +271,25 @@ function exploreTrail(
 export function dtSleepAtCamp(
   world: DtWorldSave,
   slot: PlayerSlot,
-  opts?: { isDm?: boolean }
+  opts?: { isDm?: boolean; rng?: () => number }
 ): { world: DtWorldSave; message: string } {
+  const sleepsBefore = world.campSleeps?.length ?? 0;
   const r = sleepAtCamp(asPartyWorld(world), slot, opts);
-  return { world: applyPartyMutation(world, r.world), message: r.message };
+  let next = applyPartyMutation(world, r.world);
+  const slept =
+    (next.campSleeps?.length ?? 0) > sleepsBefore || /sleeps at camp/i.test(r.message);
+  if (!slept || next.battle) {
+    return { world: next, message: r.message };
+  }
+  const rng = opts?.rng ?? Math.random;
+  if (rng() >= NIGHT_AMBUSH_CHANCE) {
+    return { world: next, message: r.message };
+  }
+  const ambush = startDtNightAmbush(next, rng);
+  return {
+    world: ambush.world,
+    message: `${r.message} Something stalks the dark — ${ambush.message}`,
+  };
 }
 
 export function dtBuyFromCampMerchant(

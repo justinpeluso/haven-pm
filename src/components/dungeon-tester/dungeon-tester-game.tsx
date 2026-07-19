@@ -1314,7 +1314,10 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   className="dt-btn"
                   data-variant="primary"
                   disabled={sleepBlocked}
-                  title={campSleepHint ?? "Sleep at camp — restore HP & mana"}
+                  title={
+                    campSleepHint ??
+                    "Sleep at camp — restore HP & mana (40% chance of a night ambush)"
+                  }
                   onClick={onCampSleep}
                 >
                   Sleep at camp → restore HP &amp; mana
@@ -1323,7 +1326,11 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   <p className="dt-section-hint dt-section-hint-accent">
                     {campSleepHint}
                   </p>
-                ) : null}
+                ) : (
+                  <p className="dt-section-hint">
+                    Rest easy… or not — night creatures sometimes stalk the firelight.
+                  </p>
+                )}
                 {me ? (
                   <div className="dt-vitals" aria-label="Hero vitals">
                     <div className="dt-vital" data-kind="hp">

@@ -465,6 +465,205 @@
       "artId": "enemy-bridge-brute",
       "weight": 1,
       "lootPool": "legendary"
+    },
+    {
+      "id": "pale-ember-moth",
+      "name": "Pale Ember Moth",
+      "blurb": "A man-sized moth whose wings shed cold sparks over the bedrolls.",
+      "levelMin": 1,
+      "levelMax": 99,
+      "hp": 22,
+      "power": 5,
+      "armor": 0,
+      "xp": 14,
+      "gold": 4,
+      "tags": [
+        "night",
+        "beast",
+        "insect"
+      ],
+      "artId": "enemy-trail-webling",
+      "weight": 2,
+      "lootPool": "trash"
+    },
+    {
+      "id": "grave-mist-hound",
+      "name": "Grave-Mist Hound",
+      "blurb": "Fog takes the shape of a hunting dog — then the teeth get solid.",
+      "levelMin": 1,
+      "levelMax": 99,
+      "hp": 26,
+      "power": 6,
+      "armor": 1,
+      "xp": 16,
+      "gold": 5,
+      "tags": [
+        "night",
+        "beast",
+        "warg"
+      ],
+      "artId": "enemy-night-howler",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "camp-thief-gremlin",
+      "name": "Camp-Thief Gremlin",
+      "blurb": "Tiny claws, big appetite for boots, gold, and sleep.",
+      "levelMin": 1,
+      "levelMax": 99,
+      "hp": 18,
+      "power": 4,
+      "armor": 0,
+      "xp": 12,
+      "gold": 8,
+      "tags": [
+        "night",
+        "humanoid"
+      ],
+      "artId": "enemy-ash-gut",
+      "weight": 2,
+      "lootPool": "trash"
+    },
+    {
+      "id": "moon-silk-spinner",
+      "name": "Moon-Silk Spinner",
+      "blurb": "Silver thread drifts from the dark pines and wraps ankles first.",
+      "levelMin": 1,
+      "levelMax": 99,
+      "hp": 24,
+      "power": 5,
+      "armor": 1,
+      "xp": 15,
+      "gold": 6,
+      "tags": [
+        "night",
+        "spider",
+        "beast"
+      ],
+      "artId": "enemy-silk-widow",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "ash-wisp-stalker",
+      "name": "Ash-Wisp Stalker",
+      "blurb": "A cloak of cinders with no body — until it reaches for your throat.",
+      "levelMin": 1,
+      "levelMax": 99,
+      "hp": 28,
+      "power": 7,
+      "armor": 0,
+      "xp": 18,
+      "gold": 7,
+      "tags": [
+        "night",
+        "undead",
+        "shade"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 2,
+      "lootPool": "uncommon"
+    },
+    {
+      "id": "coffle-shade",
+      "name": "Coffle Shade",
+      "blurb": "Manacle-ghost of a thrall who never got free of the Chain-Road.",
+      "levelMin": 1,
+      "levelMax": 99,
+      "hp": 30,
+      "power": 6,
+      "armor": 2,
+      "xp": 17,
+      "gold": 5,
+      "tags": [
+        "night",
+        "undead",
+        "humanoid"
+      ],
+      "artId": "enemy-coffle-guard",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "ridge-bat-swarm",
+      "name": "Ridge Bat Swarm",
+      "blurb": "A shrieking cloud of wings that blot the campfire stars.",
+      "levelMin": 1,
+      "levelMax": 99,
+      "hp": 20,
+      "power": 5,
+      "armor": 0,
+      "xp": 13,
+      "gold": 4,
+      "tags": [
+        "night",
+        "beast",
+        "swarm"
+      ],
+      "artId": "enemy-dust-warg",
+      "weight": 2,
+      "lootPool": "trash"
+    },
+    {
+      "id": "dream-tickler",
+      "name": "Dream-Tickler",
+      "blurb": "It crawls into nightmares and wakes you by biting the fear.",
+      "levelMin": 1,
+      "levelMax": 99,
+      "hp": 16,
+      "power": 4,
+      "armor": 0,
+      "xp": 11,
+      "gold": 3,
+      "tags": [
+        "night",
+        "beast",
+        "insect"
+      ],
+      "artId": "enemy-trail-webling",
+      "weight": 2,
+      "lootPool": "trash"
+    },
+    {
+      "id": "night-howler-lurker",
+      "name": "Night-Howler",
+      "blurb": "The classic trail predator — eyes like coals just past the firelight.",
+      "levelMin": 1,
+      "levelMax": 99,
+      "hp": 32,
+      "power": 7,
+      "armor": 1,
+      "xp": 20,
+      "gold": 8,
+      "tags": [
+        "night",
+        "beast",
+        "warg"
+      ],
+      "artId": "enemy-night-howler",
+      "weight": 2,
+      "lootPool": "uncommon"
+    },
+    {
+      "id": "cold-iron-haunt",
+      "name": "Cold-Iron Haunt",
+      "blurb": "A towering silhouette of frost and scrap metal that hates warm blood.",
+      "levelMin": 1,
+      "levelMax": 99,
+      "hp": 40,
+      "power": 8,
+      "armor": 3,
+      "xp": 24,
+      "gold": 10,
+      "tags": [
+        "night",
+        "undead",
+        "giant"
+      ],
+      "artId": "enemy-bridge-brute",
+      "weight": 1,
+      "lootPool": "rare"
     }
   ]
 }

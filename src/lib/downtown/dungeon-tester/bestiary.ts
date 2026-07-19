@@ -113,6 +113,7 @@ export function rollDtCreature(
   const maxLv = opts?.maxCreatureLevel ?? partyLevel + 4;
   const band = DT_CREATURES.filter(
     (c) =>
+      !c.tags.includes("night") &&
       c.levelMin <= maxLv &&
       partyLevel >= c.levelMin - 2 &&
       partyLevel <= c.levelMax + 5
