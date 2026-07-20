@@ -130,8 +130,8 @@
     {
       "id": "dt-ch-07-blood-mandolin",
       "chapter": 7,
-      "title": "Blood Mandolin",
-      "tagline": "Candlemire's sport pits fighters under lanterns while a mandolin keeps time with screams.",
+      "title": "The Undervault",
+      "tagline": "Helix sport pits fighters under neon while a synth-mandolin keeps time with screams.",
       "startNodeId": "dt-ch07-001",
       "levelMin": 40,
       "levelMax": 52,
@@ -150,8 +150,8 @@
     {
       "id": "dt-ch-08-liberation-march",
       "chapter": 8,
-      "title": "Liberation March",
-      "tagline": "Cages open. Brands break. The field that grew cane learns a different crop: uprising.",
+      "title": "Spirefall Fields",
+      "tagline": "Seals crack. Towers burn. The grid that grew stim and code learns a different crop: uprising.",
       "startNodeId": "dt-ch08-001",
       "levelMin": 48,
       "levelMax": 60,
@@ -170,8 +170,8 @@
     {
       "id": "dt-ch-09-free-horizon",
       "chapter": 9,
-      "title": "Free Horizon",
-      "tagline": "Roads west remember every foot that left a collar behind — and ask what freedom costs next.",
+      "title": "Ash Horizon",
+      "tagline": "Roads west remember every foot that left a seal behind — and ask what a returned name costs next.",
       "startNodeId": "dt-ch09-001",
       "levelMin": 55,
       "levelMax": 70,
