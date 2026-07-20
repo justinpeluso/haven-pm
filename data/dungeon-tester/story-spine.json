@@ -1,7 +1,7 @@
 {
   "version": 1,
   "title": "Dungeons and Dogs: Lost Brothers",
-  "blurb": "Adult R-rated pulp. Three amnesiac brothers and a dog wake in the Neon Wilderland — cyberpunk steel under a Middle-earth canopy, spirits in the fog, dragons on the ridgeline. Helix Dominion sells names; Project Pale wiped theirs. Chapters 1–6: Woods Without Names through House of Seals. Chapters 7–9 still await the next rewrite pass.",
+  "blurb": "Adult R-rated pulp. Three amnesiac brothers and a dog wake in the Neon Wilderland — cyberpunk steel under a Middle-earth canopy, spirits in the fog, dragons on the ridgeline. Helix Dominion sells names; Project Pale wiped theirs. Chapters 1–6: Woods Without Names, Stim Dust Marches, SKU Trace, Chromeveil River, Helix Gate, House of Seals. Chapters 7–9 still await the next rewrite pass.",
   "targetHours": 34,
   "startNodeId": "dt-ch01-001",
   "encounterCadence": {
@@ -510,7 +510,7 @@
       "id": "dt-ch-05-candlemire-gates",
       "chapter": 5,
       "title": "Helix Gate",
-      "tagline": "Director Vale’s border keeps smile for coin and drones for mercy; Lyra is somewhere past the smoke.",
+      "tagline": "Director Vale’s border keeps smile for coin and iron for mercy; Lyra is somewhere past the smoke.",
       "startNodeId": "dt-ch05-001",
       "nodeIds": [
         "dt-ch05-001",
@@ -7700,7 +7700,7 @@
       "id": "dt-ch04-001",
       "kind": "narrative",
       "title": "Mud Toll",
-      "body": "The Chromeveil River runs coolant-brown and dishonest — water that keeps secrets for a fee. Ferrymen charge more if your callsign seal looks fresh. Quill argues law until the poleman invents a new tax for arguing.",
+      "body": "The Chromeveil River runs neon-brown and dishonest — water that keeps secrets for a fee. Ferrymen charge more if your callsign seal looks fresh. Quill argues law until the price drops to merely insulting, then tips like a man buying silence, not passage.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-mud-toll",
       "chapter": 4,
@@ -7755,9 +7755,9 @@
       "id": "dt-ch04-004",
       "kind": "choice",
       "title": "Reed Confession",
-      "body": "A half-drowned sealed soul in the reeds begs you not to free him where horns can hear — he has family still under canvas. Mercy here has a schedule. Trafficking rot keeps better clocks than hope.",
+      "body": "A half-drowned sealed soul in the reeds begs you not to free him where horns can hear — he has family still under canvas. Mercy here has a schedule.",
       "sceneId": "scene-dt-river-of-brands",
-      "artId": "art-dt-reed-thrall",
+      "artId": "art-dt-reed-sealed",
       "chapter": 4,
       "choices": [
         {
@@ -7765,7 +7765,7 @@
           "label": "Hide him; free later",
           "approach": "Quiet mercy; accept unfinished liberation.",
           "outcome": {
-            "text": "He names a landing knock. Quill files it under “expensive hope.”",
+            "text": "He names a landing knock. Smoke-code. Quill files it under “expensive hope.”",
             "xp": 16,
             "flagsAdd": [
               "reed-hidden",
@@ -7780,7 +7780,7 @@
           "label": "Cut him free now",
           "approach": "Noise be damned; one less ring tonight.",
           "outcome": {
-            "text": "Horns answer. You run with a living debt on your shoulder.",
+            "text": "Horns answer. You run with a living debt on your shoulder and coolant on your boots.",
             "xp": 14,
             "flagsAdd": [
               "reed-freed-loud",
@@ -7806,7 +7806,7 @@
             "nextNodeId": "dt-ch04-005"
           },
           "fail": {
-            "text": "He spits mud and silence. You leave poorer in every sense.",
+            "text": "He spits chrome-mud and silence. You leave poorer in every sense.",
             "xp": 8,
             "flagsAdd": [
               "reed-failed"
@@ -7831,7 +7831,7 @@
         },
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         }
       ],
       "next": "dt-ch04-006"
@@ -7872,7 +7872,7 @@
       "id": "dt-ch04-008",
       "kind": "narrative",
       "title": "Barge of Rings",
-      "body": "A flatboat floats quiet with chemical cargo and spirit-caged freight under canvas. Chains click like small clocks. Nobody on the near bank looks long enough to become responsible — freehold manners at their most polite.",
+      "body": "A flatboat floats quiet with iron inventory and spirit-caged jars under canvas. Chains click like small clocks. Nobody on the near bank looks long enough to become responsible.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-barge-rings",
       "chapter": 4,
@@ -7882,7 +7882,7 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         },
         {
           "requireFlag": "quiet-passage",
@@ -7931,7 +7931,7 @@
       "id": "dt-ch04-011",
       "kind": "narrative",
       "title": "Mud Warrant",
-      "body": "Quill stamps a soaked warrant dry on his thigh and swears the Chromeveil invents new crimes just to stay relevant. “Alive if possible,” he reminds you. “Dead if the world insists. And if you smell memory-solvent, don’t breathe deep.”",
+      "body": "Quill stamps a soaked warrant dry on his thigh and swears the Chromeveil invents new crimes just to stay relevant. “Alive if possible,” he reminds you. “Dead if the mud insists on being itself.”",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-warrant-paper",
       "chapter": 4,
@@ -7959,7 +7959,7 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         }
       ]
     },
@@ -7967,7 +7967,7 @@
       "id": "dt-ch04-013",
       "kind": "narrative",
       "title": "Chromeveil River: Dust Mile",
-      "body": "Dust mile tastes like stim residue and river ash. Bootleather remembers every mile better than maps. Quit is not a word you own.",
+      "body": "Dust mile tastes like stim residue and chromeveil fog. Bootleather remembers every mile better than maps. Quit is not a word you own.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -7983,7 +7983,7 @@
       "id": "dt-ch04-014",
       "kind": "narrative",
       "title": "Chromeveil River: Quiet Counsel",
-      "body": "One brother hears dragon radio-chatter in the canopy. Another laughs once, then stops. The third checks the dog’s eyes for answers.",
+      "body": "One brother hears dragon radio-chatter in the fog. Another laughs once, then stops. The third checks the dog’s eyes for answers.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -7991,7 +7991,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second callsign."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         }
       ]
     },
@@ -7999,7 +7999,7 @@
       "id": "dt-ch04-015",
       "kind": "choice",
       "title": "Free or Follow?",
-      "body": "You can cut canvas tonight and spill rings into mud — noisy mercy — or track the barge to its Helix drop and learn routes. Quill’s face is a hung jury. Complicity tastes like river water either way.",
+      "body": "You can cut canvas tonight and spill rings into mud — noisy mercy — or track the barge to its Helix drop and learn routes. Quill’s face is a hung jury.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-canvas-choice",
       "chapter": 4,
@@ -8023,7 +8023,7 @@
           "label": "Track the drop point",
           "approach": "Intelligence first; rescue with a map.",
           "outcome": {
-            "text": "You learn landing codes and a steward’s soft knock. Quill files both.",
+            "text": "You learn landing codes and a steward’s soft knock. Quill files both toward Helix Gate.",
             "xp": 22,
             "flagsAdd": [
               "barge-tracked",
@@ -8065,7 +8065,7 @@
       "id": "dt-ch04-016",
       "kind": "encounter",
       "title": "Muck Spiders Ambush",
-      "body": "Powder grit under your nail smells like unfinished court. Spirit-fog webs the reeds. Then muck-spiders force the issue — a riverside lesson Quill refuses to skip.",
+      "body": "Powder grit under your nail smells like unfinished court. A scav kid offers directions priced in half-truths. Quill salutes the undone work with whiskey and a brim. Then muck spiders force the issue — a riverside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-muck-spiders",
       "chapter": 4,
@@ -8192,7 +8192,7 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your callsign does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         },
         {
           "requireFlag": "guest-wing-map",
@@ -8220,7 +8220,7 @@
       "id": "dt-ch04-022",
       "kind": "encounter",
       "title": "Muck Spiders",
-      "body": "Webs bridge reed to reed where screams go muffled. Muck-spiders drop like punctuation. Quill swears the Chromeveil invented these to keep honest ledgers dry and spirit jars sealed.",
+      "body": "Webs bridge reed to reed where screams go muffled. Muck-spiders drop like punctuation over spirit-jar crates. Quill swears the Chromeveil invented these to keep honest ledgers dry.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-muck-spiders",
       "chapter": 4,
@@ -8281,7 +8281,7 @@
       "id": "dt-ch04-023",
       "kind": "narrative",
       "title": "Chromeveil River: Iron Humor",
-      "body": "A dead mule teaches economics better than any clerk. You practice not answering to numbers. The road laughs wrong and keeps laughing.",
+      "body": "A dead mule teaches economics better than any clerk. You practice not answering to numbers. The Wilderland laughs wrong and keeps laughing.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -8305,7 +8305,7 @@
       "flagEchoes": [
         {
           "requireFlag": "lawful-hand",
-          "line": "Dustmarch law still tastes like silver you chose over easier blood."
+          "line": "Callsign law still tastes like silver you chose over easier blood."
         },
         {
           "requireFlag": "knows-lyra-early",
@@ -8333,7 +8333,7 @@
       "id": "dt-ch04-026",
       "kind": "narrative",
       "title": "Chromeveil River: Hard Mercy",
-      "body": "Steel rides light; the flask in Quill’s coat does not. Dust and fog become companions with poor hygiene and worse jokes.",
+      "body": "Steel rides light; the flask in Quill’s coat does not. Fog becomes a third companion with poor hygiene and worse jokes.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -8349,7 +8349,7 @@
       "id": "dt-ch04-027",
       "kind": "narrative",
       "title": "Chromeveil River: Scav Bargain",
-      "body": "Spirit-fog holograms flicker prices over your heads. Nobody buys. Everybody watches. The dog marks a post like a treaty.",
+      "body": "Spirit-fog holograms flicker prices over your heads. Nobody buys. Everybody watches. The dog marks a fence post like a treaty.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -8385,7 +8385,7 @@
       "id": "dt-ch04-029",
       "kind": "narrative",
       "title": "Drowned Page",
-      "body": "A ledger scrap surfaces against a snag, ink blurred but cruelly legible. Lyra Vale’s sale date sits beside “sealed operator, unbroken.” Memory-solvent stains the margins. You dry it on Quill’s hat brim like scripture that burns.",
+      "body": "A ledger scrap surfaces against a snag, ink blurred but cruelly legible. Lyra Vale’s sale date sits beside “sealed operator, unbroken.” You dry it on Quill’s hat brim like a relic that can still file charges.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-drowned-page",
       "chapter": 4,
@@ -8395,7 +8395,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second callsign."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "vern-dead",
@@ -8424,7 +8424,7 @@
       "id": "dt-ch04-031",
       "kind": "narrative",
       "title": "Chromeveil River: Stim Wind",
-      "body": "Stim wind tastes like coolant grit and pine ash. A winged silhouette crosses again — drone or wyrm, same omen: something big owns the skyline.",
+      "body": "Stim wind tastes like coolant grit and pine ash. A winged silhouette crosses the fog again — drone or wyrm, same omen: something big owns the skyline.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -8436,7 +8436,7 @@
         },
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         }
       ]
     },
@@ -8484,7 +8484,7 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         },
         {
           "requireFlag": "quiet-passage",
@@ -8512,7 +8512,7 @@
       "id": "dt-ch04-036",
       "kind": "narrative",
       "title": "Ring Count",
-      "body": "Through barge canvas you hear an overseer count rings the way other men count coins — lovingly, without names. Your callsign seal burns. Quill mouths, “Inventory night. Don’t become the joke.”",
+      "body": "Through barge canvas you hear an overseer count rings the way other men count coins — lovingly, without names. One brother’s callsign seal burns. Quill mouths, “Inventory night — freedom’s the audit — don’t quit the count halfway.”",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-barge-rings",
       "chapter": 4,
@@ -8528,7 +8528,7 @@
       "id": "dt-ch04-037",
       "kind": "encounter",
       "title": "River Slavers Ambush",
-      "body": "East wind brings chemical lies and iron honesty in the same breath. A hanged poster of your face lies about the eyes — always the eyes. Then river slavers force the issue — a riverside lesson Quill refuses to skip.",
+      "body": "East wind brings chemical lies and iron honesty in the same breath. A hanged poster of your face lies about the eyes — always the eyes. Somewhere Helix Gate practices smiling until it believes itself. Then river slavers force the issue — a riverside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-slavers",
       "chapter": 4,
@@ -8587,7 +8587,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second callsign."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         }
       ]
     },
@@ -8631,7 +8631,7 @@
       "id": "dt-ch04-040",
       "kind": "narrative",
       "title": "Chromeveil River: East Debt",
-      "body": "East debt is not coin. It is memory-solvent under canvas, Lyra Vale’s sale lot, and a river the freeholds refuse to see.",
+      "body": "East debt is not coin. It is Lyra Vale’s line on a ledger, Project Pale’s blank contracts, and a tower that sells who you were.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -8659,7 +8659,7 @@
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your callsign does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
@@ -8667,7 +8667,7 @@
       "id": "dt-ch04-042",
       "kind": "narrative",
       "title": "Chromeveil River: Quiet Counsel",
-      "body": "You decide the only true thing left: stick together until the road spits out an answer or a corpse. Quietly. Violently if needed.",
+      "body": "You decide the only true thing left: stick together until the east spits out an answer or a corpse. Quietly. Violently if needed.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -8675,7 +8675,7 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your callsign does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
@@ -8683,7 +8683,7 @@
       "id": "dt-ch04-043",
       "kind": "encounter",
       "title": "Toll Orcs",
-      "body": "Spears demand tribute for pretending the river is free. The orcs wear Vale’s check like borrowed manners. Payment options: coin, blood, or a story they will not believe about blank-faced men.",
+      "body": "Spears demand tribute for pretending the Chromeveil is free. The chrome-orcs wear Vale’s check like borrowed manners. Payment options: coin, blood, or a story they will not believe.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-toll-orcs",
       "chapter": 4,
@@ -8744,7 +8744,7 @@
       "id": "dt-ch04-044",
       "kind": "narrative",
       "title": "Chromeveil River: Trail Hygiene",
-      "body": "A warrant nail bleeds resin where a SKU poster used to hang. The dog sniffs Dominion scent under river fog and will not look away.",
+      "body": "A warrant nail bleeds resin where a SKU poster used to hang. The dog sniffs Dominion scent under Chromeveil fog and will not look away.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -8760,7 +8760,7 @@
       "id": "dt-ch04-045",
       "kind": "narrative",
       "title": "Chromeveil River: Old Hunger",
-      "body": "Rations taste like postponement and pepper. Somewhere a freehold sells forgetting by the tab. You buy steel instead.",
+      "body": "Chromeveil rations taste like postponement and pepper. Somewhere a stim-den freehold sells forgetting by the tab. You buy steel instead.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -8788,7 +8788,7 @@
       "flagEchoes": [
         {
           "requireFlag": "lawful-hand",
-          "line": "Dustmarch law still tastes like silver you chose over easier blood."
+          "line": "Callsign law still tastes like silver you chose over easier blood."
         }
       ]
     },
@@ -8796,7 +8796,7 @@
       "id": "dt-ch04-047",
       "kind": "narrative",
       "title": "Chromeveil River: SKU Weather",
-      "body": "SKU weather rolls east — barcodes in the fog, seals in the mud. A hanged scarecrow wears Vale’s check like a joke that landed.",
+      "body": "SKU weather rolls east — barcodes in the fog, seals in the dust. A hanged scarecrow wears Vale’s check like a joke that landed.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -8832,7 +8832,7 @@
       "id": "dt-ch04-049",
       "kind": "narrative",
       "title": "Chromeveil River: Night Watch",
-      "body": "Night watch means listening for barge poles and Dominion boots. One brother counts exits without moving his head. The dog’s ears invent enemies first.",
+      "body": "Night watch means listening for river horns and Dominion boots. One brother counts exits without moving his head. The dog’s ears invent enemies first.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -8848,7 +8848,7 @@
       "id": "dt-ch04-050",
       "kind": "choice",
       "title": "Night Crossing",
-      "body": "Fog hides the middle; courage has to invent the far bank. Underwater, something spirit-shaped brushes your boot and offers a bargain you refuse — for now. You can pole a stolen skiff, swim the channels, or wait for a ferry that may already have sold your face.",
+      "body": "Fog hides the middle; courage has to invent the far bank. You can pole a stolen skiff, swim the channels, or wait for a ferry that may already have sold your face to Helix scanners.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-night-crossing",
       "chapter": 4,
@@ -8858,7 +8858,7 @@
           "label": "Steal the skiff",
           "approach": "Quiet wood, loud conscience later.",
           "outcome": {
-            "text": "Oars bite mud. The far bank arrives colder and closer.",
+            "text": "Oars bite neon water. The dog watches the wake like a second conscience.",
             "xp": 20,
             "flagsAdd": [
               "skiff-stolen"
@@ -8873,7 +8873,7 @@
           "stat": "strength",
           "dc": 14,
           "success": {
-            "text": "Current loses the argument. Spirit-static kisses your ankles and lets go. You crawl out river-born and furious.",
+            "text": "Cold bites chrome and bone. Something in the water knocks like a spirit asking for a name.",
             "xp": 28,
             "flagsAdd": [
               "swam-brands"
@@ -8881,7 +8881,7 @@
             "nextNodeId": "dt-ch04-051"
           },
           "fail": {
-            "text": "Mud wins a round. Quill hauls you up coughing solvent and bile.",
+            "text": "Current wins a round. You crawl out coughing coolant and stubbornness.",
             "xp": 14,
             "damage": 8,
             "flagsAdd": [
@@ -8895,7 +8895,7 @@
           "label": "Bluff the late ferry",
           "approach": "Papers, posture, and Quill’s worst smile.",
           "outcome": {
-            "text": "The ferryman takes seals at face value. Fog forgives the lie.",
+            "text": "The ferryman buys the smile. Helix Gate grows teeth on the far bank.",
             "xp": 18,
             "gold": -6,
             "flagsAdd": [
@@ -8990,7 +8990,7 @@
         },
         {
           "requireFlag": "lawful-hand",
-          "line": "Dustmarch law still tastes like silver you chose over easier blood."
+          "line": "Callsign law still tastes like silver you chose over easier blood."
         }
       ]
     },
@@ -8998,7 +8998,7 @@
       "id": "dt-ch04-056",
       "kind": "narrative",
       "title": "Chromeveil River: Brother Aside",
-      "body": "One brother tastes copper on the wind and does not flinch. Spit misses by manners, not mercy. Paper in your coat weighs less than iron and more than sleep.",
+      "body": "One brother tastes copper on the wind and does not flinch. Dominion spit misses by manners, not mercy. Paper in your coat weighs less than iron and more than sleep.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -9006,7 +9006,7 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         }
       ]
     },
@@ -9014,7 +9014,7 @@
       "id": "dt-ch04-057",
       "kind": "narrative",
       "title": "Slaver Camp",
-      "body": "Tents circle a fire that cooks meat and bad bargains. Overseers dice for numbered rings and spirit-jar lots. You and Quill watch from willow cover while learning which tent snores loudest — and which crate sweats memory-solvent.",
+      "body": "Tents circle a fire that cooks meat and bad bargains. Overseers dice for numbered rings beside crates of memory-solvent. You and Quill watch from willow cover while learning which tent snores and which one counts.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-slaver-camp",
       "chapter": 4,
@@ -9030,7 +9030,7 @@
       "id": "dt-ch04-058",
       "kind": "encounter",
       "title": "Muck Spiders Ambush",
-      "body": "Night insects keep score of every secret step you still take. Warrant ink under your coat weighs more than the steel above it. Then muck-spiders force the issue — a riverside lesson Quill refuses to skip.",
+      "body": "Night insects keep score of every secret step you still take. Warrant ink under your coat weighs more than the steel above it. Somewhere a gate practices smiling until it believes itself. Then muck spiders force the issue — a riverside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-muck-spiders",
       "chapter": 4,
@@ -9105,7 +9105,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second callsign."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "vern-dead",
@@ -9161,7 +9161,7 @@
         },
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second callsign."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         }
       ]
     },
@@ -9185,7 +9185,7 @@
       "id": "dt-ch04-064",
       "kind": "encounter",
       "title": "Barge Troll",
-      "body": "A barge-troll wards the landing with a club bigger than courtesy. It does not care about callsigns — only about who touches rope without permission. Permission smells like blood and chemical freight.",
+      "body": "A barge-troll wards the landing with a club bigger than courtesy. It does not care about callsign seals — only about who touches rope without permission. Permission is currently unavailable.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-barge-troll",
       "chapter": 4,
@@ -9246,7 +9246,7 @@
       "id": "dt-ch04-065",
       "kind": "narrative",
       "title": "Chromeveil River: Powder Prayer",
-      "body": "You pray with chrome and stubbornness. The Wilderland answers with fog that remembers your faces better than you do.",
+      "body": "You pray with chrome and stubbornness. Fog answers with faces you remember better than you remember yourselves.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -9254,7 +9254,7 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your callsign does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
@@ -9306,7 +9306,7 @@
       "flagEchoes": [
         {
           "requireFlag": "lawful-hand",
-          "line": "Dustmarch law still tastes like silver you chose over easier blood."
+          "line": "Callsign law still tastes like silver you chose over easier blood."
         }
       ]
     },
@@ -9350,7 +9350,7 @@
       "id": "dt-ch04-071",
       "kind": "choice",
       "title": "Far Bank Pact",
-      "body": "A kitchen sealed-soul slips the willow line and names three Helix landings used for “quiet cargo.” She asks only that if you enter the House of Seals, you leave a door unlocked behind you.",
+      "body": "A kitchen hand slips the willow line and names three Helix landings used for “quiet cargo.” She asks only that if you enter the House of Seals, you leave a door unlocked behind you.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-far-bank-pact",
       "chapter": 4,
@@ -9360,7 +9360,7 @@
           "label": "Promise the unlocked door",
           "approach": "Bind your uprising to people already inside.",
           "outcome": {
-            "text": "She vanishes like steam. Your map gains a conscience.",
+            "text": "She nods once. The promise weighs more than the map.",
             "xp": 24,
             "flagsAdd": [
               "door-promise",
@@ -9375,7 +9375,7 @@
           "label": "Pay silver; promise nothing",
           "approach": "Buy intel without owing a riot.",
           "outcome": {
-            "text": "Coin changes hands. Trust does not.",
+            "text": "Coin changes hands. Warmth does not. Quill files the cold as useful.",
             "xp": 16,
             "gold": -12,
             "flagsAdd": [
@@ -9392,21 +9392,21 @@
           "stat": "dexterity",
           "dc": 15,
           "success": {
-            "text": "Willow covers the escape. She walks free and gives better maps for it.",
+            "text": "She walks out under your coat. Sirens invent a reason to chase.",
             "xp": 30,
             "flagsAdd": [
-              "thrall-rescued",
+              "sealed-rescued",
               "landing-names",
               "ch4-complete"
             ],
             "nextNodeId": "dt-ch04-072"
           },
           "fail": {
-            "text": "A dog wakes. You both run; maps tear; freedom still sticks.",
+            "text": "Canvas flaps. Horns invent your names. You escape thinner and louder.",
             "xp": 18,
             "damage": 7,
             "flagsAdd": [
-              "thrall-rescued-messy",
+              "sealed-rescued-messy",
               "ch4-complete"
             ],
             "nextNodeId": "dt-ch04-072"
@@ -9418,7 +9418,7 @@
       "id": "dt-ch04-072",
       "kind": "narrative",
       "title": "Chromeveil River: Trail Hygiene",
-      "body": "You wash stim-sweat and river slime off your wrists and pretend it was only work. East smells like ozone, flask heat, and unfinished names.",
+      "body": "You wash stim-sweat and river-mud off your wrists and pretend it was only work. East smells like ozone, flask heat, and unfinished names.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -9506,7 +9506,7 @@
       "id": "dt-ch04-077",
       "kind": "narrative",
       "title": "Chromeveil River: Night Watch",
-      "body": "Two riders tip hats too friendly for the hour. The Wilderland watches and keeps receipts in grit and neon.",
+      "body": "Two riders tip hats too friendly for the hour. Chromeveil watches and keeps receipts in grit and neon.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -9522,7 +9522,7 @@
       "id": "dt-ch04-078",
       "kind": "narrative",
       "title": "Helix Smoke",
-      "body": "Far-bank mud dries into road again. Helix Spire’s smoke finally has a direction you can walk. Quill oil-wipes his crossbow and says, almost kindly, “Gates smile. Don’t smile back.”",
+      "body": "Far-bank mud dries into road again. Helix Gate’s smoke finally has a direction you can walk. Quill oil-wipes his crossbow and says, almost kindly, “Gates smile. Do not smile back first.”",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-candlemire-smoke",
       "chapter": 4,
@@ -9538,7 +9538,7 @@
       "id": "dt-ch04-079",
       "kind": "encounter",
       "title": "River Slavers Ambush",
-      "body": "Quill’s hat brim cuts the sun into a usable blade; the scarred eye does the rest. Continue is the only honest verb left — and one brother does not hesitate. Then river slavers force the issue — a riverside lesson Quill refuses to skip.",
+      "body": "Quill’s hat brim cuts the sun into a usable blade; the scarred eye does the rest. Continue is the only honest verb left, and even it hesitates — one brother does not. East keeps a page that has not learned it can burn. Then river slavers force the issue — a riverside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-slavers",
       "chapter": 4,
@@ -9597,7 +9597,7 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         }
       ]
     },
@@ -9629,7 +9629,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second callsign."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         }
       ]
     },
@@ -9637,7 +9637,7 @@
       "id": "dt-ch04-082",
       "kind": "narrative",
       "title": "Chromeveil River: Hard Mercy",
-      "body": "Hard mercy is cutting one ring and leaving ten for the map. Soft mercy is a sermon. The Chromeveil does not do soft.",
+      "body": "Hard mercy is leaving a barge cutter breathing with a warning carved into his chrome. Soft mercy is a sermon. You choose hard.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -9689,7 +9689,7 @@
       "id": "dt-ch04-085",
       "kind": "narrative",
       "title": "Chromeveil River: Quill's Aside",
-      "body": "Quill’s aside is never soft: “Pretty country. Ugly ownership. Pass the damn bottle.” Fog still clings; whatever comes next washes harder than rain.",
+      "body": "Quill’s aside is never soft: “Pretty country. Ugly ownership. Pass the damn bottle.” Chromeveil still clings; whatever comes next washes harder than rain.",
       "sceneId": "scene-dt-river-of-brands",
       "artId": "art-dt-river-of-brands",
       "chapter": 4,
@@ -9713,7 +9713,7 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your callsign does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         },
         {
           "requireFlag": "guest-wing-map",
@@ -9760,7 +9760,7 @@
       "id": "dt-ch05-001",
       "kind": "narrative",
       "title": "Gate Smile",
-      "body": "Helix Gate keeps grin for coin and drones for mercy — a smile with a spirit meter. Guards weigh your forged callsign like fruit and find it almost ripe. Quill tips his hat at the scan arch like a man tipping a snake.",
+      "body": "Helix Gate’s border keeps grin for coin and iron for mercy — a smile with a spirit meter. Guards weigh your forged callsign seal like fruit and find it almost ripe. Quill tips his hat exactly the angle bribes prefer. “We’re novelty,” he murmurs. “Act expensive.”",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-gate-smile",
       "chapter": 5,
@@ -9815,7 +9815,7 @@
       "id": "dt-ch05-004",
       "kind": "choice",
       "title": "Steward's Smile",
-      "body": "A Helix steward offers “guest guidance” that is clearly a leash. He asks if you prefer the scenic stim-field walk or the efficient path past the seal yards. Quill’s eyes say both are traps; pick the useful one. Corp decadence begins with courtesy.",
+      "body": "A Helix steward offers “guest guidance” that is clearly a leash. He asks if you prefer the scenic stim-field walk or the efficient path past the seal yards. Quill’s eyes say both are traps; pick the useful one.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-steward-smile",
       "chapter": 5,
@@ -9825,7 +9825,7 @@
           "label": "Take the scenic stim walk",
           "approach": "See the yards without admitting you came to burn them.",
           "outcome": {
-            "text": "You memorize latch patterns disguised as tourism.",
+            "text": "Workers do not look up. Looking up is how names become numbers.",
             "xp": 14,
             "flagsAdd": [
               "saw-yards-scenic",
@@ -9839,7 +9839,7 @@
           "label": "Take the efficient path",
           "approach": "Closer to Lyra Vale; closer to dogs.",
           "outcome": {
-            "text": "Mastiff-drones file your scent. Quill tips the steward like a man tipping a snake.",
+            "text": "War-mastiff drones track your heat signature like a welcome.",
             "xp": 14,
             "flagsAdd": [
               "saw-yards-close",
@@ -9854,7 +9854,7 @@
           "approach": "Refuse the leash; invent your own map.",
           "requireFlag": "gate-schedules",
           "outcome": {
-            "text": "Schedules beat smiles. You ghost a service corridor Quill already bought.",
+            "text": "You invent alleys. Helix invents cameras. Quill invents a better smile.",
             "xp": 20,
             "flagsAdd": [
               "ghosted-service",
@@ -9885,7 +9885,7 @@
       "id": "dt-ch05-006",
       "kind": "narrative",
       "title": "Helix Gate: Hard Mercy",
-      "body": "Hard mercy is leaving a slaver breathing with a warning carved into his chrome. Soft mercy is a sermon. You choose hard.",
+      "body": "Hard mercy is leaving a barge cutter breathing with a warning carved into his chrome. Soft mercy is a sermon. You choose hard.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -9937,7 +9937,7 @@
       "id": "dt-ch05-009",
       "kind": "choice",
       "title": "False Papers",
-      "body": "A clerk wants provenance: who wiped you, who pays you, why you smell like river solvent. Spirit meters blink. Neural scans itch. Quill can talk, you can bluff muscle, or a greasy purse can invent ancestors.",
+      "body": "A clerk wants provenance: who freed you, who pays you, why you smell like Chromeveil. Quill can talk, you can bluff muscle, or a greasy purse can invent ancestors.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-false-papers",
       "chapter": 5,
@@ -9947,7 +9947,7 @@
           "label": "Let Quill out-ink them",
           "approach": "Binder jargon as armor.",
           "outcome": {
-            "text": "Stamps bloom. The gate forgets to be curious.",
+            "text": "He speaks three seals into existence. The clerk stamps one and looks smaller.",
             "xp": 20,
             "flagsAdd": [
               "papers-passed"
@@ -9960,7 +9960,7 @@
           "label": "Pay the smile wider",
           "approach": "Coin translates faster than law.",
           "outcome": {
-            "text": "Copper becomes welcome. Suspicion naps.",
+            "text": "The smile widens. The spirit meter blinks green for a lie it likes.",
             "xp": 16,
             "gold": -20,
             "flagsAdd": [
@@ -9977,7 +9977,7 @@
           "stat": "charisma",
           "dc": 15,
           "success": {
-            "text": "They salute the wrong story. You walk in wearing it.",
+            "text": "They buy the swagger. Novelty is camouflage until it isn’t.",
             "xp": 28,
             "flagsAdd": [
               "papers-passed",
@@ -9986,7 +9986,7 @@
             "nextNodeId": "dt-ch05-010"
           },
           "fail": {
-            "text": "The smile hardens. Quill buys the bruise with a bribe and a lie about river fog.",
+            "text": "A scanner chirps wrong. Quill’s bolt tip finishes the negotiation.",
             "xp": 12,
             "damage": 4,
             "flagsAdd": [
@@ -10030,7 +10030,7 @@
         },
         {
           "requireFlag": "lawful-hand",
-          "line": "Dustmarch law still tastes like silver you chose over easier blood."
+          "line": "Callsign law still tastes like silver you chose over easier blood."
         }
       ]
     },
@@ -10038,14 +10038,14 @@
       "id": "dt-ch05-012",
       "kind": "narrative",
       "title": "Seal Sunlight",
-      "body": "Afternoon light flashes off a yard of hanging rings like cheap jewelry for a god of inventory. Quill’s flask pauses mid-air. “Pretty,” he says. “We’re going to vandalize the arithmetic.”",
+      "body": "Afternoon light flashes off a yard of hanging rings like cheap jewelry for a god of inventory. Quill’s flask pauses mid-air. “Pretty,” he says. “We’re going to vandalize the theology.”",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-yard-glimpse",
       "chapter": 5,
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         },
         {
           "requireFlag": "lyra-first",
@@ -10094,7 +10094,7 @@
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-war-mastiffs",
       "chapter": 5,
-      "enemy": "War Mastiffs",
+      "enemy": "War-Mastiff Pair",
       "enemyArtId": "art-dt-war-mastiffs",
       "enemyHp": 118,
       "enemyPower": 19,
@@ -10149,7 +10149,7 @@
       "flagEchoes": [
         {
           "requireFlag": "swam-brands",
-          "line": "River cold still lives in your bones — you beat the Chromeveil River once."
+          "line": "River cold still lives in your bones — you beat the Chromeveil once."
         },
         {
           "requireFlag": "yard-priced",
@@ -10177,7 +10177,7 @@
       "id": "dt-ch05-017",
       "kind": "narrative",
       "title": "Stim Fields",
-      "body": "Beyond the gate, stim fields move like punctuation under overseers’ grammar. Workers do not look up; looking up is how names become numbers. One brother rides the wind from dust to neon and refuses to bow.",
+      "body": "Beyond the gate, stim crops move like punctuation under overseers’ grammar. Workers do not look up; looking up is how names become numbers. One brother rides the wind from distant chimneys.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-cane-fields",
       "chapter": 5,
@@ -10217,7 +10217,7 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         },
         {
           "requireFlag": "lyra-first",
@@ -10245,7 +10245,7 @@
       "id": "dt-ch05-021",
       "kind": "narrative",
       "title": "Helix Gate: East Debt",
-      "body": "East debt is Helix Gate’s smile meter and Lyra Vale somewhere past the smoke. Quill points at the Spire like a man accusing weather.",
+      "body": "East debt is not coin. It is Lyra Vale’s line on a ledger, Project Pale’s blank contracts, and a tower that sells who you were.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -10269,11 +10269,11 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second callsign."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your callsign does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
@@ -10281,7 +10281,7 @@
       "id": "dt-ch05-023",
       "kind": "narrative",
       "title": "Helix Gate: Quiet Counsel",
-      "body": "You decide the only true thing left: stick together until the road spits out an answer or a corpse. Quietly. Violently if needed.",
+      "body": "You decide the only true thing left: stick together until the east spits out an answer or a corpse. Quietly. Violently if needed.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -10297,7 +10297,7 @@
       "id": "dt-ch05-024",
       "kind": "narrative",
       "title": "Helix Gate: Trail Hygiene",
-      "body": "Gate neon sticks to chrome like unpaid debt. Spirit meters blink as you pass. Quill mutters that clean smiles lie louder than dirty knives.",
+      "body": "Helix Gate grit sticks to chrome like unpaid debt. One brother scrapes barge grease off a blade and calls it hygiene. Quill mutters that clean water lies louder than muddy.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -10313,7 +10313,7 @@
       "id": "dt-ch05-025",
       "kind": "encounter",
       "title": "War Mastiffs",
-      "body": "War-mastiff drones learn callsign scent from posters. Handlers whistle a code that means inventory returning. Quill’s bolt answers the whistle first. Overhead, a dragon silhouette or bio-mech chassis cuts the smoke — leave it ambiguous.",
+      "body": "War-mastiff drones learn callsign scent from posters. Handlers whistle a code that means inventory returning. Quill’s bolt answers the whistle first.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-war-mastiffs",
       "chapter": 5,
@@ -10374,7 +10374,7 @@
       "id": "dt-ch05-026",
       "kind": "narrative",
       "title": "Helix Gate: Old Hunger",
-      "body": "Rations taste like postponement and pepper. Somewhere a freehold sells forgetting by the tab. You buy steel instead.",
+      "body": "Helix Gate rations taste like postponement and pepper. Somewhere a stim-den freehold sells forgetting by the tab. You buy steel instead.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -10410,7 +10410,7 @@
       "id": "dt-ch05-028",
       "kind": "narrative",
       "title": "Helix Gate: SKU Weather",
-      "body": "SKU weather rolls east — barcodes in the fog, seals in the mud. A hanged scarecrow wears Vale’s check like a joke that landed.",
+      "body": "SKU weather rolls east — barcodes in the fog, seals in the dust. A hanged scarecrow wears Vale’s check like a joke that landed.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -10418,7 +10418,7 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your callsign does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
@@ -10446,7 +10446,7 @@
       "id": "dt-ch05-030",
       "kind": "narrative",
       "title": "Helix Gate: Night Watch",
-      "body": "Night watch means listening for barge poles and Dominion boots. One brother counts exits without moving his head. The dog’s ears invent enemies first.",
+      "body": "Night watch means listening for river horns and Dominion boots. One brother counts exits without moving his head. The dog’s ears invent enemies first.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -10462,7 +10462,7 @@
       "id": "dt-ch05-031",
       "kind": "narrative",
       "title": "Helix Gate: Iron Humor",
-      "body": "A dead mule teaches economics better than any clerk. You practice not answering to numbers. The road laughs wrong and keeps laughing.",
+      "body": "A dead mule teaches economics better than any clerk. You practice not answering to numbers. The Wilderland laughs wrong and keeps laughing.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -10470,7 +10470,7 @@
       "flagEchoes": [
         {
           "requireFlag": "lawful-hand",
-          "line": "Dustmarch law still tastes like silver you chose over easier blood."
+          "line": "Callsign law still tastes like silver you chose over easier blood."
         }
       ]
     },
@@ -10498,7 +10498,7 @@
       "id": "dt-ch05-033",
       "kind": "narrative",
       "title": "Guest Courtesy",
-      "body": "A steward offers wine that tastes like surveillance. Helix Gate’s guest wing is polite the way traps are polite. Quill toasts Director Vale’s health with a mouth that does not mean it. Transactional intimacy hums in the wallpaper — world texture, not the product.",
+      "body": "A steward offers wine that tastes like surveillance. Helix Gate’s guest wing is polite the way traps are polite. Quill toasts Director Vale’s health with a mouth that does not mean it.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-guest-wine",
       "chapter": 5,
@@ -10508,7 +10508,7 @@
       "flagEchoes": [
         {
           "requireFlag": "swam-brands",
-          "line": "River cold still lives in your bones — you beat the Chromeveil River once."
+          "line": "River cold still lives in your bones — you beat the Chromeveil once."
         },
         {
           "requireFlag": "yard-priced",
@@ -10573,7 +10573,7 @@
       "id": "dt-ch05-037",
       "kind": "narrative",
       "title": "Helix Gate: Brother Aside",
-      "body": "One brother tastes copper on the wind and does not flinch. Spit misses by manners, not mercy. Paper in your coat weighs less than iron and more than sleep.",
+      "body": "One brother tastes copper on the wind and does not flinch. Dominion spit misses by manners, not mercy. Paper in your coat weighs less than iron and more than sleep.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -10605,7 +10605,7 @@
       "id": "dt-ch05-039",
       "kind": "narrative",
       "title": "Helix Gate: Stim Wind",
-      "body": "Stim wind tastes like coolant grit and pine ash. A winged silhouette crosses again — drone or wyrm, same omen: something big owns the skyline.",
+      "body": "Stim wind tastes like coolant grit and pine ash. A winged silhouette crosses the fog again — drone or wyrm, same omen: something big owns the skyline.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -10617,7 +10617,7 @@
         },
         {
           "requireFlag": "lawful-hand",
-          "line": "Dustmarch law still tastes like silver you chose over easier blood."
+          "line": "Callsign law still tastes like silver you chose over easier blood."
         }
       ]
     },
@@ -10625,7 +10625,7 @@
       "id": "dt-ch05-040",
       "kind": "encounter",
       "title": "Gate Guards Ambush",
-      "body": "Fence wire hums a note that used to mean inventory. One brother learns freehold posture: chin up, exits counted, no bowing to seals. Then gate guards force the issue — a border lesson Quill refuses to skip.",
+      "body": "Fence wire hums a note that used to mean inventory. One brother learns freehold posture: chin up, exits counted, no bowing to seals. Novelty is camouflage until it isn’t — Quill’s favorite warning. Then gate guards force the issue — a roadside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-gate-guards",
       "chapter": 5,
@@ -10692,7 +10692,7 @@
       "id": "dt-ch05-041",
       "kind": "narrative",
       "title": "Yard Glimpse",
-      "body": "Past a trimmed hedge, neural collars flash in sunlight like cheap jewelry. Numbers march between posts. Somewhere in that grammar, Lyra Vale is still a sentence unfinished — sealed operator, pretty SKU.",
+      "body": "Past a trimmed hedge, neural collars flash in sunlight like cheap jewelry. Numbers march between posts. Somewhere in that grammar, Lyra Vale is still a sentence unfinished.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-yard-glimpse",
       "chapter": 5,
@@ -10735,7 +10735,7 @@
       "flagEchoes": [
         {
           "requireFlag": "swam-brands",
-          "line": "River cold still lives in your bones — you beat the Chromeveil River once."
+          "line": "River cold still lives in your bones — you beat the Chromeveil once."
         },
         {
           "requireFlag": "yard-priced",
@@ -10787,7 +10787,7 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         },
         {
           "requireFlag": "lyra-first",
@@ -10815,7 +10815,7 @@
       "id": "dt-ch05-048",
       "kind": "narrative",
       "title": "Helix Gate: East Debt",
-      "body": "East debt is Helix Gate’s smile meter and Lyra Vale somewhere past the smoke. Quill points at the Spire like a man accusing weather.",
+      "body": "East debt is not coin. It is Lyra Vale’s line on a ledger, Project Pale’s blank contracts, and a tower that sells who you were.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -10831,7 +10831,7 @@
       "id": "dt-ch05-049",
       "kind": "narrative",
       "title": "Quill Prices the Yard",
-      "body": "Quill estimates lock types, dog routes, and bribe windows the way other guests estimate wine. “Pretty inventory,” he drawls. “Ugly arithmetic. We break both before dessert.”",
+      "body": "Quill estimates lock types, dog routes, and bribe windows the way other guests estimate wine. “Pretty inventory,” he drawls. “Ugly arithmetic. We break both before dessert — and we do not quit at the hedge.”",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-yard-glimpse",
       "chapter": 5,
@@ -10858,11 +10858,11 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second callsign."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your callsign does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
@@ -10886,7 +10886,7 @@
       "id": "dt-ch05-052",
       "kind": "narrative",
       "title": "Helix Gate: Trail Hygiene",
-      "body": "A warrant nail bleeds resin where a SKU poster used to hang. The dog sniffs Dominion scent under river fog and will not look away.",
+      "body": "A warrant nail bleeds resin where a SKU poster used to hang. The dog sniffs Dominion scent under Helix Gate fog and will not look away.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -10902,7 +10902,7 @@
       "id": "dt-ch05-053",
       "kind": "narrative",
       "title": "Helix Gate: Old Hunger",
-      "body": "Rations taste like postponement and pepper. Somewhere a freehold sells forgetting by the tab. You buy steel instead.",
+      "body": "Helix Gate rations taste like postponement and pepper. Somewhere a stim-den freehold sells forgetting by the tab. You buy steel instead.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -10938,7 +10938,7 @@
       "id": "dt-ch05-055",
       "kind": "encounter",
       "title": "Mire Orcs Ambush",
-      "body": "Steel rides light; the flask in Quill’s coat does not. Memory of cages arrives uninvited, then leaves when named. Then mire orcs force the issue — a border lesson Quill refuses to skip.",
+      "body": "Steel rides light; the flask in Quill’s coat does not. Memory of cages arrives uninvited, then leaves when named. Quill packs the silence like powder — dry, useful, dangerous. Then mire orcs force the issue — a roadside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-mire-orcs",
       "chapter": 5,
@@ -10997,7 +10997,7 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your callsign does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
@@ -11025,15 +11025,15 @@
       "id": "dt-ch05-057",
       "kind": "choice",
       "title": "Name Denied",
-      "body": "No servant will say Lyra Vale — until a linen-girl mouths the syllables like a prayer under laundry. She will talk for a key, a promise, or a threat she can live with. Names are dangerous; she spends one anyway.",
+      "body": "No servant will say Lyra — until a linen-girl mouths the syllables like a prayer under laundry. She will talk for a key, a promise, or a threat she can live with.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-name-denied",
       "chapter": 5,
       "choices": [
         {
           "id": "ch5-key-trade",
-          "label": "Trade a key for the loft",
-          "approach": "Buy her unlocking hope; get her map.",
+          "label": "Trade a spare key rumor",
+          "approach": "Give her unlocking hope; get her map.",
           "outcome": {
             "text": "She names the sealed-operator loft above the Undervault pit.",
             "xp": 24,
@@ -11048,7 +11048,7 @@
           "label": "Promise her a west road",
           "approach": "Bind her future to your uprising.",
           "outcome": {
-            "text": "Hope is currency here. She spends it on you carefully.",
+            "text": "Hope becomes a contract. Quill pretends not to notarize it with a nod.",
             "xp": 22,
             "flagsAdd": [
               "lyra-loft-known",
@@ -11064,7 +11064,7 @@
           "stat": "wisdom",
           "dc": 15,
           "success": {
-            "text": "Overseer Gash terrifies her more than Vale. You get routes around him.",
+            "text": "Fear of meters, not men. You speak meter-language and she opens.",
             "xp": 30,
             "flagsAdd": [
               "lyra-loft-known",
@@ -11073,7 +11073,7 @@
             "nextNodeId": "dt-ch05-058"
           },
           "fail": {
-            "text": "You lean too hard; she flees. Quill still scrapes a half-map from her panic.",
+            "text": "You guess wrong. Laundry swallows her name again.",
             "xp": 14,
             "flagsAdd": [
               "lyra-loft-partial"
@@ -11087,7 +11087,7 @@
       "id": "dt-ch05-058",
       "kind": "narrative",
       "title": "Helix Gate: Night Watch",
-      "body": "Two riders tip hats too friendly for the hour. The Wilderland watches and keeps receipts in grit and neon.",
+      "body": "Two riders tip hats too friendly for the hour. Helix Gate watches and keeps receipts in grit and neon.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -11111,7 +11111,7 @@
       "flagEchoes": [
         {
           "requireFlag": "lawful-hand",
-          "line": "Dustmarch law still tastes like silver you chose over easier blood."
+          "line": "Callsign law still tastes like silver you chose over easier blood."
         }
       ]
     },
@@ -11191,7 +11191,7 @@
       "id": "dt-ch05-064",
       "kind": "narrative",
       "title": "Helix Gate: Brother Aside",
-      "body": "One brother tastes copper on the wind and does not flinch. Spit misses by manners, not mercy. Paper in your coat weighs less than iron and more than sleep.",
+      "body": "One brother tastes copper on the wind and does not flinch. Dominion spit misses by manners, not mercy. Paper in your coat weighs less than iron and more than sleep.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -11207,7 +11207,7 @@
       "id": "dt-ch05-065",
       "kind": "encounter",
       "title": "Wickernetic Sentries",
-      "body": "Wicker-and-iron wickernetic sentries pace the inner fence with swords that do not joke. Guests are allowed daylight gardens; night gardens bite. You chose night.",
+      "body": "Wicker-and-chrome sentries pace the inner fence with swords that do not joke — wickernetic husks under Helix chrome. Guests are allowed daylight gardens; night gardens bite. You chose night.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-wicker-sentries",
       "chapter": 5,
@@ -11268,7 +11268,7 @@
       "id": "dt-ch05-066",
       "kind": "narrative",
       "title": "Helix Gate: Quill's Aside",
-      "body": "Quill’s aside is never soft: “Pretty country. Ugly ownership. Pass the damn bottle.” Fog still clings; whatever comes next washes harder than rain.",
+      "body": "Quill’s aside is never soft: “Pretty country. Ugly ownership. Pass the damn bottle.” Helix Gate still clings; whatever comes next washes harder than rain.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -11296,7 +11296,7 @@
         },
         {
           "requireFlag": "lawful-hand",
-          "line": "Dustmarch law still tastes like silver you chose over easier blood."
+          "line": "Callsign law still tastes like silver you chose over easier blood."
         }
       ]
     },
@@ -11344,7 +11344,7 @@
       "flagEchoes": [
         {
           "requireFlag": "swam-brands",
-          "line": "River cold still lives in your bones — you beat the Chromeveil River once."
+          "line": "River cold still lives in your bones — you beat the Chromeveil once."
         },
         {
           "requireFlag": "yard-priced",
@@ -11388,7 +11388,7 @@
       "id": "dt-ch05-073",
       "kind": "narrative",
       "title": "Quill's Wager",
-      "body": "Quill bets charm against Vale’s curiosity at a receiving table and loses nothing yet. Director Vale’s laugh is soft, expensive, and interested in novelty — which you are, until you become inventory again. A fourth blade watches from the column shadows: rival, defector, or both — Eric’s seat pressure, if the pack has room.",
+      "body": "Quill bets charm against Director Vale’s curiosity at a receiving table and loses nothing yet. Vale’s laugh is soft, expensive, and interested in novelty — which you unfortunately are.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-quill-wager",
       "chapter": 5,
@@ -11415,7 +11415,7 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         },
         {
           "requireFlag": "lyra-first",
@@ -11467,11 +11467,11 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second callsign."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your callsign does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
@@ -11495,7 +11495,7 @@
       "id": "dt-ch05-079",
       "kind": "narrative",
       "title": "Helix Gate: Trail Hygiene",
-      "body": "A warrant nail bleeds resin where a SKU poster used to hang. The dog sniffs Dominion scent under river fog and will not look away.",
+      "body": "A warrant nail bleeds resin where a SKU poster used to hang. The dog sniffs Dominion scent under Helix Gate fog and will not look away.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -11511,7 +11511,7 @@
       "id": "dt-ch05-080",
       "kind": "encounter",
       "title": "Wickernetic Sentries Ambush",
-      "body": "Two riders tip hats too friendly for the hour. A joke dies mid-laugh when Vale’s check appears on a sleeve. Then wickernetic sentries force the issue — a border lesson Quill refuses to skip.",
+      "body": "Two riders tip hats too friendly for the hour. A joke dies mid-laugh when Vale’s check appears on a sleeve. Country like this remembers every unpaid mile. Then wickernetic sentries force the issue — a roadside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-wicker-sentries",
       "chapter": 5,
@@ -11582,7 +11582,7 @@
       "id": "dt-ch05-081",
       "kind": "choice",
       "title": "Inner Fence",
-      "body": "Beyond hospitality, Helix Gate stops pretending. You can idle as guests and listen, volunteer for pit entertainment to get closer, or slip the seal yard tonight while Quill keeps Vale drinking.",
+      "body": "Beyond hospitality, Helix Gate stops pretending. You can idle as guests and listen, volunteer for Undervault entertainment to get closer, or slip the seal yard tonight while Quill keeps Vale drinking.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-inner-fence",
       "chapter": 5,
@@ -11592,7 +11592,7 @@
           "label": "Play guest; harvest rumor",
           "approach": "Patience over steel for one more night.",
           "outcome": {
-            "text": "Rumors ripen. The House of Seals opens its dinner invitations.",
+            "text": "Rumors thicken into room numbers. Blue ribbon confirmed in whispers.",
             "xp": 20,
             "flagsAdd": [
               "guest-listen",
@@ -11606,7 +11606,7 @@
           "label": "Volunteer for the Undervault pit",
           "approach": "Blood gets you nearer than manners.",
           "outcome": {
-            "text": "Vale’s smile widens. The pit calendars your callsign.",
+            "text": "Silk invitation accepted. Sand already knows your blood type.",
             "xp": 22,
             "flagsAdd": [
               "pit-volunteer",
@@ -11622,7 +11622,7 @@
           "stat": "dexterity",
           "dc": 16,
           "success": {
-            "text": "You mark Lyra Vale’s window by a blue ribbon no ledger ordered.",
+            "text": "Rings counted. Latches mapped. The dog invents a quieter exit.",
             "xp": 32,
             "flagsAdd": [
               "lyra-window-marked",
@@ -11631,7 +11631,7 @@
             "nextNodeId": "dt-ch05-082"
           },
           "fail": {
-            "text": "Dogs almost invent you. You retreat with half a ribbon and a full pulse.",
+            "text": "A meter chirps. You invent speed. Quill invents a toast louder than alarms.",
             "xp": 16,
             "damage": 6,
             "flagsAdd": [
@@ -11671,7 +11671,7 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your callsign does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
@@ -11699,7 +11699,7 @@
       "id": "dt-ch05-085",
       "kind": "narrative",
       "title": "Helix Gate: Night Watch",
-      "body": "Two riders tip hats too friendly for the hour. The Wilderland watches and keeps receipts in grit and neon.",
+      "body": "Two riders tip hats too friendly for the hour. Helix Gate watches and keeps receipts in grit and neon.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -11723,7 +11723,7 @@
       "flagEchoes": [
         {
           "requireFlag": "lawful-hand",
-          "line": "Dustmarch law still tastes like silver you chose over easier blood."
+          "line": "Callsign law still tastes like silver you chose over easier blood."
         }
       ]
     },
@@ -11767,7 +11767,7 @@
       "id": "dt-ch05-089",
       "kind": "narrative",
       "title": "House Threshold",
-      "body": "Guest rooms overlook yards of rings, meters, and numbered beds. Friendship here is whispered at risk of skin. Quill sets two cups down and says, “Dinner with Vale is a battlefield with better silver.”",
+      "body": "Guest rooms overlook yards of rings and numbers. Friendship here is whispered at risk of skin. Quill sets two cups down and says, “Dinner with Vale is a battlefield that uses forks.”",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-house-threshold",
       "chapter": 5,
@@ -11783,7 +11783,7 @@
       "id": "dt-ch05-090",
       "kind": "narrative",
       "title": "Helix Gate: Hard Mercy",
-      "body": "Hard mercy is leaving a slaver breathing with a warning carved into his chrome. Soft mercy is a sermon. You choose hard.",
+      "body": "Hard mercy is leaving a barge cutter breathing with a warning carved into his chrome. Soft mercy is a sermon. You choose hard.",
       "sceneId": "scene-dt-candlemire-gates",
       "artId": "art-dt-candlemire-gates",
       "chapter": 5,
@@ -11838,7 +11838,7 @@
       "id": "dt-ch06-001",
       "kind": "narrative",
       "title": "Dinner Seals",
-      "body": "Director Vale toasts guests while dessert plates hide ledgers like knives under napkins. His jokes inventory people without raising his voice — comedy as accounting. Surveillance intimacy: every smile is a meter reading.",
+      "body": "Director Vale toasts guests while dessert plates hide ledgers like knives under napkins. His jokes inventory people without raising his voice — comedy as accounting. You smile with teeth that remember cages and taste sugar like a threat.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-dinner-seals",
       "chapter": 6,
@@ -11862,7 +11862,7 @@
       "id": "dt-ch06-002",
       "kind": "narrative",
       "title": "House of Seals: Quiet Counsel",
-      "body": "One brother hears dragon radio-chatter in the canopy. Another laughs once, then stops. The third checks the dog’s eyes for answers.",
+      "body": "One brother hears dragon radio-chatter in the fog. Another laughs once, then stops. The third checks the dog’s eyes for answers.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -11878,7 +11878,7 @@
       "id": "dt-ch06-003",
       "kind": "narrative",
       "title": "House of Seals: Trail Hygiene",
-      "body": "You wash stim-sweat and river slime off your wrists and pretend it was only work. East smells like ozone, flask heat, and unfinished names.",
+      "body": "You wash stim-sweat and river-mud off your wrists and pretend it was only work. East smells like ozone, flask heat, and unfinished names.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -11904,7 +11904,7 @@
           "label": "Lie: we’re novelty fighters",
           "approach": "Play to Vale’s vanity; stay invited.",
           "outcome": {
-            "text": "She slips a gallery key into the bread. “Vanity opens doors.”",
+            "text": "He laughs like a ledger closing. The key is warm when it hits your palm.",
             "xp": 16,
             "flagsAdd": [
               "lied-novelty",
@@ -11918,7 +11918,7 @@
           "label": "Lie: Quill’s still buying",
           "approach": "Speak binder language Vale understands.",
           "outcome": {
-            "text": "Ledger key. Quill looks sick and grateful in equal measure.",
+            "text": "Binder math buys a corridor. Quill hates how well it works.",
             "xp": 16,
             "flagsAdd": [
               "lied-binder",
@@ -11933,7 +11933,7 @@
           "approach": "Refuse the kitchen’s theater; trust steel later.",
           "requireFlag": "lyra-proof",
           "outcome": {
-            "text": "She respects the refusal. “Then oil the latch yourself.”",
+            "text": "She shrugs. “Then steal louder.” Quill tips her for the honesty.",
             "xp": 14,
             "flagsAdd": [
               "no-dessert-lie",
@@ -11948,14 +11948,14 @@
       "id": "dt-ch06-005",
       "kind": "narrative",
       "title": "Lyra Through Glass",
-      "body": "For one breath the silhouette is surely her — chin, stubborn angle, the way she used to refuse to bow to weather. Lyra Vale, sealed operator, stolen fourth. Then fear invents doubles. You do not call out. Identity fracture starts with almost.",
+      "body": "For one breath the silhouette is surely her — chin, stubborn angle, the way she used to refuse to bow to weather. Then fear invents doubles. You do not call out. Not yet. Identity fracture tastes like copper and static.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-window-lyra",
       "chapter": 6,
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         }
       ],
       "next": "dt-ch06-006"
@@ -11964,7 +11964,7 @@
       "id": "dt-ch06-006",
       "kind": "narrative",
       "title": "House of Seals: Old Hunger",
-      "body": "Rations taste like postponement and pepper. Somewhere a freehold sells forgetting by the tab. You buy steel instead.",
+      "body": "House of Seals rations taste like postponement and pepper. Somewhere a stim-den freehold sells forgetting by the tab. You buy steel instead.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -11976,7 +11976,7 @@
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your callsign does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
@@ -12000,7 +12000,7 @@
       "id": "dt-ch06-008",
       "kind": "narrative",
       "title": "House of Seals: SKU Weather",
-      "body": "SKU weather rolls east — barcodes in the fog, seals in the mud. A hanged scarecrow wears Vale’s check like a joke that landed.",
+      "body": "SKU weather rolls east — barcodes in the fog, seals in the dust. A hanged scarecrow wears Vale’s check like a joke that landed.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -12015,10 +12015,10 @@
     {
       "id": "dt-ch06-009",
       "kind": "narrative",
-      "title": "Sealed Whisper",
-      "body": "A kitchen hand names rooms where sealed operators sleep locked — loft above the Undervault court, window latched from outside. Blue ribbon confirmed. Hope becomes architecture. One brother flinches like he remembers volunteering for Pale — or being volunteered.",
+      "title": "Seal Whisper",
+      "body": "A kitchen hand names rooms where sealed operators sleep locked — loft above the Undervault court, window latched from outside. Blue ribbon confirmed. Hope becomes architecture.",
       "sceneId": "scene-dt-house-of-collars",
-      "artId": "art-dt-thrall-whisper",
+      "artId": "art-dt-seal-whisper",
       "chapter": 6,
       "flagsAdd": [
         "song-loft-confirmed"
@@ -12026,7 +12026,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second callsign."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         }
       ],
       "next": "dt-ch06-010"
@@ -12055,7 +12055,7 @@
       "id": "dt-ch06-011",
       "kind": "narrative",
       "title": "House of Seals: Night Watch",
-      "body": "Two riders tip hats too friendly for the hour. The Wilderland watches and keeps receipts in grit and neon.",
+      "body": "Two riders tip hats too friendly for the hour. House of Seals watches and keeps receipts in grit and neon.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -12071,7 +12071,7 @@
       "id": "dt-ch06-012",
       "kind": "narrative",
       "title": "Guest Peg Sermon",
-      "body": "Quill counts neural-collar pegs in the guest corridor the way other men count rosaries. “Each ring is a name Vale filed wrong,” he murmurs. “We are the clerical error with teeth.”",
+      "body": "Quill counts neural-neural-neural-collar pegs in the guest corridor the way other men count rosaries. “Each ring is a name Vale filed wrong,” he murmurs. “We are the clerical error with teeth.”",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-collar-yard",
       "chapter": 6,
@@ -12123,7 +12123,7 @@
       "id": "dt-ch06-015",
       "kind": "encounter",
       "title": "Punishment Hounds Ambush",
-      "body": "Clouds drag shadows across stim-colored grass like slow warrants. One brother keeps count of locks without moving his mouth — guest manners. Then punishment-hounds force the issue — a house lesson Quill refuses to skip.",
+      "body": "Clouds drag shadows across stim-colored grass like slow warrants. One brother keeps count of locks without moving his mouth — guest manners. Everything wears dust but the promise with Lyra Vale’s name. Then punishment hounds force the issue — a house lesson Quill refuses to skip.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-punishment-hounds",
       "chapter": 6,
@@ -12182,7 +12182,7 @@
       "flagEchoes": [
         {
           "requireFlag": "swam-brands",
-          "line": "River cold still lives in your bones — you beat the Chromeveil River once."
+          "line": "River cold still lives in your bones — you beat the Chromeveil once."
         }
       ]
     },
@@ -12190,7 +12190,7 @@
       "id": "dt-ch06-016",
       "kind": "narrative",
       "title": "House of Seals: Hard Mercy",
-      "body": "Hard mercy is leaving a slaver breathing with a warning carved into his chrome. Soft mercy is a sermon. You choose hard.",
+      "body": "Hard mercy is leaving a barge cutter breathing with a warning carved into his chrome. Soft mercy is a sermon. You choose hard.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -12206,7 +12206,7 @@
       "id": "dt-ch06-017",
       "kind": "choice",
       "title": "Window Light",
-      "body": "A silhouette might be Lyra Vale — or hope wearing her outline and your fear doing the costuming. You can call soft, wait for Quill’s signal, or send the kitchen hand with a scrap of callsign ink as proof you are real and not another of Vale’s jokes.",
+      "body": "A silhouette might be Lyra Vale — or hope wearing her outline and your fear doing the costuming. You can call soft, wait for Quill’s signal, or send the kitchen hand with a scrap of callsign ink as proof you are real and not another Pale ghost.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-window-light",
       "chapter": 6,
@@ -12216,7 +12216,7 @@
           "label": "Call her name once",
           "approach": "Risk recognition; refuse anonymity.",
           "outcome": {
-            "text": "The silhouette freezes, then taps twice. Recognition is a wound that heals right.",
+            "text": "Glass answers with breath. Not yet a reunion — a receipt.",
             "xp": 26,
             "flagsAdd": [
               "lyra-tap"
@@ -12229,7 +12229,7 @@
           "label": "Wait for Quill’s signal",
           "approach": "Discipline over longing.",
           "outcome": {
-            "text": "Patience tastes bitter and wise. The plan stays intact.",
+            "text": "The ruined hat tips once. Timing becomes a weapon.",
             "xp": 18,
             "flagsAdd": [
               "window-watched"
@@ -12259,6 +12259,9 @@
               "proof-intercepted"
             ],
             "nextNodeId": "dt-ch06-018"
+          },
+          "outcome": {
+            "text": "The scrap vanishes under a door. Hope files itself as evidence."
           }
         }
       ]
@@ -12267,7 +12270,7 @@
       "id": "dt-ch06-018",
       "kind": "narrative",
       "title": "House of Seals: Scav Bargain",
-      "body": "Spirit-fog holograms flicker prices over your heads. Nobody buys. Everybody watches. The dog marks a post like a treaty.",
+      "body": "Spirit-fog holograms flicker prices over your heads. Nobody buys. Everybody watches. The dog marks a fence post like a treaty.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -12339,7 +12342,7 @@
       "id": "dt-ch06-022",
       "kind": "narrative",
       "title": "House of Seals: Binder Math",
-      "body": "Binder math: three stubborn blanks plus one dog plus one drunk marshal equals a hunting party the road notices. Quill does not apologize for the arithmetic.",
+      "body": "Binder math: three stubborn blanks plus one dog plus one drunk marshal equals a hunting party the Neon Wilderland notices. Quill does not apologize for the arithmetic.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -12347,7 +12350,7 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         }
       ]
     },
@@ -12383,7 +12386,7 @@
         },
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         }
       ]
     },
@@ -12391,7 +12394,7 @@
       "id": "dt-ch06-025",
       "kind": "encounter",
       "title": "Overseer Gash",
-      "body": "An orc with a branded chain counts you like inventory returning. Overseer Gash smells river mud on your boots and callsign on your wrist. Conversation becomes geometry. Cruelty is the house dialect.",
+      "body": "An orc with a branded chain counts you like inventory returning. Overseer Gash smells Chromeveil mud on your boots and a callsign seal on your wrist. Conversation becomes geometry of blades.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-overseer-gash",
       "chapter": 6,
@@ -12476,7 +12479,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second callsign."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         }
       ]
     },
@@ -12536,7 +12539,7 @@
       "id": "dt-ch06-031",
       "kind": "narrative",
       "title": "House of Seals: Dust Mile",
-      "body": "Dust mile tastes like stim residue and river ash. Bootleather remembers every mile better than maps. Quit is not a word you own.",
+      "body": "Dust mile tastes like stim residue and house of seals fog. Bootleather remembers every mile better than maps. Quit is not a word you own.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -12556,7 +12559,7 @@
       "id": "dt-ch06-032",
       "kind": "narrative",
       "title": "House of Seals: Quiet Counsel",
-      "body": "One brother hears dragon radio-chatter in the canopy. Another laughs once, then stops. The third checks the dog’s eyes for answers.",
+      "body": "One brother hears dragon radio-chatter in the fog. Another laughs once, then stops. The third checks the dog’s eyes for answers.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -12564,7 +12567,7 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your callsign does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
@@ -12572,14 +12575,14 @@
       "id": "dt-ch06-033",
       "kind": "narrative",
       "title": "House Blades",
-      "body": "Courteous duelists practice ending conversations early in the gallery. They invite you as “sport between courses.” Quill declines for both of you with a smile that files a later warrant.",
+      "body": "Courteous duelists practice ending conversations early in the gallery. They invite you as “sport between courses.” Quill declines for both of you with a smile that files itself under later.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-blades",
       "chapter": 6,
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         }
       ],
       "next": "dt-ch06-034"
@@ -12588,7 +12591,7 @@
       "id": "dt-ch06-034",
       "kind": "narrative",
       "title": "House of Seals: Trail Hygiene",
-      "body": "Guest-corridor polish sticks to chrome like unpaid debt. Numbered beds hum through the floor. Quill mutters that clean hospitality lies louder than dirty steel.",
+      "body": "House of Seals grit sticks to chrome like unpaid debt. One brother scrapes barge grease off a blade and calls it hygiene. Quill mutters that clean water lies louder than muddy.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -12632,7 +12635,7 @@
       "flagEchoes": [
         {
           "requireFlag": "lawful-hand",
-          "line": "Dustmarch law still tastes like silver you chose over easier blood."
+          "line": "Callsign law still tastes like silver you chose over easier blood."
         }
       ]
     },
@@ -12668,7 +12671,7 @@
         },
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second callsign."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         }
       ]
     },
@@ -12692,7 +12695,7 @@
       "id": "dt-ch06-040",
       "kind": "encounter",
       "title": "Overseer Orcs Ambush",
-      "body": "Wagon ruts braid into a grammar only hunters read fluently. Quill’s scarred eye never quite closes on a lie — useful, exhausting, honest. Then overseer orcs force the issue — a house lesson Quill refuses to skip.",
+      "body": "Wagon ruts braid into a grammar only hunters read fluently. Quill’s scarred eye never quite closes on a lie — useful, exhausting, honest. Small dangers flinch; the real ones smile and follow. Then overseer orcs force the issue — a house lesson Quill refuses to skip.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-overseer-orcs",
       "chapter": 6,
@@ -12759,7 +12762,7 @@
       "id": "dt-ch06-041",
       "kind": "encounter",
       "title": "Punishment Hounds",
-      "body": "Punishment-hounds are walked through guest corridors as reminder landscaping. One stops at your callsign seal and invents a theory. Theories here have teeth. Collars as kink-of-power metaphor — not erotica — just ownership breathing.",
+      "body": "Punishment-hounds are walked through guest corridors as reminder landscaping. One stops at your callsign seal and invents a theory. Theories here have teeth.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-punishment-hounds",
       "chapter": 6,
@@ -12856,7 +12859,7 @@
       "id": "dt-ch06-044",
       "kind": "narrative",
       "title": "House of Seals: Hard Mercy",
-      "body": "Steel rides light; the flask in Quill’s coat does not. Dust and fog become companions with poor hygiene and worse jokes.",
+      "body": "Steel rides light; the flask in Quill’s coat does not. Fog becomes a third companion with poor hygiene and worse jokes.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -12872,7 +12875,7 @@
       "id": "dt-ch06-045",
       "kind": "narrative",
       "title": "House of Seals: Scav Bargain",
-      "body": "Spirit-fog holograms flicker prices over your heads. Nobody buys. Everybody watches. The dog marks a post like a treaty.",
+      "body": "Spirit-fog holograms flicker prices over your heads. Nobody buys. Everybody watches. The dog marks a fence post like a treaty.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -12916,7 +12919,7 @@
       "flagEchoes": [
         {
           "requireFlag": "swam-brands",
-          "line": "River cold still lives in your bones — you beat the Chromeveil River once."
+          "line": "River cold still lives in your bones — you beat the Chromeveil once."
         }
       ]
     },
@@ -12944,7 +12947,7 @@
       "id": "dt-ch06-049",
       "kind": "choice",
       "title": "Midnight Pact",
-      "body": "Sealed folk offer silence for a plan that includes them — keys, oil for hinges, and a refusal to leave anyone numbered behind. Quill warns that wide revolts are loud. Loud can still be right. Optional betrayal pressure: a fourth seat could sell this whisper.",
+      "body": "Sealed folk offer silence for a plan that includes them — keys, oil for hinges, and a refusal to leave anyone numbered behind. Quill warns that wide revolts are loud. Loud can still be right. One brother tastes the fracture: who volunteered for Pale — or who volunteered whom.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-midnight-pact",
       "chapter": 6,
@@ -12954,7 +12957,7 @@
           "label": "Promise the whole yard",
           "approach": "Liberation as plural or not at all.",
           "outcome": {
-            "text": "Keys change religion. The house gains a second heartbeat.",
+            "text": "Hands find hands. Oil finds hinges. The House invents a quieter night than it deserves.",
             "xp": 28,
             "flagsAdd": [
               "wide-revolt-pact",
@@ -12965,7 +12968,7 @@
         },
         {
           "id": "ch6-narrow-extract",
-          "label": "Extract Lyra first",
+          "label": "Extract Lyra Vale first",
           "approach": "Surgical rescue; uprising later.",
           "outcome": {
             "text": "The sealed folk help colder. Speed becomes your only apology.",
@@ -12998,6 +13001,9 @@
               "wide-revolt-pact"
             ],
             "nextNodeId": "dt-ch06-050"
+          },
+          "outcome": {
+            "text": "Silk masks, forged smiles. Quill conducts escape like a bad opera that works."
           }
         }
       ]
@@ -13038,7 +13044,7 @@
       "id": "dt-ch06-052",
       "kind": "narrative",
       "title": "House of Seals: Camp Gossip",
-      "body": "House gossip: sealed operators sleep above the Undervault court. Word travels usefully — maybe too usefully. Dominion ears grow in the walls.",
+      "body": "Camp gossip: lost brothers walk. Word travels usefully — maybe too usefully. Dominion ears grow in the underbrush.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -13082,7 +13088,7 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         }
       ]
     },
@@ -13110,7 +13116,7 @@
       "id": "dt-ch06-056",
       "kind": "encounter",
       "title": "Punishment Hounds Ambush",
-      "body": "Clouds drag shadows across stim-colored grass like slow warrants. One brother learns freehold posture: chin up, exits counted, no bowing to seals. Then punishment-hounds force the issue — a house lesson Quill refuses to skip.",
+      "body": "Clouds drag shadows across stim-colored grass like slow warrants. One brother learns freehold posture: chin up, exits counted, no bowing to seals. Latches soften when oil believes in them — and when you do. Then punishment hounds force the issue — a house lesson Quill refuses to skip.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-punishment-hounds",
       "chapter": 6,
@@ -13177,7 +13183,7 @@
       "id": "dt-ch06-057",
       "kind": "narrative",
       "title": "Seal Yard",
-      "body": "Rings hang on pegs labeled with numbers older than mercy. You walk the yard as a “curious guest” while counting lock types. Somewhere a synth-mandolin practices daylight screams for tomorrow’s Undervault.",
+      "body": "Rings hang on pegs labeled with numbers older than mercy. You walk the yard as a “curious guest” while counting lock types. Somewhere a synth-mandolin practices daylight scales that will keep time with screaming after dark.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-collar-yard",
       "chapter": 6,
@@ -13217,7 +13223,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second callsign."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "knows-lyra-early",
@@ -13229,7 +13235,7 @@
       "id": "dt-ch06-060",
       "kind": "narrative",
       "title": "House of Seals: Quiet Counsel",
-      "body": "You decide the only true thing left: stick together until the road spits out an answer or a corpse. Quietly. Violently if needed.",
+      "body": "You decide the only true thing left: stick together until the east spits out an answer or a corpse. Quietly. Violently if needed.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -13245,7 +13251,7 @@
       "id": "dt-ch06-061",
       "kind": "narrative",
       "title": "House of Seals: Trail Hygiene",
-      "body": "Guest-corridor polish sticks to chrome like unpaid debt. Numbered beds hum through the floor. Quill mutters that clean hospitality lies louder than dirty steel.",
+      "body": "House of Seals grit sticks to chrome like unpaid debt. One brother scrapes barge grease off a blade and calls it hygiene. Quill mutters that clean water lies louder than muddy.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -13305,7 +13311,7 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your callsign does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
@@ -13313,7 +13319,7 @@
       "id": "dt-ch06-065",
       "kind": "narrative",
       "title": "Peg Theology",
-      "body": "Halbrecht Quill stops under a peg row and tips his ruined hat like a man in church. “Each ring is a name filed wrong,” he murmurs. “Tonight we become the clerical error. And one of you — don’t flinch — may have asked for Pale.”",
+      "body": "Halbrecht Quill stops under a peg row and tips his ruined hat like a man in church. “Each ring is a name filed wrong,” he murmurs. “Tonight we become the clerical error with teeth. Don’t you damn quit at the first latch.”",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-collar-yard",
       "chapter": 6,
@@ -13323,7 +13329,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second callsign."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         }
       ],
       "next": "dt-ch06-066"
@@ -13344,7 +13350,7 @@
         },
         {
           "requireFlag": "lawful-hand",
-          "line": "Dustmarch law still tastes like silver you chose over easier blood."
+          "line": "Callsign law still tastes like silver you chose over easier blood."
         }
       ]
     },
@@ -13352,7 +13358,7 @@
       "id": "dt-ch06-067",
       "kind": "narrative",
       "title": "House of Seals: Night Watch",
-      "body": "Night watch means listening for barge poles and Dominion boots. One brother counts exits without moving his head. The dog’s ears invent enemies first.",
+      "body": "Night watch means listening for river horns and Dominion boots. One brother counts exits without moving his head. The dog’s ears invent enemies first.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -13368,7 +13374,7 @@
       "id": "dt-ch06-068",
       "kind": "narrative",
       "title": "House of Seals: Iron Humor",
-      "body": "A dead mule teaches economics better than any clerk. You practice not answering to numbers. The road laughs wrong and keeps laughing.",
+      "body": "A dead mule teaches economics better than any clerk. You practice not answering to numbers. The Wilderland laughs wrong and keeps laughing.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -13376,7 +13382,7 @@
       "flagEchoes": [
         {
           "requireFlag": "lawful-hand",
-          "line": "Dustmarch law still tastes like silver you chose over easier blood."
+          "line": "Callsign law still tastes like silver you chose over easier blood."
         }
       ]
     },
@@ -13420,7 +13426,7 @@
       "id": "dt-ch06-071",
       "kind": "encounter",
       "title": "Sealed Champions Ambush",
-      "body": "Two riders tip hats too friendly for the hour. Somewhere east, ink still invents people into inventory. Then sealed champions force the issue — a house lesson Quill refuses to skip.",
+      "body": "Two riders tip hats too friendly for the hour. Somewhere east, ink still invents people into inventory. One brother sets the pace like a man owed a name and too stubborn to renegotiate. Then sealed champions force the issue — a house lesson Quill refuses to skip.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-collared-champions",
       "chapter": 6,
@@ -13487,7 +13493,7 @@
       "id": "dt-ch06-072",
       "kind": "narrative",
       "title": "House of Seals: Scav Bargain",
-      "body": "Spirit-fog holograms flicker prices over your heads. Nobody buys. Everybody watches. The dog marks a post like a treaty.",
+      "body": "Spirit-fog holograms flicker prices over your heads. Nobody buys. Everybody watches. The dog marks a fence post like a treaty.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -13517,7 +13523,7 @@
           "label": "Lean into the binder fame",
           "approach": "Own Quill’s legend; sell it as Vale’s amusement.",
           "outcome": {
-            "text": "Vale laughs and invites “famous law” to the Undervault tomorrow.",
+            "text": "Vale laughs. Quill drinks. The table forgets to ask the dangerous next question.",
             "xp": 22,
             "flagsAdd": [
               "quill-exposed",
@@ -13532,7 +13538,7 @@
           "label": "Challenge the rival’s tongue",
           "approach": "Steel etiquette as distraction.",
           "outcome": {
-            "text": "Gallery applause covers a kitchen key exchange. Ugly elegance.",
+            "text": "Gallery steel draws polite applause. Your real exit buys thirty seconds.",
             "xp": 24,
             "flagsAdd": [
               "rival-duel",
@@ -13548,7 +13554,7 @@
           "stat": "intelligence",
           "dc": 16,
           "success": {
-            "text": "Attention swivels. Quill’s name becomes yesterday’s spice.",
+            "text": "Curiosity pivots. The rival becomes dessert. You become furniture again.",
             "xp": 30,
             "flagsAdd": [
               "rumor-redirect",
@@ -13557,7 +13563,7 @@
             "nextNodeId": "dt-ch06-074"
           },
           "fail": {
-            "text": "Vale likes both scandals. The pit invitation arrives anyway.",
+            "text": "The rumor lands wrong. Vale’s smile invents a new course called interrogation.",
             "xp": 14,
             "flagsAdd": [
               "quill-exposed",
@@ -13573,7 +13579,7 @@
       "id": "dt-ch06-074",
       "kind": "narrative",
       "title": "House of Seals: Brother Aside",
-      "body": "One brother tastes copper on the wind and does not flinch. Spit misses by manners, not mercy. Paper in your coat weighs less than iron and more than sleep.",
+      "body": "One brother tastes copper on the wind and does not flinch. Dominion spit misses by manners, not mercy. Paper in your coat weighs less than iron and more than sleep.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -13605,7 +13611,7 @@
       "id": "dt-ch06-076",
       "kind": "narrative",
       "title": "House of Seals: Stim Wind",
-      "body": "Stim wind tastes like coolant grit and pine ash. A winged silhouette crosses again — drone or wyrm, same omen: something big owns the skyline.",
+      "body": "Stim wind tastes like coolant grit and pine ash. A winged silhouette crosses the fog again — drone or wyrm, same omen: something big owns the skyline.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -13657,7 +13663,7 @@
       "id": "dt-ch06-079",
       "kind": "narrative",
       "title": "House of Seals: Camp Gossip",
-      "body": "House gossip: sealed operators sleep above the Undervault court. Word travels usefully — maybe too usefully. Dominion ears grow in the walls.",
+      "body": "Camp gossip: lost brothers walk. Word travels usefully — maybe too usefully. Dominion ears grow in the underbrush.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -13665,7 +13671,7 @@
       "flagEchoes": [
         {
           "requireFlag": "swam-brands",
-          "line": "River cold still lives in your bones — you beat the Chromeveil River once."
+          "line": "River cold still lives in your bones — you beat the Chromeveil once."
         },
         {
           "requireFlag": "rat-scared",
@@ -13692,8 +13698,8 @@
     {
       "id": "dt-ch06-081",
       "kind": "narrative",
-      "title": "Mandolin Tomorrow",
-      "body": "Lanterns are hung over sand that already knows blood. Vale’s steward delivers silks for “honored fighters.” Quill folds the insult into a plan. Somewhere above, Lyra Vale waits behind a latch — and the Undervault waits under neon.",
+      "title": "Undervault Tomorrow",
+      "body": "Lanterns are hung over sand that already knows blood. Vale’s steward delivers silks for “honored fighters.” Quill folds the insult into a plan. Somewhere above, a blue ribbon waits on a latch.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-mandolin-tomorrow",
       "chapter": 6,
@@ -13777,7 +13783,7 @@
       "id": "dt-ch06-086",
       "kind": "encounter",
       "title": "Overseer Orcs Ambush",
-      "body": "A child’s chalk callsign on a fence post has already been scrubbed. Quill’s scarred eye never quite closes on a lie — useful, exhausting, honest. Then overseer orcs force the issue — a house lesson Quill refuses to skip.",
+      "body": "A child’s chalk callsign on a fence post has already been scrubbed. Quill’s scarred eye never quite closes on a lie — useful, exhausting, honest. The stim smell thickens like a dare. Then overseer orcs force the issue — a house lesson Quill refuses to skip.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-overseer-orcs",
       "chapter": 6,
@@ -13836,7 +13842,7 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Helix Spire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         },
         {
           "requireFlag": "lyra-first",
@@ -13848,7 +13854,7 @@
       "id": "dt-ch06-087",
       "kind": "narrative",
       "title": "House of Seals: Quiet Counsel",
-      "body": "You decide the only true thing left: stick together until the road spits out an answer or a corpse. Quietly. Violently if needed.",
+      "body": "You decide the only true thing left: stick together until the east spits out an answer or a corpse. Quietly. Violently if needed.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -13864,7 +13870,7 @@
       "id": "dt-ch06-088",
       "kind": "narrative",
       "title": "House of Seals: Trail Hygiene",
-      "body": "Guest-corridor polish sticks to chrome like unpaid debt. Numbered beds hum through the floor. Quill mutters that clean hospitality lies louder than dirty steel.",
+      "body": "House of Seals grit sticks to chrome like unpaid debt. One brother scrapes barge grease off a blade and calls it hygiene. Quill mutters that clean water lies louder than muddy.",
       "sceneId": "scene-dt-house-of-collars",
       "artId": "art-dt-house-of-collars",
       "chapter": 6,
@@ -13908,7 +13914,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second callsign."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         }
       ]
     },
