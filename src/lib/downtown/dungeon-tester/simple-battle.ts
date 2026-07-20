@@ -168,6 +168,12 @@ export type SimpleBattleState = {
   rewardsPending?: boolean;
   /** Camp sleep night ambush — same wipe path, night-flavored copy. */
   nightAmbush?: boolean;
+  /** Foes present at ambush start (for domination half-kill math). */
+  initialEnemyCount?: number;
+  /** Mid-fight reinforcement — at most one spawn per battle. */
+  reinforcementSpawned?: boolean;
+  /** Party level stamped at start (reinforcement scaling). */
+  partyLevel?: number;
 };
 
 export type SimpleBattleLootDrop = {
@@ -429,12 +435,177 @@ const HERO_SPOTS: { x: number; y: number }[] = [
 /** Dog sits slightly ahead/below their owner. */
 const DOG_SPOT_OFFSET = { x: 10, y: 10 };
 
-/** Fixed enemy lanes — right side. */
+/** Fixed enemy lanes — right side. Max living reinforcements share these. */
 const ENEMY_SPOTS: { x: number; y: number }[] = [
   { x: 78, y: 32 },
   { x: 84, y: 52 },
   { x: 76, y: 72 },
 ];
+
+const MAX_ENEMY_UNITS = ENEMY_SPOTS.length;
+
+function buildEnemyUnit(
+  f: DtCreatureDef,
+  index: number,
+  opts: {
+    partyLevel: number;
+    chapterNum: number;
+    hpMult: number;
+    powerMult: number;
+    rng: () => number;
+  }
+): SimpleBattleUnit {
+  const spot =
+    ENEMY_SPOTS[index] ??
+    {
+      x: 80 + (index % 2) * 4,
+      y: 40 + index * 12,
+    };
+  const levelScale = 1 + (opts.partyLevel - 1) * 0.08;
+  const hp = Math.max(6, Math.round(f.hp * levelScale * opts.hpMult));
+  const power = Math.max(1, Math.round(f.power * levelScale * opts.powerMult));
+  return {
+    id: `enemy-${f.id}-${index}-${uid("r")}`,
+    side: "enemy",
+    name: f.name,
+    color: ENEMY_COLORS[index % ENEMY_COLORS.length]!,
+    hp,
+    maxHp: hp,
+    power,
+    armor: opts.chapterNum <= 2 ? 0 : Math.min(f.armor ?? 0, 4),
+    x: spot.x,
+    y: spot.y,
+    haste: false,
+    hasteRounds: 0,
+    actionsLeft: 1,
+    mana: 0,
+    maxMana: 0,
+    stamina: 0,
+    maxStamina: 0,
+    artId: f.artId,
+    foeDefId: f.id,
+    lootPool: f.lootPool,
+    moveCursor: Math.floor(
+      opts.rng() * Math.max(1, getDtPokeCard(f.id)?.moves.length ?? 1)
+    ),
+    stunRounds: 0,
+    poisonStacks: 0,
+    powerBuff: 0,
+    powerBuffRounds: 0,
+  };
+}
+
+/**
+ * Party is dominating when clearly ahead on the board.
+ * Any one of:
+ * - living enemy HP fraction ≤ 40%
+ * - foes defeated ≥ half of initial pack AND no player hero down
+ * - party HP% ≥ enemy HP% + 30 and enemies under 55%
+ */
+export function isSimpleBattleDominating(battle: SimpleBattleState): boolean {
+  const heroes = livingPlayerHeroes(battle.units);
+  const foes = living(battle.units, "enemy");
+  if (!heroes.length || !foes.length) return false;
+
+  const enemyHp = foes.reduce((s, u) => s + u.hp, 0);
+  const enemyMax = foes.reduce((s, u) => s + u.maxHp, 0);
+  const enemyPct = enemyMax > 0 ? enemyHp / enemyMax : 1;
+
+  const partyHp = heroes.reduce((s, u) => s + u.hp, 0);
+  const partyMax = heroes.reduce((s, u) => s + u.maxHp, 0);
+  const partyPct = partyMax > 0 ? partyHp / partyMax : 0;
+
+  if (enemyPct <= 0.4) return true;
+
+  const initial = battle.initialEnemyCount ?? foes.length;
+  const defeated = battle.units.filter((u) => u.side === "enemy" && u.hp <= 0).length;
+  const anyHeroDown = battle.units.some(
+    (u) => u.side === "hero" && !u.isDog && u.hp <= 0
+  );
+  if (defeated >= Math.ceil(initial / 2) && !anyHeroDown) return true;
+
+  if (partyPct >= enemyPct + 0.3 && enemyPct < 0.55) return true;
+
+  return false;
+}
+
+/**
+ * Mid-fight reinforcement (once per battle):
+ * Trigger when round ≥ 2 OR at least one foe has fallen, and the party is
+ * dominating. Spawns 1 foe from the same chapter/night pool, scaled like the
+ * opening ambush. Never if won/lost, already reinforced, or living foes already
+ * fill every lane (no cascade).
+ */
+export function maybeSpawnBattleReinforcement(
+  battle: SimpleBattleState,
+  rng: () => number = Math.random
+): SimpleBattleState {
+  if (battle.status !== "active" || battle.phase === "summary") return battle;
+  if (battle.reinforcementSpawned) return battle;
+
+  const livingFoes = living(battle.units, "enemy");
+  if (!livingFoes.length) return battle; // victory path owns the end
+  if (livingFoes.length >= MAX_ENEMY_UNITS) return battle;
+
+  const defeated = battle.units.filter((u) => u.side === "enemy" && u.hp <= 0).length;
+  const midFight = battle.round >= 2 || defeated >= 1;
+  if (!midFight) return battle;
+  if (!isSimpleBattleDominating(battle)) return battle;
+
+  const chapterNum = chapterNumberFromId(battle.chapterId);
+  const lvl = Math.max(1, battle.partyLevel ?? 1);
+  const tuning = encounterSpawnTuning(chapterNum, 1); // mid-fight: use non-first-ambush dial
+  const maxCreatureLevel =
+    chapterNum <= 1 ? 3 : chapterNum <= 2 ? 6 : chapterNum <= 3 ? 10 : chapterNum <= 5 ? 18 : 99;
+
+  const def = battle.nightAmbush
+    ? rollNightCreature(rng)
+    : rollDtCreature(lvl, rng, { maxCreatureLevel });
+
+  const index = battle.units.filter((u) => u.side === "enemy").length;
+  const unit = buildEnemyUnit(def, index, {
+    partyLevel: lvl,
+    chapterNum,
+    hpMult: tuning.hpMult,
+    powerMult: tuning.powerMult,
+    rng,
+  });
+
+  const pulp =
+    battle.nightAmbush
+      ? `Reinforcement! ${def.name} slips from the dark — the fire wasn't enough.`
+      : `Reinforcement! ${def.name} answers the dust — the road won't let you stroll.`;
+
+  let next: SimpleBattleState = {
+    ...battle,
+    units: [...battle.units, unit],
+    reinforcementSpawned: true,
+    goldReward: battle.goldReward + (def.gold ?? 0),
+    xpReward: battle.xpReward + (def.xp ?? 0),
+    message: pulp,
+    fx: [
+      {
+        id: uid("fx"),
+        kind: "burst",
+        style: "enemy",
+        fromId: unit.id,
+        toId: unit.id,
+        color: "#e85a3a",
+      },
+      {
+        id: uid("flt"),
+        kind: "float",
+        style: "enemy",
+        fromId: unit.id,
+        toId: unit.id,
+        label: "Reinforcement!",
+        color: "#ffc4b0",
+      },
+    ],
+  };
+  next = pushLog(next, pulp);
+  return next;
+}
 
 function living(units: SimpleBattleUnit[], side?: "hero" | "enemy"): SimpleBattleUnit[] {
   return units.filter((u) => u.hp > 0 && (!side || u.side === side));
@@ -1228,39 +1399,15 @@ export function startSimpleBattle(
     });
   });
 
-  const enemyUnits: SimpleBattleUnit[] = foes.map((f, i) => {
-    const spot = ENEMY_SPOTS[i] ?? { x: 80, y: 40 + i * 16 };
-    const levelScale = 1 + (lvl - 1) * 0.08;
-    const hp = Math.max(6, Math.round(f.hp * levelScale * tuning.hpMult));
-    const power = Math.max(1, Math.round(f.power * levelScale * tuning.powerMult));
-    return {
-      id: `enemy-${f.id}-${i}`,
-      side: "enemy" as const,
-      name: f.name,
-      color: ENEMY_COLORS[i % ENEMY_COLORS.length]!,
-      hp,
-      maxHp: hp,
-      power,
-      armor: chapterNum <= 2 ? 0 : Math.min(f.armor ?? 0, 4),
-      x: spot.x,
-      y: spot.y,
-      haste: false,
-      hasteRounds: 0,
-      actionsLeft: 1,
-      mana: 0,
-      maxMana: 0,
-      stamina: 0,
-      maxStamina: 0,
-      artId: f.artId,
-      foeDefId: f.id,
-      lootPool: f.lootPool,
-      moveCursor: Math.floor(rng() * Math.max(1, getDtPokeCard(f.id)?.moves.length ?? 1)),
-      stunRounds: 0,
-      poisonStacks: 0,
-      powerBuff: 0,
-      powerBuffRounds: 0,
-    };
-  });
+  const enemyUnits: SimpleBattleUnit[] = foes.map((f, i) =>
+    buildEnemyUnit(f, i, {
+      partyLevel: lvl,
+      chapterNum,
+      hpMult: tuning.hpMult,
+      powerMult: tuning.powerMult,
+      rng,
+    })
+  );
 
   const mapped = mapThemeForWorld(world, rng);
   const theme: SimpleMapTheme = nightAmbush ? "campfire" : mapped.theme;
@@ -1304,6 +1451,9 @@ export function startSimpleBattle(
     lootDrops: [],
     rewardsPending: false,
     nightAmbush: nightAmbush || undefined,
+    initialEnemyCount: foes.length,
+    reinforcementSpawned: false,
+    partyLevel: lvl,
   };
 
   return {
@@ -1577,6 +1727,10 @@ function runEnemyPhase(
   for (const dog of livingDogs(next.units)) {
     if (next.status !== "active") break;
     next = dogActInPlace(next, dog, rng);
+  }
+  // After dogs: if party still dominating mid-fight, one foe may join and swing.
+  if (next.status === "active") {
+    next = maybeSpawnBattleReinforcement(next, rng);
   }
   const foes = living(next.units, "enemy");
   for (const foe of foes) {
@@ -1927,6 +2081,7 @@ export function performSimpleBattleAction(
   if (!heroesStillActing(nextBattle.units)) {
     // Hold on enemy phase with player FX still painted — UI calls
     // advanceSimpleBattleEnemyPhase after rays/floats play out.
+    // Reinforcement (if any) spawns inside runEnemyPhase so player rays stay.
     nextBattle = {
       ...nextBattle,
       phase: "enemy",
