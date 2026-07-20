@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "title": "The Neon Wilderland",
   "worldMapId": "map-wilderland",
   "regions": [
@@ -10,8 +10,79 @@
       "chapterId": "dt-ch-01-chain-road",
       "chapter": 1,
       "localMapId": "local-ch-01",
-      "pin": { "x": 12, "y": 62 },
-      "terrain": ["road", "valley"]
+      "pin": {
+        "x": 12,
+        "y": 62
+      },
+      "terrain": [
+        "road",
+        "valley"
+      ],
+      "beats": [
+        {
+          "id": "beat-01-wake-cold",
+          "nodeId": "dt-ch01-001",
+          "t": 0,
+          "kind": "reveal",
+          "label": "Wake cold"
+        },
+        {
+          "id": "beat-01-callsigns",
+          "nodeId": "dt-ch01-017",
+          "t": 0.137,
+          "kind": "choice",
+          "label": "Callsigns"
+        },
+        {
+          "id": "beat-01-trail-tax",
+          "nodeId": "dt-ch01-030",
+          "t": 0.248,
+          "kind": "fight",
+          "label": "Trail tax"
+        },
+        {
+          "id": "beat-01-glade-raid",
+          "nodeId": "dt-ch01-041",
+          "t": 0.342,
+          "kind": "fight",
+          "label": "Glade raid"
+        },
+        {
+          "id": "beat-01-seal-yard",
+          "nodeId": "dt-ch01-065",
+          "t": 0.547,
+          "kind": "reveal",
+          "label": "Seal-yard"
+        },
+        {
+          "id": "beat-01-first-fire",
+          "nodeId": "dt-ch01-073",
+          "t": 0.615,
+          "kind": "camp",
+          "label": "First fire"
+        },
+        {
+          "id": "beat-01-neon-scavs",
+          "nodeId": "dt-ch01-086",
+          "t": 0.726,
+          "kind": "fight",
+          "label": "Neon scavs"
+        },
+        {
+          "id": "beat-01-vern-cornered",
+          "nodeId": "dt-ch01-105",
+          "t": 0.889,
+          "kind": "choice",
+          "label": "Vern cornered"
+        },
+        {
+          "id": "beat-01-name-on-paper",
+          "nodeId": "dt-ch01-113",
+          "t": 0.957,
+          "kind": "reveal",
+          "label": "Name on paper"
+        }
+      ]
     },
     {
       "id": "region-dust-and-debt",
@@ -20,8 +91,72 @@
       "chapterId": "dt-ch-02-dust-and-debt",
       "chapter": 2,
       "localMapId": "local-ch-02",
-      "pin": { "x": 22, "y": 55 },
-      "terrain": ["hills", "road"]
+      "pin": {
+        "x": 22,
+        "y": 55
+      },
+      "terrain": [
+        "hills",
+        "road"
+      ],
+      "beats": [
+        {
+          "id": "beat-02-tavern-odds",
+          "nodeId": "dt-ch02-004",
+          "t": 0.026,
+          "kind": "choice",
+          "label": "Tavern odds"
+        },
+        {
+          "id": "beat-02-flask-catechism",
+          "nodeId": "dt-ch02-005",
+          "t": 0.034,
+          "kind": "reveal",
+          "label": "Flask catechism"
+        },
+        {
+          "id": "beat-02-which-warrant",
+          "nodeId": "dt-ch02-017",
+          "t": 0.137,
+          "kind": "choice",
+          "label": "Which warrant"
+        },
+        {
+          "id": "beat-02-hill-spears",
+          "nodeId": "dt-ch02-033",
+          "t": 0.274,
+          "kind": "fight",
+          "label": "Hill spears"
+        },
+        {
+          "id": "beat-02-deal-or-steel",
+          "nodeId": "dt-ch02-049",
+          "t": 0.41,
+          "kind": "choice",
+          "label": "Deal or steel"
+        },
+        {
+          "id": "beat-02-bounty-thieves",
+          "nodeId": "dt-ch02-073",
+          "t": 0.615,
+          "kind": "fight",
+          "label": "Bounty thieves"
+        },
+        {
+          "id": "beat-02-how-hard",
+          "nodeId": "dt-ch02-097",
+          "t": 0.821,
+          "kind": "camp",
+          "label": "How hard"
+        },
+        {
+          "id": "beat-02-warrant-runners",
+          "nodeId": "dt-ch02-118",
+          "t": 1,
+          "kind": "fight",
+          "label": "Warrant runners"
+        }
+      ]
     },
     {
       "id": "region-wanted-mark",
@@ -30,8 +165,72 @@
       "chapterId": "dt-ch-03-wanted-mark",
       "chapter": 3,
       "localMapId": "local-ch-03",
-      "pin": { "x": 34, "y": 48 },
-      "terrain": ["forest", "hills"]
+      "pin": {
+        "x": 34,
+        "y": 48
+      },
+      "terrain": [
+        "forest",
+        "hills"
+      ],
+      "beats": [
+        {
+          "id": "beat-03-poster-ink",
+          "nodeId": "dt-ch03-004",
+          "t": 0.034,
+          "kind": "choice",
+          "label": "Poster ink"
+        },
+        {
+          "id": "beat-03-false-friend",
+          "nodeId": "dt-ch03-015",
+          "t": 0.161,
+          "kind": "choice",
+          "label": "False friend"
+        },
+        {
+          "id": "beat-03-spy-ravens",
+          "nodeId": "dt-ch03-022",
+          "t": 0.241,
+          "kind": "fight",
+          "label": "Spy ravens"
+        },
+        {
+          "id": "beat-03-mark-hunters",
+          "nodeId": "dt-ch03-037",
+          "t": 0.414,
+          "kind": "fight",
+          "label": "Mark hunters"
+        },
+        {
+          "id": "beat-03-quill-s-debt",
+          "nodeId": "dt-ch03-050",
+          "t": 0.563,
+          "kind": "reveal",
+          "label": "Quill's debt"
+        },
+        {
+          "id": "beat-03-paid-knights",
+          "nodeId": "dt-ch03-057",
+          "t": 0.644,
+          "kind": "fight",
+          "label": "Paid knights"
+        },
+        {
+          "id": "beat-03-eastward-sign",
+          "nodeId": "dt-ch03-071",
+          "t": 0.805,
+          "kind": "choice",
+          "label": "Eastward sign"
+        },
+        {
+          "id": "beat-03-hunters-close",
+          "nodeId": "dt-ch03-087",
+          "t": 0.989,
+          "kind": "fight",
+          "label": "Hunters close"
+        }
+      ]
     },
     {
       "id": "region-river-of-brands",
@@ -40,8 +239,72 @@
       "chapterId": "dt-ch-04-river-of-brands",
       "chapter": 4,
       "localMapId": "local-ch-04",
-      "pin": { "x": 44, "y": 58 },
-      "terrain": ["river", "lake"]
+      "pin": {
+        "x": 44,
+        "y": 58
+      },
+      "terrain": [
+        "river",
+        "lake"
+      ],
+      "beats": [
+        {
+          "id": "beat-04-reed-confession",
+          "nodeId": "dt-ch04-004",
+          "t": 0.034,
+          "kind": "reveal",
+          "label": "Reed confession"
+        },
+        {
+          "id": "beat-04-free-or-follow",
+          "nodeId": "dt-ch04-015",
+          "t": 0.161,
+          "kind": "choice",
+          "label": "Free or follow"
+        },
+        {
+          "id": "beat-04-muck-spiders",
+          "nodeId": "dt-ch04-022",
+          "t": 0.241,
+          "kind": "fight",
+          "label": "Muck spiders"
+        },
+        {
+          "id": "beat-04-river-slavers",
+          "nodeId": "dt-ch04-037",
+          "t": 0.414,
+          "kind": "fight",
+          "label": "River slavers"
+        },
+        {
+          "id": "beat-04-toll-orcs",
+          "nodeId": "dt-ch04-043",
+          "t": 0.483,
+          "kind": "fight",
+          "label": "Toll orcs"
+        },
+        {
+          "id": "beat-04-night-crossing",
+          "nodeId": "dt-ch04-050",
+          "t": 0.563,
+          "kind": "camp",
+          "label": "Night crossing"
+        },
+        {
+          "id": "beat-04-barge-troll",
+          "nodeId": "dt-ch04-064",
+          "t": 0.724,
+          "kind": "fight",
+          "label": "Barge troll"
+        },
+        {
+          "id": "beat-04-far-bank",
+          "nodeId": "dt-ch04-071",
+          "t": 0.805,
+          "kind": "choice",
+          "label": "Far bank"
+        }
+      ]
     },
     {
       "id": "region-candlemire-gates",
@@ -50,8 +313,72 @@
       "chapterId": "dt-ch-05-candlemire-gates",
       "chapter": 5,
       "localMapId": "local-ch-05",
-      "pin": { "x": 56, "y": 46 },
-      "terrain": ["mire", "gates"]
+      "pin": {
+        "x": 56,
+        "y": 46
+      },
+      "terrain": [
+        "mire",
+        "gates"
+      ],
+      "beats": [
+        {
+          "id": "beat-05-steward-smile",
+          "nodeId": "dt-ch05-004",
+          "t": 0.033,
+          "kind": "choice",
+          "label": "Steward smile"
+        },
+        {
+          "id": "beat-05-false-papers",
+          "nodeId": "dt-ch05-009",
+          "t": 0.088,
+          "kind": "choice",
+          "label": "False papers"
+        },
+        {
+          "id": "beat-05-war-mastiffs",
+          "nodeId": "dt-ch05-025",
+          "t": 0.264,
+          "kind": "fight",
+          "label": "War mastiffs"
+        },
+        {
+          "id": "beat-05-gate-guards",
+          "nodeId": "dt-ch05-040",
+          "t": 0.429,
+          "kind": "fight",
+          "label": "Gate guards"
+        },
+        {
+          "id": "beat-05-mire-orcs",
+          "nodeId": "dt-ch05-055",
+          "t": 0.593,
+          "kind": "fight",
+          "label": "Mire orcs"
+        },
+        {
+          "id": "beat-05-name-denied",
+          "nodeId": "dt-ch05-057",
+          "t": 0.615,
+          "kind": "reveal",
+          "label": "Name denied"
+        },
+        {
+          "id": "beat-05-wicker-watch",
+          "nodeId": "dt-ch05-065",
+          "t": 0.703,
+          "kind": "fight",
+          "label": "Wicker watch"
+        },
+        {
+          "id": "beat-05-inner-fence",
+          "nodeId": "dt-ch05-081",
+          "t": 0.879,
+          "kind": "choice",
+          "label": "Inner fence"
+        }
+      ]
     },
     {
       "id": "region-house-of-collars",
@@ -60,8 +387,72 @@
       "chapterId": "dt-ch-06-house-of-collars",
       "chapter": 6,
       "localMapId": "local-ch-06",
-      "pin": { "x": 66, "y": 40 },
-      "terrain": ["estate", "valley"]
+      "pin": {
+        "x": 66,
+        "y": 40
+      },
+      "terrain": [
+        "estate",
+        "valley"
+      ],
+      "beats": [
+        {
+          "id": "beat-06-kitchen-politics",
+          "nodeId": "dt-ch06-004",
+          "t": 0.033,
+          "kind": "choice",
+          "label": "Kitchen politics"
+        },
+        {
+          "id": "beat-06-window-light",
+          "nodeId": "dt-ch06-017",
+          "t": 0.176,
+          "kind": "reveal",
+          "label": "Window light"
+        },
+        {
+          "id": "beat-06-overseer-gash",
+          "nodeId": "dt-ch06-025",
+          "t": 0.264,
+          "kind": "fight",
+          "label": "Overseer gash"
+        },
+        {
+          "id": "beat-06-yard-hounds",
+          "nodeId": "dt-ch06-041",
+          "t": 0.44,
+          "kind": "fight",
+          "label": "Yard hounds"
+        },
+        {
+          "id": "beat-06-midnight-pact",
+          "nodeId": "dt-ch06-049",
+          "t": 0.527,
+          "kind": "camp",
+          "label": "Midnight pact"
+        },
+        {
+          "id": "beat-06-collared-champs",
+          "nodeId": "dt-ch06-071",
+          "t": 0.769,
+          "kind": "fight",
+          "label": "Collared champs"
+        },
+        {
+          "id": "beat-06-quill-unmasked",
+          "nodeId": "dt-ch06-073",
+          "t": 0.791,
+          "kind": "reveal",
+          "label": "Quill unmasked"
+        },
+        {
+          "id": "beat-06-overseer-steel",
+          "nodeId": "dt-ch06-086",
+          "t": 0.934,
+          "kind": "fight",
+          "label": "Overseer steel"
+        }
+      ]
     },
     {
       "id": "region-blood-mandolin",
@@ -70,8 +461,72 @@
       "chapterId": "dt-ch-07-blood-mandolin",
       "chapter": 7,
       "localMapId": "local-ch-07",
-      "pin": { "x": 74, "y": 36 },
-      "terrain": ["arena", "ruins"]
+      "pin": {
+        "x": 74,
+        "y": 36
+      },
+      "terrain": [
+        "arena",
+        "ruins"
+      ],
+      "beats": [
+        {
+          "id": "beat-07-crowd-favor",
+          "nodeId": "dt-ch07-004",
+          "t": 0.034,
+          "kind": "choice",
+          "label": "Crowd favor"
+        },
+        {
+          "id": "beat-07-pit-call",
+          "nodeId": "dt-ch07-009",
+          "t": 0.092,
+          "kind": "choice",
+          "label": "Pit call"
+        },
+        {
+          "id": "beat-07-pit-champion",
+          "nodeId": "dt-ch07-017",
+          "t": 0.184,
+          "kind": "fight",
+          "label": "Pit champion"
+        },
+        {
+          "id": "beat-07-arena-troll",
+          "nodeId": "dt-ch07-033",
+          "t": 0.368,
+          "kind": "fight",
+          "label": "Arena troll"
+        },
+        {
+          "id": "beat-07-quill-s-tell",
+          "nodeId": "dt-ch07-041",
+          "t": 0.46,
+          "kind": "reveal",
+          "label": "Quill's tell"
+        },
+        {
+          "id": "beat-07-cade-favorites",
+          "nodeId": "dt-ch07-065",
+          "t": 0.736,
+          "kind": "fight",
+          "label": "Cade favorites"
+        },
+        {
+          "id": "beat-07-crowd-turn",
+          "nodeId": "dt-ch07-073",
+          "t": 0.828,
+          "kind": "choice",
+          "label": "Crowd turn"
+        },
+        {
+          "id": "beat-07-blood-encore",
+          "nodeId": "dt-ch07-080",
+          "t": 0.908,
+          "kind": "fight",
+          "label": "Blood encore"
+        }
+      ]
     },
     {
       "id": "region-liberation-march",
@@ -80,8 +535,72 @@
       "chapterId": "dt-ch-08-liberation-march",
       "chapter": 8,
       "localMapId": "local-ch-08",
-      "pin": { "x": 82, "y": 42 },
-      "terrain": ["fields", "war"]
+      "pin": {
+        "x": 82,
+        "y": 42
+      },
+      "terrain": [
+        "fields",
+        "war"
+      ],
+      "beats": [
+        {
+          "id": "beat-08-which-fire",
+          "nodeId": "dt-ch08-004",
+          "t": 0.033,
+          "kind": "choice",
+          "label": "Which fire"
+        },
+        {
+          "id": "beat-08-barracks-burn",
+          "nodeId": "dt-ch08-009",
+          "t": 0.088,
+          "kind": "fight",
+          "label": "Barracks burn"
+        },
+        {
+          "id": "beat-08-lyra-found",
+          "nodeId": "dt-ch08-017",
+          "t": 0.176,
+          "kind": "reveal",
+          "label": "Lyra found"
+        },
+        {
+          "id": "beat-08-warg-cavalry",
+          "nodeId": "dt-ch08-025",
+          "t": 0.264,
+          "kind": "fight",
+          "label": "Warg cavalry"
+        },
+        {
+          "id": "beat-08-choice-of-fire",
+          "nodeId": "dt-ch08-041",
+          "t": 0.44,
+          "kind": "choice",
+          "label": "Choice of fire"
+        },
+        {
+          "id": "beat-08-tower-guards",
+          "nodeId": "dt-ch08-049",
+          "t": 0.527,
+          "kind": "fight",
+          "label": "Tower guards"
+        },
+        {
+          "id": "beat-08-ash-names",
+          "nodeId": "dt-ch08-065",
+          "t": 0.703,
+          "kind": "reveal",
+          "label": "Ash names"
+        },
+        {
+          "id": "beat-08-smoke-clearing",
+          "nodeId": "dt-ch08-073",
+          "t": 0.791,
+          "kind": "camp",
+          "label": "Smoke clearing"
+        }
+      ]
     },
     {
       "id": "region-free-horizon",
@@ -90,8 +609,72 @@
       "chapterId": "dt-ch-09-free-horizon",
       "chapter": 9,
       "localMapId": "local-ch-09",
-      "pin": { "x": 90, "y": 50 },
-      "terrain": ["plains", "mountains"]
+      "pin": {
+        "x": 90,
+        "y": 50
+      },
+      "terrain": [
+        "plains",
+        "mountains"
+      ],
+      "beats": [
+        {
+          "id": "beat-09-warn-the-next",
+          "nodeId": "dt-ch09-004",
+          "t": 0.038,
+          "kind": "choice",
+          "label": "Warn the next"
+        },
+        {
+          "id": "beat-09-storm-wargs",
+          "nodeId": "dt-ch09-009",
+          "t": 0.101,
+          "kind": "fight",
+          "label": "Storm wargs"
+        },
+        {
+          "id": "beat-09-counsel-of-dust",
+          "nodeId": "dt-ch09-017",
+          "t": 0.203,
+          "kind": "camp",
+          "label": "Counsel of dust"
+        },
+        {
+          "id": "beat-09-last-enforcement",
+          "nodeId": "dt-ch09-033",
+          "t": 0.405,
+          "kind": "fight",
+          "label": "Last enforcement"
+        },
+        {
+          "id": "beat-09-memory-shades",
+          "nodeId": "dt-ch09-048",
+          "t": 0.595,
+          "kind": "fight",
+          "label": "Memory shades"
+        },
+        {
+          "id": "beat-09-shade-mirror",
+          "nodeId": "dt-ch09-057",
+          "t": 0.709,
+          "kind": "reveal",
+          "label": "Shade mirror"
+        },
+        {
+          "id": "beat-09-remnant-coin",
+          "nodeId": "dt-ch09-065",
+          "t": 0.81,
+          "kind": "fight",
+          "label": "Remnant coin"
+        },
+        {
+          "id": "beat-09-horizon-vote",
+          "nodeId": "dt-ch09-080",
+          "t": 1,
+          "kind": "choice",
+          "label": "Horizon vote"
+        }
+      ]
     }
   ],
   "landmarks": [

@@ -10,6 +10,19 @@ export type { DtMapReplay };
 
 export type DtMapPin = { x: number; y: number };
 
+export type DtMapBeatKind = "choice" | "fight" | "camp" | "reveal";
+
+export type DtMapBeat = {
+  id: string;
+  nodeId: string;
+  /** 0–1 along the local strip (authored; may match node index). */
+  t: number;
+  kind: DtMapBeatKind;
+  label: string;
+};
+
+export type DtMapBeatState = "behind" | "here" | "ahead";
+
 export type DtMapRegion = {
   id: string;
   name: string;
@@ -19,6 +32,8 @@ export type DtMapRegion = {
   localMapId: string;
   pin: DtMapPin;
   terrain: string[];
+  /** Curated local-strip beats (v2+). Missing → []. */
+  beats?: DtMapBeat[];
 };
 
 export type DtMapLandmark = {
@@ -34,15 +49,33 @@ type RawPack = {
   version: number;
   title: string;
   worldMapId: string;
-  regions: DtMapRegion[];
+  regions: Array<DtMapRegion & { beats?: DtMapBeat[] }>;
   landmarks: DtMapLandmark[];
 };
 
 const data = pack as RawPack;
 
+function normalizeBeat(raw: DtMapBeat): DtMapBeat | null {
+  if (!raw?.id || !raw.nodeId || !raw.kind || !raw.label) return null;
+  const t =
+    typeof raw.t === "number" && Number.isFinite(raw.t)
+      ? Math.min(1, Math.max(0, raw.t))
+      : 0;
+  return {
+    id: raw.id,
+    nodeId: raw.nodeId,
+    t,
+    kind: raw.kind,
+    label: raw.label,
+  };
+}
+
 export const DT_MAP_TITLE = data.title;
 export const DT_WORLD_MAP_ID = data.worldMapId;
-export const DT_MAP_REGIONS: DtMapRegion[] = data.regions;
+export const DT_MAP_REGIONS: DtMapRegion[] = data.regions.map((r) => ({
+  ...r,
+  beats: (r.beats ?? []).map(normalizeBeat).filter((b): b is DtMapBeat => !!b),
+}));
 export const DT_MAP_LANDMARKS: DtMapLandmark[] = data.landmarks;
 
 const REGION_BY_ID = Object.fromEntries(DT_MAP_REGIONS.map((r) => [r.id, r]));
@@ -101,6 +134,64 @@ export function dtLocalProgress(
   return { index, total, t };
 }
 
+/** Horizontal % for local-strip overlays (matches painted trail band). */
+export function dtLocalStripLeftPct(t: number): number {
+  const clamped = Math.min(1, Math.max(0, t));
+  return 12 + clamped * 76;
+}
+
+export function dtBeatsForChapter(chapterId: string): DtMapBeat[] {
+  const region = REGION_BY_CHAPTER[chapterId];
+  return region?.beats ?? [];
+}
+
+/** Prefer authored strip t; fall back to node index within chapter. */
+export function dtBeatProgressT(chapterId: string, beat: DtMapBeat): number {
+  if (typeof beat.t === "number" && Number.isFinite(beat.t)) {
+    return Math.min(1, Math.max(0, beat.t));
+  }
+  return dtLocalProgress(chapterId, beat.nodeId).t;
+}
+
+export function dtBeatState(
+  chapterId: string,
+  campaignNodeId: string,
+  beat: DtMapBeat
+): DtMapBeatState {
+  const ch = CHAPTERS.find((c) => c.id === chapterId);
+  const nodes = ch?.nodeIds ?? [];
+  const cur = Math.max(0, nodes.indexOf(campaignNodeId));
+  const at = nodes.indexOf(beat.nodeId);
+  if (at < 0) {
+    const beatT = dtBeatProgressT(chapterId, beat);
+    const { t } = dtLocalProgress(chapterId, campaignNodeId);
+    if (beatT < t - 0.001) return "behind";
+    if (Math.abs(beatT - t) <= 0.001) return "here";
+    return "ahead";
+  }
+  if (at < cur) return "behind";
+  if (at === cur) return "here";
+  return "ahead";
+}
+
+/** Nearest beat at/behind YOU, else next ahead — for strip footer copy. */
+export function dtNearestBeatLabel(
+  chapterId: string,
+  campaignNodeId: string
+): string | null {
+  const beats = dtBeatsForChapter(chapterId);
+  if (!beats.length) return null;
+  const ranked = beats.map((beat) => ({
+    beat,
+    state: dtBeatState(chapterId, campaignNodeId, beat),
+  }));
+  const here = ranked.find((r) => r.state === "here");
+  if (here) return here.beat.label;
+  const behind = ranked.filter((r) => r.state === "behind");
+  if (behind.length) return behind[behind.length - 1]!.beat.label;
+  return ranked.find((r) => r.state === "ahead")?.beat.label ?? null;
+}
+
 export function isDtMapReplay(world: Pick<DtWorldSave, "mapReplay">): boolean {
   return !!world.mapReplay;
 }
@@ -151,7 +242,7 @@ export function enterDtMapReplay(
         80
       ),
     },
-    message: `Revisiting ${region.name} — practice only.`,
+    message: `Revisiting ${region.name} — practice only. No story flags.`,
   };
 }
 
@@ -172,7 +263,7 @@ export function exitDtMapReplay(
       updatedAt: new Date().toISOString(),
       log: ["Back on the live march.", ...world.log].slice(0, 80),
     },
-    message: "Returned to the live march.",
+    message: "Back on the live march.",
   };
 }
 
