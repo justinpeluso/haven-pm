@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "flavor": "Middle-earth–inspired generics (orcs, wargs, trolls, spiders) + frontier foes. No trademarked proper nouns.",
+  "flavor": "Lost Brothers roster — cyber/Middle-earth generics + frontier/Helix foes. ~100 combatants with spirit cards. No trademarked proper nouns.",
   "creatures": [
     {
       "id": "whip-hand-thug",
@@ -664,6 +664,1146 @@
       "artId": "enemy-bridge-brute",
       "weight": 1,
       "lootPool": "rare"
+    },
+    {
+      "id": "neon-glade-jackal",
+      "name": "Neon Glade Jackal",
+      "blurb": "Eyes like cheap LEDs in wet fur.",
+      "levelMin": 1,
+      "levelMax": 10,
+      "hp": 18,
+      "power": 4,
+      "armor": 0,
+      "xp": 10,
+      "gold": 4,
+      "tags": [
+        "beast",
+        "chrome"
+      ],
+      "artId": "enemy-dust-warg",
+      "weight": 3,
+      "lootPool": "trash"
+    },
+    {
+      "id": "fiber-oak-drifter",
+      "name": "Fiber-Oak Drifter",
+      "blurb": "A scav with bark-chip armor and a stolen vibroknife.",
+      "levelMin": 1,
+      "levelMax": 10,
+      "hp": 19,
+      "power": 4,
+      "armor": 0,
+      "xp": 11,
+      "gold": 5,
+      "tags": [
+        "humanoid",
+        "frontier"
+      ],
+      "artId": "enemy-whip-hand",
+      "weight": 3,
+      "lootPool": "trash"
+    },
+    {
+      "id": "humming-sap-thief",
+      "name": "Humming Sap Thief",
+      "blurb": "Steals biolume resin that screams when cut.",
+      "levelMin": 1,
+      "levelMax": 12,
+      "hp": 17,
+      "power": 3,
+      "armor": 0,
+      "xp": 10,
+      "gold": 6,
+      "tags": [
+        "humanoid",
+        "spirit"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 2,
+      "lootPool": "trash"
+    },
+    {
+      "id": "barcode-mite",
+      "name": "Barcode Mite",
+      "blurb": "Skitters under skin-lines looking for SKUs to rewrite.",
+      "levelMin": 2,
+      "levelMax": 12,
+      "hp": 16,
+      "power": 3,
+      "armor": 0,
+      "xp": 12,
+      "gold": 3,
+      "tags": [
+        "spider",
+        "chrome"
+      ],
+      "artId": "enemy-trail-webling",
+      "weight": 2,
+      "lootPool": "trash"
+    },
+    {
+      "id": "stim-dust-gnat",
+      "name": "Stim Dust Gnat",
+      "blurb": "Cloud of buzzing needles that smell like burnt coffee.",
+      "levelMin": 2,
+      "levelMax": 11,
+      "hp": 15,
+      "power": 3,
+      "armor": 0,
+      "xp": 9,
+      "gold": 2,
+      "tags": [
+        "beast",
+        "dust"
+      ],
+      "artId": "enemy-trail-webling",
+      "weight": 2,
+      "lootPool": "trash"
+    },
+    {
+      "id": "quill-flask-ruffian",
+      "name": "Quill-Flask Ruffian",
+      "blurb": "Drinks courage from a marshal's leftover flask.",
+      "levelMin": 2,
+      "levelMax": 12,
+      "hp": 22,
+      "power": 5,
+      "armor": 1,
+      "xp": 14,
+      "gold": 6,
+      "tags": [
+        "humanoid",
+        "frontier"
+      ],
+      "artId": "enemy-whip-hand",
+      "weight": 3,
+      "lootPool": "trash"
+    },
+    {
+      "id": "pale-pixel-sprite",
+      "name": "Pale Pixel Sprite",
+      "blurb": "A spirit made of broken hologram glass.",
+      "levelMin": 3,
+      "levelMax": 14,
+      "hp": 20,
+      "power": 5,
+      "armor": 0,
+      "xp": 15,
+      "gold": 4,
+      "tags": [
+        "spirit",
+        "chrome"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "chain-moss-goblin",
+      "name": "Chain-Moss Goblin",
+      "blurb": "Wears rusted links like a second spine.",
+      "levelMin": 3,
+      "levelMax": 14,
+      "hp": 21,
+      "power": 5,
+      "armor": 1,
+      "xp": 14,
+      "gold": 5,
+      "tags": [
+        "orc",
+        "chain"
+      ],
+      "artId": "enemy-orc-skirmisher",
+      "weight": 3,
+      "lootPool": "trash"
+    },
+    {
+      "id": "widowmere-lurker",
+      "name": "Widowmere Lurker",
+      "blurb": "Fishes drowned drones from a black lake.",
+      "levelMin": 3,
+      "levelMax": 15,
+      "hp": 24,
+      "power": 5,
+      "armor": 1,
+      "xp": 16,
+      "gold": 5,
+      "tags": [
+        "beast",
+        "spirit"
+      ],
+      "artId": "enemy-night-howler",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "sku-brand-runner",
+      "name": "SKU Brand Runner",
+      "blurb": "Sprints east with a hot iron and a warrant slate.",
+      "levelMin": 4,
+      "levelMax": 16,
+      "hp": 23,
+      "power": 6,
+      "armor": 0,
+      "xp": 16,
+      "gold": 7,
+      "tags": [
+        "humanoid",
+        "frontier"
+      ],
+      "artId": "enemy-whip-hand",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "warrant-paper-kite",
+      "name": "Warrant Paper Kite",
+      "blurb": "Folded legal paper that cuts like glass when thrown.",
+      "levelMin": 6,
+      "levelMax": 18,
+      "hp": 20,
+      "power": 5,
+      "armor": 0,
+      "xp": 18,
+      "gold": 4,
+      "tags": [
+        "spirit",
+        "dust"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "hill-signal-goblin",
+      "name": "Hill Signal Goblin",
+      "blurb": "Jams radios with a bone antenna.",
+      "levelMin": 6,
+      "levelMax": 18,
+      "hp": 25,
+      "power": 6,
+      "armor": 1,
+      "xp": 18,
+      "gold": 6,
+      "tags": [
+        "orc",
+        "chrome"
+      ],
+      "artId": "enemy-ash-gut",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "stim-cartel-hound",
+      "name": "Stim Cartel Hound",
+      "blurb": "Trained to smell fear and uncut powder.",
+      "levelMin": 7,
+      "levelMax": 20,
+      "hp": 30,
+      "power": 7,
+      "armor": 0,
+      "xp": 20,
+      "gold": 5,
+      "tags": [
+        "warg",
+        "dust"
+      ],
+      "artId": "enemy-dust-warg",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "debt-collector-drone",
+      "name": "Debt Collector Drone",
+      "blurb": "Hover-blade that prints late fees in blood.",
+      "levelMin": 8,
+      "levelMax": 20,
+      "hp": 26,
+      "power": 6,
+      "armor": 2,
+      "xp": 22,
+      "gold": 8,
+      "tags": [
+        "drone",
+        "chrome"
+      ],
+      "artId": "enemy-coffle-guard",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "ashfen-reed-serpent",
+      "name": "Ashfen Reed Serpent",
+      "blurb": "Coils through marsh fiber like a living cable.",
+      "levelMin": 8,
+      "levelMax": 22,
+      "hp": 28,
+      "power": 7,
+      "armor": 1,
+      "xp": 22,
+      "gold": 5,
+      "tags": [
+        "beast",
+        "venom"
+      ],
+      "artId": "enemy-silk-widow",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "trace-crow",
+      "name": "Trace Crow",
+      "blurb": "Steals barcodes off the living and sells them upstream.",
+      "levelMin": 9,
+      "levelMax": 22,
+      "hp": 22,
+      "power": 6,
+      "armor": 0,
+      "xp": 20,
+      "gold": 7,
+      "tags": [
+        "beast",
+        "chrome"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "bounty-glyph-thief",
+      "name": "Bounty Glyph Thief",
+      "blurb": "Cuts seals off necks for scrap chrome.",
+      "levelMin": 9,
+      "levelMax": 22,
+      "hp": 27,
+      "power": 7,
+      "armor": 1,
+      "xp": 22,
+      "gold": 9,
+      "tags": [
+        "humanoid",
+        "frontier"
+      ],
+      "artId": "enemy-whip-hand",
+      "weight": 3,
+      "lootPool": "common"
+    },
+    {
+      "id": "mire-lantern-imp",
+      "name": "Mire Lantern Imp",
+      "blurb": "Carries a false Helix smile on a stick.",
+      "levelMin": 10,
+      "levelMax": 24,
+      "hp": 24,
+      "power": 6,
+      "armor": 0,
+      "xp": 21,
+      "gold": 6,
+      "tags": [
+        "spirit",
+        "helix"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 2,
+      "lootPool": "common"
+    },
+    {
+      "id": "chromeveil-barnacle",
+      "name": "Chromeveil Barnacle",
+      "blurb": "Clings to barge hulls and drinks coolant dreams.",
+      "levelMin": 12,
+      "levelMax": 26,
+      "hp": 32,
+      "power": 7,
+      "armor": 2,
+      "xp": 24,
+      "gold": 6,
+      "tags": [
+        "beast",
+        "chrome"
+      ],
+      "artId": "enemy-trail-webling",
+      "weight": 2,
+      "lootPool": "uncommon"
+    },
+    {
+      "id": "spirit-jar-breaker",
+      "name": "Spirit Jar Breaker",
+      "blurb": "Smashes cages so the ghosts owe him favors.",
+      "levelMin": 12,
+      "levelMax": 26,
+      "hp": 29,
+      "power": 7,
+      "armor": 1,
+      "xp": 25,
+      "gold": 8,
+      "tags": [
+        "humanoid",
+        "spirit"
+      ],
+      "artId": "enemy-ash-gut",
+      "weight": 2,
+      "lootPool": "uncommon"
+    },
+    {
+      "id": "coolant-river-eel",
+      "name": "Coolant River Eel",
+      "blurb": "Biolume stripes; bites leave frostburn code.",
+      "levelMin": 14,
+      "levelMax": 28,
+      "hp": 34,
+      "power": 8,
+      "armor": 1,
+      "xp": 26,
+      "gold": 6,
+      "tags": [
+        "beast",
+        "frost"
+      ],
+      "artId": "enemy-silk-widow",
+      "weight": 2,
+      "lootPool": "uncommon"
+    },
+    {
+      "id": "barge-hook-orc",
+      "name": "Barge Hook Orc",
+      "blurb": "Pulls freighters onto decks with a chrome gaff.",
+      "levelMin": 15,
+      "levelMax": 28,
+      "hp": 36,
+      "power": 8,
+      "armor": 2,
+      "xp": 28,
+      "gold": 8,
+      "tags": [
+        "orc",
+        "chrome"
+      ],
+      "artId": "enemy-orc-skirmisher",
+      "weight": 3,
+      "lootPool": "uncommon"
+    },
+    {
+      "id": "toll-booth-specter",
+      "name": "Toll Booth Specter",
+      "blurb": "Demands coin from memories you haven't remembered yet.",
+      "levelMin": 16,
+      "levelMax": 30,
+      "hp": 30,
+      "power": 7,
+      "armor": 1,
+      "xp": 27,
+      "gold": 10,
+      "tags": [
+        "spirit",
+        "chain"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 2,
+      "lootPool": "uncommon"
+    },
+    {
+      "id": "muckfen-silk-drake",
+      "name": "Muckfen Silk Drake",
+      "blurb": "Small dragon-thing; webs smell like solvent.",
+      "levelMin": 16,
+      "levelMax": 30,
+      "hp": 38,
+      "power": 9,
+      "armor": 2,
+      "xp": 30,
+      "gold": 7,
+      "tags": [
+        "dragon",
+        "silk"
+      ],
+      "artId": "enemy-nest-mother",
+      "weight": 2,
+      "lootPool": "uncommon"
+    },
+    {
+      "id": "helix-smile-sentry",
+      "name": "Helix Smile Sentry",
+      "blurb": "Gate mask that never stops grinning.",
+      "levelMin": 18,
+      "levelMax": 32,
+      "hp": 40,
+      "power": 9,
+      "armor": 3,
+      "xp": 32,
+      "gold": 10,
+      "tags": [
+        "drone",
+        "helix"
+      ],
+      "artId": "enemy-coffle-guard",
+      "weight": 3,
+      "lootPool": "uncommon"
+    },
+    {
+      "id": "gate-mastiff-chrome",
+      "name": "Gate Mastiff Chrome",
+      "blurb": "Half dog, half hydraulic clamp.",
+      "levelMin": 18,
+      "levelMax": 34,
+      "hp": 42,
+      "power": 10,
+      "armor": 2,
+      "xp": 34,
+      "gold": 6,
+      "tags": [
+        "warg",
+        "chrome"
+      ],
+      "artId": "enemy-night-howler",
+      "weight": 3,
+      "lootPool": "uncommon"
+    },
+    {
+      "id": "wicker-code-sentry",
+      "name": "Wicker Code Sentry",
+      "blurb": "Reed and wire woven into a walking firewall.",
+      "levelMin": 20,
+      "levelMax": 34,
+      "hp": 36,
+      "power": 8,
+      "armor": 2,
+      "xp": 30,
+      "gold": 8,
+      "tags": [
+        "spirit",
+        "iron"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 2,
+      "lootPool": "uncommon"
+    },
+    {
+      "id": "mire-orc-shaman",
+      "name": "Mire Orc Shaman",
+      "blurb": "Burns stim as incense for a swamp god that pays in static.",
+      "levelMin": 20,
+      "levelMax": 36,
+      "hp": 38,
+      "power": 9,
+      "armor": 1,
+      "xp": 34,
+      "gold": 12,
+      "tags": [
+        "orc",
+        "spirit"
+      ],
+      "artId": "enemy-ash-gut",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "director-vale-clerk",
+      "name": "Director Vale Clerk",
+      "blurb": "Soft hands, hard stamps, worse secrets.",
+      "levelMin": 22,
+      "levelMax": 36,
+      "hp": 34,
+      "power": 8,
+      "armor": 1,
+      "xp": 32,
+      "gold": 14,
+      "tags": [
+        "humanoid",
+        "helix"
+      ],
+      "artId": "enemy-whip-hand",
+      "weight": 2,
+      "lootPool": "uncommon"
+    },
+    {
+      "id": "palefen-diver",
+      "name": "Palefen Diver",
+      "blurb": "Surfaces with drowned drones and worse news.",
+      "levelMin": 22,
+      "levelMax": 36,
+      "hp": 40,
+      "power": 9,
+      "armor": 2,
+      "xp": 34,
+      "gold": 9,
+      "tags": [
+        "humanoid",
+        "spirit"
+      ],
+      "artId": "enemy-coffle-guard",
+      "weight": 2,
+      "lootPool": "uncommon"
+    },
+    {
+      "id": "seal-yard-hound",
+      "name": "Seal Yard Hound",
+      "blurb": "Counts rings with its teeth.",
+      "levelMin": 26,
+      "levelMax": 42,
+      "hp": 46,
+      "power": 11,
+      "armor": 2,
+      "xp": 38,
+      "gold": 8,
+      "tags": [
+        "warg",
+        "chain"
+      ],
+      "artId": "enemy-night-howler",
+      "weight": 3,
+      "lootPool": "magic"
+    },
+    {
+      "id": "numbered-bed-ghost",
+      "name": "Numbered Bed Ghost",
+      "blurb": "Sits where a guest used to sleep; wears their number.",
+      "levelMin": 28,
+      "levelMax": 42,
+      "hp": 40,
+      "power": 9,
+      "armor": 1,
+      "xp": 36,
+      "gold": 10,
+      "tags": [
+        "spirit",
+        "chain"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "house-blade-duelist",
+      "name": "House Blade Duelist",
+      "blurb": "Polite steel until the smiles stop.",
+      "levelMin": 28,
+      "levelMax": 44,
+      "hp": 44,
+      "power": 11,
+      "armor": 2,
+      "xp": 40,
+      "gold": 14,
+      "tags": [
+        "humanoid",
+        "iron"
+      ],
+      "artId": "enemy-whip-hand",
+      "weight": 3,
+      "lootPool": "magic"
+    },
+    {
+      "id": "ring-forge-golem",
+      "name": "Ring Forge Golem",
+      "blurb": "Walks on cooling seals still glowing orange.",
+      "levelMin": 30,
+      "levelMax": 44,
+      "hp": 55,
+      "power": 12,
+      "armor": 4,
+      "xp": 44,
+      "gold": 8,
+      "tags": [
+        "iron",
+        "helix"
+      ],
+      "artId": "enemy-bridge-brute",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "punishment-choir",
+      "name": "Punishment Choir",
+      "blurb": "Three throats, one scream protocol.",
+      "levelMin": 30,
+      "levelMax": 46,
+      "hp": 42,
+      "power": 10,
+      "armor": 1,
+      "xp": 40,
+      "gold": 11,
+      "tags": [
+        "spirit",
+        "helix"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "collar-yard-overseer",
+      "name": "Collar Yard Overseer",
+      "blurb": "Clipboard of names that aren't yours yet.",
+      "levelMin": 32,
+      "levelMax": 46,
+      "hp": 48,
+      "power": 11,
+      "armor": 2,
+      "xp": 42,
+      "gold": 16,
+      "tags": [
+        "humanoid",
+        "chain"
+      ],
+      "artId": "enemy-whip-hand",
+      "weight": 3,
+      "lootPool": "magic"
+    },
+    {
+      "id": "lyra-echo-shade",
+      "name": "Lyra Echo Shade",
+      "blurb": "Wears a sister's outline like borrowed armor.",
+      "levelMin": 32,
+      "levelMax": 48,
+      "hp": 44,
+      "power": 10,
+      "armor": 1,
+      "xp": 45,
+      "gold": 12,
+      "tags": [
+        "spirit",
+        "helix"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 1,
+      "lootPool": "rare"
+    },
+    {
+      "id": "seal-breaker-cultist",
+      "name": "Seal Breaker Cultist",
+      "blurb": "Prays to cracked rings and broken SKUs.",
+      "levelMin": 34,
+      "levelMax": 48,
+      "hp": 46,
+      "power": 11,
+      "armor": 1,
+      "xp": 44,
+      "gold": 13,
+      "tags": [
+        "cult",
+        "spirit"
+      ],
+      "artId": "enemy-ash-gut",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "helix-archivist",
+      "name": "Helix Archivist",
+      "blurb": "Files living people under pending deletion.",
+      "levelMin": 34,
+      "levelMax": 50,
+      "hp": 42,
+      "power": 10,
+      "armor": 2,
+      "xp": 46,
+      "gold": 18,
+      "tags": [
+        "humanoid",
+        "helix"
+      ],
+      "artId": "enemy-coffle-guard",
+      "weight": 2,
+      "lootPool": "rare"
+    },
+    {
+      "id": "estate-drone-swarm",
+      "name": "Estate Drone Swarm",
+      "blurb": "A cloud of tiny smiles with blades.",
+      "levelMin": 36,
+      "levelMax": 50,
+      "hp": 50,
+      "power": 12,
+      "armor": 2,
+      "xp": 48,
+      "gold": 10,
+      "tags": [
+        "drone",
+        "chrome"
+      ],
+      "artId": "enemy-trail-webling",
+      "weight": 2,
+      "lootPool": "magic"
+    },
+    {
+      "id": "pit-mandolin-fiend",
+      "name": "Pit Mandolin Fiend",
+      "blurb": "Keeps time while the crowd bets on blood.",
+      "levelMin": 38,
+      "levelMax": 54,
+      "hp": 52,
+      "power": 12,
+      "armor": 2,
+      "xp": 50,
+      "gold": 14,
+      "tags": [
+        "spirit",
+        "ash"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 2,
+      "lootPool": "rare"
+    },
+    {
+      "id": "undervault-gladiator",
+      "name": "Undervault Gladiator",
+      "blurb": "Neon scars, chrome knuckles, no real name.",
+      "levelMin": 40,
+      "levelMax": 54,
+      "hp": 58,
+      "power": 13,
+      "armor": 3,
+      "xp": 52,
+      "gold": 12,
+      "tags": [
+        "humanoid",
+        "grit"
+      ],
+      "artId": "enemy-orc-skirmisher",
+      "weight": 3,
+      "lootPool": "rare"
+    },
+    {
+      "id": "synth-crowd-wraith",
+      "name": "Synth Crowd Wraith",
+      "blurb": "Applause that eats your stamina.",
+      "levelMin": 40,
+      "levelMax": 54,
+      "hp": 46,
+      "power": 11,
+      "armor": 1,
+      "xp": 48,
+      "gold": 10,
+      "tags": [
+        "spirit",
+        "chrome"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 2,
+      "lootPool": "rare"
+    },
+    {
+      "id": "bone-drum-prospect",
+      "name": "Bone Drum Prospect",
+      "blurb": "Auditioning for the captain's chair with your ribs.",
+      "levelMin": 42,
+      "levelMax": 56,
+      "hp": 56,
+      "power": 13,
+      "armor": 2,
+      "xp": 54,
+      "gold": 14,
+      "tags": [
+        "orc",
+        "ash"
+      ],
+      "artId": "enemy-ash-gut",
+      "weight": 2,
+      "lootPool": "rare"
+    },
+    {
+      "id": "arena-silk-brute",
+      "name": "Arena Silk Brute",
+      "blurb": "Wrapped in betting tickets and spider silk.",
+      "levelMin": 42,
+      "levelMax": 56,
+      "hp": 62,
+      "power": 14,
+      "armor": 3,
+      "xp": 56,
+      "gold": 11,
+      "tags": [
+        "troll",
+        "silk"
+      ],
+      "artId": "enemy-bridge-brute",
+      "weight": 2,
+      "lootPool": "rare"
+    },
+    {
+      "id": "cade-betting-knight",
+      "name": "Cade Betting Knight",
+      "blurb": "Armor paid for in other people's futures.",
+      "levelMin": 44,
+      "levelMax": 58,
+      "hp": 54,
+      "power": 13,
+      "armor": 3,
+      "xp": 55,
+      "gold": 20,
+      "tags": [
+        "humanoid",
+        "iron"
+      ],
+      "artId": "enemy-coffle-guard",
+      "weight": 2,
+      "lootPool": "rare"
+    },
+    {
+      "id": "neon-pit-drake",
+      "name": "Neon Pit Drake",
+      "blurb": "Small dragon raised on stim and screams.",
+      "levelMin": 44,
+      "levelMax": 58,
+      "hp": 60,
+      "power": 14,
+      "armor": 3,
+      "xp": 58,
+      "gold": 12,
+      "tags": [
+        "dragon",
+        "chrome"
+      ],
+      "artId": "enemy-nest-mother",
+      "weight": 2,
+      "lootPool": "rare"
+    },
+    {
+      "id": "fight-club-shade",
+      "name": "Fight Club Shade",
+      "blurb": "You don't talk about it; it talks about you.",
+      "levelMin": 46,
+      "levelMax": 58,
+      "hp": 50,
+      "power": 12,
+      "armor": 1,
+      "xp": 52,
+      "gold": 15,
+      "tags": [
+        "spirit",
+        "grit"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 2,
+      "lootPool": "rare"
+    },
+    {
+      "id": "undervault-handler",
+      "name": "Undervault Handler",
+      "blurb": "Leashes champions like dogs and dogs like champions.",
+      "levelMin": 46,
+      "levelMax": 60,
+      "hp": 52,
+      "power": 12,
+      "armor": 2,
+      "xp": 54,
+      "gold": 16,
+      "tags": [
+        "humanoid",
+        "chain"
+      ],
+      "artId": "enemy-whip-hand",
+      "weight": 2,
+      "lootPool": "rare"
+    },
+    {
+      "id": "helix-sport-ref",
+      "name": "Helix Sport Ref",
+      "blurb": "Whistle that ends rounds—and lives.",
+      "levelMin": 48,
+      "levelMax": 60,
+      "hp": 48,
+      "power": 11,
+      "armor": 2,
+      "xp": 50,
+      "gold": 18,
+      "tags": [
+        "humanoid",
+        "helix"
+      ],
+      "artId": "enemy-whip-hand",
+      "weight": 2,
+      "lootPool": "rare"
+    },
+    {
+      "id": "spirefall-militia-orc",
+      "name": "Spirefall Militia Orc",
+      "blurb": "Burned tower paint still wet on the shield.",
+      "levelMin": 48,
+      "levelMax": 62,
+      "hp": 60,
+      "power": 14,
+      "armor": 3,
+      "xp": 58,
+      "gold": 12,
+      "tags": [
+        "orc",
+        "ash"
+      ],
+      "artId": "enemy-orc-skirmisher",
+      "weight": 3,
+      "lootPool": "epic"
+    },
+    {
+      "id": "burning-grid-warg",
+      "name": "Burning Grid Warg",
+      "blurb": "Fur smokes with server-farm heat.",
+      "levelMin": 50,
+      "levelMax": 64,
+      "hp": 64,
+      "power": 15,
+      "armor": 2,
+      "xp": 60,
+      "gold": 10,
+      "tags": [
+        "warg",
+        "ash"
+      ],
+      "artId": "enemy-night-howler",
+      "weight": 3,
+      "lootPool": "epic"
+    },
+    {
+      "id": "tower-guard-elite",
+      "name": "Tower Guard Elite",
+      "blurb": "Last standing smile at a falling Helix spire.",
+      "levelMin": 50,
+      "levelMax": 64,
+      "hp": 66,
+      "power": 15,
+      "armor": 4,
+      "xp": 62,
+      "gold": 16,
+      "tags": [
+        "humanoid",
+        "iron"
+      ],
+      "artId": "enemy-coffle-guard",
+      "weight": 3,
+      "lootPool": "epic"
+    },
+    {
+      "id": "uprising-chain-breaker",
+      "name": "Uprising Chain Breaker",
+      "blurb": "Fights for freeholds—or for whoever pays in seals.",
+      "levelMin": 52,
+      "levelMax": 64,
+      "hp": 58,
+      "power": 14,
+      "armor": 2,
+      "xp": 60,
+      "gold": 14,
+      "tags": [
+        "humanoid",
+        "chain"
+      ],
+      "artId": "enemy-whip-hand",
+      "weight": 2,
+      "lootPool": "epic"
+    },
+    {
+      "id": "warg-cavalry-outrider",
+      "name": "Warg Cavalry Outrider",
+      "blurb": "Rides smoke and teeth into the grid.",
+      "levelMin": 52,
+      "levelMax": 66,
+      "hp": 68,
+      "power": 16,
+      "armor": 3,
+      "xp": 64,
+      "gold": 12,
+      "tags": [
+        "orc",
+        "wild"
+      ],
+      "artId": "enemy-orc-rider",
+      "weight": 3,
+      "lootPool": "epic"
+    },
+    {
+      "id": "spire-drone-ace",
+      "name": "Spire Drone Ace",
+      "blurb": "Pilots a dying tower like a gun.",
+      "levelMin": 54,
+      "levelMax": 66,
+      "hp": 56,
+      "power": 14,
+      "armor": 3,
+      "xp": 62,
+      "gold": 18,
+      "tags": [
+        "drone",
+        "chrome"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 2,
+      "lootPool": "epic"
+    },
+    {
+      "id": "ash-crop-reaver",
+      "name": "Ash Crop Reaver",
+      "blurb": "Harvests uprising like it was stim.",
+      "levelMin": 54,
+      "levelMax": 66,
+      "hp": 62,
+      "power": 15,
+      "armor": 2,
+      "xp": 64,
+      "gold": 15,
+      "tags": [
+        "orc",
+        "ash"
+      ],
+      "artId": "enemy-ash-gut",
+      "weight": 3,
+      "lootPool": "epic"
+    },
+    {
+      "id": "liberation-false-flag",
+      "name": "Liberation False Flag",
+      "blurb": "Wears both sides until the knives come out.",
+      "levelMin": 55,
+      "levelMax": 68,
+      "hp": 58,
+      "power": 14,
+      "armor": 2,
+      "xp": 63,
+      "gold": 20,
+      "tags": [
+        "humanoid",
+        "helix"
+      ],
+      "artId": "enemy-whip-hand",
+      "weight": 2,
+      "lootPool": "epic"
+    },
+    {
+      "id": "dragon-drop-scout",
+      "name": "Dragon Drop Scout",
+      "blurb": "Signals the big wings with a neon flare.",
+      "levelMin": 55,
+      "levelMax": 68,
+      "hp": 54,
+      "power": 13,
+      "armor": 1,
+      "xp": 60,
+      "gold": 16,
+      "tags": [
+        "humanoid",
+        "dragon"
+      ],
+      "artId": "enemy-ash-cloak",
+      "weight": 2,
+      "lootPool": "epic"
+    },
+    {
+      "id": "gridfire-berserker",
+      "name": "Gridfire Berserker",
+      "blurb": "Laughs while the servers cook.",
+      "levelMin": 56,
+      "levelMax": 70,
+      "hp": 70,
+      "power": 17,
+      "armor": 3,
+      "xp": 68,
+      "gold": 12,
+      "tags": [
+        "orc",
+        "ash"
+      ],
+      "artId": "enemy-orc-skirmisher",
+      "weight": 3,
+      "lootPool": "epic"
     }
   ]
 }

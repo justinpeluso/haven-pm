@@ -200,19 +200,19 @@ export function dtEnemyArtSrc(enemy: {
   if (preferred) return dtArtSrc(preferred);
 
   const key = `${enemy.id ?? ""} ${enemy.name ?? ""}`.toLowerCase();
-  if (/warg|howler|wolf|alpha|pack|hound|mastiff|grave-mist|bat swarm/.test(key))
+  if (/warg|howler|wolf|alpha|pack|hound|mastiff|grave-mist|bat swarm|jackal|serpent|eel/.test(key))
     return dtArtSrc("enemy-night-howler");
-  if (/spider|widow|webling|nest|silk|spinner|muck|moth|tickler|dream-tick/.test(key))
+  if (/spider|widow|webling|nest|silk|spinner|muck|moth|tickler|dream-tick|mite|gnat|barnacle|drake|dragon/.test(key))
     return dtArtSrc("enemy-silk-widow");
-  if (/troll|brute|knuckle|hammer|gate|barge|arena|haunt|cold-iron/.test(key))
+  if (/troll|brute|knuckle|hammer|gate|barge|arena|haunt|cold-iron|golem|revenant/.test(key))
     return dtArtSrc("enemy-bridge-brute");
-  if (/ash-cloak|pale-host|outrider|herald|shade|ash-wisp|coffle shade/.test(key))
+  if (/ash-cloak|pale-host|outrider|herald|shade|ash-wisp|coffle shade|sprite|specter|wraith|ghost|echo|imp|crow|drone|ace/.test(key))
     return dtArtSrc("enemy-ash-cloak");
-  if (/whip|overseer|coffle|chain|guard|lieutenant|vorn|cade|warrant|quill/.test(key)) {
+  if (/whip|overseer|coffle|chain|guard|lieutenant|vorn|cade|warrant|quill|clerk|duelist|handler|ref|thief|ruffian|drifter|runner/.test(key)) {
     return dtArtSrc("enemy-whip-hand");
   }
   if (/rider/.test(key)) return dtArtSrc("enemy-orc-rider");
-  if (/orc|ash-gut|thorn|berserker|warlord|captain|goblin|mire|toll/.test(key)) {
+  if (/orc|ash-gut|thorn|berserker|warlord|captain|goblin|mire|toll|militia|reaver|gladiator|prospect|shaman/.test(key)) {
     return dtArtSrc("enemy-orc-skirmisher");
   }
   return dtArtSrc(FALLBACK_ENEMY);

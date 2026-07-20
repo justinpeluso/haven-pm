@@ -1799,6 +1799,2575 @@
           "blurb": "Spirit up — Helix grit."
         }
       ]
+    },
+    "neon-glade-jackal": {
+      "id": "neon-glade-jackal",
+      "name": "Neon Glade Jackal",
+      "blurb": "Eyes like cheap LEDs in wet fur.",
+      "artId": "enemy-dust-warg",
+      "types": [
+        "wild",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "neon-glade-jackal-strike",
+          "name": "Jackal Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "neon-glade-jackal-sig",
+          "name": "Wild Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "neon-glade-jackal-finisher",
+          "name": "Grit Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "fiber-oak-drifter": {
+      "id": "fiber-oak-drifter",
+      "name": "Fiber-Oak Drifter",
+      "blurb": "A scav with bark-chip armor and a stolen vibroknife.",
+      "artId": "enemy-whip-hand",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "fiber-oak-drifter-strike",
+          "name": "Drifter Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "fiber-oak-drifter-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "fiber-oak-drifter-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "humming-sap-thief": {
+      "id": "humming-sap-thief",
+      "name": "Humming Sap Thief",
+      "blurb": "Steals biolume resin that screams when cut.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "humming-sap-thief-strike",
+          "name": "Thief Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "humming-sap-thief-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "humming-sap-thief-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "barcode-mite": {
+      "id": "barcode-mite",
+      "name": "Barcode Mite",
+      "blurb": "Skitters under skin-lines looking for SKUs to rewrite.",
+      "artId": "enemy-trail-webling",
+      "types": [
+        "silk",
+        "venom"
+      ],
+      "moves": [
+        {
+          "id": "barcode-mite-strike",
+          "name": "Mite Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "barcode-mite-sig",
+          "name": "Silk Signature",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "barcode-mite-finisher",
+          "name": "Venom Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "stim-dust-gnat": {
+      "id": "stim-dust-gnat",
+      "name": "Stim Dust Gnat",
+      "blurb": "Cloud of buzzing needles that smell like burnt coffee.",
+      "artId": "enemy-trail-webling",
+      "types": [
+        "wild",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "stim-dust-gnat-strike",
+          "name": "Gnat Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "stim-dust-gnat-sig",
+          "name": "Wild Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "stim-dust-gnat-finisher",
+          "name": "Grit Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "quill-flask-ruffian": {
+      "id": "quill-flask-ruffian",
+      "name": "Quill-Flask Ruffian",
+      "blurb": "Drinks courage from a marshal's leftover flask.",
+      "artId": "enemy-whip-hand",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "quill-flask-ruffian-strike",
+          "name": "Ruffian Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "quill-flask-ruffian-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "quill-flask-ruffian-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "pale-pixel-sprite": {
+      "id": "pale-pixel-sprite",
+      "name": "Pale Pixel Sprite",
+      "blurb": "A spirit made of broken hologram glass.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "spirit",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "pale-pixel-sprite-strike",
+          "name": "Sprite Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "pale-pixel-sprite-sig",
+          "name": "Spirit Signature",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "pale-pixel-sprite-finisher",
+          "name": "Helix Finisher",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "chain-moss-goblin": {
+      "id": "chain-moss-goblin",
+      "name": "Chain-Moss Goblin",
+      "blurb": "Wears rusted links like a second spine.",
+      "artId": "enemy-orc-skirmisher",
+      "types": [
+        "ash",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "chain-moss-goblin-strike",
+          "name": "Goblin Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "chain-moss-goblin-sig",
+          "name": "Ash Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "chain-moss-goblin-finisher",
+          "name": "Grit Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "widowmere-lurker": {
+      "id": "widowmere-lurker",
+      "name": "Widowmere Lurker",
+      "blurb": "Fishes drowned drones from a black lake.",
+      "artId": "enemy-night-howler",
+      "types": [
+        "wild",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "widowmere-lurker-strike",
+          "name": "Lurker Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "widowmere-lurker-sig",
+          "name": "Wild Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "widowmere-lurker-finisher",
+          "name": "Grit Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "sku-brand-runner": {
+      "id": "sku-brand-runner",
+      "name": "SKU Brand Runner",
+      "blurb": "Sprints east with a hot iron and a warrant slate.",
+      "artId": "enemy-whip-hand",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "sku-brand-runner-strike",
+          "name": "Runner Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "sku-brand-runner-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "sku-brand-runner-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "warrant-paper-kite": {
+      "id": "warrant-paper-kite",
+      "name": "Warrant Paper Kite",
+      "blurb": "Folded legal paper that cuts like glass when thrown.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "spirit",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "warrant-paper-kite-strike",
+          "name": "Kite Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "warrant-paper-kite-sig",
+          "name": "Spirit Signature",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "warrant-paper-kite-finisher",
+          "name": "Helix Finisher",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "hill-signal-goblin": {
+      "id": "hill-signal-goblin",
+      "name": "Hill Signal Goblin",
+      "blurb": "Jams radios with a bone antenna.",
+      "artId": "enemy-ash-gut",
+      "types": [
+        "ash",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "hill-signal-goblin-strike",
+          "name": "Goblin Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "hill-signal-goblin-sig",
+          "name": "Ash Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "hill-signal-goblin-finisher",
+          "name": "Grit Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "stim-cartel-hound": {
+      "id": "stim-cartel-hound",
+      "name": "Stim Cartel Hound",
+      "blurb": "Trained to smell fear and uncut powder.",
+      "artId": "enemy-dust-warg",
+      "types": [
+        "wild",
+        "dust"
+      ],
+      "moves": [
+        {
+          "id": "stim-cartel-hound-strike",
+          "name": "Hound Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "stim-cartel-hound-sig",
+          "name": "Wild Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "stim-cartel-hound-finisher",
+          "name": "Dust Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "debt-collector-drone": {
+      "id": "debt-collector-drone",
+      "name": "Debt Collector Drone",
+      "blurb": "Hover-blade that prints late fees in blood.",
+      "artId": "enemy-coffle-guard",
+      "types": [
+        "chrome",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "debt-collector-drone-strike",
+          "name": "Drone Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "debt-collector-drone-sig",
+          "name": "Chrome Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "debt-collector-drone-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "ashfen-reed-serpent": {
+      "id": "ashfen-reed-serpent",
+      "name": "Ashfen Reed Serpent",
+      "blurb": "Coils through marsh fiber like a living cable.",
+      "artId": "enemy-silk-widow",
+      "types": [
+        "wild",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "ashfen-reed-serpent-strike",
+          "name": "Serpent Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "ashfen-reed-serpent-sig",
+          "name": "Wild Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "ashfen-reed-serpent-finisher",
+          "name": "Grit Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "trace-crow": {
+      "id": "trace-crow",
+      "name": "Trace Crow",
+      "blurb": "Steals barcodes off the living and sells them upstream.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "wild",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "trace-crow-strike",
+          "name": "Crow Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "trace-crow-sig",
+          "name": "Wild Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "trace-crow-finisher",
+          "name": "Grit Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "bounty-glyph-thief": {
+      "id": "bounty-glyph-thief",
+      "name": "Bounty Glyph Thief",
+      "blurb": "Cuts seals off necks for scrap chrome.",
+      "artId": "enemy-whip-hand",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "bounty-glyph-thief-strike",
+          "name": "Thief Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "bounty-glyph-thief-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "bounty-glyph-thief-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "mire-lantern-imp": {
+      "id": "mire-lantern-imp",
+      "name": "Mire Lantern Imp",
+      "blurb": "Carries a false Helix smile on a stick.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "spirit",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "mire-lantern-imp-strike",
+          "name": "Imp Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "mire-lantern-imp-sig",
+          "name": "Spirit Signature",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "mire-lantern-imp-finisher",
+          "name": "Helix Finisher",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "chromeveil-barnacle": {
+      "id": "chromeveil-barnacle",
+      "name": "Chromeveil Barnacle",
+      "blurb": "Clings to barge hulls and drinks coolant dreams.",
+      "artId": "enemy-trail-webling",
+      "types": [
+        "wild",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "chromeveil-barnacle-strike",
+          "name": "Barnacle Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "chromeveil-barnacle-sig",
+          "name": "Wild Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "chromeveil-barnacle-finisher",
+          "name": "Grit Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "spirit-jar-breaker": {
+      "id": "spirit-jar-breaker",
+      "name": "Spirit Jar Breaker",
+      "blurb": "Smashes cages so the ghosts owe him favors.",
+      "artId": "enemy-ash-gut",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "spirit-jar-breaker-strike",
+          "name": "Breaker Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "spirit-jar-breaker-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "spirit-jar-breaker-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "coolant-river-eel": {
+      "id": "coolant-river-eel",
+      "name": "Coolant River Eel",
+      "blurb": "Biolume stripes; bites leave frostburn code.",
+      "artId": "enemy-silk-widow",
+      "types": [
+        "wild",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "coolant-river-eel-strike",
+          "name": "Eel Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "coolant-river-eel-sig",
+          "name": "Wild Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "coolant-river-eel-finisher",
+          "name": "Grit Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "barge-hook-orc": {
+      "id": "barge-hook-orc",
+      "name": "Barge Hook Orc",
+      "blurb": "Pulls freighters onto decks with a chrome gaff.",
+      "artId": "enemy-orc-skirmisher",
+      "types": [
+        "ash",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "barge-hook-orc-strike",
+          "name": "Orc Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "barge-hook-orc-sig",
+          "name": "Ash Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "barge-hook-orc-finisher",
+          "name": "Grit Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "toll-booth-specter": {
+      "id": "toll-booth-specter",
+      "name": "Toll Booth Specter",
+      "blurb": "Demands coin from memories you haven't remembered yet.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "spirit",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "toll-booth-specter-strike",
+          "name": "Specter Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "toll-booth-specter-sig",
+          "name": "Spirit Signature",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "toll-booth-specter-finisher",
+          "name": "Helix Finisher",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "muckfen-silk-drake": {
+      "id": "muckfen-silk-drake",
+      "name": "Muckfen Silk Drake",
+      "blurb": "Small dragon-thing; webs smell like solvent.",
+      "artId": "enemy-nest-mother",
+      "types": [
+        "ash",
+        "wild"
+      ],
+      "moves": [
+        {
+          "id": "muckfen-silk-drake-strike",
+          "name": "Drake Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "muckfen-silk-drake-sig",
+          "name": "Ash Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "muckfen-silk-drake-finisher",
+          "name": "Wild Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "helix-smile-sentry": {
+      "id": "helix-smile-sentry",
+      "name": "Helix Smile Sentry",
+      "blurb": "Gate mask that never stops grinning.",
+      "artId": "enemy-coffle-guard",
+      "types": [
+        "chrome",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "helix-smile-sentry-strike",
+          "name": "Sentry Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "helix-smile-sentry-sig",
+          "name": "Chrome Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "helix-smile-sentry-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "gate-mastiff-chrome": {
+      "id": "gate-mastiff-chrome",
+      "name": "Gate Mastiff Chrome",
+      "blurb": "Half dog, half hydraulic clamp.",
+      "artId": "enemy-night-howler",
+      "types": [
+        "wild",
+        "dust"
+      ],
+      "moves": [
+        {
+          "id": "gate-mastiff-chrome-strike",
+          "name": "Chrome Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "gate-mastiff-chrome-sig",
+          "name": "Wild Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "gate-mastiff-chrome-finisher",
+          "name": "Dust Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "wicker-code-sentry": {
+      "id": "wicker-code-sentry",
+      "name": "Wicker Code Sentry",
+      "blurb": "Reed and wire woven into a walking firewall.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "spirit",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "wicker-code-sentry-strike",
+          "name": "Sentry Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "wicker-code-sentry-sig",
+          "name": "Spirit Signature",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "wicker-code-sentry-finisher",
+          "name": "Helix Finisher",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "mire-orc-shaman": {
+      "id": "mire-orc-shaman",
+      "name": "Mire Orc Shaman",
+      "blurb": "Burns stim as incense for a swamp god that pays in static.",
+      "artId": "enemy-ash-gut",
+      "types": [
+        "ash",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "mire-orc-shaman-strike",
+          "name": "Shaman Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "mire-orc-shaman-sig",
+          "name": "Ash Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "mire-orc-shaman-finisher",
+          "name": "Grit Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "director-vale-clerk": {
+      "id": "director-vale-clerk",
+      "name": "Director Vale Clerk",
+      "blurb": "Soft hands, hard stamps, worse secrets.",
+      "artId": "enemy-whip-hand",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "director-vale-clerk-strike",
+          "name": "Clerk Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "director-vale-clerk-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "director-vale-clerk-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "palefen-diver": {
+      "id": "palefen-diver",
+      "name": "Palefen Diver",
+      "blurb": "Surfaces with drowned drones and worse news.",
+      "artId": "enemy-coffle-guard",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "palefen-diver-strike",
+          "name": "Diver Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "palefen-diver-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "palefen-diver-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "seal-yard-hound": {
+      "id": "seal-yard-hound",
+      "name": "Seal Yard Hound",
+      "blurb": "Counts rings with its teeth.",
+      "artId": "enemy-night-howler",
+      "types": [
+        "wild",
+        "dust"
+      ],
+      "moves": [
+        {
+          "id": "seal-yard-hound-strike",
+          "name": "Hound Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "seal-yard-hound-sig",
+          "name": "Wild Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "seal-yard-hound-finisher",
+          "name": "Dust Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "numbered-bed-ghost": {
+      "id": "numbered-bed-ghost",
+      "name": "Numbered Bed Ghost",
+      "blurb": "Sits where a guest used to sleep; wears their number.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "spirit",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "numbered-bed-ghost-strike",
+          "name": "Ghost Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "numbered-bed-ghost-sig",
+          "name": "Spirit Signature",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "numbered-bed-ghost-finisher",
+          "name": "Helix Finisher",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "house-blade-duelist": {
+      "id": "house-blade-duelist",
+      "name": "House Blade Duelist",
+      "blurb": "Polite steel until the smiles stop.",
+      "artId": "enemy-whip-hand",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "house-blade-duelist-strike",
+          "name": "Duelist Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "house-blade-duelist-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "house-blade-duelist-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "ring-forge-golem": {
+      "id": "ring-forge-golem",
+      "name": "Ring Forge Golem",
+      "blurb": "Walks on cooling seals still glowing orange.",
+      "artId": "enemy-bridge-brute",
+      "types": [
+        "iron",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "ring-forge-golem-strike",
+          "name": "Golem Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "ring-forge-golem-sig",
+          "name": "Iron Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "ring-forge-golem-finisher",
+          "name": "Chrome Finisher",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "punishment-choir": {
+      "id": "punishment-choir",
+      "name": "Punishment Choir",
+      "blurb": "Three throats, one scream protocol.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "spirit",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "punishment-choir-strike",
+          "name": "Choir Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "punishment-choir-sig",
+          "name": "Spirit Signature",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "punishment-choir-finisher",
+          "name": "Helix Finisher",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "collar-yard-overseer": {
+      "id": "collar-yard-overseer",
+      "name": "Collar Yard Overseer",
+      "blurb": "Clipboard of names that aren't yours yet.",
+      "artId": "enemy-whip-hand",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "collar-yard-overseer-strike",
+          "name": "Overseer Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "collar-yard-overseer-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "collar-yard-overseer-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "lyra-echo-shade": {
+      "id": "lyra-echo-shade",
+      "name": "Lyra Echo Shade",
+      "blurb": "Wears a sister's outline like borrowed armor.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "spirit",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "lyra-echo-shade-strike",
+          "name": "Shade Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "lyra-echo-shade-sig",
+          "name": "Spirit Signature",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "lyra-echo-shade-finisher",
+          "name": "Helix Finisher",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "seal-breaker-cultist": {
+      "id": "seal-breaker-cultist",
+      "name": "Seal Breaker Cultist",
+      "blurb": "Prays to cracked rings and broken SKUs.",
+      "artId": "enemy-ash-gut",
+      "types": [
+        "spirit",
+        "chain"
+      ],
+      "moves": [
+        {
+          "id": "seal-breaker-cultist-strike",
+          "name": "Cultist Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "seal-breaker-cultist-sig",
+          "name": "Spirit Signature",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "seal-breaker-cultist-finisher",
+          "name": "Chain Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "helix-archivist": {
+      "id": "helix-archivist",
+      "name": "Helix Archivist",
+      "blurb": "Files living people under pending deletion.",
+      "artId": "enemy-coffle-guard",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "helix-archivist-strike",
+          "name": "Archivist Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "helix-archivist-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "helix-archivist-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "estate-drone-swarm": {
+      "id": "estate-drone-swarm",
+      "name": "Estate Drone Swarm",
+      "blurb": "A cloud of tiny smiles with blades.",
+      "artId": "enemy-trail-webling",
+      "types": [
+        "chrome",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "estate-drone-swarm-strike",
+          "name": "Swarm Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "estate-drone-swarm-sig",
+          "name": "Chrome Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "estate-drone-swarm-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "pit-mandolin-fiend": {
+      "id": "pit-mandolin-fiend",
+      "name": "Pit Mandolin Fiend",
+      "blurb": "Keeps time while the crowd bets on blood.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "spirit",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "pit-mandolin-fiend-strike",
+          "name": "Fiend Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "pit-mandolin-fiend-sig",
+          "name": "Spirit Signature",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "pit-mandolin-fiend-finisher",
+          "name": "Helix Finisher",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "undervault-gladiator": {
+      "id": "undervault-gladiator",
+      "name": "Undervault Gladiator",
+      "blurb": "Neon scars, chrome knuckles, no real name.",
+      "artId": "enemy-orc-skirmisher",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "undervault-gladiator-strike",
+          "name": "Gladiator Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "undervault-gladiator-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "undervault-gladiator-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "synth-crowd-wraith": {
+      "id": "synth-crowd-wraith",
+      "name": "Synth Crowd Wraith",
+      "blurb": "Applause that eats your stamina.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "spirit",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "synth-crowd-wraith-strike",
+          "name": "Wraith Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "synth-crowd-wraith-sig",
+          "name": "Spirit Signature",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "synth-crowd-wraith-finisher",
+          "name": "Helix Finisher",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "bone-drum-prospect": {
+      "id": "bone-drum-prospect",
+      "name": "Bone Drum Prospect",
+      "blurb": "Auditioning for the captain's chair with your ribs.",
+      "artId": "enemy-ash-gut",
+      "types": [
+        "ash",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "bone-drum-prospect-strike",
+          "name": "Prospect Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "bone-drum-prospect-sig",
+          "name": "Ash Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "bone-drum-prospect-finisher",
+          "name": "Grit Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "arena-silk-brute": {
+      "id": "arena-silk-brute",
+      "name": "Arena Silk Brute",
+      "blurb": "Wrapped in betting tickets and spider silk.",
+      "artId": "enemy-bridge-brute",
+      "types": [
+        "iron",
+        "ash"
+      ],
+      "moves": [
+        {
+          "id": "arena-silk-brute-strike",
+          "name": "Brute Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "arena-silk-brute-sig",
+          "name": "Iron Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "arena-silk-brute-finisher",
+          "name": "Ash Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "cade-betting-knight": {
+      "id": "cade-betting-knight",
+      "name": "Cade Betting Knight",
+      "blurb": "Armor paid for in other people's futures.",
+      "artId": "enemy-coffle-guard",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "cade-betting-knight-strike",
+          "name": "Knight Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "cade-betting-knight-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "cade-betting-knight-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "neon-pit-drake": {
+      "id": "neon-pit-drake",
+      "name": "Neon Pit Drake",
+      "blurb": "Small dragon raised on stim and screams.",
+      "artId": "enemy-nest-mother",
+      "types": [
+        "ash",
+        "wild"
+      ],
+      "moves": [
+        {
+          "id": "neon-pit-drake-strike",
+          "name": "Drake Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "neon-pit-drake-sig",
+          "name": "Ash Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "neon-pit-drake-finisher",
+          "name": "Wild Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "fight-club-shade": {
+      "id": "fight-club-shade",
+      "name": "Fight Club Shade",
+      "blurb": "You don't talk about it; it talks about you.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "spirit",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "fight-club-shade-strike",
+          "name": "Shade Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "fight-club-shade-sig",
+          "name": "Spirit Signature",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "fight-club-shade-finisher",
+          "name": "Helix Finisher",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "undervault-handler": {
+      "id": "undervault-handler",
+      "name": "Undervault Handler",
+      "blurb": "Leashes champions like dogs and dogs like champions.",
+      "artId": "enemy-whip-hand",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "undervault-handler-strike",
+          "name": "Handler Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "undervault-handler-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "undervault-handler-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "helix-sport-ref": {
+      "id": "helix-sport-ref",
+      "name": "Helix Sport Ref",
+      "blurb": "Whistle that ends rounds—and lives.",
+      "artId": "enemy-whip-hand",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "helix-sport-ref-strike",
+          "name": "Ref Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "helix-sport-ref-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "helix-sport-ref-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "spirefall-militia-orc": {
+      "id": "spirefall-militia-orc",
+      "name": "Spirefall Militia Orc",
+      "blurb": "Burned tower paint still wet on the shield.",
+      "artId": "enemy-orc-skirmisher",
+      "types": [
+        "ash",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "spirefall-militia-orc-strike",
+          "name": "Orc Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "spirefall-militia-orc-sig",
+          "name": "Ash Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "spirefall-militia-orc-finisher",
+          "name": "Grit Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "burning-grid-warg": {
+      "id": "burning-grid-warg",
+      "name": "Burning Grid Warg",
+      "blurb": "Fur smokes with server-farm heat.",
+      "artId": "enemy-night-howler",
+      "types": [
+        "wild",
+        "dust"
+      ],
+      "moves": [
+        {
+          "id": "burning-grid-warg-strike",
+          "name": "Warg Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "burning-grid-warg-sig",
+          "name": "Wild Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "burning-grid-warg-finisher",
+          "name": "Dust Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "tower-guard-elite": {
+      "id": "tower-guard-elite",
+      "name": "Tower Guard Elite",
+      "blurb": "Last standing smile at a falling Helix spire.",
+      "artId": "enemy-coffle-guard",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "tower-guard-elite-strike",
+          "name": "Elite Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "tower-guard-elite-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "tower-guard-elite-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "uprising-chain-breaker": {
+      "id": "uprising-chain-breaker",
+      "name": "Uprising Chain Breaker",
+      "blurb": "Fights for freeholds—or for whoever pays in seals.",
+      "artId": "enemy-whip-hand",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "uprising-chain-breaker-strike",
+          "name": "Breaker Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "uprising-chain-breaker-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "uprising-chain-breaker-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "warg-cavalry-outrider": {
+      "id": "warg-cavalry-outrider",
+      "name": "Warg Cavalry Outrider",
+      "blurb": "Rides smoke and teeth into the grid.",
+      "artId": "enemy-orc-rider",
+      "types": [
+        "ash",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "warg-cavalry-outrider-strike",
+          "name": "Outrider Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "warg-cavalry-outrider-sig",
+          "name": "Ash Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "warg-cavalry-outrider-finisher",
+          "name": "Grit Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "spire-drone-ace": {
+      "id": "spire-drone-ace",
+      "name": "Spire Drone Ace",
+      "blurb": "Pilots a dying tower like a gun.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "chrome",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "spire-drone-ace-strike",
+          "name": "Ace Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "spire-drone-ace-sig",
+          "name": "Chrome Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "spire-drone-ace-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "ash-crop-reaver": {
+      "id": "ash-crop-reaver",
+      "name": "Ash Crop Reaver",
+      "blurb": "Harvests uprising like it was stim.",
+      "artId": "enemy-ash-gut",
+      "types": [
+        "ash",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "ash-crop-reaver-strike",
+          "name": "Reaver Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "ash-crop-reaver-sig",
+          "name": "Ash Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "ash-crop-reaver-finisher",
+          "name": "Grit Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "liberation-false-flag": {
+      "id": "liberation-false-flag",
+      "name": "Liberation False Flag",
+      "blurb": "Wears both sides until the knives come out.",
+      "artId": "enemy-whip-hand",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "liberation-false-flag-strike",
+          "name": "Flag Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "liberation-false-flag-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "liberation-false-flag-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dragon-drop-scout": {
+      "id": "dragon-drop-scout",
+      "name": "Dragon Drop Scout",
+      "blurb": "Signals the big wings with a neon flare.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "dragon-drop-scout-strike",
+          "name": "Scout Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "dragon-drop-scout-sig",
+          "name": "Grit Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dragon-drop-scout-finisher",
+          "name": "Iron Finisher",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "gridfire-berserker": {
+      "id": "gridfire-berserker",
+      "name": "Gridfire Berserker",
+      "blurb": "Laughs while the servers cook.",
+      "artId": "enemy-orc-skirmisher",
+      "types": [
+        "ash",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "gridfire-berserker-strike",
+          "name": "Berserker Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1,
+          "blurb": "A clean opening hit."
+        },
+        {
+          "id": "gridfire-berserker-sig",
+          "name": "Ash Signature",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "gridfire-berserker-finisher",
+          "name": "Grit Finisher",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "drainPct": 0.25,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
     }
   }
 }

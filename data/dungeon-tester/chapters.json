@@ -20,7 +20,9 @@
         "glade-raiders",
         "road-wargs",
         "spirit-hounds",
-        "neon-scavs"
+        "neon-scavs",
+        "biolume-thieves",
+        "barcode-mites"
       ],
       "sceneId": "scene-dt-chain-road",
       "splashArtId": "splash-dt-chain-road",
@@ -40,7 +42,8 @@
         "warrant-runners",
         "hill-goblins",
         "dust-wargs",
-        "bounty-thieves"
+        "bounty-thieves",
+        "debt-drones"
       ],
       "sceneId": "scene-dt-dust-and-debt",
       "splashArtId": "splash-dt-dust-and-debt",
@@ -60,7 +63,8 @@
         "mark-hunters",
         "spy-ravens",
         "orc-outriders",
-        "paid-knights"
+        "paid-knights",
+        "pixel-sprites"
       ],
       "sceneId": "scene-dt-wanted-mark",
       "splashArtId": "splash-dt-wanted-mark",
@@ -80,7 +84,9 @@
         "river-slavers",
         "barge-trolls",
         "muck-spiders",
-        "toll-orcs"
+        "toll-orcs",
+        "coolant-eels",
+        "silk-drakes"
       ],
       "sceneId": "scene-dt-river-of-brands",
       "splashArtId": "splash-dt-river-of-brands",
@@ -100,7 +106,8 @@
         "gate-guards",
         "mire-orcs",
         "war-mastiffs",
-        "wicker-sentries"
+        "wicker-sentries",
+        "vale-clerks"
       ],
       "sceneId": "scene-dt-candlemire-gates",
       "splashArtId": "splash-dt-candlemire-gates",
@@ -120,7 +127,9 @@
         "overseer-orcs",
         "house-blades",
         "punishment-hounds",
-        "collared-champions"
+        "collared-champions",
+        "bed-ghosts",
+        "seal-cult"
       ],
       "sceneId": "scene-dt-house-of-collars",
       "splashArtId": "splash-dt-house-of-collars",
@@ -140,7 +149,8 @@
         "pit-champions",
         "arena-trolls",
         "spectating-knights",
-        "cade-favorites"
+        "cade-favorites",
+        "mandolin-fiends"
       ],
       "sceneId": "scene-dt-blood-mandolin",
       "splashArtId": "splash-dt-blood-mandolin",
@@ -160,7 +170,9 @@
         "cade-host",
         "elite-orcs",
         "burning-tower-guards",
-        "warg-cavalry"
+        "warg-cavalry",
+        "grid-wargs",
+        "spire-aces"
       ],
       "sceneId": "scene-dt-liberation-march",
       "splashArtId": "splash-dt-liberation-march",
@@ -180,7 +192,9 @@
         "remnant-hunters",
         "storm-wargs",
         "last-enforcers",
-        "memory-shades"
+        "memory-shades",
+        "pale-echoes",
+        "westwind-drakes"
       ],
       "sceneId": "scene-dt-free-horizon",
       "splashArtId": "splash-dt-free-horizon",
