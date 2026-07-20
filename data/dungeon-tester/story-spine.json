@@ -1,7 +1,7 @@
 {
   "version": 1,
   "title": "Dungeons and Dogs: Lost Brothers",
-  "blurb": "Adult R-rated pulp. Three amnesiac brothers and a dog wake in the Neon Wilderland — cyberpunk steel under a Middle-earth canopy, spirits in the fog, dragons on the ridgeline. Helix Dominion sells names; Project Pale wiped theirs. Chapter 1: Woods Without Names. Chapters 2–9 still await the next rewrite pass.",
+  "blurb": "Adult R-rated pulp. Three amnesiac brothers and a dog wake in the Neon Wilderland — cyberpunk steel under a Middle-earth canopy, spirits in the fog, dragons on the ridgeline. Helix Dominion sells names; Project Pale wiped theirs. Chapters 1–3: Woods Without Names, Stim Dust Marches, SKU Trace. Chapters 4–9 still await the next rewrite pass.",
   "targetHours": 34,
   "startNodeId": "dt-ch01-001",
   "encounterCadence": {
@@ -152,8 +152,8 @@
     {
       "id": "dt-ch-02-dust-and-debt",
       "chapter": 2,
-      "title": "Dust and Debt",
-      "tagline": "Warrants pay in silver and scars while Quill teaches steel that answers to no collar.",
+      "title": "Stim Dust Marches",
+      "tagline": "Warrants pay in stims and scars while Quill teaches steel that answers to no seal.",
       "startNodeId": "dt-ch02-001",
       "nodeIds": [
         "dt-ch02-001",
@@ -291,8 +291,8 @@
     {
       "id": "dt-ch-03-wanted-mark",
       "chapter": 3,
-      "title": "The Wanted Mark",
-      "tagline": "A carved brand leads east; friends and hunters argue over who owns the man who escaped.",
+      "title": "SKU Trace",
+      "tagline": "An under-skin barcode leads east; friends and hunters argue over who owns the men who woke blank.",
       "startNodeId": "dt-ch03-001",
       "nodeIds": [
         "dt-ch03-001",
@@ -2936,8 +2936,8 @@
     {
       "id": "dt-ch02-001",
       "kind": "narrative",
-      "title": "Freemark Bridge",
-      "body": "Freemark’s bridge exacts a toll in stories, not coins — and they smell a lie the way dogs smell fear. You tell enough of Chain-Road to pass, and hide enough of Candlemire to sleep. Quill buys ink, ball, and powder like a man preparing a small, personally motivated war.",
+      "title": "Dustmarch Bridge",
+      "body": "Dustmarch’s bridge exacts a toll in stories, not coins — and they smell a lie the way dogs smell fear. You tell enough of the Woods Without Names to pass, and hide enough of Helix Spire to sleep. Quill buys ink, ball, and powder like a man preparing a small, personally motivated war.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-freemark-bridge",
       "chapter": 2,
@@ -2955,8 +2955,8 @@
     {
       "id": "dt-ch02-002",
       "kind": "narrative",
-      "title": "Dust and Debt: Collar Echo",
-      "body": "Two riders tip hats too friendly for the hour. Tonight’s camp will argue theology with mosquitoes and memory. You spit iron taste and keep the freemark facing out.",
+      "title": "Stim Dust Marches: Seal Echo",
+      "body": "Somewhere a spirit meter ticks like a second heart. Quill says ignore it until it starts naming you. Then kill whatever is speaking.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -2975,8 +2975,8 @@
     {
       "id": "dt-ch02-003",
       "kind": "narrative",
-      "title": "Dust and Debt: Warrant Weather",
-      "body": "Distant cane fields clap like soft applause for bad systems. A guest-wing floorplan scratches your palm like a second freemark. Rumor west, debt east — pick your poison by the sun.",
+      "title": "Stim Dust Marches: Warrant Weather",
+      "body": "Quill counts cartridges the way priests count sins — carefully, then drinks anyway. Warrant weather means someone east still thinks you are property with legs.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -2992,7 +2992,7 @@
       "id": "dt-ch02-004",
       "kind": "choice",
       "title": "Tavern Odds",
-      "body": "A Freemark bookmaker offers odds on whether you’ll die before Candlemire or after. Quill wants silence. The room wants a show. Your freemark itches like a tell.",
+      "body": "A Dustmarch bookmaker offers odds on whether you’ll die before Helix Gate or after. Quill wants silence. The room wants a show. Your callsign itches like a tell.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-tavern-odds",
       "chapter": 2,
@@ -3058,7 +3058,7 @@
       "id": "dt-ch02-005",
       "kind": "choice",
       "title": "Flask Catechism",
-      "body": "Quill offers the flask and a question with teeth: when a warrant names a man who once wore a collar like yours, do you hesitate? His scarred eye waits. The paddock wind does not.",
+      "body": "Quill offers the flask and a question with teeth: when a warrant names a man who once wore a neural collar like the itch under your skin, do you hesitate? His scarred eye waits. The paddock wind does not. Stim Dust listens like a congregation with bad manners.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-quill-aside",
       "chapter": 2,
@@ -3110,8 +3110,8 @@
     {
       "id": "dt-ch02-006",
       "kind": "narrative",
-      "title": "Dust and Debt: Hard Mercy",
-      "body": "Quill hums a tune that never finishes the same way twice. Warrant ink under your coat weighs more than the steel above it. The next mile does not apologize.",
+      "title": "Stim Dust Marches: Hard Mercy",
+      "body": "Hard mercy is leaving a cartel runner breathing with a warning carved into his chrome. Soft mercy is a sermon. You choose hard.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3119,15 +3119,15 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-007",
       "kind": "narrative",
-      "title": "Dust and Debt: Vermin Bargain",
-      "body": "A tavern singer swallows a verse when Cade’s check enters the room. Ash learns freeman posture: chin up, exits counted, no bowing to seals. Somewhere east, ink still thinks it owns a throat.",
+      "title": "Stim Dust Marches: Scav Bargain",
+      "body": "Trail tax kids sell water and buy stories about nameless men who would not quit. The bargain is always blood somewhere.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3135,19 +3135,19 @@
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-008",
       "kind": "narrative",
-      "title": "Dust and Debt: Ash Aside",
-      "body": "Camp smoke writes temporary law across the pines. You rehearse Lyra’s name until it stops sounding like a bruise. Quill tips the ruined hat at unfinished business and drinks.",
+      "title": "Stim Dust Marches: Brother Aside",
+      "body": "You speak callsigns into the dark like passwords. The dog answers to none of them — and still walks first.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3162,8 +3162,8 @@
     {
       "id": "dt-ch02-009",
       "kind": "narrative",
-      "title": "Freeman Mark",
-      "body": "A clerk tattoos a pale freeman glyph on your wrist where the collar once sat. It burns less than iron and more than pride. Children stare; adults do the math of risk; Quill says, “Wear it out. Don’t let it wear you.”",
+      "title": "Callsign Seal",
+      "body": "A clerk burns a pale callsign seal on your wrist where a neural collar once sat — or where one was meant to. It burns less than iron and more than pride. Children stare; adults do the math of risk; Quill says, “Wear it out. Don’t let it wear you.”",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-freeman-mark",
       "chapter": 2,
@@ -3173,11 +3173,11 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ],
       "next": "dt-ch02-010"
@@ -3185,8 +3185,8 @@
     {
       "id": "dt-ch02-010",
       "kind": "narrative",
-      "title": "Dust and Debt: Quill's Aside",
-      "body": "The Wilderland files today’s silence under “pending violence.” Ash keeps counsel; Quill keeps a ledger of silences and a flask of worse truths. Freedom keeps charging rent — pay it in miles.",
+      "title": "Stim Dust Marches: Quill's Aside",
+      "body": "He talks to the flask more than to you. The flask answers in stim-heat and ugly honesty. Mentors this rotten usually know the road.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3201,8 +3201,8 @@
     {
       "id": "dt-ch02-011",
       "kind": "narrative",
-      "title": "Dust and Debt: Cane Wind",
-      "body": "Powder grit under your nail smells like unfinished court. Quill says, “Hills first. Rivers remember who you were. I remember who won’t quit.” A distant ring hits dirt and stays there.",
+      "title": "Stim Dust Marches: Stim Wind",
+      "body": "Fiber-vine scrub clicks like teeth. The wind brings cartel neon and a choir of static that wants your callsign for a fee.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3210,19 +3210,19 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-012",
       "kind": "narrative",
-      "title": "Freemark Children",
-      "body": "Children stare at your wrist glyph and do quiet math about risk. One asks if freemen dream in numbers. You say no. Quill adds, “Dream in exits.”",
+      "title": "Dustmarch Children",
+      "body": "Children stare at your wrist seal and do quiet math about risk. One asks if lost men dream in numbers. You say no. Quill adds, “Dream in exits.”",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-freeman-mark",
       "chapter": 2,
@@ -3242,7 +3242,7 @@
       "id": "dt-ch02-013",
       "kind": "narrative",
       "title": "Warrant Board Sermon",
-      "body": "Quill walks you past Freemark’s warrant board like a chapel tour with worse hymns. He taps three seals — goblin, barge, knight — and drawls, “Pick debts that teach. Coin is a side effect. Stubbornness is the curriculum.”",
+      "body": "Quill walks you past Dustmarch’s warrant board like a chapel tour with worse hymns. He taps three seals — goblin scrap-clan, stim-barge cutter, corporate knight — and drawls, “Pick debts that teach. Coin is a side effect. Stubbornness is the curriculum.”",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-three-warrants",
       "chapter": 2,
@@ -3257,8 +3257,8 @@
     {
       "id": "dt-ch02-014",
       "kind": "narrative",
-      "title": "Dust and Debt: Binder Math",
-      "body": "Ash tastes copper on the wind and does not flinch. A thrall brand on a fence rail dares you to look away. Lyra’s quiet ticks quieter than a clock and louder than leftover fear.",
+      "title": "Stim Dust Marches: Binder Math",
+      "body": "Overseer laughter and server fans carry farther than hymns. Freedom still feels like hunger wearing better boots. Binder math says keep walking.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3274,11 +3274,11 @@
       "id": "dt-ch02-015",
       "kind": "encounter",
       "title": "Hill Goblins Ambush",
-      "body": "A collar ring half-buried in mud still remembers a neck. Memory of cages arrives uninvited, then leaves when named. The cane smell thickens like a dare. Then hill goblins force the issue — a roadside lesson Quill refuses to skip.",
+      "body": "A neural-neural-neural-collar ring half-buried in mud still remembers a neck. Memory of cages arrives uninvited, then leaves when named. Stim grit thickens like a dare. Then hill goblins — scrap-clan steel and stolen stim packs — force the issue — a roadside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-hill-goblins",
       "chapter": 2,
-      "enemy": "Hill Goblins",
+      "enemy": "Hill Goblin Scrap-Clan",
       "enemyArtId": "art-dt-hill-goblins",
       "enemyHp": 58,
       "enemyPower": 10,
@@ -3289,7 +3289,7 @@
           "label": "Stand and fight",
           "approach": "Use hotbar steel; clocks stay off — take your time.",
           "outcome": {
-            "text": "Hill Goblins falls. The road tastes like iron and relief.",
+            "text": "Hill Goblins falls. The Stim Dust tastes like iron, ozone, and relief.",
             "xp": 26,
             "gold": 9,
             "nextNodeId": "dt-ch02-016",
@@ -3333,15 +3333,15 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-016",
       "kind": "narrative",
-      "title": "Dust and Debt: Yard Gossip",
-      "body": "A roadside shrine wears three names and one empty nail. You spit iron taste and keep walking like authorship, not cargo. The road flips its next ugly page.",
+      "title": "Stim Dust Marches: Camp Gossip",
+      "body": "Somebody swears Helix Spire hangs rings by size, not by name. Quill drinks past it, scarred eye fixed east, and says only, “Then we learn loft latches.”",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3361,7 +3361,7 @@
       "id": "dt-ch02-017",
       "kind": "choice",
       "title": "Which Warrant?",
-      "body": "Three warrants hang like wet laundry: a goblin raid-chief, a barge cutter on the Brand-River feeder, and a knight who sold villagers under Cade’s quiet seal. Quill lets you choose the first debt to collect. “Pick the one that keeps you sleeping,” he says. “Or the one that doesn’t. Both teach.”",
+      "body": "Three warrants hang like wet laundry: a goblin raid-chief, a barge cutter on the Chromeveil feeder, and a knight who sold villagers under Vale’s quiet seal. Quill lets you choose the first debt to collect. “Pick the one that keeps you sleeping,” he says. “Or the one that doesn’t. Both teach.”",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-three-warrants",
       "chapter": 2,
@@ -3382,7 +3382,7 @@
         {
           "id": "ch2-barge",
           "label": "Hunt the barge cutter",
-          "approach": "Follow water toward Candlemire’s quiet supply.",
+          "approach": "Follow water toward Helix’s quiet chemical supply.",
           "outcome": {
             "text": "“Rivers teach patience,” Quill says, already smelling mud and worse math.",
             "xp": 15,
@@ -3395,7 +3395,7 @@
         {
           "id": "ch2-knight",
           "label": "Hunt the selling knight",
-          "approach": "Strike the soft armor of Cade’s respectables.",
+          "approach": "Strike the soft armor of Vale’s respectables.",
           "outcome": {
             "text": "Quill’s smile thins. “Careful. Knights have friends with seals and soft hands.”",
             "xp": 15,
@@ -3410,8 +3410,8 @@
     {
       "id": "dt-ch02-018",
       "kind": "narrative",
-      "title": "Dust and Debt: Seal Weather",
-      "body": "Quill’s ruined hat casts a verdict-shaped shadow. The Wilderland watches and declines to explain itself. Dust season ends; warrant season learns your new name.",
+      "title": "Stim Dust Marches: Seal Weather",
+      "body": "Seal weather rolls in like debt. Neural collars chirp in scav packs; spirit meters blink green for clean product. You are not clean. Good.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3426,8 +3426,8 @@
     {
       "id": "dt-ch02-019",
       "kind": "narrative",
-      "title": "Dust and Debt: Powder Prayer",
-      "body": "Crows argue over something dead you hope is not destiny. Quill mutters law under his breath like a protective curse, then swears for emphasis. Dust keeps the books; blood settles the accounts.",
+      "title": "Stim Dust Marches: Powder Prayer",
+      "body": "You pray with chrome and stubbornness. Stim Dust answers with fog that remembers your faces better than you do.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3435,15 +3435,15 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-020",
       "kind": "narrative",
-      "title": "Dust and Debt: Stubborn Mile",
-      "body": "Quill counts cartridges the way priests count sins — carefully, then drinks anyway. Quill drawls that quitters make excellent fertilizer and worse freemen. Stubbornness reads as virtue when Quill is halfway through the flask.",
+      "title": "Stim Dust Marches: Stubborn Mile",
+      "body": "Quill lights a match off a warrant nail wired into a data-spike, drinks, and looks almost human — almost ready to spend truth.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3451,19 +3451,19 @@
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-021",
       "kind": "narrative",
-      "title": "Dust and Debt: Ring Memory",
-      "body": "Wind carries iron smell farther than any honest voice. Tracks braid, unbraid, and lie with professional cheer. Continue — soft roads make soft collars again.",
+      "title": "Stim Dust Marches: Meter Memory",
+      "body": "Meter memory: a tick behind the eyes when someone says a true name nearby. None of you have one yet. The dog does — and will not share.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3478,8 +3478,8 @@
     {
       "id": "dt-ch02-022",
       "kind": "narrative",
-      "title": "Dust and Debt: East Debt",
-      "body": "Dust and Debt share a last name out here — ask any freemark widow. Ash rolls a shoulder that still remembers iron’s manners. Ash sets the pace like a man owed a name and too stubborn to renegotiate.",
+      "title": "Stim Dust Marches: East Debt",
+      "body": "Overseer laughter and server fans carry farther than any hymn on this road. Freedom still feels like hunger wearing better boots.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3494,8 +3494,8 @@
     {
       "id": "dt-ch02-023",
       "kind": "narrative",
-      "title": "Dust and Debt: Dust Mile",
-      "body": "Fence wire hums a note that used to mean inventory. A hanged poster of your face lies about the eyes — always the eyes. Steel rests light; resolve does not.",
+      "title": "Stim Dust Marches: Dust Mile",
+      "body": "A hanged poster of three blank faces lies about the eyes — always the eyes. You walk because the alternative still smells like rust.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3503,19 +3503,19 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-024",
       "kind": "narrative",
-      "title": "Dust and Debt: Quiet Counsel",
-      "body": "Clouds drag shadows across cane-colored grass like slow warrants. You practice not answering to a number when strangers call. Quill nods toward the darker horizon without ceremony.",
+      "title": "Stim Dust Marches: Quiet Counsel",
+      "body": "Quiet counsel is three brothers not saying we might not be brothers. Kinship feels true; proof does not. Quill lets the silence work.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3531,7 +3531,7 @@
       "id": "dt-ch02-025",
       "kind": "narrative",
       "title": "Hill Weather",
-      "body": "Scrub hills rise like knuckles ready to close. Goblin banners stitch stolen cloth into threats that almost look like nations. Somewhere a horn answers itself, which means ambush practice — or optimism with spears.",
+      "body": "Scrub hills rise like knuckles ready to close. Goblin banners stitch stolen cloth and fiber-vine into threats that almost look like nations. Somewhere a horn answers itself, which means ambush practice — or optimism with spears and stim-cartel radios.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-goblin-hills",
       "chapter": 2,
@@ -3546,8 +3546,8 @@
     {
       "id": "dt-ch02-026",
       "kind": "narrative",
-      "title": "Dust and Debt: Road Hygiene",
-      "body": "Bootleather remembers every mile better than maps ever will. Ash counts exits without moving his mouth — old habit, good habit. Freemark stamps you unpaid labor instead of numbered iron — upgrade.",
+      "title": "Stim Dust Marches: Trail Hygiene",
+      "body": "You wash stim-sweat off your wrists and pretend it was only work. East smells like ozone, flask heat, and unfinished names.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3555,15 +3555,15 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-027",
       "kind": "narrative",
-      "title": "Dust and Debt: Old Hunger",
-      "body": "Lyra’s name sits behind your teeth like a loaded prayer. Continue is the only honest verb left, and even it hesitates — Ash does not. You walk on because stopping is how numbers return.",
+      "title": "Stim Dust Marches: Old Hunger",
+      "body": "Hunger arrives wearing stim-sweat and old fight memory. Quill passes the flask once — chemical truth, not kindness. Your stomach remembers rations you cannot name.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3582,8 +3582,8 @@
     {
       "id": "dt-ch02-028",
       "kind": "narrative",
-      "title": "Dust and Debt: Freemark Thoughts",
-      "body": "Night insects keep score of every secret step you still take. Quill’s scarred eye never quite closes on a lie — useful, exhausting, honest. Warrant weather gathers; you load anyway.",
+      "title": "Stim Dust Marches: Callsign Thoughts",
+      "body": "A freehold stamp would make you legal. A callsign makes you hunt. You choose the second and pretend it was always the plan.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3598,8 +3598,8 @@
     {
       "id": "dt-ch02-029",
       "kind": "narrative",
-      "title": "Dust and Debt: Ledger Weather",
-      "body": "Heat makes the freemark itch like unfinished business. Somewhere a horn asks a question steel usually answers. Vermin clear the lane for worse traffic.",
+      "title": "Stim Dust Marches: SKU Weather",
+      "body": "Somebody buried a whip and marked the dirt with hope. Quill mutters law under his breath like a man arguing with God and winning on technicalities.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3607,7 +3607,7 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
@@ -3615,7 +3615,7 @@
       "id": "dt-ch02-030",
       "kind": "encounter",
       "title": "Dust Wargs Ambush",
-      "body": "Bounty thieves smell like ale and other people’s funerals. Rations taste like postponement, pepper, and old promises. Candlemire’s chimneys write black letters you intend to edit. Then dust wargs force the issue — a roadside lesson Quill refuses to skip.",
+      "body": "Bounty thieves smell like ale and other people’s funerals. Rations taste like postponement, pepper, and old promises. Helix Spire’s chimneys write black letters you intend to edit. Then dust wargs force the issue — a roadside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-wargs",
       "chapter": 2,
@@ -3630,7 +3630,7 @@
           "label": "Stand and fight",
           "approach": "Use hotbar steel; clocks stay off — take your time.",
           "outcome": {
-            "text": "Dust Wargs falls. The road tastes like iron and relief.",
+            "text": "Dust Wargs falls. The Stim Dust tastes like iron, ozone, and relief.",
             "xp": 26,
             "gold": 9,
             "nextNodeId": "dt-ch02-031",
@@ -3674,19 +3674,19 @@
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-031",
       "kind": "narrative",
-      "title": "Dust and Debt: Night Watch",
-      "body": "The road offers a fork that is really a dare. Dust becomes a third companion with poor hygiene and worse jokes. Miles beat cages; that math still holds — and quit is not a word you own.",
+      "title": "Stim Dust Marches: Night Watch",
+      "body": "Two riders tip hats too friendly for the hour. Stim Dust watches and keeps receipts in grit and neon.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3701,8 +3701,8 @@
     {
       "id": "dt-ch02-032",
       "kind": "narrative",
-      "title": "Dust and Debt: Iron Humor",
-      "body": "Marshal Halbrecht Quill lights a match on a warrant nail and looks almost merciful. Freedom still feels like hunger wearing better boots. A collar yard waits — and revolt is writing itself a key.",
+      "title": "Stim Dust Marches: Iron Humor",
+      "body": "Paper freedom first — real freedom files later — don’t quit in between. East keeps yards that have not yet learned uprising arithmetic.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3718,7 +3718,7 @@
       "id": "dt-ch02-033",
       "kind": "encounter",
       "title": "Hill Goblin Spears",
-      "body": "Spears rain from scrub. Quill curses in two languages and one dead dialect that sounds personally offended. You learn freeman work is still fighting other people’s arithmetic — only now the math bleeds.",
+      "body": "Spears rain from scrub. Quill curses in two languages and one dead dialect that sounds personally offended. You learn freehold work is still fighting other people’s arithmetic — only now the math bleeds stim and chrome.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-goblin-spear",
       "chapter": 2,
@@ -3733,7 +3733,7 @@
           "label": "Stand and fight",
           "approach": "Use hotbar steel; clocks stay off — take your time.",
           "outcome": {
-            "text": "Hill-Goblin Spears falls. The road tastes like iron and relief.",
+            "text": "Hill-Goblin Spears falls. The Stim Dust tastes like iron, ozone, and relief.",
             "xp": 26,
             "gold": 9,
             "nextNodeId": "dt-ch02-034",
@@ -3778,8 +3778,8 @@
     {
       "id": "dt-ch02-034",
       "kind": "narrative",
-      "title": "Dust and Debt: Collar Echo",
-      "body": "Freemark’s bridge collects stories the way cages collect numbers. East waits hungrier the longer you polish courage into delay. The Wilderland watches and does not offer refunds.",
+      "title": "Stim Dust Marches: Seal Echo",
+      "body": "The neural-seal scar itches when scrap-wagons pass — muscle memory of inventory. Soft roads make soft seals again. You walk harder.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3787,19 +3787,19 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-035",
       "kind": "narrative",
-      "title": "Dust and Debt: Warrant Weather",
-      "body": "A hanged scarecrow wears Cade’s check like a joke that landed. Trust and doubt take turns at the spout. Papers start the job; scars finish the filing — Quill’s oldest sermon.",
+      "title": "Stim Dust Marches: Warrant Weather",
+      "body": "Halbrecht Quill lights a match off a warrant nail, drinks, and looks almost human — almost ready to spend truth about Project Pale.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3814,8 +3814,8 @@
     {
       "id": "dt-ch02-036",
       "kind": "narrative",
-      "title": "Dust and Debt: Hard Mercy",
-      "body": "Somebody buried a whip and marked the dirt with hope. Quill drawls that quitters make excellent fertilizer and worse freemen. Quill packs light enough to become the rumor on purpose.",
+      "title": "Stim Dust Marches: Hard Mercy",
+      "body": "Hard mercy is leaving a cartel runner breathing with a warning carved into his chrome. Soft mercy is a sermon. You choose hard.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3823,15 +3823,15 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-037",
       "kind": "narrative",
-      "title": "Dust and Debt: Vermin Bargain",
-      "body": "A freeman laughs too loud, then checks who heard him. Magistrate silver spends cleaner than Goblin gratitude — usually. The next mile does not apologize.",
+      "title": "Stim Dust Marches: Scav Bargain",
+      "body": "Trail tax kids sell water and buy stories about nameless men who would not quit. The bargain is always blood somewhere.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3850,8 +3850,8 @@
     {
       "id": "dt-ch02-038",
       "kind": "narrative",
-      "title": "Dust and Debt: Ash Aside",
-      "body": "A binder’s seal scrapes your palm like a polite threat. Quill says, “Pretty country. Ugly ownership. Pass the damn bottle.” Every mile files its own ugly receipt.",
+      "title": "Stim Dust Marches: Brother Aside",
+      "body": "You speak callsigns into the dark like passwords. The dog answers to none of them — and still walks first.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3866,8 +3866,8 @@
     {
       "id": "dt-ch02-039",
       "kind": "narrative",
-      "title": "Dust and Debt: Quill's Aside",
-      "body": "A child’s chalk freemark on a fence post has already been scrubbed. You trade a story for water and keep the ending private. Steel rests light; resolve does not.",
+      "title": "Stim Dust Marches: Quill's Aside",
+      "body": "Quill’s aside is never soft: “Pretty country. Ugly ownership. Pass the damn bottle.” Stim Dust still clings; whatever comes next washes harder than rain.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3875,15 +3875,15 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-040",
       "kind": "narrative",
-      "title": "Dust and Debt: Cane Wind",
-      "body": "Dust lifts off the track in pale sheets that lie for a living. Tonight’s camp will argue theology with mosquitoes and memory. The east road does not care how ready you feel.",
+      "title": "Stim Dust Marches: Stim Wind",
+      "body": "Wind carries flask-heat and dragon-static farther than any honest voice. Helix Dominion tower-glow rides the east like a bruise.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3891,11 +3891,11 @@
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
@@ -3903,14 +3903,14 @@
       "id": "dt-ch02-041",
       "kind": "narrative",
       "title": "Chief Grin-Nail",
-      "body": "Grin-Nail wears Vern’s stolen cape and bargains with jokes that show too many teeth for comedy. He knows Candlemire buyers visit on the new moon and says it like a toast. Quill wants him alive for the magistrate; you want the moon calendar and maybe a tooth.",
+      "body": "Grin-Nail wears Vern’s stolen cape and bargains with jokes that show too many teeth for comedy. He knows Helix buyers visit on the new moon and says it like a toast. Quill wants him alive for the magistrate; you want the moon calendar, a stim-den route, and maybe a tooth.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-grin-nail",
       "chapter": 2,
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ],
       "next": "dt-ch02-042"
@@ -3918,8 +3918,8 @@
     {
       "id": "dt-ch02-042",
       "kind": "narrative",
-      "title": "Dust and Debt: Binder Math",
-      "body": "Night insects keep score of every secret step you still take. Quill files every kindness under “possibly tactical” and drinks to the filing. Campfire roll call — and you are not inventory.",
+      "title": "Stim Dust Marches: Binder Math",
+      "body": "Binder math: three stubborn blanks plus one dog plus one drunk marshal equals a hunting party the Stim Dust notices. Quill does not apologize for the arithmetic.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3934,8 +3934,8 @@
     {
       "id": "dt-ch02-043",
       "kind": "narrative",
-      "title": "Dust and Debt: Flask Sermon",
-      "body": "East wind brings sugar lies and iron honesty in the same breath. A thrall brand on a fence rail dares you to look away. Everything wears dust but the promise with Lyra’s name.",
+      "title": "Stim Dust Marches: Flask Sermon",
+      "body": "Stim sermon, whiskey chorus. He says Project Pale is a rumor with teeth. You feel the teeth in your blank spots.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3950,8 +3950,8 @@
     {
       "id": "dt-ch02-044",
       "kind": "narrative",
-      "title": "Dust and Debt: Yard Gossip",
-      "body": "Rain finds the places where collars used to teach posture. Your wrist freemark itches whenever eyes linger too long. Dust season ends; warrant season learns your new name.",
+      "title": "Stim Dust Marches: Camp Gossip",
+      "body": "A roadside shrine wears three callsigns and one empty nail. A burned SKU seal on a fence rail dares you to look away.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3959,19 +3959,19 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-045",
       "kind": "narrative",
-      "title": "Dust and Debt: Seal Weather",
-      "body": "Your freeman glyph still weeps pale ink when you make a fist. Quill reads ledgers like scripture written by committed bastards, whiskey for punctuation. Freedom keeps charging rent — pay it in miles.",
+      "title": "Stim Dust Marches: Seal Weather",
+      "body": "Seal weather rolls in like debt. Neural collars chirp in scav packs; spirit meters blink green for clean product. You are not clean. Good.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3986,8 +3986,8 @@
     {
       "id": "dt-ch02-046",
       "kind": "narrative",
-      "title": "Dust and Debt: Powder Prayer",
-      "body": "A creek argues with stones like a tired magistrate on half pay. Warrant ink under your coat weighs more than the steel above it. Quill packs the silence like powder — dry, useful, dangerous.",
+      "title": "Stim Dust Marches: Powder Prayer",
+      "body": "You pray with chrome and stubbornness. Stim Dust answers with fog that remembers your faces better than you do.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -3995,15 +3995,15 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-047",
       "kind": "narrative",
-      "title": "Dust and Debt: Stubborn Mile",
-      "body": "A dead mule teaches economics better than any clerk. The road offers three bad choices and one worse delay. Quill packs light enough to become the rumor on purpose.",
+      "title": "Stim Dust Marches: Stubborn Mile",
+      "body": "Quill lights a match off a warrant nail wired into a data-spike, drinks, and looks almost human — almost ready to spend truth.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4023,7 +4023,7 @@
       "id": "dt-ch02-048",
       "kind": "encounter",
       "title": "Dust Wargs Ambush",
-      "body": "Marshal Halbrecht Quill lights a match on a warrant nail and looks almost merciful. A road-vermin kid offers directions priced in half-truths. Somewhere a cage latch rehearses retirement. Then dust wargs force the issue — a roadside lesson Quill refuses to skip.",
+      "body": "Marshal Halbrecht Quill lights a match on a warrant nail and looks almost merciful. A road-vermin kid offers directions priced in half-truths. Somewhere a seal latch rehearses retirement. Then dust wargs force the issue — a roadside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-wargs",
       "chapter": 2,
@@ -4038,7 +4038,7 @@
           "label": "Stand and fight",
           "approach": "Use hotbar steel; clocks stay off — take your time.",
           "outcome": {
-            "text": "Dust Wargs falls. The road tastes like iron and relief.",
+            "text": "Dust Wargs falls. The Stim Dust tastes like iron, ozone, and relief.",
             "xp": 26,
             "gold": 9,
             "nextNodeId": "dt-ch02-049",
@@ -4090,7 +4090,7 @@
       "id": "dt-ch02-049",
       "kind": "choice",
       "title": "Deal or Steel",
-      "body": "Grin-Nail offers quiet passage maps if you break his warrant chain and let him flee north. “Law,” Quill’s face says. Your freemark itches like a warning label. Grin-Nail adds, “Or we can all die principled. Boring.”",
+      "body": "Grin-Nail offers quiet passage maps if you break his warrant chain and let him flee north. “Law,” Quill’s face says. Your callsign seal itches like a warning label. Grin-Nail adds, “Or we can all die principled. Boring.”",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-goblin-deal",
       "chapter": 2,
@@ -4098,7 +4098,7 @@
         {
           "id": "ch2-law",
           "label": "Serve the warrant",
-          "approach": "Bind Grin-Nail; trust Quill’s freemark law.",
+          "approach": "Bind Grin-Nail; trust Quill’s freehold law.",
           "outcome": {
             "text": "Magistrate pay is honest silver. Maps come slower, cleaner, and with fewer punchlines.",
             "xp": 22,
@@ -4113,7 +4113,7 @@
         {
           "id": "ch2-deal",
           "label": "Take the maps; let him run",
-          "approach": "Trade law for Candlemire intelligence.",
+          "approach": "Trade law for Helix Gate intelligence.",
           "outcome": {
             "text": "Grin-Nail vanishes laughing. Quill files a different sort of debt against you — quieter, longer.",
             "xp": 18,
@@ -4156,8 +4156,8 @@
     {
       "id": "dt-ch02-050",
       "kind": "narrative",
-      "title": "Dust and Debt: East Debt",
-      "body": "Warrant posters flutter like black laundry nobody claims. Hope and suspicion pass the same waterskin and neither apologizes. You spit iron taste and keep the freemark facing out.",
+      "title": "Stim Dust Marches: East Debt",
+      "body": "Quill points east like a man accusing weather. Debt accumulates in silence. Brothers accumulate in violence.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4165,15 +4165,15 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-051",
       "kind": "narrative",
-      "title": "Dust and Debt: Dust Mile",
-      "body": "The Wilderland files today’s silence under “pending violence.” Somewhere east, ink still invents people into inventory. West whispers; east invoices with teeth.",
+      "title": "Stim Dust Marches: Dust Mile",
+      "body": "Dust mile tastes like stim residue and pine ash. Bootleather remembers every mile better than maps. Quit is not a word you own.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4181,19 +4181,19 @@
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-052",
       "kind": "narrative",
-      "title": "Dust and Debt: Quiet Counsel",
-      "body": "A tavern singer swallows a verse when Cade’s check enters the room. Road vermin tip you to a knight who sells villagers under soft seals. East keeps a page that has not learned it can burn.",
+      "title": "Stim Dust Marches: Quiet Counsel",
+      "body": "One brother hears dragon radio-chatter in the dust. Another laughs once, then stops. The third checks the dog’s eyes for answers.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4208,8 +4208,8 @@
     {
       "id": "dt-ch02-053",
       "kind": "narrative",
-      "title": "Dust and Debt: Road Hygiene",
-      "body": "Dust and Debt share a last name out here — ask any freemark widow. You catch yourself walking like cargo that learned a verb. Lyra’s quiet ticks quieter than a clock and louder than leftover fear.",
+      "title": "Stim Dust Marches: Trail Hygiene",
+      "body": "You wash stim-sweat off your wrists and pretend it was only work. East smells like ozone, flask heat, and unfinished names.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4224,8 +4224,8 @@
     {
       "id": "dt-ch02-054",
       "kind": "narrative",
-      "title": "Dust and Debt: Old Hunger",
-      "body": "Crows argue over something dead you hope is not destiny. Empty road ahead — which is how ambushes dress. You walk on because stopping is how numbers return.",
+      "title": "Stim Dust Marches: Old Hunger",
+      "body": "Hunger arrives wearing stim-sweat and old fight memory. Quill passes the flask once — chemical truth, not kindness. Your stomach remembers rations you cannot name.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4233,19 +4233,19 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-055",
       "kind": "narrative",
-      "title": "Dust and Debt: Freemark Thoughts",
-      "body": "Somewhere a horn practices the sound of ownership. Freedom still feels like hunger wearing better boots. Quill nods toward the darker horizon without ceremony.",
+      "title": "Stim Dust Marches: Callsign Thoughts",
+      "body": "A freehold stamp would make you legal. A callsign makes you hunt. You choose the second and pretend it was always the plan.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4260,8 +4260,8 @@
     {
       "id": "dt-ch02-056",
       "kind": "narrative",
-      "title": "Dust and Debt: Ledger Weather",
-      "body": "Road dust writes temporary freemarks on every boot. Ash keeps counsel; Quill keeps a ledger of silences and a flask of worse truths. The east road does not care how ready you feel.",
+      "title": "Stim Dust Marches: SKU Weather",
+      "body": "Somebody buried a whip and marked the dirt with hope. Quill mutters law under his breath like a man arguing with God and winning on technicalities.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4269,7 +4269,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
@@ -4277,7 +4277,7 @@
       "id": "dt-ch02-057",
       "kind": "narrative",
       "title": "Dust School",
-      "body": "Quill turns empty paddocks into a school of breath, draw, and refusal. You shoot, cut, and fall until failure becomes a teacher instead of a collar. At night he reads ledgers like scriptures of other people’s sins — and underlines yours when you flinch.",
+      "body": "Quill turns empty paddocks into a school of breath, draw, and refusal. You shoot, cut, and fall until failure becomes a teacher instead of a seal. At night he reads ledgers like scriptures of other people’s sins — and underlines yours when you flinch toward the flask.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-school",
       "chapter": 2,
@@ -4296,8 +4296,8 @@
     {
       "id": "dt-ch02-058",
       "kind": "narrative",
-      "title": "Dust and Debt: Steel Practice",
-      "body": "Quill’s hat brim cuts the sun into a usable blade; the scarred eye does the rest. The Wilderland watches and declines to explain itself. Somewhere a collar yard is overdue for a different count: revolt.",
+      "title": "Stim Dust Marches: Steel Practice",
+      "body": "Steel practice is Fight Club math without the club: hit, bleed, deny, hit again. Quill clocks the form and does not clap.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4316,8 +4316,8 @@
     {
       "id": "dt-ch02-059",
       "kind": "narrative",
-      "title": "Dust and Debt: Night Watch",
-      "body": "Quill turns paddocks into a school where failure pays tuition in bruises and flask-lectures. Ash counts exits without moving his mouth — old habit, good habit. Ash keeps going. Quill files that under useful and takes a pull.",
+      "title": "Stim Dust Marches: Night Watch",
+      "body": "Crows argue over something dead you hope is not destiny. Quill drinks past midnight like punctuation with worse manners.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4332,8 +4332,8 @@
     {
       "id": "dt-ch02-060",
       "kind": "narrative",
-      "title": "Dust and Debt: Iron Humor",
-      "body": "A warrant nail still bleeds pine sap where paper used to hang. Dust becomes a third companion with poor hygiene and worse jokes. Dust coats the road, the flask, everything but the vow.",
+      "title": "Stim Dust Marches: Iron Humor",
+      "body": "Iron humor is all you’ve got left that still cuts. Distant stim fields clap like soft applause for bad systems. Quill’s joke lands like a bolt.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4341,15 +4341,15 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-061",
       "kind": "narrative",
-      "title": "Dust and Debt: Collar Echo",
-      "body": "Wagon ruts braid into a grammar only hunters read fluently. A guest-wing floorplan scratches your palm like a second freemark. Freedom keeps charging rent — pay it in miles.",
+      "title": "Stim Dust Marches: Seal Echo",
+      "body": "The neural-seal scar itches when scrap-wagons pass — muscle memory of inventory. Soft roads make soft seals again. You walk harder.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4357,19 +4357,19 @@
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-062",
       "kind": "narrative",
-      "title": "Dust and Debt: Warrant Weather",
-      "body": "Two riders tip hats too friendly for the hour. Ash learns freeman posture: chin up, exits counted, no bowing to seals. Miles keep paging forward with grit under their nails.",
+      "title": "Stim Dust Marches: Warrant Weather",
+      "body": "Halbrecht Quill lights a match off a warrant nail, drinks, and looks almost human — almost ready to spend truth about Project Pale.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4385,7 +4385,7 @@
       "id": "dt-ch02-063",
       "kind": "encounter",
       "title": "Bounty Thieves Ambush",
-      "body": "A collar ring half-buried in mud still remembers a neck. Quill files every kindness under “possibly tactical” and drinks to the filing. Freemark stamps you unpaid labor instead of numbered iron — upgrade. Then bounty thieves force the issue — a roadside lesson Quill refuses to skip.",
+      "body": "A neural-neural-neural-collar ring half-buried in mud still remembers a neck. Quill files every kindness under “possibly tactical” and drinks to the filing. Dustmarch stamps you unpaid labor instead of numbered iron — upgrade. Then bounty thieves force the issue — a roadside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-bounty-thieves",
       "chapter": 2,
@@ -4400,7 +4400,7 @@
           "label": "Stand and fight",
           "approach": "Use hotbar steel; clocks stay off — take your time.",
           "outcome": {
-            "text": "Bounty Thieves falls. The road tastes like iron and relief.",
+            "text": "Bounty Thieves falls. The Stim Dust tastes like iron, ozone, and relief.",
             "xp": 26,
             "gold": 9,
             "nextNodeId": "dt-ch02-064",
@@ -4451,8 +4451,8 @@
     {
       "id": "dt-ch02-064",
       "kind": "narrative",
-      "title": "Dust and Debt: Vermin Bargain",
-      "body": "Fence wire hums a note that used to mean inventory. Ash refuses to romanticize the road; the road returns the favor. Night calls roll; you answer without a number.",
+      "title": "Stim Dust Marches: Scav Bargain",
+      "body": "Trail tax kids sell water and buy stories about nameless men who would not quit. The bargain is always blood somewhere.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4460,11 +4460,11 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
@@ -4472,7 +4472,7 @@
       "id": "dt-ch02-065",
       "kind": "narrative",
       "title": "Marshal Mentors Mean",
-      "body": "Halbrecht Quill corrects your draw the way a hangman corrects a knot — personally, without romance. “Pretty form gets you buried neat,” he says, flask tapping your wrist freemark. “Ugly form gets you home — choose ugly, choose stubborn, and don’t quit when the powder fouls.”",
+      "body": "Halbrecht Quill corrects your draw the way a hangman corrects a knot — personally, without romance. “Pretty form gets you buried neat,” he says, flask tapping your wrist seal. “Ugly form gets you home — choose ugly, choose stubborn, and don’t quit when the powder fouls.”",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-quill-drill",
       "chapter": 2,
@@ -4482,7 +4482,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ],
       "next": "dt-ch02-066"
@@ -4490,8 +4490,8 @@
     {
       "id": "dt-ch02-066",
       "kind": "narrative",
-      "title": "Dust and Debt: Ash Aside",
-      "body": "The road offers a fork that is really a dare. Somewhere a horn asks a question steel usually answers. Ash sets the pace like a man owed a name and too stubborn to renegotiate.",
+      "title": "Stim Dust Marches: Brother Aside",
+      "body": "Brother aside: rage as compass, healer hands shaking, signal-static behind the eyes. The pack holds because quitting would be another wipe.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4506,8 +4506,8 @@
     {
       "id": "dt-ch02-067",
       "kind": "narrative",
-      "title": "Dust and Debt: Quill's Aside",
-      "body": "A roadside shrine wears three names and one empty nail. Road vermin tip you to a knight who sells villagers under soft seals. The cane smell thickens like a dare.",
+      "title": "Stim Dust Marches: Quill's Aside",
+      "body": "He talks to the flask more than to you. The flask answers in stim-heat and ugly honesty. Mentors this rotten usually know the road.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4515,15 +4515,15 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-068",
       "kind": "narrative",
-      "title": "Dust and Debt: Cane Wind",
-      "body": "A hanged scarecrow wears Cade’s check like a joke that landed. You check the freemark and find it still yours — for now. Far off, iron complains one last time and goes quiet.",
+      "title": "Stim Dust Marches: Stim Wind",
+      "body": "Fiber-vine scrub clicks like teeth. The wind brings cartel neon and a choir of static that wants your callsign for a fee.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4542,8 +4542,8 @@
     {
       "id": "dt-ch02-069",
       "kind": "narrative",
-      "title": "Dust and Debt: Binder Math",
-      "body": "Ash tastes copper on the wind and does not flinch. A freemark widow sells directions and warnings in the same sentence. The next mile does not apologize.",
+      "title": "Stim Dust Marches: Binder Math",
+      "body": "Binder math: three stubborn blanks plus one dog plus one drunk marshal equals a hunting party the Stim Dust notices. Quill does not apologize for the arithmetic.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4558,8 +4558,8 @@
     {
       "id": "dt-ch02-070",
       "kind": "narrative",
-      "title": "Dust and Debt: Flask Sermon",
-      "body": "Bounty thieves smell like ale and other people’s funerals. Ash rolls a shoulder that still remembers iron’s manners. Conditional freedom first; the rest is earned dirt — Quill’s oldest sermon.",
+      "title": "Stim Dust Marches: Flask Sermon",
+      "body": "Stim sermon, whiskey chorus. He says Project Pale is a rumor with teeth. You feel the teeth in your blank spots.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4567,15 +4567,15 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-071",
       "kind": "narrative",
-      "title": "Dust and Debt: Yard Gossip",
-      "body": "Somewhere a horn practices the sound of ownership. You rehearse Lyra’s name until it stops sounding like a bruise. You walk because stopping still smells like inventory — and quit is not a word you own.",
+      "title": "Stim Dust Marches: Camp Gossip",
+      "body": "A roadside shrine wears three callsigns and one empty nail. A burned SKU seal on a fence rail dares you to look away.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4583,19 +4583,19 @@
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-072",
       "kind": "narrative",
-      "title": "Dust and Debt: Seal Weather",
-      "body": "Somebody buried a whip and marked the dirt with hope. Quill says, “Hills first. Rivers remember who you were. I remember who won’t quit.” Petty thieves blink first; professionals wait.",
+      "title": "Stim Dust Marches: Seal Weather",
+      "body": "Seal weather rolls in like debt. Neural collars chirp in scav packs; spirit meters blink green for clean product. You are not clean. Good.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4626,7 +4626,7 @@
           "label": "Stand and fight",
           "approach": "Use hotbar steel; clocks stay off — take your time.",
           "outcome": {
-            "text": "Bounty Purse-Cutters falls. The road tastes like iron and relief.",
+            "text": "Bounty Purse-Cutters falls. The Stim Dust tastes like iron, ozone, and relief.",
             "xp": 26,
             "gold": 9,
             "nextNodeId": "dt-ch02-074",
@@ -4671,8 +4671,8 @@
     {
       "id": "dt-ch02-074",
       "kind": "narrative",
-      "title": "Dust and Debt: Powder Prayer",
-      "body": "Road dust writes temporary freemarks on every boot. Memory of cages arrives uninvited, then leaves when named. Quill packs the silence like powder — dry, useful, dangerous.",
+      "title": "Stim Dust Marches: Powder Prayer",
+      "body": "A child’s chalk callsign on a fence post has already been scrubbed to static. Pretty country. Ugly ownership. Pass the damn bottle.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4687,8 +4687,8 @@
     {
       "id": "dt-ch02-075",
       "kind": "narrative",
-      "title": "Dust and Debt: Stubborn Mile",
-      "body": "Dust lifts off the track in pale sheets that lie for a living. Collar-yard gossip rides cheaper than truth and farther than mercy. East keeps yards that have not yet learned uprising arithmetic.",
+      "title": "Stim Dust Marches: Stubborn Mile",
+      "body": "Stubborn mile: no map, no names, no permission. East is a black-glass rumor. You walk like you invented walking.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4696,19 +4696,19 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-076",
       "kind": "narrative",
-      "title": "Dust and Debt: Ring Memory",
-      "body": "A creek argues with stones like a tired magistrate on half pay. Ash keeps counsel; Quill keeps a ledger of silences and a flask of worse truths. Country like this remembers every unpaid mile.",
+      "title": "Stim Dust Marches: Meter Memory",
+      "body": "Wind carries dragon-static and spirit-meter hum. Continue — soft roads make soft seals again, even in chrome.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4723,8 +4723,8 @@
     {
       "id": "dt-ch02-077",
       "kind": "narrative",
-      "title": "Dust and Debt: East Debt",
-      "body": "Wind carries iron smell farther than any honest voice. You practice not answering to a number when strangers call. A ledger waits east — and it will not like the edit.",
+      "title": "Stim Dust Marches: East Debt",
+      "body": "Quill points east like a man accusing weather. Debt accumulates in silence. Brothers accumulate in violence.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4732,15 +4732,15 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-078",
       "kind": "narrative",
-      "title": "Dust and Debt: Dust Mile",
-      "body": "Clouds drag shadows across cane-colored grass like slow warrants. Tracks braid, unbraid, and lie with professional cheer. Freemark stamps you unpaid labor instead of numbered iron — upgrade.",
+      "title": "Stim Dust Marches: Dust Mile",
+      "body": "Dust mile tastes like stim residue and pine ash. Bootleather remembers every mile better than maps. Quit is not a word you own.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4759,8 +4759,8 @@
     {
       "id": "dt-ch02-079",
       "kind": "narrative",
-      "title": "Dust and Debt: Quiet Counsel",
-      "body": "Rain finds the places where collars used to teach posture. Quill’s scarred eye never quite closes on a lie — useful, exhausting, honest. Lyra’s quiet ticks quieter than a clock and louder than leftover fear.",
+      "title": "Stim Dust Marches: Quiet Counsel",
+      "body": "One brother hears dragon radio-chatter in the dust. Another laughs once, then stops. The third checks the dog’s eyes for answers.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4775,8 +4775,8 @@
     {
       "id": "dt-ch02-080",
       "kind": "narrative",
-      "title": "Dust and Debt: Road Hygiene",
-      "body": "Quill’s hat brim cuts the sun into a usable blade; the scarred eye does the rest. Quill says, “Pretty country. Ugly ownership. Pass the damn bottle.” West is weather; east is a bill that grins.",
+      "title": "Stim Dust Marches: Trail Hygiene",
+      "body": "You wash stim-sweat off your wrists and pretend it was only work. East smells like ozone, flask heat, and unfinished names.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4784,7 +4784,7 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
@@ -4792,7 +4792,7 @@
       "id": "dt-ch02-081",
       "kind": "narrative",
       "title": "Yard Prices",
-      "body": "A Freemark widow lists Candlemire collar-yard prices like weather: song-thralls high, fighters mid, children discounted if quiet. She does not weep. Quill pays for the list anyway, stamps it into your coat, and mutters that markets this polite deserve a warrant with teeth.",
+      "body": "A Dustmarch widow lists Helix seal-yard prices like weather: sealed operators high, fighters mid, children discounted if quiet. She does not weep. Quill pays for the list anyway, stamps it into your coat, and mutters that markets this polite deserve a warrant with teeth.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-warrant-paper",
       "chapter": 2,
@@ -4802,11 +4802,11 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ],
       "next": "dt-ch02-082"
@@ -4814,8 +4814,8 @@
     {
       "id": "dt-ch02-082",
       "kind": "narrative",
-      "title": "Dust and Debt: Old Hunger",
-      "body": "Heat makes the freemark itch like unfinished business. Rations taste like postponement, pepper, and old promises. You keep moving because rust has a longer memory than rest — and quit is not a word you own.",
+      "title": "Stim Dust Marches: Old Hunger",
+      "body": "Old hunger is not food. It is the itch where a true name should sit. The dog eats first; brothers argue second; Quill drinks like punctuation.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4823,19 +4823,19 @@
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-083",
       "kind": "narrative",
-      "title": "Dust and Debt: Freemark Thoughts",
-      "body": "Quill’s ruined hat casts a verdict-shaped shadow. The road offers three bad choices and one worse delay. Another mile turns over, dust-toothed and unpaid.",
+      "title": "Stim Dust Marches: Callsign Thoughts",
+      "body": "Cage-static still squeaks in the memory of your spine. Quill refuses to baptize you; the Stim Dust already did.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4850,8 +4850,8 @@
     {
       "id": "dt-ch02-084",
       "kind": "narrative",
-      "title": "Dust and Debt: Ledger Weather",
-      "body": "Freemark’s bridge collects stories the way cages collect numbers. Quill mutters law under his breath like a protective curse, then swears for emphasis. Quill packs light enough to become the rumor on purpose.",
+      "title": "Stim Dust Marches: SKU Weather",
+      "body": "Under-skin itch flares when drones pass. The dog growls at empty air. Quill says that is how Project Pale says hello without introducing itself.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4866,8 +4866,8 @@
     {
       "id": "dt-ch02-085",
       "kind": "narrative",
-      "title": "Dust and Debt: Steel Practice",
-      "body": "A freeman laughs too loud, then checks who heard him. The Wilderland watches and declines to explain itself. Warrant weather gathers; you load anyway.",
+      "title": "Stim Dust Marches: Steel Practice",
+      "body": "Steel practice is Fight Club math without the club: hit, bleed, deny, hit again. Quill clocks the form and does not clap.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4875,19 +4875,19 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-086",
       "kind": "narrative",
-      "title": "Dust and Debt: Night Watch",
-      "body": "Lyra’s name sits behind your teeth like a loaded prayer. Quill drawls that quitters make excellent fertilizer and worse freemen. A ruined-hat tip; a pull; justice left on the ledger.",
+      "title": "Stim Dust Marches: Night Watch",
+      "body": "Crows argue over something dead you hope is not destiny. Quill drinks past midnight like punctuation with worse manners.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4902,8 +4902,8 @@
     {
       "id": "dt-ch02-087",
       "kind": "narrative",
-      "title": "Dust and Debt: Iron Humor",
-      "body": "Two riders tip hats too friendly for the hour. East waits hungrier the longer you polish courage into delay. You ride because Lyra’s ink is still written unbroken.",
+      "title": "Stim Dust Marches: Iron Humor",
+      "body": "Iron humor is all you’ve got left that still cuts. Distant stim fields clap like soft applause for bad systems. Quill’s joke lands like a bolt.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -4911,7 +4911,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
@@ -4919,7 +4919,7 @@
       "id": "dt-ch02-088",
       "kind": "encounter",
       "title": "Hill Goblins Ambush",
-      "body": "East wind brings sugar lies and iron honesty in the same breath. Magistrate silver spends cleaner than Goblin gratitude — usually. Quill nods toward the darker horizon without ceremony. Then hill goblins force the issue — a roadside lesson Quill refuses to skip.",
+      "body": "East wind brings stim lies and iron honesty in the same breath. Magistrate silver spends cleaner than goblin gratitude — usually. Quill nods toward the darker horizon without ceremony. Then hill goblins force the issue — a roadside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-hill-goblins",
       "chapter": 2,
@@ -4934,7 +4934,7 @@
           "label": "Stand and fight",
           "approach": "Use hotbar steel; clocks stay off — take your time.",
           "outcome": {
-            "text": "Hill Goblins falls. The road tastes like iron and relief.",
+            "text": "Hill Goblins falls. The Stim Dust tastes like iron, ozone, and relief.",
             "xp": 26,
             "gold": 9,
             "nextNodeId": "dt-ch02-089",
@@ -4989,8 +4989,8 @@
     {
       "id": "dt-ch02-089",
       "kind": "narrative",
-      "title": "Rumors of Candlemire",
-      "body": "A tavern singer mouths a ballad about cane fields that grow screams, then stops cold when a man in Cade’s muted check enters. Quill tips her double. You leave by the kitchen, pockets heavier with a scratched floorplan of Candlemire’s guest wing — and a new reason to hate sugar.",
+      "title": "Rumors of Helix",
+      "body": "A tavern singer mouths a ballad about stim fields that grow screams, then stops cold when a man in Vale’s muted check enters. Quill tips her double. You leave by the kitchen, pockets heavier with a scratched floorplan of Helix Spire’s guest wing — and a new reason to hate chemical sugar.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-tavern-rumor",
       "chapter": 2,
@@ -5008,8 +5008,8 @@
     {
       "id": "dt-ch02-090",
       "kind": "narrative",
-      "title": "Dust and Debt: Warrant Weather",
-      "body": "Crows argue over something dead you hope is not destiny. A joke dies mid-laugh when Cade’s check appears on a sleeve. You spit iron taste and keep the freemark facing out.",
+      "title": "Stim Dust Marches: Warrant Weather",
+      "body": "Quill counts cartridges the way priests count sins — carefully, then drinks anyway. Warrant weather means someone east still thinks you are property with legs.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5024,8 +5024,8 @@
     {
       "id": "dt-ch02-091",
       "kind": "narrative",
-      "title": "Dust and Debt: Hard Mercy",
-      "body": "A roadside shrine wears three names and one empty nail. You spit iron taste and keep walking like authorship, not cargo. You walk on because stopping is how numbers return.",
+      "title": "Stim Dust Marches: Hard Mercy",
+      "body": "Steel rides light; the flask in Quill’s coat does not. Dust becomes a third companion with poor hygiene and worse jokes.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5033,15 +5033,15 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-092",
       "kind": "narrative",
-      "title": "Dust and Debt: Vermin Bargain",
-      "body": "Dust and Debt share a last name out here — ask any freemark widow. You catch yourself walking like cargo that learned a verb. The land files what men pretend to forget.",
+      "title": "Stim Dust Marches: Scav Bargain",
+      "body": "Spirit-fog holograms flicker prices over your heads. Nobody buys. Everybody watches. The dog marks a fence post like a treaty.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5049,19 +5049,19 @@
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-093",
       "kind": "narrative",
-      "title": "Dust and Debt: Ash Aside",
-      "body": "A child’s chalk freemark on a fence post has already been scrubbed. A road-vermin kid offers directions priced in half-truths. Freedom keeps charging rent — pay it in miles.",
+      "title": "Stim Dust Marches: Brother Aside",
+      "body": "Brother aside: rage as compass, healer hands shaking, signal-static behind the eyes. The pack holds because quitting would be another wipe.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5076,8 +5076,8 @@
     {
       "id": "dt-ch02-094",
       "kind": "narrative",
-      "title": "Dust and Debt: Quill's Aside",
-      "body": "Warrant posters flutter like black laundry nobody claims. Warrant ink under your coat weighs more than the steel above it. Small dangers flinch; the real ones smile and follow.",
+      "title": "Stim Dust Marches: Quill's Aside",
+      "body": "He talks to the flask more than to you. The flask answers in stim-heat and ugly honesty. Mentors this rotten usually know the road.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5092,8 +5092,8 @@
     {
       "id": "dt-ch02-095",
       "kind": "narrative",
-      "title": "Dust and Debt: Cane Wind",
-      "body": "A hanged scarecrow wears Cade’s check like a joke that landed. Quill’s tea tastes like boiled warrants, patience, and whiskey that lost an argument. Somewhere east, ink still thinks it owns a throat.",
+      "title": "Stim Dust Marches: Stim Wind",
+      "body": "Fiber-vine scrub clicks like teeth. The wind brings cartel neon and a choir of static that wants your callsign for a fee.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5101,19 +5101,19 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-096",
       "kind": "narrative",
-      "title": "Dust and Debt: Binder Math",
-      "body": "Grin-Nail’s jokes show too many teeth for comedy. A thrall brand on a fence rail dares you to look away. Freemark stamps you unpaid labor instead of numbered iron — upgrade.",
+      "title": "Stim Dust Marches: Binder Math",
+      "body": "Binder math: three stubborn blanks plus one dog plus one drunk marshal equals a hunting party the Stim Dust notices. Quill does not apologize for the arithmetic.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5129,7 +5129,7 @@
       "id": "dt-ch02-097",
       "kind": "choice",
       "title": "How Hard Do We Ride?",
-      "body": "East means brands and gate smiles. Quill can delay for more warrants and levels of coin — or push now while Lyra’s name is still written unbroken. “Your call shapes the dust,” he says. “I just bill for the shovel.”",
+      "body": "East means SKUs and gate smiles. Quill can delay for more warrants and levels of coin — or push now while Lyra Vale’s name is still written unbroken. “Your call shapes the dust,” he says. “I just bill for the shovel.”",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-east-road",
       "chapter": 2,
@@ -5151,7 +5151,7 @@
         {
           "id": "ch2-prepare",
           "label": "One more warrant season",
-          "approach": "Gather gear, allies, and thicker freeman luck.",
+          "approach": "Gather gear, allies, and thicker freehold luck.",
           "outcome": {
             "text": "Weeks blur into silver and scars. East waits — hungrier, clearer, less forgiving.",
             "xp": 28,
@@ -5166,7 +5166,7 @@
         {
           "id": "ch2-split",
           "label": "Send Quill ahead alone",
-          "approach": "Scout Candlemire while you settle Freemark debts.",
+          "approach": "Scout Helix Gate while you settle Dustmarch debts.",
           "stat": "intelligence",
           "dc": 14,
           "success": {
@@ -5195,8 +5195,8 @@
     {
       "id": "dt-ch02-098",
       "kind": "narrative",
-      "title": "Dust and Debt: Flask Sermon",
-      "body": "Road dust writes temporary freemarks on every boot. Somewhere east, ink still invents people into inventory. Warrant weather gathers; you load anyway.",
+      "title": "Stim Dust Marches: Flask Sermon",
+      "body": "The flask sermon is short: don’t quit, don’t trust pretty towers, and don’t confuse loyalty with addiction — then he drinks again anyway.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5204,15 +5204,15 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-099",
       "kind": "narrative",
-      "title": "Dust and Debt: Yard Gossip",
-      "body": "Quill’s hat brim cuts the sun into a usable blade; the scarred eye does the rest. Ash rolls a shoulder that still remembers iron’s manners. Continue — soft roads make soft collars again.",
+      "title": "Stim Dust Marches: Camp Gossip",
+      "body": "Camp gossip: lost brothers walk. Word travels usefully — maybe too usefully. Dominion ears grow in the underbrush.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5231,8 +5231,8 @@
     {
       "id": "dt-ch02-100",
       "kind": "narrative",
-      "title": "Dust and Debt: Seal Weather",
-      "body": "Clouds drag shadows across cane-colored grass like slow warrants. Ash refuses to romanticize the road; the road returns the favor. Ink buys the door; grit keeps it open — Quill’s oldest sermon.",
+      "title": "Stim Dust Marches: Seal Weather",
+      "body": "Heat makes the dust itch like unfinished code. Eyes linger on blank faces the way buyers linger on mule teeth — and servers linger on fresh accounts.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5247,8 +5247,8 @@
     {
       "id": "dt-ch02-101",
       "kind": "narrative",
-      "title": "Dust and Debt: Powder Prayer",
-      "body": "A tavern singer swallows a verse when Cade’s check enters the room. You rehearse Lyra’s name until it stops sounding like a bruise. You ride because Lyra’s ink is still written unbroken.",
+      "title": "Stim Dust Marches: Powder Prayer",
+      "body": "A child’s chalk callsign on a fence post has already been scrubbed to static. Pretty country. Ugly ownership. Pass the damn bottle.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5256,15 +5256,15 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-102",
       "kind": "narrative",
-      "title": "Dust and Debt: Stubborn Mile",
-      "body": "A binder’s seal scrapes your palm like a polite threat. Quill drawls that quitters make excellent fertilizer and worse freemen. Candlemire’s chimneys write black letters you intend to edit.",
+      "title": "Stim Dust Marches: Stubborn Mile",
+      "body": "Stubborn mile: no map, no names, no permission. East is a black-glass rumor. You walk like you invented walking.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5272,11 +5272,11 @@
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
@@ -5284,7 +5284,7 @@
       "id": "dt-ch02-103",
       "kind": "encounter",
       "title": "Dust Wargs Ambush",
-      "body": "Quill counts cartridges the way priests count sins — carefully, then drinks anyway. Tonight’s camp will argue theology with mosquitoes and memory. Dust season ends; warrant season learns your new name. Then dust wargs force the issue — a roadside lesson Quill refuses to skip.",
+      "body": "Quill counts cartridges the way priests count sins — carefully, then drinks anyway. Tonight’s camp will argue theology with mosquitoes and memory. Dust season ends; warrant season learns your new callsign. Then dust wargs force the issue — a roadside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-wargs",
       "chapter": 2,
@@ -5299,7 +5299,7 @@
           "label": "Stand and fight",
           "approach": "Use hotbar steel; clocks stay off — take your time.",
           "outcome": {
-            "text": "Dust Wargs falls. The road tastes like iron and relief.",
+            "text": "Dust Wargs falls. The Stim Dust tastes like iron, ozone, and relief.",
             "xp": 26,
             "gold": 9,
             "nextNodeId": "dt-ch02-104",
@@ -5350,8 +5350,8 @@
     {
       "id": "dt-ch02-104",
       "kind": "narrative",
-      "title": "Dust and Debt: East Debt",
-      "body": "Night insects keep score of every secret step you still take. The mile ahead advertises vacancy and means otherwise. Lyra’s quiet ticks quieter than a clock and louder than leftover fear.",
+      "title": "Stim Dust Marches: East Debt",
+      "body": "Quill points east like a man accusing weather. Debt accumulates in silence. Brothers accumulate in violence.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5367,18 +5367,18 @@
       "id": "dt-ch02-105",
       "kind": "narrative",
       "title": "Eastwind",
-      "body": "Dust lifts like a curtain on a bad play. Beyond Freemark the Wilderland pretends to be empty and lies about being empty. Somewhere past river fog, Candlemire’s chimneys write black letters on the sky — and Lyra’s name is still a reason to keep walking.",
+      "body": "Dust lifts like a curtain on a bad play. Beyond Dustmarch the Wilderland pretends to be empty and lies about being empty. Somewhere past river fog, Helix Spire’s chimneys write black letters on the sky — and Lyra Vale’s name is still a reason to keep walking.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-eastwind",
       "chapter": 2,
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ],
       "next": "dt-ch02-106"
@@ -5386,8 +5386,8 @@
     {
       "id": "dt-ch02-106",
       "kind": "narrative",
-      "title": "Dust and Debt: Dust Mile",
-      "body": "Fence wire hums a note that used to mean inventory. Your wrist freemark itches whenever eyes linger too long. You spit iron taste and keep the freemark facing out.",
+      "title": "Stim Dust Marches: Dust Mile",
+      "body": "Camp smoke writes temporary law across the scrub. You check for a brand, a barcode, a seal scar — and find only the itch of missing names.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5395,19 +5395,19 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-107",
       "kind": "narrative",
-      "title": "Dust and Debt: Quiet Counsel",
-      "body": "East wind brings sugar lies and iron honesty in the same breath. Ash learns freeman posture: chin up, exits counted, no bowing to seals. Steel rests light; resolve does not.",
+      "title": "Stim Dust Marches: Quiet Counsel",
+      "body": "You decide the only true thing left: stick together until the marches spit out an answer or a corpse. Quietly. Violently if needed.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5422,8 +5422,8 @@
     {
       "id": "dt-ch02-108",
       "kind": "narrative",
-      "title": "Dust and Debt: Road Hygiene",
-      "body": "A warrant nail still bleeds pine sap where paper used to hang. Collar-yard gossip rides cheaper than truth and farther than mercy. The cane smell thickens like a dare.",
+      "title": "Stim Dust Marches: Trail Hygiene",
+      "body": "Stim grit sticks to chrome like unpaid debt. One brother scrapes cartel grease off a blade and calls it hygiene. Quill mutters that clean roads lie louder than dusty ones.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5431,15 +5431,15 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-109",
       "kind": "narrative",
-      "title": "Dust and Debt: Old Hunger",
-      "body": "The Wilderland files today’s silence under “pending violence.” You drink hope and suspicion from one skin; both taste like metal. Quill salutes the undone work with whiskey and a brim.",
+      "title": "Stim Dust Marches: Old Hunger",
+      "body": "Old hunger is not food. It is the itch where a true name should sit. The dog eats first; brothers argue second; Quill drinks like punctuation.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5458,8 +5458,8 @@
     {
       "id": "dt-ch02-110",
       "kind": "narrative",
-      "title": "Dust and Debt: Freemark Thoughts",
-      "body": "A child’s chalk freemark on a fence post has already been scrubbed. Memory of cages arrives uninvited, then leaves when named. Darkness checks the list; you give it a name instead.",
+      "title": "Stim Dust Marches: Callsign Thoughts",
+      "body": "Cage-static still squeaks in the memory of your spine. Quill refuses to baptize you; the Stim Dust already did.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5474,8 +5474,8 @@
     {
       "id": "dt-ch02-111",
       "kind": "narrative",
-      "title": "Dust and Debt: Ledger Weather",
-      "body": "Bounty thieves smell like ale and other people’s funerals. Somewhere a horn asks a question steel usually answers. The vow stays clean enough to cut; dust can have the rest.",
+      "title": "Stim Dust Marches: SKU Weather",
+      "body": "Under-skin itch flares when drones pass. The dog growls at empty air. Quill says that is how Project Pale says hello without introducing itself.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5483,15 +5483,15 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-112",
       "kind": "narrative",
-      "title": "Dust and Debt: Steel Practice",
-      "body": "Warrant posters flutter like black laundry nobody claims. Continue is the only honest verb left, and even it hesitates — Ash does not. A distant ring hits dirt and stays there.",
+      "title": "Stim Dust Marches: Steel Practice",
+      "body": "Steel practice is Fight Club math without the club: hit, bleed, deny, hit again. Quill clocks the form and does not clap.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5499,19 +5499,19 @@
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch02-113",
       "kind": "narrative",
-      "title": "Dust and Debt: Night Watch",
-      "body": "Heat makes the freemark itch like unfinished business. A freemark widow sells directions and warnings in the same sentence. Vermin clear the lane for worse traffic.",
+      "title": "Stim Dust Marches: Night Watch",
+      "body": "Crows argue over something dead you hope is not destiny. Quill drinks past midnight like punctuation with worse manners.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5526,8 +5526,8 @@
     {
       "id": "dt-ch02-114",
       "kind": "narrative",
-      "title": "Dust and Debt: Iron Humor",
-      "body": "Quill hums a tune that never finishes the same way twice. Dust becomes a third companion with poor hygiene and worse jokes. Papers start the job; scars finish the filing — Quill’s oldest sermon.",
+      "title": "Stim Dust Marches: Iron Humor",
+      "body": "Iron humor is all you’ve got left that still cuts. Distant stim fields clap like soft applause for bad systems. Quill’s joke lands like a bolt.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5542,8 +5542,8 @@
     {
       "id": "dt-ch02-115",
       "kind": "narrative",
-      "title": "Dust and Debt: Collar Echo",
-      "body": "A collar ring half-buried in mud still remembers a neck. You practice not answering to a number when strangers call. You ride because Lyra’s ink is still written unbroken.",
+      "title": "Stim Dust Marches: Seal Echo",
+      "body": "The neural-seal scar itches when scrap-wagons pass — muscle memory of inventory. Soft roads make soft seals again. You walk harder.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5551,19 +5551,19 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch02-116",
       "kind": "narrative",
-      "title": "Dust and Debt: Warrant Weather",
-      "body": "A freeman laughs too loud, then checks who heard him. Ash shoots until the freemark stops feeling like costume jewelry. The cane smell thickens like a dare.",
+      "title": "Stim Dust Marches: Warrant Weather",
+      "body": "Halbrecht Quill lights a match off a warrant nail, drinks, and looks almost human — almost ready to spend truth about Project Pale.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5578,8 +5578,8 @@
     {
       "id": "dt-ch02-117",
       "kind": "narrative",
-      "title": "Dust and Debt: Hard Mercy",
-      "body": "Camp smoke writes temporary law across the pines. Quill’s tea tastes like boiled warrants, patience, and whiskey that lost an argument. Freedom keeps charging rent — pay it in miles.",
+      "title": "Stim Dust Marches: Hard Mercy",
+      "body": "Hard mercy is leaving a cartel runner breathing with a warning carved into his chrome. Soft mercy is a sermon. You choose hard.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-dust-and-debt",
       "chapter": 2,
@@ -5587,7 +5587,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
@@ -5595,7 +5595,7 @@
       "id": "dt-ch02-118",
       "kind": "encounter",
       "title": "Warrant Runners Ambush",
-      "body": "Warrant runners step from the brush with seals that scrape like polite threats and knives that don’t bother. A guest-wing floorplan still itches your palm like a second freemark. Then they force the issue — a roadside lesson Quill refuses to skip.",
+      "body": "Warrant runners step from the brush with seals that scrape like polite threats and knives that don’t bother. A guest-wing floorplan still itches your palm like a second callsign. Then they force the issue — a roadside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-dust-and-debt",
       "artId": "art-dt-warrant-runners",
       "chapter": 2,
@@ -5610,7 +5610,7 @@
           "label": "Stand and fight",
           "approach": "Use hotbar steel; clocks stay off — take your time.",
           "outcome": {
-            "text": "Warrant Runners falls. The road tastes like iron and relief.",
+            "text": "Warrant Runners falls. The Stim Dust tastes like iron, ozone, and relief.",
             "xp": 26,
             "gold": 9,
             "nextNodeId": "dt-ch03-001",
@@ -5666,7 +5666,7 @@
       "id": "dt-ch03-001",
       "kind": "narrative",
       "title": "Ink Trail",
-      "body": "East of Freemark the road grows wanted posters like weeds with prices. Your freemark is sketched in cheap charcoal with a bounty under it that lies about the eyes. Quill buys the first one and burns it; the smoke still smells like a market that wants you numbered again.",
+      "body": "East of Dustmarch the road grows wanted posters like weeds with prices. Your callsign is sketched in cheap charcoal with a bounty under it that lies about the eyes. Quill buys the first one and burns it; the smoke still smells like a market that wants you numbered again.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-posters",
       "chapter": 3,
@@ -5676,7 +5676,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "vern-alive",
@@ -5688,8 +5688,8 @@
     {
       "id": "dt-ch03-002",
       "kind": "narrative",
-      "title": "The Wanted Mark: Quiet Counsel",
-      "body": "Your charcoal twin on a poster lies about the eyes, always. A hanged poster of your face lies about the eyes — always the eyes. Miles beat cages; that math still holds — and quit is not a word you own.",
+      "title": "SKU Trace: Quiet Counsel",
+      "body": "Quiet counsel is three brothers not saying we might not be brothers. Kinship feels true; proof does not. Hunters prefer proof with prices.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -5704,8 +5704,8 @@
     {
       "id": "dt-ch03-003",
       "kind": "narrative",
-      "title": "The Wanted Mark: Road Hygiene",
-      "body": "East wind brings sugar lies and iron honesty in the same breath. Continue is the only honest verb left, and even it hesitates — Ash does not. Somewhere a ledger waits to be embarrassed in public.",
+      "title": "SKU Trace: Trail Hygiene",
+      "body": "A SKU poster bleeds charcoal when rain hits. One brother rolls a shoulder that still remembers ownership manners. East smells like hunter lust and unfinished names.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -5713,7 +5713,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
@@ -5721,7 +5721,7 @@
       "id": "dt-ch03-004",
       "kind": "choice",
       "title": "Poster Autograph",
-      "body": "A kid asks you to sign your wanted poster “for luck.” Quill winces. Ash sees a chance to poison rumor or feed it.",
+      "body": "A kid asks you to sign your wanted poster “for luck.” Quill winces. One brother sees a chance to poison rumor or feed it — Fight Club math with charcoal.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-poster-kid",
       "chapter": 3,
@@ -5759,7 +5759,7 @@
           "label": "Refuse — burn the sheet",
           "approach": "Deny the market your face.",
           "outcome": {
-            "text": "Ash burns charcoal twin. Smoke still smells like a price.",
+            "text": "One brother burns the charcoal twin. Smoke still smells like a price.",
             "xp": 10,
             "flagsAdd": [
               "poster-burned"
@@ -5788,8 +5788,8 @@
     {
       "id": "dt-ch03-006",
       "kind": "narrative",
-      "title": "The Wanted Mark: Old Hunger",
-      "body": "False friends smile with coin-shaped pupils and warm ale. Quill’s past demands rent in present blood — classic binder arithmetic. Warrant weather gathers; you load anyway.",
+      "title": "SKU Trace: Old Hunger",
+      "body": "Hunger arrives wearing bounty math. Quill passes the flask once — chemical truth, not kindness. Your wrists remember seals you cannot see yet.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -5804,8 +5804,8 @@
     {
       "id": "dt-ch03-007",
       "kind": "narrative",
-      "title": "The Wanted Mark: Freemark Thoughts",
-      "body": "Somebody buried a whip and marked the dirt with hope. Collar-yard gossip rides cheaper than truth and farther than mercy. Steel rests light; resolve does not.",
+      "title": "SKU Trace: Callsign Thoughts",
+      "body": "You try on words like armor: Anchor, Edge, Signal. Hunters prefer inventory numbers. Quill prefers you stay ugly and alive.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -5821,7 +5821,7 @@
       "id": "dt-ch03-008",
       "kind": "narrative",
       "title": "Forger's Alley",
-      "body": "A forger sells marks that open doors and close lives, smiling like a dentist with a warrant. She offers to thicken your freemark into something Cade’s clerks might salute. Quill pays half in silver and half in a promise not to name her aloud — “My best kind of receipt,” she says.",
+      "body": "A forger sells marks that open doors and close lives, smiling like a dentist with a warrant. She offers to thicken your callsign seal into something Vale’s clerks might salute. Quill pays half in silver and half in a promise not to name her aloud — “My best kind of receipt,” she says.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-forger-alley",
       "chapter": 3,
@@ -5839,8 +5839,8 @@
     {
       "id": "dt-ch03-009",
       "kind": "narrative",
-      "title": "The Wanted Mark: Ledger Weather",
-      "body": "A forger sells marks that open doors and close other people’s lives. The next mile wears emptiness like a cheap disguise. The next mile does not apologize.",
+      "title": "SKU Trace: SKU Weather",
+      "body": "A hanged scarecrow wears Vale’s check like a joke that landed. Wanted is not justice — it is a shopping list with legs.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -5848,15 +5848,15 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch03-010",
       "kind": "narrative",
-      "title": "The Wanted Mark: Steel Practice",
-      "body": "Night insects keep score of every secret step you still take. A road-vermin kid offers directions priced in half-truths. The road bills in blood, dust, and unfinished names.",
+      "title": "SKU Trace: Steel Practice",
+      "body": "Quill’s crossbow speaks better than sermons. Muscle memory answers for the blank mind. Hunters hate that fluency.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -5864,7 +5864,7 @@
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "vern-alive",
@@ -5883,7 +5883,7 @@
       "flagEchoes": [
         {
           "requireFlag": "guest-wing-map",
-          "line": "Candlemire’s guest wing scratches your palm whenever you make a fist."
+          "line": "Helix Spire’s guest wing scratches your palm whenever you make a fist."
         }
       ],
       "next": "dt-ch03-012"
@@ -5891,8 +5891,8 @@
     {
       "id": "dt-ch03-012",
       "kind": "narrative",
-      "title": "The Wanted Mark: Night Watch",
-      "body": "Quill buys silence in amounts too small to trust and too dear to skip. The road offers three bad choices and one worse delay. Campfire roll call — and you are not inventory.",
+      "title": "SKU Trace: Night Watch",
+      "body": "Two riders tip hats too friendly for the hour. SKU Trace watches and keeps receipts in ink and drone-static.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -5907,8 +5907,8 @@
     {
       "id": "dt-ch03-013",
       "kind": "narrative",
-      "title": "The Wanted Mark: Iron Humor",
-      "body": "Road dust writes temporary freemarks on every boot. Maps improve when fear stops editing the margins. The road flips its next ugly page.",
+      "title": "SKU Trace: Iron Humor",
+      "body": "Paper ownership first — real freedom files later — don’t quit in between. East keeps seal-yards that have not yet learned uprising arithmetic.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -5916,15 +5916,15 @@
       "flagEchoes": [
         {
           "requireFlag": "lawful-hand",
-          "line": "Freemark law still tastes like silver you chose over easier blood."
+          "line": "Dustmarch law still tastes like silver you chose over easier blood."
         }
       ]
     },
     {
       "id": "dt-ch03-014",
       "kind": "narrative",
-      "title": "The Wanted Mark: Collar Echo",
-      "body": "Paid knights tip hats like gentlemen and hunt like bookkeepers. Your wrist freemark itches whenever eyes linger too long. A collar yard waits — and revolt is writing itself a key.",
+      "title": "SKU Trace: Seal Echo",
+      "body": "Seal echo is a ghost in the throat: old obedience trying to stand up. You spit it into road dust and load the plasma pack.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -5944,7 +5944,7 @@
       "id": "dt-ch03-015",
       "kind": "choice",
       "title": "False Friend",
-      "body": "A smiling freeman buys your drinks, then sells your description twice before noon like a man flipping copper. You find him counting Cade’s coin in a stable loft. Quill asks how soft you want the lesson — “Soft still teaches,” he adds, “if the bruises land right.”",
+      "body": "A smiling freehold man buys your drinks, then sells your description twice before noon like a man flipping copper. You find him counting Vale’s coin in a stable loft. Quill asks how soft you want the lesson — “Soft still teaches,” he adds, “if the bruises land right.”",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-false-friend",
       "chapter": 3,
@@ -5965,8 +5965,8 @@
         },
         {
           "id": "ch3-brand-rat",
-          "label": "Brand him with fear",
-          "approach": "Make treachery expensive without killing Freemark’s mood.",
+          "label": "Mark him with fear",
+          "approach": "Make treachery expensive without killing Dustmarch’s mood.",
           "outcome": {
             "text": "He keeps both ears and loses sleep. Fair trade.",
             "xp": 20,
@@ -5980,11 +5980,11 @@
         {
           "id": "ch3-buy-lies",
           "label": "Buy his next set of lies",
-          "approach": "Feed Cade false routes while you travel true ones.",
+          "approach": "Feed Vale false routes while you travel true ones.",
           "stat": "charisma",
           "dc": 13,
           "success": {
-            "text": "He sells Cade a river that does not exist. You buy a day.",
+            "text": "He sells Vale a river that does not exist. You buy a day.",
             "xp": 26,
             "flagsAdd": [
               "false-routes-sold"
@@ -6007,11 +6007,11 @@
       "id": "dt-ch03-016",
       "kind": "encounter",
       "title": "Orc Outriders Ambush",
-      "body": "A raven ticks travelers the way clerks tick inventory — lovingly. Tonight’s camp will argue theology with mosquitoes and memory. The trail toward Cade does not apologize for the mileage. Then orc outriders force the issue — a roadside lesson Quill refuses to skip.",
+      "body": "A spy-raven ticks travelers the way clerks tick inventory — lovingly. Tonight’s camp will argue theology with mosquitoes and memory. The trail toward Vale does not apologize for the mileage. Then chrome-orc outriders force the issue — a roadside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-orc-outriders",
       "chapter": 3,
-      "enemy": "Orc Outriders",
+      "enemy": "Chrome-Orc Outriders",
       "enemyArtId": "art-dt-orc-outriders",
       "enemyHp": 76,
       "enemyPower": 13,
@@ -6022,7 +6022,7 @@
           "label": "Stand and fight",
           "approach": "Use hotbar steel; clocks stay off — take your time.",
           "outcome": {
-            "text": "Orc Outriders falls. The road tastes like iron and relief.",
+            "text": "Orc Outriders falls. The Trace tastes like iron, ink, and relief.",
             "xp": 30,
             "gold": 11,
             "nextNodeId": "dt-ch03-017",
@@ -6066,15 +6066,15 @@
       "flagEchoes": [
         {
           "requireFlag": "guest-wing-map",
-          "line": "Candlemire’s guest wing scratches your palm whenever you make a fist."
+          "line": "Helix Spire’s guest wing scratches your palm whenever you make a fist."
         }
       ]
     },
     {
       "id": "dt-ch03-017",
       "kind": "narrative",
-      "title": "The Wanted Mark: Hard Mercy",
-      "body": "Wind carries iron smell farther than any honest voice. Ash counts exits without moving his mouth — old habit, good habit. The Wilderland files you under unfinished, expensive business.",
+      "title": "SKU Trace: Hard Mercy",
+      "body": "Hard mercy is leaving a mark-hunter breathing with a warning carved into his chrome. Soft mercy is a sermon. You choose hard.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6089,8 +6089,8 @@
     {
       "id": "dt-ch03-018",
       "kind": "narrative",
-      "title": "The Wanted Mark: Vermin Bargain",
-      "body": "Dust lifts off the track in pale sheets that lie for a living. Somewhere a horn asks a question steel usually answers. You walk on because stopping is how numbers return.",
+      "title": "SKU Trace: Scav Bargain",
+      "body": "Trail tax kids sell water and buy stories about nameless men who would not quit. The bargain is always blood somewhere.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6109,8 +6109,8 @@
     {
       "id": "dt-ch03-019",
       "kind": "narrative",
-      "title": "The Wanted Mark: Ash Aside",
-      "body": "Clouds drag shadows across cane-colored grass like slow warrants. You practice not answering to a number when strangers call. Ash sets the pace like a man owed a name and too stubborn to renegotiate.",
+      "title": "SKU Trace: Brother Aside",
+      "body": "You speak callsigns into the dark like passwords. The dog answers to none of them — and still walks first.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6118,15 +6118,15 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Candlemire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         }
       ]
     },
     {
       "id": "dt-ch03-020",
       "kind": "narrative",
-      "title": "The Wanted Mark: Quill's Aside",
-      "body": "A warrant nail still bleeds pine sap where paper used to hang. You feed Cade a river that does not exist and buy a single day. Somewhere a cage latch rehearses retirement.",
+      "title": "SKU Trace: Quill's Aside",
+      "body": "Quill’s aside is never soft: “Pretty country. Ugly ownership. Pass the damn bottle.” SKU Trace still clings; whatever comes next washes harder than rain.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6141,8 +6141,8 @@
     {
       "id": "dt-ch03-021",
       "kind": "narrative",
-      "title": "The Wanted Mark: Cane Wind",
-      "body": "Camp smoke writes temporary law across the pines. Night-march sweat tastes like posters burning behind you. The cane smell thickens like a dare.",
+      "title": "SKU Trace: Stim Wind",
+      "body": "Wind carries barcode-static and dragon radio farther than any honest voice. Helix Dominion tower-glow rides the east like a bruise.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6150,7 +6150,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "vern-alive",
@@ -6162,7 +6162,7 @@
       "id": "dt-ch03-022",
       "kind": "encounter",
       "title": "Spy Ravens",
-      "body": "Cade’s birds wheel low, counting travelers who ask ledger questions. An outrider follows their shadows with a net sized for freemen. Quill lowers his hat. “Lesson time.”",
+      "body": "Vale’s drone-ravens wheel low, counting travelers who ask ledger questions. An outrider follows their shadows with a net sized for blank-faced men. Quill lowers his hat. “Lesson time.”",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-spy-ravens",
       "chapter": 3,
@@ -6177,7 +6177,7 @@
           "label": "Stand and fight",
           "approach": "Use hotbar steel; clocks stay off — take your time.",
           "outcome": {
-            "text": "Mark-Hunter Outrider falls. The road tastes like iron and relief.",
+            "text": "Mark-Hunter Outrider falls. The Trace tastes like iron, ink, and relief.",
             "xp": 30,
             "gold": 11,
             "nextNodeId": "dt-ch03-023",
@@ -6222,8 +6222,8 @@
     {
       "id": "dt-ch03-023",
       "kind": "narrative",
-      "title": "The Wanted Mark: Binder Math",
-      "body": "Your shadow arrives first and looks less free than you feel. You rehearse Lyra’s name until it stops sounding like a bruise. Quill nods toward the darker horizon without ceremony.",
+      "title": "SKU Trace: Binder Math",
+      "body": "Binder math: three stubborn blanks plus one dog plus one drunk marshal equals a hunting party hunters notice. Quill does not apologize for the arithmetic.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6238,8 +6238,8 @@
     {
       "id": "dt-ch03-024",
       "kind": "narrative",
-      "title": "The Wanted Mark: Flask Sermon",
-      "body": "Two riders tip hats too friendly for the hour. Trust and doubt take turns at the spout. Ash does not quit; Quill drinks to the fact and almost smiles.",
+      "title": "SKU Trace: Flask Sermon",
+      "body": "Stim sermon, whiskey chorus. He says wanted is ownership, not justice. You feel the ownership itch in your blank spots.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6247,15 +6247,15 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch03-025",
       "kind": "narrative",
-      "title": "The Wanted Mark: Yard Gossip",
-      "body": "Quill’s hat brim cuts the sun into a usable blade; the scarred eye does the rest. Memory of cages arrives uninvited, then leaves when named. You walk on because numbers are still hunting names.",
+      "title": "SKU Trace: Camp Gossip",
+      "body": "A roadside shrine wears three callsigns and one empty nail. A burned SKU seal on a fence rail dares you to look away.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6270,8 +6270,8 @@
     {
       "id": "dt-ch03-026",
       "kind": "narrative",
-      "title": "The Wanted Mark: Seal Weather",
-      "body": "A collar ring half-buried in mud still remembers a neck. Ash counts exits while pretending to enjoy the beer. Quill packs the silence like powder — dry, useful, dangerous.",
+      "title": "SKU Trace: Seal Weather",
+      "body": "Seal weather rolls in like debt. Neural collars chirp in hunter packs; spirit meters blink green for clean product. You are not clean. Good.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6286,8 +6286,8 @@
     {
       "id": "dt-ch03-027",
       "kind": "narrative",
-      "title": "The Wanted Mark: Powder Prayer",
-      "body": "Somewhere a horn practices the sound of ownership. A thrall brand on a fence rail dares you to look away. Lyra’s quiet ticks quieter than a clock and louder than leftover fear.",
+      "title": "SKU Trace: Powder Prayer",
+      "body": "You pray with chrome and stubbornness. SKU Trace answers with fog that remembers your faces better than you do.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6295,15 +6295,15 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch03-028",
       "kind": "narrative",
-      "title": "The Wanted Mark: Stubborn Mile",
-      "body": "Crows argue over something dead you hope is not destiny. Ash keeps counsel; Quill keeps a ledger of silences and a flask of worse truths. Rumor west, debt east — pick your poison by the sun.",
+      "title": "SKU Trace: Stubborn Mile",
+      "body": "Quill lights a match off a warrant nail wired into a data-spike, drinks, and looks almost human — almost ready to spend truth.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6311,7 +6311,7 @@
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "vern-alive",
@@ -6323,7 +6323,7 @@
       "id": "dt-ch03-029",
       "kind": "narrative",
       "title": "Map Fragment",
-      "body": "In a ditch under a dead mule you find charcoal walls of Candlemire — incomplete, hungry. Guest wing, collar yards, and a tower stair marked with a personal scribble: CADES KEEP. Quill traces the lines like scripture written by a committed bastard.",
+      "body": "In a ditch under a dead mule you find charcoal walls of Helix Spire — incomplete, hungry. Guest wing, seal yards, and a tower stair marked with a personal scribble: VALE’S KEEP. Quill traces the lines like scripture written by a committed bastard.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-map-fragment",
       "chapter": 3,
@@ -6333,7 +6333,7 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Candlemire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         }
       ],
       "next": "dt-ch03-030"
@@ -6341,8 +6341,8 @@
     {
       "id": "dt-ch03-030",
       "kind": "narrative",
-      "title": "The Wanted Mark: Ring Memory",
-      "body": "Lyra’s name sits behind your teeth like a loaded prayer. Somewhere east, ink still invents people into inventory. The Wilderland watches and does not offer refunds.",
+      "title": "SKU Trace: Meter Memory",
+      "body": "Wind carries dragon-static and spirit-meter hum. Continue — soft roads make soft seals again, even in chrome.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6357,8 +6357,8 @@
     {
       "id": "dt-ch03-031",
       "kind": "narrative",
-      "title": "The Wanted Mark: East Debt",
-      "body": "Marshal Halbrecht Quill lights a match on a warrant nail and looks almost merciful. You spit iron taste and keep walking like authorship, not cargo. Steel rests light; resolve does not.",
+      "title": "SKU Trace: East Debt",
+      "body": "Quill points east like a man accusing weather. Debt accumulates in silence. Brothers accumulate in violence.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6366,15 +6366,15 @@
       "flagEchoes": [
         {
           "requireFlag": "lawful-hand",
-          "line": "Freemark law still tastes like silver you chose over easier blood."
+          "line": "Dustmarch law still tastes like silver you chose over easier blood."
         }
       ]
     },
     {
       "id": "dt-ch03-032",
       "kind": "narrative",
-      "title": "The Wanted Mark: Dust Mile",
-      "body": "Quill hums a tune that never finishes the same way twice. Ash rolls a shoulder that still remembers iron’s manners. Somewhere a ledger waits to be embarrassed in public.",
+      "title": "SKU Trace: Dust Mile",
+      "body": "Dust mile tastes like stim residue and charcoal bounty. Bootleather remembers every mile better than maps. Quit is not a word you own.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6393,8 +6393,8 @@
     {
       "id": "dt-ch03-033",
       "kind": "narrative",
-      "title": "The Wanted Mark: Quiet Counsel",
-      "body": "East wind brings sugar lies and iron honesty in the same breath. A stable loft teaches economics: copper in, descriptions out. Petty thieves blink first; professionals wait.",
+      "title": "SKU Trace: Quiet Counsel",
+      "body": "One brother hears drone-raven chatter in the canopy. Another laughs once, then stops. The third checks the dog’s eyes for answers.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6402,15 +6402,15 @@
       "flagEchoes": [
         {
           "requireFlag": "guest-wing-map",
-          "line": "Candlemire’s guest wing scratches your palm whenever you make a fist."
+          "line": "Helix Spire’s guest wing scratches your palm whenever you make a fist."
         }
       ]
     },
     {
       "id": "dt-ch03-034",
       "kind": "narrative",
-      "title": "The Wanted Mark: Road Hygiene",
-      "body": "Ash tastes copper on the wind and does not flinch. You check the freemark and find it still yours — for now. You walk on because numbers are still hunting names.",
+      "title": "SKU Trace: Trail Hygiene",
+      "body": "Spy-raven droppings mark the trail like punctuation. Quill mutters that clean roads lie louder than marked ones.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6425,8 +6425,8 @@
     {
       "id": "dt-ch03-035",
       "kind": "narrative",
-      "title": "The Wanted Mark: Old Hunger",
-      "body": "A child’s chalk freemark on a fence post has already been scrubbed. Empty road ahead — which is how ambushes dress. Conditional freedom first; the rest is earned dirt — Quill’s oldest sermon.",
+      "title": "SKU Trace: Old Hunger",
+      "body": "Old hunger is not food. It is the itch under skin where a barcode sleeps. The dog eats first; brothers argue second; hunters bill third.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6446,7 +6446,7 @@
       "id": "dt-ch03-036",
       "kind": "narrative",
       "title": "Binder School",
-      "body": "Quill drills warrant language the way priests drill catechism — who may be taken, who may be left, who is owned by paper versus owned by fear. “Cade sells both,” he says, flask catching dustlight. “We collect the first kind until the second learns manners. Don’t quit the lesson early.”",
+      "body": "Quill drills warrant language the way priests drill catechism — who may be taken, who may be left, who is owned by paper versus owned by fear. “Vale sells both,” he says, flask catching dustlight. “We collect the first kind until the second learns manners. Don’t quit the lesson early.”",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-quill-aside",
       "chapter": 3,
@@ -6456,7 +6456,7 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ],
       "next": "dt-ch03-037"
@@ -6480,7 +6480,7 @@
           "label": "Stand and fight",
           "approach": "Use hotbar steel; clocks stay off — take your time.",
           "outcome": {
-            "text": "Mark Hunters falls. The road tastes like iron and relief.",
+            "text": "Mark Hunters falls. The Trace tastes like iron, ink, and relief.",
             "xp": 30,
             "gold": 11,
             "nextNodeId": "dt-ch03-038",
@@ -6524,15 +6524,15 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Candlemire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         }
       ]
     },
     {
       "id": "dt-ch03-038",
       "kind": "narrative",
-      "title": "The Wanted Mark: Ledger Weather",
-      "body": "Wanted ink flutters on fenceposts like black moths with prices. Lyra’s sale date sits behind your teeth like a vow with teeth of its own. The trail toward Cade does not apologize for the mileage.",
+      "title": "SKU Trace: SKU Weather",
+      "body": "SKU weather rolls in like ownership fog. Under-skin itch flares when spy-ravens pass. The dog growls at empty air that isn’t empty.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6547,8 +6547,8 @@
     {
       "id": "dt-ch03-039",
       "kind": "narrative",
-      "title": "The Wanted Mark: Steel Practice",
-      "body": "Powder grit under your nail smells like unfinished court. Memory of cages arrives uninvited, then leaves when named. Quill tips the ruined hat at unfinished business and drinks.",
+      "title": "SKU Trace: Steel Practice",
+      "body": "Chrome blade, biometric bolt, bone charm that whispers — drill until three blanks move like a cell that forgot its SKU.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6556,7 +6556,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "vern-alive",
@@ -6567,8 +6567,8 @@
     {
       "id": "dt-ch03-040",
       "kind": "narrative",
-      "title": "The Wanted Mark: Night Watch",
-      "body": "A hanged scarecrow wears Cade’s check like a joke that landed. Quill mutters law under his breath like a protective curse, then swears for emphasis. Quill nods toward the darker horizon without ceremony.",
+      "title": "SKU Trace: Night Watch",
+      "body": "Crows argue over something dead you hope is not destiny. Wanted posters flutter like black moths with manners.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6583,8 +6583,8 @@
     {
       "id": "dt-ch03-041",
       "kind": "narrative",
-      "title": "The Wanted Mark: Iron Humor",
-      "body": "Rain finds the places where collars used to teach posture. Freedom still feels like hunger wearing better boots. Dust keeps the books; blood settles the accounts.",
+      "title": "SKU Trace: Iron Humor",
+      "body": "Iron humor is laughing at a bounty that lies about your eyes. Quill’s joke lands like a bolt — ugly, useful.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6592,15 +6592,15 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch03-042",
       "kind": "narrative",
-      "title": "The Wanted Mark: Collar Echo",
-      "body": "Distant cane fields clap like soft applause for bad systems. Quill’s past demands rent in present blood — classic binder arithmetic. Everything wears dust but the promise with Lyra’s name.",
+      "title": "SKU Trace: Seal Echo",
+      "body": "The neural-seal scar itches when paid knights pass — muscle memory of inventory. Soft roads make soft seals again. You walk harder.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6616,7 +6616,7 @@
       "id": "dt-ch03-043",
       "kind": "narrative",
       "title": "Wanted Song",
-      "body": "A tavern sings your freemark into a ballad verse with the wrong chorus. Patrons clap for the number that used to be your name. You leave by the kitchen; Quill leaves a tip sharp enough to cut rumor.",
+      "body": "A tavern sings your callsign into a ballad verse with the wrong chorus. Patrons clap for the number that used to be your name. You leave by the kitchen; Quill leaves a tip sharp enough to cut rumor.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-song",
       "chapter": 3,
@@ -6635,8 +6635,8 @@
     {
       "id": "dt-ch03-044",
       "kind": "narrative",
-      "title": "The Wanted Mark: Warrant Weather",
-      "body": "A freeman laughs too loud, then checks who heard him. Quill files every kindness under “possibly tactical” and drinks to the filing. West whispers; east invoices with teeth.",
+      "title": "SKU Trace: Warrant Weather",
+      "body": "Warrant weather means someone east still thinks blank faces are property with prices. Paper flutters. Knives do not bother with manners.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6651,8 +6651,8 @@
     {
       "id": "dt-ch03-045",
       "kind": "narrative",
-      "title": "The Wanted Mark: Hard Mercy",
-      "body": "Road dust writes temporary freemarks on every boot. A joke dies mid-laugh when Cade’s check appears on a sleeve. You spit iron taste and keep the freemark facing out.",
+      "title": "SKU Trace: Hard Mercy",
+      "body": "Steel rides light; the flask in Quill’s coat does not. Desire and ownership share the same road — you refuse both soft answers.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6660,15 +6660,15 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch03-046",
       "kind": "narrative",
-      "title": "The Wanted Mark: Vermin Bargain",
-      "body": "A roadside shrine wears three names and one empty nail. Ash counts exits while pretending to enjoy the beer. East keeps a page that has not learned it can burn.",
+      "title": "SKU Trace: Scav Bargain",
+      "body": "Spirit-fog holograms flicker bounty prices over your heads. Nobody buys. Everybody watches. The dog marks a post like a treaty.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6676,7 +6676,7 @@
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "vern-alive",
@@ -6687,8 +6687,8 @@
     {
       "id": "dt-ch03-047",
       "kind": "narrative",
-      "title": "The Wanted Mark: Ash Aside",
-      "body": "Fence wire hums a note that used to mean inventory. You spit iron taste and keep walking like authorship, not cargo. The next mile does not apologize.",
+      "title": "SKU Trace: Brother Aside",
+      "body": "Brother aside: rage as compass, healer hands shaking, signal-static behind the eyes. The pack holds because quitting would be another wipe.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6703,8 +6703,8 @@
     {
       "id": "dt-ch03-048",
       "kind": "narrative",
-      "title": "The Wanted Mark: Quill's Aside",
-      "body": "Two riders tip hats too friendly for the hour. Ash counts exits without moving his mouth — old habit, good habit. Continue — soft roads make soft collars again.",
+      "title": "SKU Trace: Quill's Aside",
+      "body": "He talks to the flask more than to you. The flask answers in stim-heat and ugly honesty. Mentors this rotten usually know the hunters’ routes.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6712,15 +6712,15 @@
       "flagEchoes": [
         {
           "requireFlag": "lawful-hand",
-          "line": "Freemark law still tastes like silver you chose over easier blood."
+          "line": "Dustmarch law still tastes like silver you chose over easier blood."
         }
       ]
     },
     {
       "id": "dt-ch03-049",
       "kind": "narrative",
-      "title": "The Wanted Mark: Cane Wind",
-      "body": "Clouds drag shadows across cane-colored grass like slow warrants. Quill’s tea tastes like boiled warrants, patience, and whiskey that lost an argument. The cane smell thickens like a dare.",
+      "title": "SKU Trace: Stim Wind",
+      "body": "Fiber-vine scrub clicks like teeth. The wind brings corporate knights and a choir of static that wants your callsign for a fee.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6762,7 +6762,7 @@
         {
           "id": "ch3-refuse-debt",
           "label": "Refuse — Lyra first",
-          "approach": "No side warrants while Candlemire still owns her name.",
+          "approach": "No side warrants while Helix still owns her name.",
           "outcome": {
             "text": "Quill accepts the snub with professional grace. Roads get lonelier.",
             "xp": 16,
@@ -6802,8 +6802,8 @@
     {
       "id": "dt-ch03-051",
       "kind": "narrative",
-      "title": "The Wanted Mark: Binder Math",
-      "body": "A warrant nail still bleeds pine sap where paper used to hang. Dust becomes a third companion with poor hygiene and worse jokes. The Wilderland files you under unfinished, expensive business.",
+      "title": "SKU Trace: Binder Math",
+      "body": "He tallies ammo, forged marks, and lies you still believe about yourselves. The sum is ugly. The sum walks east.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6811,7 +6811,7 @@
       "flagEchoes": [
         {
           "requireFlag": "guest-wing-map",
-          "line": "Candlemire’s guest wing scratches your palm whenever you make a fist."
+          "line": "Helix Spire’s guest wing scratches your palm whenever you make a fist."
         }
       ]
     },
@@ -6819,7 +6819,7 @@
       "id": "dt-ch03-052",
       "kind": "encounter",
       "title": "Spy Ravens Ambush",
-      "body": "A collar ring half-buried in mud still remembers a neck. Tracks braid, unbraid, and lie with professional cheer. Warrant weather gathers; you load anyway. Then spy ravens force the issue — a roadside lesson Quill refuses to skip.",
+      "body": "A neural-neural-neural-collar ring half-buried in mud still remembers a neck. Tracks braid, unbraid, and lie with professional cheer. Warrant weather gathers; you load anyway. Then spy-ravens force the issue — a roadside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-spy-ravens",
       "chapter": 3,
@@ -6834,7 +6834,7 @@
           "label": "Stand and fight",
           "approach": "Use hotbar steel; clocks stay off — take your time.",
           "outcome": {
-            "text": "Spy Ravens falls. The road tastes like iron and relief.",
+            "text": "Spy Ravens falls. The Trace tastes like iron, ink, and relief.",
             "xp": 30,
             "gold": 11,
             "nextNodeId": "dt-ch03-053",
@@ -6885,8 +6885,8 @@
     {
       "id": "dt-ch03-053",
       "kind": "narrative",
-      "title": "The Wanted Mark: Yard Gossip",
-      "body": "Your shadow arrives first and looks less free than you feel. Ash rolls a shoulder that still remembers iron’s manners. East concentrates into cane smell and damp iron opinions.",
+      "title": "SKU Trace: Camp Gossip",
+      "body": "Camp gossip: lost brothers walk. Word spreads usefully — maybe too usefully. Dominion ears grow in the underbrush and on wings.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6905,8 +6905,8 @@
     {
       "id": "dt-ch03-054",
       "kind": "narrative",
-      "title": "The Wanted Mark: Seal Weather",
-      "body": "The road offers a fork that is really a dare. Night-march sweat tastes like posters burning behind you. You walk on because stopping is how numbers return.",
+      "title": "SKU Trace: Seal Weather",
+      "body": "Heat makes the dust itch like unfinished code. Eyes linger on blank faces the way buyers linger on mule teeth — and servers linger on fresh accounts.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6914,15 +6914,15 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Candlemire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         }
       ]
     },
     {
       "id": "dt-ch03-055",
       "kind": "narrative",
-      "title": "The Wanted Mark: Powder Prayer",
-      "body": "Wagon ruts braid into a grammar only hunters read fluently. Quill murmurs, “Hunters prefer freemen. Cages still accept returns.” Every mile files its own ugly receipt.",
+      "title": "SKU Trace: Powder Prayer",
+      "body": "A child’s chalk callsign on a fence post has already been scrubbed to static. Pretty country. Ugly ownership. Pass the damn bottle.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6937,8 +6937,8 @@
     {
       "id": "dt-ch03-056",
       "kind": "narrative",
-      "title": "The Wanted Mark: Stubborn Mile",
-      "body": "Cade’s birds wheel low, counting questions about ledgers. A stable loft teaches economics: copper in, descriptions out. Country like this remembers every unpaid mile.",
+      "title": "SKU Trace: Stubborn Mile",
+      "body": "Stubborn mile: no map, no names, no permission. East is a black-glass rumor with hunter prices. You walk like you invented walking.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -6946,7 +6946,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "vern-alive",
@@ -6958,7 +6958,7 @@
       "id": "dt-ch03-057",
       "kind": "encounter",
       "title": "Paid Knights",
-      "body": "Knights with Cade’s muted check ride like gentlemen and hunt like ledgers. Their warrant names Nine-Mark as escaped inventory. Dust kicks; steel argues about ownership.",
+      "body": "Knights with Vale’s muted check ride like gentlemen and hunt like ledgers. Their warrant names Pale-Mark as escaped inventory. Dust kicks; steel argues about ownership.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-paid-knights",
       "chapter": 3,
@@ -6973,7 +6973,7 @@
           "label": "Stand and fight",
           "approach": "Use hotbar steel; clocks stay off — take your time.",
           "outcome": {
-            "text": "Paid Check Knights falls. The road tastes like iron and relief.",
+            "text": "Paid Check Knights falls. The Trace tastes like iron, ink, and relief.",
             "xp": 30,
             "gold": 11,
             "nextNodeId": "dt-ch03-058",
@@ -7018,8 +7018,8 @@
     {
       "id": "dt-ch03-058",
       "kind": "narrative",
-      "title": "The Wanted Mark: Ring Memory",
-      "body": "Quill hums a tune that never finishes the same way twice. Continue is the only honest verb left, and even it hesitates — Ash does not. Quill nods at a darker cairn like a man greeting an old enemy.",
+      "title": "SKU Trace: Meter Memory",
+      "body": "Old rings and new neural collars rhyme. You kick a discarded spirit meter into the ditch and keep the itch as a compass.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7034,8 +7034,8 @@
     {
       "id": "dt-ch03-059",
       "kind": "narrative",
-      "title": "The Wanted Mark: East Debt",
-      "body": "Quill buys silence in amounts too small to trust and too dear to skip. You trade a story for water and keep the ending private. Quill packs the silence like powder — dry, useful, dangerous.",
+      "title": "SKU Trace: East Debt",
+      "body": "East debt is not coin. It is Lyra Vale’s line on a ledger, Project Pale’s blank contracts, and a tower that sells who you were.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7043,15 +7043,15 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch03-060",
       "kind": "narrative",
-      "title": "The Wanted Mark: Dust Mile",
-      "body": "A forger sells marks that open doors and close other people’s lives. Quill says, “Pretty country. Ugly ownership. Pass the damn bottle.” Ash sets the pace like a man owed a name and too stubborn to renegotiate.",
+      "title": "SKU Trace: Dust Mile",
+      "body": "Camp smoke writes temporary law across the scrub. You check for a brand, a barcode, a seal scar — and find the itch waking under skin.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7066,8 +7066,8 @@
     {
       "id": "dt-ch03-061",
       "kind": "narrative",
-      "title": "The Wanted Mark: Quiet Counsel",
-      "body": "Night insects keep score of every secret step you still take. Your wrist freemark itches whenever eyes linger too long. Dust coats the road, the flask, everything but the vow.",
+      "title": "SKU Trace: Quiet Counsel",
+      "body": "You decide the only true thing left: stick together until the Trace spits out an answer or a corpse. Quietly. Violently if needed.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7082,8 +7082,8 @@
     {
       "id": "dt-ch03-062",
       "kind": "narrative",
-      "title": "The Wanted Mark: Road Hygiene",
-      "body": "Your charcoal twin on a poster lies about the eyes, always. You feed Cade a river that does not exist and buy a single day. Lyra’s quiet ticks quieter than a clock and louder than leftover fear.",
+      "title": "SKU Trace: Trail Hygiene",
+      "body": "Wanted ink sticks to fenceposts like black moths with prices. You scrape biometric dust off a chrome knife and call it hygiene.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7091,15 +7091,15 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch03-063",
       "kind": "narrative",
-      "title": "The Wanted Mark: Old Hunger",
-      "body": "A roadside shrine wears three names and one empty nail. The road offers three bad choices and one worse delay. Stubbornness reads as virtue when Quill is halfway through the flask.",
+      "title": "SKU Trace: Old Hunger",
+      "body": "Hunger arrives wearing bounty math. Quill passes the flask once — chemical truth, not kindness. Your wrists remember seals you cannot see yet.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7107,7 +7107,7 @@
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "vern-alive",
@@ -7119,7 +7119,7 @@
       "id": "dt-ch03-064",
       "kind": "narrative",
       "title": "Orc Outriders",
-      "body": "Orc outriders burn a freehold for sheltering freemarks. Ash writes their sermon on roof beams. You bury what can be buried and take a child’s drawing of a cane field — Candlemire from the wrong side of hope.",
+      "body": "Chrome-orc outriders burn a freehold for sheltering callsigns. one brother writes their sermon on roof beams. You bury what can be buried and take a child’s drawing of a stim field — Helix Spire from the wrong side of hope.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-outrider-ash",
       "chapter": 3,
@@ -7137,8 +7137,8 @@
     {
       "id": "dt-ch03-065",
       "kind": "narrative",
-      "title": "The Wanted Mark: Freemark Thoughts",
-      "body": "Marshal Halbrecht Quill lights a match on a warrant nail and looks almost merciful. You check the freemark and find it still yours — for now. Somewhere a collar yard is overdue for a different count: revolt.",
+      "title": "SKU Trace: Callsign Thoughts",
+      "body": "Callsigns keep hunters guessing and spirits interested. True names would draw Dominion faster than blood. You keep the blanks on purpose.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7153,8 +7153,8 @@
     {
       "id": "dt-ch03-066",
       "kind": "narrative",
-      "title": "The Wanted Mark: Ledger Weather",
-      "body": "Steel rides light; the flask in Quill’s coat does not. Collar-yard gossip rides cheaper than truth and farther than mercy. West is weather; east is a bill that grins.",
+      "title": "SKU Trace: SKU Weather",
+      "body": "A hanged scarecrow wears Vale’s check like a joke that landed. Wanted is not justice — it is a shopping list with legs.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7162,15 +7162,15 @@
       "flagEchoes": [
         {
           "requireFlag": "lawful-hand",
-          "line": "Freemark law still tastes like silver you chose over easier blood."
+          "line": "Dustmarch law still tastes like silver you chose over easier blood."
         }
       ]
     },
     {
       "id": "dt-ch03-067",
       "kind": "narrative",
-      "title": "The Wanted Mark: Steel Practice",
-      "body": "Wind carries iron smell farther than any honest voice. Warrant ink under your coat weighs more than the steel above it. You walk on because numbers are still hunting names.",
+      "title": "SKU Trace: Steel Practice",
+      "body": "Quill’s crossbow speaks better than sermons. Muscle memory answers for the blank mind. Hunters hate that fluency.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7189,8 +7189,8 @@
     {
       "id": "dt-ch03-068",
       "kind": "narrative",
-      "title": "The Wanted Mark: Night Watch",
-      "body": "A raven ticks travelers the way clerks tick inventory — lovingly. A thrall brand on a fence rail dares you to look away. Ink buys the door; grit keeps it open — Quill’s oldest sermon.",
+      "title": "SKU Trace: Night Watch",
+      "body": "Night watch means listening for spy-ravens and corporate outriders. One brother counts exits. The dog invents enemies first — and is usually right.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7198,15 +7198,15 @@
       "flagEchoes": [
         {
           "requireFlag": "guest-wing-map",
-          "line": "Candlemire’s guest wing scratches your palm whenever you make a fist."
+          "line": "Helix Spire’s guest wing scratches your palm whenever you make a fist."
         }
       ]
     },
     {
       "id": "dt-ch03-069",
       "kind": "narrative",
-      "title": "The Wanted Mark: Iron Humor",
-      "body": "Quill’s ruined hat casts a verdict-shaped shadow. Lyra’s sale date sits behind your teeth like a vow with teeth of its own. Quill nods toward the darker horizon without ceremony.",
+      "title": "SKU Trace: Iron Humor",
+      "body": "A dead mule teaches economics better than any clerk. You practice not answering to numbers. Hunters answer for you anyway.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7221,8 +7221,8 @@
     {
       "id": "dt-ch03-070",
       "kind": "narrative",
-      "title": "The Wanted Mark: Collar Echo",
-      "body": "Fence wire hums a note that used to mean inventory. Quill mutters law under his breath like a protective curse, then swears for emphasis. Miles keep paging forward with grit under their nails.",
+      "title": "SKU Trace: Seal Echo",
+      "body": "Somewhere a spirit meter ticks like a second heart. Quill says ignore it until it starts naming you. Then kill whatever is speaking.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7242,17 +7242,17 @@
       "id": "dt-ch03-071",
       "kind": "choice",
       "title": "Eastward Sign",
-      "body": "Three roads argue at a cairn: north into friendlier lies, south into river fog, east into cane smoke and certainty. Quill will not choose for you. Lyra’s name waits in only one weather.",
+      "body": "Three roads argue at a cairn: north into friendlier lies, south into river fog, east into stim smoke and certainty. Quill will not choose for you. Lyra Vale’s name waits in only one weather.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-eastward-cairn",
       "chapter": 3,
       "choices": [
         {
           "id": "ch3-east-direct",
-          "label": "Take the cane-smelling road",
-          "approach": "Straight toward Candlemire and its hunters.",
+          "label": "Take the stim-smelling road",
+          "approach": "Straight toward Helix Gate and its hunters.",
           "outcome": {
-            "text": "Speed spends luck. The brand-river begins to smell real.",
+            "text": "Speed spends luck. The Chromeveil River begins to smell real.",
             "xp": 20,
             "flagsAdd": [
               "direct-east",
@@ -7263,7 +7263,7 @@
         },
         {
           "id": "ch3-river-first",
-          "label": "Skirt south to the Brand-River",
+          "label": "Skirt south to the Chromeveil",
           "approach": "Use water traffic Quill already partially mapped.",
           "outcome": {
             "text": "Mud teaches patience. Barges write their own invitations.",
@@ -7307,11 +7307,11 @@
       "id": "dt-ch03-072",
       "kind": "encounter",
       "title": "Orc Outriders Ambush",
-      "body": "Camp smoke writes temporary law across the pines. Freedom still feels like hunger wearing better boots. You spit iron taste and keep the freemark facing out. Then orc outriders force the issue — a roadside lesson Quill refuses to skip.",
+      "body": "Camp smoke writes temporary law across the pines. Freedom still feels like hunger wearing better boots. You spit iron taste and keep the callsign seal facing out. Then chrome-orc outriders force the issue — a roadside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-orc-outriders",
       "chapter": 3,
-      "enemy": "Orc Outriders",
+      "enemy": "Chrome-Orc Outriders",
       "enemyArtId": "art-dt-orc-outriders",
       "enemyHp": 76,
       "enemyPower": 13,
@@ -7322,7 +7322,7 @@
           "label": "Stand and fight",
           "approach": "Use hotbar steel; clocks stay off — take your time.",
           "outcome": {
-            "text": "Orc Outriders falls. The road tastes like iron and relief.",
+            "text": "Orc Outriders falls. The Trace tastes like iron, ink, and relief.",
             "xp": 30,
             "gold": 11,
             "nextNodeId": "dt-ch03-073",
@@ -7366,15 +7366,15 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Candlemire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         }
       ]
     },
     {
       "id": "dt-ch03-073",
       "kind": "narrative",
-      "title": "The Wanted Mark: Hard Mercy",
-      "body": "Somewhere a horn practices the sound of ownership. Somewhere east, ink still invents people into inventory. Continue — soft roads make soft collars again.",
+      "title": "SKU Trace: Hard Mercy",
+      "body": "Quill’s hat brim cuts the sun into a usable blade. Mercy, he says, is a budget item — spend it when the dog says so.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7389,8 +7389,8 @@
     {
       "id": "dt-ch03-074",
       "kind": "narrative",
-      "title": "The Wanted Mark: Vermin Bargain",
-      "body": "A child’s chalk freemark on a fence post has already been scrubbed. Quill murmurs, “Hunters prefer freemen. Cages still accept returns.” A ledger waits east — and it will not like the edit.",
+      "title": "SKU Trace: Scav Bargain",
+      "body": "A scavenger offers forged SKUs for a true name. You offer him a bruise and a rumor instead. Quill tips him copper for the geography in the greed.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7398,7 +7398,7 @@
       "flagEchoes": [
         {
           "requireFlag": "path-hope",
-          "line": "Hope still rides your shoulder like a stubborn second freemark."
+          "line": "Hope still rides your shoulder like a stubborn second callsign seal."
         },
         {
           "requireFlag": "vern-alive",
@@ -7409,8 +7409,8 @@
     {
       "id": "dt-ch03-075",
       "kind": "narrative",
-      "title": "The Wanted Mark: Ash Aside",
-      "body": "Lyra’s name sits behind your teeth like a loaded prayer. Tonight’s camp will argue theology with mosquitoes and memory. A ruined-hat tip; a pull; justice left on the ledger.",
+      "title": "SKU Trace: Brother Aside",
+      "body": "One brother tastes copper on the wind and does not flinch. Hunter spit misses by manners, not mercy. Paper in your coat weighs less than iron and more than sleep.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7425,8 +7425,8 @@
     {
       "id": "dt-ch03-076",
       "kind": "narrative",
-      "title": "The Wanted Mark: Quill's Aside",
-      "body": "Rain finds the places where collars used to teach posture. A joke dies mid-laugh when Cade’s check appears on a sleeve. Quill nods at a darker cairn like a man greeting an old enemy.",
+      "title": "SKU Trace: Quill's Aside",
+      "body": "“I walk with lost men who can ruin the things that lost them,” he repeats, like liturgy with better ammo.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7434,15 +7434,15 @@
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ]
     },
     {
       "id": "dt-ch03-077",
       "kind": "narrative",
-      "title": "The Wanted Mark: Cane Wind",
-      "body": "A collar ring half-buried in mud still remembers a neck. Quill drawls that quitters make excellent fertilizer and worse freemen. The next mile does not apologize.",
+      "title": "SKU Trace: Stim Wind",
+      "body": "Stim wind tastes like coolant grit and hunter perfume. A winged silhouette crosses the moon — drone-raven swarm or wyrm, same omen.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7457,15 +7457,15 @@
     {
       "id": "dt-ch03-078",
       "kind": "narrative",
-      "title": "Brand Horizon",
-      "body": "At dusk the eastern skyline writes black commas of chimney smoke. Quill packs the charcoal map against his ribs. Somewhere past river fog, a ledger still lists Lyra unbroken — and your freemark is no longer a secret.",
+      "title": "SKU Horizon",
+      "body": "At dusk the eastern skyline writes black commas of chimney smoke. Quill packs the charcoal map against his ribs. Somewhere past river fog, a ledger still lists Lyra Vale unbroken — and your under-skin SKU itch is no longer a rumor.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-brand-horizon",
       "chapter": 3,
       "flagEchoes": [
         {
           "requireFlag": "path-wait",
-          "line": "You still refuse to decide Lyra’s ending in advance — Quill calls it nerve."
+          "line": "You still refuse to decide Lyra Vale’s ending in advance — Quill calls it nerve."
         }
       ],
       "next": "dt-ch03-079"
@@ -7473,8 +7473,8 @@
     {
       "id": "dt-ch03-079",
       "kind": "narrative",
-      "title": "The Wanted Mark: Binder Math",
-      "body": "False friends smile with coin-shaped pupils and warm ale. Hope and suspicion pass the same waterskin and neither apologizes. You walk on because stopping is how numbers return.",
+      "title": "SKU Trace: Binder Math",
+      "body": "Overseer laughter and server fans carry farther than hymns. Freedom still feels like hunger wearing better boots. Binder math says keep walking.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7489,8 +7489,8 @@
     {
       "id": "dt-ch03-080",
       "kind": "narrative",
-      "title": "The Wanted Mark: Flask Sermon",
-      "body": "Distant cane fields clap like soft applause for bad systems. Somewhere a horn asks a question steel usually answers. You keep moving because rust has a longer memory than rest — and quit is not a word you own.",
+      "title": "SKU Trace: Flask Sermon",
+      "body": "Quill’s flask is chemical truth serum with worse manners. One sip and brother-sync feels like a remembered fight. Two sips and SKUs start knocking under skin.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7498,15 +7498,15 @@
       "flagEchoes": [
         {
           "requireFlag": "hard-hand",
-          "line": "Your hard hand has a reputation that arrives before your freemark does."
+          "line": "Your hard hand has a reputation that arrives before your callsign seal does."
         }
       ]
     },
     {
       "id": "dt-ch03-081",
       "kind": "narrative",
-      "title": "The Wanted Mark: Yard Gossip",
-      "body": "Quill’s hat brim cuts the sun into a usable blade; the scarred eye does the rest. Quill says, “Pretty country. Ugly ownership. Pass the damn bottle.” Warrant weather gathers; you load anyway.",
+      "title": "SKU Trace: Camp Gossip",
+      "body": "Somebody swears Helix Spire hangs rings by size, not by name. Quill drinks past it, scarred eye fixed east.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7514,7 +7514,7 @@
       "flagEchoes": [
         {
           "requireFlag": "knows-lyra-early",
-          "line": "You learned Lyra’s name before Quill wanted you to — and he has not forgotten."
+          "line": "You learned Lyra Vale’s name before Quill wanted you to — and he has not forgotten."
         },
         {
           "requireFlag": "vern-alive",
@@ -7525,8 +7525,8 @@
     {
       "id": "dt-ch03-082",
       "kind": "narrative",
-      "title": "The Wanted Mark: Seal Weather",
-      "body": "Paid knights tip hats like gentlemen and hunt like bookkeepers. Quill files every kindness under “possibly tactical” and drinks to the filing. Lyra’s quiet ticks quieter than a clock and louder than leftover fear.",
+      "title": "SKU Trace: Seal Weather",
+      "body": "The stranger packs silence like powder — dry, useful, dangerous — and waits for the Trace to decide if you are prey, players, or both.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7541,8 +7541,8 @@
     {
       "id": "dt-ch03-083",
       "kind": "narrative",
-      "title": "The Wanted Mark: Powder Prayer",
-      "body": "Powder grit under your nail smells like unfinished court. A hanged poster of your face lies about the eyes — always the eyes. The cane smell thickens like a dare.",
+      "title": "SKU Trace: Powder Prayer",
+      "body": "Powder prayer is loading a plasma pack while pretending it is faith. The dog watches like a priest that bites.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7550,15 +7550,15 @@
       "flagEchoes": [
         {
           "requireFlag": "lawful-hand",
-          "line": "Freemark law still tastes like silver you chose over easier blood."
+          "line": "Dustmarch law still tastes like silver you chose over easier blood."
         }
       ]
     },
     {
       "id": "dt-ch03-084",
       "kind": "narrative",
-      "title": "The Wanted Mark: Stubborn Mile",
-      "body": "A freeman laughs too loud, then checks who heard him. Tracks braid, unbraid, and lie with professional cheer. Somewhere a ledger waits to be embarrassed in public.",
+      "title": "SKU Trace: Stubborn Mile",
+      "body": "Scavengers sell water and buy stories about nameless men who would not quit. You set your pace like brothers owed a past.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7577,8 +7577,8 @@
     {
       "id": "dt-ch03-085",
       "kind": "narrative",
-      "title": "The Wanted Mark: Ring Memory",
-      "body": "Bootleather remembers every mile better than maps ever will. You spit iron taste and keep walking like authorship, not cargo. Ash keeps going. Quill files that under useful and takes a pull.",
+      "title": "SKU Trace: Meter Memory",
+      "body": "Old rings and new neural collars rhyme. You kick a discarded spirit meter into the ditch and keep the itch as a compass.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7586,15 +7586,15 @@
       "flagEchoes": [
         {
           "requireFlag": "guest-wing-map",
-          "line": "Candlemire’s guest wing scratches your palm whenever you make a fist."
+          "line": "Helix Spire’s guest wing scratches your palm whenever you make a fist."
         }
       ]
     },
     {
       "id": "dt-ch03-086",
       "kind": "narrative",
-      "title": "The Wanted Mark: East Debt",
-      "body": "The Wilderland files today’s silence under “pending violence.” You feed Cade a river that does not exist and buy a single day. The trail toward Cade does not apologize for the mileage.",
+      "title": "SKU Trace: East Debt",
+      "body": "East debt is not coin. It is Lyra Vale’s line on a ledger, Project Pale’s blank contracts, and a tower that sells who you were.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7610,7 +7610,7 @@
       "id": "dt-ch03-087",
       "kind": "encounter",
       "title": "Mark Hunters Ambush",
-      "body": "Wanted ink flutters on fenceposts like black moths with prices. A thrall brand on a fence rail dares you to look away. Far off, iron complains one last time and goes quiet. Then mark hunters force the issue — a roadside lesson Quill refuses to skip.",
+      "body": "Wanted ink flutters on fenceposts like black moths with prices. A SKU seal on a fence rail dares you to look away. Far off, iron complains one last time and goes quiet. Then mark hunters force the issue — a roadside lesson Quill refuses to skip.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-mark-hunters",
       "chapter": 3,
@@ -7625,7 +7625,7 @@
           "label": "Stand and fight",
           "approach": "Use hotbar steel; clocks stay off — take your time.",
           "outcome": {
-            "text": "Mark Hunters falls. The road tastes like iron and relief.",
+            "text": "Mark Hunters falls. The Trace tastes like iron, ink, and relief.",
             "xp": 30,
             "gold": 11,
             "nextNodeId": "dt-ch03-088",
@@ -7680,8 +7680,8 @@
     {
       "id": "dt-ch03-088",
       "kind": "narrative",
-      "title": "The Wanted Mark: Quiet Counsel",
-      "body": "Steel rides light; the flask in Quill’s coat does not. Rations taste like postponement, pepper, and old promises. Ash sets the pace like a man owed a name and too stubborn to renegotiate.",
+      "title": "SKU Trace: Quiet Counsel",
+      "body": "You decide the only true thing left: stick together until the Trace spits out an answer or a corpse. Quietly. Violently if needed.",
       "sceneId": "scene-dt-wanted-mark",
       "artId": "art-dt-wanted-mark",
       "chapter": 3,
@@ -7689,7 +7689,7 @@
       "flagEchoes": [
         {
           "requireFlag": "yard-prices",
-          "line": "Candlemire yard prices still itch in your coat like a market that deserves vandalism."
+          "line": "Helix seal-yard prices still itch in your coat like a market that deserves vandalism."
         }
       ],
       "flagsAdd": [
@@ -20050,7 +20050,7 @@
       },
       {
         "chapter": 2,
-        "title": "Dust and Debt",
+        "title": "Stim Dust Marches",
         "frames": 118,
         "hours": 4.5,
         "fidelity": "thorough",
@@ -20063,7 +20063,7 @@
       },
       {
         "chapter": 3,
-        "title": "The Wanted Mark",
+        "title": "SKU Trace",
         "frames": 88,
         "hours": 3.5,
         "fidelity": "thorough",

@@ -30,8 +30,8 @@
     {
       "id": "dt-ch-02-dust-and-debt",
       "chapter": 2,
-      "title": "Dust and Debt",
-      "tagline": "Warrants pay in silver and scars while Quill teaches steel that answers to no collar.",
+      "title": "Stim Dust Marches",
+      "tagline": "Warrants pay in stims and scars while Quill teaches steel that answers to no seal.",
       "startNodeId": "dt-ch02-001",
       "levelMin": 6,
       "levelMax": 14,
@@ -50,8 +50,8 @@
     {
       "id": "dt-ch-03-wanted-mark",
       "chapter": 3,
-      "title": "The Wanted Mark",
-      "tagline": "A carved brand leads east; friends and hunters argue over who owns the man who escaped.",
+      "title": "SKU Trace",
+      "tagline": "An under-skin barcode leads east; friends and hunters argue over who owns the men who woke blank.",
       "startNodeId": "dt-ch03-001",
       "levelMin": 12,
       "levelMax": 20,
