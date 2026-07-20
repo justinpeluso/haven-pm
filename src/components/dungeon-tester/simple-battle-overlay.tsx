@@ -20,9 +20,14 @@ import { dtEnemyArtSrc, simpleBattleMapSrc } from "@/lib/downtown/dungeon-tester
 import { dtLoadoutSummary } from "@/lib/downtown/dungeon-tester/camp";
 import { formatGearTier, gearTierAttr } from "@/lib/downtown/dungeon-tester/gear-display";
 import { normalizeDtHeroLook } from "@/lib/downtown/dungeon-tester/look";
+import {
+  getDtDogPokeCard,
+  pokeCardForUnit,
+} from "@/lib/downtown/dungeon-tester/poke-cards";
 import type { PlayerSlot } from "@/lib/downtown/dungeon-tester/types";
 import { DtHeroFigure } from "@/components/dungeon-tester/dt-hero-figure";
 import { DtGearIcon } from "@/components/dungeon-tester/dt-gear-icon";
+import { DtPokeCard } from "@/components/dungeon-tester/dt-poke-card";
 
 type Props = {
   battle: SimpleBattleState;
@@ -133,13 +138,26 @@ function StatBars({
   );
 }
 
-function ClipUnit({ unit, active }: { unit: SimpleBattleUnit; active?: boolean }) {
+function ClipUnit({
+  unit,
+  active,
+  onInspect,
+}: {
+  unit: SimpleBattleUnit;
+  active?: boolean;
+  onInspect?: () => void;
+}) {
   const down = unit.hp <= 0;
   const art = unitArtSrc(unit);
   const look =
     unit.side === "hero" && !unit.isDog
       ? normalizeDtHeroLook(unit.look, unit.slot)
       : null;
+  const card = pokeCardForUnit({ isDog: unit.isDog, foeDefId: unit.foeDefId });
+  const statusBits: string[] = [];
+  if ((unit.stunRounds ?? 0) > 0) statusBits.push("stun");
+  if ((unit.poisonStacks ?? 0) > 0) statusBits.push("venom");
+  if ((unit.powerBuffRounds ?? 0) > 0) statusBits.push("buff");
   return (
     <div
       className="dt-sbat-unit"
@@ -149,6 +167,9 @@ function ClipUnit({ unit, active }: { unit: SimpleBattleUnit; active?: boolean }
       data-active={active ? "true" : "false"}
       data-haste={unit.haste ? "true" : "false"}
       style={{ ["--unit-color" as string]: unit.color }}
+      onMouseEnter={() => {
+        if (card && onInspect) onInspect();
+      }}
     >
       {look ? (
         <DtHeroFigure look={look} compact className="dt-sbat-hero-figure" />
@@ -170,6 +191,15 @@ function ClipUnit({ unit, active }: { unit: SimpleBattleUnit; active?: boolean }
           />
         </svg>
       )}
+      {card ? (
+        <div className="dt-sbat-type-row" aria-hidden>
+          {card.types.slice(0, 2).map((t) => (
+            <span key={t} className="dt-sbat-type-chip" data-type={t}>
+              {t}
+            </span>
+          ))}
+        </div>
+      ) : null}
       <div className="dt-sbat-name">
         {unit.isDog ? `${unit.name} (dog)` : unit.name}
         {unit.haste ? " ·!" : ""}
@@ -177,6 +207,9 @@ function ClipUnit({ unit, active }: { unit: SimpleBattleUnit; active?: boolean }
           ? ` · ${unit.actionsLeft}`
           : ""}
       </div>
+      {statusBits.length ? (
+        <div className="dt-sbat-status-row">{statusBits.join(" · ")}</div>
+      ) : null}
       <StatBars unit={unit} compact />
     </div>
   );
@@ -448,6 +481,8 @@ export function SimpleBattleOverlay({
   const [needTarget, setNeedTarget] = useState<"enemy" | "ally" | "self" | "none" | null>(
     null
   );
+  /** Inspected poke card — enemy, dog, or splash pick. */
+  const [inspectUnitId, setInspectUnitId] = useState<string | null>(null);
 
   const skipIntro =
     !!battle.splashDone || simpleBattleShouldSkipSplash(battle);
@@ -557,9 +592,36 @@ export function SimpleBattleOverlay({
   }, [introPhase, battle.id]);
 
   const heroes = battle.units.filter((u) => u.side === "hero" && !u.isDog);
+  const dogs = battle.units.filter((u) => u.side === "hero" && u.isDog);
   const enemies = battle.units.filter((u) => u.side === "enemy");
   const selected = heroes.find((u) => u.id === selectedHeroId) ?? null;
   const myHero = mySlot ? (heroes.find((u) => u.slot === mySlot) ?? null) : null;
+  const myDog =
+    mySlot
+      ? (dogs.find((d) => d.slot === mySlot) ?? dogs[0] ?? null)
+      : (dogs[0] ?? null);
+  const dogCard = getDtDogPokeCard();
+  const inspectUnit =
+    inspectUnitId === "dog-card"
+      ? null
+      : (inspectUnitId
+          ? battle.units.find((u) => u.id === inspectUnitId)
+          : null) ??
+        enemies.find((e) => e.hp > 0) ??
+        enemies[0] ??
+        myDog ??
+        null;
+  const inspectCard =
+    inspectUnitId === "dog-card" || (!inspectUnit && !enemies.length)
+      ? dogCard
+      : inspectUnit
+        ? pokeCardForUnit({
+            isDog: inspectUnit.isDog,
+            foeDefId: inspectUnit.foeDefId,
+          })
+        : dogCard;
+  const inspectIsAlly =
+    inspectUnitId === "dog-card" || !!inspectUnit?.isDog;
   const actingHero =
     selected && selected.actionsLeft > 0 && selected.hp > 0
       ? selected
@@ -678,12 +740,21 @@ export function SimpleBattleOverlay({
               disabled={
                 summary ||
                 introBusy ||
-                !needTarget ||
-                (needTarget === "enemy" && u.side !== "enemy") ||
-                (needTarget === "ally" && u.side !== "hero")
+                (!needTarget && !(u.side === "enemy" || u.isDog)) ||
+                (!!needTarget &&
+                  ((needTarget === "enemy" && u.side !== "enemy") ||
+                    (needTarget === "ally" && u.side !== "hero")))
               }
-              onClick={() => pickTarget(u)}
-              aria-label={`Select ${u.name}`}
+              onClick={() => {
+                if (needTarget) {
+                  pickTarget(u);
+                  return;
+                }
+                if (u.side === "enemy" || u.isDog) setInspectUnitId(u.id);
+              }}
+              aria-label={
+                needTarget ? `Select ${u.name}` : `Inspect ${u.name} card`
+              }
             >
               <ClipUnit
                 unit={u}
@@ -691,8 +762,12 @@ export function SimpleBattleOverlay({
                   (!!needTarget &&
                     ((needTarget === "enemy" && u.side === "enemy") ||
                       (needTarget === "ally" && u.side === "hero"))) ||
-                  u.id === (actingHero?.id ?? selectedHeroId)
+                  u.id === (actingHero?.id ?? selectedHeroId) ||
+                  u.id === inspectUnitId
                 }
+                onInspect={() => {
+                  if (u.side === "enemy" || u.isDog) setInspectUnitId(u.id);
+                }}
               />
             </button>
           ))}
@@ -716,6 +791,32 @@ export function SimpleBattleOverlay({
                 <span className="dt-sbat-intro-sub">
                   {enemies.map((e) => e.name).join(" · ") || "Ambush"}
                 </span>
+                <div className="dt-sbat-intro-cards">
+                  {enemies.slice(0, 3).map((e) => {
+                    const card = pokeCardForUnit({ foeDefId: e.foeDefId });
+                    if (!card) return null;
+                    return (
+                      <DtPokeCard
+                        key={`intro-${e.id}`}
+                        card={{ ...card, name: e.name }}
+                        hp={e.hp}
+                        maxHp={e.maxHp}
+                        size="sm"
+                      />
+                    );
+                  })}
+                  {myDog ? (
+                    <DtPokeCard
+                      card={{ ...dogCard, name: myDog.name }}
+                      hp={myDog.hp}
+                      maxHp={myDog.maxHp}
+                      size="sm"
+                      ally
+                    />
+                  ) : (
+                    <DtPokeCard card={dogCard} size="sm" ally />
+                  )}
+                </div>
                 <span className="dt-sbat-intro-hint">Click or Esc to skip</span>
               </button>
               {onFlee ? (
@@ -756,10 +857,31 @@ export function SimpleBattleOverlay({
                     {h.name}
                     {h.slot === mySlot ? " (you)" : ""}
                     {h.haste ? " · Haste" : ""}
+                    {(h.stunRounds ?? 0) > 0 ? " · Stun" : ""}
                   </div>
                   <StatBars unit={h} />
                 </button>
               ))}
+              <button
+                type="button"
+                className="dt-sbat-party-card dt-sbat-dog-slot"
+                data-active={inspectUnitId === myDog?.id ? "true" : "false"}
+                data-mine="true"
+                onClick={() => {
+                  if (myDog) setInspectUnitId(myDog.id);
+                  else setInspectUnitId("dog-card");
+                }}
+                title="Dog poke card"
+              >
+                <div className="dt-sbat-party-name">
+                  {myDog ? `${myDog.name} (dog)` : `${dogCard.name} (camp)`}
+                </div>
+                {myDog ? (
+                  <StatBars unit={myDog} />
+                ) : (
+                  <p className="dt-sbat-dog-absent">Card ready · not in this fight</p>
+                )}
+              </button>
             </div>
 
             <p className="dt-sbat-hint">
@@ -819,12 +941,56 @@ export function SimpleBattleOverlay({
               ))}
             </ul>
 
-            <p className="dt-sbat-foe-line">
-              Foes:{" "}
-              {enemies
-                .map((e) => (e.hp > 0 ? `${e.name} (${e.hp}/${e.maxHp})` : `${e.name} down`))
-                .join(" · ")}
-            </p>
+            <div className="dt-sbat-poke-rail" aria-label="Spirit cards">
+              {inspectCard ? (
+                <DtPokeCard
+                  card={
+                    inspectUnit
+                      ? { ...inspectCard, name: inspectUnit.name }
+                      : myDog
+                        ? { ...inspectCard, name: myDog.name }
+                        : inspectCard
+                  }
+                  hp={inspectUnit?.hp ?? myDog?.hp}
+                  maxHp={inspectUnit?.maxHp ?? myDog?.maxHp}
+                  size="md"
+                  ally={inspectIsAlly}
+                />
+              ) : null}
+              <div className="dt-sbat-poke-foes">
+                <p className="dt-sbat-foe-line">
+                  Foes:{" "}
+                  {enemies
+                    .map((e) =>
+                      e.hp > 0 ? `${e.name} (${e.hp}/${e.maxHp})` : `${e.name} down`
+                    )
+                    .join(" · ")}
+                </p>
+                <div className="dt-sbat-foe-card-row">
+                  {enemies.map((e) => {
+                    const card = pokeCardForUnit({ foeDefId: e.foeDefId });
+                    if (!card) return null;
+                    return (
+                      <button
+                        key={`foe-card-${e.id}`}
+                        type="button"
+                        className="dt-sbat-foe-card-btn"
+                        data-active={inspectUnitId === e.id ? "true" : "false"}
+                        data-down={e.hp <= 0 ? "true" : "false"}
+                        onClick={() => setInspectUnitId(e.id)}
+                      >
+                        <DtPokeCard
+                          card={{ ...card, name: e.name }}
+                          hp={e.hp}
+                          maxHp={e.maxHp}
+                          size="sm"
+                        />
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="dt-sbat-endscreen" data-outcome={battle.status}>

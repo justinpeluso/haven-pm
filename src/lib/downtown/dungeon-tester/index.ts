@@ -21,6 +21,7 @@ export * from "./dog";
 export * from "./night-creatures";
 export * from "./maps";
 export * from "./side-quests";
+export * from "./poke-cards";
 
 import { DT_ART } from "./art";
 import { dtEncounterStats } from "./encounters";
@@ -28,6 +29,7 @@ import { dtBestiaryStats } from "./bestiary";
 import { dtGearStats } from "./gear";
 import { DT_GEAR_ICON_IDS } from "./gear-icons";
 import { dtSideQuestStats } from "./side-quests";
+import { dtPokeCardStats } from "./poke-cards";
 
 export function dungeonTesterPackStats() {
   return {
@@ -35,6 +37,7 @@ export function dungeonTesterPackStats() {
     ...dtBestiaryStats(),
     ...dtGearStats(),
     ...dtSideQuestStats(),
+    ...dtPokeCardStats(),
     artEntries: Object.keys(DT_ART).length,
     gearIcons: DT_GEAR_ICON_IDS.length,
   };

@@ -1,0 +1,1804 @@
+{
+  "version": 1,
+  "flavor": "Pokémon-structure cards (types + signature moves) for Dungeon Tester — Lost Brothers chrome/spirit tone, original art only.",
+  "types": {
+    "grit": {
+      "label": "Grit",
+      "color": "#8a6a3a"
+    },
+    "chrome": {
+      "label": "Chrome",
+      "color": "#7a8a9a"
+    },
+    "spirit": {
+      "label": "Spirit",
+      "color": "#6a7a9a"
+    },
+    "iron": {
+      "label": "Iron",
+      "color": "#5a5a5a"
+    },
+    "ash": {
+      "label": "Ash",
+      "color": "#6a4a3a"
+    },
+    "silk": {
+      "label": "Silk",
+      "color": "#8a7a9a"
+    },
+    "dust": {
+      "label": "Dust",
+      "color": "#9a7a4a"
+    },
+    "frost": {
+      "label": "Frost",
+      "color": "#5a7a8a"
+    },
+    "venom": {
+      "label": "Venom",
+      "color": "#4a6a3a"
+    },
+    "wild": {
+      "label": "Wild",
+      "color": "#6a5a2a"
+    },
+    "chain": {
+      "label": "Chain",
+      "color": "#4a4a5a"
+    },
+    "helix": {
+      "label": "Helix",
+      "color": "#8a4a3a"
+    }
+  },
+  "cards": {
+    "whip-hand-thug": {
+      "id": "whip-hand-thug",
+      "name": "Whip-Hand Thug",
+      "blurb": "A dusty overseer with a knotted leather scourge.",
+      "artId": "enemy-whip-hand",
+      "types": [
+        "chain",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "scourge-crack",
+          "name": "Scourge Crack",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.15,
+          "blurb": "Knotted leather finds bone."
+        },
+        {
+          "id": "heel-freeze",
+          "name": "Heel Freeze",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.85,
+          "stunRounds": 1,
+          "blurb": "A crack that pins feet to dust."
+        },
+        {
+          "id": "overseer-grin",
+          "name": "Overseer Grin",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 3,
+          "buffRounds": 2,
+          "blurb": "He likes the sound of fear."
+        }
+      ]
+    },
+    "coffle-guard": {
+      "id": "coffle-guard",
+      "name": "Coffle Guard",
+      "blurb": "Iron manacle keys jingle at his belt.",
+      "artId": "enemy-coffle-guard",
+      "types": [
+        "chain",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "manacle-swing",
+          "name": "Manacle Swing",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1
+        },
+        {
+          "id": "key-jab",
+          "name": "Key Jab",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 0.9,
+          "poisonStacks": 1
+        },
+        {
+          "id": "iron-bark",
+          "name": "Iron Bark",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "thorn-clan-skirmisher": {
+      "id": "thorn-clan-skirmisher",
+      "name": "Thorn-Clan Skirmisher",
+      "blurb": "A hill-orc in bark-lacquered hide, smiling with broken tusks.",
+      "artId": "enemy-orc-skirmisher",
+      "types": [
+        "wild",
+        "ash"
+      ],
+      "moves": [
+        {
+          "id": "tusk-hook",
+          "name": "Tusk Hook",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.2
+        },
+        {
+          "id": "bark-lacquer",
+          "name": "Bark Lacquer",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 3,
+          "buffRounds": 2
+        },
+        {
+          "id": "hill-sprint",
+          "name": "Hill Sprint",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.8,
+          "stunRounds": 1
+        }
+      ]
+    },
+    "dust-trail-warg": {
+      "id": "dust-trail-warg",
+      "name": "Dust-Trail Warg",
+      "blurb": "A lean wolf-beast with chalk-dust in its fur.",
+      "artId": "enemy-dust-warg",
+      "types": [
+        "dust",
+        "wild"
+      ],
+      "moves": [
+        {
+          "id": "chalk-bite",
+          "name": "Chalk Bite",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.15
+        },
+        {
+          "id": "trail-lunge",
+          "name": "Trail Lunge",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35
+        },
+        {
+          "id": "dust-howl",
+          "name": "Dust Howl",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.75,
+          "stunRounds": 1
+        }
+      ]
+    },
+    "trail-webling": {
+      "id": "trail-webling",
+      "name": "Trail Webling",
+      "blurb": "A pale spider the size of a hound, silk trailing from the pines.",
+      "artId": "enemy-trail-webling",
+      "types": [
+        "silk",
+        "venom"
+      ],
+      "moves": [
+        {
+          "id": "pine-silk",
+          "name": "Pine Silk",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.8,
+          "stunRounds": 1
+        },
+        {
+          "id": "hound-size-bite",
+          "name": "Hound-Size Bite",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "web-drag",
+          "name": "Web Drag",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.1
+        }
+      ]
+    },
+    "bond-chain-enforcer": {
+      "id": "bond-chain-enforcer",
+      "name": "Bond-Chain Enforcer",
+      "blurb": "Carries manacles like a trophy belt.",
+      "artId": "enemy-coffle-guard",
+      "types": [
+        "chain",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "trophy-cuff",
+          "name": "Trophy Cuff",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1,
+          "stunRounds": 1
+        },
+        {
+          "id": "ledger-lash",
+          "name": "Ledger Lash",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.25
+        },
+        {
+          "id": "bond-drain",
+          "name": "Bond Drain",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1,
+          "drainPct": 0.4
+        }
+      ]
+    },
+    "ash-gut-raider": {
+      "id": "ash-gut-raider",
+      "name": "Ash-Gut Raider",
+      "blurb": "An orc whose war-paint looks like burnt prairie.",
+      "artId": "enemy-ash-gut",
+      "types": [
+        "ash",
+        "wild"
+      ],
+      "moves": [
+        {
+          "id": "prairie-burn",
+          "name": "Prairie Burn",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1.05,
+          "poisonStacks": 1
+        },
+        {
+          "id": "gut-cleave",
+          "name": "Gut Cleave",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3
+        },
+        {
+          "id": "warpaint-surge",
+          "name": "Warpaint Surge",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 4,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "night-howler": {
+      "id": "night-howler",
+      "name": "Night-Howler",
+      "blurb": "Yellow eyes in the scrub; the pack answers from the ridge.",
+      "artId": "enemy-night-howler",
+      "types": [
+        "dust",
+        "spirit"
+      ],
+      "moves": [
+        {
+          "id": "ridge-answer",
+          "name": "Ridge Answer",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.9,
+          "stunRounds": 1
+        },
+        {
+          "id": "yellow-eye",
+          "name": "Yellow Eye",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.2
+        },
+        {
+          "id": "pack-echo",
+          "name": "Pack Echo",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 3,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "silk-widow": {
+      "id": "silk-widow",
+      "name": "Silk Widow",
+      "blurb": "Eight legs lacquered like wet tar; webs choke the hollow.",
+      "artId": "enemy-silk-widow",
+      "types": [
+        "silk",
+        "venom"
+      ],
+      "moves": [
+        {
+          "id": "tar-leg",
+          "name": "Tar Leg",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1.1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "hollow-wrap",
+          "name": "Hollow Wrap",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.85,
+          "stunRounds": 1
+        },
+        {
+          "id": "widow-kiss",
+          "name": "Widow Kiss",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1,
+          "drainPct": 0.35
+        }
+      ]
+    },
+    "bridge-brute": {
+      "id": "bridge-brute",
+      "name": "Bridge Brute",
+      "blurb": "A squat troll under the stone arch, hungry for tolls.",
+      "artId": "enemy-bridge-brute",
+      "types": [
+        "iron",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "toll-fist",
+          "name": "Toll Fist",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.25
+        },
+        {
+          "id": "arch-slam",
+          "name": "Arch Slam",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.05,
+          "stunRounds": 1
+        },
+        {
+          "id": "copper-hunger",
+          "name": "Copper Hunger",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 0.95,
+          "drainPct": 0.3
+        }
+      ]
+    },
+    "orc-rider": {
+      "id": "orc-rider",
+      "name": "Thorn-Clan Rider",
+      "blurb": "Orc and warg as one mean silhouette against the dusk.",
+      "artId": "enemy-orc-rider",
+      "types": [
+        "dust",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "dusk-charge",
+          "name": "Dusk Charge",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35
+        },
+        {
+          "id": "warg-spur",
+          "name": "Warg Spur",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 3,
+          "buffRounds": 2
+        },
+        {
+          "id": "mounted-trample",
+          "name": "Mounted Trample",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1,
+          "stunRounds": 1
+        }
+      ]
+    },
+    "red-maw-hunter": {
+      "id": "red-maw-hunter",
+      "name": "Red-Maw Hunter",
+      "blurb": "A warg alpha with a stained snout and patient gait.",
+      "artId": "enemy-night-howler",
+      "types": [
+        "wild",
+        "ash"
+      ],
+      "moves": [
+        {
+          "id": "stained-snout",
+          "name": "Stained Snout",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.15,
+          "drainPct": 0.45
+        },
+        {
+          "id": "patient-gait",
+          "name": "Patient Gait",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 4,
+          "buffRounds": 3
+        },
+        {
+          "id": "alpha-tear",
+          "name": "Alpha Tear",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.4
+        }
+      ]
+    },
+    "cave-knuckle": {
+      "id": "cave-knuckle",
+      "name": "Cave Knuckle",
+      "blurb": "A cave-troll knuckling forward on stone-scarred fists.",
+      "artId": "enemy-cave-troll",
+      "types": [
+        "iron",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "stone-scar",
+          "name": "Stone Scar",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3
+        },
+        {
+          "id": "knuckle-down",
+          "name": "Knuckle Down",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.1,
+          "stunRounds": 1
+        },
+        {
+          "id": "cave-rumble",
+          "name": "Cave Rumble",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 3,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "nest-mother": {
+      "id": "nest-mother",
+      "name": "Nest Mother",
+      "blurb": "The hollow's queen: silk thick as cable, eyes like wet pearls.",
+      "artId": "enemy-nest-mother",
+      "types": [
+        "silk",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "cable-silk",
+          "name": "Cable Silk",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1,
+          "stunRounds": 1
+        },
+        {
+          "id": "pearl-gaze",
+          "name": "Pearl Gaze",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1.1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "queen-drain",
+          "name": "Queen Drain",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.15,
+          "drainPct": 0.5
+        },
+        {
+          "id": "brood-fury",
+          "name": "Brood Fury",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 5,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "iron-cuff-overseer": {
+      "id": "iron-cuff-overseer",
+      "name": "Iron-Cuff Overseer",
+      "blurb": "Frontier steel and orcish cruelty — the whip still speaks.",
+      "artId": "enemy-whip-hand",
+      "types": [
+        "chain",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "frontier-steel",
+          "name": "Frontier Steel",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.25
+        },
+        {
+          "id": "whip-still-speaks",
+          "name": "Whip Still Speaks",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1,
+          "stunRounds": 1
+        },
+        {
+          "id": "cruelty-tax",
+          "name": "Cruelty Tax",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.05,
+          "drainPct": 0.35
+        }
+      ]
+    },
+    "ash-cloak-outrider": {
+      "id": "ash-cloak-outrider",
+      "name": "Ash-Cloak Outrider",
+      "blurb": "A veiled rider on a pale steed — rumors of a pale host.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "ash",
+        "spirit"
+      ],
+      "moves": [
+        {
+          "id": "pale-veil",
+          "name": "Pale Veil",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.95,
+          "stunRounds": 1
+        },
+        {
+          "id": "host-rumor",
+          "name": "Host Rumor",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1.05,
+          "poisonStacks": 1
+        },
+        {
+          "id": "silent-ride",
+          "name": "Silent Ride",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35
+        }
+      ]
+    },
+    "mountain-hammer": {
+      "id": "mountain-hammer",
+      "name": "Mountain Hammer",
+      "blurb": "A high-pass troll with a tree for a club.",
+      "artId": "enemy-cave-troll",
+      "types": [
+        "iron",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "tree-club",
+          "name": "Tree Club",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.4
+        },
+        {
+          "id": "high-pass",
+          "name": "High Pass",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.1,
+          "stunRounds": 1
+        },
+        {
+          "id": "summit-rage",
+          "name": "Summit Rage",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 5,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "bone-drum-captain": {
+      "id": "bone-drum-captain",
+      "name": "Bone-Drum Captain",
+      "blurb": "War-drums of hide and bone call the Thorn-Clan to charge.",
+      "artId": "enemy-ash-gut",
+      "types": [
+        "ash",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "hide-drum",
+          "name": "Hide Drum",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 5,
+          "buffRounds": 3
+        },
+        {
+          "id": "bone-beat",
+          "name": "Bone Beat",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.05,
+          "stunRounds": 1
+        },
+        {
+          "id": "clan-charge",
+          "name": "Clan Charge",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35
+        }
+      ]
+    },
+    "pale-host-scout": {
+      "id": "pale-host-scout",
+      "name": "Pale-Host Scout",
+      "blurb": "Cloaked, cold, and certain — a forerunner of the ash riders.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "ash",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "cold-certainty",
+          "name": "Cold Certainty",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.2
+        },
+        {
+          "id": "forerunner",
+          "name": "Forerunner",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "ash-signal",
+          "name": "Ash Signal",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 3,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "warcamp-berserker": {
+      "id": "warcamp-berserker",
+      "name": "Warcamp Berserker",
+      "blurb": "An orc who abandoned shields for two serrated cleavers.",
+      "artId": "enemy-orc-skirmisher",
+      "types": [
+        "wild",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "twin-cleaver",
+          "name": "Twin Cleaver",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45
+        },
+        {
+          "id": "no-shield",
+          "name": "No Shield",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 6,
+          "buffRounds": 2
+        },
+        {
+          "id": "serrated-frenzy",
+          "name": "Serrated Frenzy",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1.1,
+          "poisonStacks": 1
+        }
+      ]
+    },
+    "gloomwood-spinner": {
+      "id": "gloomwood-spinner",
+      "name": "Gloomwood Spinner",
+      "blurb": "Webs that dim torchlight; venom that slows the draw.",
+      "artId": "enemy-silk-widow",
+      "types": [
+        "silk",
+        "spirit"
+      ],
+      "moves": [
+        {
+          "id": "dim-torch",
+          "name": "Dim Torch",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.9,
+          "stunRounds": 1
+        },
+        {
+          "id": "slow-draw",
+          "name": "Slow Draw Venom",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1.05,
+          "poisonStacks": 2
+        },
+        {
+          "id": "gloom-wrap",
+          "name": "Gloom Wrap",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1,
+          "drainPct": 0.3
+        }
+      ]
+    },
+    "chain-lord-lieutenant": {
+      "id": "chain-lord-lieutenant",
+      "name": "Chain-Lord Lieutenant",
+      "blurb": "Keeps the bondage ledgers and the gunbelt alike.",
+      "artId": "enemy-coffle-guard",
+      "types": [
+        "chain",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "gunbelt-truth",
+          "name": "Gunbelt Truth",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.3
+        },
+        {
+          "id": "bondage-ledger",
+          "name": "Bondage Ledger",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.1,
+          "drainPct": 0.4
+        },
+        {
+          "id": "iron-sentence-lite",
+          "name": "Provisional Sentence",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.05,
+          "stunRounds": 1
+        }
+      ]
+    },
+    "shadow-pack-alpha": {
+      "id": "shadow-pack-alpha",
+      "name": "Shadow-Pack Alpha",
+      "blurb": "Wargs that move like smoke through the liberation lines.",
+      "artId": "enemy-night-howler",
+      "types": [
+        "dust",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "smoke-move",
+          "name": "Smoke Move",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1,
+          "stunRounds": 1
+        },
+        {
+          "id": "liberation-hunt",
+          "name": "Liberation Hunt",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.4
+        },
+        {
+          "id": "shadow-bond",
+          "name": "Shadow Bond",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.1,
+          "drainPct": 0.35
+        }
+      ]
+    },
+    "citadel-gate-brute": {
+      "id": "citadel-gate-brute",
+      "name": "Citadel Gate Brute",
+      "blurb": "A troll chained as a living door-ram.",
+      "artId": "enemy-bridge-brute",
+      "types": [
+        "iron",
+        "chain"
+      ],
+      "moves": [
+        {
+          "id": "door-ram",
+          "name": "Door Ram",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.2,
+          "stunRounds": 1
+        },
+        {
+          "id": "living-hinge",
+          "name": "Living Hinge",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 4,
+          "buffRounds": 2
+        },
+        {
+          "id": "citadel-crush",
+          "name": "Citadel Crush",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45
+        }
+      ]
+    },
+    "pale-ember-moth": {
+      "id": "pale-ember-moth",
+      "name": "Pale Ember Moth",
+      "blurb": "A man-sized moth whose wings shed cold sparks over the bedrolls.",
+      "artId": "enemy-trail-webling",
+      "types": [
+        "spirit",
+        "frost"
+      ],
+      "moves": [
+        {
+          "id": "cold-spark",
+          "name": "Cold Spark",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 0.95,
+          "poisonStacks": 1
+        },
+        {
+          "id": "bedroll-dust",
+          "name": "Bedroll Dust",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.85,
+          "stunRounds": 1
+        },
+        {
+          "id": "ember-wing",
+          "name": "Ember Wing",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.2
+        }
+      ]
+    },
+    "grave-mist-hound": {
+      "id": "grave-mist-hound",
+      "name": "Grave-Mist Hound",
+      "blurb": "Fog takes the shape of a hunting dog — then the teeth get solid.",
+      "artId": "enemy-night-howler",
+      "types": [
+        "spirit",
+        "dust"
+      ],
+      "moves": [
+        {
+          "id": "fog-teeth",
+          "name": "Fog Teeth",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.2
+        },
+        {
+          "id": "solid-bite",
+          "name": "Solid Bite",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.05,
+          "drainPct": 0.4
+        },
+        {
+          "id": "grave-howl",
+          "name": "Grave Howl",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.9,
+          "stunRounds": 1
+        }
+      ]
+    },
+    "camp-thief-gremlin": {
+      "id": "camp-thief-gremlin",
+      "name": "Camp-Thief Gremlin",
+      "blurb": "Tiny claws, big appetite for boots, gold, and sleep.",
+      "artId": "enemy-ash-gut",
+      "types": [
+        "chrome",
+        "dust"
+      ],
+      "moves": [
+        {
+          "id": "boot-nibble",
+          "name": "Boot Nibble",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 0.85,
+          "poisonStacks": 1
+        },
+        {
+          "id": "gold-snatch",
+          "name": "Gold Snatch",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 0.9,
+          "drainPct": 0.5
+        },
+        {
+          "id": "sleep-prick",
+          "name": "Sleep Prick",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.75,
+          "stunRounds": 1
+        }
+      ]
+    },
+    "moon-silk-spinner": {
+      "id": "moon-silk-spinner",
+      "name": "Moon-Silk Spinner",
+      "blurb": "Silver thread drifts from the dark pines and wraps ankles first.",
+      "artId": "enemy-silk-widow",
+      "types": [
+        "silk",
+        "frost"
+      ],
+      "moves": [
+        {
+          "id": "silver-thread",
+          "name": "Silver Thread",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.9,
+          "stunRounds": 1
+        },
+        {
+          "id": "ankle-first",
+          "name": "Ankle First",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "moon-web",
+          "name": "Moon Web",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.25
+        }
+      ]
+    },
+    "ash-wisp-stalker": {
+      "id": "ash-wisp-stalker",
+      "name": "Ash-Wisp Stalker",
+      "blurb": "A cloak of cinders with no body — until it reaches for your throat.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "ash",
+        "spirit"
+      ],
+      "moves": [
+        {
+          "id": "cinder-cloak",
+          "name": "Cinder Cloak",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 3,
+          "buffRounds": 2
+        },
+        {
+          "id": "throat-reach",
+          "name": "Throat Reach",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.15,
+          "drainPct": 0.45
+        },
+        {
+          "id": "no-body",
+          "name": "No Body",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.95,
+          "stunRounds": 1
+        }
+      ]
+    },
+    "coffle-shade": {
+      "id": "coffle-shade",
+      "name": "Coffle Shade",
+      "blurb": "Manacle-ghost of a thrall who never got free of the Chain-Road.",
+      "artId": "enemy-coffle-guard",
+      "types": [
+        "chain",
+        "spirit"
+      ],
+      "moves": [
+        {
+          "id": "ghost-cuff",
+          "name": "Ghost Cuff",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1,
+          "stunRounds": 1
+        },
+        {
+          "id": "never-free",
+          "name": "Never Free",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.1,
+          "drainPct": 0.4
+        },
+        {
+          "id": "chain-road-echo",
+          "name": "Chain-Road Echo",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 0.95,
+          "poisonStacks": 1
+        }
+      ]
+    },
+    "ridge-bat-swarm": {
+      "id": "ridge-bat-swarm",
+      "name": "Ridge Bat Swarm",
+      "blurb": "A shrieking cloud of wings that blot the campfire stars.",
+      "artId": "enemy-dust-warg",
+      "types": [
+        "dust",
+        "venom"
+      ],
+      "moves": [
+        {
+          "id": "shriek-cloud",
+          "name": "Shriek Cloud",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.9,
+          "stunRounds": 1
+        },
+        {
+          "id": "wing-blot",
+          "name": "Wing Blot",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.15
+        },
+        {
+          "id": "star-bite",
+          "name": "Star Bite",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1,
+          "poisonStacks": 2
+        }
+      ]
+    },
+    "dream-tickler": {
+      "id": "dream-tickler",
+      "name": "Dream-Tickler",
+      "blurb": "It crawls into nightmares and wakes you by biting the fear.",
+      "artId": "enemy-trail-webling",
+      "types": [
+        "spirit",
+        "venom"
+      ],
+      "moves": [
+        {
+          "id": "nightmare-crawl",
+          "name": "Nightmare Crawl",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 0.95,
+          "poisonStacks": 2
+        },
+        {
+          "id": "fear-bite",
+          "name": "Fear Bite",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.9,
+          "stunRounds": 1
+        },
+        {
+          "id": "wake-wrong",
+          "name": "Wake Wrong",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.05,
+          "drainPct": 0.35
+        }
+      ]
+    },
+    "night-howler-lurker": {
+      "id": "night-howler-lurker",
+      "name": "Night-Howler",
+      "blurb": "The classic trail predator — eyes like coals just past the firelight.",
+      "artId": "enemy-night-howler",
+      "types": [
+        "wild",
+        "spirit"
+      ],
+      "moves": [
+        {
+          "id": "coal-eyes",
+          "name": "Coal Eyes",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.2
+        },
+        {
+          "id": "firelight-edge",
+          "name": "Firelight Edge",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.95,
+          "stunRounds": 1
+        },
+        {
+          "id": "trail-predator",
+          "name": "Trail Predator",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.1,
+          "drainPct": 0.3
+        }
+      ]
+    },
+    "cold-iron-haunt": {
+      "id": "cold-iron-haunt",
+      "name": "Cold-Iron Haunt",
+      "blurb": "A towering silhouette of frost and scrap metal that hates warm blood.",
+      "artId": "enemy-bridge-brute",
+      "types": [
+        "frost",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "scrap-frost",
+          "name": "Scrap Frost",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.1,
+          "stunRounds": 1
+        },
+        {
+          "id": "warm-blood-hate",
+          "name": "Warm-Blood Hate",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.4
+        },
+        {
+          "id": "towering-chill",
+          "name": "Towering Chill",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1.05,
+          "poisonStacks": 1
+        }
+      ]
+    },
+    "boss-coffle-master": {
+      "id": "boss-coffle-master",
+      "name": "Coffle Master Vorn",
+      "blurb": "The first whip that named you property.",
+      "artId": "enemy-whip-hand",
+      "types": [
+        "chain",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "lash-line",
+          "name": "Lash Line",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.2,
+          "stunRounds": 1,
+          "blurb": "A crack that freezes feet."
+        },
+        {
+          "id": "property-name",
+          "name": "Property Name",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.15,
+          "drainPct": 0.4
+        },
+        {
+          "id": "first-whip",
+          "name": "First Whip",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.5
+        },
+        {
+          "id": "vorn-grin",
+          "name": "Vorn's Grin",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 5,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "boss-silk-queen": {
+      "id": "boss-silk-queen",
+      "name": "Hollow Silk Queen",
+      "blurb": "Mother of the trail webs.",
+      "artId": "enemy-nest-mother",
+      "types": [
+        "silk",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "cocoon-toss",
+          "name": "Cocoon Toss",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.15,
+          "stunRounds": 1,
+          "blurb": "Silk that binds a limb."
+        },
+        {
+          "id": "mother-web",
+          "name": "Mother Web",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1.2,
+          "poisonStacks": 3
+        },
+        {
+          "id": "hollow-queen",
+          "name": "Hollow Queen",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.25,
+          "drainPct": 0.5
+        },
+        {
+          "id": "brood-command",
+          "name": "Brood Command",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 6,
+          "buffRounds": 3
+        }
+      ]
+    },
+    "boss-toll-troll": {
+      "id": "boss-toll-troll",
+      "name": "Arch Toll-Troll",
+      "blurb": "He remembers every unpaid copper.",
+      "artId": "enemy-bridge-brute",
+      "types": [
+        "iron",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "boulder-slam",
+          "name": "Boulder Slam",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.35,
+          "stunRounds": 1,
+          "blurb": "The bridge buckles."
+        },
+        {
+          "id": "unpaid-copper",
+          "name": "Unpaid Copper",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.15,
+          "drainPct": 0.35
+        },
+        {
+          "id": "arch-memory",
+          "name": "Arch Memory",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.55
+        },
+        {
+          "id": "toll-rage",
+          "name": "Toll Rage",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 6,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "boss-thorn-warlord": {
+      "id": "boss-thorn-warlord",
+      "name": "Thorn-Clan Warlord",
+      "blurb": "Drums of bone, banners of ash.",
+      "artId": "enemy-ash-gut",
+      "types": [
+        "ash",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "war-drum",
+          "name": "War Drum",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 7,
+          "buffRounds": 3,
+          "blurb": "Pack fury doubles."
+        },
+        {
+          "id": "bone-banner",
+          "name": "Bone Banner",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.2,
+          "stunRounds": 1
+        },
+        {
+          "id": "ash-charge",
+          "name": "Ash Charge",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.5
+        },
+        {
+          "id": "clan-fury",
+          "name": "Clan Fury",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1.15,
+          "poisonStacks": 2
+        }
+      ]
+    },
+    "boss-ash-herald": {
+      "id": "boss-ash-herald",
+      "name": "Ash-Cloak Herald",
+      "blurb": "Pale host banner-bearer; silence rides with him.",
+      "artId": "enemy-ash-cloak",
+      "types": [
+        "ash",
+        "spirit"
+      ],
+      "moves": [
+        {
+          "id": "dread-horn",
+          "name": "Dread Horn",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.25,
+          "stunRounds": 1,
+          "blurb": "Courage falters."
+        },
+        {
+          "id": "pale-silence",
+          "name": "Pale Silence",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1.15,
+          "poisonStacks": 2
+        },
+        {
+          "id": "host-banner",
+          "name": "Host Banner",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 6,
+          "buffRounds": 3
+        },
+        {
+          "id": "ash-ride",
+          "name": "Ash Ride",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.3,
+          "drainPct": 0.4
+        }
+      ]
+    },
+    "boss-chain-lord": {
+      "id": "boss-chain-lord",
+      "name": "The Chain-Lord",
+      "blurb": "Frontier baron of bondage — the debt that ends here.",
+      "artId": "enemy-coffle-guard",
+      "types": [
+        "chain",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "iron-sentence",
+          "name": "Iron Sentence",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.4,
+          "stunRounds": 1,
+          "blurb": "Chains slam shut around the heart."
+        },
+        {
+          "id": "bondage-baron",
+          "name": "Bondage Baron",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.3,
+          "drainPct": 0.5
+        },
+        {
+          "id": "debt-ends",
+          "name": "Debt Ends Here",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.65
+        },
+        {
+          "id": "frontier-throne",
+          "name": "Frontier Throne",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 8,
+          "buffRounds": 3
+        }
+      ]
+    },
+    "dog-companion": {
+      "id": "dog-companion",
+      "name": "Trail Hound",
+      "blurb": "True grit on four legs — Helix chrome in the bark.",
+      "artId": "art-dog-companion",
+      "types": [
+        "grit",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "true-grit-bite",
+          "name": "True Grit Bite",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.25,
+          "blurb": "Teeth that remember the road."
+        },
+        {
+          "id": "helping-hound",
+          "name": "Helping Hound",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 0.95,
+          "stunRounds": 1,
+          "blurb": "A bark that buys a breath."
+        },
+        {
+          "id": "camp-loyalty",
+          "name": "Camp Loyalty",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.05,
+          "drainPct": 0.35,
+          "blurb": "Takes a chunk so you don't have to."
+        },
+        {
+          "id": "chrome-howl",
+          "name": "Chrome Howl",
+          "effects": [
+            "buff"
+          ],
+          "powerBonus": 3,
+          "buffRounds": 2,
+          "blurb": "Spirit up — Helix grit."
+        }
+      ]
+    }
+  }
+}

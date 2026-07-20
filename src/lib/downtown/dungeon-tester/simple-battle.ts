@@ -49,6 +49,12 @@ import {
 } from "./dog";
 import { normalizeDtHeroLook, type DtHeroLook } from "./look";
 import { rollNightCreature } from "./night-creatures";
+import {
+  getDtDogPokeCard,
+  getDtPokeCard,
+  pickDtPokeMove,
+  type DtPokeMoveDef,
+} from "./poke-cards";
 
 export type SimpleBattleActionId =
   | "attack"
@@ -103,6 +109,15 @@ export type SimpleBattleUnit = {
   /** Enemy bestiary id (for loot pool). */
   foeDefId?: string;
   lootPool?: DtLootPoolId | string;
+  /** Poke-card move rotation cursor. */
+  moveCursor?: number;
+  /** Skip actions while > 0 (decremented each new round). */
+  stunRounds?: number;
+  /** DoT-lite stacks; tick once per round start. */
+  poisonStacks?: number;
+  /** Temporary power from buff moves. */
+  powerBuff?: number;
+  powerBuffRounds?: number;
 };
 
 /** Visual recipe for overlay VFX — keeps actions visually distinct. */
@@ -813,8 +828,17 @@ export function applyBattleFailure(
 
 function resetRoundActions(units: SimpleBattleUnit[]): SimpleBattleUnit[] {
   return units.map((u) => {
-    if (u.hp <= 0 || u.isDog) return { ...u, actionsLeft: 0 };
-    return { ...u, actionsLeft: u.haste ? 2 : 1 };
+    if (u.hp <= 0 || u.isDog || u.side === "enemy") {
+      // Foe/dog stun decays when they skip in enemyActInPlace / dogActInPlace.
+      return { ...u, actionsLeft: 0 };
+    }
+    const stunned = (u.stunRounds ?? 0) > 0;
+    return {
+      ...u,
+      actionsLeft: stunned ? 0 : u.haste ? 2 : 1,
+      // Hero stun: skip this player turn, then decay.
+      stunRounds: stunned ? Math.max(0, (u.stunRounds ?? 0) - 1) : u.stunRounds ?? 0,
+    };
   });
 }
 
@@ -825,6 +849,107 @@ function tickHaste(units: SimpleBattleUnit[]): SimpleBattleUnit[] {
     if (left <= 0) return { ...u, haste: false, hasteRounds: 0 };
     return { ...u, hasteRounds: left };
   });
+}
+
+/** Tick stun / power buff / poison at the start of a new player round. */
+function tickStatusEffects(units: SimpleBattleUnit[]): {
+  units: SimpleBattleUnit[];
+  poisonLogs: string[];
+  poisonDamageTaken: number;
+} {
+  const poisonLogs: string[] = [];
+  let poisonDamageTaken = 0;
+  const next = units.map((u) => {
+    if (u.hp <= 0) return u;
+    let hp = u.hp;
+    let powerBuff = u.powerBuff ?? 0;
+    let powerBuffRounds = u.powerBuffRounds ?? 0;
+    if (powerBuffRounds > 0) {
+      powerBuffRounds -= 1;
+      if (powerBuffRounds <= 0) {
+        powerBuff = 0;
+        powerBuffRounds = 0;
+      }
+    }
+    let poisonStacks = u.poisonStacks ?? 0;
+    if (poisonStacks > 0) {
+      const tick = Math.max(1, poisonStacks);
+      const after = Math.max(0, hp - tick);
+      const dealt = hp - after;
+      hp = after;
+      if (u.side === "hero") poisonDamageTaken += dealt;
+      poisonLogs.push(`${u.name} suffers venom (−${dealt}).`);
+      poisonStacks = Math.max(0, poisonStacks - 1);
+    }
+    return {
+      ...u,
+      hp,
+      powerBuff,
+      powerBuffRounds,
+      poisonStacks,
+    };
+  });
+  return { units: next, poisonLogs, poisonDamageTaken };
+}
+
+function effectivePower(unit: SimpleBattleUnit): number {
+  return Math.max(1, unit.power + (unit.powerBuff ?? 0));
+}
+
+function applyHeal(
+  units: SimpleBattleUnit[],
+  targetId: string,
+  amount: number
+): SimpleBattleUnit[] {
+  return units.map((u) =>
+    u.id === targetId
+      ? { ...u, hp: Math.min(u.maxHp, u.hp + Math.max(0, amount)) }
+      : u
+  );
+}
+
+function applyStun(
+  units: SimpleBattleUnit[],
+  targetId: string,
+  rounds: number
+): SimpleBattleUnit[] {
+  if (rounds <= 0) return units;
+  return units.map((u) =>
+    u.id === targetId
+      ? { ...u, stunRounds: Math.max(u.stunRounds ?? 0, rounds) }
+      : u
+  );
+}
+
+function applyPoison(
+  units: SimpleBattleUnit[],
+  targetId: string,
+  stacks: number
+): SimpleBattleUnit[] {
+  if (stacks <= 0) return units;
+  return units.map((u) =>
+    u.id === targetId
+      ? { ...u, poisonStacks: Math.min(6, (u.poisonStacks ?? 0) + stacks) }
+      : u
+  );
+}
+
+function applyPowerBuff(
+  units: SimpleBattleUnit[],
+  targetId: string,
+  bonus: number,
+  rounds: number
+): SimpleBattleUnit[] {
+  if (bonus <= 0 || rounds <= 0) return units;
+  return units.map((u) =>
+    u.id === targetId
+      ? {
+          ...u,
+          powerBuff: (u.powerBuff ?? 0) + bonus,
+          powerBuffRounds: Math.max(u.powerBuffRounds ?? 0, rounds),
+        }
+      : u
+  );
 }
 
 function pushLog(battle: SimpleBattleState, line: string): SimpleBattleState {
@@ -1095,6 +1220,11 @@ export function startSimpleBattle(
       maxStamina: 0,
       isDog: true,
       artId: "art-dog-companion",
+      moveCursor: 0,
+      stunRounds: 0,
+      poisonStacks: 0,
+      powerBuff: 0,
+      powerBuffRounds: 0,
     });
   });
 
@@ -1124,6 +1254,11 @@ export function startSimpleBattle(
       artId: f.artId,
       foeDefId: f.id,
       lootPool: f.lootPool,
+      moveCursor: Math.floor(rng() * Math.max(1, getDtPokeCard(f.id)?.moves.length ?? 1)),
+      stunRounds: 0,
+      poisonStacks: 0,
+      powerBuff: 0,
+      powerBuffRounds: 0,
     };
   });
 
@@ -1214,103 +1349,224 @@ function spendHeroAction(units: SimpleBattleUnit[], heroId: string): SimpleBattl
   );
 }
 
-/** Run one enemy's in-place attack at a random living hero. */
+function resolveActorMove(
+  battle: SimpleBattleState,
+  actor: SimpleBattleUnit,
+  move: DtPokeMoveDef,
+  nextCursor: number,
+  target: SimpleBattleUnit,
+  style: "enemy" | "dog",
+  rng: () => number
+): SimpleBattleState {
+  let units = battle.units.map((u) =>
+    u.id === actor.id ? { ...u, moveCursor: nextCursor } : u
+  );
+  const colors =
+    style === "dog"
+      ? { ray: "#c9a24a", burst: "#d4b05a", float: "#ffe7a8" }
+      : { ray: "#c44", burst: "#e85a3a", float: "#ffc4b0" };
+
+  const doesDamage = move.effects.includes("damage");
+  const doesBuff =
+    move.effects.includes("buff") && (move.powerBonus ?? 0) > 0;
+  let dealt = 0;
+  let killed = false;
+  let healed = 0;
+  const tags: string[] = [];
+
+  if (doesDamage) {
+    const mult = move.powerMult ?? 1;
+    const raw =
+      Math.max(1, Math.round(effectivePower(actor) * mult)) +
+      Math.floor(rng() * (style === "dog" ? 3 : 4));
+    const hit = applyDamage(units, target.id, raw);
+    units = hit.units;
+    dealt = hit.dealt;
+    killed = hit.killed;
+    tags.push(`−${dealt}`);
+  }
+
+  if (move.effects.includes("drain") && dealt > 0) {
+    const pct = Math.max(0.15, Math.min(0.6, move.drainPct ?? 0.35));
+    healed = Math.max(1, Math.floor(dealt * pct));
+    units = applyHeal(units, actor.id, healed);
+    tags.push(`+${healed} drain`);
+  }
+
+  if (move.effects.includes("stun")) {
+    const rounds = Math.max(1, move.stunRounds ?? 1);
+    units = applyStun(units, target.id, rounds);
+    tags.push("stun");
+  }
+
+  if (move.effects.includes("poison")) {
+    const stacks = Math.max(1, move.poisonStacks ?? 1);
+    units = applyPoison(units, target.id, stacks);
+    tags.push("venom");
+  }
+
+  if (doesBuff) {
+    units = applyPowerBuff(
+      units,
+      actor.id,
+      move.powerBonus ?? 3,
+      move.buffRounds ?? 2
+    );
+    tags.push("buff");
+  }
+
+  // Self-buff-only moves still need a visible target for FX — actor.
+  const fxTo = doesDamage || move.effects.includes("stun") || move.effects.includes("poison")
+    ? target.id
+    : actor.id;
+
+  const floatLabel =
+    tags.length > 0
+      ? tags[0]!.startsWith("−") || tags[0]!.startsWith("+")
+        ? tags.join(" ")
+        : move.name
+      : move.name;
+
+  let next: SimpleBattleState = {
+    ...battle,
+    units,
+    fx: [
+      {
+        id: uid("fx"),
+        kind: "ray",
+        style,
+        fromId: actor.id,
+        toId: fxTo,
+        color: colors.ray,
+      },
+      {
+        id: uid("fxb"),
+        kind: "burst",
+        style,
+        fromId: actor.id,
+        toId: fxTo,
+        color: colors.burst,
+      },
+      {
+        id: uid("flt"),
+        kind: "float",
+        style,
+        fromId: actor.id,
+        toId: fxTo,
+        label: killed ? "DEAD" : floatLabel,
+        color: colors.float,
+      },
+    ],
+  };
+
+  if (style === "dog") {
+    next = withCombatDelta(next, {
+      damageDealt: dealt,
+      foesDefeated: killed ? 1 : 0,
+    });
+  } else {
+    next = withCombatDelta(next, { damageTaken: dealt });
+  }
+
+  const verb = doesBuff && !doesDamage ? "uses" : "hits with";
+  const targetBit =
+    fxTo === actor.id
+      ? ""
+      : ` on ${target.name}`;
+  const detail = tags.length ? ` (${tags.join(", ")})` : "";
+  next = pushLog(
+    next,
+    `${actor.name} ${verb} ${move.name}${targetBit}${detail}.`
+  );
+  return checkEnd(next, rng);
+}
+
+/** Run one enemy's signature move at a random living hero. */
 function enemyActInPlace(
   battle: SimpleBattleState,
   enemy: SimpleBattleUnit,
   rng: () => number
 ): SimpleBattleState {
+  if (enemy.hp <= 0) return battle;
+  if ((enemy.stunRounds ?? 0) > 0) {
+    const units = battle.units.map((u) =>
+      u.id === enemy.id
+        ? { ...u, stunRounds: Math.max(0, (u.stunRounds ?? 0) - 1) }
+        : u
+    );
+    return pushLog({ ...battle, units }, `${enemy.name} is stunned — skips.`);
+  }
   const heroes = living(battle.units, "hero");
-  if (!heroes.length || enemy.hp <= 0) return battle;
-  const target = heroes[Math.floor(rng() * heroes.length)]!;
-  const raw = enemy.power + Math.floor(rng() * 4);
-  const { units, dealt } = applyDamage(battle.units, target.id, raw);
-  const fxId = uid("fx");
-  let next: SimpleBattleState = withCombatDelta(
-    {
-      ...battle,
-      units,
-      fx: [
-        {
-          id: fxId,
-          kind: "ray",
-          style: "enemy",
-          fromId: enemy.id,
-          toId: target.id,
-          color: "#c44",
-        },
-        {
-          id: uid("fxb"),
-          kind: "burst",
-          style: "enemy",
-          fromId: enemy.id,
-          toId: target.id,
-          color: "#e85a3a",
-        },
-        {
-          id: uid("flt"),
-          kind: "float",
-          style: "enemy",
-          fromId: enemy.id,
-          toId: target.id,
-          label: `−${dealt}`,
-          color: "#ffc4b0",
-        },
-      ],
-    },
-    { damageTaken: dealt }
+  if (!heroes.length) return battle;
+
+  const card = getDtPokeCard(enemy.foeDefId);
+  const { move, nextCursor } = card
+    ? pickDtPokeMove(card, enemy.moveCursor ?? 0, {
+        alreadyBuffed: (enemy.powerBuffRounds ?? 0) > 0,
+        rng,
+      })
+    : {
+        move: {
+          id: "strike",
+          name: "Strike",
+          effects: ["damage"] as const,
+          powerMult: 1,
+        } satisfies DtPokeMoveDef,
+        nextCursor: 0,
+      };
+
+  const needsTarget =
+    move.effects.includes("damage") ||
+    move.effects.includes("stun") ||
+    move.effects.includes("poison");
+  const target = needsTarget
+    ? heroes[Math.floor(rng() * heroes.length)]!
+    : enemy;
+
+  return resolveActorMove(
+    battle,
+    enemy,
+    move,
+    nextCursor,
+    target,
+    "enemy",
+    rng
   );
-  next = pushLog(next, `${enemy.name} strikes ${target.name} for ${dealt}.`);
-  return checkEnd(next, rng);
 }
 
-/** Dog companions bite once before foes swing. */
+/** Dog companions use signature moves before foes swing. */
 function dogActInPlace(
   battle: SimpleBattleState,
   dog: SimpleBattleUnit,
   rng: () => number
 ): SimpleBattleState {
+  if (dog.hp <= 0) return battle;
+  if ((dog.stunRounds ?? 0) > 0) {
+    const units = battle.units.map((u) =>
+      u.id === dog.id
+        ? { ...u, stunRounds: Math.max(0, (u.stunRounds ?? 0) - 1) }
+        : u
+    );
+    return pushLog({ ...battle, units }, `${dog.name} is stunned — skips.`);
+  }
   const foes = living(battle.units, "enemy");
-  if (!foes.length || dog.hp <= 0) return battle;
-  const target = foes[Math.floor(rng() * foes.length)]!;
-  const raw = dog.power + Math.floor(rng() * 3);
-  const { units, dealt, killed } = applyDamage(battle.units, target.id, raw);
-  let next: SimpleBattleState = withCombatDelta(
-    {
-      ...battle,
-      units,
-      fx: [
-        {
-          id: uid("fx"),
-          kind: "ray",
-          style: "dog",
-          fromId: dog.id,
-          toId: target.id,
-          color: "#c9a24a",
-        },
-        {
-          id: uid("fxb"),
-          kind: "burst",
-          style: "dog",
-          fromId: dog.id,
-          toId: target.id,
-          color: "#d4b05a",
-        },
-        {
-          id: uid("flt"),
-          kind: "float",
-          style: "dog",
-          fromId: dog.id,
-          toId: target.id,
-          label: `−${dealt}`,
-          color: "#ffe7a8",
-        },
-      ],
-    },
-    { damageDealt: dealt, foesDefeated: killed ? 1 : 0 }
-  );
-  next = pushLog(next, `${dog.name} bites ${target.name} for ${dealt}.`);
-  return checkEnd(next, rng);
+  if (!foes.length) return battle;
+
+  const card = getDtDogPokeCard();
+  const { move, nextCursor } = pickDtPokeMove(card, dog.moveCursor ?? 0, {
+    alreadyBuffed: (dog.powerBuffRounds ?? 0) > 0,
+    rng,
+  });
+
+  const needsTarget =
+    move.effects.includes("damage") ||
+    move.effects.includes("stun") ||
+    move.effects.includes("poison");
+  const target = needsTarget
+    ? foes[Math.floor(rng() * foes.length)]!
+    : dog;
+
+  return resolveActorMove(battle, dog, move, nextCursor, target, "dog", rng);
 }
 
 function runEnemyPhase(
@@ -1329,9 +1585,10 @@ function runEnemyPhase(
   }
   if (next.status !== "active") return next;
 
-  // New round — tick haste, refresh actions, player first again.
+  // New round — tick statuses/haste, refresh actions, player first again.
   let units = tickHaste(next.units);
-  units = resetRoundActions(units);
+  const statusTick = tickStatusEffects(units);
+  units = resetRoundActions(statusTick.units);
   next = {
     ...next,
     units,
@@ -1341,10 +1598,29 @@ function runEnemyPhase(
     combatStats: {
       ...(next.combatStats ?? emptyCombatStats(next.round)),
       rounds: next.round + 1,
+      damageTaken:
+        (next.combatStats?.damageTaken ?? 0) + statusTick.poisonDamageTaken,
     },
     message: `Round ${next.round + 1} — your party.`,
   };
-  return pushLog(next, `— Round ${next.round} —`);
+  for (const line of statusTick.poisonLogs) {
+    next = pushLog(next, line);
+  }
+  next = pushLog(next, `— Round ${next.round} —`);
+  // Entire party stunned → don't soft-lock on an empty player phase.
+  if (
+    next.status === "active" &&
+    !heroesStillActing(next.units) &&
+    living(next.units, "enemy").length > 0
+  ) {
+    next = {
+      ...next,
+      phase: "enemy",
+      focusHeroId: null,
+      message: "Stunned — enemy turn…",
+    };
+  }
+  return next;
 }
 
 export function performSimpleBattleAction(

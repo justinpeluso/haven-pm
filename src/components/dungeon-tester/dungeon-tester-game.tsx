@@ -8,6 +8,7 @@ import { DtGearIcon } from "@/components/dungeon-tester/dt-gear-icon";
 import { DtHeroFigure } from "@/components/dungeon-tester/dt-hero-figure";
 import { DtLocalMap } from "@/components/dungeon-tester/dt-local-map";
 import { DtWorldMap } from "@/components/dungeon-tester/dt-world-map";
+import { DtPokeCard } from "@/components/dungeon-tester/dt-poke-card";
 import {
   BLANK_BASE_STATS,
   listCreateMagic,
@@ -83,6 +84,7 @@ import {
   getDtArt,
   getFrame,
   normalizeDtDog,
+  getDtDogPokeCard,
   normalizeDtHeroLook,
   resolveFrameBody,
   visibleFrameChoices,
@@ -1709,6 +1711,18 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                         ? "joins ambushes"
                         : dtDogJoinsBattle(me).note ?? "hiding at camp"}
                     </p>
+                    <div className="dt-camp-dog-card">
+                      <DtPokeCard
+                        card={{
+                          ...getDtDogPokeCard(),
+                          name: normalizeDtDog(me.dog).name,
+                        }}
+                        hp={normalizeDtDog(me.dog).hp}
+                        maxHp={normalizeDtDog(me.dog).maxHp}
+                        size="md"
+                        ally
+                      />
+                    </div>
                     <div className="dt-actions">
                       <button
                         type="button"
