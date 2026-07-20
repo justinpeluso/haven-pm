@@ -622,7 +622,9 @@ export function SimpleBattleOverlay({
               {summary
                 ? battle.status === "victory"
                   ? "You Won!"
-                  : "You Lost"
+                  : battle.nightAmbush
+                    ? "Fire wasn't enough"
+                    : "They left you breathing"
                 : "Stand and Fight"}
             </h2>
           </div>
@@ -636,7 +638,7 @@ export function SimpleBattleOverlay({
                 data-back="true"
                 disabled={!!pending}
                 onClick={onFlee}
-                title="Flee ambush (soft recover) — always available escape"
+                title="Flee — keep your wounds, light gold tax"
               >
                 ← Flee
               </button>
@@ -804,7 +806,7 @@ export function SimpleBattleOverlay({
                   data-back="true"
                   disabled={!!pending}
                   onClick={onFlee}
-                  title="Flee ambush (soft recover) — escape soft-locks"
+                  title="Flee — keep your wounds, light gold tax"
                 >
                   ← Flee
                 </button>
@@ -827,7 +829,11 @@ export function SimpleBattleOverlay({
         ) : (
           <div className="dt-sbat-endscreen" data-outcome={battle.status}>
             <p className="dt-sbat-endscreen-banner">
-              {battle.status === "victory" ? "You Won!" : "You Lost"}
+              {battle.status === "victory"
+                ? "You Won!"
+                : battle.nightAmbush
+                  ? "Night took you"
+                  : "Defeat"}
             </p>
             <ul className="dt-sbat-endscreen-stats">
               <li>
@@ -857,7 +863,7 @@ export function SimpleBattleOverlay({
                 </>
               ) : (
                 <li>
-                  Soft recover <strong>party limps on</strong>
+                  Scarred limp <strong>~20% vitals · scrap tax</strong>
                 </li>
               )}
             </ul>

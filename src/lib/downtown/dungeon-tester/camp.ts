@@ -281,6 +281,13 @@ export function dtSleepAtCamp(
   if (!slept || next.battle) {
     return { world: next, message: r.message };
   }
+  // Successful rest clears Scarred limp.
+  if (next.partyFlags?.includes("scar:limp")) {
+    next = {
+      ...next,
+      partyFlags: next.partyFlags.filter((f) => f !== "scar:limp"),
+    };
+  }
   const rng = opts?.rng ?? Math.random;
   if (rng() >= NIGHT_AMBUSH_CHANCE) {
     return { world: next, message: r.message };

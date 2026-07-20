@@ -70,6 +70,32 @@ export function dtDogAfterBattle(char: CharacterSave): CharacterSave {
   };
 }
 
+/**
+ * Wipe aftermath for the Rememberer — hurt/hide/bond ding, never deleted.
+ * Fought dogs keep battle HP (0 → sits next fight); sat-out dogs only hunger.
+ */
+export function dtDogAfterWipe(
+  char: CharacterSave,
+  opts: { fought: boolean; battleHp?: number }
+): CharacterSave {
+  if (!char.created || !char.dog) return char;
+  const dog = normalizeDtDog(char.dog);
+  if (!opts.fought) {
+    return dtDogAfterBattle(char);
+  }
+  const hp = Math.max(0, Math.min(dog.maxHp, opts.battleHp ?? dog.hp));
+  const bondDing = hp <= 0 ? 2 : 1;
+  return {
+    ...char,
+    dog: {
+      ...dog,
+      hp,
+      hunger: (dog.hunger ?? 0) + 1,
+      bond: Math.max(0, dog.bond - bondDing),
+    },
+  };
+}
+
 /** Share scraps / clear sulk — call after jerky or explicit camp feed. */
 export function dtFeedDog(char: CharacterSave, opts?: { bond?: number }): CharacterSave {
   if (!char.created || !char.dog) return char;

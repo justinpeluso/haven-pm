@@ -42,6 +42,7 @@ import { rollNextEncounterAtFrame } from "./persist";
 import type { DtWorldSave } from "./types";
 import {
   dtDogAfterBattle,
+  dtDogAfterWipe,
   dtDogBattlePower,
   dtDogJoinsBattle,
   normalizeDtDog,
@@ -150,6 +151,8 @@ export type SimpleBattleState = {
   lootDrops?: SimpleBattleLootDrop[];
   /** True until dismiss applies gold/xp/loot to sealed heroes. */
   rewardsPending?: boolean;
+  /** Camp sleep night ambush — same wipe path, night-flavored copy. */
+  nightAmbush?: boolean;
 };
 
 export type SimpleBattleLootDrop = {
@@ -580,19 +583,232 @@ function grantRewards(
   return characters;
 }
 
-function softRecoverParty(world: DtWorldSave): DtWorldSave["characters"] {
-  const characters = { ...world.characters };
+export type BattleFailKind = "wipe" | "flee";
+export type BattleFailContext = "road" | "night" | "sideQuest" | "scripted";
+
+const SCAR_LIMP_FLAG = "scar:limp";
+
+function isBagConsumable(itemId: string): boolean {
+  const g = resolveGear(itemId);
+  if (!g) return false;
+  if (g.slot === "consumable") return true;
+  return !!(g.tags?.includes("potion") || g.tags?.includes("ration") || g.tags?.includes("food"));
+}
+
+function taxGoldPercent(
+  characters: DtWorldSave["characters"],
+  pct: number
+): { characters: DtWorldSave["characters"]; taken: number } {
+  let taken = 0;
+  const next = { ...characters };
+  for (const slot of PLAYER_SLOT_ORDER) {
+    const c = next[slot];
+    if (!c?.created) continue;
+    const gold = Math.max(0, c.gold ?? 0);
+    const lose = Math.min(gold, Math.floor(gold * pct));
+    if (lose <= 0) continue;
+    taken += lose;
+    next[slot] = { ...c, gold: gold - lose };
+  }
+  return { characters: next, taken };
+}
+
+/** Strip 1–2 bag consumables across the party (never worn gear). */
+function scrapBagConsumables(
+  characters: DtWorldSave["characters"],
+  count: number,
+  rng: () => number
+): { characters: DtWorldSave["characters"]; scraped: string[] } {
+  const scraped: string[] = [];
+  const next = { ...characters };
+  const pool: { slot: PlayerSlot; index: number; itemId: string }[] = [];
+  for (const slot of PLAYER_SLOT_ORDER) {
+    const c = next[slot];
+    if (!c?.created) continue;
+    (c.inventory ?? []).forEach((itemId, index) => {
+      if (isBagConsumable(itemId)) pool.push({ slot, index, itemId });
+    });
+  }
+  for (let n = 0; n < count && pool.length; n++) {
+    const pick = Math.floor(rng() * pool.length);
+    const hit = pool.splice(pick, 1)[0]!;
+    const c = next[hit.slot]!;
+    const inv = [...(c.inventory ?? [])];
+    const at = inv.indexOf(hit.itemId);
+    if (at < 0) continue;
+    inv.splice(at, 1);
+    next[hit.slot] = { ...c, inventory: inv };
+    scraped.push(resolveGear(hit.itemId)?.name ?? hit.itemId);
+    // Reindex remaining pool entries for this slot after splice.
+    for (let i = pool.length - 1; i >= 0; i--) {
+      const p = pool[i]!;
+      if (p.slot !== hit.slot) continue;
+      if (p.index > at) pool[i] = { ...p, index: p.index - 1 };
+      else if (p.index === at) pool.splice(i, 1);
+    }
+  }
+  return { characters: next, scraped };
+}
+
+function resolveFailContext(world: DtWorldSave, battle?: SimpleBattleState | null): BattleFailContext {
+  if (world.sideQuest) return "sideQuest";
+  if (battle?.nightAmbush) return "night";
+  return "road";
+}
+
+function wipeCopy(context: BattleFailContext): string {
+  if (context === "night") {
+    return "Night took you. Fire wasn't enough — they left you breathing.";
+  }
+  if (context === "sideQuest") {
+    return "The contract goes cold. They left you breathing.";
+  }
+  return "They took what they wanted. You're still walking.";
+}
+
+/**
+ * Scarred limp failure applicator — wipe vs flee diverge.
+ * Story/seals/furthest/worn gear stay; dog drain never deletes the dog.
+ */
+export function applyBattleFailure(
+  world: DtWorldSave,
+  opts: {
+    kind: BattleFailKind;
+    context?: BattleFailContext;
+    rng?: () => number;
+    /** When set, sync hero/dog vitals from these units before applying (flee). */
+    units?: SimpleBattleUnit[];
+  }
+): { world: DtWorldSave; message: string; lines: string[] } {
+  const rng = opts.rng ?? Math.random;
+  const battle = world.battle;
+  const context = opts.context ?? resolveFailContext(world, battle);
+  let characters =
+    opts.units && opts.units.length
+      ? syncHeroHpFromUnits(world, opts.units)
+      : { ...world.characters };
+  const lines: string[] = [];
+
+  if (opts.kind === "flee") {
+    // Keep wounds — no free heal. Floor living heroes at 1 HP.
+    for (const slot of PLAYER_SLOT_ORDER) {
+      const c = characters[slot];
+      if (!c?.created) continue;
+      characters[slot] = {
+        ...c,
+        hp: Math.max(1, Math.min(c.maxHp, c.hp)),
+        mana: Math.max(0, Math.min(c.maxMana, c.mana ?? 0)),
+        stamina: Math.max(0, Math.min(c.maxStamina, c.stamina ?? 0)),
+      };
+    }
+    const goldTax = taxGoldPercent(characters, 0.05);
+    characters = goldTax.characters;
+    if (goldTax.taken > 0) lines.push(`Dropped ${goldTax.taken}g running.`);
+
+    // Persist dog HP from the fight (already synced if units passed), then hunger.
+    characters = Object.fromEntries(
+      PLAYER_SLOT_ORDER.map((slot) => {
+        const c = characters[slot];
+        if (!c?.created) return [slot, c];
+        return [slot, c.dog ? dtDogAfterBattle(c) : c];
+      })
+    ) as DtWorldSave["characters"];
+
+    const message = "You ran. The road doesn't forget.";
+    return {
+      world: {
+        ...world,
+        characters,
+        updatedAt: new Date().toISOString(),
+      },
+      message,
+      lines: [message, ...lines],
+    };
+  }
+
+  // —— Wipe (Scarred limp) ——
   for (const slot of PLAYER_SLOT_ORDER) {
     const c = characters[slot];
     if (!c?.created) continue;
     characters[slot] = {
       ...c,
-      hp: Math.max(1, Math.floor(c.maxHp * 0.55)),
-      mana: Math.max(0, Math.floor(c.maxMana * 0.45)),
-      stamina: Math.max(0, Math.floor(c.maxStamina * 0.6)),
+      hp: Math.max(1, Math.floor(c.maxHp * 0.2)),
+      mana: Math.max(0, Math.floor(c.maxMana * 0.2)),
+      stamina: Math.max(0, Math.floor(c.maxStamina * 0.2)),
     };
   }
-  return characters;
+
+  const goldPct = 0.1 + rng() * 0.1; // 10–20%
+  const goldTax = taxGoldPercent(characters, goldPct);
+  characters = goldTax.characters;
+  if (goldTax.taken > 0) lines.push(`Lost ${goldTax.taken}g.`);
+
+  const scrapCount = 1 + (rng() < 0.5 ? 1 : 0); // 1–2
+  const scrap = scrapBagConsumables(characters, scrapCount, rng);
+  characters = scrap.characters;
+  if (scrap.scraped.length) {
+    lines.push(`Scraped: ${scrap.scraped.join(", ")}.`);
+  }
+
+  const flags = [...(world.partyFlags ?? [])];
+  if (!flags.includes(SCAR_LIMP_FLAG)) {
+    flags.push(SCAR_LIMP_FLAG);
+    lines.push("Scar: limp — camp sleep clears it.");
+  }
+
+  const foughtDogs = new Set(
+    (battle?.units ?? [])
+      .filter((u) => u.side === "hero" && u.isDog && u.slot)
+      .map((u) => u.slot as PlayerSlot)
+  );
+  const dogLines: string[] = [];
+  characters = Object.fromEntries(
+    PLAYER_SLOT_ORDER.map((slot) => {
+      const c = characters[slot];
+      if (!c?.created || !c.dog) return [slot, c];
+      const fought = foughtDogs.has(slot);
+      const dogUnit = battle?.units?.find(
+        (u) => u.side === "hero" && u.isDog && u.slot === slot
+      );
+      const next = dtDogAfterWipe(c, {
+        fought,
+        battleHp: dogUnit?.hp,
+      });
+      const dog = normalizeDtDog(next.dog);
+      if (fought && dog.hp <= 0) {
+        dogLines.push(`${dog.name} is too hurt to fight — rest them at camp.`);
+      } else if (fought && (c.dog?.bond ?? 10) > dog.bond) {
+        dogLines.push(`${dog.name} trusts you a little less.`);
+      }
+      return [slot, next];
+    })
+  ) as DtWorldSave["characters"];
+  lines.push(...dogLines);
+
+  let nextWorld: DtWorldSave = {
+    ...world,
+    characters,
+    partyFlags: flags,
+    updatedAt: new Date().toISOString(),
+  };
+
+  if (context === "sideQuest" && nextWorld.sideQuest) {
+    // Inline fail (avoid simple-battle ↔ side-quests import cycle).
+    const sq = nextWorld.sideQuest;
+    const line = "The job went cold. Back on the march.";
+    nextWorld = {
+      ...nextWorld,
+      campaignNodeId: sq.resumeNodeId || nextWorld.campaignNodeId,
+      chapterId: sq.resumeChapterId || nextWorld.chapterId,
+      sideQuest: null,
+      updatedAt: new Date().toISOString(),
+      log: [line, ...nextWorld.log].slice(0, 80),
+    };
+    lines.push(line);
+  }
+
+  const message = wipeCopy(context);
+  return { world: nextWorld, message, lines: [message, ...lines] };
 }
 
 function resetRoundActions(units: SimpleBattleUnit[]): SimpleBattleUnit[] {
@@ -661,7 +877,9 @@ function checkEnd(
       status: "defeat",
       phase: "summary",
       fx: [],
-      message: "Defeat — limp back to the road (soft recover).",
+      message: next.nightAmbush
+        ? "Night took you. They left you breathing."
+        : "Defeat — they left you breathing.",
       focusHeroId: null,
       lootDrops: next.lootDrops ?? [],
       combatStats,
@@ -950,6 +1168,7 @@ export function startSimpleBattle(
     combatStats: emptyCombatStats(1),
     lootDrops: [],
     rewardsPending: false,
+    nightAmbush: nightAmbush || undefined,
   };
 
   return {
@@ -1541,35 +1760,33 @@ function finishBattle(
       message: battle.message,
     };
   }
-  let characters = softRecoverParty(world);
-  characters = Object.fromEntries(
-    PLAYER_SLOT_ORDER.map((slot) => {
-      const c = characters[slot];
-      return [slot, c?.created ? dtDogAfterBattle(c) : c];
-    })
-  ) as DtWorldSave["characters"];
+  const failed = applyBattleFailure(world, {
+    kind: "wipe",
+    context: resolveFailContext(world, battle),
+  });
+  const defeatMessage = [...failed.lines].join(" ");
   return {
     world: withBattleTransition(
       world,
       {
-        ...world,
-        characters,
+        ...failed.world,
         battle: {
           ...battle,
           phase: "summary",
           fx: [],
           rewardsPending: false,
           lootDrops: battle.lootDrops ?? [],
+          message: defeatMessage,
         },
         battlesFought: (world.battlesFought ?? 0) + 1,
         framesSinceEncounter: 0,
         nextEncounterAtFrame: rollNextEncounterAtFrame(world.framesAdvanced),
         updatedAt: new Date().toISOString(),
-        log: [battle.message, ...world.log].slice(0, 80),
+        log: [defeatMessage, ...failed.world.log].slice(0, 80),
       },
       "finish→DEFEAT"
     ),
-    message: battle.message,
+    message: defeatMessage,
   };
 }
 
@@ -1692,35 +1909,44 @@ export function mergeSimpleBattle(
 }
 
 /**
- * Abort an active fight (flee / soft-lock escape). Soft-recovers party and clears
- * the overlay so testing can recover without victory/defeat.
+ * Abort an active fight (flee / soft-lock escape). Keeps wounds + light gold tax.
+ * Flee from summary aliases dismiss with no second tax.
  */
 export function fleeSimpleBattle(world: DtWorldSave): {
   world: DtWorldSave;
   message: string;
 } {
   if (!world.battle) return { world, message: "No fight to flee." };
-  const wasActive = world.battle.status === "active";
+  if (world.battle.status !== "active" || world.battle.phase === "summary") {
+    return {
+      world: dismissSimpleBattle(world),
+      message: "Back to the road.",
+    };
+  }
   const clearedId = world.battle.id;
-  const characters = softRecoverParty(world);
+  const failed = applyBattleFailure(world, {
+    kind: "flee",
+    context: resolveFailContext(world, world.battle),
+    units: world.battle.units,
+  });
+  const fleeLine = failed.lines.join(" ");
   return {
     world: withBattleTransition(
       world,
       {
-        ...world,
-        characters,
+        ...failed.world,
         battle: null,
         /** Session + persist hint: do not resurrect this fight from poll/server. */
         clearedBattleId: clearedId,
-        battlesFought: (world.battlesFought ?? 0) + (wasActive ? 1 : 0),
+        battlesFought: (world.battlesFought ?? 0) + 1,
         framesSinceEncounter: 0,
         nextEncounterAtFrame: rollNextEncounterAtFrame(world.framesAdvanced),
         updatedAt: new Date().toISOString(),
-        log: ["Fled the ambush (soft recover).", ...world.log].slice(0, 80),
+        log: [fleeLine, ...failed.world.log].slice(0, 80),
       },
       "flee→WORLD"
     ),
-    message: "Fled the ambush — soft recover. Story resumes.",
+    message: fleeLine,
   };
 }
 

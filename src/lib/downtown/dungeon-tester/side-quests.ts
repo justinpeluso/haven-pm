@@ -425,6 +425,36 @@ export function exitDtSideQuest(
   };
 }
 
+/**
+ * Wipe while on a side job — return to resume march without completing or rewarding.
+ * Allowed while a defeat summary battle is still open.
+ */
+export function failDtSideQuest(world: DtWorldSave): {
+  world: DtWorldSave;
+  message: string;
+} {
+  if (!world.sideQuest) {
+    return { world, message: "Already on the live march." };
+  }
+  const { resumeNodeId, resumeChapterId, questId } = world.sideQuest;
+  const quest = getDtSideQuest(questId);
+  const line = quest
+    ? `The job went cold — ${quest.title}. Back on the march.`
+    : "The job went cold. Back on the march.";
+  return {
+    world: {
+      ...world,
+      campaignNodeId: resumeNodeId || DT_START_NODE_ID,
+      chapterId: resumeChapterId || DT_START_CHAPTER_ID,
+      sideQuest: null,
+      // completedSideQuests untouched — wipe is not a clear.
+      updatedAt: new Date().toISOString(),
+      log: [line, ...world.log].slice(0, 80),
+    },
+    message: line,
+  };
+}
+
 export function dtSideQuestStats() {
   return {
     sideQuests: DT_SIDE_QUESTS.length,
