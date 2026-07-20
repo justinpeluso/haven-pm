@@ -9,9 +9,14 @@
  *
  * Progress 0–1 (optional) uses the same quarter thresholds: 0, 0.25, 0.5, 0.75.
  * Values in [0, 1) are progress; values >= 1 are chapter numbers (so `1` = ch1).
+ *
+ * Completing a side job (exit while terminal / sq-done) grants a light reward —
+ * gold or one DT gear/consumable — mapped from rewardHint where possible.
  */
 import questsPack from "../../../../data/dungeon-tester/side-quests.json";
 import framesPack from "../../../../data/dungeon-tester/side-quest-frames.json";
+import { DT_GEAR_POOLS, getDtGear } from "./gear";
+import { dtFillEmptyEquipSlots } from "./loadout";
 import type { DtFrame, DtWorldSave } from "./types";
 import { DT_START_CHAPTER_ID, DT_START_NODE_ID } from "./types";
 
@@ -147,6 +152,178 @@ export function isDtSideQuest(world: Pick<DtWorldSave, "sideQuest">): boolean {
   return !!world.sideQuest;
 }
 
+/** Light reward rolled when a side job is first completed. */
+export type DtSideQuestRewardGrant = {
+  gold: number;
+  itemId: string | null;
+  itemName: string | null;
+  /** Short label for UI — e.g. "18g" or "Dust Poultice". */
+  claimLabel: string;
+  flavor: string;
+  message: string;
+};
+
+type HintMapRule = {
+  re: RegExp;
+  itemIds?: string[];
+  preferGold?: boolean;
+};
+
+/** Map rewardHint flavor → real DT gear ids (or gold). First match wins. */
+const REWARD_HINT_RULES: HintMapRule[] = [
+  { re: /cleaver/i, itemIds: ["dt-orc-cleaver", "dt-bone-drum-cleaver", "dt-iron-hatchet"] },
+  { re: /knife|paring|saber|blade/i, itemIds: ["dt-iron-hatchet", "dt-moonsteel-saber"] },
+  {
+    re: /stim|ampule|vial|flask|poultice|cider|pale-?lite|fog ampule|biolume/i,
+    itemIds: ["dt-dust-poultice", "dt-greater-poultice", "dt-mana-cider", "dt-trail-jerky"],
+  },
+  { re: /tooth|fang|canine/i, itemIds: ["dt-warg-fang-charm"] },
+  {
+    re: /bolt|shot|plasma|carbine|revolver|bow/i,
+    itemIds: ["dt-frontier-revolver", "dt-ranch-carbine", "dt-yew-shortbow", "dt-ashwood-longbow"],
+  },
+  { re: /knuckle|wrap|gauntlet|glove/i, itemIds: ["dt-work-gloves", "dt-liberation-gauntlets"] },
+  { re: /scale|greaves|boot/i, itemIds: ["dt-ridge-scale-greaves", "dt-spur-boots", "dt-mist-striders"] },
+  { re: /fur|jerky|dog/i, itemIds: ["dt-trail-jerky", "dt-warg-fang-charm"] },
+  { re: /whip|coil|rope|wire|string|mandolin/i, itemIds: ["dt-stock-whip", "dt-chain-scarf"] },
+  {
+    re: /spur|charm|token|badge|ring|scar|plate|bead|lens|shard|nail|keycard|chip|dial|tattoo|collar/i,
+    itemIds: ["dt-copper-spur", "dt-chain-scarf", "dt-warg-fang-charm"],
+  },
+  { re: /purse|coin|scrap chrome|crate of stims|pit purse/i, preferGold: true },
+  { re: /memo|pamphlet|ash|paper|slate|fragment|callsign/i, preferGold: true },
+];
+
+const LIGHT_FALLBACK_IDS = [
+  ...(DT_GEAR_POOLS.trash ?? []),
+  ...(DT_GEAR_POOLS.common ?? []),
+].filter((id, i, arr) => arr.indexOf(id) === i);
+
+function hashSeed(s: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function mulberry32(seed: number) {
+  return () => {
+    let t = (seed += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function goldForBand(band: DtSideQuestBand, rng: () => number): number {
+  const base = { 1: 12, 2: 18, 3: 26, 4: 36 }[band];
+  const spread = { 1: 8, 2: 10, 3: 12, 4: 14 }[band];
+  return base + Math.floor(rng() * (spread + 1));
+}
+
+function pickMappedItem(
+  candidates: string[],
+  owned: Set<string>,
+  rng: () => number
+): string | null {
+  const fresh = candidates.filter((id) => {
+    const g = getDtGear(id);
+    if (!g) return false;
+    // Consumables may stack; unique gear prefers unowned.
+    if (g.slot === "consumable") return true;
+    return !owned.has(id);
+  });
+  const pool = fresh.length ? fresh : candidates.filter((id) => getDtGear(id));
+  if (!pool.length) return null;
+  return pool[Math.floor(rng() * pool.length)] ?? null;
+}
+
+/**
+ * Deterministic light reward for a side quest (preview matches grant).
+ * Does not mutate the world.
+ */
+export function resolveDtSideQuestReward(
+  quest: Pick<DtSideQuest, "id" | "unlockBand" | "rewardHint" | "title">,
+  world: Pick<DtWorldSave, "activeSlot" | "characters" | "turnIndex">
+): DtSideQuestRewardGrant {
+  const flavor = quest.rewardHint?.trim() || "Trail scrap and a quieter debt.";
+  const rng = mulberry32(
+    hashSeed(`${quest.id}:${world.activeSlot}:${world.turnIndex}`)
+  );
+  const slot = world.activeSlot;
+  const char = world.characters[slot];
+  const owned = new Set(char?.inventory ?? []);
+
+  let preferGold = false;
+  let mappedIds: string[] | undefined;
+  for (const rule of REWARD_HINT_RULES) {
+    if (!rule.re.test(flavor)) continue;
+    if (rule.preferGold) preferGold = true;
+    if (rule.itemIds?.length) mappedIds = rule.itemIds;
+    break;
+  }
+
+  const wantItem = !preferGold && rng() < (mappedIds?.length ? 0.72 : 0.45);
+  let itemId: string | null = null;
+  if (wantItem) {
+    if (mappedIds?.length) {
+      itemId = pickMappedItem(mappedIds, owned, rng);
+    }
+    if (!itemId) {
+      itemId = pickMappedItem(LIGHT_FALLBACK_IDS, owned, rng);
+    }
+  }
+
+  const gold = itemId ? 0 : goldForBand(quest.unlockBand, rng);
+  const itemName = itemId ? getDtGear(itemId)?.name ?? itemId : null;
+  const claimLabel = itemId ? itemName! : `${gold}g`;
+  const flavorClean = flavor.replace(/[.!?]+\s*$/, "");
+  const message = `Side job done — claimed ${claimLabel}${
+    flavorClean ? ` (${flavorClean})` : ""
+  }.`;
+
+  return { gold, itemId, itemName, claimLabel, flavor, message };
+}
+
+/** Apply a resolved side-quest reward to the active hero. */
+export function applyDtSideQuestReward(
+  world: DtWorldSave,
+  reward: DtSideQuestRewardGrant
+): DtWorldSave {
+  const slot = world.activeSlot;
+  const char = world.characters[slot];
+  if (!char?.created) return world;
+
+  let next = { ...char, gold: (char.gold ?? 0) + (reward.gold || 0) };
+  if (reward.itemId) {
+    const g = getDtGear(reward.itemId);
+    const inv = [...(next.inventory ?? [])];
+    if (g?.slot === "consumable" || !inv.includes(reward.itemId)) {
+      inv.push(reward.itemId);
+    }
+    next = dtFillEmptyEquipSlots({ ...next, inventory: inv });
+  }
+
+  return {
+    ...world,
+    characters: { ...world.characters, [slot]: next },
+  };
+}
+
+/** True when the current side-quest frame is a terminal complete beat. */
+export function isDtSideQuestTerminal(
+  world: Pick<DtWorldSave, "sideQuest" | "campaignNodeId" | "partyFlags">
+): boolean {
+  if (!world.sideQuest) return false;
+  const questId = world.sideQuest.questId;
+  const doneFlag = `sq-done-${questId}`;
+  const frame = getDtSideQuestFrame(world.campaignNodeId);
+  const terminal = !!frame && !frame.next && !frame.choices?.length;
+  return terminal || !!(world.partyFlags?.includes(doneFlag));
+}
+
 /** Pause the live march and walk a side-quest pin. Clears mapReplay. */
 export function enterDtSideQuest(
   world: DtWorldSave,
@@ -201,7 +378,7 @@ export function enterDtSideQuest(
 
 export function exitDtSideQuest(
   world: DtWorldSave
-): { world: DtWorldSave; message?: string } {
+): { world: DtWorldSave; message?: string; reward?: DtSideQuestRewardGrant } {
   if (!world.sideQuest) return { world, message: "Already on the live march." };
   if (world.battle) {
     return { world, message: "Finish the battle first." };
@@ -220,22 +397,31 @@ export function exitDtSideQuest(
     ? [questId, ...already].slice(0, 120)
     : already;
 
+  // Light reward only on first completion — does not touch furthest / resume.
+  const reward =
+    shouldComplete && quest
+      ? resolveDtSideQuestReward(quest, world)
+      : undefined;
+  const rewardedWorld = reward ? applyDtSideQuestReward(world, reward) : world;
+
+  const returnLine = quest
+    ? `Returned to main story from ${quest.title}.`
+    : "Returned to the live march.";
+  const logHead = reward ? [reward.message, returnLine] : [returnLine];
+
   return {
     world: {
-      ...world,
+      ...rewardedWorld,
       campaignNodeId: resumeNodeId || DT_START_NODE_ID,
       chapterId: resumeChapterId || DT_START_CHAPTER_ID,
+      // Furthest march markers stay parked — only resume cursor restores.
       sideQuest: null,
       completedSideQuests: completed,
       updatedAt: new Date().toISOString(),
-      log: [
-        quest
-          ? `Returned to main story from ${quest.title}.`
-          : "Returned to the live march.",
-        ...world.log,
-      ].slice(0, 80),
+      log: [...logHead, ...rewardedWorld.log].slice(0, 80),
     },
-    message: "Returned to the live march.",
+    message: reward?.message ?? "Returned to the live march.",
+    reward,
   };
 }
 

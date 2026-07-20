@@ -75,6 +75,8 @@ import {
   exitDtMapReplay,
   exitDtSideQuest,
   getDtSideQuest,
+  isDtSideQuestTerminal,
+  resolveDtSideQuestReward,
   formatPlaytimeHud,
   formatGearTier,
   gearTierAttr,
@@ -1042,9 +1044,15 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   };
 
   const frame = world ? getFrame(world.campaignNodeId) : undefined;
-  const activeSideQuestTitle = world?.sideQuest
-    ? getDtSideQuest(world.sideQuest.questId)?.title
+  const activeSideQuest = world?.sideQuest
+    ? getDtSideQuest(world.sideQuest.questId)
     : undefined;
+  const activeSideQuestTitle = activeSideQuest?.title;
+  const sideQuestTerminal = !!(world?.sideQuest && isDtSideQuestTerminal(world));
+  const sideQuestRewardPreview =
+    world && activeSideQuest && sideQuestTerminal
+      ? resolveDtSideQuestReward(activeSideQuest, world)
+      : null;
   const plateScene = frameSceneSrc(frame);
   const plateSubject = frameSubjectSrc(frame);
   const sealedCount = world
@@ -1289,6 +1297,11 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     {`Side quest${
                       activeSideQuestTitle ? ` — ${activeSideQuestTitle}` : ""
                     } — main story paused`}
+                  </p>
+                ) : null}
+                {sideQuestRewardPreview ? (
+                  <p className="dt-side-quest-victory" role="status">
+                    {`Side job done — claimed ${sideQuestRewardPreview.claimLabel}`}
                   </p>
                 ) : null}
                 {world.mapReplay ? (

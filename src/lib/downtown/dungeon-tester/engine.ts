@@ -177,11 +177,11 @@ export function continueFrame(
     return { world, message: "Replay end — return to march or pick another region." };
   }
   if (cur.endingId && isSideQuest(world)) {
-    return { world, message: "Side quest end — return to the march." };
+    return { world, message: "Side job done — return to claim your reward." };
   }
   if (!cur.next) {
     if (isSideQuest(world)) {
-      return { world, message: "Side quest complete — return to the march." };
+      return { world, message: "Side job done — return to claim your reward." };
     }
     if (isReplay(world)) {
       return { world, message: "Replay end — return to march or pick another region." };
