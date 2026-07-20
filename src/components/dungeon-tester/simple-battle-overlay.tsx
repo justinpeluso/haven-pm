@@ -22,6 +22,8 @@ import { formatGearTier, gearTierAttr } from "@/lib/downtown/dungeon-tester/gear
 import { normalizeDtHeroLook } from "@/lib/downtown/dungeon-tester/look";
 import {
   getDtDogPokeCard,
+  getDtUnarmedPokeCard,
+  getDtWeaponPokeCard,
   pokeCardForUnit,
 } from "@/lib/downtown/dungeon-tester/poke-cards";
 import type { PlayerSlot } from "@/lib/downtown/dungeon-tester/types";
@@ -601,6 +603,8 @@ export function SimpleBattleOverlay({
       ? (dogs.find((d) => d.slot === mySlot) ?? dogs[0] ?? null)
       : (dogs[0] ?? null);
   const dogCard = getDtDogPokeCard();
+  const weaponCard =
+    getDtWeaponPokeCard(hero?.equipped?.weapon) ?? getDtUnarmedPokeCard();
   const inspectUnit =
     inspectUnitId === "dog-card"
       ? null
@@ -816,6 +820,7 @@ export function SimpleBattleOverlay({
                   ) : (
                     <DtPokeCard card={dogCard} size="sm" ally />
                   )}
+                  <DtPokeCard card={weaponCard} size="sm" ally />
                 </div>
                 <span className="dt-sbat-intro-hint">Click or Esc to skip</span>
               </button>
@@ -957,6 +962,12 @@ export function SimpleBattleOverlay({
                   ally={inspectIsAlly}
                 />
               ) : null}
+              <DtPokeCard
+                card={weaponCard}
+                size="sm"
+                ally
+                className="dt-sbat-weapon-card"
+              />
               <div className="dt-sbat-poke-foes">
                 <p className="dt-sbat-foe-line">
                   Foes:{" "}

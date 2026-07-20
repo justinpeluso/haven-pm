@@ -4368,6 +4368,1504 @@
           "buffRounds": 2
         }
       ]
+    },
+    "dt-frontier-revolver": {
+      "id": "dt-frontier-revolver",
+      "name": "Frontier Revolver",
+      "blurb": "Six chambers of dusty justice — fantasy powder and all.",
+      "artId": "dt-frontier-revolver",
+      "kind": "weapon",
+      "types": [
+        "dust",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "dt-frontier-revolver-basic",
+          "name": "Revolver Shot",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-frontier-revolver-special",
+          "name": "Trail Mark",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-frontier-revolver-finisher",
+          "name": "Dust Round",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-ranch-carbine": {
+      "id": "dt-ranch-carbine",
+      "name": "Ranch Carbine",
+      "blurb": "Short-barreled trail gun for saddles and ambushes.",
+      "artId": "dt-ranch-carbine",
+      "kind": "weapon",
+      "types": [
+        "dust",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "dt-ranch-carbine-basic",
+          "name": "Carbine Shot",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-ranch-carbine-special",
+          "name": "Trail Mark",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-ranch-carbine-finisher",
+          "name": "Dust Round",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-stock-whip": {
+      "id": "dt-stock-whip",
+      "name": "Stock Whip",
+      "blurb": "Once used on captives. Now aimed at the overseers.",
+      "artId": "dt-stock-whip",
+      "kind": "weapon",
+      "types": [
+        "chain",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "dt-stock-whip-basic",
+          "name": "Whip Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-stock-whip-special",
+          "name": "Grit Swing",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-stock-whip-finisher",
+          "name": "Camp Edge",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-iron-hatchet": {
+      "id": "dt-iron-hatchet",
+      "name": "Iron Hatchet",
+      "blurb": "Camp tool, throat tool — same edge.",
+      "artId": "dt-iron-hatchet",
+      "kind": "weapon",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "dt-iron-hatchet-basic",
+          "name": "Hatchet Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-iron-hatchet-special",
+          "name": "Grit Swing",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-iron-hatchet-finisher",
+          "name": "Camp Edge",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-orc-cleaver": {
+      "id": "dt-orc-cleaver",
+      "name": "Orc Cleaver",
+      "blurb": "Serrated and unsubtle — Thorn-Clan work.",
+      "artId": "dt-orc-cleaver",
+      "kind": "weapon",
+      "types": [
+        "ash",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "dt-orc-cleaver-basic",
+          "name": "Cleaver Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-orc-cleaver-special",
+          "name": "Grit Swing",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-orc-cleaver-finisher",
+          "name": "Camp Edge",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-ashwood-spear": {
+      "id": "dt-ashwood-spear",
+      "name": "Ashwood Spear",
+      "blurb": "Long reach for wargs and riders.",
+      "artId": "dt-ashwood-spear",
+      "kind": "weapon",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "dt-ashwood-spear-basic",
+          "name": "Spear Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-ashwood-spear-special",
+          "name": "Grit Swing",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-ashwood-spear-finisher",
+          "name": "Camp Edge",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-yew-shortbow": {
+      "id": "dt-yew-shortbow",
+      "name": "Yew Shortbow",
+      "blurb": "Quiet as hope on the pine road.",
+      "artId": "dt-yew-shortbow",
+      "kind": "weapon",
+      "types": [
+        "wild",
+        "dust"
+      ],
+      "moves": [
+        {
+          "id": "dt-yew-shortbow-basic",
+          "name": "Shortbow Shot",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-yew-shortbow-special",
+          "name": "Trail Mark",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-yew-shortbow-finisher",
+          "name": "Dust Round",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-moonsteel-saber": {
+      "id": "dt-moonsteel-saber",
+      "name": "Moonsteel Saber",
+      "blurb": "A curve of pale steel that sings in cold mist.",
+      "artId": "dt-moonsteel-saber",
+      "kind": "weapon",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "dt-moonsteel-saber-basic",
+          "name": "Saber Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-moonsteel-saber-special",
+          "name": "Grit Swing",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-moonsteel-saber-finisher",
+          "name": "Moonsteel Line",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-ashwood-longbow": {
+      "id": "dt-ashwood-longbow",
+      "name": "Ashwood Longbow",
+      "blurb": "Drawn like a prayer across the ridge wind.",
+      "artId": "dt-ashwood-longbow",
+      "kind": "weapon",
+      "types": [
+        "wild",
+        "dust"
+      ],
+      "moves": [
+        {
+          "id": "dt-ashwood-longbow-basic",
+          "name": "Longbow Shot",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-ashwood-longbow-special",
+          "name": "Trail Mark",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-ashwood-longbow-finisher",
+          "name": "Coolant Arc",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-ember-staff": {
+      "id": "dt-ember-staff",
+      "name": "Ember Ridge Staff",
+      "blurb": "Banked coal in the heartwood.",
+      "artId": "dt-ember-staff",
+      "kind": "weapon",
+      "types": [
+        "ash",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "dt-ember-staff-basic",
+          "name": "Staff Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-ember-staff-special",
+          "name": "Ember Feed",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-ember-staff-finisher",
+          "name": "Moonsteel Line",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-bone-drum-cleaver": {
+      "id": "dt-bone-drum-cleaver",
+      "name": "Bone-Drum Cleaver",
+      "blurb": "Forged to the beat of Thorn-Clan war drums.",
+      "artId": "dt-bone-drum-cleaver",
+      "kind": "weapon",
+      "types": [
+        "ash",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "dt-bone-drum-cleaver-basic",
+          "name": "Cleaver Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-bone-drum-cleaver-special",
+          "name": "Grit Swing",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-bone-drum-cleaver-finisher",
+          "name": "Bone Chorus",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-ash-veil-revolver": {
+      "id": "dt-ash-veil-revolver",
+      "name": "Ash-Veil Revolver",
+      "blurb": "Chambers that smoke pale after every shot.",
+      "artId": "dt-ash-veil-revolver",
+      "kind": "weapon",
+      "types": [
+        "dust",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "dt-ash-veil-revolver-basic",
+          "name": "Revolver Shot",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-ash-veil-revolver-special",
+          "name": "Trail Mark",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-ash-veil-revolver-finisher",
+          "name": "Ash Chamber",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-wilderland-oathblade": {
+      "id": "dt-wilderland-oathblade",
+      "name": "Wilderland Oathblade",
+      "blurb": "Steel sworn to every name you free along the road.",
+      "artId": "dt-wilderland-oathblade",
+      "kind": "weapon",
+      "types": [
+        "helix",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "dt-wilderland-oathblade-basic",
+          "name": "Oathblade Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-wilderland-oathblade-special",
+          "name": "Grit Swing",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-wilderland-oathblade-finisher",
+          "name": "Oath Cut",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-neon-switchblade": {
+      "id": "dt-neon-switchblade",
+      "name": "Neon Switchblade",
+      "blurb": "Folds quiet; unfolds bright and mean.",
+      "artId": "dt-neon-switchblade",
+      "kind": "weapon",
+      "types": [
+        "chrome",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "dt-neon-switchblade-basic",
+          "name": "Switchblade Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-neon-switchblade-special",
+          "name": "Chrome Edge",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-neon-switchblade-finisher",
+          "name": "Camp Edge",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-fiber-oak-bat": {
+      "id": "dt-fiber-oak-bat",
+      "name": "Fiber-Oak Bat",
+      "blurb": "Biolume sap still sticky on the grain.",
+      "artId": "dt-fiber-oak-bat",
+      "kind": "weapon",
+      "types": [
+        "spirit",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "dt-fiber-oak-bat-basic",
+          "name": "Bat Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-fiber-oak-bat-special",
+          "name": "Ghost Chamber",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-fiber-oak-bat-finisher",
+          "name": "Camp Edge",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-stim-needle-gun": {
+      "id": "dt-stim-needle-gun",
+      "name": "Stim Needle Gun",
+      "blurb": "Shoots courage, debt, or both.",
+      "artId": "dt-stim-needle-gun",
+      "kind": "weapon",
+      "types": [
+        "chrome",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "dt-stim-needle-gun-basic",
+          "name": "Gun Shot",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-stim-needle-gun-special",
+          "name": "Chrome Edge",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-stim-needle-gun-finisher",
+          "name": "Dust Round",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-barcode-razor": {
+      "id": "dt-barcode-razor",
+      "name": "Barcode Razor",
+      "blurb": "Cuts SKUs and throats with equal boredom.",
+      "artId": "dt-barcode-razor",
+      "kind": "weapon",
+      "types": [
+        "chrome",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "dt-barcode-razor-basic",
+          "name": "Razor Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-barcode-razor-special",
+          "name": "Chrome Edge",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-barcode-razor-finisher",
+          "name": "Camp Edge",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-coolant-harpoon": {
+      "id": "dt-coolant-harpoon",
+      "name": "Coolant Harpoon",
+      "blurb": "River freight persuasion device.",
+      "artId": "dt-coolant-harpoon",
+      "kind": "weapon",
+      "types": [
+        "chrome",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "dt-coolant-harpoon-basic",
+          "name": "Harpoon Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-coolant-harpoon-special",
+          "name": "Chrome Edge",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-coolant-harpoon-finisher",
+          "name": "Moonsteel Line",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-helix-smile-baton": {
+      "id": "dt-helix-smile-baton",
+      "name": "Helix Smile Baton",
+      "blurb": "Gate cops grin while they break ribs.",
+      "artId": "dt-helix-smile-baton",
+      "kind": "weapon",
+      "types": [
+        "helix",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "dt-helix-smile-baton-basic",
+          "name": "Baton Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-helix-smile-baton-special",
+          "name": "Seal Breaker",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-helix-smile-baton-finisher",
+          "name": "Moonsteel Line",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-spirit-jar-sling": {
+      "id": "dt-spirit-jar-sling",
+      "name": "Spirit Jar Sling",
+      "blurb": "Throws captive ghosts like grenades.",
+      "artId": "dt-spirit-jar-sling",
+      "kind": "weapon",
+      "types": [
+        "spirit",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "dt-spirit-jar-sling-basic",
+          "name": "Sling Shot",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-spirit-jar-sling-special",
+          "name": "Ghost Chamber",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-spirit-jar-sling-finisher",
+          "name": "Coolant Arc",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-seal-ring-knuckles": {
+      "id": "dt-seal-ring-knuckles",
+      "name": "Seal Ring Knuckles",
+      "blurb": "Numbers carved into your punch.",
+      "artId": "dt-seal-ring-knuckles",
+      "kind": "weapon",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "dt-seal-ring-knuckles-basic",
+          "name": "Knuckles Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-seal-ring-knuckles-special",
+          "name": "Grit Swing",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-seal-ring-knuckles-finisher",
+          "name": "Moonsteel Line",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-undervault-shiv": {
+      "id": "dt-undervault-shiv",
+      "name": "Undervault Shiv",
+      "blurb": "Betting-pit etiquette in steel form.",
+      "artId": "dt-undervault-shiv",
+      "kind": "weapon",
+      "types": [
+        "grit",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "dt-undervault-shiv-basic",
+          "name": "Shiv Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-undervault-shiv-special",
+          "name": "Grit Swing",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-undervault-shiv-finisher",
+          "name": "Moonsteel Line",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-synth-mandolin-axe": {
+      "id": "dt-synth-mandolin-axe",
+      "name": "Synth Mandolin Axe",
+      "blurb": "Keeps time; takes heads.",
+      "artId": "dt-synth-mandolin-axe",
+      "kind": "weapon",
+      "types": [
+        "ash",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "dt-synth-mandolin-axe-basic",
+          "name": "Axe Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-synth-mandolin-axe-special",
+          "name": "Ember Feed",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-synth-mandolin-axe-finisher",
+          "name": "Pit Verdict",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-pit-chrome-gauntlet": {
+      "id": "dt-pit-chrome-gauntlet",
+      "name": "Pit Chrome Gauntlet",
+      "blurb": "One punch, then the crowd decides.",
+      "artId": "dt-pit-chrome-gauntlet",
+      "kind": "weapon",
+      "types": [
+        "chrome",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "dt-pit-chrome-gauntlet-basic",
+          "name": "Gauntlet Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-pit-chrome-gauntlet-special",
+          "name": "Chrome Edge",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-pit-chrome-gauntlet-finisher",
+          "name": "Pit Verdict",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-spire-railgun": {
+      "id": "dt-spire-railgun",
+      "name": "Spire Rail Spike",
+      "blurb": "Tower scrap turned into a bad idea that works.",
+      "artId": "dt-spire-railgun",
+      "kind": "weapon",
+      "types": [
+        "chrome",
+        "iron"
+      ],
+      "moves": [
+        {
+          "id": "dt-spire-railgun-basic",
+          "name": "Spike Shot",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-spire-railgun-special",
+          "name": "Chrome Edge",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-spire-railgun-finisher",
+          "name": "Spire Pin",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-gridfire-machete": {
+      "id": "dt-gridfire-machete",
+      "name": "Gridfire Machete",
+      "blurb": "Still warm from a burning server farm.",
+      "artId": "dt-gridfire-machete",
+      "kind": "weapon",
+      "types": [
+        "ash",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "dt-gridfire-machete-basic",
+          "name": "Machete Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-gridfire-machete-special",
+          "name": "Ember Feed",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-gridfire-machete-finisher",
+          "name": "Pit Verdict",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-ash-horizon-rifle": {
+      "id": "dt-ash-horizon-rifle",
+      "name": "Ash Horizon Rifle",
+      "blurb": "Shoots west until the name comes back.",
+      "artId": "dt-ash-horizon-rifle",
+      "kind": "weapon",
+      "types": [
+        "ash",
+        "grit"
+      ],
+      "moves": [
+        {
+          "id": "dt-ash-horizon-rifle-basic",
+          "name": "Rifle Shot",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-ash-horizon-rifle-special",
+          "name": "Ember Feed",
+          "effects": [
+            "damage",
+            "poison"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-ash-horizon-rifle-finisher",
+          "name": "Ash Chamber",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-memory-shade-dagger": {
+      "id": "dt-memory-shade-dagger",
+      "name": "Memory Shade Dagger",
+      "blurb": "Looks like your brother's knife. Isn't.",
+      "artId": "dt-memory-shade-dagger",
+      "kind": "weapon",
+      "types": [
+        "helix",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "dt-memory-shade-dagger-basic",
+          "name": "Dagger Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-memory-shade-dagger-special",
+          "name": "Seal Breaker",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-memory-shade-dagger-finisher",
+          "name": "Bone Chorus",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-pale-harvest-scythe": {
+      "id": "dt-pale-harvest-scythe",
+      "name": "Pale Harvest Scythe",
+      "blurb": "Project Pale's garden tool.",
+      "artId": "dt-pale-harvest-scythe",
+      "kind": "weapon",
+      "types": [
+        "helix",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "dt-pale-harvest-scythe-basic",
+          "name": "Scythe Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-pale-harvest-scythe-special",
+          "name": "Seal Breaker",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-pale-harvest-scythe-finisher",
+          "name": "Bone Chorus",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-brother-bond-blade": {
+      "id": "dt-brother-bond-blade",
+      "name": "Brother Bond Blade",
+      "blurb": "Three names on one edge.",
+      "artId": "dt-brother-bond-blade",
+      "kind": "weapon",
+      "types": [
+        "helix",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "dt-brother-bond-blade-basic",
+          "name": "Blade Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-brother-bond-blade-special",
+          "name": "Seal Breaker",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-brother-bond-blade-finisher",
+          "name": "Oath Cut",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-neon-wilderland-bow": {
+      "id": "dt-neon-wilderland-bow",
+      "name": "Neon Wilderland Bow",
+      "blurb": "String of fiber-optic sinew.",
+      "artId": "dt-neon-wilderland-bow",
+      "kind": "weapon",
+      "types": [
+        "spirit",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "dt-neon-wilderland-bow-basic",
+          "name": "Bow Shot",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-neon-wilderland-bow-special",
+          "name": "Ghost Chamber",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-neon-wilderland-bow-finisher",
+          "name": "Horizon Round",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-helix-director-cane": {
+      "id": "dt-helix-director-cane",
+      "name": "Helix Director Cane",
+      "blurb": "Vale smiled when she swung it.",
+      "artId": "dt-helix-director-cane",
+      "kind": "weapon",
+      "types": [
+        "helix",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "dt-helix-director-cane-basic",
+          "name": "Cane Strike",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-helix-director-cane-special",
+          "name": "Seal Breaker",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-helix-director-cane-finisher",
+          "name": "Oath Cut",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-free-horizon-revolver": {
+      "id": "dt-free-horizon-revolver",
+      "name": "Free Horizon Revolver",
+      "blurb": "Last chamber saved for the road home.",
+      "artId": "dt-free-horizon-revolver",
+      "kind": "weapon",
+      "types": [
+        "dust",
+        "chrome"
+      ],
+      "moves": [
+        {
+          "id": "dt-free-horizon-revolver-basic",
+          "name": "Revolver Shot",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.05,
+          "blurb": "Standard work."
+        },
+        {
+          "id": "dt-free-horizon-revolver-special",
+          "name": "Trail Mark",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.2,
+          "stunRounds": 1,
+          "poisonStacks": 2
+        },
+        {
+          "id": "dt-free-horizon-revolver-finisher",
+          "name": "Horizon Round",
+          "effects": [
+            "damage",
+            "buff"
+          ],
+          "powerMult": 1.5,
+          "powerBonus": 2,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "dt-unarmed-grit": {
+      "id": "dt-unarmed-grit",
+      "name": "Bare Knuckles",
+      "blurb": "No steel — just scar tissue and bad decisions.",
+      "artId": "dt-unarmed-grit",
+      "kind": "weapon",
+      "types": [
+        "grit",
+        "dust"
+      ],
+      "moves": [
+        {
+          "id": "knuckle-jab",
+          "name": "Knuckle Jab",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 0.9
+        },
+        {
+          "id": "haymaker",
+          "name": "Haymaker",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.2,
+          "stunRounds": 1
+        }
+      ]
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "flavor": "Frontier firearms/leather + fantasy wilderland arms. Tiers: common → uncommon → rare → epic → legendary. Prefixed dt-.",
+  "flavor": "Frontier firearms/leather + fantasy wilderland arms. Tiers: common → uncommon → rare → epic → legendary. Prefixed dt-. Weapon spirit cards for every blade and barrel.",
   "pools": {
     "trash": [
       "dt-trail-jerky",
@@ -26,7 +26,11 @@
       "dt-ironwood-buckler",
       "dt-chain-scarf",
       "dt-trail-jerky",
-      "dt-dust-poultice"
+      "dt-dust-poultice",
+      "dt-neon-switchblade",
+      "dt-fiber-oak-bat",
+      "dt-stim-needle-gun",
+      "dt-barcode-razor"
     ],
     "uncommon": [
       "dt-moonsteel-saber",
@@ -38,7 +42,12 @@
       "dt-widow-silk-cloak",
       "dt-bridge-stone-mail",
       "dt-greater-poultice",
-      "dt-mana-cider"
+      "dt-mana-cider",
+      "dt-coolant-harpoon",
+      "dt-helix-smile-baton",
+      "dt-spirit-jar-sling",
+      "dt-seal-ring-knuckles",
+      "dt-undervault-shiv"
     ],
     "magic": [
       "dt-moonsteel-saber",
@@ -55,16 +64,27 @@
     "rare": [
       "dt-pale-host-helm",
       "dt-liberation-gauntlets",
-      "dt-ridge-scale-greaves"
+      "dt-ridge-scale-greaves",
+      "dt-synth-mandolin-axe",
+      "dt-pit-chrome-gauntlet",
+      "dt-spire-railgun",
+      "dt-gridfire-machete"
     ],
     "epic": [
       "dt-bone-drum-cleaver",
-      "dt-ash-veil-revolver"
+      "dt-ash-veil-revolver",
+      "dt-ash-horizon-rifle",
+      "dt-memory-shade-dagger",
+      "dt-pale-harvest-scythe"
     ],
     "legendary": [
       "dt-liberators-spur",
       "dt-broken-shackle-crown",
-      "dt-wilderland-oathblade"
+      "dt-wilderland-oathblade",
+      "dt-brother-bond-blade",
+      "dt-neon-wilderland-bow",
+      "dt-helix-director-cane",
+      "dt-free-horizon-revolver"
     ]
   },
   "items": [
@@ -1400,6 +1420,814 @@
         }
       ],
       "rarity": "legendary"
+    },
+    {
+      "id": "dt-neon-switchblade",
+      "name": "Neon Switchblade",
+      "blurb": "Folds quiet; unfolds bright and mean.",
+      "tier": "common",
+      "slot": "weapon",
+      "power": 5,
+      "tags": [
+        "melee",
+        "chrome"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 5,
+          "label": "+5 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 CRIT"
+        },
+        {
+          "key": "dexterity",
+          "value": 2,
+          "label": "+2 DEX"
+        },
+        {
+          "key": "maxHp",
+          "value": 6,
+          "label": "+6 HP"
+        },
+        {
+          "key": "resist",
+          "value": 1,
+          "label": "+1 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-fiber-oak-bat",
+      "name": "Fiber-Oak Bat",
+      "blurb": "Biolume sap still sticky on the grain.",
+      "tier": "common",
+      "slot": "weapon",
+      "power": 5,
+      "tags": [
+        "melee",
+        "spirit"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 5,
+          "label": "+5 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 2,
+          "label": "+2 CRIT"
+        },
+        {
+          "key": "strength",
+          "value": 2,
+          "label": "+2 STR"
+        },
+        {
+          "key": "maxHp",
+          "value": 10,
+          "label": "+10 HP"
+        },
+        {
+          "key": "resist",
+          "value": 1,
+          "label": "+1 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-stim-needle-gun",
+      "name": "Stim Needle Gun",
+      "blurb": "Shoots courage, debt, or both.",
+      "tier": "common",
+      "slot": "weapon",
+      "power": 6,
+      "tags": [
+        "ranged",
+        "chrome"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 6,
+          "label": "+6 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 CRIT"
+        },
+        {
+          "key": "dexterity",
+          "value": 1,
+          "label": "+1 DEX"
+        },
+        {
+          "key": "maxHp",
+          "value": 8,
+          "label": "+8 HP"
+        },
+        {
+          "key": "resist",
+          "value": 1,
+          "label": "+1 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-barcode-razor",
+      "name": "Barcode Razor",
+      "blurb": "Cuts SKUs and throats with equal boredom.",
+      "tier": "common",
+      "slot": "weapon",
+      "power": 5,
+      "tags": [
+        "melee",
+        "chrome"
+      ],
+      "rarity": "common",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 5,
+          "label": "+5 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 5,
+          "label": "+5 CRIT"
+        },
+        {
+          "key": "dexterity",
+          "value": 2,
+          "label": "+2 DEX"
+        },
+        {
+          "key": "maxHp",
+          "value": 5,
+          "label": "+5 HP"
+        },
+        {
+          "key": "resist",
+          "value": 1,
+          "label": "+1 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-coolant-harpoon",
+      "name": "Coolant Harpoon",
+      "blurb": "River freight persuasion device.",
+      "tier": "uncommon",
+      "slot": "weapon",
+      "power": 10,
+      "tags": [
+        "melee",
+        "reach",
+        "chrome"
+      ],
+      "rarity": "uncommon",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 10,
+          "label": "+10 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 CRIT"
+        },
+        {
+          "key": "strength",
+          "value": 2,
+          "label": "+2 STR"
+        },
+        {
+          "key": "maxHp",
+          "value": 14,
+          "label": "+14 HP"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-helix-smile-baton",
+      "name": "Helix Smile Baton",
+      "blurb": "Gate cops grin while they break ribs.",
+      "tier": "uncommon",
+      "slot": "weapon",
+      "power": 11,
+      "tags": [
+        "melee",
+        "helix"
+      ],
+      "rarity": "uncommon",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 11,
+          "label": "+11 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 CRIT"
+        },
+        {
+          "key": "strength",
+          "value": 2,
+          "label": "+2 STR"
+        },
+        {
+          "key": "maxHp",
+          "value": 12,
+          "label": "+12 HP"
+        },
+        {
+          "key": "resist",
+          "value": 3,
+          "label": "+3 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-spirit-jar-sling",
+      "name": "Spirit Jar Sling",
+      "blurb": "Throws captive ghosts like grenades.",
+      "tier": "uncommon",
+      "slot": "weapon",
+      "power": 10,
+      "tags": [
+        "ranged",
+        "spirit"
+      ],
+      "rarity": "uncommon",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 10,
+          "label": "+10 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 CRIT"
+        },
+        {
+          "key": "dexterity",
+          "value": 3,
+          "label": "+3 DEX"
+        },
+        {
+          "key": "maxHp",
+          "value": 11,
+          "label": "+11 HP"
+        },
+        {
+          "key": "resist",
+          "value": 1,
+          "label": "+1 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-seal-ring-knuckles",
+      "name": "Seal Ring Knuckles",
+      "blurb": "Numbers carved into your punch.",
+      "tier": "uncommon",
+      "slot": "weapon",
+      "power": 11,
+      "tags": [
+        "melee",
+        "chain"
+      ],
+      "rarity": "uncommon",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 11,
+          "label": "+11 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 CRIT"
+        },
+        {
+          "key": "strength",
+          "value": 3,
+          "label": "+3 STR"
+        },
+        {
+          "key": "maxHp",
+          "value": 13,
+          "label": "+13 HP"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-undervault-shiv",
+      "name": "Undervault Shiv",
+      "blurb": "Betting-pit etiquette in steel form.",
+      "tier": "uncommon",
+      "slot": "weapon",
+      "power": 12,
+      "tags": [
+        "melee",
+        "grit"
+      ],
+      "rarity": "uncommon",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 12,
+          "label": "+12 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 5,
+          "label": "+5 CRIT"
+        },
+        {
+          "key": "dexterity",
+          "value": 2,
+          "label": "+2 DEX"
+        },
+        {
+          "key": "maxHp",
+          "value": 10,
+          "label": "+10 HP"
+        },
+        {
+          "key": "resist",
+          "value": 1,
+          "label": "+1 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-synth-mandolin-axe",
+      "name": "Synth Mandolin Axe",
+      "blurb": "Keeps time; takes heads.",
+      "tier": "rare",
+      "slot": "weapon",
+      "power": 14,
+      "tags": [
+        "melee",
+        "ash"
+      ],
+      "rarity": "rare",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 14,
+          "label": "+14 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 CRIT"
+        },
+        {
+          "key": "strength",
+          "value": 3,
+          "label": "+3 STR"
+        },
+        {
+          "key": "maxHp",
+          "value": 16,
+          "label": "+16 HP"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-pit-chrome-gauntlet",
+      "name": "Pit Chrome Gauntlet",
+      "blurb": "One punch, then the crowd decides.",
+      "tier": "rare",
+      "slot": "weapon",
+      "power": 14,
+      "tags": [
+        "melee",
+        "chrome"
+      ],
+      "rarity": "rare",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 14,
+          "label": "+14 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 3,
+          "label": "+3 CRIT"
+        },
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        },
+        {
+          "key": "maxHp",
+          "value": 18,
+          "label": "+18 HP"
+        },
+        {
+          "key": "resist",
+          "value": 3,
+          "label": "+3 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-spire-railgun",
+      "name": "Spire Rail Spike",
+      "blurb": "Tower scrap turned into a bad idea that works.",
+      "tier": "rare",
+      "slot": "weapon",
+      "power": 15,
+      "tags": [
+        "ranged",
+        "chrome"
+      ],
+      "rarity": "rare",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 15,
+          "label": "+15 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 5,
+          "label": "+5 CRIT"
+        },
+        {
+          "key": "dexterity",
+          "value": 3,
+          "label": "+3 DEX"
+        },
+        {
+          "key": "maxHp",
+          "value": 14,
+          "label": "+14 HP"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-gridfire-machete",
+      "name": "Gridfire Machete",
+      "blurb": "Still warm from a burning server farm.",
+      "tier": "rare",
+      "slot": "weapon",
+      "power": 14,
+      "tags": [
+        "melee",
+        "ash"
+      ],
+      "rarity": "rare",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 14,
+          "label": "+14 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 4,
+          "label": "+4 CRIT"
+        },
+        {
+          "key": "strength",
+          "value": 3,
+          "label": "+3 STR"
+        },
+        {
+          "key": "maxHp",
+          "value": 17,
+          "label": "+17 HP"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-ash-horizon-rifle",
+      "name": "Ash Horizon Rifle",
+      "blurb": "Shoots west until the name comes back.",
+      "tier": "epic",
+      "slot": "weapon",
+      "power": 18,
+      "tags": [
+        "ranged",
+        "firearm",
+        "ash"
+      ],
+      "rarity": "epic",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 18,
+          "label": "+18 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 6,
+          "label": "+6 CRIT"
+        },
+        {
+          "key": "dexterity",
+          "value": 4,
+          "label": "+4 DEX"
+        },
+        {
+          "key": "maxHp",
+          "value": 20,
+          "label": "+20 HP"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-memory-shade-dagger",
+      "name": "Memory Shade Dagger",
+      "blurb": "Looks like your brother's knife. Isn't.",
+      "tier": "epic",
+      "slot": "weapon",
+      "power": 17,
+      "tags": [
+        "melee",
+        "spirit",
+        "helix"
+      ],
+      "rarity": "epic",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 17,
+          "label": "+17 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 7,
+          "label": "+7 CRIT"
+        },
+        {
+          "key": "dexterity",
+          "value": 3,
+          "label": "+3 DEX"
+        },
+        {
+          "key": "maxHp",
+          "value": 16,
+          "label": "+16 HP"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-pale-harvest-scythe",
+      "name": "Pale Harvest Scythe",
+      "blurb": "Project Pale's garden tool.",
+      "tier": "epic",
+      "slot": "weapon",
+      "power": 18,
+      "tags": [
+        "melee",
+        "helix",
+        "reach"
+      ],
+      "rarity": "epic",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 18,
+          "label": "+18 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 5,
+          "label": "+5 CRIT"
+        },
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        },
+        {
+          "key": "maxHp",
+          "value": 22,
+          "label": "+22 HP"
+        },
+        {
+          "key": "resist",
+          "value": 3,
+          "label": "+3 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-brother-bond-blade",
+      "name": "Brother Bond Blade",
+      "blurb": "Three names on one edge.",
+      "tier": "legendary",
+      "slot": "weapon",
+      "power": 22,
+      "tags": [
+        "melee",
+        "legendary",
+        "helix"
+      ],
+      "rarity": "legendary",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 22,
+          "label": "+22 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 7,
+          "label": "+7 CRIT"
+        },
+        {
+          "key": "strength",
+          "value": 5,
+          "label": "+5 STR"
+        },
+        {
+          "key": "maxHp",
+          "value": 26,
+          "label": "+26 HP"
+        },
+        {
+          "key": "resist",
+          "value": 3,
+          "label": "+3 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-neon-wilderland-bow",
+      "name": "Neon Wilderland Bow",
+      "blurb": "String of fiber-optic sinew.",
+      "tier": "legendary",
+      "slot": "weapon",
+      "power": 21,
+      "tags": [
+        "ranged",
+        "bow",
+        "spirit"
+      ],
+      "rarity": "legendary",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 21,
+          "label": "+21 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 7,
+          "label": "+7 CRIT"
+        },
+        {
+          "key": "dexterity",
+          "value": 5,
+          "label": "+5 DEX"
+        },
+        {
+          "key": "maxHp",
+          "value": 24,
+          "label": "+24 HP"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-helix-director-cane",
+      "name": "Helix Director Cane",
+      "blurb": "Vale smiled when she swung it.",
+      "tier": "legendary",
+      "slot": "weapon",
+      "power": 23,
+      "tags": [
+        "melee",
+        "helix",
+        "staff"
+      ],
+      "rarity": "legendary",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 23,
+          "label": "+23 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 6,
+          "label": "+6 CRIT"
+        },
+        {
+          "key": "strength",
+          "value": 4,
+          "label": "+4 STR"
+        },
+        {
+          "key": "maxHp",
+          "value": 28,
+          "label": "+28 HP"
+        },
+        {
+          "key": "resist",
+          "value": 4,
+          "label": "+4 ARM"
+        }
+      ]
+    },
+    {
+      "id": "dt-free-horizon-revolver",
+      "name": "Free Horizon Revolver",
+      "blurb": "Last chamber saved for the road home.",
+      "tier": "legendary",
+      "slot": "weapon",
+      "power": 22,
+      "tags": [
+        "ranged",
+        "firearm",
+        "frontier"
+      ],
+      "rarity": "legendary",
+      "properties": [
+        {
+          "key": "atk",
+          "value": 22,
+          "label": "+22 ATK"
+        },
+        {
+          "key": "crit",
+          "value": 8,
+          "label": "+8 CRIT"
+        },
+        {
+          "key": "dexterity",
+          "value": 5,
+          "label": "+5 DEX"
+        },
+        {
+          "key": "maxHp",
+          "value": 25,
+          "label": "+25 HP"
+        },
+        {
+          "key": "resist",
+          "value": 2,
+          "label": "+2 ARM"
+        }
+      ]
     }
   ]
 }

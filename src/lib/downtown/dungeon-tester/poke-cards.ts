@@ -44,6 +44,8 @@ export type DtPokeCardDef = {
   name: string;
   blurb: string;
   artId: string;
+  /** foe (default) | dog | weapon spirit card */
+  kind?: "foe" | "dog" | "weapon";
   types: DtPokeTypeId[];
   moves: DtPokeMoveDef[];
 };
@@ -95,6 +97,45 @@ export function pokeCardForUnit(opts: {
 }): DtPokeCardDef | undefined {
   if (opts.isDog) return getDtDogPokeCard();
   return getDtPokeCard(opts.foeDefId);
+}
+
+/** Weapon spirit card by gear id (`dt-frontier-revolver`, etc.). */
+export function getDtWeaponPokeCard(
+  weaponId: string | undefined | null
+): DtPokeCardDef | undefined {
+  if (!weaponId) return undefined;
+  const card = getDtPokeCard(weaponId);
+  if (!card) return undefined;
+  return { ...card, kind: card.kind ?? "weapon" };
+}
+
+/** Bare-hands fallback when no weapon equipped. */
+export function getDtUnarmedPokeCard(): DtPokeCardDef {
+  return (
+    DT_POKE_CARDS["dt-unarmed-grit"] ?? {
+      id: "dt-unarmed-grit",
+      name: "Bare Knuckles",
+      blurb: "No steel — just scar tissue and bad decisions.",
+      artId: "dt-unarmed-grit",
+      kind: "weapon",
+      types: ["grit", "dust"],
+      moves: [
+        {
+          id: "knuckle-jab",
+          name: "Knuckle Jab",
+          effects: ["damage"],
+          powerMult: 0.9,
+        },
+        {
+          id: "haymaker",
+          name: "Haymaker",
+          effects: ["damage", "stun"],
+          powerMult: 1.2,
+          stunRounds: 1,
+        },
+      ],
+    }
+  );
 }
 
 export function dtPokeTypeMeta(typeId: string): DtPokeTypeMeta {

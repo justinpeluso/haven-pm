@@ -5202,6 +5202,28 @@
   width: 14rem;
 }
 
+.dungeon-tester .dt-poke-card[data-kind="weapon"] {
+  border-color: #c4893a;
+  background: linear-gradient(165deg, #2a2418 0%, #1a1610 55%, #12100c 100%);
+}
+
+.dungeon-tester .dt-poke-card[data-kind="weapon"] .dt-poke-card-art {
+  background: rgba(196, 137, 58, 0.12);
+}
+
+.dungeon-tester .dt-gear-weapon-card {
+  grid-column: 1 / -1;
+  margin-top: calc(var(--dt-space) * 1.5);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--dt-space) * 1);
+  align-items: flex-start;
+}
+
+.dungeon-tester .dt-sbat-weapon-card {
+  flex-shrink: 0;
+}
+
 .dungeon-tester .dt-poke-card[data-ally="true"] {
   background:
     linear-gradient(165deg, rgba(230, 240, 210, 0.94) 0%, rgba(170, 190, 120, 0.88) 55%, rgba(90, 120, 70, 0.9) 100%);

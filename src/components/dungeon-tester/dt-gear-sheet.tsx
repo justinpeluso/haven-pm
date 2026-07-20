@@ -24,6 +24,11 @@ import {
   gearTierAttr,
 } from "@/lib/downtown/dungeon-tester/gear-display";
 import { normalizeDtHeroLook } from "@/lib/downtown/dungeon-tester/look";
+import {
+  getDtUnarmedPokeCard,
+  getDtWeaponPokeCard,
+} from "@/lib/downtown/dungeon-tester/poke-cards";
+import { DtPokeCard } from "@/components/dungeon-tester/dt-poke-card";
 
 const SLOT_LABEL: Record<EquipSlot, string> = {
   head: "Head",
@@ -156,6 +161,16 @@ export function DtGearSheet({
               </button>
             );
           })}
+          <div className="dt-gear-weapon-card" aria-label="Equipped weapon spirit card">
+            <p className="dt-gear-block-label">Weapon card</p>
+            <DtPokeCard
+              card={
+                getDtWeaponPokeCard(char.equipped.weapon) ?? getDtUnarmedPokeCard()
+              }
+              size="sm"
+              ally
+            />
+          </div>
         </section>
 
         <section className="dt-gear-stats" aria-label="Vitals and combat sheet">

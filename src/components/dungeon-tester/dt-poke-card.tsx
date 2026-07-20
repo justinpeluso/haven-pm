@@ -6,6 +6,7 @@ import {
   type DtPokeCardDef,
 } from "@/lib/downtown/dungeon-tester/poke-cards";
 import { dtEnemyArtSrc } from "@/lib/downtown/dungeon-tester/art";
+import { dtGearIconSrc } from "@/lib/downtown/dungeon-tester/gear-icons";
 import { battlePetArtSrc } from "@/lib/downtown/party-chronicle/art";
 
 type Props = {
@@ -34,15 +35,22 @@ export function DtPokeCard({
   className,
   onClick,
 }: Props) {
+  const isWeapon =
+    card.kind === "weapon" ||
+    (card.id.startsWith("dt-") && !card.id.startsWith("dt-ch"));
   const art =
     card.id === "dog-companion" || card.artId === "art-dog-companion"
       ? battlePetArtSrc()
-      : dtEnemyArtSrc({ artId: card.artId, name: card.name, id: card.id });
+      : isWeapon
+        ? dtGearIconSrc(card.artId || card.id, { armsOnly: false }) ||
+          "/dungeon-tester/gear/_fallback-weapon.svg"
+        : dtEnemyArtSrc({ artId: card.artId, name: card.name, id: card.id });
   const showHp = typeof hp === "number" && typeof maxHp === "number" && maxHp > 0;
   const shared = {
     className: `dt-poke-card ${className ?? ""}`,
     "data-size": size,
     "data-ally": ally ? "true" : "false",
+    "data-kind": isWeapon ? "weapon" : card.kind === "dog" ? "dog" : "foe",
     "aria-label": `${card.name} card`,
   } as const;
 

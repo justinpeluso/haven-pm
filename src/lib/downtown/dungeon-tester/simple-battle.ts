@@ -52,6 +52,8 @@ import { rollNightCreature } from "./night-creatures";
 import {
   getDtDogPokeCard,
   getDtPokeCard,
+  getDtUnarmedPokeCard,
+  getDtWeaponPokeCard,
   pickDtPokeMove,
   type DtPokeMoveDef,
 } from "./poke-cards";
@@ -1505,16 +1507,20 @@ function resolveActorMove(
   move: DtPokeMoveDef,
   nextCursor: number,
   target: SimpleBattleUnit,
-  style: "enemy" | "dog",
+  style: "enemy" | "dog" | "hero",
   rng: () => number
 ): SimpleBattleState {
   let units = battle.units.map((u) =>
     u.id === actor.id ? { ...u, moveCursor: nextCursor } : u
   );
+  const fxStyle: SimpleBattleFxStyle =
+    style === "dog" ? "dog" : style === "hero" ? "slash" : "enemy";
   const colors =
     style === "dog"
       ? { ray: "#c9a24a", burst: "#d4b05a", float: "#ffe7a8" }
-      : { ray: "#c44", burst: "#e85a3a", float: "#ffc4b0" };
+      : style === "hero"
+        ? { ray: "#e8c547", burst: "#f5d76e", float: "#fff3c4" }
+        : { ray: "#c44", burst: "#e85a3a", float: "#ffc4b0" };
 
   const doesDamage = move.effects.includes("damage");
   const doesBuff =
@@ -1528,7 +1534,7 @@ function resolveActorMove(
     const mult = move.powerMult ?? 1;
     const raw =
       Math.max(1, Math.round(effectivePower(actor) * mult)) +
-      Math.floor(rng() * (style === "dog" ? 3 : 4));
+      Math.floor(rng() * (style === "dog" ? 3 : style === "hero" ? 5 : 4));
     const hit = applyDamage(units, target.id, raw);
     units = hit.units;
     dealt = hit.dealt;
@@ -1584,7 +1590,7 @@ function resolveActorMove(
       {
         id: uid("fx"),
         kind: "ray",
-        style,
+        style: fxStyle,
         fromId: actor.id,
         toId: fxTo,
         color: colors.ray,
@@ -1592,7 +1598,7 @@ function resolveActorMove(
       {
         id: uid("fxb"),
         kind: "burst",
-        style,
+        style: fxStyle,
         fromId: actor.id,
         toId: fxTo,
         color: colors.burst,
@@ -1600,7 +1606,7 @@ function resolveActorMove(
       {
         id: uid("flt"),
         kind: "float",
-        style,
+        style: fxStyle,
         fromId: actor.id,
         toId: fxTo,
         label: killed ? "DEAD" : floatLabel,
@@ -1609,7 +1615,7 @@ function resolveActorMove(
     ],
   };
 
-  if (style === "dog") {
+  if (style === "dog" || style === "hero") {
     next = withCombatDelta(next, {
       damageDealt: dealt,
       foesDefeated: killed ? 1 : 0,
@@ -1813,46 +1819,43 @@ export function performSimpleBattleAction(
         foe = livingFoes[0]!;
         retargetNote = " (switched target)";
       }
-      const raw = hero.power + Math.floor(rng() * 5);
-      const { units, dealt, killed } = applyDamage(nextBattle.units, foe.id, raw);
-      nextBattle = withCombatDelta(
+      const char = hero.slot ? characters[hero.slot] : null;
+      const weaponId = char?.equipped?.weapon ?? null;
+      const weaponCard =
+        getDtWeaponPokeCard(weaponId) ?? getDtUnarmedPokeCard();
+      const { move, nextCursor } = pickDtPokeMove(
+        weaponCard,
+        hero.moveCursor ?? 0,
         {
-          ...nextBattle,
-          units: spendHeroAction(units, heroId),
-          fx: [
-            {
-              id: uid("fx"),
-              kind: "ray",
-              style: "slash",
-              fromId: heroId,
-              toId: foe.id,
-              color: "#e8c547",
-            },
-            {
-              id: uid("fxb"),
-              kind: "burst",
-              style: "slash",
-              fromId: heroId,
-              toId: foe.id,
-              color: "#f5d76e",
-            },
-            {
-              id: uid("flt"),
-              kind: "float",
-              style: "slash",
-              fromId: heroId,
-              toId: foe.id,
-              label: killed ? "DEAD" : `−${dealt}`,
-              color: killed ? "#ffb090" : "#fff3c4",
-            },
-          ],
-        },
-        { damageDealt: dealt, foesDefeated: killed ? 1 : 0 }
+          alreadyBuffed: (hero.powerBuffRounds ?? 0) > 0,
+          rng,
+        }
       );
+      nextBattle = resolveActorMove(
+        nextBattle,
+        hero,
+        move,
+        nextCursor,
+        foe,
+        "hero",
+        rng
+      );
+      nextBattle = {
+        ...nextBattle,
+        units: spendHeroAction(nextBattle.units, heroId),
+      };
+      const afterHero = nextBattle.units.find((u) => u.id === heroId);
+      const afterFoe = nextBattle.units.find((u) => u.id === foe!.id);
+      const killed = !!afterFoe && afterFoe.hp <= 0;
       message = killed
-        ? `${hero.name} fells ${foe.name} (−${dealt})${retargetNote}!`
-        : `${hero.name} hits ${foe.name} for ${dealt}${retargetNote}.`;
-      nextBattle = pushLog(nextBattle, message);
+        ? `${hero.name}'s ${move.name} fells ${foe.name}${retargetNote}!`
+        : `${hero.name} uses ${move.name} on ${foe.name}${retargetNote}.`;
+      if (
+        afterHero &&
+        (afterHero.powerBuffRounds ?? 0) > (hero.powerBuffRounds ?? 0)
+      ) {
+        message += " (powered up)";
+      }
     }
   } else if (action === "magic") {
     if (hero.mana < MAGIC_COST) return { world, message: "Not enough mana." };
