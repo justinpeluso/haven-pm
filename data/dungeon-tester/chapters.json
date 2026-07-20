@@ -70,8 +70,8 @@
     {
       "id": "dt-ch-04-river-of-brands",
       "chapter": 4,
-      "title": "River of Brands",
-      "tagline": "Barges haul branded cargo across a mud-brown river the freeholds pretend not to see.",
+      "title": "Chromeveil River",
+      "tagline": "Barges haul chemical cargo and spirit-caged freight across a river the freeholds refuse to see.",
       "startNodeId": "dt-ch04-001",
       "levelMin": 18,
       "levelMax": 28,
@@ -90,8 +90,8 @@
     {
       "id": "dt-ch-05-candlemire-gates",
       "chapter": 5,
-      "title": "Candlemire Gates",
-      "tagline": "Lord Cade's border keeps smile for coin and iron for mercy; Lyra is somewhere past the smoke.",
+      "title": "Helix Gate",
+      "tagline": "Director Vale’s border keeps smile for coin and drones for mercy; Lyra is somewhere past the smoke.",
       "startNodeId": "dt-ch05-001",
       "levelMin": 24,
       "levelMax": 36,
@@ -110,7 +110,7 @@
     {
       "id": "dt-ch-06-house-of-collars",
       "chapter": 6,
-      "title": "House of Collars",
+      "title": "House of Seals",
       "tagline": "Guest rooms overlook yards of rings and numbers; friendship here is whispered at risk of skin.",
       "startNodeId": "dt-ch06-001",
       "levelMin": 32,
