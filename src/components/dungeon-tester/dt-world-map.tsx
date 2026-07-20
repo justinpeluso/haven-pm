@@ -33,7 +33,9 @@ const LOCKED_SIDE_FOOTER = "That side job is still ahead of the march.";
 const DEFAULT_FOOTER =
   "Hover a pin, side job, or landmark. Future roads stay visible but locked.";
 const ATLAS_HINT =
-  "Scroll zoom · drag pan · unlocked pins revisit · side jobs pause the main story";
+  "Scroll zoom · drag pan · unlocked pins open a card · side jobs pause the main story";
+const PRACTICE_COPY = "Practice only — no story flags. Battle loot kept.";
+const SIDE_JOB_COPY = "Side job — pauses the main story. Return when finished.";
 /** Manhattan px before a pan counts as a drag (suppresses pin click). */
 const DRAG_THRESHOLD_PX = 10;
 
@@ -57,6 +59,10 @@ type HoverTarget =
   | { kind: "landmark"; id: string }
   | { kind: "side"; id: string }
   | null;
+
+type CardSelection =
+  | { kind: "region"; id: string }
+  | { kind: "side"; id: string };
 
 function pinStatus(
   region: DtMapRegion,
@@ -108,6 +114,7 @@ export function DtWorldMap({
   const [hover, setHover] = useState<HoverTarget>(null);
   const [bandFilter, setBandFilter] = useState<BandFilter>("all");
   const [footerFlash, setFooterFlash] = useState<string | null>(null);
+  const [card, setCard] = useState<CardSelection | null>(null);
   const flashTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const dragRef = useRef<{
     x: number;
@@ -147,11 +154,30 @@ export function DtWorldMap({
     }, 2200);
   }, []);
 
+  const closeCard = useCallback(() => setCard(null), []);
+
   useEffect(() => {
     return () => {
       if (flashTimerRef.current) clearTimeout(flashTimerRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    if (!open) setCard(null);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open || !card) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
+        setCard(null);
+      }
+    };
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
+  }, [open, card]);
 
   if (!open) return null;
 
@@ -200,7 +226,7 @@ export function DtWorldMap({
       flashFooter(LOCKED_FOOTER);
       return;
     }
-    onEnterRegion(region.id);
+    setCard({ kind: "region", id: region.id });
   };
 
   const sideClick = (quest: DtSideQuest, e: MouseEvent) => {
@@ -210,7 +236,53 @@ export function DtWorldMap({
       flashFooter(LOCKED_SIDE_FOOTER);
       return;
     }
-    onEnterSideQuest(quest.id);
+    setCard({ kind: "side", id: quest.id });
+  };
+
+  const regionCard =
+    card?.kind === "region"
+      ? DT_MAP_REGIONS.find((r) => r.id === card.id) ?? null
+      : null;
+  const sideCard =
+    card?.kind === "side"
+      ? DT_SIDE_QUESTS.find((q) => q.id === card.id) ?? null
+      : null;
+
+  const regionCardStatus = regionCard
+    ? pinStatus(regionCard, furthestChapterId, currentRegion?.id, replayRegionId)
+    : null;
+  const sideCardStatus = sideCard
+    ? sideQuestStatus(sideCard, furthestNum, activeSideQuestId, completed)
+    : null;
+
+  const confirmRegionEnter = () => {
+    if (!regionCard || !regionCardStatus) return;
+    if (regionCardStatus === "locked") {
+      flashFooter(LOCKED_FOOTER);
+      closeCard();
+      return;
+    }
+    if (regionCardStatus === "here" || regionCardStatus === "revisit") {
+      closeCard();
+      return;
+    }
+    onEnterRegion(regionCard.id);
+    closeCard();
+  };
+
+  const confirmSideEnter = () => {
+    if (!sideCard || !sideCardStatus) return;
+    if (sideCardStatus === "locked") {
+      flashFooter(LOCKED_SIDE_FOOTER);
+      closeCard();
+      return;
+    }
+    if (sideCardStatus === "active") {
+      closeCard();
+      return;
+    }
+    onEnterSideQuest(sideCard.id);
+    closeCard();
   };
 
   const footerCopy = (() => {
@@ -532,6 +604,176 @@ export function DtWorldMap({
       </div>
 
       <div className="dt-world-map-footer">{footerCopy}</div>
+
+      {regionCard && regionCardStatus ? (
+        <div
+          className="dt-world-map-card-backdrop"
+          role="presentation"
+          onClick={closeCard}
+        >
+          <div
+            className="dt-world-map-card"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${regionCard.name} region card`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="dt-section-label">Region</p>
+            <div className="dt-world-map-card-head">
+              <h3 className="dt-world-map-card-title">{regionCard.name}</h3>
+              <span
+                className="dt-world-map-card-status"
+                data-status={
+                  regionCardStatus === "unlocked" ? "revisit" : regionCardStatus
+                }
+              >
+                {regionCardStatus === "here"
+                  ? "HERE"
+                  : regionCardStatus === "locked"
+                    ? "LOCKED"
+                    : "REVISIT"}
+              </span>
+            </div>
+            <p className="dt-world-map-card-blurb">{regionCard.blurb}</p>
+            <p className="dt-world-map-card-meta">
+              Chapter {regionCard.chapter}
+              {regionCard.terrain?.length
+                ? ` · ${regionCard.terrain.join(", ")}`
+                : ""}
+              {regionCardStatus === "here"
+                ? " · Live march"
+                : regionCardStatus === "revisit"
+                  ? " · Practice revisit active"
+                  : regionCardStatus === "locked"
+                    ? " · Still ahead"
+                    : " · Cleared — practice"}
+            </p>
+            {regionCardStatus === "unlocked" || regionCardStatus === "revisit" ? (
+              <p className="dt-world-map-card-note">{PRACTICE_COPY}</p>
+            ) : null}
+            {regionCardStatus === "here" ? (
+              <p className="dt-world-map-card-note" data-tone="live">
+                Live clear — story flags and march progress apply here.
+              </p>
+            ) : null}
+            <div className="dt-world-map-card-actions">
+              {regionCardStatus === "here" || regionCardStatus === "revisit" ? (
+                <button
+                  type="button"
+                  className="dt-btn"
+                  data-variant="primary"
+                  onClick={closeCard}
+                >
+                  {regionCardStatus === "here" ? "Stay on march" : "Keep revisiting"}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="dt-btn"
+                  data-variant="primary"
+                  onClick={confirmRegionEnter}
+                  disabled={regionCardStatus === "locked"}
+                >
+                  Confirm enter
+                </button>
+              )}
+              <button
+                type="button"
+                className="dt-btn"
+                data-variant="secondary"
+                onClick={closeCard}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {sideCard && sideCardStatus ? (
+        <div
+          className="dt-world-map-card-backdrop"
+          role="presentation"
+          onClick={closeCard}
+        >
+          <div
+            className="dt-world-map-card"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${sideCard.title} side job card`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="dt-section-label">Side job</p>
+            <div className="dt-world-map-card-head">
+              <h3 className="dt-world-map-card-title">{sideCard.title}</h3>
+              <span
+                className="dt-world-map-card-status"
+                data-status={
+                  sideCardStatus === "active"
+                    ? "side"
+                    : sideCardStatus === "done"
+                      ? "done"
+                      : sideCardStatus
+                }
+              >
+                {sideCardStatus === "locked"
+                  ? "LOCKED"
+                  : sideCardStatus === "active"
+                    ? "SIDE JOB"
+                    : sideCardStatus === "done"
+                      ? "DONE"
+                      : "SIDE JOB"}
+              </span>
+            </div>
+            <p className="dt-world-map-card-blurb">{sideCard.blurb}</p>
+            <p className="dt-world-map-card-meta">
+              {DT_SIDE_QUEST_BAND_LABEL[sideCard.unlockBand]}
+              {sideCard.regionHint ? ` · Near ${sideCard.regionHint}` : ""}
+              {sideCard.rewardHint ? ` · ${sideCard.rewardHint}` : ""}
+              {sideCardStatus === "active"
+                ? " · Active"
+                : sideCardStatus === "done"
+                  ? " · Cleared — can re-run"
+                  : sideCardStatus === "locked"
+                    ? " · Still ahead"
+                    : ""}
+            </p>
+            {sideCardStatus !== "locked" ? (
+              <p className="dt-world-map-card-note">{SIDE_JOB_COPY}</p>
+            ) : null}
+            <div className="dt-world-map-card-actions">
+              {sideCardStatus === "active" ? (
+                <button
+                  type="button"
+                  className="dt-btn"
+                  data-variant="primary"
+                  onClick={closeCard}
+                >
+                  Stay on side job
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="dt-btn"
+                  data-variant="primary"
+                  onClick={confirmSideEnter}
+                  disabled={sideCardStatus === "locked"}
+                >
+                  Confirm enter
+                </button>
+              )}
+              <button
+                type="button"
+                className="dt-btn"
+                data-variant="secondary"
+                onClick={closeCard}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

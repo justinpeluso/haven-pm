@@ -4498,6 +4498,16 @@
   flex: 1 1 12rem;
 }
 
+.dungeon-tester .dt-side-quest-victory {
+  margin: 0;
+  flex: 1 1 100%;
+  font-family: var(--dt-hud);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--dt-orange-deep);
+  letter-spacing: 0.02em;
+}
+
 .dungeon-tester .dt-world-map {
   position: fixed;
   inset: 0;
@@ -4507,6 +4517,8 @@
   background: rgba(20, 12, 6, 0.92);
   padding: calc(var(--dt-space) * 2);
   color: var(--dt-cream);
+  /* Region/quest cards position against the atlas shell. */
+  overflow: hidden;
 }
 
 .dungeon-tester .dt-world-map-chrome {
@@ -4956,6 +4968,136 @@
 .dungeon-tester .dt-world-map-footer-flash[data-tone="locked"] {
   color: #e8c48a;
   font-weight: 700;
+}
+
+.dungeon-tester .dt-world-map-card-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--dt-space) * 2);
+  background: rgba(4, 12, 8, 0.72);
+}
+
+.dungeon-tester .dt-world-map-card {
+  width: min(420px, 100%);
+  padding: calc(var(--dt-space) * 2.25);
+  border: 1px solid rgba(122, 214, 168, 0.35);
+  background:
+    linear-gradient(165deg, rgba(14, 36, 24, 0.98), rgba(6, 21, 16, 0.98)),
+    #0a1a12;
+  box-shadow:
+    0 0 0 1px rgba(6, 21, 16, 0.9),
+    0 18px 48px rgba(0, 0, 0, 0.55),
+    0 0 28px rgba(74, 196, 140, 0.12);
+  color: var(--dt-cream);
+}
+
+.dungeon-tester .dt-world-map-card .dt-section-label {
+  margin: 0 0 6px;
+  color: #7ad6a8;
+}
+
+.dungeon-tester .dt-world-map-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 12px;
+  margin-bottom: 10px;
+}
+
+.dungeon-tester .dt-world-map-card-title {
+  margin: 0;
+  font-family: var(--dt-display);
+  font-size: clamp(1.25rem, 3vw, 1.55rem);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.dungeon-tester .dt-world-map-card-status {
+  flex-shrink: 0;
+  font-family: var(--dt-hud);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid rgba(122, 214, 168, 0.45);
+  color: #9ee8c4;
+  background: rgba(14, 48, 32, 0.85);
+}
+
+.dungeon-tester .dt-world-map-card-status[data-status="here"] {
+  border-color: rgba(196, 74, 31, 0.65);
+  color: #ffd0b8;
+  background: rgba(72, 28, 12, 0.9);
+}
+
+.dungeon-tester .dt-world-map-card-status[data-status="revisit"] {
+  border-color: rgba(196, 137, 58, 0.7);
+  color: #f0d2a0;
+  background: rgba(64, 40, 12, 0.9);
+}
+
+.dungeon-tester .dt-world-map-card-status[data-status="locked"] {
+  border-color: rgba(106, 96, 84, 0.7);
+  color: #b0a898;
+  background: rgba(36, 32, 28, 0.9);
+}
+
+.dungeon-tester .dt-world-map-card-status[data-status="side"],
+.dungeon-tester .dt-world-map-card-status[data-status="unlocked"] {
+  border-color: rgba(90, 180, 220, 0.55);
+  color: #b8e8f8;
+  background: rgba(12, 40, 52, 0.9);
+}
+
+.dungeon-tester .dt-world-map-card-status[data-status="done"] {
+  border-color: rgba(122, 214, 168, 0.4);
+  color: #a8c4b4;
+  background: rgba(18, 36, 28, 0.9);
+}
+
+.dungeon-tester .dt-world-map-card-blurb {
+  margin: 0 0 8px;
+  font-family: var(--dt-body);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: #e8f4ec;
+}
+
+.dungeon-tester .dt-world-map-card-meta {
+  margin: 0 0 10px;
+  font-family: var(--dt-hud);
+  font-size: 0.75rem;
+  color: #a8c4b4;
+}
+
+.dungeon-tester .dt-world-map-card-note {
+  margin: 0 0 14px;
+  padding: 8px 10px;
+  font-family: var(--dt-hud);
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: #f0d2a0;
+  border-left: 3px solid var(--dt-ochre);
+  background: rgba(64, 40, 12, 0.35);
+}
+
+.dungeon-tester .dt-world-map-card-note[data-tone="live"] {
+  color: #ffd0b8;
+  border-left-color: var(--dt-orange);
+  background: rgba(72, 28, 12, 0.35);
+}
+
+.dungeon-tester .dt-world-map-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 @keyframes dt-world-pin-pulse {
