@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" width="920" height="520">
+  <title>Perfect Roadster  electrical block diagram</title>
+  <rect width="920" height="520" fill="#f7f5f1"/>
+  <text x="40" y="36" font-family="system-ui,sans-serif" font-size="16" fill="#111">Perfect Roadster  36V electrical block diagram</text>
+  <text x="40" y="56" font-family="ui-monospace,monospace" font-size="11" fill="#444">10S6P (~756Wh) · single BMS · 500W rear hub · 1520A controller</text>
+
+  <rect x="40" y="90" width="140" height="60" rx="6" fill="#2d6a4f" stroke="#1b4332"/>
+  <text x="60" y="125" fill="#fff" font-family="system-ui" font-size="13">Module 1</text>
+  <rect x="200" y="90" width="140" height="60" rx="6" fill="#2d6a4f" stroke="#1b4332"/>
+  <text x="220" y="125" fill="#fff" font-family="system-ui" font-size="13">Module 2</text>
+  <rect x="360" y="90" width="140" height="60" rx="6" fill="#2d6a4f" stroke="#1b4332"/>
+  <text x="380" y="125" fill="#fff" font-family="system-ui" font-size="13">Module 3</text>
+
+  <rect x="160" y="180" width="220" height="50" rx="6" fill="#f0b429" stroke="#a67c00"/>
+  <text x="195" y="210" font-family="system-ui" font-size="13">10S6P parallel bus</text>
+
+  <line x1="110" y1="150" x2="220" y2="180" stroke="#333"/>
+  <line x1="270" y1="150" x2="270" y2="180" stroke="#333"/>
+  <line x1="430" y1="150" x2="320" y2="180" stroke="#333"/>
+
+  <rect x="200" y="260" width="140" height="50" rx="6" fill="#457b9d" stroke="#1d3557"/>
+  <text x="245" y="290" fill="#fff" font-family="system-ui" font-size="13">BMS 30A</text>
+  <line x1="270" y1="230" x2="270" y2="260" stroke="#333"/>
+
+  <rect x="40" y="260" width="120" height="50" rx="6" fill="#adb5bd" stroke="#495057"/>
+  <text x="55" y="290" font-family="system-ui" font-size="13">Charge port</text>
+  <line x1="160" y1="285" x2="200" y2="285" stroke="#333"/>
+
+  <rect x="400" y="260" width="100" height="50" rx="6" fill="#adb5bd" stroke="#495057"/>
+  <text x="425" y="290" font-family="system-ui" font-size="13">Fuse 30A</text>
+  <line x1="340" y1="285" x2="400" y2="285" stroke="#333"/>
+
+  <rect x="540" y="260" width="100" height="50" rx="6" fill="#adb5bd" stroke="#495057"/>
+  <text x="565" y="290" font-family="system-ui" font-size="13">Key sw</text>
+  <line x1="500" y1="285" x2="540" y2="285" stroke="#333"/>
+
+  <rect x="680" y="250" width="180" height="70" rx="6" fill="#1d3557" stroke="#0b1320"/>
+  <text x="710" y="290" fill="#fff" font-family="system-ui" font-size="13">Controller 1520A</text>
+  <line x1="640" y1="285" x2="680" y2="285" stroke="#333"/>
+
+  <rect x="700" y="360" width="140" height="55" rx="6" fill="#e63946" stroke="#9d0208"/>
+  <text x="725" y="392" fill="#fff" font-family="system-ui" font-size="13">500W hub</text>
+  <line x1="770" y1="320" x2="770" y2="360" stroke="#333"/>
+
+  <rect x="520" y="360" width="100" height="55" rx="6" fill="#6c757d" stroke="#343a40"/>
+  <text x="550" y="392" fill="#fff" font-family="system-ui" font-size="13">PAS</text>
+  <line x1="570" y1="360" x2="720" y2="300" stroke="#333"/>
+
+  <rect x="400" y="360" width="100" height="55" rx="6" fill="#6c757d" stroke="#343a40"/>
+  <text x="420" y="392" fill="#fff" font-family="system-ui" font-size="13">Display</text>
+  <line x1="450" y1="360" x2="720" y2="300" stroke="#333"/>
+
+  <text x="40" y="480" font-family="ui-monospace,monospace" font-size="11" fill="#444">Never series the three modules. Controller bay is separate from the pack cavity.</text>
+</svg>
