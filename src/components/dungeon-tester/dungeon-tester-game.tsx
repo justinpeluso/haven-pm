@@ -97,6 +97,7 @@ import {
   mergeDtWorld,
   mergeSimpleBattle,
   normalizeDtWorld,
+  blendSealedSheetGear,
   pickRicherDtWorld,
   advanceSimpleBattleEnemyPhase,
   markSimpleBattleSplashDone,
@@ -429,7 +430,9 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
             const rScore =
               (remote.choiceLog?.length ?? 0) + remote.xp + remote.level * 10;
             const lScore = (loc.choiceLog?.length ?? 0) + loc.xp + loc.level * 10;
-            characters[s] = lScore >= rScore ? loc : remote;
+            const primary = lScore >= rScore ? loc : remote;
+            const secondary = primary === loc ? remote : loc;
+            characters[s] = blendSealedSheetGear(primary, secondary);
           }
         }
         merged = normalizeDtWorld({ ...merged, characters });

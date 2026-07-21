@@ -5,8 +5,10 @@ import {
 } from "@/lib/downtown/party-chronicle/persist";
 import type { CreateKitPicks } from "@/lib/downtown/party-chronicle/create";
 import type { CharacterSave, ClassId, Stats } from "@/lib/downtown/party-chronicle/types";
+import { EQUIP_SLOTS } from "@/lib/downtown/party-chronicle/types";
 import type { RaceId } from "@/lib/downtown/party-chronicle/races";
-import { DT_STARTER_LOADOUT } from "./gear";
+import { getGear } from "@/lib/downtown/party-chronicle/gear";
+import { DT_STARTER_LOADOUT, getDtGear } from "./gear";
 import { dtFillEmptyEquipSlots } from "./loadout";
 import { normalizeDtHeroLook, type DtHeroLook } from "./look";
 import { preferFurthestChapterId } from "./maps";
@@ -347,6 +349,50 @@ function sealedSheetScore(c: CharacterSave | null | undefined): number {
   return (c.choiceLog?.length ?? 0) + (c.xp ?? 0) + (c.level ?? 1) * 10;
 }
 
+/**
+ * Keep progress from `primary`, but fill empty equip slots and missing bag gear
+ * from `secondary` so a DB sync / peer sheet can't lose worn kit when local XP wins.
+ * Skips consumables so potion Use isn't resurrected.
+ */
+export function blendSealedSheetGear(
+  primary: CharacterSave,
+  secondary: CharacterSave
+): CharacterSave {
+  if (!primary.created) return primary;
+  if (!secondary.created) return primary;
+
+  const equipped: CharacterSave["equipped"] = { ...(primary.equipped ?? {}) };
+  for (const slot of EQUIP_SLOTS) {
+    if (!equipped[slot] && secondary.equipped?.[slot]) {
+      equipped[slot] = secondary.equipped[slot];
+    }
+  }
+
+  const inv = [...(primary.inventory ?? [])];
+  const have = new Set(inv);
+  for (const id of secondary.inventory ?? []) {
+    if (have.has(id)) continue;
+    const g = getDtGear(id) ?? getGear(id);
+    if (g?.slot === "consumable") continue;
+    if (g?.tags?.includes("potion") || g?.tags?.includes("ration") || g?.tags?.includes("food")) {
+      continue;
+    }
+    inv.push(id);
+    have.add(id);
+  }
+
+  // Ensure worn items are also in the bag list.
+  for (const slot of EQUIP_SLOTS) {
+    const id = equipped[slot];
+    if (id && !have.has(id)) {
+      inv.push(id);
+      have.add(id);
+    }
+  }
+
+  return { ...primary, equipped, inventory: inv };
+}
+
 function inventoryCounts(inv: string[] | undefined): Map<string, number> {
   const m = new Map<string, number>();
   for (const id of inv ?? []) m.set(id, (m.get(id) ?? 0) + 1);
@@ -463,19 +509,23 @@ export function mergeDtWorld(
 
     // Both sealed — prefer richer sheet; editor/DM own-seat ties use seatTie +
     // consumable-aware pick so potion Use cannot be clobbered by a stale peer.
+    // Then blend gear so empty equip slots / missing non-consumables aren't lost.
     const scoreA = sealedSheetScore(ea!);
     const scoreB = sealedSheetScore(ib!);
+    let picked: CharacterSave;
     if (isDm || editorSlot === slot) {
-      if (scoreB > scoreA) characters[slot] = ib;
-      else if (scoreA > scoreB) characters[slot] = ea;
-      else characters[slot] = preferSheetOnTie(ea!, ib!, seatTie);
+      if (scoreB > scoreA) picked = ib!;
+      else if (scoreA > scoreB) picked = ea!;
+      else picked = preferSheetOnTie(ea!, ib!, seatTie);
     } else if (scoreB > scoreA) {
-      characters[slot] = ib;
+      picked = ib!;
     } else if (scoreA > scoreB) {
-      characters[slot] = ea;
+      picked = ea!;
     } else {
-      characters[slot] = preferSheetOnTie(ea!, ib!, "existing");
+      picked = preferSheetOnTie(ea!, ib!, "existing");
     }
+    const other = picked === ea ? ib! : ea!;
+    characters[slot] = blendSealedSheetGear(picked, other);
   }
 
   const preferIncoming =
