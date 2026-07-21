@@ -836,6 +836,84 @@
   border-left: 3px solid var(--dt-orange);
 }
 
+/* Break-down scrap payout popup */
+.dungeon-tester {
+  position: relative;
+}
+
+.dungeon-tester .dt-scrap-gain {
+  position: fixed;
+  z-index: 40;
+  top: 5.5rem;
+  right: max(1rem, calc((100vw - 72rem) / 2 + 1.25rem));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
+  padding: 0.65rem 0.9rem;
+  pointer-events: none;
+  border: 2px solid #1a120c;
+  background:
+    linear-gradient(180deg, rgba(255, 248, 236, 0.98), rgba(232, 220, 184, 0.95));
+  box-shadow:
+    0 6px 18px rgba(26, 18, 10, 0.28),
+    inset 0 0 0 1px rgba(201, 162, 39, 0.35);
+  animation: dt-scrap-gain-pop 2.2s cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
+}
+
+.dungeon-tester .dt-scrap-gain-label {
+  font-family: var(--dt-hud);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dt-muted);
+}
+
+.dungeon-tester .dt-scrap-gain-item {
+  font-family: var(--dt-hud);
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--dt-walnut);
+  line-height: 1.15;
+}
+
+.dungeon-tester .dt-scrap-gain-gold {
+  font-family: var(--dt-hud);
+  font-size: 1.55rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: #2f6b38;
+  text-shadow: 0 1px 0 rgba(255, 248, 236, 0.9);
+}
+
+.dungeon-tester .dt-scrap-gain-purse {
+  font-family: var(--dt-hud);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--dt-ochre);
+}
+
+@keyframes dt-scrap-gain-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.82);
+  }
+  12% {
+    opacity: 1;
+    transform: translateY(0) scale(1.08);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(-18px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-44px) scale(0.94);
+  }
+}
+
 /* ——— Story comic (visual-novel-ish) ——— */
 .dungeon-tester .dt-comic-strip {
   display: grid;

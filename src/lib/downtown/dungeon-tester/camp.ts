@@ -542,7 +542,9 @@ export function dtSalvageItem(
   world: DtWorldSave,
   slot: PlayerSlot,
   itemId: string
-): { world: DtWorldSave; message: string } | { error: string } {
+):
+  | { world: DtWorldSave; message: string; gold: number; name: string; goldLeft: number }
+  | { error: string } {
   const result = salvageInventoryItem(world.characters[slot], itemId);
   if ("error" in result) return result;
   return {
@@ -553,6 +555,9 @@ export function dtSalvageItem(
       updatedAt: new Date().toISOString(),
     },
     message: `Broke down ${result.name} → +${result.gold}g scrap.`,
+    gold: result.gold,
+    name: result.name,
+    goldLeft: result.char.gold,
   };
 }
 

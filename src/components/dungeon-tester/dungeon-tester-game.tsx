@@ -277,6 +277,12 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     spent: number;
     goldLeft: number;
   } | null>(null);
+  const [scrapGain, setScrapGain] = useState<{
+    id: number;
+    gold: number;
+    name: string;
+    goldLeft: number;
+  } | null>(null);
   const playTickRef = useRef<number | null>(null);
   const activeSlotRef = useRef<DtSaveSlotId>(DT_DEFAULT_SLOT_ID);
   activeSlotRef.current = activeSlotId;
@@ -954,6 +960,24 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     setGearFocusSlot(preferred);
   }, [tab, world, mySlot, sealedPartySlots, gearFocusSlot]);
 
+  useEffect(() => {
+    if (!scrapGain) return;
+    const t = window.setTimeout(() => setScrapGain(null), 2200);
+    return () => window.clearTimeout(t);
+  }, [scrapGain]);
+
+  useEffect(() => {
+    if (!merchantSold) return;
+    const t = window.setTimeout(() => setMerchantSold(null), 2000);
+    return () => window.clearTimeout(t);
+  }, [merchantSold]);
+
+  useEffect(() => {
+    if (!flash) return;
+    const t = window.setTimeout(() => setFlash(null), 4200);
+    return () => window.clearTimeout(t);
+  }, [flash]);
+
   // Space / Enter advances story when Continue is the only primary action.
   useEffect(() => {
     if (phase !== "play" || tab !== "story" || !world || world.endingId || world.battle) return;
@@ -1118,6 +1142,12 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     }
     persist(r.world);
     setFlash(r.message);
+    setScrapGain({
+      id: Date.now(),
+      gold: r.gold,
+      name: r.name,
+      goldLeft: r.goldLeft,
+    });
   };
 
   const onReadSpellbook = (itemId: string, forSlot?: PlayerSlot) => {
@@ -1177,6 +1207,19 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     <div className={shellClass}>
 
       {flash ? <p className="dt-flash">{flash}</p> : null}
+      {scrapGain ? (
+        <div
+          key={scrapGain.id}
+          className="dt-scrap-gain"
+          role="status"
+          aria-live="polite"
+        >
+          <span className="dt-scrap-gain-label">Broke down</span>
+          <strong className="dt-scrap-gain-item">{scrapGain.name}</strong>
+          <span className="dt-scrap-gain-gold">+{scrapGain.gold}g</span>
+          <span className="dt-scrap-gain-purse">{scrapGain.goldLeft}g purse</span>
+        </div>
+      ) : null}
 
       {phase === "title" && (
         <div className="dt-panel dt-title-panel">
