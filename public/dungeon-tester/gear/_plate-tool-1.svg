@@ -1,35 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="tool">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="tool plate trail kit dawn">
   <defs>
-    <linearGradient id="skytool1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a2818"/>
-      <stop offset="45%" stop-color="#1a120c"/>
-      <stop offset="100%" stop-color="#0a0704"/>
+    <linearGradient id="sky-to1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5a4830"/>
+      <stop offset="35%" stop-color="#3a2818"/>
+      <stop offset="100%" stop-color="#0c0804"/>
     </linearGradient>
-    <radialGradient id="glowtool1" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#6a7080" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#6a7080" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0"/>
+    <radialGradient id="sun-to1" cx="85%" cy="15%" r="30%">
+      <stop offset="0%" stop-color="#e8c547" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#e8c547" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="groundtool1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a1c10" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0.85"/>
-    </linearGradient>
   </defs>
-  <rect width="256" height="256" fill="url(#skytool1)"/>
-  <ellipse cx="128" cy="118" rx="110" ry="90" fill="url(#glowtool1)"/>
-  <path d="M0 180 Q64 150 128 170 Q192 190 256 155 V256 H0 Z" fill="#14100c" opacity="0.55"/>
-  <rect width="256" height="256" fill="url(#groundtool1)"/>
-  <!-- vignette -->
-  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
-  <g transform="translate(0,0)">
-    <rect x="110" y="50" width="36" height="140" rx="4" fill="#5a3820" stroke="#0a0704" stroke-width="4"/>
-     <path d="M90 70 H190" stroke="#8a9aaa" stroke-width="10" stroke-linecap="round"/>
-     <path d="M90 70 H190" stroke="#c9a227" stroke-width="3"/>
+  <rect width="256" height="256" fill="url(#sky-to1)"/>
+  <circle cx="210" cy="40" r="45" fill="url(#sun-to1)"/>
+  <path d="M0 150 Q90 130 180 155 Q220 165 256 145 V256 H0 Z" fill="#2a1c10"/>
+  <path d="M0 185 Q128 170 256 190 V256 H0 Z" fill="#14100c"/>
+  <!-- bedroll + kit -->
+  <g>
+    <ellipse cx="90" cy="165" rx="50" ry="22" fill="#5a4030" stroke="#0a0704" stroke-width="3"/>
+    <rect x="55" y="150" width="70" height="28" rx="4" fill="#3a2818" stroke="#c9a227" stroke-width="2"/>
+    <rect x="140" y="100" width="70" height="55" rx="4" fill="#4a3828" stroke="#0a0704" stroke-width="3"/>
+    <path d="M150 115 H200 M150 130 H190" stroke="#c9a227" stroke-width="2" opacity="0.5"/>
+    <circle cx="175" cy="145" r="6" fill="#c9a227"/>
   </g>
-  <!-- film grain-ish corners -->
-  <path d="M12 12 H48 M12 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 12 H208 M244 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M12 244 H48 M12 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 244 H208 M244 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.4"/>
+  <!-- pulp corner marks -->
+  <path d="M10 10 H42 M10 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 10 H214 M246 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M10 246 H42 M10 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 246 H214 M246 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
 </svg>

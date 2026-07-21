@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="bow">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="bow plate moonlit hunt">
   <defs>
-    <linearGradient id="skybow1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a2818"/>
-      <stop offset="45%" stop-color="#1a120c"/>
-      <stop offset="100%" stop-color="#0a0704"/>
+    <linearGradient id="sky-bw1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2030"/>
+      <stop offset="50%" stop-color="#0e141c"/>
+      <stop offset="100%" stop-color="#06080c"/>
     </linearGradient>
-    <radialGradient id="glowbow1" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#8a5a30" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#8a5a30" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0"/>
+    <radialGradient id="moon-bw1" cx="75%" cy="20%" r="35%">
+      <stop offset="0%" stop-color="#e8eef2" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#e8eef2" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="groundbow1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a1c10" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0.85"/>
-    </linearGradient>
   </defs>
-  <rect width="256" height="256" fill="url(#skybow1)"/>
-  <ellipse cx="128" cy="118" rx="110" ry="90" fill="url(#glowbow1)"/>
-  <path d="M0 180 Q64 150 128 170 Q192 190 256 155 V256 H0 Z" fill="#14100c" opacity="0.55"/>
-  <rect width="256" height="256" fill="url(#groundbow1)"/>
-  <!-- vignette -->
-  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
-  <g transform="translate(0,0)">
-    <path d="M80 36 Q48 128 80 220" fill="none" stroke="#5a3820" stroke-width="12"/>
-     <path d="M80 36 L190 128 L80 220" fill="none" stroke="#f2e6c8" stroke-width="2.5" opacity="0.8"/>
-     <circle cx="128" cy="128" r="8" fill="#c45a3a" stroke="#0a0704" stroke-width="2"/>
+  <rect width="256" height="256" fill="url(#sky-bw1)"/>
+  <circle cx="190" cy="50" r="55" fill="url(#moon-bw1)"/>
+  <circle cx="190" cy="50" r="22" fill="#e8eef2" opacity="0.55"/>
+  <!-- ridge -->
+  <path d="M0 160 Q60 130 120 155 Q180 180 256 140 V256 H0 Z" fill="#1a1c20" opacity="0.9"/>
+  <path d="M0 190 Q100 175 200 195 Q230 200 256 185 V256 H0 Z" fill="#0e1014"/>
+  <!-- drawn bow silhouette -->
+  <g transform="translate(10,5)">
+    <path d="M70 28 Q20 128 70 228" fill="none" stroke="#5a4030" stroke-width="11" stroke-linecap="round"/>
+    <path d="M70 32 L150 128 L70 224" fill="none" stroke="#c4a882" stroke-width="2.5"/>
+    <path d="M40 128 H175" stroke="#8a9aaa" stroke-width="3.5"/>
+    <path d="M175 128 L162 120 L162 136 Z" fill="#c9a227"/>
   </g>
-  <!-- film grain-ish corners -->
-  <path d="M12 12 H48 M12 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 12 H208 M244 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M12 244 H48 M12 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 244 H208 M244 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="18" opacity="0.45"/>
+  <!-- pulp corner marks -->
+  <path d="M10 10 H42 M10 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 10 H214 M246 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M10 246 H42 M10 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 246 H214 M246 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
 </svg>

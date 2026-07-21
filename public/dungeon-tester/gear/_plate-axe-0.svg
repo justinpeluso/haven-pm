@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="axe">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="axe plate lumber camp">
   <defs>
-    <linearGradient id="skyaxe0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a2818"/>
-      <stop offset="45%" stop-color="#1a120c"/>
-      <stop offset="100%" stop-color="#0a0704"/>
+    <linearGradient id="sky-a0" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4a5a40"/>
+      <stop offset="40%" stop-color="#2a3424"/>
+      <stop offset="100%" stop-color="#0c1008"/>
     </linearGradient>
-    <radialGradient id="glowaxe0" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#8a9aaa" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#8a9aaa" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0"/>
+    <radialGradient id="mist-a0" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#c4a882" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#c4a882" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="groundaxe0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a1c10" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0.85"/>
-    </linearGradient>
   </defs>
-  <rect width="256" height="256" fill="url(#skyaxe0)"/>
-  <ellipse cx="128" cy="118" rx="110" ry="90" fill="url(#glowaxe0)"/>
-  <path d="M0 180 Q64 150 128 170 Q192 190 256 155 V256 H0 Z" fill="#14100c" opacity="0.55"/>
-  <rect width="256" height="256" fill="url(#groundaxe0)"/>
-  <!-- vignette -->
-  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
-  <g transform="translate(0,0)">
-    <path d="M120 40 V200" stroke="#5a3820" stroke-width="14" stroke-linecap="round"/>
-     <path d="M120 40 V200" stroke="#c9a227" stroke-width="4"/>
-     <path d="M120 55 Q190 40 200 90 Q190 120 120 110 Z" fill="#8a9aaa" stroke="#0a0704" stroke-width="4"/>
-     <path d="M160 60 Q185 70 175 100" fill="none" stroke="#fff8ec" stroke-width="3" opacity="0.5"/>
+  <rect width="256" height="256" fill="url(#sky-a0)"/>
+  <ellipse cx="128" cy="100" rx="120" ry="80" fill="url(#mist-a0)"/>
+  <!-- stump rings ground -->
+  <ellipse cx="128" cy="210" rx="70" ry="28" fill="#2a1c10" stroke="#0a0704" stroke-width="3"/>
+  <ellipse cx="128" cy="208" rx="48" ry="16" fill="none" stroke="#5a4030" stroke-width="2" opacity="0.6"/>
+  <ellipse cx="128" cy="208" rx="28" ry="8" fill="none" stroke="#3a2818" stroke-width="1.5" opacity="0.5"/>
+  <path d="M0 220 H256 V256 H0 Z" fill="#12100c"/>
+  <!-- axe in stump -->
+  <g>
+    <path d="M118 50 V195" stroke="#5a3820" stroke-width="14" stroke-linecap="round"/>
+    <path d="M118 50 V195" stroke="#c9a227" stroke-width="4" opacity="0.45"/>
+    <path d="M70 70 L118 45 L118 95 L70 110 Z" fill="#8a9aaa" stroke="#0a0704" stroke-width="3.5"/>
+    <path d="M80 78 L110 58" fill="none" stroke="#fff8ec" stroke-width="2" opacity="0.45"/>
   </g>
-  <!-- film grain-ish corners -->
-  <path d="M12 12 H48 M12 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 12 H208 M244 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M12 244 H48 M12 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 244 H208 M244 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <!-- wood chips -->
+  <path d="M160 200 L175 195 L170 210 Z" fill="#6a4420"/>
+  <path d="M90 215 L100 208 L98 220 Z" fill="#5a3820"/>
+  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.4"/>
+  <!-- pulp corner marks -->
+  <path d="M10 10 H42 M10 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 10 H214 M246 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M10 246 H42 M10 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 246 H214 M246 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
 </svg>

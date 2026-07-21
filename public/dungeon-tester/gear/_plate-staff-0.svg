@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="staff">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="staff plate spirit grove">
   <defs>
-    <linearGradient id="skystaff0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a2818"/>
-      <stop offset="45%" stop-color="#1a120c"/>
-      <stop offset="100%" stop-color="#0a0704"/>
+    <linearGradient id="sky-s0" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a3828"/>
+      <stop offset="45%" stop-color="#1a2418"/>
+      <stop offset="100%" stop-color="#080c08"/>
     </linearGradient>
-    <radialGradient id="glowstaff0" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#c9a227" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#c9a227" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0"/>
+    <radialGradient id="spirit-s0" cx="50%" cy="28%" r="35%">
+      <stop offset="0%" stop-color="#c9a227" stop-opacity="0.55"/>
+      <stop offset="50%" stop-color="#6a7d52" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#6a7d52" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="groundstaff0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a1c10" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0.85"/>
-    </linearGradient>
   </defs>
-  <rect width="256" height="256" fill="url(#skystaff0)"/>
-  <ellipse cx="128" cy="118" rx="110" ry="90" fill="url(#glowstaff0)"/>
-  <path d="M0 180 Q64 150 128 170 Q192 190 256 155 V256 H0 Z" fill="#14100c" opacity="0.55"/>
-  <rect width="256" height="256" fill="url(#groundstaff0)"/>
-  <!-- vignette -->
-  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
-  <g transform="translate(0,0)">
-    <path d="M128 30 V220" stroke="#6a4420" stroke-width="12" stroke-linecap="round"/>
-     <circle cx="128" cy="48" r="22" fill="none" stroke="#c9a227" stroke-width="5"/>
-     <circle cx="128" cy="48" r="10" fill="#e8452f" stroke="#0a0704" stroke-width="3"/>
-     <path d="M110 48 H146" stroke="#e8c547" stroke-width="3"/>
+  <rect width="256" height="256" fill="url(#sky-s0)"/>
+  <ellipse cx="128" cy="70" rx="70" ry="55" fill="url(#spirit-s0)"/>
+  <!-- tree trunks -->
+  <g fill="#1a1410" opacity="0.7">
+    <rect x="20" y="80" width="18" height="140"/><rect x="210" y="60" width="22" height="160"/>
+    <rect x="50" y="100" width="12" height="120"/>
   </g>
-  <!-- film grain-ish corners -->
-  <path d="M12 12 H48 M12 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 12 H208 M244 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M12 244 H48 M12 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 244 H208 M244 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <path d="M0 200 Q128 175 256 205 V256 H0 Z" fill="#12180e"/>
+  <!-- oak staff -->
+  <g>
+    <path d="M128 30 V210" stroke="#6a4420" stroke-width="12" stroke-linecap="round"/>
+    <path d="M128 30 V210" stroke="#c9a227" stroke-width="3" opacity="0.35"/>
+    <circle cx="128" cy="36" r="22" fill="#2a3828" stroke="#c9a227" stroke-width="3"/>
+    <circle cx="128" cy="36" r="10" fill="#c9a227" opacity="0.7"/>
+    <path d="M118 55 Q128 70 138 55" fill="none" stroke="#6a7d52" stroke-width="3"/>
+  </g>
+  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.4"/>
+  <!-- pulp corner marks -->
+  <path d="M10 10 H42 M10 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 10 H214 M246 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M10 246 H42 M10 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 246 H214 M246 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
 </svg>

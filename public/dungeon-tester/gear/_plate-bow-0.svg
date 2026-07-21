@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="bow">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="bow plate pine dawn">
   <defs>
-    <linearGradient id="skybow0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a2818"/>
-      <stop offset="45%" stop-color="#1a120c"/>
-      <stop offset="100%" stop-color="#0a0704"/>
+    <linearGradient id="sky-bw0" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a4a38"/>
+      <stop offset="35%" stop-color="#2a3428"/>
+      <stop offset="100%" stop-color="#0a1008"/>
     </linearGradient>
-    <radialGradient id="glowbow0" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#8a5a30" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#8a5a30" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0"/>
+    <radialGradient id="dawn-bw0" cx="20%" cy="25%" r="40%">
+      <stop offset="0%" stop-color="#c4893a" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#c4893a" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="groundbow0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a1c10" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0.85"/>
-    </linearGradient>
   </defs>
-  <rect width="256" height="256" fill="url(#skybow0)"/>
-  <ellipse cx="128" cy="118" rx="110" ry="90" fill="url(#glowbow0)"/>
-  <path d="M0 180 Q64 150 128 170 Q192 190 256 155 V256 H0 Z" fill="#14100c" opacity="0.55"/>
-  <rect width="256" height="256" fill="url(#groundbow0)"/>
-  <!-- vignette -->
-  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
-  <g transform="translate(0,0)">
-    <path d="M70 40 Q40 128 70 216" fill="none" stroke="#6a4420" stroke-width="10" stroke-linecap="round"/>
-     <path d="M70 40 Q55 128 70 216" fill="none" stroke="#c9a227" stroke-width="3"/>
-     <path d="M70 40 L200 128 L70 216" fill="none" stroke="#e8dcc4" stroke-width="3"/>
-     <path d="M120 128 H210" stroke="#8a9aaa" stroke-width="5" stroke-linecap="round"/>
-     <path d="M210 128 L198 118 M210 128 L198 138" stroke="#8a9aaa" stroke-width="3"/>
+  <rect width="256" height="256" fill="url(#sky-bw0)"/>
+  <ellipse cx="50" cy="60" rx="80" ry="60" fill="url(#dawn-bw0)"/>
+  <!-- pines -->
+  <g fill="#1a2818" opacity="0.85">
+    <path d="M20 180 L45 90 L70 180 Z"/><path d="M55 190 L85 100 L115 190 Z"/>
+    <path d="M160 185 L195 80 L230 185 Z"/><path d="M200 195 L235 110 L256 195 L256 210 H200 Z"/>
   </g>
-  <!-- film grain-ish corners -->
-  <path d="M12 12 H48 M12 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 12 H208 M244 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M12 244 H48 M12 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 244 H208 M244 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <path d="M0 195 Q128 175 256 200 V256 H0 Z" fill="#14180e"/>
+  <path d="M0 220 H256 V256 H0 Z" fill="#0a0e08"/>
+  <!-- longbow -->
+  <g>
+    <path d="M90 30 Q40 128 90 225" fill="none" stroke="#6a4420" stroke-width="10" stroke-linecap="round"/>
+    <path d="M90 30 Q40 128 90 225" fill="none" stroke="#c9a227" stroke-width="3" opacity="0.5"/>
+    <path d="M90 35 L90 220" stroke="#e8dcc8" stroke-width="2" opacity="0.7"/>
+    <path d="M90 118 H195" stroke="#8a9aaa" stroke-width="4"/>
+    <path d="M195 118 L185 112 L185 124 Z" fill="#c9a227"/>
+  </g>
+  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.4"/>
+  <!-- pulp corner marks -->
+  <path d="M10 10 H42 M10 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 10 H214 M246 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M10 246 H42 M10 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 246 H214 M246 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
 </svg>

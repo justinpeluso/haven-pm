@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="gun">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="gun plate mesa dusk">
   <defs>
-    <linearGradient id="skygun0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a2818"/>
-      <stop offset="45%" stop-color="#1a120c"/>
-      <stop offset="100%" stop-color="#0a0704"/>
+    <linearGradient id="sky-g0" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c4893a"/>
+      <stop offset="28%" stop-color="#8a4a28"/>
+      <stop offset="55%" stop-color="#3a2014"/>
+      <stop offset="100%" stop-color="#0c0804"/>
     </linearGradient>
-    <radialGradient id="glowgun0" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#6a7080" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#6a7080" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0"/>
+    <radialGradient id="sun-g0" cx="80%" cy="18%" r="30%">
+      <stop offset="0%" stop-color="#fff8ec" stop-opacity="0.7"/>
+      <stop offset="40%" stop-color="#c44a1f" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#c44a1f" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="groundgun0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a1c10" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0.85"/>
-    </linearGradient>
   </defs>
-  <rect width="256" height="256" fill="url(#skygun0)"/>
-  <ellipse cx="128" cy="118" rx="110" ry="90" fill="url(#glowgun0)"/>
-  <path d="M0 180 Q64 150 128 170 Q192 190 256 155 V256 H0 Z" fill="#14100c" opacity="0.55"/>
-  <rect width="256" height="256" fill="url(#groundgun0)"/>
-  <!-- vignette -->
-  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
-  <g transform="translate(0,0)">
-    <path d="M50 110 H170 L185 95 H210 V120 H185 L170 135 H120 V175 H95 V135 H50 Z" fill="#4a4a52" stroke="#0a0704" stroke-width="4"/>
-     <rect x="40" y="100" width="28" height="40" rx="4" fill="#2a2218" stroke="#0a0704" stroke-width="3"/>
-     <circle cx="70" cy="120" r="6" fill="#c9a227"/>
-     <path d="M175 100 L200 88" stroke="#e8c547" stroke-width="3"/>
+  <rect width="256" height="256" fill="url(#sky-g0)"/>
+  <circle cx="200" cy="48" r="50" fill="url(#sun-g0)"/>
+  <circle cx="200" cy="48" r="16" fill="#f0e2c4" opacity="0.85"/>
+  <!-- mesa -->
+  <path d="M0 140 L40 140 L50 100 L90 100 L100 140 L160 140 L170 85 L210 85 L220 140 L256 140 V256 H0 Z" fill="#2a1c10" opacity="0.85"/>
+  <path d="M0 165 Q90 150 180 170 Q220 178 256 160 V256 H0 Z" fill="#1a120c"/>
+  <path d="M0 200 H256 V256 H0 Z" fill="#0a0704"/>
+  <!-- revolver silhouette large -->
+  <g transform="translate(8,20) scale(1.05)">
+    <path d="M40 100 H165 L182 82 H210 V112 H182 L165 128 H115 V172 H88 V128 H40 Z" fill="#3a3838" stroke="#0a0704" stroke-width="3.5"/>
+    <rect x="28" y="90" width="30" height="42" rx="3" fill="#2a2218" stroke="#0a0704" stroke-width="3"/>
+    <circle cx="62" cy="112" r="7" fill="#c9a227"/>
+    <path d="M170 90 L200 72" stroke="#e8c547" stroke-width="3"/>
   </g>
-  <!-- film grain-ish corners -->
-  <path d="M12 12 H48 M12 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 12 H208 M244 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M12 244 H48 M12 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 244 H208 M244 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
+  <!-- pulp corner marks -->
+  <path d="M10 10 H42 M10 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 10 H214 M246 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M10 246 H42 M10 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 246 H214 M246 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
 </svg>

@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="polearm">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="polearm plate bridge night">
   <defs>
-    <linearGradient id="skypolearm1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a2818"/>
-      <stop offset="45%" stop-color="#1a120c"/>
-      <stop offset="100%" stop-color="#0a0704"/>
+    <linearGradient id="sky-p1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2030"/>
+      <stop offset="50%" stop-color="#10141c"/>
+      <stop offset="100%" stop-color="#06080c"/>
     </linearGradient>
-    <radialGradient id="glowpolearm1" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#a8b4c0" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#a8b4c0" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0"/>
+    <radialGradient id="lamp-p1" cx="70%" cy="30%" r="30%">
+      <stop offset="0%" stop-color="#c9a227" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#c9a227" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="groundpolearm1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a1c10" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0.85"/>
-    </linearGradient>
   </defs>
-  <rect width="256" height="256" fill="url(#skypolearm1)"/>
-  <ellipse cx="128" cy="118" rx="110" ry="90" fill="url(#glowpolearm1)"/>
-  <path d="M0 180 Q64 150 128 170 Q192 190 256 155 V256 H0 Z" fill="#14100c" opacity="0.55"/>
-  <rect width="256" height="256" fill="url(#groundpolearm1)"/>
-  <!-- vignette -->
-  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
-  <g transform="translate(0,0)">
-    <path d="M120 24 V220" stroke="#4a2e18" stroke-width="9"/>
-     <path d="M90 40 L150 40 L165 70 L120 95 L75 70 Z" fill="#8a9aaa" stroke="#0a0704" stroke-width="4"/>
+  <rect width="256" height="256" fill="url(#sky-p1)"/>
+  <ellipse cx="180" cy="70" rx="60" ry="45" fill="url(#lamp-p1)"/>
+  <!-- bridge rails -->
+  <path d="M0 160 H256" stroke="#3a3028" stroke-width="6"/>
+  <path d="M0 175 H256" stroke="#2a2218" stroke-width="4"/>
+  <g stroke="#4a4038" stroke-width="3">
+    <path d="M40 160 V200"/><path d="M90 160 V200"/><path d="M160 160 V200"/><path d="M210 160 V200"/>
   </g>
-  <!-- film grain-ish corners -->
-  <path d="M12 12 H48 M12 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 12 H208 M244 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M12 244 H48 M12 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 244 H208 M244 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <path d="M0 200 Q128 190 256 205 V256 H0 Z" fill="#0a0c10"/>
+  <!-- halberd angled -->
+  <g transform="rotate(-25 128 128)">
+    <path d="M128 25 V210" stroke="#4a4030" stroke-width="9"/>
+    <path d="M128 25 L150 60 L128 52 L106 60 Z" fill="#9aa8b8" stroke="#0a0704" stroke-width="3"/>
+    <path d="M128 55 L165 70 L128 75 Z" fill="#6a7080" stroke="#0a0704" stroke-width="2.5"/>
+    <rect x="118" y="200" width="20" height="16" fill="#5a3820" stroke="#c9a227" stroke-width="2"/>
+  </g>
+  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="18" opacity="0.45"/>
+  <!-- pulp corner marks -->
+  <path d="M10 10 H42 M10 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 10 H214 M246 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M10 246 H42 M10 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 246 H214 M246 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
 </svg>

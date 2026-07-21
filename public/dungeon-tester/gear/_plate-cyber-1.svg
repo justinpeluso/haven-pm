@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="cyber">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="cyber plate scrapyard sparks">
   <defs>
-    <linearGradient id="skycyber1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a2818"/>
-      <stop offset="45%" stop-color="#1a120c"/>
-      <stop offset="100%" stop-color="#0a0704"/>
+    <linearGradient id="sky-c1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2018"/>
+      <stop offset="50%" stop-color="#16120e"/>
+      <stop offset="100%" stop-color="#080604"/>
     </linearGradient>
-    <radialGradient id="glowcyber1" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#3d8a9a" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#3d8a9a" stop-opacity="0.12"/>
+    <radialGradient id="spark-c1" cx="40%" cy="55%" r="45%">
+      <stop offset="0%" stop-color="#e8c547" stop-opacity="0.45"/>
+      <stop offset="40%" stop-color="#c44a1f" stop-opacity="0.2"/>
       <stop offset="100%" stop-color="#0a0704" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="groundcyber1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a1c10" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0.85"/>
-    </linearGradient>
   </defs>
-  <rect width="256" height="256" fill="url(#skycyber1)"/>
-  <ellipse cx="128" cy="118" rx="110" ry="90" fill="url(#glowcyber1)"/>
-  <path d="M0 180 Q64 150 128 170 Q192 190 256 155 V256 H0 Z" fill="#14100c" opacity="0.55"/>
-  <rect width="256" height="256" fill="url(#groundcyber1)"/>
-  <!-- vignette -->
-  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
-  <g transform="translate(0,0)">
-    <path d="M80 100 H176 V160 H80 Z" fill="#243038" stroke="#0a0704" stroke-width="4"/>
-     <path d="M90 120 H166" stroke="#3d8a9a" stroke-width="4"/>
-     <circle cx="128" cy="140" r="10" fill="#7ec8c8"/>
-     <path d="M128 60 V100 M100 70 L128 60 L156 70" stroke="#c9a227" stroke-width="4"/>
+  <rect width="256" height="256" fill="url(#sky-c1)"/>
+  <ellipse cx="100" cy="140" rx="100" ry="80" fill="url(#spark-c1)"/>
+  <!-- scrap piles -->
+  <path d="M0 160 L40 130 L70 155 L100 125 L140 160 L180 135 L220 160 L256 140 V256 H0 Z" fill="#2a2218" opacity="0.9"/>
+  <path d="M0 190 H256 V256 H0 Z" fill="#12100c"/>
+  <!-- optic / chip -->
+  <g>
+    <rect x="80" y="70" width="100" height="70" rx="6" fill="#3a4048" stroke="#0a0704" stroke-width="4"/>
+    <circle cx="130" cy="105" r="28" fill="#1a1e24" stroke="#c9a227" stroke-width="3"/>
+    <circle cx="130" cy="105" r="14" fill="#8a9aaa"/>
+    <circle cx="130" cy="105" r="6" fill="#e8c547"/>
+    <path d="M90 150 H170" stroke="#c44a1f" stroke-width="3" opacity="0.7"/>
   </g>
-  <!-- film grain-ish corners -->
-  <path d="M12 12 H48 M12 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 12 H208 M244 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M12 244 H48 M12 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 244 H208 M244 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <circle cx="60" cy="170" r="2" fill="#e8c547"/><circle cx="75" cy="160" r="1.5" fill="#fff8ec"/>
+  <circle cx="50" cy="155" r="2" fill="#c44a1f"/>
+  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.4"/>
+  <!-- pulp corner marks -->
+  <path d="M10 10 H42 M10 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 10 H214 M246 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M10 246 H42 M10 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 246 H214 M246 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
 </svg>

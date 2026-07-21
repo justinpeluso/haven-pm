@@ -1,36 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="blade">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="blade plate forge glow">
   <defs>
-    <linearGradient id="skyblade1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a2818"/>
-      <stop offset="45%" stop-color="#1a120c"/>
-      <stop offset="100%" stop-color="#0a0704"/>
+    <linearGradient id="sky-b1" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#2a1814"/>
+      <stop offset="35%" stop-color="#4a2010"/>
+      <stop offset="70%" stop-color="#1a0c08"/>
+      <stop offset="100%" stop-color="#080402"/>
     </linearGradient>
-    <radialGradient id="glowblade1" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#8a9aaa" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#8a9aaa" stop-opacity="0.12"/>
+    <radialGradient id="ember-b1" cx="35%" cy="70%" r="50%">
+      <stop offset="0%" stop-color="#c44a1f" stop-opacity="0.65"/>
+      <stop offset="45%" stop-color="#8a2e12" stop-opacity="0.25"/>
       <stop offset="100%" stop-color="#0a0704" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="groundblade1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a1c10" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0.85"/>
+    <linearGradient id="steel-b1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8a9aaa"/>
+      <stop offset="50%" stop-color="#e8eef2"/>
+      <stop offset="100%" stop-color="#5a6470"/>
     </linearGradient>
   </defs>
-  <rect width="256" height="256" fill="url(#skyblade1)"/>
-  <ellipse cx="128" cy="118" rx="110" ry="90" fill="url(#glowblade1)"/>
-  <path d="M0 180 Q64 150 128 170 Q192 190 256 155 V256 H0 Z" fill="#14100c" opacity="0.55"/>
-  <rect width="256" height="256" fill="url(#groundblade1)"/>
-  <!-- vignette -->
-  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
-  <g transform="translate(0,0)">
-    <path d="M70 40 L186 40 L176 56 L80 56 Z" fill="#9aa8b8" stroke="#0a0704" stroke-width="4"/>
-     <path d="M128 56 V200" stroke="#6a4420" stroke-width="14" stroke-linecap="round"/>
-     <path d="M128 56 V200" stroke="#c9a227" stroke-width="4" stroke-linecap="round"/>
-     <ellipse cx="128" cy="210" rx="22" ry="10" fill="#3a2414" stroke="#0a0704" stroke-width="3"/>
+  <rect width="256" height="256" fill="url(#sky-b1)"/>
+  <ellipse cx="90" cy="190" rx="100" ry="70" fill="url(#ember-b1)"/>
+  <!-- forge smoke -->
+  <path d="M40 160 Q55 120 48 90 Q60 110 70 80" fill="none" stroke="#3a2818" stroke-width="10" opacity="0.45"/>
+  <path d="M70 150 Q85 100 78 70" fill="none" stroke="#2a1c14" stroke-width="8" opacity="0.35"/>
+  <!-- anvil sill -->
+  <path d="M0 200 H256 V256 H0 Z" fill="#12100c"/>
+  <rect x="20" y="188" width="90" height="28" rx="2" fill="#2a2218" stroke="#0a0704" stroke-width="3"/>
+  <path d="M28 188 H102" stroke="#c9a227" stroke-width="2" opacity="0.5"/>
+  <!-- horizontal blade on anvil -->
+  <g transform="translate(0,10)">
+    <path d="M50 150 L210 118 L218 132 L58 164 Z" fill="url(#steel-b1)" stroke="#0a0704" stroke-width="3.5"/>
+    <path d="M70 148 L200 124" fill="none" stroke="#fff8ec" stroke-width="2" opacity="0.45"/>
+    <rect x="200" y="112" width="36" height="28" rx="2" fill="#5a3820" stroke="#0a0704" stroke-width="3"/>
+    <circle cx="218" cy="126" r="5" fill="#c9a227"/>
   </g>
-  <!-- film grain-ish corners -->
-  <path d="M12 12 H48 M12 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 12 H208 M244 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M12 244 H48 M12 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 244 H208 M244 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <!-- sparks -->
+  <circle cx="110" cy="175" r="2.5" fill="#e8c547"/>
+  <circle cx="130" cy="168" r="1.8" fill="#c44a1f"/>
+  <circle cx="95" cy="160" r="2" fill="#fff8ec" opacity="0.7"/>
+  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="18" opacity="0.4"/>
+  <!-- pulp corner marks -->
+  <path d="M10 10 H42 M10 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 10 H214 M246 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M10 246 H42 M10 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 246 H214 M246 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
 </svg>

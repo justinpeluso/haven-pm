@@ -1,36 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="trinket">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="trinket plate relic shrine">
   <defs>
-    <linearGradient id="skytrinket0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a2818"/>
-      <stop offset="45%" stop-color="#1a120c"/>
-      <stop offset="100%" stop-color="#0a0704"/>
+    <linearGradient id="sky-t0" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a241c"/>
+      <stop offset="50%" stop-color="#181410"/>
+      <stop offset="100%" stop-color="#080604"/>
     </linearGradient>
-    <radialGradient id="glowtrinket0" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#c9a227" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#c9a227" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0"/>
+    <radialGradient id="halo-t0" cx="50%" cy="40%" r="40%">
+      <stop offset="0%" stop-color="#c9a227" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#c9a227" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="groundtrinket0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a1c10" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0.85"/>
-    </linearGradient>
   </defs>
-  <rect width="256" height="256" fill="url(#skytrinket0)"/>
-  <ellipse cx="128" cy="118" rx="110" ry="90" fill="url(#glowtrinket0)"/>
-  <path d="M0 180 Q64 150 128 170 Q192 190 256 155 V256 H0 Z" fill="#14100c" opacity="0.55"/>
-  <rect width="256" height="256" fill="url(#groundtrinket0)"/>
-  <!-- vignette -->
-  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
-  <g transform="translate(0,0)">
-    <circle cx="128" cy="120" r="48" fill="none" stroke="#c9a227" stroke-width="8"/>
-     <circle cx="128" cy="120" r="28" fill="#3a2414" stroke="#0a0704" stroke-width="4"/>
-     <path d="M128 100 L138 120 L128 140 L118 120 Z" fill="#e8c547" stroke="#0a0704" stroke-width="2"/>
-     <path d="M128 168 V210" stroke="#8a5a30" stroke-width="6"/>
+  <rect width="256" height="256" fill="url(#sky-t0)"/>
+  <ellipse cx="128" cy="100" rx="85" ry="70" fill="url(#halo-t0)"/>
+  <!-- stone niche -->
+  <path d="M50 220 V90 Q50 40 128 40 Q206 40 206 90 V220" fill="#1a1610" stroke="#3a3028" stroke-width="4"/>
+  <path d="M0 210 H256 V256 H0 Z" fill="#100c08"/>
+  <!-- amulet -->
+  <g>
+    <path d="M128 55 Q100 80 128 100 Q156 80 128 55" fill="none" stroke="#c9a227" stroke-width="4"/>
+    <circle cx="128" cy="130" r="40" fill="#5a4030" stroke="#0a0704" stroke-width="4"/>
+    <circle cx="128" cy="130" r="28" fill="#2a1f14" stroke="#c9a227" stroke-width="3"/>
+    <path d="M128 110 L138 130 L128 150 L118 130 Z" fill="#e8c547"/>
   </g>
-  <!-- film grain-ish corners -->
-  <path d="M12 12 H48 M12 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 12 H208 M244 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M12 244 H48 M12 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 244 H208 M244 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.4"/>
+  <!-- pulp corner marks -->
+  <path d="M10 10 H42 M10 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 10 H214 M246 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M10 246 H42 M10 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 246 H214 M246 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
 </svg>

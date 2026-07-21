@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="polearm">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="polearm plate fort dawn">
   <defs>
-    <linearGradient id="skypolearm0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a2818"/>
-      <stop offset="45%" stop-color="#1a120c"/>
-      <stop offset="100%" stop-color="#0a0704"/>
+    <linearGradient id="sky-p0" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6a4830"/>
+      <stop offset="35%" stop-color="#3a2818"/>
+      <stop offset="100%" stop-color="#0a0604"/>
     </linearGradient>
-    <radialGradient id="glowpolearm0" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#a8b4c0" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#a8b4c0" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0"/>
+    <radialGradient id="dawn-p0" cx="15%" cy="20%" r="35%">
+      <stop offset="0%" stop-color="#e8c547" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#e8c547" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="groundpolearm0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a1c10" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0.85"/>
-    </linearGradient>
   </defs>
-  <rect width="256" height="256" fill="url(#skypolearm0)"/>
-  <ellipse cx="128" cy="118" rx="110" ry="90" fill="url(#glowpolearm0)"/>
-  <path d="M0 180 Q64 150 128 170 Q192 190 256 155 V256 H0 Z" fill="#14100c" opacity="0.55"/>
-  <rect width="256" height="256" fill="url(#groundpolearm0)"/>
-  <!-- vignette -->
-  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
-  <g transform="translate(0,0)">
-    <path d="M128 20 V220" stroke="#5a3820" stroke-width="10"/>
-     <path d="M128 20 L155 55 L128 70 L101 55 Z" fill="#a8b4c0" stroke="#0a0704" stroke-width="4"/>
-     <path d="M110 55 H146" stroke="#c9a227" stroke-width="4"/>
+  <rect width="256" height="256" fill="url(#sky-p0)"/>
+  <ellipse cx="40" cy="50" rx="70" ry="50" fill="url(#dawn-p0)"/>
+  <!-- fort wall -->
+  <path d="M0 130 H256 V256 H0 Z" fill="#2a2218"/>
+  <g fill="#1a1410">
+    <rect x="20" y="110" width="28" height="30"/><rect x="60" y="110" width="28" height="30"/>
+    <rect x="100" y="110" width="28" height="30"/><rect x="168" y="110" width="28" height="30"/>
+    <rect x="208" y="110" width="28" height="30"/>
   </g>
-  <!-- film grain-ish corners -->
-  <path d="M12 12 H48 M12 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 12 H208 M244 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M12 244 H48 M12 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 244 H208 M244 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <path d="M0 160 H256" stroke="#c9a227" stroke-width="2" opacity="0.3"/>
+  <!-- spear upright -->
+  <g>
+    <path d="M128 20 V200" stroke="#5a4030" stroke-width="8" stroke-linecap="round"/>
+    <path d="M128 20 L145 55 L128 48 L111 55 Z" fill="#8a9aaa" stroke="#0a0704" stroke-width="3"/>
+    <path d="M118 200 H138" stroke="#c9a227" stroke-width="4"/>
+  </g>
+  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.4"/>
+  <!-- pulp corner marks -->
+  <path d="M10 10 H42 M10 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 10 H214 M246 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M10 246 H42 M10 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 246 H214 M246 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
 </svg>

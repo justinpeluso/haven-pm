@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="blade">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="blade plate dusk canyon">
   <defs>
-    <linearGradient id="skyblade0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a2818"/>
-      <stop offset="45%" stop-color="#1a120c"/>
-      <stop offset="100%" stop-color="#0a0704"/>
+    <linearGradient id="sky-b0" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5a3418"/>
+      <stop offset="40%" stop-color="#2a1810"/>
+      <stop offset="100%" stop-color="#0a0604"/>
     </linearGradient>
-    <radialGradient id="glowblade0" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#8a9aaa" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#8a9aaa" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0"/>
+    <radialGradient id="moon-b0" cx="72%" cy="22%" r="28%">
+      <stop offset="0%" stop-color="#e8dcc8" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#e8dcc8" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="groundblade0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a1c10" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0.85"/>
+    <linearGradient id="blade-b0" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d0d8e0"/>
+      <stop offset="100%" stop-color="#6a7480"/>
     </linearGradient>
   </defs>
-  <rect width="256" height="256" fill="url(#skyblade0)"/>
-  <ellipse cx="128" cy="118" rx="110" ry="90" fill="url(#glowblade0)"/>
-  <path d="M0 180 Q64 150 128 170 Q192 190 256 155 V256 H0 Z" fill="#14100c" opacity="0.55"/>
-  <rect width="256" height="256" fill="url(#groundblade0)"/>
-  <!-- vignette -->
-  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
-  <g transform="translate(0,0)">
-    <path d="M148 28 L168 48 L118 210 L78 198 Z" fill="#b8c4d0" stroke="#0a0704" stroke-width="4"/>
-     <path d="M150 40 L160 50 L122 180" fill="none" stroke="#fff8ec" stroke-width="3" opacity="0.55"/>
-     <rect x="70" y="198" width="52" height="28" rx="3" fill="#5a3820" stroke="#0a0704" stroke-width="4"/>
-     <path d="M66 196 H128" stroke="#c9a227" stroke-width="5" stroke-linecap="round"/>
+  <rect width="256" height="256" fill="url(#sky-b0)"/>
+  <circle cx="188" cy="56" r="36" fill="url(#moon-b0)"/>
+  <circle cx="188" cy="56" r="18" fill="#f0e2c4" opacity="0.7"/>
+  <!-- mesa ridges -->
+  <path d="M0 150 L48 120 L90 145 L140 110 L180 140 L220 118 L256 135 V256 H0 Z" fill="#1a1008" opacity="0.7"/>
+  <path d="M0 175 Q70 155 130 172 Q190 190 256 160 V256 H0 Z" fill="#14100c"/>
+  <path d="M0 210 Q80 195 160 215 Q210 225 256 200 V256 H0 Z" fill="#0a0704"/>
+  <!-- upright saber -->
+  <g transform="translate(18,8)">
+    <path d="M118 24 L138 42 L96 198 L62 186 Z" fill="url(#blade-b0)" stroke="#0a0704" stroke-width="3.5"/>
+    <path d="M120 36 L132 46 L100 170" fill="none" stroke="#fff8ec" stroke-width="2.5" opacity="0.5"/>
+    <rect x="54" y="186" width="48" height="24" rx="2" fill="#5a3820" stroke="#0a0704" stroke-width="3"/>
+    <path d="M50 184 H108" stroke="#c9a227" stroke-width="4" stroke-linecap="round"/>
   </g>
-  <!-- film grain-ish corners -->
-  <path d="M12 12 H48 M12 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 12 H208 M244 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M12 244 H48 M12 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 244 H208 M244 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="18" opacity="0.4"/>
+  <!-- pulp corner marks -->
+  <path d="M10 10 H42 M10 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 10 H214 M246 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M10 246 H42 M10 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 246 H214 M246 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
 </svg>

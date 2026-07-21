@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="whip">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="whip plate dust ring">
   <defs>
-    <linearGradient id="skywhip0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a2818"/>
-      <stop offset="45%" stop-color="#1a120c"/>
-      <stop offset="100%" stop-color="#0a0704"/>
+    <linearGradient id="sky-w0" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5a4028"/>
+      <stop offset="40%" stop-color="#3a2818"/>
+      <stop offset="100%" stop-color="#0c0804"/>
     </linearGradient>
-    <radialGradient id="glowwhip0" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#8a5a30" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#8a5a30" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0"/>
+    <radialGradient id="dust-w0" cx="50%" cy="55%" r="50%">
+      <stop offset="0%" stop-color="#c4a882" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#c4a882" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="groundwhip0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a1c10" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0.85"/>
-    </linearGradient>
   </defs>
-  <rect width="256" height="256" fill="url(#skywhip0)"/>
-  <ellipse cx="128" cy="118" rx="110" ry="90" fill="url(#glowwhip0)"/>
-  <path d="M0 180 Q64 150 128 170 Q192 190 256 155 V256 H0 Z" fill="#14100c" opacity="0.55"/>
-  <rect width="256" height="256" fill="url(#groundwhip0)"/>
-  <!-- vignette -->
-  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
-  <g transform="translate(0,0)">
-    <path d="M70 70 Q128 40 180 80 Q200 140 140 180 Q90 200 80 150" fill="none" stroke="#8a5a30" stroke-width="8" stroke-linecap="round"/>
-     <path d="M70 70 Q128 40 180 80 Q200 140 140 180" fill="none" stroke="#c9a227" stroke-width="2" opacity="0.6"/>
-     <rect x="55" y="55" width="28" height="40" rx="4" fill="#3a2414" stroke="#0a0704" stroke-width="3"/>
+  <rect width="256" height="256" fill="url(#sky-w0)"/>
+  <ellipse cx="128" cy="140" rx="110" ry="80" fill="url(#dust-w0)"/>
+  <!-- arena ring -->
+  <ellipse cx="128" cy="195" rx="100" ry="35" fill="none" stroke="#8a6a4a" stroke-width="4" opacity="0.5"/>
+  <ellipse cx="128" cy="195" rx="70" ry="22" fill="none" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <path d="M0 210 H256 V256 H0 Z" fill="#14100c"/>
+  <!-- coiled whip -->
+  <g>
+    <path d="M90 80 Q60 120 90 160 Q120 190 160 170 Q190 150 170 110 Q150 80 120 95" fill="none" stroke="#5a3020" stroke-width="8" stroke-linecap="round"/>
+    <path d="M90 80 Q60 120 90 160 Q120 190 160 170 Q190 150 170 110 Q150 80 120 95" fill="none" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+    <rect x="80" y="70" width="24" height="28" rx="3" fill="#3a2414" stroke="#0a0704" stroke-width="3"/>
+    <circle cx="92" cy="84" r="3" fill="#c9a227"/>
   </g>
-  <!-- film grain-ish corners -->
-  <path d="M12 12 H48 M12 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 12 H208 M244 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M12 244 H48 M12 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 244 H208 M244 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.4"/>
+  <!-- pulp corner marks -->
+  <path d="M10 10 H42 M10 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 10 H214 M246 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M10 246 H42 M10 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 246 H214 M246 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
 </svg>

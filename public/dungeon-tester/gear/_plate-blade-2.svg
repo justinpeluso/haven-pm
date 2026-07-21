@@ -1,36 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="blade">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="blade plate rain steel">
   <defs>
-    <linearGradient id="skyblade2" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a2818"/>
-      <stop offset="45%" stop-color="#1a120c"/>
-      <stop offset="100%" stop-color="#0a0704"/>
+    <linearGradient id="sky-b2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2228"/>
+      <stop offset="50%" stop-color="#0e1216"/>
+      <stop offset="100%" stop-color="#06080a"/>
     </linearGradient>
-    <radialGradient id="glowblade2" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#8a9aaa" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#8a9aaa" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0"/>
+    <radialGradient id="glow-b2" cx="50%" cy="35%" r="45%">
+      <stop offset="0%" stop-color="#8a9aaa" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#8a9aaa" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="groundblade2" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a1c10" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0.85"/>
+    <linearGradient id="wet-b2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a3038" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#0a0c10" stop-opacity="0.9"/>
     </linearGradient>
   </defs>
-  <rect width="256" height="256" fill="url(#skyblade2)"/>
-  <ellipse cx="128" cy="118" rx="110" ry="90" fill="url(#glowblade2)"/>
-  <path d="M0 180 Q64 150 128 170 Q192 190 256 155 V256 H0 Z" fill="#14100c" opacity="0.55"/>
-  <rect width="256" height="256" fill="url(#groundblade2)"/>
-  <!-- vignette -->
-  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
-  <g transform="translate(0,0)">
-    <path d="M90 30 Q160 20 190 70 L150 90 Q130 50 90 48 Z" fill="#c8d0d8" stroke="#0a0704" stroke-width="4"/>
-     <path d="M100 55 Q140 40 165 75" fill="none" stroke="#fff" stroke-width="3" opacity="0.45"/>
-     <rect x="78" y="175" width="40" height="36" rx="4" fill="#4a2e18" stroke="#0a0704" stroke-width="4"/>
-     <path d="M98 48 L98 180" stroke="#8a9aaa" stroke-width="10"/>
+  <rect width="256" height="256" fill="url(#sky-b2)"/>
+  <ellipse cx="128" cy="90" rx="90" ry="70" fill="url(#glow-b2)"/>
+  <!-- rain lines -->
+  <g stroke="#8a9aaa" stroke-width="1.2" opacity="0.25">
+    <path d="M30 20 L22 90"/><path d="M60 10 L48 100"/><path d="M100 5 L90 95"/>
+    <path d="M140 15 L128 110"/><path d="M180 8 L170 100"/><path d="M220 20 L210 95"/>
+    <path d="M45 100 L38 180"/><path d="M160 90 L152 180"/><path d="M200 85 L192 175"/>
   </g>
-  <!-- film grain-ish corners -->
-  <path d="M12 12 H48 M12 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 12 H208 M244 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M12 244 H48 M12 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 244 H208 M244 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <!-- wet ground -->
+  <path d="M0 175 Q64 165 128 180 Q192 195 256 168 V256 H0 Z" fill="#14181c"/>
+  <rect width="256" height="256" fill="url(#wet-b2)"/>
+  <!-- crossed blades -->
+  <g>
+    <path d="M70 40 L95 50 L130 200 L95 210 Z" fill="#9aa8b8" stroke="#0a0704" stroke-width="3" transform="rotate(-18 110 120)"/>
+    <path d="M186 40 L161 50 L126 200 L161 210 Z" fill="#7a8898" stroke="#0a0704" stroke-width="3" transform="rotate(18 146 120)"/>
+    <ellipse cx="128" cy="205" rx="36" ry="12" fill="#1a1410" stroke="#c9a227" stroke-width="2" opacity="0.85"/>
+  </g>
+  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="18" opacity="0.45"/>
+  <!-- pulp corner marks -->
+  <path d="M10 10 H42 M10 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 10 H214 M246 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M10 246 H42 M10 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 246 H214 M246 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
 </svg>

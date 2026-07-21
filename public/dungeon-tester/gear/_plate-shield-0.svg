@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="shield">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="shield plate citadel gate">
   <defs>
-    <linearGradient id="skyshield0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a2818"/>
-      <stop offset="45%" stop-color="#1a120c"/>
-      <stop offset="100%" stop-color="#0a0704"/>
+    <linearGradient id="sky-sh0" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a3028"/>
+      <stop offset="40%" stop-color="#221c16"/>
+      <stop offset="100%" stop-color="#0a0806"/>
     </linearGradient>
-    <radialGradient id="glowshield0" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#4a5a6a" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#4a5a6a" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0"/>
+    <radialGradient id="brass-sh0" cx="50%" cy="40%" r="40%">
+      <stop offset="0%" stop-color="#c9a227" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#c9a227" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="groundshield0" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a1c10" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0.85"/>
-    </linearGradient>
   </defs>
-  <rect width="256" height="256" fill="url(#skyshield0)"/>
-  <ellipse cx="128" cy="118" rx="110" ry="90" fill="url(#glowshield0)"/>
-  <path d="M0 180 Q64 150 128 170 Q192 190 256 155 V256 H0 Z" fill="#14100c" opacity="0.55"/>
-  <rect width="256" height="256" fill="url(#groundshield0)"/>
-  <!-- vignette -->
-  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
-  <g transform="translate(0,0)">
-    <path d="M128 36 L190 60 V120 Q190 190 128 220 Q66 190 66 120 V60 Z" fill="#4a5a6a" stroke="#0a0704" stroke-width="5"/>
-     <path d="M128 52 L172 72 V118 Q172 170 128 196 Q84 170 84 118 V72 Z" fill="#2a3440" stroke="#c9a227" stroke-width="3"/>
-     <circle cx="128" cy="120" r="16" fill="#c45a3a" stroke="#0a0704" stroke-width="3"/>
+  <rect width="256" height="256" fill="url(#sky-sh0)"/>
+  <ellipse cx="128" cy="100" rx="90" ry="70" fill="url(#brass-sh0)"/>
+  <!-- gate arch -->
+  <path d="M40 256 V120 Q40 50 128 50 Q216 50 216 120 V256" fill="none" stroke="#1a1410" stroke-width="28"/>
+  <path d="M40 256 V120 Q40 50 128 50 Q216 50 216 120 V256" fill="none" stroke="#c9a227" stroke-width="3" opacity="0.35"/>
+  <path d="M0 210 H256 V256 H0 Z" fill="#12100c"/>
+  <!-- kite shield -->
+  <g>
+    <path d="M128 45 L190 75 L175 160 L128 210 L81 160 L66 75 Z" fill="#5a4e42" stroke="#0a0704" stroke-width="4"/>
+    <path d="M128 55 L175 80 L165 150 L128 190 L91 150 L81 80 Z" fill="#3a342c" stroke="#c9a227" stroke-width="2.5"/>
+    <circle cx="128" cy="110" r="18" fill="#2a1f14" stroke="#c9a227" stroke-width="3"/>
+    <path d="M128 98 V122 M116 110 H140" stroke="#c9a227" stroke-width="3"/>
   </g>
-  <!-- film grain-ish corners -->
-  <path d="M12 12 H48 M12 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 12 H208 M244 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M12 244 H48 M12 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 244 H208 M244 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.4"/>
+  <!-- pulp corner marks -->
+  <path d="M10 10 H42 M10 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 10 H214 M246 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M10 246 H42 M10 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 246 H214 M246 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
 </svg>

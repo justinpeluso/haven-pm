@@ -1,34 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="axe">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-label="axe plate warcamp fire">
   <defs>
-    <linearGradient id="skyaxe1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3a2818"/>
-      <stop offset="45%" stop-color="#1a120c"/>
-      <stop offset="100%" stop-color="#0a0704"/>
+    <linearGradient id="sky-a1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a1814"/>
+      <stop offset="50%" stop-color="#1a0e0a"/>
+      <stop offset="100%" stop-color="#080402"/>
     </linearGradient>
-    <radialGradient id="glowaxe1" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="#8a9aaa" stop-opacity="0.45"/>
-      <stop offset="55%" stop-color="#8a9aaa" stop-opacity="0.12"/>
+    <radialGradient id="fire-a1" cx="50%" cy="75%" r="45%">
+      <stop offset="0%" stop-color="#c44a1f" stop-opacity="0.7"/>
+      <stop offset="40%" stop-color="#8a2e12" stop-opacity="0.3"/>
       <stop offset="100%" stop-color="#0a0704" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="groundaxe1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a1c10" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#0a0704" stop-opacity="0.85"/>
-    </linearGradient>
   </defs>
-  <rect width="256" height="256" fill="url(#skyaxe1)"/>
-  <ellipse cx="128" cy="118" rx="110" ry="90" fill="url(#glowaxe1)"/>
-  <path d="M0 180 Q64 150 128 170 Q192 190 256 155 V256 H0 Z" fill="#14100c" opacity="0.55"/>
-  <rect width="256" height="256" fill="url(#groundaxe1)"/>
-  <!-- vignette -->
-  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="16" opacity="0.35"/>
-  <g transform="translate(0,0)">
-    <path d="M128 50 V205" stroke="#4a2e18" stroke-width="12"/>
-     <path d="M70 70 Q128 40 186 70 L168 120 Q128 95 88 120 Z" fill="#6a7080" stroke="#0a0704" stroke-width="4"/>
+  <rect width="256" height="256" fill="url(#sky-a1)"/>
+  <ellipse cx="128" cy="200" rx="110" ry="70" fill="url(#fire-a1)"/>
+  <!-- tent silhouettes -->
+  <path d="M10 170 L40 110 L70 170 Z" fill="#1a120c" opacity="0.8"/>
+  <path d="M190 175 L220 115 L250 175 Z" fill="#1a120c" opacity="0.75"/>
+  <path d="M0 175 H256 V256 H0 Z" fill="#100c08"/>
+  <!-- double-bit axe -->
+  <g transform="translate(0,-5)">
+    <path d="M128 40 V200" stroke="#5a3820" stroke-width="12" stroke-linecap="round"/>
+    <path d="M128 40 V200" stroke="#c9a227" stroke-width="3" opacity="0.4"/>
+    <path d="M55 70 L128 45 L128 100 L55 115 Z" fill="#7a8898" stroke="#0a0704" stroke-width="3"/>
+    <path d="M201 70 L128 45 L128 100 L201 115 Z" fill="#9aa8b8" stroke="#0a0704" stroke-width="3"/>
   </g>
-  <!-- film grain-ish corners -->
-  <path d="M12 12 H48 M12 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 12 H208 M244 12 V48" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M12 244 H48 M12 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
-  <path d="M244 244 H208 M244 244 V208" stroke="#c9a227" stroke-width="2" opacity="0.35"/>
+  <!-- fire tongues -->
+  <path d="M110 210 Q128 170 146 210 Q128 195 110 210" fill="#e8c547" opacity="0.8"/>
+  <path d="M118 215 Q128 190 138 215" fill="#c44a1f"/>
+  <rect width="256" height="256" fill="none" stroke="#0a0704" stroke-width="18" opacity="0.45"/>
+  <!-- pulp corner marks -->
+  <path d="M10 10 H42 M10 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 10 H214 M246 10 V42" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M10 246 H42 M10 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
+  <path d="M246 246 H214 M246 246 V214" stroke="#c9a227" stroke-width="2" opacity="0.4"/>
 </svg>
