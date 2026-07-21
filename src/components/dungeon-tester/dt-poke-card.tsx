@@ -285,7 +285,7 @@ export function DtPokeCard({
           <div className="dt-poke-hp" title={`HP ${hp}/${maxHp}`}>
             <span className="dt-poke-hp-lab">HP</span>
             <div className="dt-poke-hp-track">
-              <span style={{ width: `${pct(hp!, maxHp!)}%` />
+              <span style={{ width: `${pct(hp!, maxHp!)}%` }} />
             </div>
             <span className="dt-poke-hp-num">
               {hp}/{maxHp}
