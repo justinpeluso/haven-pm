@@ -33,6 +33,13 @@ import { dtFillEmptyEquipSlots } from "./loadout";
 import { startDtCampAmbush, startDtNightAmbush } from "./battle";
 import { NIGHT_AMBUSH_CHANCE } from "./night-creatures";
 import { dtBeMeanToDog, dtFeedDog, normalizeDtDog } from "./dog";
+import {
+  dtDisbandFetchedCompanion,
+  dtDogFetchCompanion,
+  sexLabel,
+} from "./fetch";
+import { RACE_DEFS } from "@/lib/downtown/party-chronicle/races";
+import { CLASS_DEFS } from "@/lib/downtown/party-chronicle/players";
 import { applyPartyMutation, asPartyWorld, type DtWorldSave } from "./types";
 
 export {
@@ -475,6 +482,59 @@ export function dtCampMeanToDog(
       log: [`${c.name} shoved ${dog.name} away — the dog sulks.`, ...world.log].slice(0, 80),
     },
     message: `${dog.name} runs to hide at camp. Feed them before they'll fight again.`,
+  };
+}
+
+/** Send the dog to fetch a random trail person (sex/race/class random). */
+export function dtCampDogFetch(
+  world: DtWorldSave,
+  slot: PlayerSlot,
+  rng: () => number = Math.random
+): { world: DtWorldSave; message: string } | { error: string } {
+  const c = world.characters[slot];
+  if (!c?.created) return { error: "Seal your hero first." };
+  if (world.battle?.status === "active") return { error: "Finish the battle first." };
+  const r = dtDogFetchCompanion(c, rng);
+  if ("error" in r) return { error: r.error };
+  const person = r.companion;
+  const race = RACE_DEFS[person.raceId]?.name ?? person.raceId;
+  const cls = CLASS_DEFS[person.classId]?.name ?? person.classId;
+  const dog = normalizeDtDog(r.char.dog);
+  return {
+    world: {
+      ...world,
+      characters: { ...world.characters, [slot]: r.char },
+      updatedAt: new Date().toISOString(),
+      log: [
+        `${dog.name} fetched ${person.name} (${sexLabel(person.sex)} ${race} ${cls}).`,
+        ...world.log,
+      ].slice(0, 80),
+    },
+    message: `${dog.name} brings back ${person.name} — ${sexLabel(person.sex)} ${race} ${cls}, Lv ${person.level}. They stick until you disband them.`,
+  };
+}
+
+/** Part ways with the fetched companion so the dog can find someone new. */
+export function dtCampDisbandCompanion(
+  world: DtWorldSave,
+  slot: PlayerSlot
+): { world: DtWorldSave; message: string } | { error: string } {
+  const c = world.characters[slot];
+  if (!c?.created) return { error: "Seal your hero first." };
+  if (world.battle?.status === "active") return { error: "Finish the battle first." };
+  const r = dtDisbandFetchedCompanion(c);
+  if ("error" in r) return { error: r.error };
+  return {
+    world: {
+      ...world,
+      characters: { ...world.characters, [slot]: r.char },
+      updatedAt: new Date().toISOString(),
+      log: [`${c.name} disbands ${r.name} — the road takes them.`, ...world.log].slice(
+        0,
+        80
+      ),
+    },
+    message: `${r.name} leaves camp. ${normalizeDtDog(c.dog).name} can fetch someone new.`,
   };
 }
 

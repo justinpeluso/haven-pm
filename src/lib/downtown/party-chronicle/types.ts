@@ -400,6 +400,42 @@ export type DogCompanion = {
   sulking?: boolean;
 };
 
+/** Sex for dog-fetched trail people (random at find). */
+export const FETCHED_SEXES = ["female", "male", "nonbinary"] as const;
+export type FetchedSex = (typeof FETCHED_SEXES)[number];
+
+/**
+ * Person the dog fetches on the trail — one per hero until disbanded.
+ * Playable/levelable; not a login party seat.
+ */
+export type DtFetchedCompanion = {
+  id: string;
+  name: string;
+  sex: FetchedSex;
+  raceId: RaceId;
+  classId: ClassId;
+  level: number;
+  xp: number;
+  skillPoints: number;
+  stats: Stats;
+  hp: number;
+  maxHp: number;
+  mana: number;
+  maxMana: number;
+  stamina: number;
+  maxStamina: number;
+  inventory: string[];
+  equipped: Partial<Record<EquipSlot, string | null>>;
+  dtLook?: {
+    skin: string;
+    hair: string;
+    hairColor: string;
+    outfit: string;
+    hat: string;
+  };
+  foundAt: string;
+};
+
 export type HotbarSlot = string | null;
 
 /** ≥5 so Bard (1 skill + 4 magic) fits on the bar. */
@@ -425,6 +461,11 @@ export type CharacterSave = {
   mana: number;
   maxMana: number;
   dog: DogCompanion;
+  /**
+   * Trail person the dog fetched — stays until you disband them.
+   * Null/undefined = dog is free to find someone new.
+   */
+  fetchedCompanion?: DtFetchedCompanion | null;
   /**
    * True Grit frontier appearance (optional).
    * Neverworld ignores this; DT create + battle use it instead of class comic plates.

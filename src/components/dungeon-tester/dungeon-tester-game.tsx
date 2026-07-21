@@ -18,7 +18,7 @@ import {
 } from "@/lib/downtown/party-chronicle/create";
 import { CLASS_DEFS, SLOT_DEFAULTS } from "@/lib/downtown/party-chronicle/players";
 import { applyPointBuy } from "@/lib/downtown/party-chronicle/persist";
-import { RACE_IDS, type RaceId } from "@/lib/downtown/party-chronicle/races";
+import { RACE_DEFS, RACE_IDS, type RaceId } from "@/lib/downtown/party-chronicle/races";
 import type {
   ClassId,
   EquipSlot,
@@ -57,9 +57,12 @@ import {
   claimSimpleBattleVictoryRewards,
   dtArtSrc,
   dtBuyFromCampMerchant,
+  dtCampDisbandCompanion,
+  dtCampDogFetch,
   dtCampFeedDog,
   dtCampMeanToDog,
   dtDigForLoot,
+  dtDogCanFetch,
   dtDogJoinsBattle,
   dtEquipItem,
   dtForceAmbush,
@@ -85,6 +88,8 @@ import {
   getFrame,
   normalizeDtDog,
   getDtDogPokeCard,
+  synthesizeCompanionPokeCard,
+  sexLabel,
   normalizeDtHeroLook,
   resolveFrameBody,
   visibleFrameChoices,
@@ -980,6 +985,28 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     setFlash(r.message);
   };
 
+  const onDogFetch = () => {
+    if (!world || !mySlot) return;
+    const r = dtCampDogFetch(world, mySlot);
+    if ("error" in r) {
+      setFlash(r.error);
+      return;
+    }
+    persist(r.world);
+    setFlash(r.message);
+  };
+
+  const onDisbandCompanion = () => {
+    if (!world || !mySlot) return;
+    const r = dtCampDisbandCompanion(world, mySlot);
+    if ("error" in r) {
+      setFlash(r.error);
+      return;
+    }
+    persist(r.world);
+    setFlash(r.message);
+  };
+
   const onChest = () => {
     if (!world || !mySlot) return;
     const r = dtStumbleOnChest(world, mySlot);
@@ -1741,6 +1768,77 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                         Shove dog away (mean) →
                       </button>
                     </div>
+
+                    <p className="dt-section-label" style={{ marginTop: "1rem" }}>
+                      Trail Fetch · Found People
+                    </p>
+                    <p className="dt-section-hint">
+                      Send your dog to fetch a random person (sex, race, and class roll). They stick
+                      until you disband them — then the dog can find someone new.
+                    </p>
+                    {me.fetchedCompanion ? (
+                      <>
+                        <div className="dt-camp-dog-card">
+                          <DtPokeCard
+                            card={synthesizeCompanionPokeCard({
+                              id: me.fetchedCompanion.id,
+                              name: me.fetchedCompanion.name,
+                              sexLabel: sexLabel(me.fetchedCompanion.sex),
+                              raceName:
+                                RACE_DEFS[me.fetchedCompanion.raceId]?.name ??
+                                me.fetchedCompanion.raceId,
+                              className:
+                                CLASS_DEFS[me.fetchedCompanion.classId]?.name ??
+                                me.fetchedCompanion.classId,
+                              level: me.fetchedCompanion.level,
+                            })}
+                            hp={me.fetchedCompanion.hp}
+                            maxHp={me.fetchedCompanion.maxHp}
+                            size="md"
+                            ally
+                          />
+                        </div>
+                        <p className="dt-section-hint">
+                          {me.fetchedCompanion.name} · {sexLabel(me.fetchedCompanion.sex)} ·{" "}
+                          {RACE_DEFS[me.fetchedCompanion.raceId]?.name ??
+                            me.fetchedCompanion.raceId}{" "}
+                          ·{" "}
+                          {CLASS_DEFS[me.fetchedCompanion.classId]?.name ??
+                            me.fetchedCompanion.classId}{" "}
+                          · Lv {me.fetchedCompanion.level} · {me.fetchedCompanion.xp} XP
+                        </p>
+                        <div className="dt-actions">
+                          <button
+                            type="button"
+                            className="dt-btn"
+                            disabled={!acting || battleActive}
+                            onClick={onDisbandCompanion}
+                          >
+                            Disband {me.fetchedCompanion.name} →
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="dt-actions">
+                        <button
+                          type="button"
+                          className="dt-btn"
+                          data-variant="primary"
+                          disabled={
+                            !acting || battleActive || !dtDogCanFetch(me).ok
+                          }
+                          title={dtDogCanFetch(me).reason}
+                          onClick={onDogFetch}
+                        >
+                          Send dog to fetch someone →
+                        </button>
+                      </div>
+                    )}
+                    {!me.fetchedCompanion && !dtDogCanFetch(me).ok ? (
+                      <p className="dt-section-hint dt-section-hint-accent">
+                        {dtDogCanFetch(me).reason}
+                      </p>
+                    ) : null}
                   </>
                 ) : (
                   <p className="dt-section-hint">Seal a hero to bring a dog.</p>

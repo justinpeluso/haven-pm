@@ -18,6 +18,7 @@ export * from "./gear-display";
 export * from "./gear-icons";
 export * from "./look";
 export * from "./dog";
+export * from "./fetch";
 export * from "./night-creatures";
 export * from "./maps";
 export * from "./side-quests";

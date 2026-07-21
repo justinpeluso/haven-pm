@@ -51,7 +51,7 @@ export type DtGearSpiritKind =
   | "consumable"
   | "trinket";
 
-export type DtPokeCardKind = "foe" | "dog" | DtGearSpiritKind;
+export type DtPokeCardKind = "foe" | "dog" | "companion" | DtGearSpiritKind;
 
 const GEAR_SPIRIT_KINDS = new Set<string>([
   "weapon",
@@ -117,6 +117,46 @@ export function getDtDogPokeCard(): DtPokeCardDef {
       ],
     }
   );
+}
+
+/** Live character card for a dog-fetched trail person. */
+export function synthesizeCompanionPokeCard(opts: {
+  id: string;
+  name: string;
+  sexLabel: string;
+  raceName: string;
+  className: string;
+  level: number;
+}): DtPokeCardDef {
+  return {
+    id: opts.id,
+    name: opts.name,
+    blurb: `Lv ${opts.level} ${opts.sexLabel} ${opts.raceName} ${opts.className} — fetched on the trail.`,
+    artId: "art-hero-companion",
+    kind: "companion",
+    types: ["grit", "dust"],
+    moves: [
+      {
+        id: "trail-strike",
+        name: "Trail Strike",
+        effects: ["damage"],
+        powerMult: 1.1,
+      },
+      {
+        id: "steady-blow",
+        name: "Steady Blow",
+        effects: ["damage"],
+        powerMult: 1.35,
+      },
+      {
+        id: "brace-up",
+        name: "Brace Up",
+        effects: ["buff"],
+        powerBonus: 3,
+        buffRounds: 2,
+      },
+    ],
+  };
 }
 
 /** Resolve a unit's poke card — dog companion or bestiary foeDefId. */

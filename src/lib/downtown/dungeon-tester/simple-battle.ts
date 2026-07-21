@@ -48,6 +48,12 @@ import {
   dtDogJoinsBattle,
   normalizeDtDog,
 } from "./dog";
+import {
+  applyFetchedCompanionXp,
+  sexLabel,
+} from "./fetch";
+import { RACE_DEFS } from "@/lib/downtown/party-chronicle/races";
+import { CLASS_DEFS } from "@/lib/downtown/party-chronicle/players";
 import { normalizeDtHeroLook, type DtHeroLook } from "./look";
 import { rollNightCreature } from "./night-creatures";
 import {
@@ -56,6 +62,7 @@ import {
   getDtUnarmedPokeCard,
   getDtWeaponPokeCard,
   pickDtPokeMove,
+  synthesizeCompanionPokeCard,
   type DtPokeMoveDef,
 } from "./poke-cards";
 
@@ -107,6 +114,9 @@ export type SimpleBattleUnit = {
   classId?: string;
   /** Companion dog — present on field, no player action budget. */
   isDog?: boolean;
+  /** Dog-fetched trail person — playable like a hero. */
+  isCompanion?: boolean;
+  companionId?: string;
   /** Frontier look for DT hero art (not Neverworld class plates). */
   look?: DtHeroLook;
   /** Enemy bestiary id (for loot pool). */
@@ -437,6 +447,7 @@ const HERO_SPOTS: { x: number; y: number }[] = [
 
 /** Dog sits slightly ahead/below their owner. */
 const DOG_SPOT_OFFSET = { x: 10, y: 10 };
+const COMPANION_SPOT_OFFSET = { x: -8, y: 12 };
 
 /** Fixed enemy lanes — right side. Max living reinforcements share these. */
 const ENEMY_SPOTS: { x: number; y: number }[] = [
@@ -643,6 +654,19 @@ function syncHeroHpFromUnits(
       };
       continue;
     }
+    if (u.isCompanion) {
+      const fetched = c.fetchedCompanion;
+      if (!fetched || (u.companionId && fetched.id !== u.companionId)) continue;
+      characters[u.slot] = {
+        ...c,
+        fetchedCompanion: {
+          ...fetched,
+          hp: Math.max(0, Math.min(fetched.maxHp, u.hp)),
+          mana: Math.max(0, Math.min(fetched.maxMana, u.mana)),
+        },
+      };
+      continue;
+    }
     characters[u.slot] = {
       ...c,
       hp: Math.max(0, Math.min(c.maxHp, u.hp)),
@@ -754,9 +778,28 @@ function grantRewards(
     const slot = heroes[i]!;
     const c = characters[slot]!;
     const itemIds = drops.filter((_, di) => di % heroes.length === i).map((d) => d.itemId);
-    const heroUnit = battle.units.find((u) => u.side === "hero" && u.slot === slot && !u.isDog);
+    const heroUnit = battle.units.find(
+      (u) => u.side === "hero" && u.slot === slot && !u.isDog && !u.isCompanion
+    );
     const dogUnit = battle.units.find((u) => u.side === "hero" && u.slot === slot && u.isDog);
+    const companionUnit = battle.units.find(
+      (u) => u.side === "hero" && u.slot === slot && u.isCompanion
+    );
     const dog = normalizeDtDog(c.dog);
+    let fetched = c.fetchedCompanion ?? null;
+    if (fetched && companionUnit) {
+      fetched = applyFetchedCompanionXp(
+        {
+          ...fetched,
+          hp: Math.max(0, Math.min(fetched.maxHp, companionUnit.hp)),
+          mana: Math.max(0, Math.min(fetched.maxMana, companionUnit.mana)),
+        },
+        xpEach + (i === 0 ? leftovers.xp : 0)
+      );
+    } else if (fetched && companionUnit === undefined) {
+      // Companion sat out — still share a little XP for sticking around
+      fetched = applyFetchedCompanionXp(fetched, Math.floor(xpEach / 2));
+    }
     characters[slot] = {
       ...c,
       gold: (c.gold ?? 0) + goldEach + (i === 0 ? leftovers.gold : 0),
@@ -767,6 +810,7 @@ function grantRewards(
       dog: dogUnit
         ? { ...dog, hp: Math.max(0, Math.min(dog.maxHp, dogUnit.hp)) }
         : dog,
+      fetchedCompanion: fetched,
     };
   }
   return characters;
@@ -1402,6 +1446,43 @@ export function startSimpleBattle(
     });
   });
 
+  const companionUnits: SimpleBattleUnit[] = [];
+  sealed.forEach((slot, i) => {
+    const c = world.characters[slot]!;
+    const fetched = c.fetchedCompanion;
+    if (!fetched || fetched.hp <= 0) return;
+    const spot = HERO_SPOTS[i] ?? { x: 16, y: 40 + i * 18 };
+    companionUnits.push({
+      id: `companion-${slot}`,
+      side: "hero",
+      slot,
+      name: fetched.name,
+      color: "#5a7a8a",
+      hp: Math.max(1, fetched.hp),
+      maxHp: fetched.maxHp,
+      power: Math.max(2, 2 + (fetched.level ?? 1)),
+      armor: 0,
+      x: Math.max(8, spot.x + COMPANION_SPOT_OFFSET.x),
+      y: Math.min(92, spot.y + COMPANION_SPOT_OFFSET.y),
+      haste: false,
+      hasteRounds: 0,
+      actionsLeft: 1,
+      mana: fetched.mana ?? 0,
+      maxMana: fetched.maxMana ?? 0,
+      stamina: fetched.stamina ?? 0,
+      maxStamina: fetched.maxStamina ?? 0,
+      classId: fetched.classId,
+      look: normalizeDtHeroLook(fetched.dtLook, slot),
+      isCompanion: true,
+      companionId: fetched.id,
+      moveCursor: 0,
+      stunRounds: 0,
+      poisonStacks: 0,
+      powerBuff: 0,
+      powerBuffRounds: 0,
+    });
+  });
+
   const enemyUnits: SimpleBattleUnit[] = foes.map((f, i) =>
     buildEnemyUnit(f, i, {
       partyLevel: lvl,
@@ -1421,10 +1502,14 @@ export function startSimpleBattle(
     dogUnits.length > 0
       ? ` ${dogUnits.map((d) => d.name).join(", ")} at your side.`
       : "";
+  const companionJoinLine =
+    companionUnits.length > 0
+      ? ` ${companionUnits.map((u) => u.name).join(", ")} fights with you.`
+      : "";
   const ambushLog = [
     nightAmbush
-      ? `Night ambush! ${foes.map((f) => f.name).join(", ")} slips past the firelight — party acts first.${dogJoinLine}`
-      : `Ambush! ${foes.map((f) => f.name).join(", ")} — party acts first.${dogJoinLine}`,
+      ? `Night ambush! ${foes.map((f) => f.name).join(", ")} slips past the firelight — party acts first.${dogJoinLine}${companionJoinLine}`
+      : `Ambush! ${foes.map((f) => f.name).join(", ")} — party acts first.${dogJoinLine}${companionJoinLine}`,
     ...dogNotes,
   ];
 
@@ -1436,18 +1521,18 @@ export function startSimpleBattle(
     mapTheme: theme,
     mapVariant: variant,
     chapterId: world.chapterId,
-    units: [...heroUnits, ...dogUnits, ...enemyUnits],
-    focusHeroId: heroUnits[0]?.id ?? null,
+    units: [...heroUnits, ...companionUnits, ...dogUnits, ...enemyUnits],
+    focusHeroId: heroUnits[0]?.id ?? companionUnits[0]?.id ?? null,
     log: ambushLog,
     fx: [],
     goldReward,
     xpReward,
     message: nightAmbush
       ? `Night creature! ${foes.map((f) => f.name).join(", ")} attack the camp.${
-          dogNotes[0] ? ` ${dogNotes[0]}` : dogJoinLine
+          dogNotes[0] ? ` ${dogNotes[0]}` : `${dogJoinLine}${companionJoinLine}`
         }`
       : `Fight! ${foes.length} foe${foes.length === 1 ? "" : "s"} on the ${theme.replace(/-/g, " ")}.${
-          dogNotes[0] ? ` ${dogNotes[0]}` : dogJoinLine
+          dogNotes[0] ? ` ${dogNotes[0]}` : `${dogJoinLine}${companionJoinLine}`
         }`,
     splashDone: false,
     combatStats: emptyCombatStats(1),
@@ -1807,6 +1892,9 @@ export function performSimpleBattleAction(
   const hero = battle.units.find((u) => u.id === heroId && u.side === "hero");
   if (!hero || hero.hp <= 0) return { world, message: "That hero is down." };
   if (hero.isDog) return { world, message: "Your dog acts on their own." };
+  if (hero.isCompanion && action !== "attack" && action !== "buff") {
+    return { world, message: "Trail companions use Attack (or brace buff) for now." };
+  }
   if (hero.actionsLeft <= 0) return { world, message: "That hero already acted." };
 
   let nextBattle: SimpleBattleState = { ...battle, fx: [], focusHeroId: heroId };
@@ -1826,11 +1914,26 @@ export function performSimpleBattleAction(
         retargetNote = " (switched target)";
       }
       const char = hero.slot ? characters[hero.slot] : null;
-      const weaponId = char?.equipped?.weapon ?? null;
+      const fetched =
+        hero.isCompanion && char?.fetchedCompanion ? char.fetchedCompanion : null;
+      const weaponId = fetched
+        ? fetched.equipped?.weapon ?? null
+        : char?.equipped?.weapon ?? null;
       const weapon = resolveGear(weaponId);
-      const scaling = resolveWeaponScaling(weapon ?? null, char?.stats);
-      const weaponCard =
-        getDtWeaponPokeCard(weaponId) ?? getDtUnarmedPokeCard();
+      const scaling = resolveWeaponScaling(
+        weapon ?? null,
+        fetched?.stats ?? char?.stats
+      );
+      const weaponCard = fetched
+        ? synthesizeCompanionPokeCard({
+            id: fetched.id,
+            name: fetched.name,
+            sexLabel: sexLabel(fetched.sex),
+            raceName: RACE_DEFS[fetched.raceId]?.name ?? fetched.raceId,
+            className: CLASS_DEFS[fetched.classId]?.name ?? fetched.classId,
+            level: fetched.level,
+          })
+        : getDtWeaponPokeCard(weaponId) ?? getDtUnarmedPokeCard();
       const { move, nextCursor } = pickDtPokeMove(
         weaponCard,
         hero.moveCursor ?? 0,
