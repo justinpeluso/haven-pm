@@ -64,7 +64,7 @@ export default function LoginPage() {
     }
 
     const dest = PARTY_EMAILS.has(email.trim().toLowerCase())
-      ? "/neverworld"
+      ? "/true-grit"
       : "/dashboard";
     router.push(dest);
     router.refresh();
@@ -153,7 +153,7 @@ export default function LoginPage() {
                 onClick={() => setPartyOpen((o) => !o)}
                 aria-expanded={partyOpen}
               >
-                <span>Neverworld party logins</span>
+                <span>Dungeons and Dogs party logins</span>
                 <span className="text-[0.65rem] font-normal opacity-80">
                   {partyOpen ? "Hide" : "Show"}
                 </span>

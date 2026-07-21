@@ -1,11 +1,5 @@
 export const JP_GAMING_LINKS = [
   {
-    id: "neverworld" as const,
-    href: "/neverworld",
-    label: "Neverworld",
-    hint: "Party Chronicle",
-  },
-  {
     id: "true-grit" as const,
     href: "/true-grit",
     label: "Dungeons and Dogs",
@@ -28,21 +22,7 @@ export function isJpGamingPath(pathname: string): boolean {
 }
 
 export function jpGamingHrefForPath(pathname: string): string | null {
-  if (pathname === "/neverworld" || pathname.startsWith("/neverworld/")) {
-    return "/neverworld";
-  }
-  if (pathname === "/true-grit" || pathname.startsWith("/true-grit/")) {
-    return "/true-grit";
-  }
-  if (
-    pathname.startsWith("/downtown/neverworld") ||
-    pathname.startsWith("/downtown/party-chronicle")
-  ) {
-    return "/neverworld";
-  }
-  if (pathname.startsWith("/downtown/dungeon-tester")) {
-    return "/true-grit";
-  }
+  if (isJpGamingPath(pathname)) return "/true-grit";
   return null;
 }
 
