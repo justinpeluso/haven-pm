@@ -5,6 +5,12 @@ export const JP_GAMING_LINKS = [
     label: "Dungeons and Dogs",
     hint: "Lost Brothers — Neon Wilderland",
   },
+  {
+    id: "emberreach" as const,
+    href: "/emberreach",
+    label: "Emberreach",
+    hint: "Ashtrail Watch — third-person prototype",
+  },
 ] as const;
 
 export type JpGamingId = (typeof JP_GAMING_LINKS)[number]["id"];
@@ -13,6 +19,7 @@ const LAST_GAME_KEY = "jp-gaming-last";
 
 export function isJpGamingPath(pathname: string): boolean {
   if (pathname === "/true-grit" || pathname.startsWith("/true-grit/")) return true;
+  if (pathname === "/emberreach" || pathname.startsWith("/emberreach/")) return true;
   // Legacy bookmarks — still treated as gaming workspace while they redirect.
   if (pathname === "/neverworld" || pathname.startsWith("/neverworld/")) return true;
   return (
@@ -23,7 +30,12 @@ export function isJpGamingPath(pathname: string): boolean {
 }
 
 export function jpGamingHrefForPath(pathname: string): string | null {
-  if (isJpGamingPath(pathname)) return "/true-grit";
+  for (const game of JP_GAMING_LINKS) {
+    if (pathname === game.href || pathname.startsWith(`${game.href}/`)) {
+      return game.href;
+    }
+  }
+  if (isJpGamingPath(pathname)) return JP_GAMING_LINKS[0].href;
   return null;
 }
 

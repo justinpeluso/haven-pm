@@ -1,0 +1,163 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap");
+
+.emberreach {
+  --ember-gold: #e8c27a;
+  --ember-fog: rgba(18, 14, 12, 0.72);
+  --ember-panel: rgba(22, 16, 12, 0.78);
+
+  position: relative;
+  margin: -1rem;
+  width: calc(100% + 2rem);
+  height: calc(100vh - 3.5rem);
+  min-height: 28rem;
+  overflow: hidden;
+  background: #0b0908;
+  color: #f3e7d3;
+  font-family: "Source Sans 3", system-ui, sans-serif;
+}
+
+@media (min-width: 768px) {
+  .emberreach {
+    margin: -1.5rem;
+    width: calc(100% + 3rem);
+  }
+}
+
+.emberreach-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+
+.emberreach-hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.emberreach-brand {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.5rem;
+  font-family: "Cinzel", serif;
+  font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+  letter-spacing: 0.08em;
+  color: var(--ember-gold);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.65);
+}
+
+.emberreach-panel {
+  position: absolute;
+  background: var(--ember-panel);
+  border: 1px solid rgba(232, 194, 122, 0.28);
+  backdrop-filter: blur(8px);
+  padding: 0.85rem 1rem;
+  max-width: 22rem;
+}
+
+.emberreach-panel-title {
+  font-family: "Cinzel", serif;
+  color: var(--ember-gold);
+  margin-bottom: 0.35rem;
+  letter-spacing: 0.04em;
+}
+
+.emberreach-quest {
+  top: 5.2rem;
+  left: 1.5rem;
+}
+
+.emberreach-quest p {
+  margin: 0;
+  line-height: 1.4;
+  color: #f0e2cc;
+  font-size: 0.95rem;
+}
+
+.emberreach-bars {
+  left: 1.5rem;
+  bottom: 4.5rem;
+  width: min(18rem, calc(100% - 3rem));
+}
+
+.emberreach-bar {
+  display: grid;
+  gap: 0.25rem;
+  margin-bottom: 0.55rem;
+}
+
+.emberreach-bar:last-child {
+  margin-bottom: 0;
+}
+
+.emberreach-bar span {
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #d8c7a8;
+}
+
+.emberreach-track {
+  height: 0.7rem;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(243, 231, 211, 0.15);
+  overflow: hidden;
+}
+
+.emberreach-fill {
+  height: 100%;
+  width: 100%;
+  transform-origin: left center;
+  transition: transform 120ms linear;
+}
+
+.emberreach-fill-hp {
+  background: linear-gradient(90deg, #8b1e1e, #d3542f);
+}
+
+.emberreach-fill-focus {
+  background: linear-gradient(90deg, #1f4d6b, #4aa3c7);
+}
+
+.emberreach-help {
+  position: absolute;
+  left: 50%;
+  bottom: 1.1rem;
+  transform: translateX(-50%);
+  background: var(--ember-fog);
+  border: 1px solid rgba(232, 194, 122, 0.2);
+  padding: 0.55rem 0.9rem;
+  font-size: 0.82rem;
+  color: #e7d8bf;
+  white-space: nowrap;
+}
+
+.emberreach-toast {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Cinzel", serif;
+  font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+  color: var(--ember-gold);
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
+  transition: opacity 240ms ease;
+}
+
+.emberreach-toast.hidden {
+  opacity: 0;
+}
+
+@media (max-width: 720px) {
+  .emberreach-help {
+    white-space: normal;
+    width: calc(100% - 2rem);
+    text-align: center;
+  }
+
+  .emberreach-quest {
+    max-width: calc(100% - 3rem);
+  }
+}
