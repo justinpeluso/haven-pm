@@ -260,13 +260,20 @@ export function dtGearIconSrc(
 
 /**
  * Full-bleed collectible art for poke / Gear hero windows.
- * Always uses atmospheric category plates (not tiny named thumbs).
+ * Named art is preferred for card/hero windows when the item is in
+ * DT_GEAR_ICON_IDS; otherwise falls back to atmospheric category `_plate-*`.
  */
 export function getGearArtPlate(itemId: string | null | undefined): string {
   if (!itemId) return `${GEAR_ICON_DIR}/_plate-blade-0.svg`;
+
+  if (ICON_SET.has(itemId)) {
+    return `${GEAR_ICON_DIR}/${itemId}.svg`;
+  }
+
   if (itemId === "dt-unarmed-grit") {
     return plateForCategory("unarmed", itemId, "plate");
   }
+
   const item = getDtGear(itemId);
   const cat = resolveGearArtCategory(item, itemId);
   return plateForCategory(cat, itemId, "plate");
