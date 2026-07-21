@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GearTipBody } from "@/components/party-chronicle/gear-hover-tip";
 import { DtGearIcon } from "@/components/dungeon-tester/dt-gear-icon";
 import { DtHeroFigure } from "@/components/dungeon-tester/dt-hero-figure";
 import { isSpellbookItem } from "@/lib/downtown/party-chronicle/bestiary";
-import { getGear } from "@/lib/downtown/party-chronicle/gear";
 import {
   computeEffectiveStats,
   formatProperty,
@@ -18,18 +17,14 @@ import type {
   PlayerSlot,
 } from "@/lib/downtown/party-chronicle/types";
 import { EQUIP_SLOTS, STAT_KEYS } from "@/lib/downtown/party-chronicle/types";
-import { getDtGear } from "@/lib/downtown/dungeon-tester/gear";
 import {
   dtBagItemUpgradeCue,
+  dtResolveGear,
   formatGearTier,
   gearTierAttr,
 } from "@/lib/downtown/dungeon-tester/gear-display";
 import { normalizeDtHeroLook } from "@/lib/downtown/dungeon-tester/look";
-import {
-  getDtGearPokeCard,
-  getDtUnarmedPokeCard,
-  synthesizeGearPokeCard,
-} from "@/lib/downtown/dungeon-tester/poke-cards";
+import { resolveDtItemSpiritCard } from "@/lib/downtown/dungeon-tester/poke-cards";
 import { DtPokeCard } from "@/components/dungeon-tester/dt-poke-card";
 
 const SLOT_LABEL: Record<EquipSlot, string> = {
@@ -53,9 +48,31 @@ const DOLL_LAYOUT: { area: string; slot: EquipSlot }[] = [
   { area: "legs", slot: "legs" },
 ];
 
+/** DT catalog → getGear → GEAR_CATALOG scan (Neverworld oak-staff, etc.). */
 function resolveItem(id: string | null | undefined): GearItem | null {
-  if (!id) return null;
-  return getDtGear(id) ?? getGear(id) ?? null;
+  return dtResolveGear(id);
+}
+
+function isOwnedGearId(
+  char: CharacterSave,
+  id: string | null | undefined
+): id is string {
+  if (!id) return false;
+  return (
+    char.inventory.includes(id) ||
+    EQUIP_SLOTS.some((s) => char.equipped[s] === id)
+  );
+}
+
+/** Snap museum focus to weapon when empty, unarmed, or stale. */
+function shouldSnapFocusToWeapon(
+  focusId: string | null,
+  weaponId: string | null,
+  char: CharacterSave
+): boolean {
+  if (!weaponId) return false;
+  if (!focusId || focusId === "dt-unarmed-grit") return true;
+  return !isOwnedGearId(char, focusId);
 }
 
 function meterPct(value: number, max: number) {
@@ -106,18 +123,28 @@ export function DtGearSheet({
   const equippedIds = new Set(
     EQUIP_SLOTS.map((s) => char.equipped[s]).filter(Boolean) as string[]
   );
-  const [focusId, setFocusId] = useState<string | null>(null);
-  const spiritId =
-    focusId &&
-    (char.inventory.includes(focusId) ||
-      EQUIP_SLOTS.some((s) => char.equipped[s] === focusId))
-      ? focusId
-      : char.equipped.weapon ?? char.inventory[0] ?? null;
-  const spiritItem = resolveItem(spiritId);
-  // Unarmed ONLY when no catalog item — never override oak-staff / real gear.
-  const spiritCard = spiritItem
-    ? (getDtGearPokeCard(spiritItem.id) ?? synthesizeGearPokeCard(spiritItem))
-    : getDtUnarmedPokeCard();
+  const equippedWeaponId = char.equipped.weapon ?? null;
+  // Default spirit focus to equipped weapon (oak-staff etc.) — not Bare Knuckles.
+  const [focusId, setFocusId] = useState<string | null>(
+    () => equippedWeaponId
+  );
+
+  useEffect(() => {
+    const weapon = char.equipped.weapon ?? null;
+    setFocusId((prev) => {
+      if (shouldSnapFocusToWeapon(prev, weapon, char)) return weapon;
+      if (!weapon && prev && !isOwnedGearId(char, prev)) return null;
+      return prev;
+    });
+  }, [char.equipped.weapon, char.inventory, char.equipped]);
+
+  // Owned hover/click focus, else equipped weapon only (no inventory[0] default).
+  const spiritId = isOwnedGearId(char, focusId)
+    ? focusId
+    : equippedWeaponId;
+  // Resolve by that id — Bare Knuckles ONLY when spiritId is empty.
+  const { item: spiritItem, card: spiritCard } =
+    resolveDtItemSpiritCard(spiritId);
   const spiritLabel = spiritItem?.name ?? spiritCard.name;
   const spiritTier = spiritItem
     ? gearTierAttr(spiritItem.rarity ?? spiritItem.tier)
@@ -141,6 +168,8 @@ export function DtGearSheet({
         className="dt-gear-spirit-hero"
         aria-label="Spirit card showcase"
         data-tier={spiritTier}
+        data-spirit-id={spiritId ?? "dt-unarmed-grit"}
+        data-spirit-name={spiritCard.name}
         data-equipped={spiritEquipped ? "true" : "false"}
       >
         <div className="dt-gear-spirit-hero-pedestal">

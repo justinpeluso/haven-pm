@@ -4,7 +4,7 @@
  */
 
 import pokePack from "../../../../data/dungeon-tester/poke-cards.json";
-import { getGear } from "../party-chronicle/gear";
+import { GEAR_CATALOG, getGear } from "../party-chronicle/gear";
 import type { GearItem } from "../party-chronicle/types";
 import { getDtGear } from "./gear";
 
@@ -128,8 +128,13 @@ export function pokeCardForUnit(opts: {
   return getDtPokeCard(opts.foeDefId);
 }
 
+/** DT catalog → shared getGear → hand-authored Neverworld catalog scan. */
 function resolveGearForSpirit(id: string): GearItem | undefined {
-  return getDtGear(id) ?? getGear(id);
+  return (
+    getDtGear(id) ??
+    getGear(id) ??
+    GEAR_CATALOG.find((g) => g.id === id)
+  );
 }
 
 function spiritKindForSlot(slot: GearItem["slot"]): DtGearSpiritKind {
@@ -238,6 +243,24 @@ export function getDtGearPokeCard(
   const item = resolveGearForSpirit(gearId);
   if (item) return synthesizeGearPokeCard(item);
   return undefined;
+}
+
+/**
+ * Museum / tip spirit for a gear id.
+ * Bare Knuckles ONLY when `itemId` is empty/unarmed — never for oak-staff etc.
+ */
+export function resolveDtItemSpiritCard(
+  itemId: string | null | undefined
+): { item: GearItem | null; card: DtPokeCardDef } {
+  if (!itemId || itemId === "dt-unarmed-grit") {
+    return { item: null, card: getDtUnarmedPokeCard() };
+  }
+  const item = resolveGearForSpirit(itemId) ?? null;
+  const card =
+    getDtGearPokeCard(itemId) ??
+    (item ? synthesizeGearPokeCard(item) : undefined);
+  if (card) return { item, card };
+  return { item: null, card: getDtUnarmedPokeCard() };
 }
 
 /** Bare-hands fallback when no weapon equipped. */

@@ -2,7 +2,7 @@
  * DungeonTester gear display helpers — rarity labels + combat sheet.
  */
 
-import { getGear } from "@/lib/downtown/party-chronicle/gear";
+import { GEAR_CATALOG, getGear } from "@/lib/downtown/party-chronicle/gear";
 import { computeEffectiveStats, itemProperties } from "@/lib/downtown/party-chronicle/stats";
 import type {
   CharacterSave,
@@ -52,7 +52,12 @@ export function dtGearCombatScore(item: GearItem): number {
 
 export function dtResolveGear(id: string | null | undefined): GearItem | null {
   if (!id) return null;
-  return getDtGear(id) ?? getGear(id) ?? null;
+  return (
+    getDtGear(id) ??
+    getGear(id) ??
+    GEAR_CATALOG.find((g) => g.id === id) ??
+    null
+  );
 }
 
 export function dtBagItemUpgradeCue(
