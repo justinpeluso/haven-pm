@@ -83,7 +83,11 @@ while (world.battle?.status === "active" && guards++ < 120) {
 assert(world.battle?.status === "victory", `expected victory, got ${world.battle?.status}`);
 assert(world.battle.phase === "summary", "summary phase");
 assert((world.battle.lootDrops?.length ?? 0) >= 1, "lootDrops present");
-assert(world.battle.rewardsPending === true, "rewards pending");
+// Rewards grant on finish so the end screen can show live bag — not deferred to dismiss.
+assert(world.battle.rewardsPending === false, "rewards already claimed on finish");
+const midGold = world.characters.justin!.gold;
+const midInv = world.characters.justin!.inventory.length;
+assert(midInv >= 1, "loot already in bag on victory");
 console.log("victory loot:", world.battle.lootDrops?.map((d) => d.name));
 console.log("stats:", world.battle.combatStats);
 
@@ -101,11 +105,14 @@ const merged = mergeSimpleBattle(world.battle, staleActive);
 assert(merged?.status === "victory", `merge kept victory, got ${merged?.status}`);
 assert((merged?.lootDrops?.length ?? 0) >= 1, "merge kept loot");
 
-const beforeGold = world.characters.justin!.gold;
-const beforeInv = world.characters.justin!.inventory.length;
+// Poll-style: local victory must beat a remote stale active when merged the other way too.
+const pollStyle = mergeSimpleBattle(staleActive, world.battle);
+assert(pollStyle?.status === "victory", `poll-style merge kept victory, got ${pollStyle?.status}`);
+
 world = dismissSimpleBattle(world);
 assert(!world.battle, "battle cleared");
-assert(world.characters.justin!.inventory.length > beforeInv, "items granted");
-assert(world.characters.justin!.gold >= beforeGold, "gold granted");
-console.log("OK gold", world.characters.justin!.gold, "inv+", world.characters.justin!.inventory.slice(beforeInv));
+// Dismiss must not double-pay — gold/inv stay at post-victory levels.
+assert(world.characters.justin!.inventory.length === midInv, "dismiss did not double loot");
+assert(world.characters.justin!.gold === midGold, "dismiss did not double gold");
+console.log("OK gold", world.characters.justin!.gold, "inv", world.characters.justin!.inventory.length);
 console.log("PASS");

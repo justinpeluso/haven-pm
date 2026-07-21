@@ -561,24 +561,16 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
           const merged = mergeDtWorld(base, normalizeDtWorld(remote), mySlot, identity.isDm, {
             seatTie: "existing",
           });
-          // Sticky local fight: never swap ids / clear splashDone while active.
-          // Never resurrect a fled/dismissed battle.id from poll.
-          let localBattle =
-            prev?.battle?.status === "active"
-              ? mergeSimpleBattle(prev.battle, merged.battle)
-              : prev?.battle == null
-                ? null
-                : merged.battle;
+          // Always merge battles — never swap a local victory/defeat for a stale
+          // remote "active" blob (that soft-locked kills after the end screen).
+          let localBattle = mergeSimpleBattle(prev?.battle ?? null, merged.battle ?? null);
+          // While a click/advance is in flight, keep the local battle blob so a
+          // poll cannot roll phase back under the handler.
+          if (pendingRef.current || enemyAdvanceInFlightRef.current) {
+            localBattle = prev?.battle ?? localBattle;
+          }
           const cleared = prev?.clearedBattleId || merged.clearedBattleId;
           if (cleared && localBattle?.id === cleared) localBattle = null;
-          // Peer-started ambush: accept only if we have no local fight and didn't clear this id.
-          if (
-            prev?.battle == null &&
-            merged.battle?.status === "active" &&
-            merged.battle.id !== cleared
-          ) {
-            localBattle = merged.battle;
-          }
           const next = normalizeDtWorld({
             ...merged,
             battle: localBattle,
