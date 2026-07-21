@@ -9,6 +9,7 @@ export class Player {
   velocityY = 0;
   onGround = true;
   health = 100;
+  maxHealth = 100;
   focus = 100;
   facing = 0;
   attackCooldown = 0;
@@ -16,6 +17,8 @@ export class Player {
   invuln = 0;
   private readonly swing = new THREE.Mesh();
   private swingTimer = 0;
+  private hitFlash = 0;
+  private readonly bodyMats: THREE.MeshStandardMaterial[] = [];
 
   private readonly move = new THREE.Vector3();
   private readonly forward = new THREE.Vector3();
@@ -24,17 +27,24 @@ export class Player {
   constructor() {
     this.mesh = new THREE.Group();
 
+    const bodyMat = new THREE.MeshStandardMaterial({
+      color: 0x2c3f55,
+      roughness: 0.7,
+    });
+    const headMat = new THREE.MeshStandardMaterial({
+      color: 0xd4b08c,
+      roughness: 0.75,
+    });
+    this.bodyMats.push(bodyMat, headMat);
+
     const body = new THREE.Mesh(
       new THREE.CapsuleGeometry(0.42, 0.95, 4, 8),
-      new THREE.MeshStandardMaterial({ color: 0x2c3f55, roughness: 0.7 }),
+      bodyMat,
     );
     body.position.y = 1.15;
     body.castShadow = true;
 
-    const head = new THREE.Mesh(
-      new THREE.SphereGeometry(0.32, 12, 12),
-      new THREE.MeshStandardMaterial({ color: 0xd4b08c, roughness: 0.75 }),
-    );
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.32, 12, 12), headMat);
     head.position.y = 2.05;
     head.castShadow = true;
 
@@ -76,12 +86,20 @@ export class Player {
     this.attackCooldown = Math.max(0, this.attackCooldown - dt);
     this.boltCooldown = Math.max(0, this.boltCooldown - dt);
     this.invuln = Math.max(0, this.invuln - dt);
+    this.hitFlash = Math.max(0, this.hitFlash - dt);
     this.focus = Math.min(100, this.focus + dt * 8);
+
+    const flash = this.hitFlash > 0 || (this.invuln > 0 && Math.floor(this.invuln * 20) % 2 === 0);
+    for (const mat of this.bodyMats) {
+      mat.emissive.setHex(flash ? 0xff4444 : 0x000000);
+      mat.emissiveIntensity = flash ? 0.55 : 0;
+    }
 
     if (this.swingTimer > 0) {
       this.swingTimer -= dt;
       const mat = this.swing.material as THREE.MeshBasicMaterial;
       mat.opacity = Math.max(0, this.swingTimer * 2.5);
+      this.swing.rotation.z += dt * 14;
     }
 
     this.move.set(0, 0, 0);
@@ -127,14 +145,15 @@ export class Player {
 
   tryAttack(): boolean {
     if (this.attackCooldown > 0) return false;
-    this.attackCooldown = 0.45;
+    this.attackCooldown = 0.42;
     this.swingTimer = 0.28;
+    this.swing.rotation.z = 0;
     return true;
   }
 
   tryBolt(): THREE.Vector3 | null {
     if (this.boltCooldown > 0 || this.focus < 18) return null;
-    this.boltCooldown = 0.7;
+    this.boltCooldown = 0.65;
     this.focus -= 18;
     const dir = new THREE.Vector3(
       Math.sin(this.facing),
@@ -147,6 +166,13 @@ export class Player {
   hurt(amount: number): void {
     if (this.invuln > 0) return;
     this.health = Math.max(0, this.health - amount);
-    this.invuln = 0.6;
+    this.invuln = 0.55;
+    this.hitFlash = 0.15;
+  }
+
+  restoreBetweenLevels(): void {
+    this.health = Math.min(this.maxHealth, this.health + 35);
+    this.focus = Math.min(100, this.focus + 40);
+    this.invuln = 0.8;
   }
 }

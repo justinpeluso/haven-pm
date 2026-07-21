@@ -46,6 +46,22 @@
   letter-spacing: 0.08em;
   color: var(--ember-gold);
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.65);
+  animation: ember-brand-in 700ms ease-out both;
+}
+
+.emberreach-level {
+  position: absolute;
+  top: 1.45rem;
+  right: 1.5rem;
+  font-family: "Cinzel", serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ember-gold);
+  background: var(--ember-panel);
+  border: 1px solid rgba(232, 194, 122, 0.35);
+  padding: 0.45rem 0.8rem;
+  animation: ember-level-pulse 2.4s ease-in-out infinite;
 }
 
 .emberreach-panel {
@@ -54,7 +70,8 @@
   border: 1px solid rgba(232, 194, 122, 0.28);
   backdrop-filter: blur(8px);
   padding: 0.85rem 1rem;
-  max-width: 22rem;
+  max-width: 24rem;
+  animation: ember-panel-in 500ms ease-out both;
 }
 
 .emberreach-panel-title {
@@ -69,11 +86,18 @@
   left: 1.5rem;
 }
 
-.emberreach-quest p {
+.emberreach-quest-title {
+  margin: 0 0 0.35rem;
+  font-weight: 600;
+  color: #f6e8cf;
+  font-size: 1rem;
+}
+
+.emberreach-objective {
   margin: 0;
   line-height: 1.4;
-  color: #f0e2cc;
-  font-size: 0.95rem;
+  color: #dcc9a8;
+  font-size: 0.92rem;
 }
 
 .emberreach-bars {
@@ -136,18 +160,69 @@
 
 .emberreach-toast {
   position: absolute;
-  top: 35%;
+  top: 34%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(1);
   font-family: "Cinzel", serif;
-  font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+  font-size: clamp(1.2rem, 2.4vw, 1.9rem);
   color: var(--ember-gold);
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
-  transition: opacity 240ms ease;
+  transition:
+    opacity 280ms ease,
+    transform 280ms ease;
+  text-align: center;
+  max-width: min(32rem, 90%);
+  padding: 0.4rem 0.8rem;
+  animation: ember-toast-pop 420ms ease-out;
 }
 
 .emberreach-toast.hidden {
   opacity: 0;
+  transform: translate(-50%, -40%) scale(0.96);
+  animation: none;
+}
+
+@keyframes ember-brand-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ember-panel-in {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes ember-level-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(232, 194, 122, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 18px 0 rgba(211, 84, 47, 0.28);
+  }
+}
+
+@keyframes ember-toast-pop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -40%) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 @media (max-width: 720px) {
@@ -159,5 +234,11 @@
 
   .emberreach-quest {
     max-width: calc(100% - 3rem);
+  }
+
+  .emberreach-level {
+    top: auto;
+    bottom: 8.5rem;
+    right: 1rem;
   }
 }
