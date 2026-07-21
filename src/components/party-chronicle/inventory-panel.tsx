@@ -4,7 +4,11 @@ import { PaperdollPanel } from "@/components/party-chronicle/paperdoll";
 import { GearTipBody } from "@/components/party-chronicle/gear-hover-tip";
 import { isSpellbookItem } from "@/lib/downtown/party-chronicle/bestiary";
 import { getGear, gearCatalogStats } from "@/lib/downtown/party-chronicle/gear";
-import { formatProperty, itemProperties } from "@/lib/downtown/party-chronicle/stats";
+import {
+  computeEffectiveStats,
+  formatProperty,
+  itemProperties,
+} from "@/lib/downtown/party-chronicle/stats";
 import type { CharacterSave, EquipSlot } from "@/lib/downtown/party-chronicle/types";
 import { EQUIP_SLOTS } from "@/lib/downtown/party-chronicle/types";
 
@@ -47,6 +51,7 @@ export function InventoryPanel({
   inventoryLabel?: string;
 }) {
   const catalog = gearCatalogStats();
+  const eff = computeEffectiveStats(char);
   const worn = new Set(
     EQUIP_SLOTS.map((s) => char.equipped[s]).filter(Boolean) as string[]
   );
@@ -162,7 +167,7 @@ export function InventoryPanel({
                     Break Down
                   </button>
                 </div>
-                <GearTipBody item={item} />
+                <GearTipBody item={item} stats={eff.stats} />
               </div>
             );
           })}

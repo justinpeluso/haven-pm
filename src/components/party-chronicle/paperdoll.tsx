@@ -76,6 +76,7 @@ export function PaperdollPanel({
               <GearTipBody
                 item={item}
                 emptyLabel={`Empty ${SLOT_LABEL[slot]}`}
+                stats={eff.stats}
               />
             </button>
           );

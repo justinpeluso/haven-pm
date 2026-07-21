@@ -113,8 +113,11 @@ export function DtGearSheet({
       ? focusId
       : char.equipped.weapon ?? char.inventory[0] ?? null;
   const spiritItem = resolveItem(spiritId);
+  // Never fall back to Bare Knuckles when a real catalog item is focused.
   const spiritCard =
-    getDtGearPokeCard(spiritId) ?? getDtUnarmedPokeCard();
+    getDtGearPokeCard(spiritId) ??
+    (spiritItem ? null : getDtUnarmedPokeCard()) ??
+    getDtUnarmedPokeCard();
   const spiritTier = spiritItem
     ? gearTierAttr(spiritItem.rarity ?? spiritItem.tier)
     : "common";
@@ -204,6 +207,7 @@ export function DtGearSheet({
                 <GearTipBody
                   item={item}
                   emptyLabel={`Empty ${SLOT_LABEL[equipSlot]}`}
+                  stats={eff.stats}
                 />
               </button>
             );
