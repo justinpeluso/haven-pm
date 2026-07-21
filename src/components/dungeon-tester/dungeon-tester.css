@@ -3463,6 +3463,13 @@
   padding: calc(var(--dt-space) * 1.25);
 }
 
+.dungeon-tester .dt-gear-seat-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: calc(var(--dt-space) * 0.85);
+}
+
 .dungeon-tester .dt-gear-sheet {
   display: flex;
   flex-direction: column;

@@ -23,6 +23,7 @@ import type {
   ClassId,
   EquipSlot,
   PlayerIdentity,
+  PlayerSlot,
   StatKey,
 } from "@/lib/downtown/party-chronicle/types";
 import { CLASS_IDS, PLAYER_SLOT_ORDER, STAT_KEYS } from "@/lib/downtown/party-chronicle/types";
@@ -262,6 +263,8 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   const [tab, setTab] = useState<PlayTab>("story");
   const [worldMapOpen, setWorldMapOpen] = useState(false);
   const [world, setWorld] = useState<DtWorldSave | null>(null);
+  /** Whose bag the Gear tab shows — own seat, or a sealed peer when DM/admin has no seat. */
+  const [gearFocusSlot, setGearFocusSlot] = useState<PlayerSlot | null>(null);
   const [activeSlotId, setActiveSlotId] = useState<DtSaveSlotId>(DT_DEFAULT_SLOT_ID);
   const [slotSummaries, setSlotSummaries] = useState<DtSlotSummary[]>(() =>
     DT_SLOT_IDS.map((id) => summarizeDtWorld(id, null))
@@ -921,6 +924,35 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     (identity.isDm || world?.activeSlot === mySlot);
   const me = mySlot && world ? world.characters[mySlot] : null;
   const meXp = me ? xpProgress(me.xp) : null;
+  const sealedPartySlots = useMemo(
+    () =>
+      world
+        ? PLAYER_SLOT_ORDER.filter((s) => !!world.characters[s]?.created)
+        : ([] as PlayerSlot[]),
+    [world]
+  );
+  const gearSlot: PlayerSlot | null =
+    (gearFocusSlot && world?.characters[gearFocusSlot]?.created
+      ? gearFocusSlot
+      : null) ??
+    (mySlot && world?.characters[mySlot]?.created ? mySlot : null) ??
+    sealedPartySlots[0] ??
+    null;
+  const gearChar = gearSlot && world ? world.characters[gearSlot] : null;
+  const canEditGear =
+    !battleActive &&
+    !!gearSlot &&
+    (identity.isDm || (!!mySlot && gearSlot === mySlot));
+
+  useEffect(() => {
+    if (tab !== "gear" || !world) return;
+    if (gearFocusSlot && world.characters[gearFocusSlot]?.created) return;
+    const preferred =
+      (mySlot && world.characters[mySlot]?.created ? mySlot : null) ??
+      sealedPartySlots[0] ??
+      null;
+    setGearFocusSlot(preferred);
+  }, [tab, world, mySlot, sealedPartySlots, gearFocusSlot]);
 
   // Space / Enter advances story when Continue is the only primary action.
   useEffect(() => {
@@ -1024,9 +1056,14 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     setFlash(r.message);
   };
 
-  const onEquip = (itemId: string) => {
-    if (!world || !mySlot) return;
-    const r = dtEquipItem(world, mySlot, itemId);
+  const onEquip = (itemId: string, forSlot?: PlayerSlot) => {
+    const seat = forSlot ?? mySlot;
+    if (!world || !seat) return;
+    if (!identity.isDm && seat !== mySlot) {
+      setFlash("You can only equip your own gear.");
+      return;
+    }
+    const r = dtEquipItem(world, seat, itemId);
     if ("error" in r) {
       setFlash(r.error);
       return;
@@ -1035,9 +1072,14 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     setFlash(r.message);
   };
 
-  const onUnequip = (slot: EquipSlot) => {
-    if (!world || !mySlot) return;
-    const r = dtUnequipSlot(world, mySlot, slot);
+  const onUnequip = (slot: EquipSlot, forSlot?: PlayerSlot) => {
+    const seat = forSlot ?? mySlot;
+    if (!world || !seat) return;
+    if (!identity.isDm && seat !== mySlot) {
+      setFlash("You can only unequip your own gear.");
+      return;
+    }
+    const r = dtUnequipSlot(world, seat, slot);
     if ("error" in r) {
       setFlash(r.error);
       return;
@@ -1046,9 +1088,14 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     setFlash(r.message);
   };
 
-  const onUseConsumable = (itemId: string) => {
-    if (!world || !mySlot) return;
-    const r = dtUseConsumable(world, mySlot, itemId);
+  const onUseConsumable = (itemId: string, forSlot?: PlayerSlot) => {
+    const seat = forSlot ?? mySlot;
+    if (!world || !seat) return;
+    if (!identity.isDm && seat !== mySlot) {
+      setFlash("You can only use your own items.");
+      return;
+    }
+    const r = dtUseConsumable(world, seat, itemId);
     if ("error" in r) {
       setFlash(r.error);
       return;
@@ -1057,9 +1104,14 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     setFlash(r.message);
   };
 
-  const onSalvage = (itemId: string) => {
-    if (!world || !mySlot) return;
-    const r = dtSalvageItem(world, mySlot, itemId);
+  const onSalvage = (itemId: string, forSlot?: PlayerSlot) => {
+    const seat = forSlot ?? mySlot;
+    if (!world || !seat) return;
+    if (!identity.isDm && seat !== mySlot) {
+      setFlash("You can only break down your own gear.");
+      return;
+    }
+    const r = dtSalvageItem(world, seat, itemId);
     if ("error" in r) {
       setFlash(r.error);
       return;
@@ -1068,9 +1120,14 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     setFlash(r.message);
   };
 
-  const onReadSpellbook = (itemId: string) => {
-    if (!world || !mySlot) return;
-    const r = dtReadSpellbook(world, mySlot, itemId);
+  const onReadSpellbook = (itemId: string, forSlot?: PlayerSlot) => {
+    const seat = forSlot ?? mySlot;
+    if (!world || !seat) return;
+    if (!identity.isDm && seat !== mySlot) {
+      setFlash("You can only read your own spellbooks.");
+      return;
+    }
+    const r = dtReadSpellbook(world, seat, itemId);
     persist(r.world);
     setFlash(r.message);
   };
@@ -1463,7 +1520,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     type="button"
                     className="dt-btn"
                     data-variant="secondary"
-                    disabled={!!world.battle || !me}
+                    disabled={!!world.battle || sealedPartySlots.length === 0}
                     onClick={() => setTab("gear")}
                   >
                     Gear / Inventory
@@ -1900,18 +1957,43 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
             </div>
           ) : null}
 
-          {!world.endingId && tab === "gear" && me && mySlot ? (
+          {!world.endingId && tab === "gear" ? (
             <div className="dt-panel dt-gear-panel">
-              <DtGearSheet
-                char={me}
-                slot={mySlot}
-                canEdit={!battleActive}
-                onEquip={onEquip}
-                onUnequip={onUnequip}
-                onUseConsumable={onUseConsumable}
-                onReadSpellbook={onReadSpellbook}
-                onSalvage={onSalvage}
-              />
+              {sealedPartySlots.length > 1 || (identity.isDm && !mySlot) ? (
+                <div className="dt-gear-seat-switch" role="tablist" aria-label="Whose gear">
+                  {sealedPartySlots.map((s) => (
+                    <button
+                      key={s}
+                      type="button"
+                      role="tab"
+                      aria-selected={gearSlot === s}
+                      className="dt-btn"
+                      data-variant={gearSlot === s ? "primary" : "secondary"}
+                      onClick={() => setGearFocusSlot(s)}
+                    >
+                      {world.characters[s]?.name || SLOT_DEFAULTS[s].displayName}
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+              {gearChar?.created && gearSlot ? (
+                <DtGearSheet
+                  char={gearChar}
+                  slot={gearSlot}
+                  canEdit={canEditGear}
+                  onEquip={(id) => onEquip(id, gearSlot)}
+                  onUnequip={(equipSlot) => onUnequip(equipSlot, gearSlot)}
+                  onUseConsumable={(id) => onUseConsumable(id, gearSlot)}
+                  onReadSpellbook={(id) => onReadSpellbook(id, gearSlot)}
+                  onSalvage={(id) => onSalvage(id, gearSlot)}
+                />
+              ) : (
+                <p className="dt-section-hint">
+                  {mySlot
+                    ? "Seal your hero first — Gear opens after character create."
+                    : "No sealed party yet. Continue a slot with heroes, or log in as a player seat to manage your bag."}
+                </p>
+              )}
             </div>
           ) : null}
 
