@@ -4,6 +4,9 @@
  */
 
 import pokePack from "../../../../data/dungeon-tester/poke-cards.json";
+import { getGear } from "../party-chronicle/gear";
+import type { GearItem } from "../party-chronicle/types";
+import { getDtGear } from "./gear";
 
 export type DtPokeTypeId =
   | "grit"
@@ -125,15 +128,96 @@ export function pokeCardForUnit(opts: {
   return getDtPokeCard(opts.foeDefId);
 }
 
+function resolveGearForSpirit(id: string): GearItem | undefined {
+  return getDtGear(id) ?? getGear(id);
+}
+
+function spiritKindForSlot(slot: GearItem["slot"]): DtGearSpiritKind {
+  if (slot === "weapon") return "weapon";
+  if (slot === "consumable") return "consumable";
+  if (slot === "accessory" || slot === "misc") return "trinket";
+  if (
+    slot === "head" ||
+    slot === "chest" ||
+    slot === "hands" ||
+    slot === "legs" ||
+    slot === "offhand"
+  ) {
+    return "armor";
+  }
+  return "gear";
+}
+
+function typesForGearItem(item: GearItem): DtPokeTypeId[] {
+  const tags = new Set((item.tags ?? []).map((t) => t.toLowerCase()));
+  if (
+    tags.has("staff") ||
+    tags.has("wand") ||
+    tags.has("arcane") ||
+    tags.has("magic") ||
+    tags.has("caster")
+  ) {
+    return ["spirit", "helix"];
+  }
+  if (tags.has("firearm") || tags.has("ranged") || tags.has("bow")) {
+    return ["dust", "chrome"];
+  }
+  if (tags.has("heal") || tags.has("support")) return ["silk", "spirit"];
+  if (item.slot === "consumable") return ["wild", "grit"];
+  if (item.slot !== "weapon") return ["iron", "grit"];
+  return ["grit", "dust"];
+}
+
+/**
+ * Build a spirit plate from catalog gear when poke-cards.json has no entry
+ * (starter Neverworld weapons, etc.). Never invent Bare Knuckles for real items.
+ */
+export function synthesizeGearPokeCard(item: GearItem): DtPokeCardDef {
+  const power = Math.max(1, item.power ?? item.armor ?? 3);
+  const mult = 0.85 + Math.min(0.55, power / 20);
+  const kind = spiritKindForSlot(item.slot);
+  const basicName =
+    kind === "weapon" ? "Strike" : kind === "consumable" ? "Use" : "Ward";
+  return {
+    id: item.id,
+    name: item.name,
+    blurb: item.blurb || item.name,
+    artId: item.id,
+    kind,
+    types: typesForGearItem(item),
+    moves: [
+      {
+        id: `${item.id}-basic`,
+        name: basicName,
+        effects: ["damage"],
+        powerMult: mult,
+        blurb: item.blurb,
+      },
+      {
+        id: `${item.id}-focus`,
+        name: "Focused Blow",
+        effects: ["damage"],
+        powerMult: mult + 0.25,
+      },
+    ],
+  };
+}
+
 /** Weapon spirit card by gear id (`dt-frontier-revolver`, etc.). */
 export function getDtWeaponPokeCard(
   weaponId: string | undefined | null
 ): DtPokeCardDef | undefined {
   if (!weaponId) return undefined;
   const card = getDtPokeCard(weaponId);
-  if (!card) return undefined;
-  if (card.kind && card.kind !== "weapon") return undefined;
-  return { ...card, kind: "weapon" };
+  if (card && (!card.kind || card.kind === "weapon")) {
+    return { ...card, kind: "weapon" };
+  }
+  const item = resolveGearForSpirit(weaponId);
+  if (item?.slot === "weapon") {
+    const spirit = getDtGearPokeCard(weaponId);
+    return spirit ? { ...spirit, kind: "weapon" } : undefined;
+  }
+  return undefined;
 }
 
 /** Any gear spirit card (weapon, armor, consumable, misc) by item id. */
@@ -142,13 +226,17 @@ export function getDtGearPokeCard(
 ): DtPokeCardDef | undefined {
   if (!gearId) return undefined;
   const card = getDtPokeCard(gearId);
-  if (!card) return undefined;
-  if (card.kind === "foe" || card.kind === "dog") return undefined;
-  if (isDtGearSpiritKind(card.kind)) return card;
-  // Legacy / untagged dt-* gear plates default to generic gear spirit.
-  if (!card.kind && gearId.startsWith("dt-")) {
-    return { ...card, kind: "gear" };
+  if (card) {
+    if (card.kind !== "foe" && card.kind !== "dog") {
+      if (isDtGearSpiritKind(card.kind)) return card;
+      // Legacy / untagged dt-* gear plates default to generic gear spirit.
+      if (!card.kind && gearId.startsWith("dt-")) {
+        return { ...card, kind: "gear" };
+      }
+    }
   }
+  const item = resolveGearForSpirit(gearId);
+  if (item) return synthesizeGearPokeCard(item);
   return undefined;
 }
 

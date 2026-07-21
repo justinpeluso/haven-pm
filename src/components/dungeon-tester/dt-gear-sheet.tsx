@@ -28,6 +28,7 @@ import { normalizeDtHeroLook } from "@/lib/downtown/dungeon-tester/look";
 import {
   getDtGearPokeCard,
   getDtUnarmedPokeCard,
+  synthesizeGearPokeCard,
 } from "@/lib/downtown/dungeon-tester/poke-cards";
 import { DtPokeCard } from "@/components/dungeon-tester/dt-poke-card";
 
@@ -113,11 +114,11 @@ export function DtGearSheet({
       ? focusId
       : char.equipped.weapon ?? char.inventory[0] ?? null;
   const spiritItem = resolveItem(spiritId);
-  // Never fall back to Bare Knuckles when a real catalog item is focused.
-  const spiritCard =
-    getDtGearPokeCard(spiritId) ??
-    (spiritItem ? null : getDtUnarmedPokeCard()) ??
-    getDtUnarmedPokeCard();
+  // Unarmed ONLY when no catalog item — never override oak-staff / real gear.
+  const spiritCard = spiritItem
+    ? (getDtGearPokeCard(spiritItem.id) ?? synthesizeGearPokeCard(spiritItem))
+    : getDtUnarmedPokeCard();
+  const spiritLabel = spiritItem?.name ?? spiritCard.name;
   const spiritTier = spiritItem
     ? gearTierAttr(spiritItem.rarity ?? spiritItem.tier)
     : "common";
@@ -144,7 +145,7 @@ export function DtGearSheet({
       >
         <div className="dt-gear-spirit-hero-pedestal">
           <p className="dt-gear-spirit-hero-label">
-            {spiritItem ? spiritItem.name : "Bare knuckles"}
+            {spiritLabel}
             {spiritEquipped ? " · Equipped" : ""}
           </p>
           <div className="dt-gear-spirit-hero-stage">
@@ -390,12 +391,13 @@ export function DtGearSheet({
             return (
               <div
                 key={`${id}-${idx}`}
-                className="dt-gear-bag-card"
+                className="dt-gear-bag-card pc-gear-hover"
                 data-tier={tier}
                 data-equipped={equipped ? "true" : "false"}
                 data-upgrade={upgrade ?? undefined}
                 data-spirit-focus={spiritId === id ? "true" : "false"}
                 onClick={() => setFocusId(id)}
+                onMouseEnter={() => setFocusId(id)}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
@@ -501,6 +503,7 @@ export function DtGearSheet({
                     Break Down
                   </button>
                 </div>
+                <GearTipBody item={item} stats={eff.stats} />
               </div>
             );
           })}

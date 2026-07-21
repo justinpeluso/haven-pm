@@ -4,8 +4,13 @@
  * or a category plate so Camp / Gear / poke art windows always show art.
  */
 
-import { getDtGear } from "./gear";
+import { getGear } from "../party-chronicle/gear";
 import type { GearItem } from "../party-chronicle/types";
+import { getDtGear } from "./gear";
+
+function resolveGearItem(itemId: string): GearItem | undefined {
+  return getDtGear(itemId) ?? getGear(itemId);
+}
 
 const GEAR_ICON_DIR = "/dungeon-tester/gear";
 
@@ -249,7 +254,7 @@ export function dtGearIconSrc(
     return plateForCategory("unarmed", itemId);
   }
 
-  const item = getDtGear(itemId);
+  const item = resolveGearItem(itemId);
   const isArms = item?.slot === "weapon" || item?.slot === "offhand";
 
   if (opts.armsOnly && !isArms && !ICON_SET.has(itemId)) return null;
@@ -274,7 +279,7 @@ export function getGearArtPlate(itemId: string | null | undefined): string {
     return plateForCategory("unarmed", itemId, "plate");
   }
 
-  const item = getDtGear(itemId);
+  const item = resolveGearItem(itemId);
   const cat = resolveGearArtCategory(item, itemId);
   return plateForCategory(cat, itemId, "plate");
 }
@@ -285,7 +290,7 @@ export function getGearArtCategory(
 ): DtGearArtCategory | null {
   if (!itemId) return null;
   if (itemId === "dt-unarmed-grit") return "unarmed";
-  const item = getDtGear(itemId);
+  const item = resolveGearItem(itemId);
   return resolveGearArtCategory(item, itemId);
 }
 

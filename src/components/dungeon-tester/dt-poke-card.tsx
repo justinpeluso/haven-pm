@@ -19,6 +19,11 @@ import {
   gearTierAttr,
 } from "@/lib/downtown/dungeon-tester/gear-display";
 import { battlePetArtSrc } from "@/lib/downtown/party-chronicle/art";
+import { getGear } from "@/lib/downtown/party-chronicle/gear";
+
+function resolveCardGear(id: string) {
+  return getDtGear(id) ?? getGear(id);
+}
 
 type Props = {
   card: DtPokeCardDef;
@@ -53,7 +58,7 @@ function resolveVariant(card: DtPokeCardDef): string {
   if (card.kind === "trinket") return "trinket";
   if (card.kind === "foe") return "foe";
 
-  const gear = getDtGear(card.id);
+  const gear = resolveCardGear(card.id);
   if (gear?.slot === "weapon") return "weapon";
   if (gear?.slot === "consumable") return "consumable";
   if (
@@ -72,7 +77,7 @@ function resolveVariant(card: DtPokeCardDef): string {
 
 function resolveTier(card: DtPokeCardDef, override?: string): string {
   if (override) return gearTierAttr(override);
-  const gear = getDtGear(card.id);
+  const gear = resolveCardGear(card.id);
   if (gear) return gearTierAttr(gear.rarity ?? gear.tier);
   if (card.kind === "dog") return "rare";
   if (card.kind === "foe" || !isGearSpiritCard(card)) return "uncommon";
