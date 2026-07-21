@@ -3507,16 +3507,16 @@
   position: relative;
   display: flex;
   justify-content: center;
-  padding: calc(var(--dt-space) * 3) calc(var(--dt-space) * 2);
+  padding: calc(var(--dt-space) * 2.5) calc(var(--dt-space) * 2);
   border: 2px solid #1a120c;
   background:
-    radial-gradient(ellipse at 50% 18%, rgba(201, 162, 39, 0.16), transparent 42%),
-    radial-gradient(ellipse at 50% 100%, rgba(0, 0, 0, 0.55), transparent 55%),
-    linear-gradient(180deg, #1a140e 0%, #0e0b08 55%, #1c1610 100%);
+    radial-gradient(ellipse at 50% 18%, rgba(201, 162, 39, 0.08), transparent 42%),
+    radial-gradient(ellipse at 50% 100%, rgba(0, 0, 0, 0.45), transparent 55%),
+    linear-gradient(180deg, #16120e 0%, #0e0b08 55%, #18140f 100%);
   box-shadow:
-    inset 0 0 0 1px rgba(232, 197, 71, 0.18),
-    inset 0 -40px 60px rgba(0, 0, 0, 0.45),
-    0 10px 28px rgba(0, 0, 0, 0.28);
+    inset 0 0 0 1px rgba(232, 197, 71, 0.1),
+    inset 0 -32px 48px rgba(0, 0, 0, 0.35),
+    0 8px 22px rgba(0, 0, 0, 0.22);
   overflow: hidden;
 }
 
@@ -3530,10 +3530,10 @@
       -12deg,
       transparent,
       transparent 7px,
-      rgba(255, 240, 200, 0.015) 7px,
-      rgba(255, 240, 200, 0.015) 8px
+      rgba(255, 240, 200, 0.01) 7px,
+      rgba(255, 240, 200, 0.01) 8px
     );
-  opacity: 0.7;
+  opacity: 0.45;
 }
 
 .dungeon-tester .dt-gear-spirit-hero-pedestal {
@@ -3542,18 +3542,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.65rem;
-  width: min(100%, 22rem);
+  gap: 0.45rem;
+  width: min(100%, 24rem);
 }
 
 .dungeon-tester .dt-gear-spirit-hero-label {
   margin: 0;
   font-family: var(--dt-hud);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #e8c547;
+  color: rgba(232, 197, 71, 0.72);
   text-shadow: 0 1px 0 #0a0704;
 }
 
@@ -3561,32 +3561,24 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  padding: 0.75rem 0.5rem 1.1rem;
+  padding: 0.55rem 0.4rem 0.85rem;
   background:
-    radial-gradient(ellipse at 50% 100%, rgba(201, 162, 39, 0.22), transparent 55%),
-    linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.35) 100%);
+    radial-gradient(ellipse at 50% 100%, rgba(201, 162, 39, 0.1), transparent 55%),
+    linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.28) 100%);
   border-radius: 0.2rem;
 }
 
 .dungeon-tester .dt-gear-spirit-hero-card.dt-poke-card,
 .dungeon-tester .dt-gear-spirit-hero-card {
-  width: min(22.5rem, 92vw);
-  --poke-w: min(22.5rem, 92vw);
-  filter: drop-shadow(0 22px 28px rgba(0, 0, 0, 0.6));
+  width: min(24rem, 92vw);
+  --poke-w: min(24rem, 92vw);
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.55));
 }
 
 .dungeon-tester .dt-gear-spirit-hero[data-tier="legendary"] .dt-gear-spirit-hero-stage {
   background:
-    radial-gradient(ellipse at 50% 100%, rgba(232, 197, 71, 0.35), transparent 60%),
-    linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
-}
-
-.dungeon-tester .dt-gear-spirit-hero-hint {
-  margin: 0;
-  font-family: var(--dt-hud);
-  font-size: 0.68rem;
-  letter-spacing: 0.04em;
-  color: rgba(243, 226, 192, 0.55);
+    radial-gradient(ellipse at 50% 100%, rgba(232, 197, 71, 0.2), transparent 60%),
+    linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.32) 100%);
 }
 
 .dungeon-tester .dt-gear-columns {
@@ -5262,7 +5254,7 @@
 
 /* —— Spirit / poke cards (classic TCG silhouette, Lost Brothers pulp) ——
    Contract: .dt-poke-card + chrome/bevel/foil/frame, stage, head/name/hp/type-gem,
-   art/art-mat/art-inner/art-foil, rarity-mark, info-bar, moves/energy/dmg, foot/blurb.
+   art/art-mat/art-inner/art-foil, rarity-mark, moves/energy/dmg, optional foot/set-mark.
    Attrs: data-size, data-kind|data-variant, data-tier, data-ally, data-gear. */
 @keyframes dt-poke-foil-sweep {
   0% { background-position: -50% 20%, 0 0, 0 0; opacity: 0.2; }
@@ -5380,7 +5372,7 @@
 }
 
 .dungeon-tester .dt-poke-card[data-size="lg"] {
-  --poke-w: 22rem;
+  --poke-w: 24rem;
 }
 
 /* Outer pulp grain */
@@ -5565,10 +5557,12 @@
   font-size: 1em;
 }
 
-/* Circular type gem (not a pill) */
+/* Circular type gem with short type initial */
 .dungeon-tester .dt-poke-type-gem {
   --poke-type: #c4893a;
   position: relative;
+  display: inline-grid;
+  place-items: center;
   width: 1.35em;
   height: 1.35em;
   border-radius: 50%;
@@ -5580,18 +5574,26 @@
 }
 
 .dungeon-tester .dt-poke-type-gem em {
-  position: absolute;
-  inset: 22%;
-  border-radius: 50%;
-  border: 1px solid rgba(10, 7, 4, 0.35);
-  background: radial-gradient(circle at 40% 35%, rgba(255, 255, 255, 0.35), transparent 55%);
+  position: relative;
+  z-index: 1;
   font-style: normal;
+  font-family: var(--dt-hud);
+  font-size: 0.62em;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1;
+  color: #0a0704;
+  text-shadow: 0 1px 0 rgba(255, 248, 236, 0.45);
 }
 
 .dungeon-tester .dt-poke-type-gem-sm {
   width: 0.95em;
   height: 0.95em;
   animation: none;
+}
+
+.dungeon-tester .dt-poke-type-gem-sm em {
+  font-size: 0.55em;
 }
 
 /* —— Art window (dominant — ~54% of card height) —— */
@@ -5888,15 +5890,15 @@
   text-overflow: ellipsis;
 }
 
-/* Footer */
+/* Footer — set mark only (lg) */
 .dungeon-tester .dt-poke-card-foot {
   z-index: 1;
   margin-top: auto;
-  padding-top: 0.25em;
-  border-top: 1px solid rgba(242, 230, 200, 0.16);
+  padding-top: 0.2em;
+  border-top: 1px solid rgba(242, 230, 200, 0.12);
   display: flex;
-  flex-direction: column;
-  gap: 0.2em;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .dungeon-tester .dt-poke-card-blurb {
@@ -5936,9 +5938,20 @@
   --poke-edge: #8a8278;
   --poke-edge-hi: #c8c0b4;
   --poke-edge-lo: #4a443c;
-  --poke-foil-a: rgba(180, 170, 150, 0.2);
-  --poke-foil-b: rgba(220, 210, 190, 0.12);
-  --poke-foil-c: rgba(255, 255, 255, 0.08);
+  --poke-foil-a: rgba(180, 170, 150, 0.08);
+  --poke-foil-b: rgba(220, 210, 190, 0.04);
+  --poke-foil-c: rgba(255, 255, 255, 0.03);
+}
+
+.dungeon-tester .dt-poke-card[data-tier="common"] .dt-poke-card-foil {
+  opacity: 0;
+  animation: none;
+}
+
+.dungeon-tester .dt-poke-card[data-tier="common"]:hover .dt-poke-card-foil,
+.dungeon-tester .dt-poke-card[data-tier="common"]:focus-visible .dt-poke-card-foil {
+  opacity: 0.28;
+  animation: dt-poke-foil-sweep 3.2s ease-in-out infinite;
 }
 
 .dungeon-tester .dt-poke-card[data-tier="common"] .dt-poke-rarity-mark {
@@ -6095,7 +6108,7 @@
   }
 
   .dungeon-tester .dt-poke-card[data-size="lg"] {
-    --poke-w: min(17.75rem, 88vw);
+    --poke-w: min(20rem, 88vw);
   }
 
   .dungeon-tester .dt-poke-card:hover,

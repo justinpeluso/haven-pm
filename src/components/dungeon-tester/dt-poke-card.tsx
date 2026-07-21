@@ -34,37 +34,6 @@ type Props = {
   onClick?: () => void;
 };
 
-/** Soft counters for the Lost Brothers type wheel. */
-const TYPE_WEAK: Partial<Record<DtPokeTypeId, DtPokeTypeId>> = {
-  grit: "silk",
-  chrome: "ash",
-  spirit: "iron",
-  iron: "frost",
-  ash: "frost",
-  silk: "venom",
-  dust: "chrome",
-  frost: "ash",
-  venom: "grit",
-  wild: "chain",
-  chain: "helix",
-  helix: "wild",
-};
-
-const TYPE_RESIST: Partial<Record<DtPokeTypeId, DtPokeTypeId>> = {
-  grit: "dust",
-  chrome: "chain",
-  spirit: "venom",
-  iron: "grit",
-  ash: "silk",
-  silk: "dust",
-  dust: "wild",
-  frost: "chrome",
-  venom: "spirit",
-  wild: "ash",
-  chain: "iron",
-  helix: "chrome",
-};
-
 function pct(cur: number, max: number): number {
   if (max <= 0) return 0;
   return Math.max(0, Math.min(100, (cur / max) * 100));
@@ -119,14 +88,6 @@ function stageLabel(variant: string, isGear: boolean): string {
   return "Basic · Item Spirit";
 }
 
-function retreatCost(variant: string, isGear: boolean): number {
-  if (!isGear) return 2;
-  if (variant === "armor") return 3;
-  if (variant === "weapon") return 2;
-  if (variant === "consumable") return 1;
-  return 1;
-}
-
 function TypeGem({
   typeId,
   size = "md",
@@ -135,6 +96,7 @@ function TypeGem({
   size?: "sm" | "md";
 }) {
   const meta = dtPokeTypeMeta(typeId);
+  const initial = (meta.label?.[0] ?? "?").toUpperCase();
   return (
     <span
       className={`dt-poke-type-gem${size === "sm" ? " dt-poke-type-gem-sm" : ""}`}
@@ -142,7 +104,7 @@ function TypeGem({
       style={{ ["--poke-type" as string]: meta.color }}
       aria-label={meta.label}
     >
-      <em />
+      <em aria-hidden>{initial}</em>
     </span>
   );
 }
@@ -224,9 +186,6 @@ export function DtPokeCard({
   const primaryTypeId = (card.types[0] ?? "grit") as DtPokeTypeId;
   const primaryType = dtPokeTypeMeta(primaryTypeId);
   const energyColor = primaryType.color;
-  const weakId = TYPE_WEAK[primaryTypeId] ?? "ash";
-  const resistId = TYPE_RESIST[primaryTypeId] ?? "grit";
-  const retreat = retreatCost(variant, isGearSpirit);
   const moveLimit = size === "sm" ? 2 : 3;
   const compactMoves = size === "sm";
   // Ally tint only for true companions — gear sheet should keep weapon/armor chrome.
@@ -305,29 +264,13 @@ export function DtPokeCard({
           ))}
         </ul>
 
-        <footer className="dt-poke-card-foot">
-          <div className="dt-poke-wrr" aria-label="Weakness resistance retreat">
-            <div className="dt-poke-wrr-cell">
-              <span className="dt-poke-wrr-lab">weakness</span>
-              <TypeGem typeId={weakId} size="sm" />
-              <span className="dt-poke-wrr-val">×2</span>
-            </div>
-            <div className="dt-poke-wrr-cell">
-              <span className="dt-poke-wrr-lab">resistance</span>
-              <TypeGem typeId={resistId} size="sm" />
-              <span className="dt-poke-wrr-val">-20</span>
-            </div>
-            <div className="dt-poke-wrr-cell">
-              <span className="dt-poke-wrr-lab">retreat</span>
-              <EnergyPips cost={retreat} color={energyColor} />
-            </div>
-          </div>
-          {size === "lg" ? (
+        {size === "lg" ? (
+          <footer className="dt-poke-card-foot">
             <span className="dt-poke-set-mark" aria-hidden>
               LB · Spirit
             </span>
-          ) : null}
-        </footer>
+          </footer>
+        ) : null}
       </div>
     </>
   );

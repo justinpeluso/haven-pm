@@ -141,8 +141,7 @@ export function DtGearSheet({
       >
         <div className="dt-gear-spirit-hero-pedestal">
           <p className="dt-gear-spirit-hero-label">
-            Spirit card
-            {spiritItem ? ` — ${spiritItem.name}` : " — Bare knuckles"}
+            {spiritItem ? spiritItem.name : "Bare knuckles"}
             {spiritEquipped ? " · Equipped" : ""}
           </p>
           <div className="dt-gear-spirit-hero-stage">
@@ -153,9 +152,6 @@ export function DtGearSheet({
               className="dt-gear-spirit-hero-card"
             />
           </div>
-          <p className="dt-gear-spirit-hero-hint">
-            Hover slots or tap bag items to inspect
-          </p>
         </div>
       </section>
 
