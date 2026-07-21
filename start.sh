@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT"
 
 # Ensure Node 20 and Homebrew bins are on PATH
-export PATH="/opt/homebrew/opt/node@20/bin:/opt/homebrew/opt/postgresql@16/bin:/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/opt/node@20/bin:/opt/homebrew/opt/postgresql@17/bin:/opt/homebrew/bin:$PATH"
 
 echo "🏠 Haven PM — starting..."
 echo ""
@@ -58,7 +58,7 @@ start_postgres() {
   if command -v pg_isready >/dev/null 2>&1; then
     if ! pg_isready -q 2>/dev/null; then
       echo "→ Starting PostgreSQL via Homebrew..."
-      brew services start postgresql@16 2>/dev/null || true
+      brew services start postgresql@17 2>/dev/null || brew services start postgresql@16 2>/dev/null || true
       sleep 2
     fi
     if pg_isready -q 2>/dev/null; then
@@ -75,7 +75,7 @@ start_postgres() {
 
   echo "❌ PostgreSQL is not running."
   echo "   Install one of:"
-  echo "     brew install postgresql@16 && brew services start postgresql@16"
+  echo "     brew install postgresql@17 && brew services start postgresql@17"
   echo "     Docker Desktop — then re-run ./start.sh"
   exit 1
 }
