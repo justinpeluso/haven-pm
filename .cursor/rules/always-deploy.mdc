@@ -1,15 +1,16 @@
 ---
-description: Push and deploy to Vercel production after each shipped change
+description: Ship to LAN first; ask publish?; Vercel only on yes
 alwaysApply: true
 ---
 
-# Always update production
+# LAN first, then ask to publish
 
-When you finish a user-facing change (feature, fix, seed that affects prod demo data):
+For user-facing changes (feature, fix, seed that affects demo/gameplay):
 
-1. Commit the chunk (commit-as-you-go).
-2. **Push to `main`** and **deploy with `npx vercel --prod --yes`** in the same turn — do not leave work only on localhost.
-3. Confirm the deploy aliased to https://haven-pm.vercel.app (or report failure).
-4. Only skip push/deploy if the user explicitly says not to publish, or the change is purely local tooling with no app impact.
+1. Commit the chunk locally (commit-as-you-go).
+2. **Publish to LAN** — keep the LAN stack up (`npm run dev:lan` / LaunchAgent `com.havenpm.dev-lan` on **http://10.0.0.230:3000** or the Mac’s current LAN IP). Smoke the changed path there so Justin/Rusty can try it.
+3. Ask simply: **publish?**
+4. Only if they say **yes**: **push to `main`** and **deploy with `npx vercel --prod --yes`**, then confirm https://haven-pm.vercel.app.
+5. If they say no / not yet: leave it on LAN only. Do not push or deploy to Vercel.
 
-Request approval when required for protected `main` / production deploy; do not stop after a local-only commit without attempting publish.
+Never push or deploy to Vercel in the same turn as finishing the work unless they already answered yes to publish.
