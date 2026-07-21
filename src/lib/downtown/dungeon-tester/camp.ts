@@ -27,6 +27,7 @@ import type {
   PlayerSlot,
 } from "@/lib/downtown/party-chronicle/types";
 import { EQUIP_SLOTS, PLAYER_SLOT_ORDER } from "@/lib/downtown/party-chronicle/types";
+import { SLOT_DEFAULTS } from "@/lib/downtown/party-chronicle/players";
 import { DT_GEAR_POOLS, getDtGear } from "./gear";
 import { dtBagItemUpgradeCue, type DtUpgradeCue } from "./gear-display";
 import { dtFillEmptyEquipSlots } from "./loadout";
@@ -93,7 +94,7 @@ function nextPlayableSlot(world: DtWorldSave, current: PlayerSlot): PlayerSlot {
   return sealed[(from + 1) % sealed.length]!;
 }
 
-function advanceDtTurn(world: DtWorldSave): DtWorldSave {
+export function advanceDtTurn(world: DtWorldSave): DtWorldSave {
   const next = nextPlayableSlot(world, world.activeSlot);
   return {
     ...world,
@@ -102,6 +103,53 @@ function advanceDtTurn(world: DtWorldSave): DtWorldSave {
     log: [`Turn ${world.turnIndex + 1}: ${next}'s move.`, ...world.log].slice(0, 80),
     updatedAt: new Date().toISOString(),
   };
+}
+
+/** Pass the world turn to the next sealed seat (DM may pass for anyone). */
+export function dtPassTurn(
+  world: DtWorldSave,
+  slot: PlayerSlot | null,
+  opts?: { isDm?: boolean }
+): { world: DtWorldSave; message: string } | { error: string } {
+  if (world.battle?.status === "active" && world.battle.phase !== "summary") {
+    return { error: "Finish the battle first." };
+  }
+  const sealed = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created);
+  if (sealed.length <= 1) {
+    return { error: "Need at least two sealed heroes to pass turns." };
+  }
+  if (!opts?.isDm && (!slot || world.activeSlot !== slot)) {
+    return { error: "Not your turn." };
+  }
+  const next = advanceDtTurn(world);
+  const name =
+    next.characters[next.activeSlot]?.name ?? SLOT_DEFAULTS[next.activeSlot].displayName;
+  return { world: next, message: `Passed — ${name}'s turn.` };
+}
+
+export function dtSealedPartySlots(world: DtWorldSave): PlayerSlot[] {
+  return PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created);
+}
+
+/** Story/Camp world-turn gate (battle uses seat-locked units instead). */
+export function dtCanAdvanceStory(
+  world: DtWorldSave,
+  slot: PlayerSlot | null,
+  opts?: { isDm?: boolean }
+): boolean {
+  if (opts?.isDm) return true;
+  if (!slot || !world.characters[slot]?.created) return false;
+  if (dtSealedPartySlots(world).length <= 1) return true;
+  return world.activeSlot === slot;
+}
+
+/** After Continue/choice — pass turn when 2+ sealed heroes share the table. */
+export function dtAutoPassAfterStoryAdvance(world: DtWorldSave): DtWorldSave {
+  if (dtSealedPartySlots(world).length <= 1) return world;
+  if (world.battle?.status === "active" && world.battle.phase !== "summary") {
+    return world;
+  }
+  return advanceDtTurn(world);
 }
 
 function applyXp(char: CharacterSave, xp: number): CharacterSave {

@@ -177,8 +177,13 @@ export type SimpleBattleState = {
   combatStats?: SimpleBattleCombatStats;
   /** Items rolled on victory (defeat usually empty). */
   lootDrops?: SimpleBattleLootDrop[];
-  /** True until dismiss applies gold/xp/loot to sealed heroes. */
+  /**
+   * True while victory loot still has unclaimed drops (Take/Pass).
+   * Gold/XP grant is tracked separately via goldXpGranted.
+   */
   rewardsPending?: boolean;
+  /** Gold/XP/vitals already applied — prevents double-pay on dismiss/poll. */
+  goldXpGranted?: boolean;
   /** Camp sleep night ambush — same wipe path, night-flavored copy. */
   nightAmbush?: boolean;
   /** Foes present at ambush start (for domination half-kill math). */
@@ -193,6 +198,10 @@ export type SimpleBattleLootDrop = {
   itemId: string;
   name: string;
   blurb?: string;
+  /** Seat that took this drop; null/undefined = still on the table. */
+  claimedBy?: PlayerSlot | null;
+  /** Seats that passed on this drop. */
+  passedBy?: PlayerSlot[];
 };
 
 export type SimpleBattleCombatStats = {
@@ -762,7 +771,8 @@ function withCombatDelta(
 
 function grantRewards(
   world: DtWorldSave,
-  battle: SimpleBattleState
+  battle: SimpleBattleState,
+  opts?: { includeUnclaimedLoot?: boolean }
 ): DtWorldSave["characters"] {
   const heroes = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created);
   if (!heroes.length) return world.characters;
@@ -774,10 +784,21 @@ function grantRewards(
   };
   const characters = { ...world.characters };
   const drops = battle.lootDrops ?? [];
+  const solo = heroes.length === 1;
   for (let i = 0; i < heroes.length; i++) {
     const slot = heroes[i]!;
     const c = characters[slot]!;
-    const itemIds = drops.filter((_, di) => di % heroes.length === i).map((d) => d.itemId);
+    const itemIds = drops
+      .filter((d) => {
+        if (d.claimedBy === slot) return true;
+        if (opts?.includeUnclaimedLoot && solo && !d.claimedBy) return true;
+        if (opts?.includeUnclaimedLoot && !d.claimedBy && !solo) {
+          // Legacy round-robin only when forcing leftover grant
+          return drops.indexOf(d) % heroes.length === i;
+        }
+        return false;
+      })
+      .map((d) => d.itemId);
     const heroUnit = battle.units.find(
       (u) => u.side === "hero" && u.slot === slot && !u.isDog && !u.isCompanion
     );
@@ -797,14 +818,17 @@ function grantRewards(
         xpEach + (i === 0 ? leftovers.xp : 0)
       );
     } else if (fetched && companionUnit === undefined) {
-      // Companion sat out — still share a little XP for sticking around
       fetched = applyFetchedCompanionXp(fetched, Math.floor(xpEach / 2));
+    }
+    const inv = [...(c.inventory ?? [])];
+    for (const id of itemIds) {
+      if (!inv.includes(id)) inv.push(id);
     }
     characters[slot] = {
       ...c,
       gold: (c.gold ?? 0) + goldEach + (i === 0 ? leftovers.gold : 0),
       xp: (c.xp ?? 0) + xpEach + (i === 0 ? leftovers.xp : 0),
-      inventory: [...(c.inventory ?? []), ...itemIds],
+      inventory: inv,
       hp: Math.max(1, Math.min(c.maxHp, heroUnit?.hp ?? c.hp)),
       mana: Math.max(0, Math.min(c.maxMana, heroUnit?.mana ?? c.mana)),
       dog: dogUnit
@@ -814,6 +838,116 @@ function grantRewards(
     };
   }
   return characters;
+}
+
+export function unclaimedLootDrops(battle: SimpleBattleState | null | undefined): SimpleBattleLootDrop[] {
+  if (!battle?.lootDrops?.length) return [];
+  return battle.lootDrops.filter((d) => !d.claimedBy);
+}
+
+export function claimSimpleBattleLootDrop(
+  world: DtWorldSave,
+  dropIndex: number,
+  slot: PlayerSlot
+): { world: DtWorldSave; message: string } | { error: string } {
+  const battle = world.battle;
+  if (!battle || battle.status !== "victory") return { error: "No victory loot." };
+  if (!world.characters[slot]?.created) return { error: "Seal a hero first." };
+  const drops = [...(battle.lootDrops ?? [])];
+  const drop = drops[dropIndex];
+  if (!drop) return { error: "Missing drop." };
+  if (drop.claimedBy) return { error: "Already claimed." };
+  drops[dropIndex] = { ...drop, claimedBy: slot };
+  const char = world.characters[slot]!;
+  const inventory = [...(char.inventory ?? [])];
+  if (!inventory.includes(drop.itemId)) inventory.push(drop.itemId);
+  const nextBattle: SimpleBattleState = {
+    ...battle,
+    lootDrops: drops,
+    rewardsPending: unclaimedLootDrops({ ...battle, lootDrops: drops }).length > 0,
+  };
+  return {
+    world: {
+      ...world,
+      characters: { ...world.characters, [slot]: { ...char, inventory } },
+      battle: nextBattle,
+      updatedAt: new Date().toISOString(),
+    },
+    message: `${char.name} takes ${drop.name}.`,
+  };
+}
+
+export function passSimpleBattleLootDrop(
+  world: DtWorldSave,
+  dropIndex: number,
+  slot: PlayerSlot
+): { world: DtWorldSave; message: string } | { error: string } {
+  const battle = world.battle;
+  if (!battle || battle.status !== "victory") return { error: "No victory loot." };
+  if (!world.characters[slot]?.created) return { error: "Seal a hero first." };
+  const drops = [...(battle.lootDrops ?? [])];
+  const drop = drops[dropIndex];
+  if (!drop) return { error: "Missing drop." };
+  if (drop.claimedBy) return { error: "Already claimed." };
+  const passedBy = [...new Set([...(drop.passedBy ?? []), slot])];
+  const sealed = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created);
+  let nextDrop: SimpleBattleLootDrop = { ...drop, passedBy };
+  let characters = world.characters;
+  let message = `${world.characters[slot]!.name} passes on ${drop.name}.`;
+  // Everyone passed — give to first sealed who hasn't… or first seat
+  if (sealed.every((s) => passedBy.includes(s))) {
+    const winner = sealed[0]!;
+    nextDrop = { ...nextDrop, claimedBy: winner };
+    const c = characters[winner]!;
+    const inventory = [...(c.inventory ?? [])];
+    if (!inventory.includes(drop.itemId)) inventory.push(drop.itemId);
+    characters = { ...characters, [winner]: { ...c, inventory } };
+    message = `All passed — ${c.name} gets ${drop.name}.`;
+  }
+  drops[dropIndex] = nextDrop;
+  const nextBattle: SimpleBattleState = {
+    ...battle,
+    lootDrops: drops,
+    rewardsPending: unclaimedLootDrops({ ...battle, lootDrops: drops }).length > 0,
+  };
+  return {
+    world: {
+      ...world,
+      characters,
+      battle: nextBattle,
+      updatedAt: new Date().toISOString(),
+    },
+    message,
+  };
+}
+
+/** DM assigns any leftover unclaimed drops (round-robin) so the table can't soft-lock. */
+export function forceClaimRemainingLoot(
+  world: DtWorldSave
+): { world: DtWorldSave; message: string } {
+  const battle = world.battle;
+  if (!battle || battle.status !== "victory") return { world, message: "No victory loot." };
+  const heroes = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created);
+  if (!heroes.length) return { world, message: "No sealed heroes." };
+  let characters = { ...world.characters };
+  const drops = (battle.lootDrops ?? []).map((d, i) => {
+    if (d.claimedBy) return d;
+    const slot = heroes[i % heroes.length]!;
+    const c = characters[slot]!;
+    const inventory = [...(c.inventory ?? [])];
+    if (!inventory.includes(d.itemId)) inventory.push(d.itemId);
+    characters[slot] = { ...c, inventory };
+    return { ...d, claimedBy: slot };
+  });
+  return {
+    world: {
+      ...world,
+      characters,
+      battle: { ...battle, lootDrops: drops, rewardsPending: false },
+      updatedAt: new Date().toISOString(),
+    },
+    message: "Leftover loot assigned.",
+  };
 }
 
 export type BattleFailKind = "wipe" | "flee";
@@ -1879,8 +2013,17 @@ export function performSimpleBattleAction(
   heroId: string,
   action: SimpleBattleActionId,
   targetId?: string,
-  rng: () => number = Math.random
+  authOrRng?:
+    | (() => number)
+    | { actorSlot?: PlayerSlot | null; isDm?: boolean },
+  maybeRng: () => number = Math.random
 ): { world: DtWorldSave; message: string } {
+  const auth =
+    typeof authOrRng === "function" || authOrRng === undefined
+      ? undefined
+      : authOrRng;
+  const rng = typeof authOrRng === "function" ? authOrRng : maybeRng;
+
   const battle = world.battle;
   if (!battle || battle.status !== "active") {
     return { world, message: "No active fight." };
@@ -1892,6 +2035,14 @@ export function performSimpleBattleAction(
   const hero = battle.units.find((u) => u.id === heroId && u.side === "hero");
   if (!hero || hero.hp <= 0) return { world, message: "That hero is down." };
   if (hero.isDog) return { world, message: "Your dog acts on their own." };
+  if (
+    !auth?.isDm &&
+    auth?.actorSlot &&
+    hero.slot &&
+    hero.slot !== auth.actorSlot
+  ) {
+    return { world, message: "Not your hero." };
+  }
   if (hero.isCompanion && action !== "attack" && action !== "buff") {
     return { world, message: "Trail companions use Attack (or brace buff) for now." };
   }
@@ -2275,18 +2426,29 @@ function finishBattle(
   world: DtWorldSave,
   battle: SimpleBattleState
 ): { world: DtWorldSave; message: string } {
-  // Grant gold/xp/loot as soon as victory hits so the end screen can show
-  // a live inventory for equip. rewardsPending stays false after grant so
-  // dismiss/poll cannot double-pay.
+  // Gold/XP/vitals on victory. Solo auto-claims item drops into the bag;
+  // multiplayer leaves loot on the table for Take/Pass (rewardsPending).
   if (battle.status === "victory") {
-    const pending = battle.rewardsPending !== false;
-    let characters = pending ? grantRewards(world, battle) : world.characters;
+    const sealed = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created);
+    let lootDrops = [...(battle.lootDrops ?? [])];
+    if (sealed.length === 1) {
+      const seat = sealed[0]!;
+      lootDrops = lootDrops.map((d) =>
+        d.claimedBy ? d : { ...d, claimedBy: seat }
+      );
+    }
+    const battleReady: SimpleBattleState = { ...battle, lootDrops };
+    let characters =
+      battle.goldXpGranted === true
+        ? world.characters
+        : grantRewards(world, battleReady);
     characters = Object.fromEntries(
       PLAYER_SLOT_ORDER.map((slot) => {
         const c = characters[slot];
         return [slot, c?.created ? dtDogAfterBattle(c) : c];
       })
     ) as DtWorldSave["characters"];
+    const lootOpen = unclaimedLootDrops(battleReady).length > 0;
     return {
       world: withBattleTransition(
         world,
@@ -2294,10 +2456,11 @@ function finishBattle(
           ...world,
           characters,
           battle: {
-            ...battle,
+            ...battleReady,
             phase: "summary",
             fx: [],
-            rewardsPending: false,
+            goldXpGranted: true,
+            rewardsPending: lootOpen,
           },
           battlesFought: (world.battlesFought ?? 0) + 1,
           framesSinceEncounter: 0,
@@ -2340,16 +2503,32 @@ function finishBattle(
   };
 }
 
-/** Clear summary overlay and return to story. */
-export function dismissSimpleBattle(world: DtWorldSave): DtWorldSave {
+/** Clear summary overlay and return to story. Blocked while loot is unclaimed. */
+export function dismissSimpleBattle(
+  world: DtWorldSave,
+  opts?: { forceLoot?: boolean }
+): DtWorldSave {
   if (!world.battle) return world;
   if (world.battle.status === "active" && world.battle.phase !== "summary") {
     return world;
   }
-  const battle = world.battle;
+  let battle = world.battle;
   let characters = world.characters;
-  if (battle.status === "victory" && battle.rewardsPending !== false) {
-    characters = grantRewards(world, battle);
+  if (battle.status === "victory") {
+    if (unclaimedLootDrops(battle).length > 0) {
+      if (!opts?.forceLoot) return world;
+      const forced = forceClaimRemainingLoot({ ...world, battle });
+      characters = forced.world.characters;
+      battle = forced.world.battle!;
+    }
+    if (battle.goldXpGranted !== true) {
+      characters = grantRewards(
+        { ...world, characters },
+        battle,
+        { includeUnclaimedLoot: false }
+      );
+      battle = { ...battle, goldXpGranted: true };
+    }
   }
   return withBattleTransition(
     world,
@@ -2365,18 +2544,38 @@ export function dismissSimpleBattle(world: DtWorldSave): DtWorldSave {
 }
 
 /**
- * Apply victory gold/xp/loot while keeping the end screen open so the player
- * can equip immediately. Idempotent via rewardsPending.
+ * Legacy / race-safe: grant gold/XP once if finish missed it.
+ * Does not force-claim multiplayer loot onto bags.
  */
 export function claimSimpleBattleVictoryRewards(world: DtWorldSave): DtWorldSave {
   const battle = world.battle;
-  if (!battle || battle.status !== "victory" || battle.rewardsPending === false) {
-    return world;
+  if (!battle || battle.status !== "victory") return world;
+  if (battle.goldXpGranted === true) {
+    return {
+      ...world,
+      battle: {
+        ...battle,
+        rewardsPending: unclaimedLootDrops(battle).length > 0,
+      },
+    };
   }
+  const sealed = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created);
+  let lootDrops = [...(battle.lootDrops ?? [])];
+  if (sealed.length === 1) {
+    const seat = sealed[0]!;
+    lootDrops = lootDrops.map((d) =>
+      d.claimedBy ? d : { ...d, claimedBy: seat }
+    );
+  }
+  const battleReady: SimpleBattleState = { ...battle, lootDrops };
   return {
     ...world,
-    characters: grantRewards(world, battle),
-    battle: { ...battle, rewardsPending: false },
+    characters: grantRewards(world, battleReady),
+    battle: {
+      ...battleReady,
+      goldXpGranted: true,
+      rewardsPending: unclaimedLootDrops(battleReady).length > 0,
+    },
     updatedAt: new Date().toISOString(),
   };
 }

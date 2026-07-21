@@ -55,6 +55,7 @@ import {
   defaultDtHeroLook,
   dismissDtBattle,
   fleeDtBattle,
+  claimSimpleBattleLootDrop,
   claimSimpleBattleVictoryRewards,
   dtArtSrc,
   dtBuyFromCampMerchant,
@@ -62,19 +63,25 @@ import {
   dtCampDogFetch,
   dtCampFeedDog,
   dtCampMeanToDog,
+  dtCanAdvanceStory,
   dtDigForLoot,
   dtDogCanFetch,
   dtDogJoinsBattle,
   dtEquipItem,
   dtForceAmbush,
+  dtPassTurn,
   dtReadSpellbook,
   dtSalvageItem,
   dtSceneArtSrc,
+  dtSealedPartySlots,
   dtSleepAtCamp,
   dtStumbleOnChest,
   dtUnequipSlot,
   dtUseConsumable,
   dtLoadoutSummary,
+  forceClaimRemainingLoot,
+  passSimpleBattleLootDrop,
+  unclaimedLootDrops,
   enterDtMapReplay,
   enterDtSideQuest,
   exitDtMapReplay,
@@ -289,8 +296,10 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     name: string;
     goldLeft: number;
   } | null>(null);
+  const [turnPulse, setTurnPulse] = useState(false);
   const playTickRef = useRef<number | null>(null);
   const activeSlotRef = useRef<DtSaveSlotId>(DT_DEFAULT_SLOT_ID);
+  const prevActiveSlotRef = useRef<PlayerSlot | null>(null);
   activeSlotRef.current = activeSlotId;
   const worldRef = useRef(world);
   // Never clobber eager persist stamps with a stale React snapshot on render.
@@ -545,6 +554,34 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     return () => window.clearInterval(id);
   }, [phase, !!world]);
 
+  /** Faster poll while waiting on another seat's story turn or battle action. */
+  const peerPollMs = useMemo(() => {
+    if (!world) return 6000;
+    const sealed = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created).length;
+    const inActiveFight =
+      world.battle?.status === "active" && world.battle.phase !== "summary";
+    const waitingStory =
+      sealed >= 2 &&
+      !!mySlot &&
+      !identity.isDm &&
+      world.activeSlot !== mySlot &&
+      !inActiveFight;
+    const waitingBattle =
+      !!inActiveFight &&
+      world.battle?.phase === "player" &&
+      !!mySlot &&
+      !identity.isDm &&
+      !world.battle.units.some(
+        (u) =>
+          u.side === "hero" &&
+          u.slot === mySlot &&
+          !u.isDog &&
+          u.hp > 0 &&
+          u.actionsLeft > 0
+      );
+    return waitingStory || waitingBattle ? 2000 : 6000;
+  }, [world, mySlot, identity.isDm]);
+
   // Pull peer seals / campaign so late joiners see the party without refresh.
   useEffect(() => {
     if (phase !== "play" && phase !== "create") return;
@@ -600,7 +637,8 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
         /* ignore */
       }
     };
-    const id = window.setInterval(tick, 6000);
+    void tick();
+    const id = window.setInterval(tick, peerPollMs);
     const onFocus = () => void tick();
     window.addEventListener("focus", onFocus);
     return () => {
@@ -608,7 +646,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
       window.clearInterval(id);
       window.removeEventListener("focus", onFocus);
     };
-  }, [phase, mySlot, identity.isDm, refreshSlotSummaries]);
+  }, [phase, mySlot, identity.isDm, refreshSlotSummaries, peerPollMs]);
 
   useEffect(() => {
     if (!bootstrapped || !world || !mySlot) return;
@@ -765,6 +803,10 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
   const onContinue = () => {
     if (!world) return;
+    if (!dtCanAdvanceStory(world, mySlot, { isDm: identity.isDm })) {
+      setFlash("Waiting on another seat — not your turn.");
+      return;
+    }
     const r = continueFrame(world);
     persist(r.world);
     if (r.message) setFlash(r.message);
@@ -772,9 +814,24 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
   const onChoose = (choiceId: string) => {
     if (!world) return;
+    if (!dtCanAdvanceStory(world, mySlot, { isDm: identity.isDm })) {
+      setFlash("Waiting on another seat — not your turn.");
+      return;
+    }
     const r = chooseFrame(world, choiceId);
     persist(r.world);
     if (r.message) setFlash(r.message);
+  };
+
+  const onPassTurn = () => {
+    if (!world) return;
+    const r = dtPassTurn(world, mySlot, { isDm: identity.isDm });
+    if ("error" in r) {
+      setFlash(r.error);
+      return;
+    }
+    persist(r.world);
+    setFlash(r.message);
   };
 
   const onEnterMapRegion = (regionId: string) => {
@@ -855,7 +912,10 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     pendingRef.current = true;
     setPending(true);
     try {
-      const r = performSimpleBattleAction(current, heroId, action, targetId);
+      const r = performSimpleBattleAction(current, heroId, action, targetId, {
+        actorSlot: mySlot,
+        isDm: identity.isDm,
+      });
       persist(r.world);
       if (r.message) setFlash(r.message);
     } finally {
@@ -864,9 +924,55 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     }
   };
 
+  const onClaimBattleLoot = (dropIndex: number) => {
+    const current = worldRef.current;
+    if (!current?.battle || !mySlot) return;
+    const r = claimSimpleBattleLootDrop(current, dropIndex, mySlot);
+    if ("error" in r) {
+      setFlash(r.error);
+      return;
+    }
+    persist(r.world);
+    setFlash(r.message);
+  };
+
+  const onPassBattleLoot = (dropIndex: number) => {
+    const current = worldRef.current;
+    if (!current?.battle || !mySlot) return;
+    const r = passSimpleBattleLootDrop(current, dropIndex, mySlot);
+    if ("error" in r) {
+      setFlash(r.error);
+      return;
+    }
+    persist(r.world);
+    setFlash(r.message);
+  };
+
+  const onForceClaimBattleLoot = () => {
+    const current = worldRef.current;
+    if (!current?.battle || !identity.isDm) return;
+    const r = forceClaimRemainingLoot(current);
+    persist(r.world);
+    setFlash(r.message);
+  };
+
   const onDismissBattle = () => {
     const current = worldRef.current;
     if (!current?.battle) return;
+    if (
+      current.battle.status === "victory" &&
+      unclaimedLootDrops(current.battle).length > 0
+    ) {
+      if (identity.isDm) {
+        enemyAdvanceInFlightRef.current = false;
+        persist(dismissDtBattle(current, { forceLoot: true }));
+        setTab("story");
+        setFlash("Leftover loot assigned — story resumes.");
+        return;
+      }
+      setFlash("Claim or pass loot before leaving.");
+      return;
+    }
     enemyAdvanceInFlightRef.current = false;
     persist(dismissDtBattle(current));
     setTab("story");
@@ -912,13 +1018,13 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     }
   }, [world?.battle?.phase, world?.battle?.round]);
 
-  // Older saves may still be on victory with rewardsPending — claim so inventory shows loot.
+  // Older saves may still be on victory without goldXpGranted — grant gold/XP once.
   useEffect(() => {
     const current = worldRef.current;
     const b = current?.battle;
-    if (!current || !b || b.status !== "victory" || b.rewardsPending === false) return;
+    if (!current || !b || b.status !== "victory" || b.goldXpGranted === true) return;
     persist(claimSimpleBattleVictoryRewards(current));
-  }, [world?.battle?.id, world?.battle?.status, world?.battle?.rewardsPending]);
+  }, [world?.battle?.id, world?.battle?.status, world?.battle?.goldXpGranted]);
 
   const battleActive = world?.battle?.status === "active";
   const battleOpen = !!world?.battle;
@@ -926,6 +1032,29 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     !!mySlot &&
     !!world?.characters[mySlot]?.created &&
     (identity.isDm || world?.activeSlot === mySlot);
+  const storyTurnOk = !!world && dtCanAdvanceStory(world, mySlot, { isDm: identity.isDm });
+  const multiSeat = !!world && dtSealedPartySlots(world).length >= 2;
+  const activeTurnName = world
+    ? world.characters[world.activeSlot]?.name ??
+      SLOT_DEFAULTS[world.activeSlot].displayName
+    : "";
+  useEffect(() => {
+    if (!world || !multiSeat) return;
+    if (prevActiveSlotRef.current === null) {
+      prevActiveSlotRef.current = world.activeSlot;
+      return;
+    }
+    if (prevActiveSlotRef.current === world.activeSlot) return;
+    prevActiveSlotRef.current = world.activeSlot;
+    setTurnPulse(true);
+    const t = window.setTimeout(() => setTurnPulse(false), 900);
+    if (world.activeSlot === mySlot) {
+      setFlash("Your turn!");
+    } else if (!identity.isDm) {
+      setFlash(`Waiting on ${activeTurnName}…`);
+    }
+    return () => window.clearTimeout(t);
+  }, [world?.activeSlot, world?.turnIndex, multiSeat, mySlot, identity.isDm, activeTurnName]);
   const me = mySlot && world ? world.characters[mySlot] : null;
   const meXp = me ? xpProgress(me.xp) : null;
   const sealedPartySlots = useMemo(
@@ -1213,7 +1342,25 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   return (
     <div className={shellClass}>
 
-      {flash ? <p className="dt-flash">{flash}</p> : null}
+      {flash ? (
+        <p className="dt-flash" data-turn-pulse={turnPulse ? "true" : undefined}>
+          {flash}
+        </p>
+      ) : null}
+      {phase === "play" && world && multiSeat && !world.battle ? (
+        <p
+          className="dt-turn-banner"
+          data-yours={storyTurnOk && !identity.isDm ? "true" : "false"}
+          data-pulse={turnPulse ? "true" : undefined}
+          role="status"
+        >
+          {identity.isDm
+            ? `Table turn: ${activeTurnName}`
+            : storyTurnOk
+              ? "Your turn — Continue or choose a path"
+              : `Waiting on ${activeTurnName}…`}
+        </p>
+      ) : null}
       {scrapGain ? (
         <div
           key={scrapGain.id}
@@ -1532,7 +1679,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                           type="button"
                           className="dt-btn"
                           data-variant="primary"
-                          disabled={!!world.battle}
+                          disabled={!!world.battle || !storyTurnOk}
                           onClick={() => onChoose(c.id)}
                         >
                           {c.label}
@@ -1543,13 +1690,24 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                         type="button"
                         className="dt-btn dt-btn-continue"
                         data-variant="primary"
-                        disabled={!!world.battle || !frame?.next}
+                        disabled={!!world.battle || !frame?.next || !storyTurnOk}
                         onClick={onContinue}
                       >
                         Continue
                         <kbd className="dt-shortcut">Space</kbd>
                       </button>
                     )}
+                    {multiSeat && (storyTurnOk || identity.isDm) ? (
+                      <button
+                        type="button"
+                        className="dt-btn"
+                        data-variant="secondary"
+                        disabled={!!world.battle}
+                        onClick={onPassTurn}
+                      >
+                        Pass turn
+                      </button>
+                    ) : null}
                     {mySlot && !world.characters[mySlot].created ? (
                       <button
                         type="button"
@@ -1614,6 +1772,17 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   >
                     Gear / Inventory
                   </button>
+                  {multiSeat && (storyTurnOk || identity.isDm) ? (
+                    <button
+                      type="button"
+                      className="dt-btn"
+                      data-variant="secondary"
+                      disabled={!!world.battle}
+                      onClick={onPassTurn}
+                    >
+                      Pass turn
+                    </button>
+                  ) : null}
                 </div>
               </div>
 
@@ -2204,7 +2373,11 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
             <SimpleBattleOverlay
               battle={world.battle}
               mySlot={mySlot}
-              canAct={!!mySlot && !!world.characters[mySlot]?.created}
+              isDm={identity.isDm}
+              canAct={
+                identity.isDm ||
+                (!!mySlot && !!world.characters[mySlot]?.created)
+              }
               pending={pending}
               onAction={onBattleAction}
               onDismiss={onDismissBattle}
@@ -2212,6 +2385,9 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               onFxDone={onBattleFxDone}
               onEnemyAdvance={onBattleEnemyAdvance}
               onSplashDone={onBattleSplashDone}
+              onClaimLoot={mySlot ? onClaimBattleLoot : undefined}
+              onPassLoot={mySlot ? onPassBattleLoot : undefined}
+              onForceClaimLoot={identity.isDm ? onForceClaimBattleLoot : undefined}
               hero={me}
               onEquip={onEquip}
               onUnequip={onUnequip}

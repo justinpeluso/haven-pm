@@ -7,8 +7,18 @@ import {
   startDtBattleVs,
   startDtRandomBattle,
 } from "./battle";
+import { dtAutoPassAfterStoryAdvance } from "./camp";
 import { dtChapterNumber } from "./maps";
 import type { DtWorldSave } from "./types";
+
+function withStoryTurnPass(result: {
+  world: DtWorldSave;
+  message?: string;
+}): { world: DtWorldSave; message?: string } {
+  const next = dtAutoPassAfterStoryAdvance(result.world);
+  if (next === result.world) return result;
+  return { ...result, world: next };
+}
 
 function isReplay(world: DtWorldSave): boolean {
   return !!world.mapReplay;
@@ -188,7 +198,7 @@ export function continueFrame(
     }
     return { world, message: "End of authored spine." };
   }
-  return goToFrame(world, cur.next);
+  return withStoryTurnPass(goToFrame(world, cur.next));
 }
 
 export function chooseFrame(
@@ -234,15 +244,17 @@ export function chooseFrame(
           `Check succeeded (${choice.stat.toUpperCase()} DC ${choice.dc}).`,
       };
     }
-    return nextWorld;
+    return withStoryTurnPass(nextWorld);
   }
 
   const choiceFlags = replay || sideQuest
     ? allowedStoryFlags(world, choice.flagsAdd)
     : choice.flagsAdd;
-  return goToFrame(world, choice.next, {
-    flagsAdd: choiceFlags?.length ? choiceFlags : undefined,
-  });
+  return withStoryTurnPass(
+    goToFrame(world, choice.next, {
+      flagsAdd: choiceFlags?.length ? choiceFlags : undefined,
+    })
+  );
 }
 
 export function addPlaytime(world: DtWorldSave, deltaMs: number): DtWorldSave {

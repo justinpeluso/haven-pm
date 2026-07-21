@@ -887,6 +887,69 @@
   border-left: 3px solid var(--dt-orange);
 }
 
+.dungeon-tester .dt-flash[data-turn-pulse="true"],
+.dungeon-tester .dt-turn-banner[data-pulse="true"] {
+  animation: dt-turn-flash 0.9s ease-out;
+}
+
+.dungeon-tester .dt-turn-banner {
+  font-family: var(--dt-hud);
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0 0 calc(var(--dt-space) * 2);
+  padding: calc(var(--dt-space) * 1) calc(var(--dt-space) * 1.5);
+  border: 2px solid #1a120c;
+  background: linear-gradient(180deg, rgba(255, 248, 236, 0.95), rgba(232, 220, 184, 0.9));
+  color: var(--dt-canyon-deep);
+}
+
+.dungeon-tester .dt-turn-banner[data-yours="true"] {
+  border-color: var(--dt-orange);
+  box-shadow: inset 0 0 0 1px rgba(196, 92, 40, 0.35);
+}
+
+.dungeon-tester .dt-turn-banner[data-yours="false"] {
+  opacity: 0.92;
+}
+
+@keyframes dt-turn-flash {
+  0% {
+    transform: translateY(-2px);
+    filter: brightness(1.12);
+  }
+  100% {
+    transform: none;
+    filter: none;
+  }
+}
+
+.dungeon-tester .dt-sbat-loot-claim-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.dungeon-tester .dt-sbat-loot-claim-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.dungeon-tester .dt-sbat-loot-claim-actions {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.dungeon-tester .dt-sbat-loot-status {
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+
 /* Break-down scrap payout popup */
 .dungeon-tester {
   position: relative;

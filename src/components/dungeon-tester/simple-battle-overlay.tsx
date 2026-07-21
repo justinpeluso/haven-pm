@@ -34,6 +34,7 @@ import { DtPokeCard } from "@/components/dungeon-tester/dt-poke-card";
 type Props = {
   battle: SimpleBattleState;
   mySlot: PlayerSlot | null;
+  isDm?: boolean;
   canAct: boolean;
   pending?: boolean;
   onAction: (heroId: string, action: SimpleBattleActionId, targetId?: string) => void;
@@ -45,6 +46,9 @@ type Props = {
   onEnemyAdvance?: () => void;
   /** Persist splashDone for this battle id (sync:false is fine). */
   onSplashDone?: () => void;
+  onClaimLoot?: (dropIndex: number) => void;
+  onPassLoot?: (dropIndex: number) => void;
+  onForceClaimLoot?: () => void;
   /** Your sealed hero — used on victory for immediate equip from loot. */
   hero?: CharacterSave | null;
   onEquip?: (itemId: string) => void;
@@ -465,6 +469,7 @@ function FloatLayer({ battle }: { battle: SimpleBattleState }) {
 export function SimpleBattleOverlay({
   battle,
   mySlot,
+  isDm = false,
   canAct,
   pending,
   onAction,
@@ -473,6 +478,9 @@ export function SimpleBattleOverlay({
   onFxDone,
   onEnemyAdvance,
   onSplashDone,
+  onClaimLoot,
+  onPassLoot,
+  onForceClaimLoot,
   hero,
   onEquip,
   onUnequip,
@@ -596,7 +604,10 @@ export function SimpleBattleOverlay({
   const heroes = battle.units.filter((u) => u.side === "hero" && !u.isDog);
   const dogs = battle.units.filter((u) => u.side === "hero" && u.isDog);
   const enemies = battle.units.filter((u) => u.side === "enemy");
-  const selected = heroes.find((u) => u.id === selectedHeroId) ?? null;
+  const controllableHeroes = isDm
+    ? heroes
+    : heroes.filter((h) => !!mySlot && h.slot === mySlot);
+  const selected = controllableHeroes.find((u) => u.id === selectedHeroId) ?? null;
   const myHero = mySlot ? (heroes.find((u) => u.slot === mySlot) ?? null) : null;
   const myDog =
     mySlot
@@ -629,10 +640,17 @@ export function SimpleBattleOverlay({
   const actingHero =
     selected && selected.actionsLeft > 0 && selected.hp > 0
       ? selected
-      : (heroes.find((u) => u.actionsLeft > 0 && u.hp > 0) ?? null);
+      : (controllableHeroes.find((u) => u.actionsLeft > 0 && u.hp > 0) ?? null);
 
   const summary = battle.status !== "active" || battle.phase === "summary";
   const playerTurn = battle.status === "active" && battle.phase === "player";
+  const waitingOnAlly =
+    playerTurn &&
+    !actingHero &&
+    heroes.some((u) => u.actionsLeft > 0 && u.hp > 0) &&
+    !isDm &&
+    !!mySlot &&
+    canAct;
   // Intro never blocks when splash was already stamped or fight progressed.
   const introBusy =
     introPhase !== "gone" &&
@@ -640,7 +658,11 @@ export function SimpleBattleOverlay({
     !summary &&
     !battle.splashDone &&
     !simpleBattleShouldSkipSplash(battle);
-  const controlsLocked = introBusy || !canAct || !!pending || !playerTurn;
+  const controlsLocked =
+    introBusy || !canAct || !!pending || !playerTurn || !actingHero;
+  const unclaimedLoot = (battle.lootDrops ?? []).filter((d) => !d.claimedBy);
+  const dismissBlocked =
+    battle.status === "victory" && unclaimedLoot.length > 0 && !isDm;
 
   const lootIds = useMemo(
     () => new Set((battle.lootDrops ?? []).map((d) => d.itemId)),
@@ -844,29 +866,39 @@ export function SimpleBattleOverlay({
         {!summary ? (
           <div className="dt-sbat-controls">
             <div className="dt-sbat-party-strip" aria-label="Party status">
-              {heroes.map((h) => (
-                <button
-                  key={`strip-${h.id}`}
-                  type="button"
-                  className="dt-sbat-party-card"
-                  data-active={h.id === actingHero?.id ? "true" : "false"}
-                  data-mine={h.slot === mySlot ? "true" : "false"}
-                  disabled={h.hp <= 0 || h.actionsLeft <= 0 || !playerTurn || introBusy}
-                  onClick={() => {
-                    setSelectedHeroId(h.id);
-                    setAction(null);
-                    setNeedTarget(null);
-                  }}
-                >
-                  <div className="dt-sbat-party-name">
-                    {h.name}
-                    {h.slot === mySlot ? " (you)" : ""}
-                    {h.haste ? " · Haste" : ""}
-                    {(h.stunRounds ?? 0) > 0 ? " · Stun" : ""}
-                  </div>
-                  <StatBars unit={h} />
-                </button>
-              ))}
+              {heroes.map((h) => {
+                const mine = isDm || (!!mySlot && h.slot === mySlot);
+                return (
+                  <button
+                    key={`strip-${h.id}`}
+                    type="button"
+                    className="dt-sbat-party-card"
+                    data-active={h.id === actingHero?.id ? "true" : "false"}
+                    data-mine={h.slot === mySlot ? "true" : "false"}
+                    disabled={
+                      !mine ||
+                      h.hp <= 0 ||
+                      h.actionsLeft <= 0 ||
+                      !playerTurn ||
+                      introBusy
+                    }
+                    onClick={() => {
+                      if (!mine) return;
+                      setSelectedHeroId(h.id);
+                      setAction(null);
+                      setNeedTarget(null);
+                    }}
+                  >
+                    <div className="dt-sbat-party-name">
+                      {h.name}
+                      {h.slot === mySlot ? " (you)" : ""}
+                      {h.haste ? " · Haste" : ""}
+                      {(h.stunRounds ?? 0) > 0 ? " · Stun" : ""}
+                    </div>
+                    <StatBars unit={h} />
+                  </button>
+                );
+              })}
               <button
                 type="button"
                 className="dt-sbat-party-card dt-sbat-dog-slot"
@@ -892,13 +924,15 @@ export function SimpleBattleOverlay({
             <p className="dt-sbat-hint">
               {introBusy
                 ? "Ambush!"
-                : needTarget === "enemy"
-                  ? "Click an enemy — fixed spots, no movement."
-                  : needTarget === "ally"
-                    ? "Click an ally for Buff / Heal."
-                    : playerTurn
-                      ? `${actingHero?.name ?? "Hero"}: Attack · Buff · Heal · Potion · Magic. Fixed spots · Haste → 2 actions.`
-                      : "Enemy turn…"}
+                : waitingOnAlly
+                  ? "Waiting on another seat to act…"
+                  : needTarget === "enemy"
+                    ? "Click an enemy — fixed spots, no movement."
+                    : needTarget === "ally"
+                      ? "Click an ally for Buff / Heal."
+                      : playerTurn
+                        ? `${actingHero?.name ?? "Hero"}: Attack · Buff · Heal · Potion · Magic. Fixed spots · Haste → 2 actions.`
+                        : "Enemy turn…"}
               {actingHero && !introBusy
                 ? ` · MP ${actingHero.mana}/${actingHero.maxMana} · ST ${actingHero.stamina}/${actingHero.maxStamina}`
                 : ""}
@@ -1046,18 +1080,63 @@ export function SimpleBattleOverlay({
             </ul>
             <div className="dt-sbat-endscreen-loot">
               <p className="dt-sbat-endscreen-loot-title">
-                {battle.status === "victory" ? "Items you got" : "Nothing claimed"}
+                {battle.status === "victory"
+                  ? unclaimedLoot.length
+                    ? "Loot on the table — Take or Pass"
+                    : "Items claimed"
+                  : "Nothing claimed"}
               </p>
               {(battle.lootDrops?.length ?? 0) > 0 ? (
-                <ul>
-                  {battle.lootDrops!.map((d) => (
-                    <li key={d.itemId}>
-                      <span className="dt-sbat-loot-name">{d.name}</span>
-                      {d.blurb ? (
-                        <span className="dt-sbat-loot-blurb"> — {d.blurb}</span>
-                      ) : null}
-                    </li>
-                  ))}
+                <ul className="dt-sbat-loot-claim-list">
+                  {battle.lootDrops!.map((d, idx) => {
+                    const taken = !!d.claimedBy;
+                    const iPassed =
+                      !!mySlot && (d.passedBy ?? []).includes(mySlot);
+                    return (
+                      <li key={`${d.itemId}-${idx}`}>
+                        <div className="dt-sbat-loot-claim-row">
+                          <div>
+                            <span className="dt-sbat-loot-name">{d.name}</span>
+                            {d.blurb ? (
+                              <span className="dt-sbat-loot-blurb"> — {d.blurb}</span>
+                            ) : null}
+                            {taken ? (
+                              <span className="dt-sbat-loot-status">
+                                {" "}
+                                · taken by {d.claimedBy}
+                              </span>
+                            ) : iPassed ? (
+                              <span className="dt-sbat-loot-status"> · you passed</span>
+                            ) : null}
+                          </div>
+                          {!taken && battle.status === "victory" ? (
+                            <div className="dt-sbat-loot-claim-actions">
+                              {onClaimLoot && mySlot && !iPassed ? (
+                                <button
+                                  type="button"
+                                  className="pc-btn-tiny"
+                                  disabled={!!pending}
+                                  onClick={() => onClaimLoot(idx)}
+                                >
+                                  Take
+                                </button>
+                              ) : null}
+                              {onPassLoot && mySlot && !iPassed ? (
+                                <button
+                                  type="button"
+                                  className="pc-btn-tiny"
+                                  disabled={!!pending}
+                                  onClick={() => onPassLoot(idx)}
+                                >
+                                  Pass
+                                </button>
+                              ) : null}
+                            </div>
+                          ) : null}
+                        </div>
+                      </li>
+                    );
+                  })}
                 </ul>
               ) : (
                 <p className="dt-sbat-endscreen-loot-empty">
@@ -1066,6 +1145,19 @@ export function SimpleBattleOverlay({
                     : "Nothing but dust and bruised pride."}
                 </p>
               )}
+              {battle.status === "victory" &&
+              unclaimedLoot.length > 0 &&
+              onForceClaimLoot ? (
+                <button
+                  type="button"
+                  className="dt-btn"
+                  data-variant="secondary"
+                  disabled={!!pending}
+                  onClick={onForceClaimLoot}
+                >
+                  DM: assign leftover loot
+                </button>
+              ) : null}
             </div>
             {battle.status === "victory" && victoryLoadout && hero ? (
               <div className="dt-sbat-endscreen-inv">
@@ -1073,7 +1165,10 @@ export function SimpleBattleOverlay({
                   Inventory — equip what you need now
                 </p>
                 <p className="dt-section-hint">
-                  {hero.name} · {hero.gold}g · loot is already in your bag
+                  {hero.name} · {hero.gold}g
+                  {unclaimedLoot.length
+                    ? " · take loot above to stow it"
+                    : " · claimed loot is in your bag"}
                 </p>
                 <div className="dt-inv-block">
                   <p className="dt-bag-sublabel">Equipped</p>
@@ -1196,8 +1291,24 @@ export function SimpleBattleOverlay({
                 </div>
               </div>
             ) : null}
-            <button type="button" className="dt-btn" data-primary="true" data-back="true" onClick={onDismiss}>
-              {battle.status === "victory" ? "Done — back to story" : "← Return to story"}
+            <button
+              type="button"
+              className="dt-btn"
+              data-primary="true"
+              data-back="true"
+              disabled={dismissBlocked || !!pending}
+              title={
+                dismissBlocked
+                  ? "Claim or pass remaining loot first"
+                  : undefined
+              }
+              onClick={onDismiss}
+            >
+              {battle.status === "victory"
+                ? dismissBlocked
+                  ? "Claim loot to continue"
+                  : "Done — back to story"
+                : "← Return to story"}
             </button>
           </div>
         )}

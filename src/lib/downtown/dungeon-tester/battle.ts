@@ -43,8 +43,11 @@ export function startDtBattleVs(
   return startSimpleBattle(world, { foeId, rng });
 }
 
-export function dismissDtBattle(world: DtWorldSave): DtWorldSave {
-  return dismissSimpleBattle(world);
+export function dismissDtBattle(
+  world: DtWorldSave,
+  opts?: { forceLoot?: boolean }
+): DtWorldSave {
+  return dismissSimpleBattle(world, opts);
 }
 
 /** Flee / soft-lock escape — clears active or summary overlay. */
