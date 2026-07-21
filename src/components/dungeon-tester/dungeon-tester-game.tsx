@@ -184,6 +184,7 @@ function DtPartySeat({
 }) {
   const sealed = !!char?.created;
   const status = sealed && char ? hpStatusLabel(char.hp, char.maxHp) : "Unsealed";
+  const def = SLOT_DEFAULTS[slot];
   return (
     <div
       className="dt-seat"
@@ -207,9 +208,9 @@ function DtPartySeat({
       </div>
       <div className="dt-seat-body">
         <div className="dt-seat-slot">
-          {SLOT_DEFAULTS[slot].displayName}
+          {def.displayName}
           {isYou ? " · you" : ""}
-          {isTurn ? " · turn" : ""}
+          {isTurn && sealed ? " · turn" : ""}
         </div>
         {sealed && char ? (
           <>
@@ -222,7 +223,7 @@ function DtPartySeat({
               <span>{char.gold}g</span>
             </div>
             <div className="dt-seat-status" data-status={status.toLowerCase()}>
-              {status}
+              {isTurn ? "Their turn" : status}
             </div>
             <div className="dt-seat-bar" aria-hidden>
               <span
@@ -233,7 +234,12 @@ function DtPartySeat({
             </div>
           </>
         ) : (
-          <div className="dt-seat-name dt-seat-open">Need create</div>
+          <>
+            <div className="dt-seat-name dt-seat-open">
+              {isYou ? "Your seat — create hero" : "Waiting to join"}
+            </div>
+            <p className="dt-seat-join-hint">{def.email}</p>
+          </>
         )}
       </div>
     </div>
@@ -941,6 +947,15 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     !battleActive &&
     !!gearSlot &&
     (identity.isDm || (!!mySlot && gearSlot === mySlot));
+  const isSpectator = identity.isDm && !mySlot;
+  const openPartySlots = useMemo(
+    () =>
+      world
+        ? PLAYER_SLOT_ORDER.filter((s) => !world.characters[s]?.created)
+        : ([] as PlayerSlot[]),
+    [world]
+  );
+  const needsHeroCreate = !!mySlot && !!world && !world.characters[mySlot]?.created;
 
   useEffect(() => {
     if (tab !== "gear" || !world) return;
@@ -1314,7 +1329,14 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
           </div>
           {!mySlot && (
             <p className="dt-tagline">
-              Log in as player1–4 (or justin@ / eric@) to seal a seat. Admins can watch.
+              Spectating as admin — continue a save to watch. Log in as player1–4 (or justin@ /
+              eric@) to claim a seat and seal a hero.
+            </p>
+          )}
+          {mySlot && world && !world.characters[mySlot]?.created && (
+            <p className="dt-tagline">
+              You&apos;re {SLOT_DEFAULTS[mySlot].displayName} — continue, then create your hero to
+              join ({SLOT_DEFAULTS[mySlot].email}).
             </p>
           )}
         </div>
@@ -1361,6 +1383,38 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               Title
             </button>
           </div>
+
+          {isSpectator ? (
+            <p className="dt-mode-banner" data-mode="spectate" role="status">
+              Spectating as admin — watch Story; open Gear to inspect any sealed hero.
+              {openPartySlots.length
+                ? ` Waiting on ${openPartySlots.map((s) => SLOT_DEFAULTS[s].displayName).join(", ")}.`
+                : ""}
+            </p>
+          ) : null}
+          {needsHeroCreate ? (
+            <div className="dt-mode-banner" data-mode="join" role="status">
+              <span>
+                Your seat ({SLOT_DEFAULTS[mySlot!].displayName}) isn&apos;t sealed — create your
+                hero to join the march.
+              </span>
+              <button
+                type="button"
+                className="dt-btn"
+                data-variant="primary"
+                onClick={() => setPhase("create")}
+              >
+                Create hero
+              </button>
+            </div>
+          ) : null}
+          {!isSpectator && !needsHeroCreate && openPartySlots.length > 0 ? (
+            <p className="dt-mode-banner" data-mode="party" role="status">
+              Party {sealedCount}/4 — waiting on{" "}
+              {openPartySlots.map((s) => SLOT_DEFAULTS[s].displayName).join(", ")} (
+              {openPartySlots.map((s) => SLOT_DEFAULTS[s].email).join(", ")})
+            </p>
+          ) : null}
 
           {world.endingId ? (
             <div className="dt-panel">
@@ -1994,21 +2048,38 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
           {!world.endingId && tab === "gear" ? (
             <div className="dt-panel dt-gear-panel">
-              {sealedPartySlots.length > 1 || (identity.isDm && !mySlot) ? (
-                <div className="dt-gear-seat-switch" role="tablist" aria-label="Whose gear">
-                  {sealedPartySlots.map((s) => (
-                    <button
-                      key={s}
-                      type="button"
-                      role="tab"
-                      aria-selected={gearSlot === s}
-                      className="dt-btn"
-                      data-variant={gearSlot === s ? "primary" : "secondary"}
-                      onClick={() => setGearFocusSlot(s)}
-                    >
-                      {world.characters[s]?.name || SLOT_DEFAULTS[s].displayName}
-                    </button>
-                  ))}
+              {sealedPartySlots.length > 0 ? (
+                <div className="dt-gear-viewing">
+                  <p className="dt-section-label">
+                    Viewing{" "}
+                    {gearChar?.created
+                      ? `${gearChar.name}'s gear`
+                      : "party gear"}
+                    {gearSlot && mySlot && gearSlot === mySlot
+                      ? " · yours"
+                      : isSpectator || (gearSlot && gearSlot !== mySlot)
+                        ? " · inspect"
+                        : ""}
+                    {canEditGear ? "" : " · read-only"}
+                  </p>
+                  {(sealedPartySlots.length > 1 || isSpectator) && (
+                    <div className="dt-gear-seat-switch" role="tablist" aria-label="Whose gear">
+                      {sealedPartySlots.map((s) => (
+                        <button
+                          key={s}
+                          type="button"
+                          role="tab"
+                          aria-selected={gearSlot === s}
+                          className="dt-btn"
+                          data-variant={gearSlot === s ? "primary" : "secondary"}
+                          onClick={() => setGearFocusSlot(s)}
+                        >
+                          {world.characters[s]?.name || SLOT_DEFAULTS[s].displayName}
+                          {s === mySlot ? " · you" : ""}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ) : null}
               {gearChar?.created && gearSlot ? (
