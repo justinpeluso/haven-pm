@@ -240,3 +240,39 @@ export function moveEffectSummary(move: DtPokeMoveDef): string {
   if (move.effects.includes("buff")) tags.push("buff");
   return tags.join(" · ") || "—";
 }
+
+/** TCG-style damage numeral from powerMult (null for pure utility). */
+export function moveDamageNumber(move: DtPokeMoveDef): number | null {
+  const hits =
+    move.effects.includes("damage") || move.effects.includes("drain");
+  if (!hits) return null;
+  const mult = move.powerMult ?? 1;
+  const bonus = (move.powerBonus ?? 0) * 8;
+  return Math.max(10, Math.round(mult * 40 + bonus));
+}
+
+/** Energy pip count (1–3) from move index + weight. */
+export function moveEnergyCost(move: DtPokeMoveDef, index: number): number {
+  const mult = move.powerMult ?? 1;
+  if (index >= 2 || mult >= 1.45) return 3;
+  if (index >= 1 || mult >= 1.2 || move.effects.length > 1) return 2;
+  return 1;
+}
+
+/** Printed HP on spirit / foe plates when live HP isn't supplied. */
+export function spiritPowerNumber(card: DtPokeCardDef): number {
+  const peak = Math.max(
+    1,
+    ...card.moves.map((m) => m.powerMult ?? 1),
+    1
+  );
+  let base = 60;
+  if (card.kind === "dog") base = 90;
+  else if (card.kind === "weapon") base = 70;
+  else if (card.kind === "armor") base = 80;
+  else if (card.kind === "consumable") base = 40;
+  else if (card.kind === "trinket" || card.kind === "item") base = 50;
+  else if (card.kind === "foe") base = 75;
+  else if (isDtGearSpiritKind(card.kind) || card.id.startsWith("dt-")) base = 55;
+  return Math.round(base + peak * 18);
+}
