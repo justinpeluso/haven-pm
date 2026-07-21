@@ -5173,134 +5173,761 @@
   }
 }
 
-/* —— Spirit / poke cards (Pokémon structure, frontier chrome) —— */
+/* —— Spirit / poke cards (TCG chrome, Lost Brothers pulp) ——
+   Contract (lead TSX): .dt-poke-card + chrome/foil/frame, head/title-row/hp,
+   art/art-inner, rarity-ribbon, moves/move/energy/dmg, foot/blurb.
+   Attrs: data-size, data-kind|data-variant, data-tier, data-ally.
+   BEM aliases also accepted: .dt-poke-card__* */
+@keyframes dt-poke-foil-sweep {
+  0% { background-position: 0% 40%, 0 0, 0 0; opacity: 0.35; }
+  45% { opacity: 0.85; }
+  100% { background-position: 140% 60%, 0 0, 0 0; opacity: 0.45; }
+}
+
+@keyframes dt-poke-art-breathe {
+  0%, 100% { transform: scale(1); filter: contrast(1.08) saturate(0.92) brightness(1); }
+  50% { transform: scale(1.03); filter: contrast(1.12) saturate(1) brightness(1.06); }
+}
+
+@keyframes dt-poke-ribbon-glint {
+  0%, 70%, 100% { box-shadow: inset 0 0 0 1px rgba(255, 248, 220, 0.25); }
+  85% { box-shadow: inset 0 0 0 1px rgba(255, 248, 220, 0.55), 0 0 10px rgba(201, 162, 39, 0.35); }
+}
+
 .dungeon-tester .dt-poke-card {
-  --poke-ink: #1a1008;
-  --poke-paper: #e8d4b0;
-  --poke-edge: #6a4a28;
+  --poke-ink: #120c08;
+  --poke-cream: #f3e2c0;
+  --poke-paper: #d8c09a;
+  --poke-edge: #8a6230;
+  --poke-face: #1c1610;
+  --poke-face-lit: #2a2218;
+  --poke-kind: #c4893a;
+  --poke-foil-a: rgba(196, 137, 58, 0.22);
+  --poke-foil-b: rgba(232, 197, 71, 0.18);
+  --poke-foil-c: rgba(255, 248, 220, 0.12);
+  --poke-lift: 0 10px 22px rgba(0, 0, 0, 0.45), 0 2px 0 #0a0704;
   position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
-  gap: 0.28rem;
-  width: 11.5rem;
-  padding: 0.45rem 0.5rem 0.55rem;
-  border: 2px solid var(--poke-ink);
-  border-radius: 0.35rem;
+  width: 12.4rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.55rem;
   background:
-    linear-gradient(165deg, rgba(255, 248, 230, 0.92) 0%, rgba(210, 180, 130, 0.88) 55%, rgba(160, 120, 70, 0.9) 100%);
-  box-shadow:
-    3px 3px 0 var(--poke-ink),
-    inset 0 0 0 1px rgba(255, 224, 138, 0.35);
-  color: var(--poke-ink);
+    linear-gradient(145deg, #3a2a18 0%, #1a140e 42%, #0e0b08 100%);
+  color: var(--poke-cream);
   text-align: left;
   overflow: hidden;
   font-family: var(--dt-hud);
+  cursor: default;
+  box-shadow:
+    0 0 0 2px #0a0704,
+    0 0 0 4px var(--poke-edge),
+    0 0 0 5px #0a0704,
+    4px 6px 0 #0a0704,
+    0 14px 28px rgba(0, 0, 0, 0.4);
+  transition:
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 180ms ease,
+    filter 180ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dungeon-tester button.dt-poke-card {
+  appearance: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.dungeon-tester .dt-poke-card:hover,
+.dungeon-tester .dt-poke-card:focus-visible {
+  transform: translateY(-6px) rotate(-0.4deg);
+  box-shadow:
+    0 0 0 2px #0a0704,
+    0 0 0 4px var(--poke-kind),
+    0 0 0 5px #0a0704,
+    6px 14px 0 #0a0704,
+    var(--poke-lift),
+    0 0 28px var(--poke-foil-a);
+  outline: none;
+  z-index: 2;
+}
+
+.dungeon-tester .dt-poke-card:active {
+  transform: translateY(-2px) scale(0.985);
 }
 
 .dungeon-tester .dt-poke-card[data-size="sm"] {
-  width: 7.6rem;
-  padding: 0.3rem 0.35rem 0.4rem;
-  gap: 0.18rem;
-  font-size: 0.72rem;
+  width: 8.2rem;
+  border-radius: 0.4rem;
+  font-size: 0.7rem;
 }
 
 .dungeon-tester .dt-poke-card[data-size="lg"] {
-  width: 14rem;
+  width: 15rem;
 }
 
-.dungeon-tester .dt-poke-card[data-kind="weapon"],
-.dungeon-tester .dt-poke-card[data-kind="gear"] {
-  border-color: #c4893a;
-  background: linear-gradient(165deg, #2a2418 0%, #1a1610 55%, #12100c 100%);
-}
-
-.dungeon-tester .dt-poke-card[data-kind="weapon"] .dt-poke-card-art,
-.dungeon-tester .dt-poke-card[data-kind="gear"] .dt-poke-card-art {
-  background: rgba(196, 137, 58, 0.12);
-}
-
-/* Museum / collector spirit showcase — selected item dominates */
-.dungeon-tester .dt-gear-spirit-hero {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  padding: calc(var(--dt-space) * 2) calc(var(--dt-space) * 1.5);
-  border: 2px solid var(--dt-walnut);
+/* Outer pulp grain */
+.dungeon-tester .dt-poke-card-chrome,
+.dungeon-tester .dt-poke-card__chrome {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
   background:
-    radial-gradient(ellipse at 50% 35%, rgba(255, 232, 180, 0.22), transparent 55%),
-    radial-gradient(ellipse at 50% 100%, rgba(26, 16, 8, 0.35), transparent 60%),
-    linear-gradient(180deg, #1c1812 0%, #2a2218 45%, #14110c 100%);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 224, 160, 0.12),
-    var(--dt-shadow-panel);
+    radial-gradient(120% 80% at 20% 0%, rgba(255, 220, 140, 0.14), transparent 50%),
+    radial-gradient(90% 70% at 90% 100%, rgba(140, 40, 20, 0.18), transparent 55%),
+    repeating-linear-gradient(
+      -18deg,
+      transparent,
+      transparent 5px,
+      rgba(0, 0, 0, 0.05) 5px,
+      rgba(0, 0, 0, 0.05) 6px
+    );
+  mix-blend-mode: soft-light;
 }
 
-.dungeon-tester .dt-gear-spirit-hero-pedestal {
+/* Animated foil sweep — rarity tunes colors via data-tier */
+.dungeon-tester .dt-poke-card-foil,
+.dungeon-tester .dt-poke-card__foil {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0.55;
+  background:
+    linear-gradient(
+      115deg,
+      transparent 0%,
+      transparent 38%,
+      var(--poke-foil-c) 45%,
+      var(--poke-foil-b) 50%,
+      var(--poke-foil-a) 55%,
+      transparent 62%,
+      transparent 100%
+    ),
+    repeating-linear-gradient(
+      125deg,
+      rgba(255, 248, 220, 0.04) 0 2px,
+      transparent 2px 7px
+    ),
+    radial-gradient(ellipse at 30% 20%, var(--poke-foil-b), transparent 55%);
+  background-size: 220% 220%, auto, auto;
+  mix-blend-mode: color-dodge;
+  animation: dt-poke-foil-sweep 4.8s ease-in-out infinite;
+}
+
+.dungeon-tester .dt-poke-card:hover .dt-poke-card-foil,
+.dungeon-tester .dt-poke-card:hover .dt-poke-card__foil,
+.dungeon-tester .dt-poke-card:focus-visible .dt-poke-card-foil {
+  animation-duration: 2.2s;
+  opacity: 0.9;
+}
+
+/* Inner frame plate */
+.dungeon-tester .dt-poke-card-frame,
+.dungeon-tester .dt-poke-card__frame {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: calc(var(--dt-space) * 1);
-  width: min(100%, 28rem);
+  gap: 0.32rem;
+  margin: 0.38rem;
+  padding: 0.38rem 0.4rem 0.45rem;
+  border-radius: 0.32rem;
+  background:
+    linear-gradient(180deg, var(--poke-face-lit) 0%, var(--poke-face) 55%, #14100c 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(243, 226, 192, 0.16),
+    inset 0 0 0 3px rgba(10, 7, 4, 0.85),
+    inset 0 0 0 4px rgba(196, 137, 58, 0.35),
+    inset 0 -18px 28px rgba(0, 0, 0, 0.35);
 }
 
-.dungeon-tester .dt-gear-spirit-hero-label {
-  margin: 0;
-  font-family: var(--dt-hud);
+.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-card-frame {
+  margin: 0.26rem;
+  padding: 0.26rem 0.28rem 0.32rem;
+  gap: 0.18rem;
+}
+
+/* —— Header bar (name + HP) —— */
+.dungeon-tester .dt-poke-card-head,
+.dungeon-tester .dt-poke-card__header {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  padding: 0.22rem 0.3rem 0.28rem;
+  border-radius: 0.18rem;
+  background:
+    linear-gradient(180deg, #3a2c1c 0%, #22180f 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 230, 170, 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.45),
+    0 1px 0 rgba(0, 0, 0, 0.35);
+}
+
+.dungeon-tester .dt-poke-card-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.dungeon-tester .dt-poke-card-name,
+.dungeon-tester .dt-poke-card__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--dt-display);
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  color: #fff4d8;
+  text-shadow: 0 1px 0 #0a0704, 0 0 12px rgba(201, 162, 39, 0.25);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-card-name {
   font-size: 0.78rem;
+}
+
+.dungeon-tester .dt-poke-card-hp,
+.dungeon-tester .dt-poke-card__hp {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.18rem;
+  font-family: var(--dt-display);
+  font-size: 1.15rem;
+  line-height: 1;
+  color: #ff6a4a;
+  text-shadow: 0 1px 0 #2a0804, 0 0 8px rgba(196, 40, 20, 0.45);
+}
+
+.dungeon-tester .dt-poke-card-hp em {
+  font-style: normal;
+  font-family: var(--dt-hud);
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #ffb090;
+}
+
+.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-card-hp {
+  font-size: 0.85rem;
+}
+
+.dungeon-tester .dt-poke-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.dungeon-tester .dt-poke-stage {
+  font-size: 0.55rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(243, 226, 192, 0.62);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dungeon-tester .dt-poke-card-types,
+.dungeon-tester .dt-poke-card__types {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.18rem;
+}
+
+.dungeon-tester .dt-poke-type,
+.dungeon-tester .dt-poke-card__type {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.38rem;
+  border: 1px solid rgba(10, 7, 4, 0.85);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 45%),
+    var(--poke-type, #6a5a4a);
+  color: #fff8ec;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.55);
+  box-shadow: 0 1px 0 rgba(255, 240, 200, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.35);
+}
+
+.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-type {
+  font-size: 0.48rem;
+  padding: 0.05rem 0.25rem;
+}
+
+/* —— Art window —— */
+.dungeon-tester .dt-poke-card-art,
+.dungeon-tester .dt-poke-card__art {
+  position: relative;
+  z-index: 1;
+  height: 7.1rem;
+  padding: 0.28rem;
+  border-radius: 0.2rem;
+  background:
+    linear-gradient(180deg, #5a4020 0%, #2a1c10 40%, #120e0a 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 220, 150, 0.35),
+    inset 0 0 0 3px #0a0704,
+    0 2px 0 rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-card-art {
+  height: 4.2rem;
+  padding: 0.18rem;
+}
+
+.dungeon-tester .dt-poke-card[data-size="lg"] .dt-poke-card-art {
+  height: 8.6rem;
+}
+
+.dungeon-tester .dt-poke-card-art-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  border-radius: 0.12rem;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 45% 30%, rgba(255, 220, 140, 0.22), transparent 55%),
+    radial-gradient(ellipse at 70% 80%, rgba(140, 50, 20, 0.28), transparent 50%),
+    linear-gradient(180deg, #3a2814 0%, #1a120c 55%, #0c0a08 100%);
+  box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.55);
+}
+
+.dungeon-tester .dt-poke-card-art-inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 240, 200, 0.12), transparent 30%, transparent 70%, rgba(0, 0, 0, 0.35));
+}
+
+.dungeon-tester .dt-poke-card-art img {
+  width: 86%;
+  height: 86%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: contrast(1.08) saturate(0.92);
+  animation: dt-poke-art-breathe 5.5s ease-in-out infinite;
+  transition: transform 200ms ease;
+}
+
+.dungeon-tester .dt-poke-card:hover .dt-poke-card-art img {
+  transform: scale(1.06);
+}
+
+.dungeon-tester .dt-poke-rarity-ribbon {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.35rem;
+  z-index: 2;
+  padding: 0.12rem 0.4rem;
+  border: 1px solid rgba(10, 7, 4, 0.8);
+  border-radius: 0.12rem;
+  font-size: 0.5rem;
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #e8d4a8;
-  text-align: center;
+  color: #1a1008;
+  background: linear-gradient(180deg, #d8c8a8, #9a8868);
+  animation: dt-poke-ribbon-glint 3.8s ease-in-out infinite;
 }
 
-.dungeon-tester .dt-gear-spirit-hero-stage {
+.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-rarity-ribbon {
+  font-size: 0.42rem;
+  padding: 0.08rem 0.28rem;
+  top: 0.28rem;
+  right: 0.22rem;
+}
+
+/* Live HP bar */
+.dungeon-tester .dt-poke-hp,
+.dungeon-tester .dt-poke-card__hp-bar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.28rem;
+  z-index: 1;
+  padding: 0.12rem 0.2rem;
+  font-size: 0.62rem;
+  color: var(--poke-cream);
+  background: rgba(0, 0, 0, 0.28);
+  border-radius: 0.12rem;
+  box-shadow: inset 0 0 0 1px rgba(243, 226, 192, 0.12);
+}
+
+.dungeon-tester .dt-poke-hp-lab {
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #ff8a6a;
+}
+
+.dungeon-tester .dt-poke-hp-track {
+  height: 0.48rem;
+  border: 1px solid #0a0704;
+  background: rgba(10, 7, 4, 0.65);
+  border-radius: 0.1rem;
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55);
+}
+
+.dungeon-tester .dt-poke-hp-track > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #6a1810, #c43828 55%, #e8a040);
+  box-shadow: 0 0 8px rgba(196, 56, 40, 0.45);
+}
+
+.dungeon-tester .dt-poke-hp-num {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.9;
+}
+
+.dungeon-tester .dt-poke-stats-strip {
   display: flex;
-  justify-content: center;
-  width: 100%;
-  padding: calc(var(--dt-space) * 1.25);
-  background:
-    radial-gradient(ellipse at 50% 40%, rgba(255, 240, 200, 0.1), transparent 65%);
-}
-
-.dungeon-tester .dt-gear-spirit-hero .dt-poke-card,
-.dungeon-tester .dt-gear-spirit-hero-card {
-  width: min(22rem, 92vw) !important;
-  max-width: 100%;
-  transform: scale(1);
-  box-shadow:
-    0 0 0 1px rgba(255, 224, 138, 0.25),
-    0 12px 28px rgba(0, 0, 0, 0.45),
-    6px 8px 0 rgba(10, 8, 4, 0.85);
-}
-
-.dungeon-tester .dt-gear-spirit-hero .dt-poke-card[data-size="lg"] .dt-poke-card-art,
-.dungeon-tester .dt-gear-spirit-hero-card .dt-poke-card-art {
-  height: 10.5rem;
-}
-
-.dungeon-tester .dt-gear-spirit-hero .dt-poke-card[data-size="lg"] .dt-poke-card-name,
-.dungeon-tester .dt-gear-spirit-hero-card .dt-poke-card-name {
-  font-size: 1.15rem;
-}
-
-.dungeon-tester .dt-gear-spirit-hero-hint {
-  margin: 0;
-  font-family: var(--dt-hud);
-  font-size: 0.72rem;
-  font-weight: 600;
+  justify-content: space-between;
+  gap: 0.35rem;
+  padding: 0.1rem 0.15rem;
+  font-size: 0.55rem;
   letter-spacing: 0.04em;
-  color: rgba(232, 212, 168, 0.65);
-  text-align: center;
+  text-transform: uppercase;
+  color: rgba(243, 226, 192, 0.7);
+  border-top: 1px solid rgba(243, 226, 192, 0.1);
+  border-bottom: 1px solid rgba(243, 226, 192, 0.1);
 }
 
-.dungeon-tester .dt-gear-bag-grid-compact {
-  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+.dungeon-tester .dt-poke-stats-tier {
+  color: var(--poke-kind);
+  font-weight: 700;
 }
 
-.dungeon-tester .dt-gear-slot[data-spirit-focus="true"] {
-  outline: 2px solid rgba(196, 137, 58, 0.75);
-  outline-offset: 1px;
+.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-stats-strip {
+  font-size: 0.48rem;
+}
+
+/* —— TCG move rows —— */
+.dungeon-tester .dt-poke-moves,
+.dungeon-tester .dt-poke-card__moves {
+  z-index: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.dungeon-tester .dt-poke-move,
+.dungeon-tester .dt-poke-moves li,
+.dungeon-tester .dt-poke-card__move {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.32rem;
+  border-radius: 0.14rem;
+  border: 1px solid rgba(10, 7, 4, 0.75);
+  background:
+    linear-gradient(180deg, rgba(255, 236, 190, 0.1), transparent 40%),
+    linear-gradient(180deg, #2a2218, #1a140e);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 230, 170, 0.1),
+    0 1px 0 rgba(0, 0, 0, 0.35);
+  font-size: 0.62rem;
+  min-width: 0;
+}
+
+.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-move,
+.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-moves li {
+  padding: 0.14rem 0.18rem;
+  gap: 0.2rem;
+  font-size: 0.5rem;
+}
+
+.dungeon-tester .dt-poke-energy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.12rem;
+}
+
+.dungeon-tester .dt-poke-energy-pip {
+  display: block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  border: 1px solid #0a0704;
+  background:
+    radial-gradient(circle at 35% 30%, #fff0c8, var(--poke-kind) 55%, #3a2010);
+  box-shadow: 0 0 0 1px rgba(255, 220, 140, 0.25), 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-energy-pip {
+  width: 0.4rem;
+  height: 0.4rem;
+}
+
+.dungeon-tester .dt-poke-move-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+}
+
+.dungeon-tester .dt-poke-move-name {
+  font-weight: 800;
+  color: #fff1d0;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+}
+
+.dungeon-tester .dt-poke-move-flavor,
+.dungeon-tester .dt-poke-move-fx {
+  color: rgba(243, 226, 192, 0.62);
+  font-size: 0.55em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-move-flavor {
+  display: none;
+}
+
+.dungeon-tester .dt-poke-move-dmg {
+  flex: 0 0 auto;
+  min-width: 1.4rem;
+  text-align: right;
+  font-family: var(--dt-display);
+  font-size: 1.05rem;
+  line-height: 1;
+  color: #ffe08a;
+  text-shadow: 0 1px 0 #0a0704;
+}
+
+.dungeon-tester .dt-poke-move-dmg-fx {
+  font-family: var(--dt-hud);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #c4a882;
+  min-width: 0;
+  max-width: 3.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-move-dmg {
+  font-size: 0.78rem;
+}
+
+/* Footer flavor */
+.dungeon-tester .dt-poke-card-foot {
+  z-index: 1;
+  margin-top: 0.05rem;
+  padding-top: 0.2rem;
+  border-top: 1px dashed rgba(243, 226, 192, 0.18);
+}
+
+.dungeon-tester .dt-poke-card-blurb,
+.dungeon-tester .dt-poke-card__blurb {
+  margin: 0;
+  font-size: 0.58rem;
+  line-height: 1.3;
+  font-style: italic;
+  color: rgba(243, 226, 192, 0.72);
+}
+
+.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-card-blurb,
+.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-card-foot {
+  display: none;
+}
+
+/* —— Rarity foil ladder (data-tier) —— */
+.dungeon-tester .dt-poke-card[data-tier="common"],
+.dungeon-tester .dt-poke-card[data-rarity="common"] {
+  --poke-edge: #6a6258;
+  --poke-foil-a: rgba(180, 170, 150, 0.16);
+  --poke-foil-b: rgba(220, 210, 190, 0.1);
+  --poke-foil-c: rgba(255, 255, 255, 0.06);
+}
+
+.dungeon-tester .dt-poke-card[data-tier="common"] .dt-poke-rarity-ribbon,
+.dungeon-tester .dt-poke-card[data-rarity="common"] .dt-poke-rarity-ribbon {
+  background: linear-gradient(180deg, #c8c0b4, #7a7268);
+  color: #1a1610;
+}
+
+.dungeon-tester .dt-poke-card[data-tier="uncommon"],
+.dungeon-tester .dt-poke-card[data-rarity="uncommon"] {
+  --poke-edge: #3d8a45;
+  --poke-foil-a: rgba(80, 160, 90, 0.28);
+  --poke-foil-b: rgba(180, 220, 140, 0.16);
+  --poke-foil-c: rgba(220, 255, 200, 0.1);
+}
+
+.dungeon-tester .dt-poke-card[data-tier="uncommon"] .dt-poke-rarity-ribbon,
+.dungeon-tester .dt-poke-card[data-rarity="uncommon"] .dt-poke-rarity-ribbon {
+  background: linear-gradient(180deg, #9acc7a, #3d8a45);
+  color: #0c180c;
+}
+
+.dungeon-tester .dt-poke-card[data-tier="rare"],
+.dungeon-tester .dt-poke-card[data-rarity="rare"] {
+  --poke-edge: #4a6a7a;
+  --poke-foil-a: rgba(90, 140, 170, 0.35);
+  --poke-foil-b: rgba(160, 200, 220, 0.2);
+  --poke-foil-c: rgba(220, 240, 255, 0.14);
+  box-shadow:
+    0 0 0 2px #0a0704,
+    0 0 0 4px var(--poke-edge),
+    0 0 0 5px #0a0704,
+    4px 6px 0 #0a0704,
+    var(--dt-glow-rare);
+}
+
+.dungeon-tester .dt-poke-card[data-tier="rare"] .dt-poke-rarity-ribbon,
+.dungeon-tester .dt-poke-card[data-rarity="rare"] .dt-poke-rarity-ribbon {
+  background: linear-gradient(180deg, #a8c8d8, #3d5a6a);
+  color: #0a1218;
+}
+
+.dungeon-tester .dt-poke-card[data-tier="epic"],
+.dungeon-tester .dt-poke-card[data-rarity="epic"] {
+  --poke-edge: #c45a18;
+  --poke-kind: #e07830;
+  --poke-foil-a: rgba(220, 100, 30, 0.4);
+  --poke-foil-b: rgba(255, 180, 80, 0.22);
+  --poke-foil-c: rgba(255, 230, 180, 0.16);
+}
+
+.dungeon-tester .dt-poke-card[data-tier="epic"] .dt-poke-rarity-ribbon,
+.dungeon-tester .dt-poke-card[data-rarity="epic"] .dt-poke-rarity-ribbon {
+  background: linear-gradient(180deg, #f0a060, #c45a18 55%, #8a3010);
+  color: #1a0c04;
+}
+
+.dungeon-tester .dt-poke-card[data-tier="legendary"],
+.dungeon-tester .dt-poke-card[data-rarity="legendary"] {
+  --poke-edge: #c9a227;
+  --poke-kind: #e8c547;
+  --poke-foil-a: rgba(232, 197, 71, 0.5);
+  --poke-foil-b: rgba(255, 230, 140, 0.28);
+  --poke-foil-c: rgba(255, 248, 220, 0.22);
+  box-shadow:
+    0 0 0 2px #0a0704,
+    0 0 0 4px var(--poke-edge),
+    0 0 0 5px #0a0704,
+    4px 6px 0 #0a0704,
+    var(--dt-glow-legendary);
+}
+
+.dungeon-tester .dt-poke-card[data-tier="legendary"] .dt-poke-rarity-ribbon,
+.dungeon-tester .dt-poke-card[data-rarity="legendary"] .dt-poke-rarity-ribbon {
+  background: linear-gradient(180deg, #ffe08a, #c9a227 50%, #8a5a10);
+  color: #1a1204;
+}
+
+.dungeon-tester .dt-poke-card[data-tier="legendary"] .dt-poke-card-foil,
+.dungeon-tester .dt-poke-card[data-rarity="legendary"] .dt-poke-card-foil {
+  animation-duration: 3.2s;
+  opacity: 0.75;
+}
+
+/* —— Kind / variant accents —— */
+.dungeon-tester .dt-poke-card[data-kind="weapon"],
+.dungeon-tester .dt-poke-card[data-variant="weapon"] {
+  --poke-kind: #c4893a;
+  --poke-edge: #c4893a;
+}
+
+.dungeon-tester .dt-poke-card[data-kind="weapon"] .dt-poke-card-art-inner,
+.dungeon-tester .dt-poke-card[data-variant="weapon"] .dt-poke-card-art-inner {
+  background:
+    radial-gradient(ellipse at 40% 25%, rgba(255, 180, 80, 0.28), transparent 50%),
+    linear-gradient(180deg, #3a2410, #140e08);
+}
+
+.dungeon-tester .dt-poke-card[data-kind="armor"],
+.dungeon-tester .dt-poke-card[data-variant="armor"] {
+  --poke-kind: #7a8a9a;
+  --poke-edge: #6a7a88;
+}
+
+.dungeon-tester .dt-poke-card[data-kind="armor"] .dt-poke-energy-pip,
+.dungeon-tester .dt-poke-card[data-variant="armor"] .dt-poke-energy-pip {
+  background: radial-gradient(circle at 35% 30%, #e8eef4, #7a8a9a 55%, #2a3038);
+}
+
+.dungeon-tester .dt-poke-card[data-kind="consumable"],
+.dungeon-tester .dt-poke-card[data-variant="consumable"] {
+  --poke-kind: #c44a1f;
+  --poke-edge: #a84820;
+}
+
+.dungeon-tester .dt-poke-card[data-kind="consumable"] .dt-poke-card-hp,
+.dungeon-tester .dt-poke-card[data-variant="consumable"] .dt-poke-card-hp {
+  color: #ff8a4a;
+}
+
+.dungeon-tester .dt-poke-card[data-kind="trinket"],
+.dungeon-tester .dt-poke-card[data-variant="trinket"],
+.dungeon-tester .dt-poke-card[data-kind="gear"],
+.dungeon-tester .dt-poke-card[data-kind="item"] {
+  --poke-kind: #c9a227;
+  --poke-edge: #a88a30;
+}
+
+.dungeon-tester .dt-poke-card[data-kind="foe"],
+.dungeon-tester .dt-poke-card[data-variant="foe"] {
+  --poke-kind: #8a2424;
+  --poke-edge: #6a2018;
+}
+
+.dungeon-tester .dt-poke-card[data-kind="foe"] .dt-poke-card-art-inner,
+.dungeon-tester .dt-poke-card[data-variant="foe"] .dt-poke-card-art-inner {
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(180, 40, 30, 0.35), transparent 55%),
+    linear-gradient(180deg, #2a1410, #0c0806);
+}
+
+.dungeon-tester .dt-poke-card[data-kind="dog"],
+.dungeon-tester .dt-poke-card[data-variant="dog"],
+.dungeon-tester .dt-poke-card[data-ally="true"] {
+  --poke-kind: #6a8a48;
+  --poke-edge: #5a7a40;
+}
+
+.dungeon-tester .dt-poke-card[data-ally="true"] .dt-poke-card-frame {
+  box-shadow:
+    inset 0 0 0 1px rgba(200, 230, 160, 0.22),
+    inset 0 0 0 3px rgba(10, 7, 4, 0.85),
+    inset 0 0 0 4px rgba(90, 130, 70, 0.45),
+    inset 0 -18px 28px rgba(0, 0, 0, 0.3);
 }
 
 .dungeon-tester .dt-gear-weapon-card {
@@ -5316,165 +5943,46 @@
   flex-shrink: 0;
 }
 
-.dungeon-tester .dt-poke-card[data-ally="true"] {
-  background:
-    linear-gradient(165deg, rgba(230, 240, 210, 0.94) 0%, rgba(170, 190, 120, 0.88) 55%, rgba(90, 120, 70, 0.9) 100%);
+@media (max-width: 720px) {
+  .dungeon-tester .dt-poke-card {
+    width: min(12.4rem, 46vw);
+  }
+
+  .dungeon-tester .dt-poke-card[data-size="sm"] {
+    width: min(8.2rem, 38vw);
+  }
+
+  .dungeon-tester .dt-poke-card[data-size="lg"] {
+    width: min(15rem, 88vw);
+  }
+
+  .dungeon-tester .dt-poke-card:hover,
+  .dungeon-tester .dt-poke-card:focus-visible {
+    transform: translateY(-3px);
+  }
+
+  .dungeon-tester .dt-poke-card-art {
+    height: 5.8rem;
+  }
+
+  .dungeon-tester .dt-poke-move-flavor {
+    display: none;
+  }
 }
 
-.dungeon-tester .dt-poke-card-chrome {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    repeating-linear-gradient(
-      -18deg,
-      transparent,
-      transparent 6px,
-      rgba(26, 16, 8, 0.03) 6px,
-      rgba(26, 16, 8, 0.03) 7px
-    );
-}
+@media (prefers-reduced-motion: reduce) {
+  .dungeon-tester .dt-poke-card,
+  .dungeon-tester .dt-poke-card-foil,
+  .dungeon-tester .dt-poke-card-art img,
+  .dungeon-tester .dt-poke-rarity-ribbon {
+    animation: none !important;
+    transition: none !important;
+  }
 
-.dungeon-tester .dt-poke-card-head {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  z-index: 1;
-}
-
-.dungeon-tester .dt-poke-card-name {
-  font-family: var(--dt-display);
-  font-size: 0.95rem;
-  letter-spacing: 0.02em;
-  line-height: 1.1;
-}
-
-.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-card-name {
-  font-size: 0.72rem;
-}
-
-.dungeon-tester .dt-poke-card-types {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.2rem;
-}
-
-.dungeon-tester .dt-poke-type {
-  display: inline-block;
-  padding: 0.08rem 0.35rem;
-  border: 1px solid var(--poke-ink);
-  border-radius: 0.15rem;
-  background: var(--poke-type, #6a5a4a);
-  color: #fff8ec;
-  font-size: 0.62rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
-}
-
-.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-type {
-  font-size: 0.52rem;
-  padding: 0.05rem 0.25rem;
-}
-
-.dungeon-tester .dt-poke-card-art {
-  position: relative;
-  z-index: 1;
-  height: 5.2rem;
-  border: 2px solid var(--poke-ink);
-  border-radius: 0.2rem;
-  background:
-    radial-gradient(ellipse at 40% 30%, rgba(255, 240, 200, 0.55), transparent 55%),
-    linear-gradient(180deg, #3a2a18, #1a140e);
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-}
-
-.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-card-art {
-  height: 3.4rem;
-}
-
-.dungeon-tester .dt-poke-card-art img {
-  width: 88%;
-  height: 88%;
-  object-fit: contain;
-  image-rendering: pixelated;
-  filter: contrast(1.05) saturate(0.95);
-}
-
-.dungeon-tester .dt-poke-hp {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 0.25rem;
-  z-index: 1;
-  font-size: 0.65rem;
-}
-
-.dungeon-tester .dt-poke-hp-lab {
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
-
-.dungeon-tester .dt-poke-hp-track {
-  height: 0.45rem;
-  border: 1px solid var(--poke-ink);
-  background: rgba(26, 16, 8, 0.2);
-  border-radius: 0.1rem;
-  overflow: hidden;
-}
-
-.dungeon-tester .dt-poke-hp-track > span {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, #3a8a3a, #7acc5a);
-}
-
-.dungeon-tester .dt-poke-card-blurb {
-  z-index: 1;
-  margin: 0;
-  font-size: 0.62rem;
-  line-height: 1.25;
-  color: rgba(26, 16, 8, 0.82);
-}
-
-.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-card-blurb {
-  display: none;
-}
-
-.dungeon-tester .dt-poke-moves {
-  z-index: 1;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
-
-.dungeon-tester .dt-poke-moves li {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.35rem;
-  padding: 0.12rem 0.2rem;
-  border: 1px solid rgba(26, 16, 8, 0.35);
-  background: rgba(255, 248, 230, 0.45);
-  font-size: 0.62rem;
-}
-
-.dungeon-tester .dt-poke-card[data-size="sm"] .dt-poke-moves li {
-  font-size: 0.52rem;
-  padding: 0.08rem 0.12rem;
-}
-
-.dungeon-tester .dt-poke-move-name {
-  font-weight: 700;
-}
-
-.dungeon-tester .dt-poke-move-fx {
-  opacity: 0.75;
-  white-space: nowrap;
+  .dungeon-tester .dt-poke-card:hover,
+  .dungeon-tester .dt-poke-card:focus-visible {
+    transform: none;
+  }
 }
 
 .dungeon-tester .dt-sbat-intro-cards {
