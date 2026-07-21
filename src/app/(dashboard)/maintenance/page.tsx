@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ListFilters } from "@/components/shared/list-filters";
 import { formatDate } from "@/lib/utils";
+import { getPriorityBadgeVariant, formatStatusDisplay } from "@/lib/badge-utils";
 
 const STATUS_OPTIONS = [
   "SUBMITTED", "ASSIGNED", "SCHEDULED", "IN_PROGRESS",
@@ -79,7 +80,7 @@ export default async function MaintenancePage({
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <p className="font-medium">{req.title}</p>
-                      <Badge variant={getPriorityVariant(req.priority)}>{req.priority}</Badge>
+                      <Badge variant={getPriorityBadgeVariant(req.priority)}>{req.priority}</Badge>
                     </div>
                     <p className="text-sm text-muted-foreground">
                       {req.requestNumber} · {req.property.name}
@@ -95,7 +96,7 @@ export default async function MaintenancePage({
                         Due {formatDate(req.targetCompletion)}
                       </span>
                     )}
-                    <Badge variant="outline">{formatStatus(req.status)}</Badge>
+                    <Badge variant="outline">{formatStatusDisplay(req.status)}</Badge>
                   </div>
                 </CardContent>
               </Card>
@@ -105,18 +106,4 @@ export default async function MaintenancePage({
       )}
     </div>
   );
-}
-
-function formatStatus(status: string): string {
-  return status.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-}
-
-function getPriorityVariant(priority: string): "default" | "secondary" | "warning" | "destructive" {
-  const map: Record<string, "default" | "secondary" | "warning" | "destructive"> = {
-    LOW: "secondary",
-    MEDIUM: "default",
-    HIGH: "warning",
-    EMERGENCY: "destructive",
-  };
-  return map[priority] || "default";
 }

@@ -14,13 +14,14 @@ import { ActivityTimeline } from "@/components/shared/activity-timeline";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 import type { getAdminDashboardData } from "@/lib/queries/dashboard";
+import { getPriorityBadgeVariant } from "@/lib/badge-utils";
 
 type AdminData = Awaited<ReturnType<typeof getAdminDashboardData>>;
 
 export function AdminDashboard({ data }: { data: AdminData }) {
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 animate-fade-in">
         <StatCard
           title="Properties"
           value={data.propertyCount}
@@ -73,7 +74,7 @@ export function AdminDashboard({ data }: { data: AdminData }) {
                       >
                         <div className="flex items-start justify-between gap-2">
                           <span className="font-medium leading-snug">{mr.title}</span>
-                          <Badge variant={priorityVariant(mr.priority)}>{mr.priority}</Badge>
+                          <Badge variant={getPriorityBadgeVariant(mr.priority)}>{mr.priority}</Badge>
                         </div>
                         <p className="text-xs text-muted-foreground">
                           {mr.property.name}
@@ -151,12 +152,4 @@ function formatAction(action: string, entityType: string): string {
     PRIORITY_CHANGED: "Priority changed",
   };
   return actions[action] || action;
-}
-
-function priorityVariant(
-  priority: string
-): "default" | "secondary" | "destructive" | "outline" | "warning" {
-  if (priority === "EMERGENCY" || priority === "HIGH") return "destructive";
-  if (priority === "MEDIUM") return "warning";
-  return "secondary";
 }

@@ -13,22 +13,27 @@ interface StatCardProps {
 
 export function StatCard({ title, value, description, icon: Icon, trend, className }: StatCardProps) {
   return (
-    <Card className={cn("", className)}>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+    <Card className={cn("group relative overflow-hidden transition-all hover:shadow-md", className)}>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative">
         <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
-        {Icon && <Icon className="h-4 w-4 text-muted-foreground" />}
+        {Icon && (
+          <div className="rounded-lg bg-primary/10 p-2 transition-colors group-hover:bg-primary/20">
+            <Icon className="h-4 w-4 text-primary" />
+          </div>
+        )}
       </CardHeader>
-      <CardContent>
-        <div className="text-2xl font-bold">{value}</div>
+      <CardContent className="relative">
+        <div className="text-2xl font-bold tracking-tight">{value}</div>
         {description && (
           <p className="text-xs text-muted-foreground mt-1">{description}</p>
         )}
         {trend && (
           <p className={cn(
-            "text-xs mt-1",
-            trend.value >= 0 ? "text-emerald-600" : "text-red-600"
+            "text-xs mt-1 font-medium",
+            trend.value >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"
           )}>
-            {trend.value >= 0 ? "+" : ""}{trend.value}% {trend.label}
+            {trend.value >= 0 ? "↑" : "↓"} {Math.abs(trend.value)}% {trend.label}
           </p>
         )}
       </CardContent>
