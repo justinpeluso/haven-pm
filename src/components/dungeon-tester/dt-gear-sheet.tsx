@@ -79,8 +79,7 @@ function formatBagSlot(slot: string): string {
 }
 
 /**
- * True Grit Gear tab — Gemini layout adapted to DT forest/parchment tokens,
- * wired to sealed-hero equip + effective stats (not demo numbers).
+ * True Grit Gear tab — museum hero spirit card + compact bag/doll.
  */
 export function DtGearSheet({
   char,
@@ -133,7 +132,7 @@ export function DtGearSheet({
         <p className="dt-gear-sheet-gold">{char.gold}g</p>
       </header>
 
-      {/* Museum / collector hero — selected item dominates the tab */}
+      {/* Museum / collector hero — selected spirit card dominates */}
       <section
         className="dt-gear-spirit-hero"
         aria-label="Spirit card showcase"
@@ -141,16 +140,10 @@ export function DtGearSheet({
         data-equipped={spiritEquipped ? "true" : "false"}
       >
         <div className="dt-gear-spirit-hero-pedestal">
-          <p className="dt-gear-spirit-hero-kicker">Spirit card</p>
-          <h2 className="dt-gear-spirit-hero-title">
-            {spiritItem?.name ?? spiritCard.name}
-          </h2>
-          <p className="dt-gear-spirit-hero-sub">
-            {spiritItem
-              ? `${formatBagSlot(spiritItem.slot)} · ${formatGearTier(
-                  spiritItem.rarity ?? spiritItem.tier
-                )}${spiritEquipped ? " · Equipped" : ""}`
-              : "Bare knuckles — no steel drawn"}
+          <p className="dt-gear-spirit-hero-label">
+            Spirit card
+            {spiritItem ? ` — ${spiritItem.name}` : " — Bare knuckles"}
+            {spiritEquipped ? " · Equipped" : ""}
           </p>
           <div className="dt-gear-spirit-hero-stage">
             <DtPokeCard
@@ -162,7 +155,7 @@ export function DtGearSheet({
             />
           </div>
           <p className="dt-gear-spirit-hero-hint">
-            Hover a slot or tap a bag item to inspect
+            Hover slots or tap bag items to inspect
           </p>
         </div>
       </section>
@@ -176,7 +169,6 @@ export function DtGearSheet({
             const id = char.equipped[equipSlot];
             const item = resolveItem(id);
             const filled = Boolean(item);
-            const focused = Boolean(id && spiritId === id);
             return (
               <button
                 key={equipSlot}
@@ -185,7 +177,7 @@ export function DtGearSheet({
                 data-area={area}
                 data-filled={filled ? "true" : "false"}
                 data-tier={filled ? gearTierAttr(item!.rarity ?? item!.tier) : "empty"}
-                data-spirit-focus={focused ? "true" : "false"}
+                data-spirit-focus={spiritId === id ? "true" : "false"}
                 disabled={!canEdit || !filled}
                 title={
                   filled
@@ -367,11 +359,11 @@ export function DtGearSheet({
       </div>
 
       <p className="dt-gear-actions-hint">
-        Bag — Equip · Use potions · Break down scrap
+        Bag — select to showcase · Equip · Use · Break down
       </p>
 
       <section className="dt-gear-bag" aria-label="Inventory bag">
-        <div className="dt-gear-bag-grid">
+        <div className="dt-gear-bag-grid dt-gear-bag-grid-compact">
           {char.inventory.map((id, idx) => {
             const item = resolveItem(id);
             if (!item) return null;
@@ -386,7 +378,7 @@ export function DtGearSheet({
             const upgrade = dtBagItemUpgradeCue(char, id, {
               alreadyEquipped: equipped,
             });
-            const props = itemProperties(item).slice(0, 5);
+            const props = itemProperties(item).slice(0, 2);
             const tier = gearTierAttr(item.rarity ?? item.tier);
             const usable =
               consumable &&
