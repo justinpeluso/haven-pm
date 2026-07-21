@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="staff">
+  <defs>
+    <radialGradient id="gstaff0" cx="50%" cy="42%" r="58%">
+      <stop offset="0%" stop-color="#fff8ec"/>
+      <stop offset="100%" stop-color="#d8c8a8"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="58" fill="url(#gstaff0)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#6a4a8a" stroke-width="1.5" opacity="0.55"/>
+  <rect x="60" y="16" width="8" height="96" rx="2" fill="#6a4420" stroke="#1a120c" stroke-width="2.5"/><circle cx="64" cy="22" r="12" fill="#c45a3a" stroke="#1a120c" stroke-width="2.5"/><circle cx="64" cy="22" r="5" fill="#ffe08a"/>
+</svg>

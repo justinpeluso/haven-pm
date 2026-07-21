@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="gun">
+  <defs>
+    <radialGradient id="ggun1" cx="50%" cy="42%" r="58%">
+      <stop offset="0%" stop-color="#fff8ec"/>
+      <stop offset="100%" stop-color="#d8c8a8"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="58" fill="url(#ggun1)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#6a8090" stroke-width="1.5" opacity="0.55"/>
+  <path d="M28 58 L78 48 L96 52 L94 62 L78 60 L70 88 L54 88 L58 64 L28 68 Z" fill="#5a6575" stroke="#1a120c" stroke-width="2.5"/><circle cx="40" cy="62" r="4" fill="#c4893a"/>
+</svg>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="tool">
+  <defs>
+    <radialGradient id="gtool1" cx="50%" cy="42%" r="58%">
+      <stop offset="0%" stop-color="#fff8ec"/>
+      <stop offset="100%" stop-color="#d8c8a8"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="58" fill="url(#gtool1)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#6a7080" stroke-width="1.5" opacity="0.55"/>
+  <path d="M40 40 L88 40 L88 56 L70 56 L70 100 L50 100 L50 56 L40 56 Z" fill="#7a8898" stroke="#1a120c" stroke-width="2.5"/>
+</svg>

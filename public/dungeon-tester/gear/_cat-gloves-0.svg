@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="gloves">
+  <defs>
+    <radialGradient id="ggloves0" cx="50%" cy="42%" r="58%">
+      <stop offset="0%" stop-color="#fff8ec"/>
+      <stop offset="100%" stop-color="#d8c8a8"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="58" fill="url(#ggloves0)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#6a4420" stroke-width="1.5" opacity="0.55"/>
+  <path d="M44 40 L70 36 L78 70 L72 100 L40 96 L36 64 Z" fill="#6a4420" stroke="#1a120c" stroke-width="2.5"/><path d="M70 40 L92 48 L88 70 L74 66" fill="#5a3820" stroke="#1a120c" stroke-width="2"/>
+</svg>

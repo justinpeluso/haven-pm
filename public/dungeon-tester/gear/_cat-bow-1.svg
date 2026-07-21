@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="bow">
+  <defs>
+    <radialGradient id="gbow1" cx="50%" cy="42%" r="58%">
+      <stop offset="0%" stop-color="#fff8ec"/>
+      <stop offset="100%" stop-color="#d8c8a8"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="58" fill="url(#gbow1)" stroke="#1a120c" stroke-width="3"/>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#8a6a3a" stroke-width="1.5" opacity="0.55"/>
+  <path d="M36 18 Q18 64 36 110" fill="none" stroke="#5a3820" stroke-width="5"/><path d="M88 24 Q108 64 88 104" fill="none" stroke="#5a3820" stroke-width="4"/><line x1="36" y1="64" x2="88" y2="64" stroke="#1a120c" stroke-width="2"/>
+</svg>
