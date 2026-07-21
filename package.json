@@ -22,9 +22,7 @@
     "db:seed:ops": "tsx scripts/seed-maintenance-requests.ts && tsx scripts/seed-prospects.ts && tsx scripts/seed-calendar-events.ts",
     "db:studio": "prisma studio",
     "postinstall": "prisma generate",
-    "prefetch:historical": "tsx scripts/prefetch-historical-properties.ts",
-    "gen:neverworld-gear": "node scripts/generate-neverworld-gear.mjs",
-    "gen:neverworld-bestiary": "node scripts/generate-neverworld-bestiary.mjs"
+    "prefetch:historical": "tsx scripts/prefetch-historical-properties.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",

@@ -11,12 +11,12 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/downtown/party-chronicle",
-        destination: "/neverworld",
+        destination: "/true-grit",
         permanent: false,
       },
       {
         source: "/downtown/neverworld",
-        destination: "/neverworld",
+        destination: "/true-grit",
         permanent: false,
       },
       {

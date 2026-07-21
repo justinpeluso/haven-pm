@@ -1,5 +1,7 @@
 /**
- * Neverworld — Downtown party RPG (comic CRPG).
+ * Shared RPG primitives used by Dungeons and Dogs (True Grit / dungeon-tester).
+ * Party Chronicle / Neverworld game shell has been removed; this package remains
+ * as the shared character/gear/combat foundation.
  *
  * Skill trees + combat hotbar:
  *   SKILL_TREES, ABILITIES, HOTBAR_SIZE (≥5),
@@ -13,7 +15,6 @@ export * from "./create";
 export * from "./players";
 export * from "./progression";
 export * from "./alignment";
-export * from "./animals";
 export * from "./gear";
 export * from "./stats";
 export * from "./roc";
@@ -30,12 +31,5 @@ export * from "./side-quests";
 export * from "./recipes";
 export * from "./midgame";
 export * from "./quest-run";
-export * from "./exploration";
-export * from "./world-map";
-export * from "./explore-walk";
-export * from "./animal-arcs";
-export * from "./foreshadow";
-export * from "./endings";
 export * from "./engine";
 export * from "./persist";
-export * from "./codex";
