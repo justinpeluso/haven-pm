@@ -537,7 +537,7 @@ export function DtGearSheet({
             })}
           </div>
           {!char.inventory.length ? (
-            <p className="dt-gear-empty">Bag is empty.</p>
+            <p className="dt-gear-empty">Nothing in the bag yet.</p>
           ) : null}
         </section>
       </div>

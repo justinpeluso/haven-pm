@@ -3496,10 +3496,16 @@
 
 .dungeon-tester .dt-gear-sheet-gold {
   margin: 0;
+  flex-shrink: 0;
   font-family: var(--dt-hud);
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 800;
+  letter-spacing: 0.04em;
   color: var(--dt-ochre);
+  padding: 0.28rem 0.55rem;
+  border: 1.5px solid rgba(201, 162, 39, 0.45);
+  background: rgba(201, 162, 39, 0.1);
+  line-height: 1.2;
 }
 
 /* Museum pedestal — selected spirit card dominates Gear tab */
@@ -3725,6 +3731,18 @@
 .dungeon-tester .dt-gear-slot:hover:not(:disabled) {
   border-color: var(--dt-forest-lit);
   background: #fff4e0;
+  z-index: 30;
+}
+
+.dungeon-tester .dt-gear-slot:focus-visible {
+  outline: 2px solid var(--dt-ochre);
+  outline-offset: 2px;
+  z-index: 30;
+}
+
+.dungeon-tester .dt-gear-slot[data-spirit-focus="true"] {
+  outline: 2px solid rgba(196, 137, 58, 0.7);
+  outline-offset: 1px;
   z-index: 30;
 }
 
@@ -4043,21 +4061,24 @@
 }
 
 .dungeon-tester .dt-gear-actions-hint {
-  margin: 0;
+  margin: -0.15rem 0 0.15rem;
   font-family: var(--dt-hud);
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: 0.72rem;
+  font-weight: 600;
   letter-spacing: 0.02em;
-  color: var(--dt-canyon-deep);
-  opacity: 0.85;
+  color: var(--dt-muted);
+  line-height: 1.35;
 }
 
 .dungeon-tester .dt-gear-bag {
   display: flex;
   flex-direction: column;
   gap: var(--dt-space);
-  padding-top: calc(var(--dt-space) * 1.5);
-  border-top: 1px dashed rgba(42, 31, 20, 0.18);
+  min-width: 0;
+  padding: calc(var(--dt-space) * 1.5);
+  background: linear-gradient(180deg, var(--dt-chalk) 0%, var(--dt-cream-deep) 100%);
+  border: 1.5px solid rgba(42, 31, 20, 0.22);
+  box-shadow: var(--dt-shadow-card);
 }
 
 .dungeon-tester .dt-gear-bag-grid {
@@ -4066,10 +4087,34 @@
   gap: calc(var(--dt-space) * 1.25);
 }
 
+.dungeon-tester .dt-gear-bag-grid-compact {
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: calc(var(--dt-space) * 1);
+}
+
+@media (min-width: 1024px) {
+  .dungeon-tester .dt-gear-bag-grid-compact {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dungeon-tester .dt-gear-empty {
+  margin: 0.35rem 0 0;
+  padding: 1.1rem 0.85rem;
+  text-align: center;
+  font-family: var(--dt-hud);
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--dt-muted);
+  background: rgba(42, 31, 20, 0.04);
+  border: 1px dashed rgba(42, 31, 20, 0.22);
+}
+
 .dungeon-tester .dt-gear-bag-card {
   display: flex;
   flex-direction: column;
-  gap: 0.22rem;
+  gap: 0.28rem;
   padding: 0.65rem 0.7rem 0.75rem;
   cursor: pointer;
   background: linear-gradient(180deg, #fffdf8, #f2e8d8);
@@ -4077,6 +4122,27 @@
   box-shadow:
     inset 3px 0 0 var(--dt-tier-common),
     0 2px 6px rgba(26, 24, 20, 0.08);
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease,
+    background 140ms ease,
+    transform 140ms ease;
+}
+
+.dungeon-tester .dt-gear-bag-card:hover {
+  border-color: var(--dt-forest-lit);
+  transform: translateY(-1px);
+  filter: brightness(1.02);
+}
+
+.dungeon-tester .dt-gear-bag-card:focus-visible {
+  outline: 2px solid var(--dt-ochre);
+  outline-offset: 2px;
+}
+
+.dungeon-tester .dt-gear-bag-card[data-spirit-focus="true"]:focus-visible {
+  outline: 2px solid var(--dt-ochre);
+  outline-offset: 2px;
 }
 
 .dungeon-tester .dt-gear-bag-card[data-tier="uncommon"] {
@@ -4263,8 +4329,15 @@
 .dungeon-tester .dt-gear-bag-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.3rem;
-  margin-top: 0.35rem;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: auto;
+  padding-top: 0.4rem;
+}
+
+.dungeon-tester .dt-gear-bag-actions .pc-btn-tiny {
+  font-size: 0.72rem;
+  padding: 0.32rem 0.5rem;
 }
 
 @media (max-width: 900px) {
@@ -4278,6 +4351,16 @@
 
   .dungeon-tester .dt-gear-stat-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dungeon-tester .dt-gear-bag-card {
+    transition: none;
+  }
+
+  .dungeon-tester .dt-gear-bag-card:hover {
+    transform: none;
   }
 }
 
