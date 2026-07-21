@@ -123,10 +123,15 @@ function hashVariant(id: string, n: number): number {
   return h % n;
 }
 
-function plateForCategory(cat: DtGearArtCategory, itemId: string): string {
+function plateForCategory(
+  cat: DtGearArtCategory,
+  itemId: string,
+  kind: "cat" | "plate" = "cat"
+): string {
   const n = CATEGORY_VARIANTS[cat] ?? 1;
   const v = hashVariant(itemId, n);
-  return `${GEAR_ICON_DIR}/_cat-${cat}-${v}.svg`;
+  const prefix = kind === "plate" ? "_plate" : "_cat";
+  return `${GEAR_ICON_DIR}/${prefix}-${cat}-${v}.svg`;
 }
 
 /**
@@ -254,15 +259,17 @@ export function dtGearIconSrc(
 }
 
 /**
- * Art-window helper for poke / gear sheets — never null for a real id.
- * Prefer this over `dtGearIconSrc` when an empty frame is unacceptable.
+ * Full-bleed collectible art for poke / Gear hero windows.
+ * Always uses atmospheric category plates (not tiny named thumbs).
  */
 export function getGearArtPlate(itemId: string | null | undefined): string {
-  return (
-    dtGearIconSrc(itemId, { armsOnly: false }) ??
-    FALLBACK_BY_SLOT.weapon ??
-    FALLBACK_GENERIC
-  );
+  if (!itemId) return `${GEAR_ICON_DIR}/_plate-blade-0.svg`;
+  if (itemId === "dt-unarmed-grit") {
+    return plateForCategory("unarmed", itemId, "plate");
+  }
+  const item = getDtGear(itemId);
+  const cat = resolveGearArtCategory(item, itemId);
+  return plateForCategory(cat, itemId, "plate");
 }
 
 /** Category key used for the plate (named icons still report inferred cat). */

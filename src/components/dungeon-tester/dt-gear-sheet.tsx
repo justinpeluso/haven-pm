@@ -149,7 +149,6 @@ export function DtGearSheet({
             <DtPokeCard
               card={spiritCard}
               size="lg"
-              ally
               tier={spiritItem?.rarity ?? spiritItem?.tier}
               className="dt-gear-spirit-hero-card"
             />

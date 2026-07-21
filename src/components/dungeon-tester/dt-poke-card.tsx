@@ -9,9 +9,10 @@ import {
   spiritPowerNumber,
   type DtPokeCardDef,
   type DtPokeMoveDef,
+  type DtPokeTypeId,
 } from "@/lib/downtown/dungeon-tester/poke-cards";
 import { dtEnemyArtSrc } from "@/lib/downtown/dungeon-tester/art";
-import { dtGearIconSrc } from "@/lib/downtown/dungeon-tester/gear-icons";
+import { getGearArtPlate } from "@/lib/downtown/dungeon-tester/gear-icons";
 import { getDtGear } from "@/lib/downtown/dungeon-tester/gear";
 import {
   formatGearTier,
@@ -33,6 +34,37 @@ type Props = {
   onClick?: () => void;
 };
 
+/** Soft counters for the Lost Brothers type wheel. */
+const TYPE_WEAK: Partial<Record<DtPokeTypeId, DtPokeTypeId>> = {
+  grit: "silk",
+  chrome: "ash",
+  spirit: "iron",
+  iron: "frost",
+  ash: "frost",
+  silk: "venom",
+  dust: "chrome",
+  frost: "ash",
+  venom: "grit",
+  wild: "chain",
+  chain: "helix",
+  helix: "wild",
+};
+
+const TYPE_RESIST: Partial<Record<DtPokeTypeId, DtPokeTypeId>> = {
+  grit: "dust",
+  chrome: "chain",
+  spirit: "venom",
+  iron: "grit",
+  ash: "silk",
+  silk: "dust",
+  dust: "wild",
+  frost: "chrome",
+  venom: "spirit",
+  wild: "ash",
+  chain: "iron",
+  helix: "chrome",
+};
+
 function pct(cur: number, max: number): number {
   if (max <= 0) return 0;
   return Math.max(0, Math.min(100, (cur / max) * 100));
@@ -40,7 +72,6 @@ function pct(cur: number, max: number): number {
 
 function isGearSpiritCard(card: DtPokeCardDef): boolean {
   if (isDtGearSpiritKind(card.kind)) return true;
-  // Untagged dt-* plates that aren't chapter/foe ids still use gear art.
   return card.id.startsWith("dt-") && !card.id.startsWith("dt-ch");
 }
 
@@ -80,38 +111,85 @@ function resolveTier(card: DtPokeCardDef, override?: string): string {
 }
 
 function stageLabel(variant: string, isGear: boolean): string {
-  if (!isGear) return variant === "dog" ? "Companion" : "Wild";
-  if (variant === "weapon") return "Weapon Spirit";
-  if (variant === "armor") return "Armor Spirit";
-  if (variant === "consumable") return "Field Kit";
-  if (variant === "trinket") return "Trinket Spirit";
-  return "Item Spirit";
+  if (!isGear) return variant === "dog" ? "Basic · Companion" : "Basic · Wild";
+  if (variant === "weapon") return "Basic · Weapon Spirit";
+  if (variant === "armor") return "Basic · Armor Spirit";
+  if (variant === "consumable") return "Item · Field Kit";
+  if (variant === "trinket") return "Item · Trinket";
+  return "Basic · Item Spirit";
 }
 
-function EnergyPips({ cost }: { cost: number }) {
+function retreatCost(variant: string, isGear: boolean): number {
+  if (!isGear) return 2;
+  if (variant === "armor") return 3;
+  if (variant === "weapon") return 2;
+  if (variant === "consumable") return 1;
+  return 1;
+}
+
+function TypeGem({
+  typeId,
+  size = "md",
+}: {
+  typeId: string;
+  size?: "sm" | "md";
+}) {
+  const meta = dtPokeTypeMeta(typeId);
+  return (
+    <span
+      className={`dt-poke-type-gem${size === "sm" ? " dt-poke-type-gem-sm" : ""}`}
+      title={meta.label}
+      style={{ ["--poke-type" as string]: meta.color }}
+      aria-label={meta.label}
+    >
+      <em />
+    </span>
+  );
+}
+
+function EnergyPips({
+  cost,
+  color,
+}: {
+  cost: number;
+  color: string;
+}) {
   return (
     <span className="dt-poke-energy" aria-hidden>
       {Array.from({ length: Math.max(1, Math.min(3, cost)) }, (_, i) => (
-        <i key={i} className="dt-poke-energy-pip" />
+        <i
+          key={i}
+          className="dt-poke-energy-pip"
+          style={{ ["--poke-energy" as string]: color }}
+        />
       ))}
     </span>
   );
 }
 
-function MoveRow({ move, index }: { move: DtPokeMoveDef; index: number }) {
+function MoveRow({
+  move,
+  index,
+  energyColor,
+  compact,
+}: {
+  move: DtPokeMoveDef;
+  index: number;
+  energyColor: string;
+  compact?: boolean;
+}) {
   const dmg = moveDamageNumber(move);
   const cost = moveEnergyCost(move, index);
   const fx = moveEffectSummary(move);
+  const flavor = move.blurb || fx;
   return (
     <li className="dt-poke-move" data-cost={cost}>
-      <EnergyPips cost={cost} />
+      <EnergyPips cost={cost} color={energyColor} />
       <div className="dt-poke-move-body">
         <span className="dt-poke-move-name">{move.name}</span>
-        {move.blurb ? (
-          <span className="dt-poke-move-flavor">{move.blurb}</span>
-        ) : (
-          <span className="dt-poke-move-flavor">{fx}</span>
-        )}
+        {!compact && flavor ? (
+          <span className="dt-poke-move-flavor">{flavor}</span>
+        ) : null}
       </div>
       {dmg != null ? (
         <span className="dt-poke-move-dmg">{dmg}</span>
@@ -139,13 +217,20 @@ export function DtPokeCard({
     card.id === "dog-companion" || card.artId === "art-dog-companion"
       ? battlePetArtSrc()
       : isGearSpirit
-        ? dtGearIconSrc(card.artId || card.id, { armsOnly: false }) ||
-          "/dungeon-tester/gear/_fallback-weapon.svg"
+        ? getGearArtPlate(card.artId || card.id)
         : dtEnemyArtSrc({ artId: card.artId, name: card.name, id: card.id });
   const showHp = typeof hp === "number" && typeof maxHp === "number" && maxHp > 0;
   const spiritHp = spiritPowerNumber(card);
-  const primaryType = card.types[0] ? dtPokeTypeMeta(card.types[0]) : null;
-  const moveLimit = isGearSpirit ? 3 : 4;
+  const primaryTypeId = (card.types[0] ?? "grit") as DtPokeTypeId;
+  const primaryType = dtPokeTypeMeta(primaryTypeId);
+  const energyColor = primaryType.color;
+  const weakId = TYPE_WEAK[primaryTypeId] ?? "ash";
+  const resistId = TYPE_RESIST[primaryTypeId] ?? "grit";
+  const retreat = retreatCost(variant, isGearSpirit);
+  const moveLimit = size === "sm" ? 2 : 3;
+  const compactMoves = size === "sm";
+  // Ally tint only for true companions — gear sheet should keep weapon/armor chrome.
+  const allyChrome = Boolean(ally) && (variant === "dog" || card.kind === "dog");
   const kindAttr =
     card.kind === "dog"
       ? "dog"
@@ -158,51 +243,40 @@ export function DtPokeCard({
   const shared = {
     className: `dt-poke-card ${className ?? ""}`,
     "data-size": size,
-    "data-ally": ally ? "true" : "false",
+    "data-ally": allyChrome ? "true" : "false",
     "data-kind": kindAttr,
     "data-variant": variant,
     "data-tier": tier,
+    "data-gear": isGearSpirit ? "true" : "false",
+    style: { ["--poke-type" as string]: primaryType.color },
     "aria-label": `${card.name} card`,
   } as const;
 
   const inner = (
     <>
       <div className="dt-poke-card-chrome" aria-hidden />
+      <div className="dt-poke-card-bevel" aria-hidden />
       <div className="dt-poke-card-foil" aria-hidden />
       <div className="dt-poke-card-frame">
+        <p className="dt-poke-stage">{stageLabel(variant, isGearSpirit)}</p>
+
         <header className="dt-poke-card-head">
-          <div className="dt-poke-card-title-row">
-            <span className="dt-poke-card-name">{card.name}</span>
-            <span className="dt-poke-card-hp">
-              <em>HP</em>
-              {showHp ? hp : spiritHp}
-            </span>
-          </div>
-          <div className="dt-poke-card-meta">
-            <span className="dt-poke-stage">{stageLabel(variant, isGearSpirit)}</span>
-            <span className="dt-poke-card-types">
-              {card.types.slice(0, 2).map((t) => {
-                const meta = dtPokeTypeMeta(t);
-                return (
-                  <span
-                    key={t}
-                    className="dt-poke-type"
-                    style={{ ["--poke-type" as string]: meta.color }}
-                  >
-                    {meta.label}
-                  </span>
-                );
-              })}
-            </span>
-          </div>
+          <span className="dt-poke-card-name">{card.name}</span>
+          <span className="dt-poke-card-hp-pill">
+            <em>HP</em>
+            <strong>{showHp ? hp : spiritHp}</strong>
+          </span>
+          <TypeGem typeId={primaryTypeId} />
         </header>
 
         <div className="dt-poke-card-art">
+          <div className="dt-poke-card-art-mat" aria-hidden />
           <div className="dt-poke-card-art-inner">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={art} alt="" draggable={false} />
           </div>
-          <span className="dt-poke-rarity-ribbon" data-tier={tier}>
+          <div className="dt-poke-card-art-foil" aria-hidden />
+          <span className="dt-poke-rarity-mark" data-tier={tier}>
             {formatGearTier(tier)}
           </span>
         </div>
@@ -211,29 +285,48 @@ export function DtPokeCard({
           <div className="dt-poke-hp" title={`HP ${hp}/${maxHp}`}>
             <span className="dt-poke-hp-lab">HP</span>
             <div className="dt-poke-hp-track">
-              <span style={{ width: `${pct(hp!, maxHp!)}%` }} />
+              <span style={{ width: `${pct(hp!, maxHp!)}%` />
             </div>
             <span className="dt-poke-hp-num">
               {hp}/{maxHp}
             </span>
           </div>
-        ) : (
-          <div className="dt-poke-stats-strip" aria-hidden>
-            <span>
-              {primaryType ? primaryType.label : "Spirit"} · {spiritHp} HP
-            </span>
-            <span className="dt-poke-stats-tier">{formatGearTier(tier)}</span>
-          </div>
-        )}
+        ) : null}
 
         <ul className="dt-poke-moves">
           {card.moves.slice(0, moveLimit).map((m, i) => (
-            <MoveRow key={m.id} move={m} index={i} />
+            <MoveRow
+              key={m.id}
+              move={m}
+              index={i}
+              energyColor={energyColor}
+              compact={compactMoves}
+            />
           ))}
         </ul>
 
         <footer className="dt-poke-card-foot">
-          <p className="dt-poke-card-blurb">{card.blurb}</p>
+          <div className="dt-poke-wrr" aria-label="Weakness resistance retreat">
+            <div className="dt-poke-wrr-cell">
+              <span className="dt-poke-wrr-lab">weakness</span>
+              <TypeGem typeId={weakId} size="sm" />
+              <span className="dt-poke-wrr-val">×2</span>
+            </div>
+            <div className="dt-poke-wrr-cell">
+              <span className="dt-poke-wrr-lab">resistance</span>
+              <TypeGem typeId={resistId} size="sm" />
+              <span className="dt-poke-wrr-val">-20</span>
+            </div>
+            <div className="dt-poke-wrr-cell">
+              <span className="dt-poke-wrr-lab">retreat</span>
+              <EnergyPips cost={retreat} color={energyColor} />
+            </div>
+          </div>
+          {size === "lg" ? (
+            <span className="dt-poke-set-mark" aria-hidden>
+              LB · Spirit
+            </span>
+          ) : null}
         </footer>
       </div>
     </>
