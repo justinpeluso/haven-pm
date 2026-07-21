@@ -21,10 +21,11 @@
 import { getGear } from "@/lib/downtown/party-chronicle/gear";
 import {
   battleArmor,
-  battleAttackPower,
+  computeEffectiveStats,
 } from "@/lib/downtown/party-chronicle/stats";
 import type { CharacterSave, PlayerSlot } from "@/lib/downtown/party-chronicle/types";
 import { PLAYER_SLOT_ORDER } from "@/lib/downtown/party-chronicle/types";
+import { resolveWeaponScaling, scaleByStat } from "./weapon-scaling";
 import {
   getDtBattleLootItem,
   getDtBoss,
@@ -366,18 +367,18 @@ function resolveGear(id: string | null | undefined) {
   return getDtGear(id) ?? getGear(id);
 }
 
+/** Flat weapon/gear ATK — style attribute scales at hit time (not baked STR). */
 function heroWeaponPower(char: CharacterSave): number {
-  return Math.max(2, battleAttackPower(char));
+  return Math.max(2, computeEffectiveStats(char).atk);
 }
 
 function heroArmorRating(char: CharacterSave): number {
   return Math.max(0, Math.min(14, battleArmor(char)));
 }
 
-function heroMagicPower(char: CharacterSave): number {
-  const int = char.stats?.intelligence ?? 10;
-  const wis = char.stats?.wisdom ?? 10;
-  return Math.max(3, 6 + Math.floor((int + wis - 20) / 2) + (char.level ?? 1));
+/** Flat magic base; INT scales at cast time via scaleByStat. */
+function heroMagicBase(char: CharacterSave): number {
+  return Math.max(3, 6 + (char.level ?? 1));
 }
 
 function findPotion(char: CharacterSave): string | null {
@@ -1508,7 +1509,8 @@ function resolveActorMove(
   nextCursor: number,
   target: SimpleBattleUnit,
   style: "enemy" | "dog" | "hero",
-  rng: () => number
+  rng: () => number,
+  opts?: { scaleDamage?: (base: number) => number }
 ): SimpleBattleState {
   let units = battle.units.map((u) =>
     u.id === actor.id ? { ...u, moveCursor: nextCursor } : u
@@ -1532,9 +1534,13 @@ function resolveActorMove(
 
   if (doesDamage) {
     const mult = move.powerMult ?? 1;
+    let base = Math.max(1, Math.round(effectivePower(actor) * mult));
+    // Hero weapon attacks only — foes/dogs keep raw power (no attribute scale).
+    if (style === "hero" && opts?.scaleDamage) {
+      base = opts.scaleDamage(base);
+    }
     const raw =
-      Math.max(1, Math.round(effectivePower(actor) * mult)) +
-      Math.floor(rng() * (style === "dog" ? 3 : style === "hero" ? 5 : 4));
+      base + Math.floor(rng() * (style === "dog" ? 3 : style === "hero" ? 5 : 4));
     const hit = applyDamage(units, target.id, raw);
     units = hit.units;
     dealt = hit.dealt;
@@ -1821,6 +1827,8 @@ export function performSimpleBattleAction(
       }
       const char = hero.slot ? characters[hero.slot] : null;
       const weaponId = char?.equipped?.weapon ?? null;
+      const weapon = resolveGear(weaponId);
+      const scaling = resolveWeaponScaling(weapon ?? null, char?.stats);
       const weaponCard =
         getDtWeaponPokeCard(weaponId) ?? getDtUnarmedPokeCard();
       const { move, nextCursor } = pickDtPokeMove(
@@ -1838,7 +1846,8 @@ export function performSimpleBattleAction(
         nextCursor,
         foe,
         "hero",
-        rng
+        rng,
+        { scaleDamage: scaling.scale }
       );
       nextBattle = {
         ...nextBattle,
@@ -1871,7 +1880,9 @@ export function performSimpleBattleAction(
         retargetNote = " (switched target)";
       }
       const char = hero.slot ? characters[hero.slot] : null;
-      const raw = (char ? heroMagicPower(char) : hero.power + 4) + Math.floor(rng() * 6);
+      const int = char?.stats?.intelligence ?? 10;
+      const base = char ? heroMagicBase(char) : hero.power + 4;
+      const raw = scaleByStat(base, int) + Math.floor(rng() * 6);
       const { units, dealt, killed } = applyDamage(nextBattle.units, foe.id, raw);
       const afterMana = units.map((u) =>
         u.id === heroId ? { ...u, mana: Math.max(0, u.mana - MAGIC_COST) } : u
@@ -1927,7 +1938,9 @@ export function performSimpleBattleAction(
     const allyId = targetId ?? heroId;
     const ally = living(nextBattle.units, "hero").find((u) => u.id === allyId);
     if (!ally) return { world, message: "Invalid ally." };
-    const heal = HEAL_AMOUNT + Math.floor(rng() * 6);
+    const char = hero.slot ? characters[hero.slot] : null;
+    const wis = char?.stats?.wisdom ?? 10;
+    const heal = scaleByStat(HEAL_AMOUNT, wis) + Math.floor(rng() * 6);
     const units = nextBattle.units.map((u) =>
       u.id === allyId ? { ...u, hp: Math.min(u.maxHp, u.hp + heal) } : u
     );
