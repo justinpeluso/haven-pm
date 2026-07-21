@@ -11,6 +11,8 @@ type AppRole =
 
 /** Edge-safe auth config — no Prisma/bcrypt (keeps middleware under Vercel size limit). */
 export const authConfig = {
+  // Needed for LAN play (http://10.0.0.x:3000) when AUTH_URL is localhost.
+  trustHost: true,
   session: { strategy: "jwt" as const },
   pages: {
     signIn: "/login",

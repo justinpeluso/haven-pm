@@ -94,6 +94,10 @@ echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  ✅ Haven PM is ready!"
 echo "  🌐 http://localhost:3000"
+LAN_IP="$(ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null || true)"
+if [ -n "$LAN_IP" ]; then
+  echo "  📡 LAN (Rusty/phone): http://${LAN_IP}:3000"
+fi
 echo "  👤 admin@ / justin@ / michelle@havenpm.com / Chomps123"
 echo "  Press Ctrl+C to stop the server"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -104,4 +108,5 @@ pkill -f "next dev" 2>/dev/null || true
 sleep 1
 rm -rf .next
 
-npm run dev
+# Bind all interfaces so party devices on Wi‑Fi can reach this Mac
+npm run dev:lan

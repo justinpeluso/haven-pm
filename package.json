@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:lan": "next dev -H 0.0.0.0 -p 3000",
     "go": "./start.sh",
     "build": "prisma generate && next build",
     "vercel-build": "prisma generate && prisma db push && next build",
