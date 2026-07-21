@@ -50,7 +50,7 @@ export type GearTier =
   | "epic"
   | "legendary";
 
-/** Affix keys for magic items (~5 properties per magic+ item). */
+/** Affix keys for gear bonuses (common = none; rare = 1; epic/legendary = 2). */
 export const GEAR_PROPERTY_KEYS = [
   "strength",
   "dexterity",
@@ -170,7 +170,7 @@ export type GearItem = {
   staminaRestore?: number;
   cookBonus?: number;
   tags: string[];
-  /** Magic affixes — aim for ~5 on magic+ gear. */
+  /** Affixes — bonuses only; base ATK/DEF come from power/armor. Count by rarity: 0 / 1 / 2. */
   properties?: GearProperty[];
   /** Named set membership (Frostwarden, Emberfang, …). */
   setId?: string;

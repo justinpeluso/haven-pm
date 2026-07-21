@@ -47,7 +47,7 @@ function hashId(id: string): number {
   return Math.abs(h);
 }
 
-/** Procedural ~2–5 affixes matching the generated catalog style. */
+/** Procedural affixes by rarity — base power/armor live on the item; properties are bonuses only. */
 export function makeDefaultProperties(
   seed: number,
   tier: GearTier,
@@ -55,26 +55,26 @@ export function makeDefaultProperties(
 ): GearProperty[] {
   if (slot === "consumable" || slot === "misc") return [];
 
-  const count = tier === "common" ? 5 : 5;
+  const rarity = tier === "magic" ? "uncommon" : tier;
+  const count =
+    rarity === "common" || rarity === "uncommon"
+      ? 0
+      : rarity === "rare"
+        ? 1
+        : 2;
+  if (count === 0) return [];
+
   const props: GearProperty[] = [];
   const used = new Set<string>();
   const base =
-    tier === "common"
-      ? 1
-      : tier === "uncommon" || tier === "magic"
-        ? 2
-        : tier === "rare"
-          ? 3
-          : tier === "epic"
-            ? 4
-            : 5;
+    rarity === "rare" ? 1 : rarity === "epic" ? 2 : rarity === "legendary" ? 3 : 1;
 
   const preferred =
     slot === "weapon"
-      ? (["atk", "strength", "dexterity", "crit", "maxHp"] as const)
+      ? (["crit", "strength", "dexterity", "maxHp", "resist", "atk"] as const)
       : slot === "accessory"
-        ? (["maxMana", "intelligence", "wisdom", "charisma", "crit"] as const)
-        : (["def", "constitution", "resist", "maxHp", "strength"] as const);
+        ? (["maxMana", "intelligence", "wisdom", "charisma", "crit", "resist"] as const)
+        : (["constitution", "resist", "maxHp", "strength", "dexterity", "def"] as const);
 
   for (let i = 0; i < count; i++) {
     let key = pick([...preferred, ...ALL_PROP_KEYS], seed + i * 7);
@@ -82,13 +82,18 @@ export function makeDefaultProperties(
     while (used.has(key) && guard++ < 20) {
       key = pick(ALL_PROP_KEYS, seed + i * 11 + guard);
     }
+    // First affix: avoid duplicating the implicit base ATK/DEF line
+    if (i === 0 && slot === "weapon" && key === "atk") key = "crit";
+    if (i === 0 && slot !== "weapon" && slot !== "accessory" && key === "def") {
+      key = "resist";
+    }
     used.add(key);
     let value = base + ((seed + i) % 3);
-    if (key === "maxHp") value = base * 4 + ((seed + i) % 5);
-    if (key === "maxMana") value = base * 3 + ((seed + i) % 4);
-    if (key === "crit") value = Math.min(12, base + (i % 3));
-    if (key === "atk" && slot === "weapon") value = base * 2 + ((seed + i) % 4);
-    if (key === "def" && slot !== "weapon") value = base + ((seed + i) % 3);
+    if (key === "maxHp") value = base * 4 + ((seed + i) % 5) + 4;
+    if (key === "maxMana") value = base * 3 + ((seed + i) % 4) + 2;
+    if (key === "crit") value = Math.min(10, base + (i % 3) + 1);
+    if (key === "atk" && slot === "weapon") value = base + ((seed + i) % 3) + 1;
+    if (key === "def" && slot !== "weapon") value = base + ((seed + i) % 3) + 1;
     props.push({ key, value, label: label(key, value) });
   }
   return props;
