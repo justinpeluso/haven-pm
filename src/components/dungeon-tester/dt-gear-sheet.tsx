@@ -180,7 +180,7 @@ export function DtGearSheet({
           <div className="dt-gear-spirit-hero-stage">
             <DtPokeCard
               card={spiritCard}
-              size="lg"
+              size="md"
               tier={spiritItem?.rarity ?? spiritItem?.tier}
               className="dt-gear-spirit-hero-card"
             />
