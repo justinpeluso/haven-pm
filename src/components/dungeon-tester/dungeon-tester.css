@@ -3588,6 +3588,12 @@
   align-items: start;
 }
 
+@media (min-width: 1024px) {
+  .dungeon-tester .dt-gear-columns {
+    grid-template-columns: minmax(0, 0.35fr) minmax(0, 0.35fr) minmax(0, 0.3fr);
+  }
+}
+
 .dungeon-tester .dt-gear-equip {
   position: relative;
   display: grid;
