@@ -688,9 +688,11 @@ function syncHeroHpFromUnits(
 function chapterLootPool(chapterId: string): DtLootPoolId {
   const n = chapterNumberFromId(chapterId);
   if (n <= 1) return "trash";
-  if (n <= 2) return "common";
-  if (n <= 4) return "magic";
-  if (n <= 6) return "rare";
+  if (n === 2) return "common";
+  if (n === 3) return "uncommon";
+  if (n === 4) return "magic";
+  if (n === 5) return "rare";
+  if (n === 6) return "epic";
   return "legendary";
 }
 

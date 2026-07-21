@@ -12,6 +12,7 @@ import {
   type CreatureDef,
 } from "../party-chronicle/bestiary";
 import type { GearItem, GearTier } from "../party-chronicle/types";
+import { DT_GEAR_POOLS, getDtGear } from "./gear";
 
 export type DtLootPoolId =
   | "trash"
@@ -83,8 +84,23 @@ export function getDtBoss(id: string): DtBossDef | undefined {
   return BOSS_BY_ID[id];
 }
 
+function gearAsBattleLoot(id: string): DtBattleLootItem | undefined {
+  const g = getDtGear(id);
+  if (!g) return undefined;
+  return { ...g, rarity: g.tier };
+}
+
 export function getDtBattleLootItem(id: string): DtBattleLootItem | undefined {
-  return LOOT_BY_ID[id];
+  return LOOT_BY_ID[id] ?? gearAsBattleLoot(id);
+}
+
+/** Curated battle-loot pool, padded from the fat gear catalog when thin. */
+export function dtLootPoolIds(poolId: string): string[] {
+  const curated = DT_LOOT_POOLS[poolId] ?? [];
+  const fromGear = DT_GEAR_POOLS[poolId] ?? [];
+  const merged = [...new Set([...curated, ...fromGear])];
+  if (merged.length) return merged;
+  return DT_LOOT_POOLS.common ?? DT_GEAR_POOLS.common ?? [];
 }
 
 export function dtBestiaryStats() {
@@ -142,10 +158,15 @@ export function rollDtLootFromPool(
   poolId: string,
   rng: () => number = Math.random
 ): DtBattleLootItem | undefined {
-  const ids = DT_LOOT_POOLS[poolId] ?? DT_LOOT_POOLS.common ?? [];
+  const ids = dtLootPoolIds(poolId);
   if (!ids.length) return undefined;
-  const id = ids[Math.floor(rng() * ids.length)]!;
-  return LOOT_BY_ID[id];
+  // Prefer resolvable ids (skip broken dangling refs).
+  for (let attempt = 0; attempt < 8; attempt++) {
+    const id = ids[Math.floor(rng() * ids.length)]!;
+    const item = getDtBattleLootItem(id);
+    if (item) return item;
+  }
+  return getDtBattleLootItem(ids[0]!);
 }
 
 export function dtCreatureAsEncounter(c: DtCreatureDef): {
@@ -191,5 +212,5 @@ export function dtCreatureAsEncounter(c: DtCreatureDef): {
 registerExternalBestiary({
   getCreature: (id) => CREATURE_BY_ID[id] as CreatureDef | undefined,
   getBoss: (id) => BOSS_BY_ID[id] as BossDef | undefined,
-  getLoot: (id) => LOOT_BY_ID[id],
+  getLoot: (id) => getDtBattleLootItem(id),
 });
