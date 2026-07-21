@@ -5517,9 +5517,10 @@
   line-height: 1.05;
   color: #fff6d8;
   text-shadow: 0 1px 0 #0a0704, 0 0 10px rgba(201, 162, 39, 0.22);
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .dungeon-tester .dt-poke-card-hp,
