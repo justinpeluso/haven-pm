@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { GearTipBody } from "@/components/party-chronicle/gear-hover-tip";
 import { DtGearIcon } from "@/components/dungeon-tester/dt-gear-icon";
 import { DtHeroFigure } from "@/components/dungeon-tester/dt-hero-figure";
@@ -25,8 +26,8 @@ import {
 } from "@/lib/downtown/dungeon-tester/gear-display";
 import { normalizeDtHeroLook } from "@/lib/downtown/dungeon-tester/look";
 import {
+  getDtGearPokeCard,
   getDtUnarmedPokeCard,
-  getDtWeaponPokeCard,
 } from "@/lib/downtown/dungeon-tester/poke-cards";
 import { DtPokeCard } from "@/components/dungeon-tester/dt-poke-card";
 
@@ -105,6 +106,16 @@ export function DtGearSheet({
   const equippedIds = new Set(
     EQUIP_SLOTS.map((s) => char.equipped[s]).filter(Boolean) as string[]
   );
+  const [focusId, setFocusId] = useState<string | null>(null);
+  const spiritId =
+    focusId &&
+    (char.inventory.includes(focusId) ||
+      EQUIP_SLOTS.some((s) => char.equipped[s] === focusId))
+      ? focusId
+      : char.equipped.weapon ?? char.inventory[0] ?? null;
+  const spiritItem = resolveItem(spiritId);
+  const spiritCard =
+    getDtGearPokeCard(spiritId) ?? getDtUnarmedPokeCard();
 
   return (
     <div className="dt-gear-sheet">
@@ -139,7 +150,14 @@ export function DtGearSheet({
                     ? `${SLOT_LABEL[equipSlot]} · click to unequip`
                     : `Empty ${SLOT_LABEL[equipSlot]}`
                 }
-                onClick={() => filled && onUnequip(equipSlot)}
+                onClick={() => {
+                  if (!filled || !id) return;
+                  setFocusId(id);
+                  onUnequip(equipSlot);
+                }}
+                onMouseEnter={() => {
+                  if (id) setFocusId(id);
+                }}
               >
                 <span className="dt-gear-slot-label">{SLOT_LABEL[equipSlot]}</span>
                 <span className="dt-gear-slot-body">
@@ -161,15 +179,14 @@ export function DtGearSheet({
               </button>
             );
           })}
-          <div className="dt-gear-weapon-card" aria-label="Equipped weapon spirit card">
-            <p className="dt-gear-block-label">Weapon card</p>
-            <DtPokeCard
-              card={
-                getDtWeaponPokeCard(char.equipped.weapon) ?? getDtUnarmedPokeCard()
-              }
-              size="sm"
-              ally
-            />
+          <div className="dt-gear-weapon-card" aria-label="Item spirit card">
+            <p className="dt-gear-block-label">
+              Spirit card
+              {spiritItem
+                ? ` — ${spiritItem.name}`
+                : " — Bare knuckles"}
+            </p>
+            <DtPokeCard card={spiritCard} size="sm" ally />
           </div>
         </section>
 
@@ -353,6 +370,16 @@ export function DtGearSheet({
                 data-tier={tier}
                 data-equipped={equipped ? "true" : "false"}
                 data-upgrade={upgrade ?? undefined}
+                data-spirit-focus={spiritId === id ? "true" : "false"}
+                onClick={() => setFocusId(id)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setFocusId(id);
+                  }
+                }}
               >
                 <div className="dt-gear-bag-card-top">
                   <span className="dt-gear-bag-tier" data-tier={tier}>
@@ -399,13 +426,19 @@ export function DtGearSheet({
                     {item.staminaRestore ? ` · +${item.staminaRestore} ST` : ""}
                   </div>
                 )}
-                <div className="dt-gear-bag-actions">
+                <div
+                  className="dt-gear-bag-actions"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   {equippable ? (
                     <button
                       type="button"
                       className="pc-btn-tiny"
                       disabled={!canEdit || equipped}
-                      onClick={() => onEquip(id)}
+                      onClick={() => {
+                        setFocusId(id);
+                        onEquip(id);
+                      }}
                     >
                       {equipped ? "Equipped" : "Equip"}
                     </button>

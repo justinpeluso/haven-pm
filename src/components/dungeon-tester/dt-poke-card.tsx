@@ -2,6 +2,7 @@
 
 import {
   dtPokeTypeMeta,
+  isDtGearSpiritKind,
   moveEffectSummary,
   type DtPokeCardDef,
 } from "@/lib/downtown/dungeon-tester/poke-cards";
@@ -26,6 +27,12 @@ function pct(cur: number, max: number): number {
   return Math.max(0, Math.min(100, (cur / max) * 100));
 }
 
+function isGearSpiritCard(card: DtPokeCardDef): boolean {
+  if (isDtGearSpiritKind(card.kind)) return true;
+  // Untagged dt-* plates that aren't chapter/foe ids still use gear art.
+  return card.id.startsWith("dt-") && !card.id.startsWith("dt-ch");
+}
+
 export function DtPokeCard({
   card,
   hp,
@@ -35,22 +42,29 @@ export function DtPokeCard({
   className,
   onClick,
 }: Props) {
-  const isWeapon =
-    card.kind === "weapon" ||
-    (card.id.startsWith("dt-") && !card.id.startsWith("dt-ch"));
+  const isGearSpirit = isGearSpiritCard(card);
   const art =
     card.id === "dog-companion" || card.artId === "art-dog-companion"
       ? battlePetArtSrc()
-      : isWeapon
+      : isGearSpirit
         ? dtGearIconSrc(card.artId || card.id, { armsOnly: false }) ||
           "/dungeon-tester/gear/_fallback-weapon.svg"
         : dtEnemyArtSrc({ artId: card.artId, name: card.name, id: card.id });
   const showHp = typeof hp === "number" && typeof maxHp === "number" && maxHp > 0;
+  const kindAttr =
+    card.kind === "dog"
+      ? "dog"
+      : isGearSpirit
+        ? card.kind === "weapon"
+          ? "weapon"
+          : "gear"
+        : "foe";
+  const moveLimit = isGearSpirit ? 3 : 4;
   const shared = {
     className: `dt-poke-card ${className ?? ""}`,
     "data-size": size,
     "data-ally": ally ? "true" : "false",
-    "data-kind": isWeapon ? "weapon" : card.kind === "dog" ? "dog" : "foe",
+    "data-kind": kindAttr,
     "aria-label": `${card.name} card`,
   } as const;
 
@@ -95,7 +109,7 @@ export function DtPokeCard({
       <p className="dt-poke-card-blurb">{card.blurb}</p>
 
       <ul className="dt-poke-moves">
-        {card.moves.slice(0, 4).map((m) => (
+        {card.moves.slice(0, moveLimit).map((m) => (
           <li key={m.id}>
             <span className="dt-poke-move-name">{m.name}</span>
             <span className="dt-poke-move-fx">{moveEffectSummary(m)}</span>

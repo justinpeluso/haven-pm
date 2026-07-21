@@ -3986,6 +3986,7 @@
   flex-direction: column;
   gap: 0.22rem;
   padding: 0.65rem 0.7rem 0.75rem;
+  cursor: pointer;
   background: linear-gradient(180deg, #fffdf8, #f2e8d8);
   border: 1.5px solid rgba(42, 31, 20, 0.24);
   box-shadow:
@@ -4033,6 +4034,11 @@
   box-shadow:
     inset 3px 0 0 var(--dt-canyon),
     0 2px 8px rgba(138, 46, 18, 0.12);
+}
+
+.dungeon-tester .dt-gear-bag-card[data-spirit-focus="true"] {
+  outline: 2px solid rgba(196, 137, 58, 0.65);
+  outline-offset: 1px;
 }
 
 .dungeon-tester .dt-gear-bag-card[data-equipped="true"][data-tier="rare"] {
@@ -5202,12 +5208,14 @@
   width: 14rem;
 }
 
-.dungeon-tester .dt-poke-card[data-kind="weapon"] {
+.dungeon-tester .dt-poke-card[data-kind="weapon"],
+.dungeon-tester .dt-poke-card[data-kind="gear"] {
   border-color: #c4893a;
   background: linear-gradient(165deg, #2a2418 0%, #1a1610 55%, #12100c 100%);
 }
 
-.dungeon-tester .dt-poke-card[data-kind="weapon"] .dt-poke-card-art {
+.dungeon-tester .dt-poke-card[data-kind="weapon"] .dt-poke-card-art,
+.dungeon-tester .dt-poke-card[data-kind="gear"] .dt-poke-card-art {
   background: rgba(196, 137, 58, 0.12);
 }
 

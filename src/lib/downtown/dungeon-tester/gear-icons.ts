@@ -68,6 +68,7 @@ const FALLBACK_BY_SLOT: Partial<Record<GearItem["slot"], string>> = {
   legs: `${GEAR_ICON_DIR}/_fallback-legs.svg`,
   accessory: `${GEAR_ICON_DIR}/_fallback-accessory.svg`,
   consumable: `${GEAR_ICON_DIR}/_fallback-consumable.svg`,
+  misc: `${GEAR_ICON_DIR}/_fallback-accessory.svg`,
 };
 
 const FALLBACK_GENERIC = `${GEAR_ICON_DIR}/_fallback-weapon.svg`;

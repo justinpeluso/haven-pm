@@ -39,13 +39,39 @@ export type DtPokeMoveDef = {
   blurb?: string;
 };
 
+/** Card kinds that use gear-icon art in the poke plate. */
+export type DtGearSpiritKind =
+  | "weapon"
+  | "gear"
+  | "item"
+  | "armor"
+  | "consumable"
+  | "trinket";
+
+export type DtPokeCardKind = "foe" | "dog" | DtGearSpiritKind;
+
+const GEAR_SPIRIT_KINDS = new Set<string>([
+  "weapon",
+  "gear",
+  "item",
+  "armor",
+  "consumable",
+  "trinket",
+]);
+
+export function isDtGearSpiritKind(
+  kind: string | undefined | null
+): kind is DtGearSpiritKind {
+  return Boolean(kind && GEAR_SPIRIT_KINDS.has(kind));
+}
+
 export type DtPokeCardDef = {
   id: string;
   name: string;
   blurb: string;
   artId: string;
-  /** foe (default) | dog | weapon spirit card */
-  kind?: "foe" | "dog" | "weapon";
+  /** foe (default) | dog | weapon / gear / item spirit card */
+  kind?: DtPokeCardKind;
   types: DtPokeTypeId[];
   moves: DtPokeMoveDef[];
 };
@@ -106,7 +132,24 @@ export function getDtWeaponPokeCard(
   if (!weaponId) return undefined;
   const card = getDtPokeCard(weaponId);
   if (!card) return undefined;
-  return { ...card, kind: card.kind ?? "weapon" };
+  if (card.kind && card.kind !== "weapon") return undefined;
+  return { ...card, kind: "weapon" };
+}
+
+/** Any gear spirit card (weapon, armor, consumable, misc) by item id. */
+export function getDtGearPokeCard(
+  gearId: string | undefined | null
+): DtPokeCardDef | undefined {
+  if (!gearId) return undefined;
+  const card = getDtPokeCard(gearId);
+  if (!card) return undefined;
+  if (card.kind === "foe" || card.kind === "dog") return undefined;
+  if (isDtGearSpiritKind(card.kind)) return card;
+  // Legacy / untagged dt-* gear plates default to generic gear spirit.
+  if (!card.kind && gearId.startsWith("dt-")) {
+    return { ...card, kind: "gear" };
+  }
+  return undefined;
 }
 
 /** Bare-hands fallback when no weapon equipped. */
