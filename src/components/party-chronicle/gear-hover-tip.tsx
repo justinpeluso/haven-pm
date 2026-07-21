@@ -7,6 +7,24 @@ import {
 } from "@/lib/downtown/party-chronicle/stats";
 import { getGearSet } from "@/lib/downtown/party-chronicle/gear";
 import type { GearItem } from "@/lib/downtown/party-chronicle/types";
+import {
+  resolveWeaponStyle,
+  scalingStatForStyle,
+  type WeaponScalingStat,
+} from "@/lib/downtown/dungeon-tester/weapon-style";
+
+const SCALE_ABBR: Record<WeaponScalingStat, string> = {
+  strength: "STR",
+  dexterity: "DEX",
+  intelligence: "INT",
+  wisdom: "WIS",
+};
+
+function weaponScaleLine(item: GearItem): string | null {
+  if (item.slot !== "weapon") return null;
+  const stat = scalingStatForStyle(resolveWeaponStyle(item));
+  return `Scales with ${SCALE_ABBR[stat]}`;
+}
 
 /** Tip body — place inside a `.pc-gear-hover` parent to show on mouseover. */
 export function GearTipBody({
@@ -30,6 +48,7 @@ export function GearTipBody({
   const rawTier = item.rarity ?? item.tier;
   const tierLabel = (rawTier === "magic" ? "Uncommon" : rawTier).toUpperCase();
   const tierAttr = rawTier === "magic" ? "uncommon" : rawTier;
+  const scaleLine = weaponScaleLine(item);
 
   return (
     <span className="pc-gear-tip" role="tooltip" data-tier={tierAttr}>
@@ -44,6 +63,9 @@ export function GearTipBody({
         {set ? ` · ${set.name}` : ""}
       </span>
       {item.blurb ? <span className="pc-gear-tip-blurb">{item.blurb}</span> : null}
+      {scaleLine ? (
+        <span className="pc-gear-tip-extra">{scaleLine}</span>
+      ) : null}
       {props.length > 0 ? (
         <ul className="pc-gear-tip-stats">
           {props.map((p, i) => (
