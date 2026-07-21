@@ -385,162 +385,162 @@ export function DtGearSheet({
             </div>
           ) : null}
         </section>
-      </div>
 
-      <p className="dt-gear-actions-hint">
-        Bag — select to showcase · Equip · Use · Break down
-      </p>
+        <section className="dt-gear-bag" aria-label="Inventory bag">
+          <p className="dt-gear-block-label">Bag</p>
+          <p className="dt-gear-actions-hint">
+            Select to showcase · Equip · Use · Break down
+          </p>
+          <div className="dt-gear-bag-grid dt-gear-bag-grid-compact">
+            {char.inventory.map((id, idx) => {
+              const item = resolveItem(id);
+              if (!item) return null;
+              const spellbook = isSpellbookItem(id);
+              const consumable = item.slot === "consumable";
+              const equippable =
+                item.slot !== "consumable" &&
+                item.slot !== "misc" &&
+                !spellbook &&
+                EQUIP_SLOTS.includes(item.slot as EquipSlot);
+              const equipped = equippedIds.has(id);
+              const upgrade = dtBagItemUpgradeCue(char, id, {
+                alreadyEquipped: equipped,
+              });
+              const props = itemProperties(item).slice(0, 2);
+              const tier = gearTierAttr(item.rarity ?? item.tier);
+              const usable =
+                consumable &&
+                ((item.heal ?? 0) > 0 ||
+                  (item.manaRestore ?? 0) > 0 ||
+                  (item.staminaRestore ?? 0) > 0 ||
+                  item.tags?.includes("stamina") ||
+                  item.tags?.includes("dog"));
 
-      <section className="dt-gear-bag" aria-label="Inventory bag">
-        <div className="dt-gear-bag-grid dt-gear-bag-grid-compact">
-          {char.inventory.map((id, idx) => {
-            const item = resolveItem(id);
-            if (!item) return null;
-            const spellbook = isSpellbookItem(id);
-            const consumable = item.slot === "consumable";
-            const equippable =
-              item.slot !== "consumable" &&
-              item.slot !== "misc" &&
-              !spellbook &&
-              EQUIP_SLOTS.includes(item.slot as EquipSlot);
-            const equipped = equippedIds.has(id);
-            const upgrade = dtBagItemUpgradeCue(char, id, {
-              alreadyEquipped: equipped,
-            });
-            const props = itemProperties(item).slice(0, 2);
-            const tier = gearTierAttr(item.rarity ?? item.tier);
-            const usable =
-              consumable &&
-              ((item.heal ?? 0) > 0 ||
-                (item.manaRestore ?? 0) > 0 ||
-                (item.staminaRestore ?? 0) > 0 ||
-                item.tags?.includes("stamina") ||
-                item.tags?.includes("dog"));
-
-            return (
-              <div
-                key={`${id}-${idx}`}
-                className="dt-gear-bag-card pc-gear-hover"
-                data-tier={tier}
-                data-equipped={equipped ? "true" : "false"}
-                data-upgrade={upgrade ?? undefined}
-                data-spirit-focus={spiritId === id ? "true" : "false"}
-                onClick={() => setFocusId(id)}
-                onMouseEnter={() => setFocusId(id)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setFocusId(id);
-                  }
-                }}
-              >
-                <div className="dt-gear-bag-card-top">
-                  <span className="dt-gear-bag-tier" data-tier={tier}>
-                    {formatGearTier(item.rarity ?? item.tier)}
-                  </span>
-                  {equipped ? (
-                    <span className="dt-gear-bag-equipped">Equipped</span>
-                  ) : null}
-                  {upgrade ? (
-                    <span
-                      className="dt-gear-bag-upgrade"
-                      data-kind={upgrade}
-                      title={
-                        upgrade === "empty"
-                          ? "Nothing equipped in this slot"
-                          : "Better combat score than equipped"
-                      }
-                    >
-                      {upgrade === "empty" ? "Empty slot" : "↑ Upgrade"}
-                    </span>
-                  ) : null}
-                </div>
-                <div className="dt-gear-bag-title">
-                  <DtGearIcon
-                    itemId={item.id}
-                    name={item.name}
-                    size="md"
-                  />
-                  <div className="dt-gear-bag-name" title={item.name}>
-                    {item.name}
-                  </div>
-                </div>
-                <div className="dt-gear-bag-meta">{formatBagSlot(item.slot)}</div>
-                {props.length > 0 ? (
-                  <ul className="dt-gear-bag-stats">
-                    {props.map((p, i) => (
-                      <li key={`${p.key}-${i}`}>{formatProperty(p)}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <div className="dt-gear-bag-meta">
-                    {item.heal ? `+${item.heal} HP` : ""}
-                    {item.manaRestore ? ` · +${item.manaRestore} MP` : ""}
-                    {item.staminaRestore ? ` · +${item.staminaRestore} ST` : ""}
-                  </div>
-                )}
+              return (
                 <div
-                  className="dt-gear-bag-actions"
-                  onClick={(e) => e.stopPropagation()}
+                  key={`${id}-${idx}`}
+                  className="dt-gear-bag-card pc-gear-hover"
+                  data-tier={tier}
+                  data-equipped={equipped ? "true" : "false"}
+                  data-upgrade={upgrade ?? undefined}
+                  data-spirit-focus={spiritId === id ? "true" : "false"}
+                  onClick={() => setFocusId(id)}
+                  onMouseEnter={() => setFocusId(id)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setFocusId(id);
+                    }
+                  }}
                 >
-                  {equippable ? (
+                  <div className="dt-gear-bag-card-top">
+                    <span className="dt-gear-bag-tier" data-tier={tier}>
+                      {formatGearTier(item.rarity ?? item.tier)}
+                    </span>
+                    {equipped ? (
+                      <span className="dt-gear-bag-equipped">Equipped</span>
+                    ) : null}
+                    {upgrade ? (
+                      <span
+                        className="dt-gear-bag-upgrade"
+                        data-kind={upgrade}
+                        title={
+                          upgrade === "empty"
+                            ? "Nothing equipped in this slot"
+                            : "Better combat score than equipped"
+                        }
+                      >
+                        {upgrade === "empty" ? "Empty slot" : "↑ Upgrade"}
+                      </span>
+                    ) : null}
+                  </div>
+                  <div className="dt-gear-bag-title">
+                    <DtGearIcon
+                      itemId={item.id}
+                      name={item.name}
+                      size="md"
+                    />
+                    <div className="dt-gear-bag-name" title={item.name}>
+                      {item.name}
+                    </div>
+                  </div>
+                  <div className="dt-gear-bag-meta">{formatBagSlot(item.slot)}</div>
+                  {props.length > 0 ? (
+                    <ul className="dt-gear-bag-stats">
+                      {props.map((p, i) => (
+                        <li key={`${p.key}-${i}`}>{formatProperty(p)}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className="dt-gear-bag-meta">
+                      {item.heal ? `+${item.heal} HP` : ""}
+                      {item.manaRestore ? ` · +${item.manaRestore} MP` : ""}
+                      {item.staminaRestore ? ` · +${item.staminaRestore} ST` : ""}
+                    </div>
+                  )}
+                  <div
+                    className="dt-gear-bag-actions"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {equippable ? (
+                      <button
+                        type="button"
+                        className="pc-btn-tiny"
+                        disabled={!canEdit || equipped}
+                        onClick={() => {
+                          setFocusId(id);
+                          onEquip(id);
+                        }}
+                      >
+                        {equipped ? "Equipped" : "Equip"}
+                      </button>
+                    ) : null}
+                    {usable ? (
+                      <button
+                        type="button"
+                        className="pc-btn-tiny"
+                        disabled={!canEdit}
+                        onClick={() => onUseConsumable(id)}
+                      >
+                        Use
+                      </button>
+                    ) : null}
+                    {spellbook ? (
+                      <button
+                        type="button"
+                        className="pc-btn-tiny"
+                        disabled={!canEdit}
+                        onClick={() => onReadSpellbook(id)}
+                      >
+                        Read
+                      </button>
+                    ) : null}
                     <button
                       type="button"
                       className="pc-btn-tiny"
                       disabled={!canEdit || equipped}
-                      onClick={() => {
-                        setFocusId(id);
-                        onEquip(id);
-                      }}
+                      title={
+                        equipped
+                          ? "Unequip before breaking down"
+                          : "Break down for scrap gold"
+                      }
+                      onClick={() => onSalvage(id)}
                     >
-                      {equipped ? "Equipped" : "Equip"}
+                      Break Down
                     </button>
-                  ) : null}
-                  {usable ? (
-                    <button
-                      type="button"
-                      className="pc-btn-tiny"
-                      disabled={!canEdit}
-                      onClick={() => onUseConsumable(id)}
-                    >
-                      Use
-                    </button>
-                  ) : null}
-                  {spellbook ? (
-                    <button
-                      type="button"
-                      className="pc-btn-tiny"
-                      disabled={!canEdit}
-                      onClick={() => onReadSpellbook(id)}
-                    >
-                      Read
-                    </button>
-                  ) : null}
-                  <button
-                    type="button"
-                    className="pc-btn-tiny"
-                    disabled={!canEdit || equipped}
-                    title={
-                      equipped
-                        ? "Unequip before breaking down"
-                        : "Break down for scrap gold"
-                    }
-                    onClick={() => onSalvage(id)}
-                  >
-                    Break Down
-                  </button>
+                  </div>
+                  <GearTipBody item={item} stats={eff.stats} />
                 </div>
-                <GearTipBody item={item} stats={eff.stats} />
-              </div>
-            );
-          })}
-        </div>
-        {!char.inventory.length ? (
-          <p className="dt-section-hint">Bag is empty — dig, buy, or win fights.</p>
-        ) : null}
-      </section>
+              );
+            })}
+          </div>
+          {!char.inventory.length ? (
+            <p className="dt-gear-empty">Bag is empty.</p>
+          ) : null}
+        </section>
+      </div>
     </div>
   );
 }
