@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="288" height="256" viewBox="0 0 288 256" fill="none">
+  <defs>
+    <linearGradient id="night" x1="50" y1="70" x2="230" y2="210" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2a3850"/>
+      <stop offset="1" stop-color="#0a1018"/>
+    </linearGradient>
+    <radialGradient id="mooneye" cx="0.5" cy="0.5" r="0.5">
+      <stop stop-color="#dcecff"/>
+      <stop offset="1" stop-color="#4a90ff"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="144" cy="230" rx="66" ry="11" fill="#000" opacity="0.3"/>
+  <path d="M56 140 C30 110 48 70 86 88" fill="none" stroke="#1a2838" stroke-width="10" stroke-linecap="round"/>
+  <ellipse cx="148" cy="156" rx="74" ry="42" fill="url(#night)" stroke="#060a10" stroke-width="3"/>
+  <ellipse cx="210" cy="112" rx="46" ry="36" fill="url(#night)" stroke="#060a10" stroke-width="3"/>
+  <path d="M190 74 L176 28 L208 60 Z" fill="#152030" stroke="#060a10" stroke-width="2"/>
+  <path d="M226 72 L248 24 L250 68 Z" fill="#152030" stroke="#060a10" stroke-width="2"/>
+  <ellipse cx="200" cy="108" rx="7" ry="9" fill="url(#mooneye)"/>
+  <ellipse cx="228" cy="108" rx="7" ry="9" fill="url(#mooneye)"/>
+  <circle cx="200" cy="108" r="2.5" fill="#061018"/>
+  <circle cx="228" cy="108" r="2.5" fill="#061018"/>
+  <path d="M244 122 Q268 128 274 112" stroke="#060a10" stroke-width="3" fill="none"/>
+  <path d="M70 168 Q58 206 68 228" fill="none" stroke="#152030" stroke-width="11" stroke-linecap="round"/>
+  <path d="M120 176 Q114 210 124 228" fill="none" stroke="#152030" stroke-width="11" stroke-linecap="round"/>
+  <path d="M176 172 Q188 208 180 228" fill="none" stroke="#152030" stroke-width="11" stroke-linecap="round"/>
+  <path d="M210 160 Q230 150 248 140" fill="none" stroke="#66aaff" stroke-width="3" opacity="0.55"/>
+  <circle cx="160" cy="150" r="20" fill="#66aaff" opacity="0.18"/>
+</svg>

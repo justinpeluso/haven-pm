@@ -1,12 +1,20 @@
 import * as THREE from "three";
 import type { EnemyTier } from "./levels";
+import {
+  applySkinTexture,
+  billboardToCamera,
+  createSkinSprite,
+  ENEMY_SKIN_URLS,
+  loadSkinTexture,
+  type SkinSprite,
+} from "./skins";
 import type { World } from "./world";
 import type { Player } from "./player";
 
-function makeHpBar(): THREE.Group {
+function makeHpBar(y: number): THREE.Group {
   const group = new THREE.Group();
   const bg = new THREE.Mesh(
-    new THREE.PlaneGeometry(1.1, 0.12),
+    new THREE.PlaneGeometry(1.15, 0.12),
     new THREE.MeshBasicMaterial({
       color: 0x1a100c,
       transparent: true,
@@ -15,7 +23,7 @@ function makeHpBar(): THREE.Group {
     }),
   );
   const fill = new THREE.Mesh(
-    new THREE.PlaneGeometry(1.04, 0.08),
+    new THREE.PlaneGeometry(1.08, 0.08),
     new THREE.MeshBasicMaterial({
       color: 0xd3542f,
       transparent: true,
@@ -26,7 +34,7 @@ function makeHpBar(): THREE.Group {
   fill.position.z = 0.01;
   fill.name = "hpFill";
   group.add(bg, fill);
-  group.position.y = 1.7;
+  group.position.y = y;
   return group;
 }
 
@@ -40,11 +48,13 @@ export class Enemy {
   private cooldown = 0;
   private hitFlash = 0;
   private deathTimer = 0;
+  private bob = Math.random() * Math.PI * 2;
   private readonly scratch = new THREE.Vector3();
-  private readonly bodyMats: THREE.MeshStandardMaterial[] = [];
+  private readonly skin: SkinSprite;
   private readonly hpBar: THREE.Group;
   private readonly spawnLight: THREE.PointLight;
   private spawnPulse = 0.55;
+  private readonly baseColor = new THREE.Color(0xffffff);
 
   constructor(x: number, z: number, world: World, tier: EnemyTier) {
     this.tier = tier;
@@ -52,51 +62,21 @@ export class Enemy {
     this.maxHealth = tier.health;
     this.position.set(x, world.heightAt(x, z), z);
     this.mesh = new THREE.Group();
-    this.mesh.scale.setScalar(tier.scale);
 
-    const bodyMat = new THREE.MeshStandardMaterial({
-      color: tier.bodyColor,
-      roughness: 0.85,
-    });
-    const headMat = new THREE.MeshStandardMaterial({
-      color: tier.headColor,
-      roughness: 0.8,
-    });
-    this.bodyMats.push(bodyMat, headMat);
-
-    const body = new THREE.Mesh(
-      new THREE.CapsuleGeometry(0.35, 0.7, 4, 8),
-      bodyMat,
-    );
-    body.rotation.z = Math.PI / 2;
-    body.position.y = 0.55;
-    body.castShadow = true;
-
-    const head = new THREE.Mesh(new THREE.SphereGeometry(0.28, 10, 10), headMat);
-    head.position.set(0.55, 0.65, 0);
-    head.castShadow = true;
-
-    const earL = new THREE.Mesh(
-      new THREE.ConeGeometry(0.1, 0.28, 5),
-      headMat,
-    );
-    earL.position.set(0.45, 0.95, 0.12);
-    const earR = earL.clone();
-    earR.position.z = -0.12;
-
-    const glow = new THREE.PointLight(
-      tier.glowColor,
-      tier.glowIntensity,
-      6,
-      2,
-    );
-    glow.position.set(0.7, 0.7, 0);
+    const height = 1.55 * tier.scale;
+    this.skin = createSkinSprite(height, 1.05);
+    this.mesh.add(this.skin.root);
 
     this.spawnLight = new THREE.PointLight(tier.glowColor, 3.5, 10, 2);
-    this.spawnLight.position.set(0, 1, 0);
+    this.spawnLight.position.set(0, height * 0.55, 0);
+    this.mesh.add(this.spawnLight);
+
+    const glow = new THREE.PointLight(tier.glowColor, tier.glowIntensity, 6, 2);
+    glow.position.set(0, height * 0.5, 0.2);
+    this.mesh.add(glow);
 
     const ring = new THREE.Mesh(
-      new THREE.RingGeometry(0.6, 0.95, 24),
+      new THREE.RingGeometry(0.55, 0.95, 24),
       new THREE.MeshBasicMaterial({
         color: tier.glowColor,
         transparent: true,
@@ -108,35 +88,34 @@ export class Enemy {
     ring.rotation.x = -Math.PI / 2;
     ring.position.y = 0.08;
     ring.name = "spawnRing";
+    this.mesh.add(ring);
 
-    this.hpBar = makeHpBar();
-
-    this.mesh.add(body, head, earL, earR, glow, this.spawnLight, ring, this.hpBar);
+    this.hpBar = makeHpBar(height + 0.25);
+    this.mesh.add(this.hpBar);
     this.mesh.position.copy(this.position);
+
+    const url = ENEMY_SKIN_URLS[tier.id] ?? ENEMY_SKIN_URLS["cinder-wolf"];
+    void loadSkinTexture(url).then((tex) => {
+      applySkinTexture(this.skin, tex, 1.05);
+    });
   }
 
   update(dt: number, player: Player, world: World): void {
     if (!this.alive) {
       this.deathTimer += dt;
-      const t = Math.min(1, this.deathTimer / 0.45);
-      this.mesh.scale.setScalar(this.tier.scale * (1 - t * 0.7));
-      this.mesh.position.y =
-        world.heightAt(this.position.x, this.position.z) + t * 0.8;
-      this.mesh.traverse((obj) => {
-        if (obj instanceof THREE.Mesh) {
-          const mat = obj.material as THREE.Material & { opacity?: number };
-          if ("opacity" in mat && mat.transparent !== undefined) {
-            mat.transparent = true;
-            mat.opacity = 1 - t;
-          }
-        }
-      });
+      const t = Math.min(1, this.deathTimer / 0.5);
+      this.skin.root.scale.setScalar(1 - t * 0.55);
+      this.skin.root.position.y = t * 0.9;
+      this.skin.material.transparent = true;
+      this.skin.material.opacity = 1 - t;
       if (t >= 1) this.mesh.visible = false;
       return;
     }
 
     this.cooldown = Math.max(0, this.cooldown - dt);
     this.hitFlash = Math.max(0, this.hitFlash - dt);
+    this.bob += dt * 3.2;
+
     if (this.spawnPulse > 0) {
       this.spawnPulse -= dt;
       this.spawnLight.intensity = Math.max(0, this.spawnPulse * 6);
@@ -149,20 +128,22 @@ export class Enemy {
     }
 
     const flash = this.hitFlash > 0;
-    for (const mat of this.bodyMats) {
-      mat.emissive.setHex(flash ? 0xffeedd : 0x000000);
-      mat.emissiveIntensity = flash ? 0.85 : 0;
-    }
+    this.skin.material.emissive.setHex(flash ? 0xffeedd : 0x000000);
+    this.skin.material.emissiveIntensity = flash ? 0.9 : 0;
+    this.skin.material.color.copy(
+      this.baseColor.setHex(flash ? 0xffdddd : 0xffffff),
+    );
 
     this.scratch.copy(player.position).sub(this.position);
     this.scratch.y = 0;
     const dist = this.scratch.length();
     const stopDist = this.tier.attackRange * 0.9;
+    let moving = false;
 
     if (dist > stopDist && dist < this.tier.aggroRange) {
       this.scratch.normalize().multiplyScalar(this.tier.speed * dt);
       this.position.add(this.scratch);
-      this.mesh.rotation.y = Math.atan2(this.scratch.x, this.scratch.z);
+      moving = true;
     }
 
     if (dist < this.tier.attackRange && this.cooldown <= 0) {
@@ -172,22 +153,20 @@ export class Enemy {
 
     this.position.y = world.heightAt(this.position.x, this.position.z);
     this.mesh.position.copy(this.position);
+    this.skin.root.position.y = Math.sin(this.bob) * (moving ? 0.07 : 0.03);
 
     const fill = this.hpBar.getObjectByName("hpFill") as THREE.Mesh | undefined;
     if (fill) {
       const ratio = this.health / this.maxHealth;
       fill.scale.x = Math.max(0.001, ratio);
-      fill.position.x = -0.52 * (1 - ratio);
+      fill.position.x = -0.54 * (1 - ratio);
       const mat = fill.material as THREE.MeshBasicMaterial;
       mat.color.setHex(ratio > 0.35 ? 0xd3542f : 0xaa2222);
     }
-    this.hpBar.quaternion.copy(
-      // billboard toward +Z camera-ish; game will face camera each frame via lookAt in Game
-      this.hpBar.quaternion,
-    );
   }
 
   faceCamera(camera: THREE.Camera): void {
+    billboardToCamera(this.skin.root, camera);
     this.hpBar.lookAt(camera.position);
   }
 
@@ -200,9 +179,7 @@ export class Enemy {
       this.alive = false;
       this.deathTimer = 0;
       this.hpBar.visible = false;
-      for (const mat of this.bodyMats) {
-        mat.transparent = true;
-      }
+      this.skin.material.transparent = true;
       return true;
     }
     return false;
