@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { ABILITIES, type AbilityId } from "./abilities";
 import type { Input } from "./input";
 import type { OrbitCamera } from "./camera";
 import {
@@ -20,15 +21,25 @@ export class Player {
   maxHealth = 100;
   focus = 100;
   facing = 0;
-  attackCooldown = 0;
-  boltCooldown = 0;
   invuln = 0;
+  unlockedLevel = 1;
+  readonly cooldowns: Record<AbilityId, number> = {
+    strike: 0,
+    emberbolt: 0,
+    dash: 0,
+    ward: 0,
+    ashstorm: 0,
+  };
+
+  private dashTimer = 0;
+  private readonly dashVel = new THREE.Vector3();
   private readonly swing = new THREE.Mesh();
   private swingTimer = 0;
   private hitFlash = 0;
   private bob = 0;
   private readonly skin: SkinSprite;
-  private readonly baseEmissive = new THREE.Color(0x000000);
+  private readonly scratchColor = new THREE.Color(0xffffff);
+  private readonly wardRing: THREE.Mesh;
 
   private readonly move = new THREE.Vector3();
   private readonly forward = new THREE.Vector3();
@@ -50,9 +61,38 @@ export class Player {
     this.swing.rotation.x = Math.PI / 2;
     this.mesh.add(this.swing);
 
+    this.wardRing = new THREE.Mesh(
+      new THREE.RingGeometry(0.8, 2.4, 32),
+      new THREE.MeshBasicMaterial({
+        color: 0x7ec8ff,
+        transparent: true,
+        opacity: 0,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+      }),
+    );
+    this.wardRing.rotation.x = -Math.PI / 2;
+    this.wardRing.position.y = 0.1;
+    this.mesh.add(this.wardRing);
+
     void loadSkinTexture(PLAYER_SKIN_URL).then((tex) => {
       applySkinTexture(this.skin, tex, 0.8);
     });
+  }
+
+  isUnlocked(id: AbilityId): boolean {
+    const def = ABILITIES.find((a) => a.id === id)!;
+    return this.unlockedLevel >= def.unlockLevel;
+  }
+
+  cooldownRatio(id: AbilityId): number {
+    const def = ABILITIES.find((a) => a.id === id)!;
+    if (def.cooldown <= 0) return 0;
+    return Math.min(1, this.cooldowns[id] / def.cooldown);
+  }
+
+  setUnlockedForLevel(level: number): void {
+    this.unlockedLevel = level;
   }
 
   faceCamera(camera: THREE.Camera): void {
@@ -60,18 +100,21 @@ export class Player {
   }
 
   update(dt: number, input: Input, camera: OrbitCamera, world: World): void {
-    this.attackCooldown = Math.max(0, this.attackCooldown - dt);
-    this.boltCooldown = Math.max(0, this.boltCooldown - dt);
+    for (const id of Object.keys(this.cooldowns) as AbilityId[]) {
+      this.cooldowns[id] = Math.max(0, this.cooldowns[id] - dt);
+    }
     this.invuln = Math.max(0, this.invuln - dt);
     this.hitFlash = Math.max(0, this.hitFlash - dt);
-    this.focus = Math.min(100, this.focus + dt * 8);
+    this.focus = Math.min(100, this.focus + dt * 10);
 
     const flash =
       this.hitFlash > 0 ||
       (this.invuln > 0 && Math.floor(this.invuln * 20) % 2 === 0);
     this.skin.material.emissive.setHex(flash ? 0xff4444 : 0x000000);
     this.skin.material.emissiveIntensity = flash ? 0.65 : 0;
-    this.skin.material.color.copy(this.baseEmissive.setHex(flash ? 0xffcccc : 0xffffff));
+    this.skin.material.color.copy(
+      this.scratchColor.setHex(flash ? 0xffcccc : 0xffffff),
+    );
 
     if (this.swingTimer > 0) {
       this.swingTimer -= dt;
@@ -80,27 +123,38 @@ export class Player {
       this.swing.rotation.z += dt * 14;
     }
 
+    const wardMat = this.wardRing.material as THREE.MeshBasicMaterial;
+    if (wardMat.opacity > 0) {
+      wardMat.opacity = Math.max(0, wardMat.opacity - dt * 1.8);
+      this.wardRing.scale.addScalar(dt * 1.4);
+    }
+
     this.move.set(0, 0, 0);
     camera.forwardFlat(this.forward);
     camera.rightFlat(this.right);
 
-    if (input.keys.has("KeyW")) this.move.add(this.forward);
-    if (input.keys.has("KeyS")) this.move.sub(this.forward);
-    if (input.keys.has("KeyD")) this.move.add(this.right);
-    if (input.keys.has("KeyA")) this.move.sub(this.right);
-
-    const moving = this.move.lengthSq() > 0;
-    const speed = input.keys.has("ShiftLeft") ? 9.5 : 6.2;
-    if (moving) {
-      this.move.normalize().multiplyScalar(speed * dt);
-      this.position.add(this.move);
-      this.facing = Math.atan2(this.move.x, this.move.z);
-      this.bob += dt * 10;
+    if (this.dashTimer > 0) {
+      this.dashTimer -= dt;
+      this.position.addScaledVector(this.dashVel, dt);
     } else {
-      this.bob += dt * 2.2;
+      if (input.keys.has("KeyW")) this.move.add(this.forward);
+      if (input.keys.has("KeyS")) this.move.sub(this.forward);
+      if (input.keys.has("KeyD")) this.move.add(this.right);
+      if (input.keys.has("KeyA")) this.move.sub(this.right);
+
+      const moving = this.move.lengthSq() > 0;
+      const speed = input.keys.has("ShiftLeft") ? 9.5 : 6.2;
+      if (moving) {
+        this.move.normalize().multiplyScalar(speed * dt);
+        this.position.add(this.move);
+        this.facing = Math.atan2(this.move.x, this.move.z);
+        this.bob += dt * 10;
+      } else {
+        this.bob += dt * 2.2;
+      }
     }
 
-    if (input.consumeJump() && this.onGround) {
+    if (input.consumeJump() && this.onGround && this.dashTimer <= 0) {
       this.velocityY = 7.5;
       this.onGround = false;
     }
@@ -118,29 +172,74 @@ export class Player {
     this.position.z = THREE.MathUtils.clamp(this.position.z, -85, 85);
 
     this.mesh.position.copy(this.position);
-    const bobY = this.onGround ? Math.sin(this.bob) * (moving ? 0.06 : 0.025) : 0;
+    const bobY = this.onGround ? Math.sin(this.bob) * 0.04 : 0;
     this.skin.root.position.y = bobY;
     this.faceCamera(camera.camera);
   }
 
-  tryAttack(): boolean {
-    if (this.attackCooldown > 0) return false;
-    this.attackCooldown = 0.42;
+  private canCast(id: AbilityId): boolean {
+    const def = ABILITIES.find((a) => a.id === id)!;
+    if (!this.isUnlocked(id)) return false;
+    if (this.cooldowns[id] > 0) return false;
+    if (this.focus < def.focusCost) return false;
+    return true;
+  }
+
+  private spend(id: AbilityId): void {
+    const def = ABILITIES.find((a) => a.id === id)!;
+    this.focus -= def.focusCost;
+    this.cooldowns[id] = def.cooldown;
+  }
+
+  tryStrike(): boolean {
+    if (!this.canCast("strike")) return false;
+    this.spend("strike");
     this.swingTimer = 0.28;
     this.swing.rotation.z = 0;
     return true;
   }
 
-  tryBolt(): THREE.Vector3 | null {
-    if (this.boltCooldown > 0 || this.focus < 18) return null;
-    this.boltCooldown = 0.65;
-    this.focus -= 18;
-    const dir = new THREE.Vector3(
+  tryEmberbolt(): THREE.Vector3 | null {
+    if (!this.canCast("emberbolt")) return null;
+    this.spend("emberbolt");
+    return new THREE.Vector3(
       Math.sin(this.facing),
       0.05,
       Math.cos(this.facing),
     ).normalize();
-    return dir;
+  }
+
+  tryDash(): boolean {
+    if (!this.canCast("dash") || this.dashTimer > 0) return false;
+    this.spend("dash");
+    this.dashTimer = 0.22;
+    this.dashVel.set(Math.sin(this.facing), 0, Math.cos(this.facing)).multiplyScalar(28);
+    this.invuln = Math.max(this.invuln, 0.35);
+    return true;
+  }
+
+  tryWard(): boolean {
+    if (!this.canCast("ward")) return false;
+    this.spend("ward");
+    this.health = Math.min(this.maxHealth, this.health + 28);
+    this.invuln = Math.max(this.invuln, 0.7);
+    this.wardRing.scale.setScalar(1);
+    const mat = this.wardRing.material as THREE.MeshBasicMaterial;
+    mat.opacity = 0.75;
+    return true;
+  }
+
+  tryAshstorm(): THREE.Vector3[] | null {
+    if (!this.canCast("ashstorm")) return null;
+    this.spend("ashstorm");
+    const base = this.facing;
+    return [-0.28, 0, 0.28].map((offset) =>
+      new THREE.Vector3(
+        Math.sin(base + offset),
+        0.05,
+        Math.cos(base + offset),
+      ).normalize(),
+    );
   }
 
   hurt(amount: number): void {
@@ -151,8 +250,8 @@ export class Player {
   }
 
   restoreBetweenLevels(): void {
-    this.health = Math.min(this.maxHealth, this.health + 35);
-    this.focus = Math.min(100, this.focus + 40);
+    this.health = Math.min(this.maxHealth, this.health + 45);
+    this.focus = Math.min(100, this.focus + 50);
     this.invuln = 0.8;
   }
 }

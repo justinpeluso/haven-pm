@@ -1,9 +1,11 @@
+import type { AbilityId } from "./abilities";
+
 export class Input {
   readonly keys = new Set<string>();
   pointerLocked = false;
   attackPressed = false;
-  boltPressed = false;
   jumpPressed = false;
+  private readonly abilityPressed = new Set<AbilityId>();
 
   private readonly canvas: HTMLCanvasElement;
   private readonly onKeyDown: (e: KeyboardEvent) => void;
@@ -20,7 +22,21 @@ export class Input {
         e.preventDefault();
         this.jumpPressed = true;
       }
-      if (e.code === "KeyQ") this.boltPressed = true;
+      if (e.code === "Digit1" || e.code === "Numpad1") {
+        this.abilityPressed.add("strike");
+      }
+      if (e.code === "Digit2" || e.code === "Numpad2" || e.code === "KeyQ") {
+        this.abilityPressed.add("emberbolt");
+      }
+      if (e.code === "Digit3" || e.code === "Numpad3" || e.code === "KeyE") {
+        this.abilityPressed.add("dash");
+      }
+      if (e.code === "Digit4" || e.code === "Numpad4" || e.code === "KeyR") {
+        this.abilityPressed.add("ward");
+      }
+      if (e.code === "Digit5" || e.code === "Numpad5" || e.code === "KeyF") {
+        this.abilityPressed.add("ashstorm");
+      }
       if (e.code === "Escape" && document.pointerLockElement) {
         document.exitPointerLock();
       }
@@ -35,7 +51,10 @@ export class Input {
         void canvas.requestPointerLock();
         return;
       }
-      if (e.button === 0) this.attackPressed = true;
+      if (e.button === 0) {
+        this.attackPressed = true;
+        this.abilityPressed.add("strike");
+      }
     };
 
     this.onPointerLockChange = () => {
@@ -64,10 +83,15 @@ export class Input {
     return v;
   }
 
-  consumeBolt(): boolean {
-    const v = this.boltPressed;
-    this.boltPressed = false;
-    return v;
+  consumeAbility(id: AbilityId): boolean {
+    if (!this.abilityPressed.has(id)) return false;
+    this.abilityPressed.delete(id);
+    return true;
+  }
+
+  drainAbilities(): void {
+    this.attackPressed = false;
+    this.abilityPressed.clear();
   }
 
   consumeJump(): boolean {

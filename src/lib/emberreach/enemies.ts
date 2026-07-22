@@ -193,11 +193,13 @@ export class Enemy {
 export class Projectile {
   readonly mesh: THREE.Mesh;
   readonly velocity = new THREE.Vector3();
+  readonly damage: number;
   life = 1.6;
   alive = true;
   private readonly trail: THREE.PointLight;
 
-  constructor(origin: THREE.Vector3, dir: THREE.Vector3) {
+  constructor(origin: THREE.Vector3, dir: THREE.Vector3, damage = 30) {
+    this.damage = damage;
     this.mesh = new THREE.Mesh(
       new THREE.SphereGeometry(0.18, 10, 10),
       new THREE.MeshBasicMaterial({ color: 0xff7a3a }),

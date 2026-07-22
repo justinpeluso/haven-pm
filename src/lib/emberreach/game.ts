@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { ABILITIES, type AbilityId } from "./abilities";
 import { OrbitCamera } from "./camera";
 import { Enemy, Projectile } from "./enemies";
 import { Input } from "./input";
@@ -13,6 +14,7 @@ export type EmberreachHud = {
   toast: HTMLElement;
   level: HTMLElement;
   objective: HTMLElement;
+  abilityRoot: HTMLElement;
 };
 
 type Phase = "intro" | "fight" | "clear" | "victory" | "defeat";
@@ -41,6 +43,10 @@ export class Game {
   private readonly onPointerMove: (e: MouseEvent) => void;
   private readonly onWheel: (e: WheelEvent) => void;
   private resizeObserver: ResizeObserver | null = null;
+  private readonly abilitySlots = new Map<
+    AbilityId,
+    { el: HTMLElement; cd: HTMLElement; lock: HTMLElement }
+  >();
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -73,6 +79,8 @@ export class Game {
     this.scene.add(this.world.root);
     this.scene.add(this.player.mesh);
 
+    this.bindAbilityHud();
+
     this.onResize = () => this.syncSize();
     this.onPointerMove = (e) => {
       if (!this.input.pointerLocked) return;
@@ -91,8 +99,10 @@ export class Game {
 
     this.phase = "intro";
     this.phaseTimer = 1.6;
+    this.player.setUnlockedForLevel(1);
     this.syncLevelHud();
-    this.showToast("Click to enter · Level 1 awaits", 2.8);
+    this.syncAbilityHud();
+    this.showToast("Click to enter · 10 levels await", 2.8);
   }
 
   start(): void {
@@ -111,6 +121,18 @@ export class Game {
     this.input.dispose();
     this.clearEnemies();
     this.renderer.dispose();
+  }
+
+  private bindAbilityHud(): void {
+    for (const def of ABILITIES) {
+      const el = this.hud.abilityRoot.querySelector<HTMLElement>(
+        `[data-ability="${def.id}"]`,
+      );
+      if (!el) continue;
+      const cd = el.querySelector<HTMLElement>(".emberreach-ability-cd")!;
+      const lock = el.querySelector<HTMLElement>(".emberreach-ability-lock")!;
+      this.abilitySlots.set(def.id, { el, cd, lock });
+    }
   }
 
   private measure(): { width: number; height: number } {
@@ -138,9 +160,7 @@ export class Game {
     if (this.phase === "intro") {
       this.phaseTimer -= dt;
       this.player.update(dt, this.input, this.cameraRig, this.world);
-      // Drain inputs during intro
-      this.input.consumeAttack();
-      this.input.consumeBolt();
+      this.input.drainAbilities();
       if (this.phaseTimer <= 0 || this.input.pointerLocked) {
         this.beginLevel(0);
       }
@@ -149,8 +169,7 @@ export class Game {
     } else if (this.phase === "clear") {
       this.phaseTimer -= dt;
       this.player.update(dt, this.input, this.cameraRig, this.world);
-      this.input.consumeAttack();
-      this.input.consumeBolt();
+      this.input.drainAbilities();
       for (const enemy of this.enemies) {
         enemy.update(dt, this.player, this.world);
         enemy.faceCamera(this.cameraRig.camera);
@@ -160,40 +179,27 @@ export class Game {
         if (next >= LEVELS.length) {
           this.phase = "victory";
           this.hud.objective.textContent =
-            "Ashtrail conquered. The stones burn quiet.";
-          this.showToast("Victory — all levels cleared", 4);
+            "Ashtrail conquered. All 10 levels cleared.";
+          this.showToast("Victory — Ashtrail Watch complete", 4);
         } else {
           this.player.restoreBetweenLevels();
           this.beginLevel(next);
         }
       }
     } else {
-      // victory / defeat — still allow look + idle move
       this.player.update(dt, this.input, this.cameraRig, this.world);
-      this.input.consumeAttack();
-      this.input.consumeBolt();
+      this.input.drainAbilities();
     }
 
     this.cameraRig.update(this.player.position, dt);
     this.syncBars();
+    this.syncAbilityHud();
     this.renderer.render(this.scene, this.cameraRig.camera);
   }
 
   private tickFight(dt: number): void {
     this.player.update(dt, this.input, this.cameraRig, this.world);
-
-    if (this.input.consumeAttack() && this.player.tryAttack()) {
-      this.resolveMelee();
-    }
-
-    if (this.input.consumeBolt()) {
-      const dir = this.player.tryBolt();
-      if (dir) {
-        const bolt = new Projectile(this.player.position, dir);
-        this.bolts.push(bolt);
-        this.scene.add(bolt.mesh);
-      }
-    }
+    this.resolveAbilities();
 
     for (const enemy of this.enemies) {
       enemy.update(dt, this.player, this.world);
@@ -205,8 +211,11 @@ export class Game {
       if (!bolt.alive) continue;
       for (const enemy of this.enemies) {
         if (!enemy.alive) continue;
-        if (bolt.mesh.position.distanceTo(enemy.position) < 1.25 * enemy.tier.scale) {
-          if (enemy.takeDamage(28)) this.onEnemyDown();
+        if (
+          bolt.mesh.position.distanceTo(enemy.position) <
+          1.25 * enemy.tier.scale
+        ) {
+          if (enemy.takeDamage(bolt.damage)) this.onEnemyDown();
           bolt.alive = false;
           bolt.mesh.visible = false;
           break;
@@ -216,9 +225,38 @@ export class Game {
 
     if (this.player.health <= 0) {
       this.phase = "defeat";
-      this.hud.objective.textContent = "You fell. Refresh to try the Ashtrail again.";
+      this.hud.objective.textContent =
+        "You fell. Refresh to try the Ashtrail again.";
       this.showToast("Defeated…", 3.5);
     }
+  }
+
+  private resolveAbilities(): void {
+    if (this.input.consumeAbility("strike") && this.player.tryStrike()) {
+      this.resolveMelee(26, 2.6);
+    }
+    if (this.input.consumeAbility("emberbolt")) {
+      const dir = this.player.tryEmberbolt();
+      if (dir) this.spawnBolt(dir, 32);
+    }
+    if (this.input.consumeAbility("dash") && this.player.tryDash()) {
+      this.resolveMelee(18, 3.2);
+    }
+    if (this.input.consumeAbility("ward") && this.player.tryWard()) {
+      this.resolveAoe(34, 3.6);
+    }
+    if (this.input.consumeAbility("ashstorm")) {
+      const dirs = this.player.tryAshstorm();
+      if (dirs) {
+        for (const dir of dirs) this.spawnBolt(dir, 26);
+      }
+    }
+  }
+
+  private spawnBolt(dir: THREE.Vector3, damage: number): void {
+    const bolt = new Projectile(this.player.position, dir, damage);
+    this.bolts.push(bolt);
+    this.scene.add(bolt.mesh);
   }
 
   private beginLevel(index: number): void {
@@ -228,6 +266,7 @@ export class Game {
     this.phase = "fight";
 
     const def = LEVELS[index];
+    this.player.setUnlockedForLevel(def.level);
     const spots = this.spawnSpots(def.count);
     for (const [x, z] of spots) {
       const enemy = new Enemy(x, z, this.world, def.enemy);
@@ -236,6 +275,7 @@ export class Game {
     }
 
     this.syncLevelHud();
+    this.syncAbilityHud();
     this.showToast(def.title, 2.4);
   }
 
@@ -246,7 +286,10 @@ export class Game {
     const spots: Array<[number, number]> = [];
     for (let i = 0; i < count; i++) {
       const angle = -Math.PI / 2 + (i - (count - 1) / 2) * 0.9;
-      spots.push([cx + Math.cos(angle) * radius, cz + Math.sin(angle) * radius]);
+      spots.push([
+        cx + Math.cos(angle) * radius,
+        cz + Math.sin(angle) * radius,
+      ]);
     }
     return spots;
   }
@@ -261,13 +304,15 @@ export class Game {
     this.bolts.length = 0;
   }
 
-  private resolveMelee(): void {
-    const reach = 2.5;
+  private resolveMelee(damage: number, reach: number): void {
     for (const enemy of this.enemies) {
       if (!enemy.alive) continue;
       this.scratch.copy(enemy.position).sub(this.player.position);
       this.scratch.y = 0;
-      if (this.scratch.length() > reach * Math.max(1, enemy.tier.scale * 0.85)) {
+      if (
+        this.scratch.length() >
+        reach * Math.max(1, enemy.tier.scale * 0.85)
+      ) {
         continue;
       }
       const facing = new THREE.Vector3(
@@ -275,8 +320,18 @@ export class Game {
         0,
         Math.cos(this.player.facing),
       );
-      if (this.scratch.normalize().dot(facing) < 0.1) continue;
-      if (enemy.takeDamage(24)) this.onEnemyDown();
+      if (this.scratch.normalize().dot(facing) < 0.05) continue;
+      if (enemy.takeDamage(damage)) this.onEnemyDown();
+    }
+  }
+
+  private resolveAoe(damage: number, radius: number): void {
+    for (const enemy of this.enemies) {
+      if (!enemy.alive) continue;
+      this.scratch.copy(enemy.position).sub(this.player.position);
+      this.scratch.y = 0;
+      if (this.scratch.length() > radius) continue;
+      if (enemy.takeDamage(damage)) this.onEnemyDown();
     }
   }
 
@@ -287,11 +342,11 @@ export class Game {
 
     if (this.killsThisLevel >= def.count) {
       this.phase = "clear";
-      this.phaseTimer = 2.2;
+      this.phaseTimer = 2.0;
       if (this.levelIndex >= LEVELS.length - 1) {
         this.showToast("Final level cleared!", 2.2);
       } else {
-        this.showToast(`Level ${def.level} clear — harder foes inbound`, 2.2);
+        this.showToast(`Level ${def.level} clear — next wave inbound`, 2.0);
       }
     }
   }
@@ -306,6 +361,23 @@ export class Game {
   private syncBars(): void {
     this.hud.hp.style.transform = `scaleX(${this.player.health / this.player.maxHealth})`;
     this.hud.focus.style.transform = `scaleX(${this.player.focus / 100})`;
+  }
+
+  private syncAbilityHud(): void {
+    for (const def of ABILITIES) {
+      const slot = this.abilitySlots.get(def.id);
+      if (!slot) continue;
+      const unlocked = this.player.isUnlocked(def.id);
+      slot.el.dataset.locked = unlocked ? "false" : "true";
+      slot.lock.hidden = unlocked;
+      const ratio = this.player.cooldownRatio(def.id);
+      slot.cd.style.transform = `scaleY(${ratio})`;
+      const ready =
+        unlocked &&
+        ratio <= 0 &&
+        this.player.focus >= def.focusCost;
+      slot.el.dataset.ready = ready ? "true" : "false";
+    }
   }
 
   private showToast(text: string, seconds = 2.4): void {
