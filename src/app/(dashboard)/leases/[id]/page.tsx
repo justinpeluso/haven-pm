@@ -7,9 +7,11 @@ import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+  AmendRentForm,
   LeaseActions,
   LeaseChargeForm,
   LeasePaymentForm,
+  NoticeToVacateForm,
 } from "@/components/leases/lease-forms";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
@@ -45,16 +47,23 @@ export default async function LeaseDetailPage({
             {lease.delinquentAt ? (
               <Badge variant="destructive">Delinquent</Badge>
             ) : null}
+            {lease.noticeGivenAt ? (
+              <Badge variant="warning">Notice given</Badge>
+            ) : null}
             <Badge variant="outline">{lease.status}</Badge>
           </div>
           <p className="text-muted-foreground">
             {lease.unit.property.name} · Unit {lease.unit.unitNumber}
+            {lease.plannedMoveOutDate
+              ? ` · move-out ${formatDate(lease.plannedMoveOutDate)}`
+              : ""}
           </p>
         </div>
         <LeaseActions
           leaseId={lease.id}
           delinquent={!!lease.delinquentAt}
           canWrite={canWrite}
+          hasNotice={!!lease.noticeGivenAt}
         />
       </div>
 
@@ -166,6 +175,53 @@ export default async function LeaseDetailPage({
           </CardContent>
         </Card>
       </div>
+
+      {canWrite ? (
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Amend rent</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <AmendRentForm
+                leaseId={lease.id}
+                currentRent={Number(lease.rentAmount)}
+              />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Notice to vacate</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {lease.noticeGivenAt ? (
+                <p className="text-sm text-muted-foreground">
+                  Notice on file
+                  {lease.plannedMoveOutDate
+                    ? ` · planned move-out ${formatDate(lease.plannedMoveOutDate)}`
+                    : ""}
+                  . Use Clear notice above to reverse.
+                </p>
+              ) : (
+                <NoticeToVacateForm leaseId={lease.id} />
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      ) : null}
+
+      {lease.terms ? (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Terms & history notes</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <pre className="whitespace-pre-wrap text-sm text-muted-foreground">
+              {lease.terms}
+            </pre>
+          </CardContent>
+        </Card>
+      ) : null}
     </div>
   );
 }

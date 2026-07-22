@@ -151,6 +151,29 @@ export const paymentSchema = z.object({
   notes: z.string().max(1000).optional(),
 });
 
+export const createLeaseSchema = z.object({
+  tenantId: z.string().min(1, "Tenant is required"),
+  unitId: z.string().min(1, "Unit is required"),
+  startDate: z.string().min(1, "Start date is required"),
+  endDate: z.string().min(1, "End date is required"),
+  rentAmount: z.coerce.number().positive("Rent must be greater than zero"),
+  depositAmount: z.coerce.number().min(0).optional(),
+  terms: z.string().max(5000).optional(),
+  createFirstCharge: z.boolean().optional(),
+});
+
+export const amendRentSchema = z.object({
+  leaseId: z.string().min(1),
+  rentAmount: z.coerce.number().positive("Rent must be greater than zero"),
+  note: z.string().max(500).optional(),
+});
+
+export const noticeToVacateSchema = z.object({
+  leaseId: z.string().min(1),
+  moveOutDate: z.string().min(1, "Move-out date is required"),
+  note: z.string().max(1000).optional(),
+});
+
 export const searchSchema = z.object({
   q: z.string().min(1),
   types: z.array(z.string()).optional(),

@@ -30,6 +30,9 @@ export default async function LeasesPage({
           </p>
         </div>
         <div className="flex gap-2">
+          <Button asChild size="sm" variant="secondary">
+            <Link href="/leases/new">New lease</Link>
+          </Button>
           <Button asChild size="sm" variant={delinquentOnly ? "outline" : "default"}>
             <Link href="/leases">All active</Link>
           </Button>
@@ -63,6 +66,8 @@ export default async function LeasesPage({
                     </p>
                     {lease.delinquentAt ? (
                       <Badge variant="destructive">Delinquent</Badge>
+                    ) : lease.noticeGivenAt ? (
+                      <Badge variant="warning">Notice</Badge>
                     ) : lease.balance > 0 ? (
                       <Badge variant="warning">Balance due</Badge>
                     ) : (

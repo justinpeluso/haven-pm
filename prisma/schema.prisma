@@ -437,6 +437,10 @@ model Lease {
   terms           String?     @db.Text
   /// Set when staff flags the lease as delinquent (balance overdue).
   delinquentAt    DateTime?
+  /// Staff recorded a notice to vacate.
+  noticeGivenAt   DateTime?
+  /// Planned move-out date from the notice (may match endDate).
+  plannedMoveOutDate DateTime?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
   deletedAt       DateTime?

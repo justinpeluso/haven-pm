@@ -7,6 +7,9 @@ import {
   recordPayment,
   renewLease,
   setLeaseDelinquency,
+  amendLeaseRent,
+  giveNoticeToVacate,
+  clearNoticeToVacate,
 } from "@/lib/actions/rent";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -170,10 +173,12 @@ export function LeaseActions({
   leaseId,
   delinquent,
   canWrite,
+  hasNotice,
 }: {
   leaseId: string;
   delinquent: boolean;
   canWrite: boolean;
+  hasNotice?: boolean;
 }) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
@@ -219,6 +224,123 @@ export function LeaseActions({
       >
         Renew +12 months
       </Button>
+      {hasNotice ? (
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          disabled={pending}
+          onClick={async () => {
+            setPending(true);
+            const result = await clearNoticeToVacate(leaseId);
+            setPending(false);
+            if (result.error) {
+              toast({ title: "Failed", description: result.error, variant: "destructive" });
+              return;
+            }
+            toast({ title: "Notice cleared" });
+            router.refresh();
+          }}
+        >
+          Clear notice
+        </Button>
+      ) : null}
     </div>
+  );
+}
+
+export function AmendRentForm({
+  leaseId,
+  currentRent,
+}: {
+  leaseId: string;
+  currentRent: number;
+}) {
+  const router = useRouter();
+  const [pending, setPending] = useState(false);
+
+  return (
+    <form
+      className="space-y-3"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        setPending(true);
+        const result = await amendLeaseRent(new FormData(e.currentTarget));
+        setPending(false);
+        if (result.error) {
+          toast({ title: "Failed", description: result.error, variant: "destructive" });
+          return;
+        }
+        toast({ title: "Rent updated" });
+        router.refresh();
+      }}
+    >
+      <input type="hidden" name="leaseId" value={leaseId} />
+      <div className="space-y-1">
+        <Label htmlFor="rentAmount">New monthly rent</Label>
+        <Input
+          id="rentAmount"
+          name="rentAmount"
+          type="number"
+          step="0.01"
+          min="0.01"
+          required
+          defaultValue={currentRent}
+        />
+      </div>
+      <div className="space-y-1">
+        <Label htmlFor="rent-note">Note</Label>
+        <Input id="rent-note" name="note" placeholder="Annual increase, etc." />
+      </div>
+      <Button type="submit" size="sm" disabled={pending}>
+        {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+        Amend rent
+      </Button>
+    </form>
+  );
+}
+
+export function NoticeToVacateForm({ leaseId }: { leaseId: string }) {
+  const router = useRouter();
+  const [pending, setPending] = useState(false);
+  const defaultMoveOut = new Date();
+  defaultMoveOut.setDate(defaultMoveOut.getDate() + 30);
+
+  return (
+    <form
+      className="space-y-3"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        setPending(true);
+        const result = await giveNoticeToVacate(new FormData(e.currentTarget));
+        setPending(false);
+        if (result.error) {
+          toast({ title: "Failed", description: result.error, variant: "destructive" });
+          return;
+        }
+        toast({ title: "Notice to vacate recorded" });
+        router.refresh();
+      }}
+    >
+      <input type="hidden" name="leaseId" value={leaseId} />
+      <div className="space-y-1">
+        <Label htmlFor="moveOutDate">Move-out date</Label>
+        <Input
+          id="moveOutDate"
+          name="moveOutDate"
+          type="date"
+          required
+          defaultValue={defaultMoveOut.toISOString().slice(0, 10)}
+        />
+      </div>
+      <div className="space-y-1">
+        <Label htmlFor="notice-note">Note</Label>
+        <Textarea id="notice-note" name="note" rows={2} placeholder="Optional" />
+      </div>
+      <Button type="submit" size="sm" variant="destructive" disabled={pending}>
+        {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+        Give notice to vacate
+      </Button>
+    </form>
   );
 }

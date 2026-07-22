@@ -87,6 +87,7 @@ export function getNavItemsForRole(role: UserRole): NavItem[] {
 
 export const quickActions = [
   { title: "New Maintenance Request", href: "/maintenance/new", permission: "maintenance:write" as Permission },
+  { title: "New Lease", href: "/leases/new", permission: "leases:write" as Permission },
   { title: "Add Prospect", href: "/prospects/new", permission: "prospects:write" as Permission },
   { title: "Schedule Showing", href: "/calendar/new", permission: "calendar:write" as Permission },
   { title: "Add Property", href: "/properties/new", permission: "properties:write" as Permission },

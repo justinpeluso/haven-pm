@@ -141,8 +141,16 @@ export default async function TenantDetailPage({
         </Card>
 
         <Card className="lg:col-span-2">
-          <CardHeader className="pb-3">
+          <CardHeader className="flex flex-row items-center justify-between pb-3">
             <CardTitle className="text-base">Leases</CardTitle>
+            {!activeLease ? (
+              <Link
+                href={`/leases/new?tenantId=${tenant.id}`}
+                className="text-sm font-medium text-primary hover:underline"
+              >
+                Create lease
+              </Link>
+            ) : null}
           </CardHeader>
           <CardContent>
             {tenant.leases.length === 0 ? (
@@ -156,15 +164,14 @@ export default async function TenantDetailPage({
                         <Building2 className="mt-0.5 h-4 w-4 text-muted-foreground" />
                         <div>
                           <Link
-                            href={`/properties/${lease.unit.property.id}`}
+                            href={`/leases/${lease.id}`}
                             className="font-medium hover:underline"
                           >
-                            {lease.unit.property.name}
+                            {lease.unit.property.name} · Unit {lease.unit.unitNumber}
                           </Link>
                           <p className="text-sm text-muted-foreground">
-                            Unit {lease.unit.unitNumber}
                             {lease.unit.property.addressLine1
-                              ? ` · ${lease.unit.property.addressLine1}, ${lease.unit.property.city}`
+                              ? `${lease.unit.property.addressLine1}, ${lease.unit.property.city}`
                               : ""}
                           </p>
                         </div>
