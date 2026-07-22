@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Building2, Eye, EyeOff, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,7 +11,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 export default function LoginPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -19,9 +18,16 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    const seat = searchParams.get("seat")?.trim().toLowerCase();
-    if (seat && seat.includes("@")) setEmail(seat);
-  }, [searchParams]);
+    try {
+      const seat = new URLSearchParams(window.location.search)
+        .get("seat")
+        ?.trim()
+        .toLowerCase();
+      if (seat && seat.includes("@")) setEmail(seat);
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
