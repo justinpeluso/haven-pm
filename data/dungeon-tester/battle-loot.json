@@ -17,7 +17,15 @@
       "dt-g-horizon-vault-ampoule-025",
       "dt-g-drum-harvest-brew-028",
       "dt-g-coolant-vault-biscuit-031",
-      "dt-g-trace-harvest-tea-034"
+      "dt-g-trace-harvest-tea-034",
+      "dt-g-spirit-coil-patch-002",
+      "dt-g-grid-rail-capsule-003",
+      "dt-g-vale-glade-ampoule-005",
+      "dt-g-dust-pale-vial-006",
+      "dt-g-lantern-coil-brew-008",
+      "dt-g-switch-rail-syrup-015",
+      "dt-g-echo-glade-chew-029",
+      "dt-g-wild-pale-salve-036"
     ],
     "common": [
       "dt-frontier-revolver",
@@ -55,13 +63,7 @@
       "dt-g-trace-harvest-tea-034",
       "dt-g-mire-vault-chew-049",
       "dt-g-vale-harvest-cider-064",
-      "dt-g-cade-vault-flask-079",
-      "dt-g-bone-harvest-tea-094",
-      "dt-g-moon-vault-chew-109",
-      "dt-g-dust-harvest-scrap-124",
-      "dt-g-iron-vault-relic-139",
-      "dt-g-wild-harvest-stub-154",
-      "dt-g-free-vault-charm-169"
+      "dt-g-cade-vault-flask-079"
     ],
     "uncommon": [
       "dt-moonsteel-saber",
@@ -96,7 +98,10 @@
       "dt-g-bond-harvest-mask-280",
       "dt-g-ridge-rail-hood-291",
       "dt-g-brother-coil-bandana-302",
-      "dt-g-ash-vault-gauntlets-313"
+      "dt-g-ash-vault-gauntlets-313",
+      "dt-w-spirit-vault-hatchet-126",
+      "dt-w-river-harvest-bow-231",
+      "dt-g-quill-rail-coat-231"
     ],
     "magic": [
       "dt-moonsteel-saber",
@@ -129,7 +134,10 @@
       "dt-w-widow-switch-harpoon-174",
       "dt-w-vale-needle-club-178",
       "dt-w-dust-ridge-saber-182",
-      "dt-w-moon-crop-baton-221"
+      "dt-w-moon-crop-baton-221",
+      "dt-w-river-jar-cleaver-031",
+      "dt-w-fiber-ridge-cleaver-121",
+      "dt-w-trace-switch-needle-176"
     ],
     "rare": [
       "dt-bone-drum-cleaver",
@@ -157,7 +165,12 @@
       "dt-g-forge-coil-gaiters-380",
       "dt-g-pale-rail-soles-387",
       "dt-g-neon-harvest-boots-394",
-      "dt-g-spire-glade-shield-401"
+      "dt-g-spire-glade-shield-401",
+      "dt-w-vale-oak-carbine-138",
+      "dt-w-neon-ridge-blade-240",
+      "dt-g-spirit-coil-gaiters-356",
+      "dt-g-oath-harvest-striders-376",
+      "dt-g-ring-pale-ward-396"
     ],
     "epic": [
       "dt-bone-drum-cleaver",
@@ -178,7 +191,11 @@
       "dt-g-gate-vault-charm-451",
       "dt-g-rail-pale-locket-456",
       "dt-g-chrome-glade-charm-461",
-      "dt-g-yard-harvest-locket-466"
+      "dt-g-yard-harvest-locket-466",
+      "dt-w-ghost-smile-club-148",
+      "dt-g-sku-rail-lantern-423",
+      "dt-g-iron-coil-buckler-434",
+      "dt-g-pit-vault-sigil-445"
     ],
     "legendary": [
       "dt-liberators-spur",
@@ -607,5 +624,8 @@
       ],
       "rarity": "legendary"
     }
-  ]
+  ],
+  "tierLabels": {
+    "magic": "Enchanted"
+  }
 }

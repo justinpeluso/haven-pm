@@ -15,7 +15,8 @@
  */
 import questsPack from "../../../../data/dungeon-tester/side-quests.json";
 import framesPack from "../../../../data/dungeon-tester/side-quest-frames.json";
-import { DT_GEAR_POOLS, getDtGear } from "./gear";
+import { DT_LOOT_POOLS } from "./bestiary";
+import { getDtGear } from "./gear";
 import { dtFillEmptyEquipSlots } from "./loadout";
 import type { DtFrame, DtWorldSave } from "./types";
 import { DT_START_CHAPTER_ID, DT_START_NODE_ID } from "./types";
@@ -194,9 +195,11 @@ const REWARD_HINT_RULES: HintMapRule[] = [
   { re: /memo|pamphlet|ash|paper|slate|fragment|callsign/i, preferGold: true },
 ];
 
+/** Align side-quest scrap with curated battle loot (not the full gear dump). */
 const LIGHT_FALLBACK_IDS = [
-  ...(DT_GEAR_POOLS.trash ?? []),
-  ...(DT_GEAR_POOLS.common ?? []),
+  ...(DT_LOOT_POOLS.trash ?? []),
+  ...(DT_LOOT_POOLS.common ?? []),
+  ...(DT_LOOT_POOLS.uncommon ?? []).slice(0, 8),
 ].filter((id, i, arr) => arr.indexOf(id) === i);
 
 function hashSeed(s: string): number {

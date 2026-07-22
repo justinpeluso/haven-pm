@@ -33,6 +33,7 @@ import {
   rollDtCreature,
   rollDtLootFromPool,
   rollDtRandomFoe,
+  rollDtWeightedBattleDrop,
   type DtCreatureDef,
   type DtLootPoolId,
 } from "./bestiary";
@@ -686,17 +687,6 @@ function syncHeroHpFromUnits(
   return characters;
 }
 
-function chapterLootPool(chapterId: string): DtLootPoolId {
-  const n = chapterNumberFromId(chapterId);
-  if (n <= 1) return "trash";
-  if (n === 2) return "common";
-  if (n === 3) return "uncommon";
-  if (n === 4) return "magic";
-  if (n === 5) return "rare";
-  if (n === 6) return "epic";
-  return "legendary";
-}
-
 function lootName(itemId: string): string {
   return (
     getDtBattleLootItem(itemId)?.name ??
@@ -705,7 +695,7 @@ function lootName(itemId: string): string {
   );
 }
 
-/** Roll comic loot for the end screen — at least one drop on victory. */
+/** Roll comic loot — fewer, better drops; bosses always leave a trophy. */
 export function rollSimpleBattleLoot(
   battle: SimpleBattleState,
   rng: () => number = Math.random
@@ -724,32 +714,54 @@ export function rollSimpleBattleLoot(
     drops.push({ itemId, name: lootName(itemId), blurb });
   };
 
-  for (const foe of fallen) {
-    const pool =
-      (foe.lootPool as string | undefined) ??
-      getDtCreature(foe.foeDefId ?? "")?.lootPool ??
-      getDtBoss(foe.foeDefId ?? "")?.lootPool ??
-      chapterLootPool(battle.chapterId);
-    const always = pool === "rare" || pool === "legendary";
-    if (!always && rng() > 0.7) continue;
-    pushDrop(rollDtLootFromPool(String(pool), rng)?.id);
+  const bosses = fallen
+    .map((f) => getDtBoss(f.foeDefId ?? ""))
+    .filter((b): b is NonNullable<typeof b> => !!b);
+  const biasFoe = fallen.find((f) => f.foeDefId) ?? fallen[0];
+  const biasPool =
+    (biasFoe?.lootPool as string | undefined) ??
+    getDtCreature(biasFoe?.foeDefId ?? "")?.lootPool ??
+    bosses[0]?.lootPool;
+
+  // 1 guaranteed weighted drop + ~30% bonus (not per-foe spam).
+  pushDrop(
+    rollDtWeightedBattleDrop(battle.chapterId, rng, {
+      biasPool,
+      avoidIds: seen,
+    })?.id
+  );
+  if (rng() < 0.32) {
+    pushDrop(
+      rollDtWeightedBattleDrop(battle.chapterId, rng, {
+        biasPool,
+        avoidIds: seen,
+      })?.id
+    );
   }
 
-  for (const foe of fallen) {
-    const boss = getDtBoss(foe.foeDefId ?? "");
-    if (!boss?.uniqueDrops?.length) continue;
-    if (rng() > 0.55) continue;
-    const id = boss.uniqueDrops[Math.floor(rng() * boss.uniqueDrops.length)];
-    pushDrop(id);
+  // Boss trophy — always. Extra high-tier roll for the setpiece.
+  for (const boss of bosses) {
+    if (boss.uniqueDrops?.length) {
+      const id =
+        boss.uniqueDrops[Math.floor(rng() * boss.uniqueDrops.length)]!;
+      pushDrop(id);
+    }
+    pushDrop(
+      rollDtLootFromPool(boss.lootPool ?? "rare", rng)?.id ??
+        rollDtWeightedBattleDrop(battle.chapterId, rng, {
+          biasPool: boss.lootPool,
+          avoidIds: seen,
+        })?.id
+    );
   }
 
   if (!drops.length) {
-    pushDrop(rollDtLootFromPool(chapterLootPool(battle.chapterId), rng)?.id);
+    pushDrop(
+      rollDtWeightedBattleDrop(battle.chapterId, rng)?.id ?? "dt-trail-jerky"
+    );
   }
-  if (!drops.length) {
-    pushDrop("dt-trail-jerky");
-  }
-  return drops.slice(0, 5);
+  // Cap: 3 normal, 4 if a boss fought.
+  return drops.slice(0, bosses.length ? 4 : 3);
 }
 
 function emptyCombatStats(rounds = 1): SimpleBattleCombatStats {
