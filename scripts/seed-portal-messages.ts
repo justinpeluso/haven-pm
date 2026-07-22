@@ -86,6 +86,8 @@ type MessageSeed = {
   subject: string;
   body: string;
   unread?: boolean;
+  /** Staff claimed this thread — seeds as READ + agentWorking for filter QA. */
+  agentWorking?: boolean;
   hoursAgo: number;
 };
 
@@ -105,7 +107,9 @@ const MESSAGES: MessageSeed[] = [
     priority: PortalMessagePriority.HIGH,
     subject: "Kitchen sink slow drain",
     body: "Kitchen sink has been draining slowly for a few days. Not fully clogged yet, but getting worse. Prefer a weekday afternoon.",
-    unread: true,
+    // Claimed by office — exercises Agent working filter / yellow marker.
+    unread: false,
+    agentWorking: true,
     hoursAgo: 5,
   },
   {
@@ -114,7 +118,9 @@ const MESSAGES: MessageSeed[] = [
     priority: PortalMessagePriority.URGENT,
     subject: "Loud music past midnight",
     body: "Unit above us had loud music again after midnight last night. Second time this week. Can someone follow up?",
-    unread: true,
+    // Second claimed thread for multi-row working-state QA.
+    unread: false,
+    agentWorking: true,
     hoursAgo: 8,
   },
   {
@@ -305,7 +311,9 @@ async function main() {
     const tenant = byEmail.get(m.tenantEmail);
     if (!tenant) continue;
     const createdAt = new Date(Date.now() - m.hoursAgo * 60 * 60 * 1000);
-    const unread = m.unread !== false;
+    const agentWorking = m.agentWorking === true;
+    // Claiming marks the message read in the app; keep seed consistent.
+    const unread = agentWorking ? false : m.unread !== false;
     await prisma.message.create({
       data: {
         senderId: tenant.userId,
@@ -317,6 +325,7 @@ async function main() {
         priority: m.priority,
         callbackPhone: tenant.phone,
         status: unread ? MessageStatus.SENT : MessageStatus.READ,
+        agentWorking,
         readAt: unread ? null : createdAt,
         createdAt,
       },
@@ -324,7 +333,9 @@ async function main() {
     created += 1;
   }
 
+  const workingCount = [...MESSAGES, playMessage].filter((m) => m.agentWorking).length;
   console.log(`\nCreated ${created} portal messages (inbox receiver: ${staff.email})`);
+  console.log(`  ${workingCount} seeded with agentWorking=true (for inbox filter QA)`);
   console.log(`\nDemo tenant portal login (password: ${PASSWORD}):`);
   console.log(`  ${DEMO_PORTAL.email} → ${DEMO_PORTAL.name}`);
   console.log(`Also: tenant@havenpm.com (if seeded) and portal-demo1@…portal-demo10@`);
