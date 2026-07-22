@@ -8,6 +8,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ActivityTimeline } from "@/components/shared/activity-timeline";
 import { MaintenanceUpdateForm } from "@/components/maintenance/update-form";
+import {
+  MaintenancePhotoUpload,
+  MaintenanceScheduleForm,
+} from "@/components/maintenance/field-tools";
 import { formatCurrency, formatDateTime } from "@/lib/utils";
 
 export default async function MaintenanceDetailPage({
@@ -123,6 +127,36 @@ export default async function MaintenanceDetailPage({
 
           <Card>
             <CardHeader>
+              <CardTitle className="text-base">Photos</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {request.photos.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No photos yet.</p>
+              ) : (
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {request.photos.map((photo) => (
+                    <figure key={photo.id} className="overflow-hidden rounded-md border">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`/api/maintenance/photos/${photo.id}`}
+                        alt={photo.caption || "Maintenance photo"}
+                        className="h-40 w-full object-cover"
+                      />
+                      {photo.caption ? (
+                        <figcaption className="px-2 py-1 text-xs text-muted-foreground">
+                          {photo.caption}
+                        </figcaption>
+                      ) : null}
+                    </figure>
+                  ))}
+                </div>
+              )}
+              <MaintenancePhotoUpload requestId={request.id} />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
               <CardTitle className="text-base">Timeline</CardTitle>
             </CardHeader>
             <CardContent>
@@ -142,13 +176,16 @@ export default async function MaintenanceDetailPage({
 
         <div className="space-y-6">
           {staffViewer ? (
-            <MaintenanceUpdateForm
-              requestId={request.id}
-              currentStatus={request.status}
-              currentPriority={request.priority}
-              assignedStaffId={request.assignedStaffId}
-              staff={staff}
-            />
+            <>
+              <MaintenanceUpdateForm
+                requestId={request.id}
+                currentStatus={request.status}
+                currentPriority={request.priority}
+                assignedStaffId={request.assignedStaffId}
+                staff={staff}
+              />
+              <MaintenanceScheduleForm requestId={request.id} />
+            </>
           ) : null}
 
           {request.assignedStaff && (

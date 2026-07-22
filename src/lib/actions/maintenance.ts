@@ -11,7 +11,8 @@ import {
 import { maintenanceRequestSchema, maintenanceUpdateSchema } from "@/lib/validations";
 import { logActivity, logMaintenanceTimeline, createNotification } from "@/lib/activity";
 import { generateRequestNumber } from "@/lib/utils";
-import { ActivityAction, MessageStatus, NotificationType } from "@prisma/client";
+import { ActivityAction, MessageStatus, NotificationType, CalendarEventType } from "@prisma/client";
+import { saveUploadedFile } from "@/lib/uploads";
 
 export async function createMaintenanceRequest(formData: FormData) {
   const session = await requirePermission("maintenance:write");
@@ -184,6 +185,29 @@ export async function updateMaintenanceRequest(id: string, formData: FormData) {
         `/maintenance/${id}`
       );
     }
+    await notifyTenantForRequest(
+      existing.tenantId,
+      "Maintenance update",
+      `Your request ${existing.requestNumber} was assigned to ${staff?.name || "our team"}.`,
+      id
+    );
+  }
+
+  if (parsed.data.status && parsed.data.status !== existing.status) {
+    await notifyTenantForRequest(
+      existing.tenantId,
+      "Maintenance status update",
+      `${existing.requestNumber} is now ${parsed.data.status.replace(/_/g, " ").toLowerCase()}.`,
+      id
+    );
+  }
+
+  if (parsed.data.vendor && parsed.data.vendor !== existing.vendor) {
+    await logMaintenanceTimeline(
+      id,
+      `Vendor set to ${parsed.data.vendor}`,
+      session.user.id
+    );
   }
 
   revalidatePath(`/maintenance/${id}`);
@@ -394,4 +418,172 @@ export async function createMaintenanceRequestFromPortalMessage(
     id: request.id,
     requestNumber: request.requestNumber,
   };
+}
+
+async function notifyTenantForRequest(
+  tenantId: string | null | undefined,
+  title: string,
+  message: string,
+  requestId: string
+) {
+  if (!tenantId) return;
+  const tenant = await db.tenant.findUnique({
+    where: { id: tenantId },
+    select: { userId: true },
+  });
+  if (!tenant) return;
+  await createNotification(
+    tenant.userId,
+    NotificationType.MAINTENANCE_REQUEST,
+    title,
+    message,
+    `/maintenance/${requestId}`
+  );
+}
+
+async function assertCanAccessMaintenance(requestId: string, userId: string, role: string) {
+  const where: Record<string, unknown> = { id: requestId, deletedAt: null };
+  if (!isStaffRole(role as never)) {
+    const tenant = await getTenantForUser(userId);
+    if (!tenant) return null;
+    where.tenantId = tenant.id;
+  }
+  return db.maintenanceRequest.findFirst({
+    where,
+    include: {
+      tenant: { select: { id: true, userId: true } },
+    },
+  });
+}
+
+export async function uploadMaintenancePhoto(requestId: string, formData: FormData) {
+  const session = await requireAuth();
+  const request = await assertCanAccessMaintenance(
+    requestId,
+    session.user.id,
+    session.user.role
+  );
+  if (!request) return { error: "Request not found." };
+
+  const file = formData.get("file");
+  if (!file || !(file instanceof File) || file.size === 0) {
+    return { error: "Please select a photo." };
+  }
+  if (!file.type.startsWith("image/")) {
+    return { error: "Only image uploads are allowed." };
+  }
+
+  const caption = String(formData.get("caption") || "").trim() || undefined;
+
+  let saved;
+  try {
+    saved = await saveUploadedFile(file);
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Upload failed" };
+  }
+
+  const photo = await db.maintenancePhoto.create({
+    data: {
+      requestId,
+      url: saved.url,
+      caption,
+      uploadedBy: session.user.id,
+    },
+  });
+
+  await logMaintenanceTimeline(
+    requestId,
+    "Photo uploaded",
+    session.user.id,
+    undefined,
+    undefined,
+    caption || saved.fileName
+  );
+  await logActivity({
+    action: ActivityAction.PHOTO_UPLOADED,
+    entityType: "MaintenanceRequest",
+    entityId: requestId,
+    userId: session.user.id,
+    propertyId: request.propertyId,
+    maintenanceRequestId: requestId,
+  });
+
+  if (isStaffRole(session.user.role)) {
+    await notifyTenantForRequest(
+      request.tenantId,
+      "Photo added to your request",
+      `A new photo was added to ${request.requestNumber}.`,
+      requestId
+    );
+  }
+
+  revalidatePath(`/maintenance/${requestId}`);
+  return { success: true, id: photo.id };
+}
+
+export async function scheduleMaintenanceVisit(requestId: string, formData: FormData) {
+  const session = await requireStaff();
+  const request = await db.maintenanceRequest.findFirst({
+    where: { id: requestId, deletedAt: null },
+    include: { tenant: { select: { userId: true } } },
+  });
+  if (!request) return { error: "Request not found." };
+
+  const startRaw = String(formData.get("startAt") || "");
+  const endRaw = String(formData.get("endAt") || "");
+  const notes = String(formData.get("notes") || "").trim() || undefined;
+  if (!startRaw || !endRaw) return { error: "Start and end times are required." };
+
+  const startAt = new Date(startRaw);
+  const endAt = new Date(endRaw);
+  if (Number.isNaN(startAt.getTime()) || Number.isNaN(endAt.getTime())) {
+    return { error: "Invalid schedule times." };
+  }
+  if (endAt <= startAt) return { error: "End must be after start." };
+
+  const event = await db.calendarEvent.create({
+    data: {
+      title: `Maintenance: ${request.title}`,
+      type: CalendarEventType.MAINTENANCE,
+      propertyId: request.propertyId,
+      unitId: request.unitId,
+      maintenanceRequestId: request.id,
+      assigneeId: request.assignedStaffId || session.user.id,
+      createdById: session.user.id,
+      startAt,
+      endAt,
+      notes,
+      color: "#f59e0b",
+    },
+  });
+
+  await db.maintenanceRequest.update({
+    where: { id: requestId },
+    data: {
+      status: "SCHEDULED",
+      targetCompletion: endAt,
+    },
+  });
+
+  await logMaintenanceTimeline(
+    requestId,
+    "Visit scheduled",
+    session.user.id,
+    request.status,
+    "SCHEDULED",
+    `${startAt.toLocaleString()} – ${endAt.toLocaleString()}`
+  );
+
+  await notifyTenantForRequest(
+    request.tenantId,
+    "Maintenance visit scheduled",
+    `${request.requestNumber} is scheduled for ${startAt.toLocaleString()}.`,
+    requestId
+  );
+
+  revalidatePath(`/maintenance/${requestId}`);
+  revalidatePath("/maintenance");
+  revalidatePath("/calendar");
+  revalidatePath("/dashboard");
+  return { success: true, eventId: event.id };
 }
