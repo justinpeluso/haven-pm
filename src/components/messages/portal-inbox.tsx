@@ -3,7 +3,9 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
+  clearPortalMessageAgentWorking,
   markAllPortalMessagesRead,
+  markPortalMessageAgentWorking,
   markPortalMessageRead,
 } from "@/lib/actions/messages";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +23,7 @@ export type PortalInboxItem = {
   priority: string | null;
   callbackPhone: string | null;
   status: string;
+  agentWorking?: boolean;
   readAt: Date | string | null;
   createdAt: Date | string;
   sender?: { name: string | null; email: string; phone: string | null } | null;
@@ -51,7 +54,7 @@ export function StaffPortalInbox({ messages }: { messages: PortalInboxItem[] }) 
   const router = useRouter();
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [markingAll, startMarkAll] = useTransition();
-  const unread = messages.filter((m) => m.status !== "READ").length;
+  const unread = messages.filter((m) => m.status !== "READ" && !m.agentWorking).length;
 
   const onMarkRead = async (id: string) => {
     setPendingId(id);
@@ -62,6 +65,22 @@ export function StaffPortalInbox({ messages }: { messages: PortalInboxItem[] }) 
       return;
     }
     toast({ title: "Marked as read" });
+    router.refresh();
+  };
+
+  const onAgentWorking = async (id: string, currentlyWorking: boolean) => {
+    setPendingId(id);
+    const result = currentlyWorking
+      ? await clearPortalMessageAgentWorking(id)
+      : await markPortalMessageAgentWorking(id);
+    setPendingId(null);
+    if (result.error) {
+      toast({ title: "Failed", description: result.error, variant: "destructive" });
+      return;
+    }
+    toast({
+      title: currentlyWorking ? "Cleared working status" : "Marked as working",
+    });
     router.refresh();
   };
 
@@ -105,7 +124,8 @@ export function StaffPortalInbox({ messages }: { messages: PortalInboxItem[] }) 
           <p className="text-sm text-muted-foreground">No tenant portal messages yet.</p>
         ) : (
           messages.map((m) => {
-            const unreadRow = m.status !== "READ";
+            const working = !!m.agentWorking;
+            const unreadRow = m.status !== "READ" && !working;
             const name =
               m.tenant?.user.name ||
               m.sender?.name ||
@@ -122,14 +142,26 @@ export function StaffPortalInbox({ messages }: { messages: PortalInboxItem[] }) 
               <div
                 key={m.id}
                 className={`rounded-lg border p-4 ${
-                  unreadRow ? "border-primary/30 bg-primary/5" : "bg-background"
+                  working
+                    ? "border-amber-400/80 bg-amber-500/10"
+                    : unreadRow
+                      ? "border-primary/30 bg-primary/5"
+                      : "bg-background"
                 }`}
               >
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   <div className="min-w-0 space-y-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <p className="font-semibold">{name}</p>
-                      {unreadRow ? <Badge>Unread</Badge> : <Badge variant="outline">Read</Badge>}
+                      {working ? (
+                        <Badge className="border-transparent bg-amber-400 text-amber-950 hover:bg-amber-400/90">
+                          Agent working
+                        </Badge>
+                      ) : unreadRow ? (
+                        <Badge>Unread</Badge>
+                      ) : (
+                        <Badge variant="outline">Read</Badge>
+                      )}
                       {m.type ? (
                         <Badge variant="outline">{TYPE_LABEL[m.type] ?? m.type}</Badge>
                       ) : null}
@@ -152,8 +184,36 @@ export function StaffPortalInbox({ messages }: { messages: PortalInboxItem[] }) 
                 <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">
                   {m.body}
                 </p>
-                {unreadRow ? (
-                  <div className="mt-3">
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {!working ? (
+                    <Button
+                      type="button"
+                      size="sm"
+                      className="bg-amber-400 text-amber-950 hover:bg-amber-300"
+                      disabled={pendingId === m.id}
+                      onClick={() => onAgentWorking(m.id, false)}
+                    >
+                      {pendingId === m.id ? (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      ) : null}
+                      Agent working on this…
+                    </Button>
+                  ) : (
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      className="border-amber-400/70 text-amber-800 dark:text-amber-200"
+                      disabled={pendingId === m.id}
+                      onClick={() => onAgentWorking(m.id, true)}
+                    >
+                      {pendingId === m.id ? (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      ) : null}
+                      Clear working
+                    </Button>
+                  )}
+                  {unreadRow ? (
                     <Button
                       type="button"
                       size="sm"
@@ -161,13 +221,10 @@ export function StaffPortalInbox({ messages }: { messages: PortalInboxItem[] }) 
                       disabled={pendingId === m.id}
                       onClick={() => onMarkRead(m.id)}
                     >
-                      {pendingId === m.id ? (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      ) : null}
                       Mark as read
                     </Button>
-                  </div>
-                ) : null}
+                  ) : null}
+                </div>
               </div>
             );
           })
@@ -187,6 +244,7 @@ export function TenantSentMessages({
     type: string | null;
     priority: string | null;
     status: string;
+    agentWorking?: boolean;
     createdAt: Date | string;
   }>;
 }) {
@@ -203,8 +261,14 @@ export function TenantSentMessages({
       {messages.map((m) => {
         const when =
           typeof m.createdAt === "string" ? new Date(m.createdAt) : m.createdAt;
+        const working = !!m.agentWorking;
         return (
-          <div key={m.id} className="rounded-lg border p-4">
+          <div
+            key={m.id}
+            className={`rounded-lg border p-4 ${
+              working ? "border-amber-400/80 bg-amber-500/10" : ""
+            }`}
+          >
             <div className="flex flex-wrap items-center gap-2">
               <p className="font-medium">{m.subject || "Message"}</p>
               {m.type ? (
@@ -213,9 +277,15 @@ export function TenantSentMessages({
               {m.priority ? (
                 <Badge variant={priorityVariant(m.priority)}>{m.priority}</Badge>
               ) : null}
-              <Badge variant={m.status === "READ" ? "outline" : "secondary"}>
-                {m.status === "READ" ? "Read by office" : "Sent"}
-              </Badge>
+              {working ? (
+                <Badge className="border-transparent bg-amber-400 text-amber-950 hover:bg-amber-400/90">
+                  Agent working on this…
+                </Badge>
+              ) : (
+                <Badge variant={m.status === "READ" ? "outline" : "secondary"}>
+                  {m.status === "READ" ? "Read by office" : "Sent"}
+                </Badge>
+              )}
             </div>
             <p className="mt-2 whitespace-pre-wrap text-sm text-muted-foreground">
               {m.body}

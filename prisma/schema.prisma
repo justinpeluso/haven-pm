@@ -731,6 +731,8 @@ model Message {
   priority      PortalMessagePriority?
   callbackPhone String?
   status        MessageStatus          @default(SENT)
+  /// Staff claimed this portal message and is actively working it.
+  agentWorking  Boolean                @default(false)
   readAt        DateTime?
   createdAt     DateTime               @default(now())
   deletedAt     DateTime?

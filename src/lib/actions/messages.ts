@@ -167,6 +167,62 @@ export async function markPortalMessageRead(messageId: string) {
   return { success: true };
 }
 
+/** Staff: claim a portal message as “agent working on this”. */
+export async function markPortalMessageAgentWorking(messageId: string) {
+  const session = await requireStaff();
+  if (!messageId) return { error: "Missing message id." };
+
+  const result = await db.message.updateMany({
+    where: {
+      id: messageId,
+      tenantId: { not: null },
+      deletedAt: null,
+    },
+    data: {
+      agentWorking: true,
+      // Claiming implies the office has seen it.
+      status: MessageStatus.READ,
+      readAt: new Date(),
+    },
+  });
+
+  if (!result.count) {
+    return { error: "Message not found." };
+  }
+
+  await logActivity({
+    action: ActivityAction.UPDATED,
+    entityType: "Message",
+    entityId: messageId,
+    userId: session.user.id,
+    metadata: { agentWorking: true },
+  });
+
+  revalidatePath("/messages");
+  return { success: true };
+}
+
+export async function clearPortalMessageAgentWorking(messageId: string) {
+  await requireStaff();
+  if (!messageId) return { error: "Missing message id." };
+
+  const result = await db.message.updateMany({
+    where: {
+      id: messageId,
+      tenantId: { not: null },
+      deletedAt: null,
+    },
+    data: { agentWorking: false },
+  });
+
+  if (!result.count) {
+    return { error: "Message not found." };
+  }
+
+  revalidatePath("/messages");
+  return { success: true };
+}
+
 export async function markAllPortalMessagesRead() {
   await requireStaff();
   await db.message.updateMany({
@@ -208,6 +264,9 @@ export async function getPortalInboxMessages() {
       take: 100,
     }).then((rows) =>
       [...rows].sort((a, b) => {
+        const aWork = a.agentWorking ? 0 : 1;
+        const bWork = b.agentWorking ? 0 : 1;
+        if (aWork !== bWork) return aWork - bWork;
         const aRead = a.status === MessageStatus.READ ? 1 : 0;
         const bRead = b.status === MessageStatus.READ ? 1 : 0;
         if (aRead !== bRead) return aRead - bRead;
