@@ -45,6 +45,36 @@ enum LeaseStatus {
   RENEWED
 }
 
+enum ChargeType {
+  RENT
+  LATE_FEE
+  SECURITY_DEPOSIT
+  OTHER
+}
+
+enum ChargeStatus {
+  OPEN
+  PARTIALLY_PAID
+  PAID
+  VOID
+}
+
+enum PaymentMethod {
+  CASH
+  CHECK
+  ACH
+  CARD
+  STRIPE
+  OTHER
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  VOIDED
+}
+
 enum MaintenanceStatus {
   SUBMITTED
   ASSIGNED
@@ -206,6 +236,7 @@ model User {
   showings              Showing[]            @relation("ShowingAgent")
   savedSearches         SavedSearch[]
   auditLogs             AuditLog[]
+  paymentsRecorded      Payment[]            @relation("PaymentsRecorded")
 
   @@index([role])
   @@index([email])
@@ -383,6 +414,8 @@ model Tenant {
 
   user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   leases              Lease[]
+  charges             Charge[]
+  payments            Payment[]
   maintenanceRequests MaintenanceRequest[]
   documents           Document[]
   messages            Message[]
@@ -402,6 +435,8 @@ model Lease {
   depositAmount   Decimal?    @db.Decimal(10, 2)
   status          LeaseStatus @default(ACTIVE)
   terms           String?     @db.Text
+  /// Set when staff flags the lease as delinquent (balance overdue).
+  delinquentAt    DateTime?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
   deletedAt       DateTime?
@@ -409,10 +444,66 @@ model Lease {
   unit     Unit   @relation(fields: [unitId], references: [id])
   tenant   Tenant @relation(fields: [tenantId], references: [id])
   documents Document[]
+  charges   Charge[]
+  payments  Payment[]
 
   @@index([status])
   @@index([endDate])
+  @@index([delinquentAt])
   @@map("leases")
+}
+
+model Charge {
+  id          String       @id @default(cuid())
+  leaseId     String
+  tenantId    String
+  type        ChargeType   @default(RENT)
+  status      ChargeStatus @default(OPEN)
+  amount      Decimal      @db.Decimal(10, 2)
+  /// Amount already applied from payments.
+  amountPaid  Decimal      @default(0) @db.Decimal(10, 2)
+  dueDate     DateTime
+  description String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  voidedAt    DateTime?
+
+  lease    Lease     @relation(fields: [leaseId], references: [id])
+  tenant   Tenant    @relation(fields: [tenantId], references: [id])
+  payments Payment[]
+
+  @@index([leaseId, status])
+  @@index([tenantId, status])
+  @@index([dueDate])
+  @@map("charges")
+}
+
+model Payment {
+  id                    String        @id @default(cuid())
+  leaseId               String
+  tenantId              String
+  chargeId              String?
+  amount                Decimal       @db.Decimal(10, 2)
+  method                PaymentMethod @default(OTHER)
+  status                PaymentStatus @default(SUCCEEDED)
+  paidAt                DateTime      @default(now())
+  reference             String?
+  notes                 String?
+  stripeCheckoutSessionId String?     @unique
+  stripePaymentIntentId   String?     @unique
+  recordedById          String?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  lease      Lease   @relation(fields: [leaseId], references: [id])
+  tenant     Tenant  @relation(fields: [tenantId], references: [id])
+  charge     Charge? @relation(fields: [chargeId], references: [id])
+  recordedBy User?   @relation("PaymentsRecorded", fields: [recordedById], references: [id])
+
+  @@index([leaseId, status])
+  @@index([tenantId, status])
+  @@index([paidAt])
+  @@map("payments")
 }
 
 model Inspection {

@@ -13,6 +13,7 @@ import {
   Wrench,
   BarChart3,
   UserPlus,
+  ScrollText,
 } from "lucide-react";
 import { hasPermission, type Permission } from "@/lib/permissions";
 
@@ -32,6 +33,7 @@ export const mainNavItems: NavItem[] = [
   { title: "Prospects", href: "/prospects", icon: UserPlus, permission: "prospects:read" },
   { title: "Calendar", href: "/calendar", icon: Calendar, permission: "calendar:read" },
   { title: "Tenants", href: "/tenants", icon: Users, permission: "tenants:read" },
+  { title: "Leases", href: "/leases", icon: ScrollText, permission: "leases:read" },
   { title: "Documents", href: "/documents", icon: FileText, permission: "documents:read" },
   { title: "Messages", href: "/messages", icon: MessageSquare, permission: "messages:read" },
   { title: "Reports", href: "/reports", icon: BarChart3, permission: "reports:read" },

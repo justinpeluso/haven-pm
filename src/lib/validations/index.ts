@@ -133,6 +133,24 @@ export const portalMessageSchema = z.object({
 
 export type PortalMessageInput = z.infer<typeof portalMessageSchema>;
 
+export const chargeSchema = z.object({
+  leaseId: z.string().min(1),
+  type: z.enum(["RENT", "LATE_FEE", "SECURITY_DEPOSIT", "OTHER"]),
+  amount: z.coerce.number().positive("Amount must be greater than zero"),
+  dueDate: z.string().min(1, "Due date is required"),
+  description: z.string().max(500).optional(),
+});
+
+export const paymentSchema = z.object({
+  leaseId: z.string().min(1),
+  chargeId: z.string().optional(),
+  amount: z.coerce.number().positive("Amount must be greater than zero"),
+  method: z.enum(["CASH", "CHECK", "ACH", "CARD", "STRIPE", "OTHER"]),
+  paidAt: z.string().optional(),
+  reference: z.string().max(120).optional(),
+  notes: z.string().max(1000).optional(),
+});
+
 export const searchSchema = z.object({
   q: z.string().min(1),
   types: z.array(z.string()).optional(),

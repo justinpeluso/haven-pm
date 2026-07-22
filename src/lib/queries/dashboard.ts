@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { UserRole } from "@prisma/client";
+import { chargeBalance } from "@/lib/rent";
 
 export async function getAdminDashboardData() {
   const [
@@ -111,6 +112,15 @@ export async function getTenantDashboardData(userId: string) {
           unit: {
             include: { property: true },
           },
+          charges: {
+            orderBy: { dueDate: "desc" },
+            take: 8,
+          },
+          payments: {
+            where: { status: "SUCCEEDED" },
+            orderBy: { paidAt: "desc" },
+            take: 5,
+          },
         },
         take: 1,
       },
@@ -140,7 +150,16 @@ export async function getTenantDashboardData(userId: string) {
       })
     : [];
 
-  return { tenant, documents };
+  const activeLease = tenant?.leases[0];
+  const balance = activeLease
+    ? activeLease.charges.reduce((sum, c) => sum + chargeBalance(c), 0)
+    : 0;
+  const nextDue =
+    activeLease?.charges
+      .filter((c) => c.status === "OPEN" || c.status === "PARTIALLY_PAID")
+      .sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime())[0]?.dueDate ?? null;
+
+  return { tenant, documents, balance, nextDue };
 }
 
 export async function getMaintenanceDashboardData(userId: string) {

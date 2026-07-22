@@ -21,6 +21,8 @@ export function TenantDashboard({
 }) {
   const activeLease = data.tenant?.leases[0];
   const property = activeLease?.unit.property;
+  const balance = data.balance ?? 0;
+  const canPay = balance > 0;
 
   return (
     <div className="space-y-6">
@@ -30,17 +32,88 @@ export function TenantDashboard({
             <h2 className="text-lg font-semibold">Pay Rent</h2>
             <p className="text-sm text-muted-foreground">
               {activeLease
-                ? `Current balance due: ${formatCurrency(Number(activeLease.rentAmount))}`
+                ? canPay
+                  ? `Balance due: ${formatCurrency(balance)}${
+                      data.nextDue ? ` · next due ${formatDate(data.nextDue)}` : ""
+                    }`
+                  : "You’re all caught up — no open balance."
                 : "View your payment portal"}
             </p>
           </div>
-          <PayRentButton
-            rentAmount={activeLease ? Number(activeLease.rentAmount) : undefined}
-            provider={payment.stripeEnabled && payment.provider === "stripe" ? "stripe" : "external"}
-            externalUrl={payment.externalUrl}
-          />
+          {canPay ? (
+            <PayRentButton
+              rentAmount={balance}
+              provider={
+                payment.stripeEnabled && payment.provider === "stripe"
+                  ? "stripe"
+                  : "external"
+              }
+              externalUrl={payment.externalUrl}
+            />
+          ) : (
+            <Button size="lg" disabled>
+              Nothing due
+            </Button>
+          )}
         </CardContent>
       </Card>
+
+      {activeLease ? (
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Recent charges</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {activeLease.charges.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No charges yet.</p>
+              ) : (
+                activeLease.charges.map((c) => (
+                  <div
+                    key={c.id}
+                    className="flex items-center justify-between gap-2 text-sm"
+                  >
+                    <div>
+                      <p className="font-medium">
+                        {c.description || c.type.replace(/_/g, " ")}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        Due {formatDate(c.dueDate)} · {c.status.replace(/_/g, " ")}
+                      </p>
+                    </div>
+                    <p className="font-medium">{formatCurrency(Number(c.amount))}</p>
+                  </div>
+                ))
+              )}
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Payment history</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {activeLease.payments.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No payments yet.</p>
+              ) : (
+                activeLease.payments.map((p) => (
+                  <div
+                    key={p.id}
+                    className="flex items-center justify-between gap-2 text-sm"
+                  >
+                    <div>
+                      <p className="font-medium">{formatCurrency(Number(p.amount))}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {p.method} · {formatDate(p.paidAt)}
+                      </p>
+                    </div>
+                    <Badge variant="outline">{p.status}</Badge>
+                  </div>
+                ))
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      ) : null}
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
@@ -55,7 +128,8 @@ export function TenantDashboard({
               <div className="space-y-2">
                 <p className="font-medium">{property.name}</p>
                 <p className="text-sm text-muted-foreground">
-                  {property.addressLine1}, {property.city}, {property.state} {property.zipCode}
+                  {property.addressLine1}, {property.city}, {property.state}{" "}
+                  {property.zipCode}
                 </p>
                 {activeLease && (
                   <>

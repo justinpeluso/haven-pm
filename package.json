@@ -20,6 +20,7 @@
     "db:seed:prospects": "tsx scripts/seed-prospects.ts",
     "db:seed:calendar": "tsx scripts/seed-calendar-events.ts",
     "db:seed:portal": "tsx scripts/seed-portal-messages.ts",
+    "db:seed:rent": "tsx scripts/seed-rent-ledger.ts",
     "db:seed:ops": "tsx scripts/seed-maintenance-requests.ts && tsx scripts/seed-prospects.ts && tsx scripts/seed-calendar-events.ts",
     "db:studio": "prisma studio",
     "postinstall": "prisma generate",
