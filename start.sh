@@ -89,6 +89,8 @@ npm run db:push 2>&1 || { echo "❌ Database sync failed — is PostgreSQL runni
 
 echo "→ Seeding demo data..."
 npm run db:seed 2>&1 || true
+echo "→ Seeding portal inbox messages..."
+npm run db:seed:portal 2>&1 || true
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

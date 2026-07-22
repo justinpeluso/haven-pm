@@ -11,6 +11,9 @@ import {
   DocumentType,
   NotificationType,
   ActivityAction,
+  MessageStatus,
+  PortalMessageType,
+  PortalMessagePriority,
 } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
@@ -861,6 +864,7 @@ async function main() {
     ],
   });
 
+  // Portal inbox only lists tenant-originated rows with type set (see getPortalInboxMessages).
   await prisma.message.createMany({
     data: [
       {
@@ -869,6 +873,10 @@ async function main() {
         tenantId: tenants[0].tenant.id,
         subject: "Sink leak update",
         body: "The leak seems to be getting worse. Any update on the repair?",
+        type: PortalMessageType.MAINTENANCE,
+        priority: PortalMessagePriority.HIGH,
+        callbackPhone: tenants[0].tenant.phone,
+        status: MessageStatus.SENT,
       },
       {
         senderId: manager.id,
@@ -876,6 +884,7 @@ async function main() {
         tenantId: tenants[0].tenant.id,
         subject: "Re: Sink leak update",
         body: "FlowRight Plumbing is scheduled. Mike will meet them on site.",
+        // Staff reply — intentionally no portal type (excluded from staff portal inbox).
       },
       {
         senderId: agents[0].id,

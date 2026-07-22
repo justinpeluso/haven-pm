@@ -87,6 +87,7 @@ function run(cmd, args) {
 
 run('npx', ['prisma', 'db', 'push']);
 run('npm', ['run', 'db:seed']);
+run('npm', ['run', 'db:seed:portal']);
 console.log('SEED_OK');
 NODE
 

@@ -83,6 +83,8 @@ npx prisma db push
 
 echo "==> db:seed (Neon only)"
 npm run db:seed
+echo "==> db:seed:portal (Neon only)"
+npm run db:seed:portal
 
 rm -f .env.vercel
 echo "==> Removed .env.vercel"

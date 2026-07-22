@@ -80,6 +80,7 @@ fi
 echo "==> Pushing schema + seeding demo data"
 npx prisma db push
 npm run db:seed
+npm run db:seed:portal
 
 rm -f .env.vercel
 echo ""
