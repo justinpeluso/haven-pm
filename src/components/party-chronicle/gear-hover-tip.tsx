@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useLayoutEffect, useRef, type ReactNode, type RefObject } from "react";
 import {
   formatProperty,
   itemProperties,
@@ -46,6 +46,50 @@ function weaponScaleLines(
   return lines;
 }
 
+/** Keep absolute tips inside the viewport (left/right edge clamp). */
+function useClampGearTip(): RefObject<HTMLSpanElement | null> {
+  const ref = useRef<HTMLSpanElement | null>(null);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    const parent = el?.parentElement;
+    if (!el || !parent) return;
+
+    const clamp = () => {
+      // Clear prior inline nudges, keep stylesheet anchors (center / left / right).
+      el.style.translate = "";
+      el.style.transform = "";
+      el.style.left = "";
+      el.style.right = "";
+      void el.offsetWidth;
+      const rect = el.getBoundingClientRect();
+      const pad = 10;
+      const overflowLeft = pad - rect.left;
+      const overflowRight = rect.right - (window.innerWidth - pad);
+      if (overflowLeft > 0) {
+        el.style.translate = `${overflowLeft}px 0`;
+      } else if (overflowRight > 0) {
+        el.style.translate = `${-overflowRight}px 0`;
+      }
+    };
+
+    const onShow = () => {
+      requestAnimationFrame(clamp);
+    };
+
+    parent.addEventListener("mouseenter", onShow);
+    parent.addEventListener("focusin", onShow);
+    window.addEventListener("resize", clamp);
+    return () => {
+      parent.removeEventListener("mouseenter", onShow);
+      parent.removeEventListener("focusin", onShow);
+      window.removeEventListener("resize", clamp);
+    };
+  }, []);
+
+  return ref;
+}
+
 /** Tip body — place inside a `.pc-gear-hover` parent to show on mouseover. */
 export function GearTipBody({
   item,
@@ -57,10 +101,12 @@ export function GearTipBody({
   /** Live character stats for a worked weapon-scaling example. */
   stats?: Partial<Stats> | null;
 }) {
+  const tipRef = useClampGearTip();
+
   if (!item) {
     if (!emptyLabel) return null;
     return (
-      <span className="pc-gear-tip" role="tooltip">
+      <span ref={tipRef} className="pc-gear-tip" role="tooltip">
         <span className="pc-gear-tip-empty">{emptyLabel}</span>
       </span>
     );
@@ -74,7 +120,7 @@ export function GearTipBody({
   const scaleLines = weaponScaleLines(item, stats);
 
   return (
-    <span className="pc-gear-tip" role="tooltip" data-tier={tierAttr}>
+    <span ref={tipRef} className="pc-gear-tip" role="tooltip" data-tier={tierAttr}>
       <span className="pc-gear-tip-head">
         <strong className="pc-gear-tip-name">{item.name}</strong>
         <em className="pc-gear-tip-tier" data-tier={tierAttr}>

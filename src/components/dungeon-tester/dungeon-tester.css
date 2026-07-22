@@ -3576,10 +3576,33 @@
   border-color: var(--dt-trail);
   color: var(--dt-ink);
   z-index: 80;
-  max-width: 17rem;
+  max-width: min(17rem, calc(100vw - 1.25rem));
   font-size: 0.9rem;
   padding: 0.7rem 0.8rem;
   box-shadow: 0 8px 20px rgba(26, 24, 20, 0.18);
+}
+
+/* Equipped doll tips must escape the gear panel edge. */
+.dungeon-tester .dt-gear-panel,
+.dungeon-tester .dt-gear-sheet,
+.dungeon-tester .dt-gear-columns,
+.dungeon-tester .dt-gear-equip {
+  overflow: visible;
+}
+
+/* Left slots sit near the screen edge — prefer opening right. */
+.dungeon-tester .dt-gear-slot[data-area="weapon"] > .pc-gear-tip,
+.dungeon-tester .dt-gear-slot[data-area="hands"] > .pc-gear-tip {
+  left: 0;
+  transform: none;
+}
+
+/* Right slots — prefer opening left. */
+.dungeon-tester .dt-gear-slot[data-area="offhand"] > .pc-gear-tip,
+.dungeon-tester .dt-gear-slot[data-area="accessory"] > .pc-gear-tip {
+  left: auto;
+  right: 0;
+  transform: none;
 }
 
 .dungeon-tester .pc-gear-tip-stats {
