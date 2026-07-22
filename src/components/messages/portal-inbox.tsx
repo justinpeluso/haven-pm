@@ -8,6 +8,7 @@ import {
   markAllPortalMessagesRead,
   markPortalMessageAgentWorking,
   markPortalMessageRead,
+  markPortalMessageUnread,
 } from "@/lib/actions/messages";
 import type { PortalInboxFilter } from "@/lib/portal-inbox";
 import { Badge } from "@/components/ui/badge";
@@ -81,31 +82,19 @@ export function StaffPortalInbox({
   const [markingAll, startMarkAll] = useTransition();
   const unread = counts.unread;
 
-  const onMarkRead = async (id: string) => {
+  const runAction = async (
+    id: string,
+    action: () => Promise<{ error?: string }>,
+    successTitle: string
+  ) => {
     setPendingId(id);
-    const result = await markPortalMessageRead(id);
+    const result = await action();
     setPendingId(null);
     if (result.error) {
       toast({ title: "Failed", description: result.error, variant: "destructive" });
       return;
     }
-    toast({ title: "Marked as read" });
-    router.refresh();
-  };
-
-  const onAgentWorking = async (id: string, currentlyWorking: boolean) => {
-    setPendingId(id);
-    const result = currentlyWorking
-      ? await clearPortalMessageAgentWorking(id)
-      : await markPortalMessageAgentWorking(id);
-    setPendingId(null);
-    if (result.error) {
-      toast({ title: "Failed", description: result.error, variant: "destructive" });
-      return;
-    }
-    toast({
-      title: currentlyWorking ? "Cleared working status" : "Marked as working",
-    });
+    toast({ title: successTitle });
     router.refresh();
   };
 
@@ -252,45 +241,58 @@ export function StaffPortalInbox({
                   {m.body}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  {!working ? (
-                    <Button
-                      type="button"
-                      size="sm"
-                      className="bg-amber-400 text-amber-950 hover:bg-amber-300"
-                      disabled={pendingId === m.id}
-                      onClick={() => onAgentWorking(m.id, false)}
-                    >
-                      {pendingId === m.id ? (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      ) : null}
-                      Agent working on this…
-                    </Button>
-                  ) : (
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="outline"
-                      className="border-amber-400/70 text-amber-800 dark:text-amber-200"
-                      disabled={pendingId === m.id}
-                      onClick={() => onAgentWorking(m.id, true)}
-                    >
-                      {pendingId === m.id ? (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      ) : null}
-                      Clear working
-                    </Button>
-                  )}
-                  {unreadRow ? (
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="secondary"
-                      disabled={pendingId === m.id}
-                      onClick={() => onMarkRead(m.id)}
-                    >
-                      Mark as read
-                    </Button>
-                  ) : null}
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="secondary"
+                    disabled={pendingId === m.id}
+                    onClick={() =>
+                      runAction(m.id, () => markPortalMessageRead(m.id), "Marked as read")
+                    }
+                  >
+                    {pendingId === m.id ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : null}
+                    Mark as read
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    disabled={pendingId === m.id}
+                    onClick={() =>
+                      runAction(
+                        m.id,
+                        () => markPortalMessageUnread(m.id),
+                        "Marked as unread"
+                      )
+                    }
+                  >
+                    Mark as unread
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={working ? "outline" : "default"}
+                    className={
+                      working
+                        ? "border-amber-400/70 text-amber-800 dark:text-amber-200"
+                        : "bg-amber-400 text-amber-950 hover:bg-amber-300"
+                    }
+                    disabled={pendingId === m.id}
+                    onClick={() =>
+                      runAction(
+                        m.id,
+                        () =>
+                          working
+                            ? clearPortalMessageAgentWorking(m.id)
+                            : markPortalMessageAgentWorking(m.id),
+                        working ? "Cleared working status" : "Marked as working"
+                      )
+                    }
+                  >
+                    {working ? "Clear working" : "Agent working on this…"}
+                  </Button>
                 </div>
               </div>
             );

@@ -168,6 +168,32 @@ export async function markPortalMessageRead(messageId: string) {
   return { success: true };
 }
 
+/** Staff: mark a portal message as unread (and clear agent-working). */
+export async function markPortalMessageUnread(messageId: string) {
+  await requireStaff();
+  if (!messageId) return { error: "Missing message id." };
+
+  const result = await db.message.updateMany({
+    where: {
+      id: messageId,
+      tenantId: { not: null },
+      deletedAt: null,
+    },
+    data: {
+      status: MessageStatus.SENT,
+      readAt: null,
+      agentWorking: false,
+    },
+  });
+
+  if (!result.count) {
+    return { error: "Message not found." };
+  }
+
+  revalidatePath("/messages");
+  return { success: true };
+}
+
 /** Staff: claim a portal message as “agent working on this”. */
 export async function markPortalMessageAgentWorking(messageId: string) {
   const session = await requireStaff();
