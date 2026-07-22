@@ -158,6 +158,22 @@ enum MessageStatus {
   READ
 }
 
+enum PortalMessageType {
+  GENERAL
+  BILLING
+  MAINTENANCE
+  LEASE
+  NOISE
+  OTHER
+}
+
+enum PortalMessagePriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
 // ─── Auth (NextAuth) ─────────────────────────────────────────────────────────
 
 model User {
@@ -704,22 +720,27 @@ model NoteAttachment {
 // ─── Messages ────────────────────────────────────────────────────────────────
 
 model Message {
-  id         String        @id @default(cuid())
-  senderId   String
-  receiverId String
-  tenantId   String?
-  subject    String?
-  body       String        @db.Text
-  status     MessageStatus @default(SENT)
-  readAt     DateTime?
-  createdAt  DateTime      @default(now())
-  deletedAt  DateTime?
+  id            String                 @id @default(cuid())
+  senderId      String
+  receiverId    String
+  tenantId      String?
+  subject       String?
+  body          String                 @db.Text
+  /// Tenant portal contact category (null = legacy / staff SMS note).
+  type          PortalMessageType?
+  priority      PortalMessagePriority?
+  callbackPhone String?
+  status        MessageStatus          @default(SENT)
+  readAt        DateTime?
+  createdAt     DateTime               @default(now())
+  deletedAt     DateTime?
 
   sender   User    @relation("MessagesSent", fields: [senderId], references: [id])
   receiver User    @relation("MessagesReceived", fields: [receiverId], references: [id])
   tenant   Tenant? @relation(fields: [tenantId], references: [id])
 
   @@index([senderId, receiverId])
+  @@index([tenantId, status])
   @@index([createdAt])
   @@map("messages")
 }

@@ -33,7 +33,7 @@ export const mainNavItems: NavItem[] = [
   { title: "Calendar", href: "/calendar", icon: Calendar, permission: "calendar:read" },
   { title: "Tenants", href: "/tenants", icon: Users, permission: "tenants:read" },
   { title: "Documents", href: "/documents", icon: FileText, permission: "documents:read" },
-  { title: "Texting", href: "/messages", icon: MessageSquare, permission: "messages:read" },
+  { title: "Messages", href: "/messages", icon: MessageSquare, permission: "messages:read" },
   { title: "Reports", href: "/reports", icon: BarChart3, permission: "reports:read" },
   { title: "Audit Log", href: "/audit", icon: ClipboardList, permission: "audit:read" },
   { title: "Search", href: "/search", icon: Search, permission: "search:global" },
@@ -57,7 +57,7 @@ export function getNavItemsForRole(role: UserRole): NavItem[] {
       { title: "Dashboard", href: "/dashboard", icon: Home },
       { title: "Maintenance", href: "/maintenance", icon: Wrench },
       { title: "Documents", href: "/documents", icon: FileText },
-      { title: "Texting", href: "/messages", icon: MessageSquare },
+      { title: "Messages", href: "/messages", icon: MessageSquare },
     ];
   }
 
@@ -66,7 +66,7 @@ export function getNavItemsForRole(role: UserRole): NavItem[] {
     return [
       { title: "Dashboard", href: "/dashboard", icon: Home },
       { title: "Properties", href: "/properties", icon: Building2 },
-      { title: "Texting", href: "/messages", icon: MessageSquare },
+      { title: "Messages", href: "/messages", icon: MessageSquare },
     ];
   }
 
@@ -76,7 +76,7 @@ export function getNavItemsForRole(role: UserRole): NavItem[] {
       { title: "Dashboard", href: "/dashboard", icon: Home },
       { title: "Work Orders", href: "/maintenance", icon: Wrench },
       { title: "Properties", href: "/properties", icon: Building2 },
-      { title: "Texting", href: "/messages", icon: MessageSquare },
+      { title: "Messages", href: "/messages", icon: MessageSquare },
     ];
   }
 

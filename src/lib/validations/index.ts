@@ -120,6 +120,19 @@ export const messageSchema = z.object({
   tenantId: z.string().optional(),
 });
 
+export const portalMessageSchema = z.object({
+  type: z.enum(["GENERAL", "BILLING", "MAINTENANCE", "LEASE", "NOISE", "OTHER"]),
+  priority: z.enum(["LOW", "MEDIUM", "HIGH", "URGENT"]),
+  body: z.string().min(1, "Description is required").max(5000),
+  callbackPhone: z
+    .string()
+    .min(7, "Phone number is required")
+    .max(40),
+  subject: z.string().max(200).optional(),
+});
+
+export type PortalMessageInput = z.infer<typeof portalMessageSchema>;
+
 export const searchSchema = z.object({
   q: z.string().min(1),
   types: z.array(z.string()).optional(),
