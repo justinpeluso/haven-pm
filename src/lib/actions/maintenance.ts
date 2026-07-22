@@ -11,7 +11,7 @@ import {
 import { maintenanceRequestSchema, maintenanceUpdateSchema } from "@/lib/validations";
 import { logActivity, logMaintenanceTimeline, createNotification } from "@/lib/activity";
 import { generateRequestNumber } from "@/lib/utils";
-import { ActivityAction, NotificationType } from "@prisma/client";
+import { ActivityAction, MessageStatus, NotificationType } from "@prisma/client";
 
 export async function createMaintenanceRequest(formData: FormData) {
   const session = await requirePermission("maintenance:write");
@@ -253,4 +253,145 @@ export async function getMaintenanceRequests(filters?: {
     },
     orderBy: [{ priority: "desc" }, { createdAt: "desc" }],
   });
+}
+
+export async function createMaintenanceRequestFromPortalMessage(
+  messageId: string,
+  formData: FormData
+) {
+  const session = await requireStaff();
+  if (!messageId) return { error: "Missing message id." };
+
+  const threadRoot = await db.message.findFirst({
+    where: {
+      id: messageId,
+      deletedAt: null,
+      threadId: null,
+      tenantId: { not: null },
+      type: { not: null },
+    },
+    include: {
+      tenant: { select: { id: true, userId: true } },
+    },
+  });
+
+  if (!threadRoot?.tenantId) return { error: "Message not found." };
+  if (threadRoot.maintenanceRequestId) {
+    return {
+      error: "A work order is already linked.",
+      id: threadRoot.maintenanceRequestId,
+    };
+  }
+
+  const location = await getTenantActiveLeaseLocation(threadRoot.tenantId);
+  if (!location) {
+    return { error: "Tenant has no active lease to attach a work order." };
+  }
+
+  const title =
+    String(formData.get("title") || "").trim() ||
+    threadRoot.subject ||
+    "Portal maintenance request";
+  const description =
+    String(formData.get("description") || "").trim() || threadRoot.body;
+  const category = String(formData.get("category") || "GENERAL");
+  const priorityRaw = String(
+    formData.get("priority") || threadRoot.priority || "MEDIUM"
+  );
+  const priority =
+    priorityRaw === "URGENT" || priorityRaw === "EMERGENCY"
+      ? "EMERGENCY"
+      : priorityRaw === "HIGH" ||
+          priorityRaw === "MEDIUM" ||
+          priorityRaw === "LOW"
+        ? priorityRaw
+        : "MEDIUM";
+
+  const parsed = maintenanceRequestSchema.safeParse({
+    propertyId: location.propertyId,
+    unitId: location.unitId,
+    category,
+    priority,
+    title,
+    description,
+    tenantNotes: `Created from portal message ${threadRoot.id}`,
+  });
+  if (!parsed.success) {
+    return { error: parsed.error.errors[0].message };
+  }
+
+  const request = await db.maintenanceRequest.create({
+    data: {
+      requestNumber: generateRequestNumber(),
+      propertyId: location.propertyId,
+      unitId: location.unitId,
+      category: parsed.data.category,
+      priority: parsed.data.priority,
+      title: parsed.data.title,
+      description: parsed.data.description,
+      tenantNotes: parsed.data.tenantNotes,
+      tenantId: threadRoot.tenantId,
+      createdById: session.user.id,
+    },
+  });
+
+  await db.message.update({
+    where: { id: threadRoot.id },
+    data: {
+      maintenanceRequestId: request.id,
+      agentWorking: true,
+      status: MessageStatus.READ,
+      readAt: new Date(),
+    },
+  });
+  await db.message.updateMany({
+    where: { threadId: threadRoot.id, deletedAt: null },
+    data: { maintenanceRequestId: request.id },
+  });
+
+  await logMaintenanceTimeline(
+    request.id,
+    "Created from tenant portal message",
+    session.user.id,
+    undefined,
+    undefined,
+    threadRoot.body.slice(0, 500)
+  );
+
+  await logActivity({
+    action: ActivityAction.CREATED,
+    entityType: "MaintenanceRequest",
+    entityId: request.id,
+    userId: session.user.id,
+    propertyId: location.propertyId,
+    tenantId: threadRoot.tenantId,
+    maintenanceRequestId: request.id,
+    metadata: { fromPortalMessageId: threadRoot.id },
+  });
+
+  const managers = await db.user.findMany({
+    where: {
+      role: { in: ["ADMINISTRATOR", "PROPERTY_MANAGER"] },
+      isActive: true,
+    },
+  });
+  for (const manager of managers) {
+    await createNotification(
+      manager.id,
+      NotificationType.MAINTENANCE_REQUEST,
+      "Work order from portal message",
+      `${parsed.data.title} — ${request.requestNumber}`,
+      `/maintenance/${request.id}`
+    );
+  }
+
+  revalidatePath("/messages");
+  revalidatePath("/maintenance");
+  revalidatePath(`/maintenance/${request.id}`);
+  revalidatePath("/dashboard");
+  return {
+    success: true,
+    id: request.id,
+    requestNumber: request.requestNumber,
+  };
 }

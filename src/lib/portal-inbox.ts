@@ -27,7 +27,7 @@ export function matchesPortalInboxFilter(
 
 /** Agent-working first, then unread, then newest. */
 export function sortPortalInboxMessages<
-  T extends { agentWorking: boolean; status: MessageStatus; createdAt: Date },
+  T extends { agentWorking?: boolean; status: MessageStatus; createdAt: Date },
 >(rows: T[]): T[] {
   return [...rows].sort((a, b) => {
     const aWork = a.agentWorking ? 0 : 1;

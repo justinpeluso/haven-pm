@@ -469,6 +469,7 @@ model MaintenanceRequest {
   notes         Note[]
   activityLogs  ActivityLog[]
   calendarEvents CalendarEvent[]
+  portalMessages Message[]
 
   @@index([status])
   @@index([priority])
@@ -733,6 +734,11 @@ model Message {
   status        MessageStatus          @default(SENT)
   /// Staff claimed this portal message and is actively working it.
   agentWorking  Boolean                @default(false)
+  /// Root message id for threaded portal conversations (null on the root itself).
+  threadId      String?
+  parentMessageId String?
+  /// Linked work order created from this portal thread (usually set on the root).
+  maintenanceRequestId String?
   readAt        DateTime?
   createdAt     DateTime               @default(now())
   deletedAt     DateTime?
@@ -740,10 +746,15 @@ model Message {
   sender   User    @relation("MessagesSent", fields: [senderId], references: [id])
   receiver User    @relation("MessagesReceived", fields: [receiverId], references: [id])
   tenant   Tenant? @relation(fields: [tenantId], references: [id])
+  parentMessage Message?  @relation("MessageReplies", fields: [parentMessageId], references: [id])
+  replies       Message[] @relation("MessageReplies")
+  maintenanceRequest MaintenanceRequest? @relation(fields: [maintenanceRequestId], references: [id])
 
   @@index([senderId, receiverId])
   @@index([tenantId, status])
   @@index([createdAt])
+  @@index([threadId, createdAt])
+  @@index([maintenanceRequestId])
   @@map("messages")
 }
 

@@ -9,15 +9,31 @@ import {
   markPortalMessageAgentWorking,
   markPortalMessageRead,
   markPortalMessageUnread,
+  replyToPortalMessage,
 } from "@/lib/actions/messages";
+import { createMaintenanceRequestFromPortalMessage } from "@/lib/actions/maintenance";
 import type { PortalInboxFilter } from "@/lib/portal-inbox";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCheck, Loader2, Phone } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { CheckCheck, Loader2, Phone, Wrench } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
 import { cn } from "@/lib/utils";
+
+export type PortalThreadReply = {
+  id: string;
+  body: string;
+  createdAt: Date | string;
+  sender?: {
+    id: string;
+    name: string | null;
+    email: string;
+    role?: string;
+  } | null;
+};
 
 export type PortalInboxItem = {
   id: string;
@@ -34,6 +50,13 @@ export type PortalInboxItem = {
   tenant?: {
     phone: string | null;
     user: { name: string | null; email: string };
+  } | null;
+  replies?: PortalThreadReply[];
+  maintenanceRequest?: {
+    id: string;
+    requestNumber: string;
+    status: string;
+    title: string;
   } | null;
 };
 
@@ -60,12 +83,162 @@ const TYPE_LABEL: Record<string, string> = {
   OTHER: "Other",
 };
 
+const WO_CATEGORIES = [
+  "PLUMBING",
+  "ELECTRICAL",
+  "HVAC",
+  "APPLIANCE",
+  "STRUCTURAL",
+  "PEST_CONTROL",
+  "LANDSCAPING",
+  "GENERAL",
+  "OTHER",
+];
+
 function priorityVariant(
   priority: string | null
 ): "secondary" | "warning" | "destructive" | "outline" {
   if (priority === "URGENT" || priority === "HIGH") return "destructive";
   if (priority === "MEDIUM") return "warning";
   return "secondary";
+}
+
+function asDate(value: Date | string) {
+  return typeof value === "string" ? new Date(value) : value;
+}
+
+function ThreadReplyComposer({
+  messageId,
+  pending,
+  onReply,
+}: {
+  messageId: string;
+  pending: boolean;
+  onReply: (id: string, formData: FormData) => Promise<void>;
+}) {
+  return (
+    <form
+      className="mt-3 space-y-2"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        const formData = new FormData(form);
+        await onReply(messageId, formData);
+        form.reset();
+      }}
+    >
+      <Textarea
+        name="body"
+        rows={2}
+        required
+        placeholder="Write a reply…"
+        disabled={pending}
+      />
+      <Button type="submit" size="sm" disabled={pending}>
+        {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+        Send reply
+      </Button>
+    </form>
+  );
+}
+
+function CreateWorkOrderPanel({
+  message,
+  pending,
+  onCreate,
+}: {
+  message: PortalInboxItem;
+  pending: boolean;
+  onCreate: (id: string, formData: FormData) => Promise<void>;
+}) {
+  const defaultPriority =
+    message.priority === "URGENT"
+      ? "EMERGENCY"
+      : message.priority === "HIGH" ||
+          message.priority === "MEDIUM" ||
+          message.priority === "LOW"
+        ? message.priority
+        : "MEDIUM";
+  const defaultCategory = message.type === "MAINTENANCE" ? "GENERAL" : "GENERAL";
+
+  return (
+    <form
+      className="mt-3 space-y-3 rounded-md border border-dashed p-3"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        await onCreate(message.id, formData);
+      }}
+    >
+      <p className="flex items-center gap-1.5 text-sm font-medium">
+        <Wrench className="h-3.5 w-3.5" />
+        Create work order
+      </p>
+      <div className="space-y-1">
+        <Label htmlFor={`wo-title-${message.id}`}>Title</Label>
+        <input
+          id={`wo-title-${message.id}`}
+          name="title"
+          defaultValue={message.subject || ""}
+          className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
+          required
+          disabled={pending}
+        />
+      </div>
+      <div className="space-y-1">
+        <Label htmlFor={`wo-desc-${message.id}`}>Description</Label>
+        <Textarea
+          id={`wo-desc-${message.id}`}
+          name="description"
+          rows={3}
+          defaultValue={message.body}
+          required
+          disabled={pending}
+        />
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div className="space-y-1">
+          <Label htmlFor={`wo-cat-${message.id}`}>Category</Label>
+          <select
+            id={`wo-cat-${message.id}`}
+            name="category"
+            defaultValue={defaultCategory}
+            disabled={pending}
+            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
+          >
+            {WO_CATEGORIES.map((c) => (
+              <option key={c} value={c}>
+                {c.replace(/_/g, " ")}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="space-y-1">
+          <Label htmlFor={`wo-pri-${message.id}`}>Priority</Label>
+          <select
+            id={`wo-pri-${message.id}`}
+            name="priority"
+            defaultValue={defaultPriority}
+            disabled={pending}
+            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
+          >
+            {["LOW", "MEDIUM", "HIGH", "EMERGENCY"].map((p) => (
+              <option key={p} value={p}>
+                {p}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <p className="text-xs text-muted-foreground">
+        Property and unit come from the tenant’s active lease.
+      </p>
+      <Button type="submit" size="sm" disabled={pending}>
+        {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+        Create work order
+      </Button>
+    </form>
+  );
 }
 
 export function StaffPortalInbox({
@@ -80,6 +253,7 @@ export function StaffPortalInbox({
   const router = useRouter();
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [markingAll, startMarkAll] = useTransition();
+  const [showWoFor, setShowWoFor] = useState<string | null>(null);
   const unread = counts.unread;
 
   const runAction = async (
@@ -95,6 +269,36 @@ export function StaffPortalInbox({
       return;
     }
     toast({ title: successTitle });
+    router.refresh();
+  };
+
+  const onReply = async (id: string, formData: FormData) => {
+    setPendingId(id);
+    const result = await replyToPortalMessage(id, formData);
+    setPendingId(null);
+    if (result.error) {
+      toast({ title: "Failed", description: result.error, variant: "destructive" });
+      return;
+    }
+    toast({ title: "Reply sent" });
+    router.refresh();
+  };
+
+  const onCreateWo = async (id: string, formData: FormData) => {
+    setPendingId(id);
+    const result = await createMaintenanceRequestFromPortalMessage(id, formData);
+    setPendingId(null);
+    if (result.error) {
+      toast({ title: "Failed", description: result.error, variant: "destructive" });
+      return;
+    }
+    setShowWoFor(null);
+    toast({
+      title: "Work order created",
+      description: result.requestNumber
+        ? `Linked ${result.requestNumber}`
+        : undefined,
+    });
     router.refresh();
   };
 
@@ -157,7 +361,8 @@ export function StaffPortalInbox({
                 variant={active ? "default" : "outline"}
                 className={cn(
                   "h-8",
-                  active && chip.key === "working" &&
+                  active &&
+                    chip.key === "working" &&
                     "bg-amber-400 text-amber-950 hover:bg-amber-300"
                 )}
               >
@@ -189,10 +394,8 @@ export function StaffPortalInbox({
               m.sender?.email ||
               "Tenant";
             const phone = m.callbackPhone || m.tenant?.phone || m.sender?.phone;
-            const when =
-              typeof m.createdAt === "string"
-                ? new Date(m.createdAt)
-                : m.createdAt;
+            const when = asDate(m.createdAt);
+            const replies = m.replies ?? [];
 
             return (
               <div
@@ -224,6 +427,16 @@ export function StaffPortalInbox({
                       {m.priority ? (
                         <Badge variant={priorityVariant(m.priority)}>{m.priority}</Badge>
                       ) : null}
+                      {m.maintenanceRequest ? (
+                        <Link
+                          href={`/maintenance/${m.maintenanceRequest.id}`}
+                          className="inline-flex"
+                        >
+                          <Badge variant="secondary">
+                            {m.maintenanceRequest.requestNumber}
+                          </Badge>
+                        </Link>
+                      ) : null}
                     </div>
                     <p className="text-sm font-medium">{m.subject || "Message"}</p>
                     {phone ? (
@@ -240,6 +453,22 @@ export function StaffPortalInbox({
                 <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">
                   {m.body}
                 </p>
+
+                {replies.length > 0 ? (
+                  <div className="mt-3 space-y-2 border-l-2 border-muted pl-3">
+                    {replies.map((r) => (
+                      <div key={r.id} className="text-sm">
+                        <p className="text-xs text-muted-foreground">
+                          {r.sender?.name || r.sender?.email || "User"}
+                          {" · "}
+                          {formatDistanceToNow(asDate(r.createdAt), { addSuffix: true })}
+                        </p>
+                        <p className="whitespace-pre-wrap">{r.body}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+
                 <div className="mt-3 flex flex-wrap gap-2">
                   <Button
                     type="button"
@@ -250,9 +479,6 @@ export function StaffPortalInbox({
                       runAction(m.id, () => markPortalMessageRead(m.id), "Marked as read")
                     }
                   >
-                    {pendingId === m.id ? (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : null}
                     Mark as read
                   </Button>
                   <Button
@@ -293,7 +519,41 @@ export function StaffPortalInbox({
                   >
                     {working ? "Clear working" : "Agent working on this…"}
                   </Button>
+                  {!m.maintenanceRequest ? (
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      disabled={pendingId === m.id}
+                      onClick={() =>
+                        setShowWoFor((cur) => (cur === m.id ? null : m.id))
+                      }
+                    >
+                      <Wrench className="mr-1.5 h-3.5 w-3.5" />
+                      Work order
+                    </Button>
+                  ) : (
+                    <Button asChild size="sm" variant="outline">
+                      <Link href={`/maintenance/${m.maintenanceRequest.id}`}>
+                        Open work order
+                      </Link>
+                    </Button>
+                  )}
                 </div>
+
+                {showWoFor === m.id && !m.maintenanceRequest ? (
+                  <CreateWorkOrderPanel
+                    message={m}
+                    pending={pendingId === m.id}
+                    onCreate={onCreateWo}
+                  />
+                ) : null}
+
+                <ThreadReplyComposer
+                  messageId={m.id}
+                  pending={pendingId === m.id}
+                  onReply={onReply}
+                />
               </div>
             );
           })
@@ -306,17 +566,23 @@ export function StaffPortalInbox({
 export function TenantSentMessages({
   messages,
 }: {
-  messages: Array<{
-    id: string;
-    subject: string | null;
-    body: string;
-    type: string | null;
-    priority: string | null;
-    status: string;
-    agentWorking?: boolean;
-    createdAt: Date | string;
-  }>;
+  messages: PortalInboxItem[];
 }) {
+  const router = useRouter();
+  const [pendingId, setPendingId] = useState<string | null>(null);
+
+  const onReply = async (id: string, formData: FormData) => {
+    setPendingId(id);
+    const result = await replyToPortalMessage(id, formData);
+    setPendingId(null);
+    if (result.error) {
+      toast({ title: "Failed", description: result.error, variant: "destructive" });
+      return;
+    }
+    toast({ title: "Reply sent" });
+    router.refresh();
+  };
+
   if (!messages.length) {
     return (
       <p className="text-sm text-muted-foreground">
@@ -328,9 +594,9 @@ export function TenantSentMessages({
   return (
     <div className="space-y-3">
       {messages.map((m) => {
-        const when =
-          typeof m.createdAt === "string" ? new Date(m.createdAt) : m.createdAt;
+        const when = asDate(m.createdAt);
         const working = !!m.agentWorking;
+        const replies = m.replies ?? [];
         return (
           <div
             key={m.id}
@@ -355,13 +621,44 @@ export function TenantSentMessages({
                   {m.status === "READ" ? "Read by office" : "Sent"}
                 </Badge>
               )}
+              {m.maintenanceRequest ? (
+                <Link
+                  href={`/maintenance/${m.maintenanceRequest.id}`}
+                  className="inline-flex"
+                >
+                  <Badge variant="secondary">
+                    {m.maintenanceRequest.requestNumber}
+                  </Badge>
+                </Link>
+              ) : null}
             </div>
             <p className="mt-2 whitespace-pre-wrap text-sm text-muted-foreground">
               {m.body}
             </p>
+            {replies.length > 0 ? (
+              <div className="mt-3 space-y-2 border-l-2 border-muted pl-3">
+                {replies.map((r) => (
+                  <div key={r.id} className="text-sm">
+                    <p className="text-xs text-muted-foreground">
+                      {r.sender?.role && r.sender.role !== "TENANT"
+                        ? "Office"
+                        : "You"}
+                      {" · "}
+                      {formatDistanceToNow(asDate(r.createdAt), { addSuffix: true })}
+                    </p>
+                    <p className="whitespace-pre-wrap text-foreground">{r.body}</p>
+                  </div>
+                ))}
+              </div>
+            ) : null}
             <p className="mt-2 text-xs text-muted-foreground">
               {formatDistanceToNow(when, { addSuffix: true })}
             </p>
+            <ThreadReplyComposer
+              messageId={m.id}
+              pending={pendingId === m.id}
+              onReply={onReply}
+            />
           </div>
         );
       })}

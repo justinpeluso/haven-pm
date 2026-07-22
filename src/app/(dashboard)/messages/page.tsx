@@ -59,7 +59,7 @@ export default async function MessagesPage({
           <CardHeader>
             <CardTitle className="text-base">Your messages</CardTitle>
             <CardDescription>
-              Status updates when the office marks them read or starts working on them.
+              Office replies and work-order links show up in each thread.
             </CardDescription>
           </CardHeader>
           <CardContent>

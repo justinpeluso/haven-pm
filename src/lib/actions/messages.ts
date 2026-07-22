@@ -256,6 +256,8 @@ export async function markAllPortalMessagesRead() {
     where: {
       tenantId: { not: null },
       deletedAt: null,
+      threadId: null,
+      type: { not: null },
       status: { not: MessageStatus.READ },
     },
     data: {
@@ -267,9 +269,134 @@ export async function markAllPortalMessagesRead() {
   return { success: true };
 }
 
-/** Fetch portal inbox messages (staff: all tenants; tenant: own). */
+async function resolvePortalRoot(messageId: string) {
+  const message = await db.message.findFirst({
+    where: {
+      id: messageId,
+      deletedAt: null,
+      tenantId: { not: null },
+    },
+    include: { tenant: { select: { id: true, userId: true } } },
+  });
+  if (!message) return null;
+  if (!message.threadId) return message;
+  return db.message.findFirst({
+    where: { id: message.threadId, deletedAt: null, tenantId: { not: null } },
+    include: { tenant: { select: { id: true, userId: true } } },
+  });
+}
+
+/** Staff or tenant: reply within a portal message thread. */
+export async function replyToPortalMessage(parentMessageId: string, formData: FormData) {
+  const session = await requirePermission("messages:write");
+  const body = String(formData.get("body") || "").trim();
+  if (!parentMessageId) return { error: "Missing message id." };
+  if (body.length < 2) return { error: "Reply is too short." };
+  if (body.length > 5000) return { error: "Reply is too long." };
+
+  const root = await resolvePortalRoot(parentMessageId);
+  if (!root?.tenant) return { error: "Message not found." };
+
+  const staff = isStaffRole(session.user.role);
+  if (!staff) {
+    if (session.user.role !== UserRole.TENANT) return { error: "Not allowed." };
+    if (root.tenant.userId !== session.user.id) return { error: "Message not found." };
+  }
+
+  const receiverId = staff ? root.tenant.userId : await findInboxReceiverId();
+  if (!receiverId) return { error: "No recipient available." };
+
+  const reply = await db.message.create({
+    data: {
+      senderId: session.user.id,
+      receiverId,
+      tenantId: root.tenantId,
+      subject: root.subject
+        ? `Re: ${root.subject.replace(/^Re:\s*/i, "")}`
+        : "Re: Message",
+      body,
+      type: root.type,
+      priority: root.priority,
+      status: MessageStatus.SENT,
+      threadId: root.id,
+      parentMessageId: parentMessageId,
+      maintenanceRequestId: root.maintenanceRequestId,
+    },
+  });
+
+  if (staff) {
+    await db.message.update({
+      where: { id: root.id },
+      data: { status: MessageStatus.READ, readAt: new Date() },
+    });
+    await createNotification(
+      root.tenant.userId,
+      NotificationType.MESSAGE_RECEIVED,
+      "Reply from the office",
+      body.slice(0, 120),
+      "/messages"
+    );
+  } else {
+    await db.message.update({
+      where: { id: root.id },
+      data: { status: MessageStatus.SENT, readAt: null },
+    });
+    const managers = await db.user.findMany({
+      where: {
+        isActive: true,
+        deletedAt: null,
+        role: { in: STAFF_INBOX_ROLES },
+      },
+      select: { id: true },
+    });
+    for (const manager of managers) {
+      await createNotification(
+        manager.id,
+        NotificationType.MESSAGE_RECEIVED,
+        "Tenant reply",
+        body.slice(0, 120),
+        "/messages"
+      );
+    }
+  }
+
+  await logActivity({
+    action: ActivityAction.MESSAGE_SENT,
+    entityType: "Message",
+    entityId: reply.id,
+    userId: session.user.id,
+    tenantId: root.tenantId ?? undefined,
+    metadata: { replyTo: parentMessageId, threadId: root.id },
+  });
+
+  revalidatePath("/messages");
+  return { success: true, id: reply.id };
+}
+
+/** Fetch portal inbox threads (staff: all tenants; tenant: own). */
 export async function getPortalInboxMessages() {
   const session = await requirePermission("messages:read");
+
+  const include = {
+    sender: { select: { id: true, name: true, email: true, phone: true } },
+    tenant: {
+      select: {
+        id: true,
+        phone: true,
+        user: { select: { name: true, email: true } },
+      },
+    },
+    maintenanceRequest: {
+      select: { id: true, requestNumber: true, status: true, title: true },
+    },
+    replies: {
+      where: { deletedAt: null },
+      orderBy: { createdAt: "asc" as const },
+      include: {
+        sender: { select: { id: true, name: true, email: true, role: true } },
+      },
+    },
+  };
 
   if (isStaffRole(session.user.role)) {
     return db.message
@@ -278,24 +405,15 @@ export async function getPortalInboxMessages() {
           tenantId: { not: null },
           deletedAt: null,
           type: { not: null },
+          threadId: null,
         },
-        include: {
-          sender: { select: { id: true, name: true, email: true, phone: true } },
-          tenant: {
-            select: {
-              id: true,
-              phone: true,
-              user: { select: { name: true, email: true } },
-            },
-          },
-        },
+        include,
         orderBy: { createdAt: "desc" },
         take: 100,
       })
       .then(sortPortalInboxMessages);
   }
 
-  // Tenant: their own submissions
   const tenant = await db.tenant.findUnique({
     where: { userId: session.user.id },
     select: { id: true },
@@ -306,10 +424,11 @@ export async function getPortalInboxMessages() {
     .findMany({
       where: {
         tenantId: tenant.id,
-        senderId: session.user.id,
         deletedAt: null,
         type: { not: null },
+        threadId: null,
       },
+      include,
       orderBy: { createdAt: "desc" },
       take: 50,
     })
