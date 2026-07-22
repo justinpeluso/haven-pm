@@ -40,6 +40,18 @@ const PLAYERS = [
     role: UserRole.OFFICE_STAFF,
     phone: "(412) 555-0164",
   },
+  {
+    email: "player5@havenpm.com",
+    name: "Dad",
+    role: UserRole.OFFICE_STAFF,
+    phone: "(412) 555-0165",
+  },
+  {
+    email: "dad@havenpm.com",
+    name: "Dad",
+    role: UserRole.OFFICE_STAFF,
+    phone: "(412) 555-0165",
+  },
 ] as const;
 
 async function main() {

@@ -220,6 +220,20 @@ async function ensureStaff() {
       phone: "(412) 555-0164",
       hash: partyPasswordHash,
     },
+    {
+      email: "player5@havenpm.com",
+      name: "Dad",
+      role: UserRole.OFFICE_STAFF,
+      phone: "(412) 555-0165",
+      hash: partyPasswordHash,
+    },
+    {
+      email: "dad@havenpm.com",
+      name: "Dad",
+      role: UserRole.OFFICE_STAFF,
+      phone: "(412) 555-0165",
+      hash: partyPasswordHash,
+    },
   ];
 
   for (const s of staff) {

@@ -26,6 +26,7 @@ const PARTY_ACCOUNTS = [
   { email: "player2@havenpm.com", label: "Rusty — Player 2" },
   { email: "player3@havenpm.com", label: "Elisha — Player 3" },
   { email: "player4@havenpm.com", label: "Eric Prendergast — Player 4" },
+  { email: "player5@havenpm.com", label: "Dad — Player 5" },
 ] as const;
 
 const PARTY_EMAILS: Set<string> = new Set(PARTY_ACCOUNTS.map((p) => p.email));

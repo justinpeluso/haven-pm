@@ -4,7 +4,7 @@ export const STAT_KEYS = ["strength", "dexterity", "constitution", "intelligence
 export type StatKey = (typeof STAT_KEYS)[number];
 export type Stats = Record<StatKey, number>;
 
-export const PLAYER_SLOT_ORDER = ["justin", "rusty", "elisha", "eric"] as const;
+export const PLAYER_SLOT_ORDER = ["justin", "rusty", "elisha", "eric", "dad"] as const;
 export type PlayerSlot = (typeof PLAYER_SLOT_ORDER)[number];
 
 export const CLASS_IDS = [

@@ -97,6 +97,13 @@ const SLOT_DEFAULTS: Record<PlayerSlot, DtHeroLook> = {
     outfit: "duster",
     hat: "hood",
   },
+  dad: {
+    skin: "tan",
+    hair: "short",
+    hairColor: "gray",
+    outfit: "duster",
+    hat: "stetson",
+  },
 };
 
 function pick<T extends string>(raw: unknown, allowed: readonly T[], fallback: T): T {

@@ -1,6 +1,6 @@
 /**
  * DungeonTester save + frame contracts.
- * Party seats reuse Neverworld slots (justin / rusty / elisha / eric).
+ * Party seats reuse Neverworld slots (justin / rusty / elisha / eric / dad).
  * Battle is DT-only crude combat (SimpleBattleState) — not Neverworld tactical.
  */
 

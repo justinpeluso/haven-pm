@@ -306,6 +306,7 @@ const HERO_COLORS: Record<PlayerSlot, string> = {
   rusty: "#b85c38",
   elisha: "#5a8f4a",
   eric: "#7a4aa0",
+  dad: "#8a6a3a",
 };
 
 const ENEMY_COLORS = ["#8b2e2e", "#5c4033", "#4a5560", "#6b3a2a", "#3d4a2e"];

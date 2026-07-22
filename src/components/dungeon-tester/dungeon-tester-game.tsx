@@ -1382,7 +1382,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
             Lost Brothers — three amnesiac men and a dog wake in the Neon Wilderland: cyberpunk steel
             under a Middle-earth canopy, spirits in the fog, dragons on the ridgeline. Adult R-rated
             pulp. Helix Dominion sells names; Project Pale wiped theirs. Oregon Trail page, short
-            comic frames, party seats like Neverworld (Justin, Rusty, Elisha, Eric). Late joiners
+            comic frames, party seats like Neverworld (Justin, Rusty, Elisha, Eric, Dad). Late joiners
             seal a hero anytime; save slots keep separate campaigns. Battles stay crude combat —
             grit over polish.
           </p>
@@ -1406,7 +1406,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                     <strong>{s.label}</strong>
                     <span>
                       {s.hasSave
-                        ? `${s.sealedCount}/4 sealed · ${s.heroNames.join(", ") || "empty party"} · frame ${s.framesAdvanced} · ${playLabel}`
+                        ? `${s.sealedCount}/${PLAYER_SLOT_ORDER.length} sealed · ${s.heroNames.join(", ") || "empty party"} · frame ${s.framesAdvanced} · ${playLabel}`
                         : "Empty — start a fresh march"}
                     </span>
                   </button>
@@ -1557,7 +1557,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
           ) : null}
           {!isSpectator && !needsHeroCreate && openPartySlots.length > 0 ? (
             <p className="dt-mode-banner" data-mode="party" role="status">
-              Party {sealedCount}/4 — waiting on{" "}
+              Party {sealedCount}/{PLAYER_SLOT_ORDER.length} — waiting on{" "}
               {openPartySlots.map((s) => SLOT_DEFAULTS[s].displayName).join(", ")} (
               {openPartySlots.map((s) => SLOT_DEFAULTS[s].email).join(", ")})
             </p>
@@ -2365,7 +2365,9 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
             </span>
             <span className="dt-hud-block">
               <span className="dt-hud-block-label">Party</span>
-              <strong className="dt-hud-block-value">{sealedCount}/4</strong>
+              <strong className="dt-hud-block-value">
+                {sealedCount}/{PLAYER_SLOT_ORDER.length}
+              </strong>
             </span>
           </div>
 
