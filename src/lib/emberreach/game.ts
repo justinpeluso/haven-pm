@@ -211,10 +211,8 @@ export class Game {
       if (!bolt.alive) continue;
       for (const enemy of this.enemies) {
         if (!enemy.alive) continue;
-        if (
-          bolt.mesh.position.distanceTo(enemy.position) <
-          1.25 * enemy.tier.scale
-        ) {
+        const radius = 1.6 * Math.max(0.9, enemy.tier.scale);
+        if (bolt.hits(enemy.position, radius)) {
           if (enemy.takeDamage(bolt.damage)) this.onEnemyDown();
           bolt.alive = false;
           bolt.mesh.visible = false;

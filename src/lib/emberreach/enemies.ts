@@ -201,12 +201,18 @@ export class Projectile {
   constructor(origin: THREE.Vector3, dir: THREE.Vector3, damage = 30) {
     this.damage = damage;
     this.mesh = new THREE.Mesh(
-      new THREE.SphereGeometry(0.18, 10, 10),
+      new THREE.SphereGeometry(0.22, 10, 10),
       new THREE.MeshBasicMaterial({ color: 0xff7a3a }),
     );
-    this.mesh.position.copy(origin).add(new THREE.Vector3(0, 1.3, 0));
-    this.velocity.copy(dir).multiplyScalar(22);
-    this.trail = new THREE.PointLight(0xff6a2a, 1.4, 5, 2);
+    const flat = dir.clone().setY(0);
+    if (flat.lengthSq() < 1e-6) flat.set(0, 0, -1);
+    flat.normalize();
+    this.mesh.position
+      .copy(origin)
+      .add(new THREE.Vector3(0, 1.05, 0))
+      .addScaledVector(flat, 0.85);
+    this.velocity.copy(flat).multiplyScalar(26);
+    this.trail = new THREE.PointLight(0xff6a2a, 1.6, 6, 2);
     this.mesh.add(this.trail);
   }
 
@@ -218,5 +224,12 @@ export class Projectile {
       this.alive = false;
       this.mesh.visible = false;
     }
+  }
+
+  /** Horizontal distance so height offset doesn't make bolts miss. */
+  hits(target: THREE.Vector3, radius: number): boolean {
+    const dx = this.mesh.position.x - target.x;
+    const dz = this.mesh.position.z - target.z;
+    return dx * dx + dz * dz <= radius * radius;
   }
 }

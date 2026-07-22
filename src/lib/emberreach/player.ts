@@ -31,6 +31,8 @@ export class Player {
     ashstorm: 0,
   };
 
+  /** Camera-relative aim on XZ (abilities fire this way). */
+  readonly aimDir = new THREE.Vector3(0, 0, -1);
   private dashTimer = 0;
   private readonly dashVel = new THREE.Vector3();
   private readonly swing = new THREE.Mesh();
@@ -132,6 +134,8 @@ export class Player {
     this.move.set(0, 0, 0);
     camera.forwardFlat(this.forward);
     camera.rightFlat(this.right);
+    this.aimDir.copy(this.forward);
+    this.facing = Math.atan2(this.aimDir.x, this.aimDir.z);
 
     if (this.dashTimer > 0) {
       this.dashTimer -= dt;
@@ -147,7 +151,6 @@ export class Player {
       if (moving) {
         this.move.normalize().multiplyScalar(speed * dt);
         this.position.add(this.move);
-        this.facing = Math.atan2(this.move.x, this.move.z);
         this.bob += dt * 10;
       } else {
         this.bob += dt * 2.2;
@@ -202,18 +205,14 @@ export class Player {
   tryEmberbolt(): THREE.Vector3 | null {
     if (!this.canCast("emberbolt")) return null;
     this.spend("emberbolt");
-    return new THREE.Vector3(
-      Math.sin(this.facing),
-      0.05,
-      Math.cos(this.facing),
-    ).normalize();
+    return this.aimDir.clone().setY(0.02).normalize();
   }
 
   tryDash(): boolean {
     if (!this.canCast("dash") || this.dashTimer > 0) return false;
     this.spend("dash");
     this.dashTimer = 0.22;
-    this.dashVel.set(Math.sin(this.facing), 0, Math.cos(this.facing)).multiplyScalar(28);
+    this.dashVel.copy(this.aimDir).setY(0).normalize().multiplyScalar(28);
     this.invuln = Math.max(this.invuln, 0.35);
     return true;
   }
@@ -236,7 +235,7 @@ export class Player {
     return [-0.28, 0, 0.28].map((offset) =>
       new THREE.Vector3(
         Math.sin(base + offset),
-        0.05,
+        0.02,
         Math.cos(base + offset),
       ).normalize(),
     );

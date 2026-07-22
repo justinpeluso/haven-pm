@@ -20,8 +20,10 @@ export class Input {
       this.keys.add(e.code);
       if (e.code === "Space") {
         e.preventDefault();
-        this.jumpPressed = true;
+        if (!e.repeat) this.jumpPressed = true;
       }
+      // Ignore OS key-repeat so abilities don't queue while held.
+      if (e.repeat) return;
       if (e.code === "Digit1" || e.code === "Numpad1") {
         this.abilityPressed.add("strike");
       }
