@@ -14,6 +14,7 @@ import { requirePermission, requireStaff } from "@/lib/auth/session";
 import { isStaffRole } from "@/lib/permissions";
 import { portalMessageSchema } from "@/lib/validations";
 import { createNotification, logActivity } from "@/lib/activity";
+import { sortPortalInboxMessages } from "@/lib/portal-inbox";
 
 const PORTAL_TYPE_LABEL: Record<PortalMessageType, string> = {
   GENERAL: "General",
@@ -240,39 +241,32 @@ export async function markAllPortalMessagesRead() {
   return { success: true };
 }
 
+/** Fetch portal inbox messages (staff: all tenants; tenant: own). */
 export async function getPortalInboxMessages() {
   const session = await requirePermission("messages:read");
 
   if (isStaffRole(session.user.role)) {
-    return db.message.findMany({
-      where: {
-        tenantId: { not: null },
-        deletedAt: null,
-        type: { not: null },
-      },
-      include: {
-        sender: { select: { id: true, name: true, email: true, phone: true } },
-        tenant: {
-          select: {
-            id: true,
-            phone: true,
-            user: { select: { name: true, email: true } },
+    return db.message
+      .findMany({
+        where: {
+          tenantId: { not: null },
+          deletedAt: null,
+          type: { not: null },
+        },
+        include: {
+          sender: { select: { id: true, name: true, email: true, phone: true } },
+          tenant: {
+            select: {
+              id: true,
+              phone: true,
+              user: { select: { name: true, email: true } },
+            },
           },
         },
-      },
-      orderBy: { createdAt: "desc" },
-      take: 100,
-    }).then((rows) =>
-      [...rows].sort((a, b) => {
-        const aWork = a.agentWorking ? 0 : 1;
-        const bWork = b.agentWorking ? 0 : 1;
-        if (aWork !== bWork) return aWork - bWork;
-        const aRead = a.status === MessageStatus.READ ? 1 : 0;
-        const bRead = b.status === MessageStatus.READ ? 1 : 0;
-        if (aRead !== bRead) return aRead - bRead;
-        return b.createdAt.getTime() - a.createdAt.getTime();
+        orderBy: { createdAt: "desc" },
+        take: 100,
       })
-    );
+      .then(sortPortalInboxMessages);
   }
 
   // Tenant: their own submissions
@@ -282,16 +276,18 @@ export async function getPortalInboxMessages() {
   });
   if (!tenant) return [];
 
-  return db.message.findMany({
-    where: {
-      tenantId: tenant.id,
-      senderId: session.user.id,
-      deletedAt: null,
-      type: { not: null },
-    },
-    orderBy: { createdAt: "desc" },
-    take: 50,
-  });
+  return db.message
+    .findMany({
+      where: {
+        tenantId: tenant.id,
+        senderId: session.user.id,
+        deletedAt: null,
+        type: { not: null },
+      },
+      orderBy: { createdAt: "desc" },
+      take: 50,
+    })
+    .then(sortPortalInboxMessages);
 }
 
 export async function getTenantCallbackPhone(): Promise<string> {

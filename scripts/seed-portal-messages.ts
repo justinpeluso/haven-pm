@@ -296,7 +296,7 @@ async function main() {
   }
 
   // One sample from the play login too
-  const playMessage = {
+  const playMessage: MessageSeed = {
     tenantEmail: DEMO_PORTAL.email,
     type: PortalMessageType.GENERAL,
     priority: PortalMessagePriority.MEDIUM,
@@ -304,7 +304,7 @@ async function main() {
     body: "This is the Demo Tenant play account. Feel free to send more messages from here while testing.",
     unread: true,
     hoursAgo: 1,
-  } as const;
+  };
 
   let created = 0;
   for (const m of [...MESSAGES, playMessage]) {

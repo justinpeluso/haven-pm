@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   clearPortalMessageAgentWorking,
@@ -8,12 +9,14 @@ import {
   markPortalMessageAgentWorking,
   markPortalMessageRead,
 } from "@/lib/actions/messages";
+import type { PortalInboxFilter } from "@/lib/portal-inbox";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCheck, Loader2, Phone } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
+import { cn } from "@/lib/utils";
 
 export type PortalInboxItem = {
   id: string;
@@ -33,6 +36,20 @@ export type PortalInboxItem = {
   } | null;
 };
 
+export type PortalInboxFilterCounts = {
+  all: number;
+  unread: number;
+  read: number;
+  working: number;
+};
+
+const FILTER_CHIPS: { key: PortalInboxFilter; label: string }[] = [
+  { key: "all", label: "All" },
+  { key: "unread", label: "Unread" },
+  { key: "read", label: "Read" },
+  { key: "working", label: "Agent working" },
+];
+
 const TYPE_LABEL: Record<string, string> = {
   GENERAL: "General",
   BILLING: "Billing",
@@ -50,11 +67,19 @@ function priorityVariant(
   return "secondary";
 }
 
-export function StaffPortalInbox({ messages }: { messages: PortalInboxItem[] }) {
+export function StaffPortalInbox({
+  messages,
+  filter = "all",
+  counts,
+}: {
+  messages: PortalInboxItem[];
+  filter?: PortalInboxFilter;
+  counts: PortalInboxFilterCounts;
+}) {
   const router = useRouter();
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [markingAll, startMarkAll] = useTransition();
-  const unread = messages.filter((m) => m.status !== "READ" && !m.agentWorking).length;
+  const unread = counts.unread;
 
   const onMarkRead = async (id: string) => {
     setPendingId(id);
@@ -92,6 +117,15 @@ export function StaffPortalInbox({ messages }: { messages: PortalInboxItem[] }) 
     });
   };
 
+  const emptyCopy =
+    filter === "unread"
+      ? "No unread tenant messages."
+      : filter === "read"
+        ? "No read tenant messages."
+        : filter === "working"
+          ? "No messages marked as agent working."
+          : "No tenant portal messages yet.";
+
   return (
     <Card>
       <CardHeader className="flex flex-row flex-wrap items-start justify-between gap-3 space-y-0">
@@ -120,8 +154,41 @@ export function StaffPortalInbox({ messages }: { messages: PortalInboxItem[] }) 
         ) : null}
       </CardHeader>
       <CardContent className="space-y-3">
+        <div className="flex flex-wrap gap-2" role="tablist" aria-label="Inbox filters">
+          {FILTER_CHIPS.map((chip) => {
+            const active = filter === chip.key;
+            const count = counts[chip.key];
+            const href =
+              chip.key === "all" ? "/messages" : `/messages?filter=${chip.key}`;
+            return (
+              <Button
+                key={chip.key}
+                asChild
+                size="sm"
+                variant={active ? "default" : "outline"}
+                className={cn(
+                  "h-8",
+                  active && chip.key === "working" &&
+                    "bg-amber-400 text-amber-950 hover:bg-amber-300"
+                )}
+              >
+                <Link href={href} scroll={false} role="tab" aria-selected={active}>
+                  {chip.label}
+                  <span
+                    className={cn(
+                      "ml-1.5 tabular-nums",
+                      active ? "opacity-90" : "text-muted-foreground"
+                    )}
+                  >
+                    {count}
+                  </span>
+                </Link>
+              </Button>
+            );
+          })}
+        </div>
         {messages.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No tenant portal messages yet.</p>
+          <p className="text-sm text-muted-foreground">{emptyCopy}</p>
         ) : (
           messages.map((m) => {
             const working = !!m.agentWorking;

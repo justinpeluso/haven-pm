@@ -5,6 +5,10 @@ import {
   getPortalInboxMessages,
   getTenantCallbackPhone,
 } from "@/lib/actions/messages";
+import {
+  matchesPortalInboxFilter,
+  parsePortalInboxFilter,
+} from "@/lib/portal-inbox";
 import { getMessagingSettings } from "@/lib/settings";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,11 +22,17 @@ import {
 } from "@/components/messages/portal-inbox";
 import { ExternalLink, MessageSquare, Phone, Smartphone } from "lucide-react";
 
-export default async function MessagesPage() {
+export default async function MessagesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ filter?: string }>;
+}) {
   const session = await requirePermission("messages:read");
   const role = session.user.role;
   const isTenant = role === UserRole.TENANT;
   const isStaff = isStaffRole(role);
+  const params = await searchParams;
+  const filter = parsePortalInboxFilter(params.filter);
 
   const [portalMessages, messaging, defaultPhone] = await Promise.all([
     getPortalInboxMessages(),
@@ -48,7 +58,9 @@ export default async function MessagesPage() {
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Your messages</CardTitle>
-            <CardDescription>Status updates when the office marks them read.</CardDescription>
+            <CardDescription>
+              Status updates when the office marks them read or starts working on them.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <TenantSentMessages messages={portalMessages} />
@@ -63,6 +75,16 @@ export default async function MessagesPage() {
     (/openphone|quo/i.test(messaging.providerName) ||
       /openphone\.com|quo\.com/i.test(messaging.portalUrl));
   const hasNumber = Boolean(messaging?.phoneNumber?.trim());
+
+  const all = portalMessages as PortalInboxItem[];
+  const counts = {
+    all: all.length,
+    unread: all.filter((m) => matchesPortalInboxFilter(m, "unread")).length,
+    read: all.filter((m) => matchesPortalInboxFilter(m, "read")).length,
+    working: all.filter((m) => matchesPortalInboxFilter(m, "working")).length,
+  };
+  const filtered =
+    filter === "all" ? all : all.filter((m) => matchesPortalInboxFilter(m, filter));
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
@@ -83,7 +105,7 @@ export default async function MessagesPage() {
       </div>
 
       {isStaff ? (
-        <StaffPortalInbox messages={portalMessages as PortalInboxItem[]} />
+        <StaffPortalInbox messages={filtered} filter={filter} counts={counts} />
       ) : null}
 
       {messaging ? (
