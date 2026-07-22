@@ -209,7 +209,7 @@ async function main() {
   await prisma.user.create({
     data: {
       email: "player5@havenpm.com",
-      name: "Dad",
+      name: "Peluso",
       passwordHash: partyPasswordHash,
       role: UserRole.OFFICE_STAFF,
       phone: "(412) 555-0165",
@@ -218,7 +218,7 @@ async function main() {
   await prisma.user.create({
     data: {
       email: "dad@havenpm.com",
-      name: "Dad",
+      name: "Peluso",
       passwordHash: partyPasswordHash,
       role: UserRole.OFFICE_STAFF,
       phone: "(412) 555-0165",

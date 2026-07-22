@@ -42,13 +42,13 @@ const PLAYERS = [
   },
   {
     email: "player5@havenpm.com",
-    name: "Dad",
+    name: "Peluso",
     role: UserRole.OFFICE_STAFF,
     phone: "(412) 555-0165",
   },
   {
     email: "dad@havenpm.com",
-    name: "Dad",
+    name: "Peluso",
     role: UserRole.OFFICE_STAFF,
     phone: "(412) 555-0165",
   },

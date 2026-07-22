@@ -80,3 +80,21 @@ export function dtBagItemUpgradeCue(
 
   return dtGearCombatScore(candidate) > dtGearCombatScore(worn) ? "upgrade" : null;
 }
+
+/**
+ * Score a drop for the sealed party: prefer empty slots, then strict
+ * same-slot upgrades. Consumables / non-upgrades score 0.
+ */
+export function dtLootUpgradeBiasScore(
+  itemId: string,
+  party: CharacterSave[]
+): number {
+  let best = 0;
+  for (const char of party) {
+    if (!char?.created) continue;
+    const cue = dtBagItemUpgradeCue(char, itemId);
+    if (cue === "empty") best = Math.max(best, 3);
+    else if (cue === "upgrade") best = Math.max(best, 2);
+  }
+  return best;
+}

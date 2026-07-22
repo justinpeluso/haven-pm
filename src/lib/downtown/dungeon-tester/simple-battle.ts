@@ -38,6 +38,7 @@ import {
   type DtLootPoolId,
 } from "./bestiary";
 import { getDtGear } from "./gear";
+import { dtLootUpgradeBiasScore } from "./gear-display";
 import { rollDtEncounterForLevel } from "./encounters";
 import { chapterForFrame } from "./story";
 import { rollNextEncounterAtFrame } from "./persist";
@@ -698,11 +699,13 @@ function lootName(itemId: string): string {
 /** Roll comic loot — fewer, better drops; bosses always leave a trophy. */
 export function rollSimpleBattleLoot(
   battle: SimpleBattleState,
-  rng: () => number = Math.random
+  rng: () => number = Math.random,
+  party?: CharacterSave[]
 ): SimpleBattleLootDrop[] {
   const fallen = battle.units.filter((u) => u.side === "enemy" && u.hp <= 0);
   const drops: SimpleBattleLootDrop[] = [];
   const seen = new Set<string>();
+  const sealedParty = (party ?? []).filter((c) => c?.created);
   const pushDrop = (itemId: string | undefined) => {
     if (!itemId || seen.has(itemId)) return;
     seen.add(itemId);
@@ -723,41 +726,48 @@ export function rollSimpleBattleLoot(
     getDtCreature(biasFoe?.foeDefId ?? "")?.lootPool ??
     bosses[0]?.lootPool;
 
+  const dropOpts = {
+    biasPool,
+    avoidIds: seen,
+    party: sealedParty.length ? sealedParty : undefined,
+  };
+
   // 1 guaranteed weighted drop + ~30% bonus (not per-foe spam).
-  pushDrop(
-    rollDtWeightedBattleDrop(battle.chapterId, rng, {
-      biasPool,
-      avoidIds: seen,
-    })?.id
-  );
+  pushDrop(rollDtWeightedBattleDrop(battle.chapterId, rng, dropOpts)?.id);
   if (rng() < 0.32) {
-    pushDrop(
-      rollDtWeightedBattleDrop(battle.chapterId, rng, {
-        biasPool,
-        avoidIds: seen,
-      })?.id
-    );
+    pushDrop(rollDtWeightedBattleDrop(battle.chapterId, rng, dropOpts)?.id);
   }
 
-  // Boss trophy — always. Extra high-tier roll for the setpiece.
+  // Boss trophy — always. Prefer unique drop that upgrades someone when possible.
   for (const boss of bosses) {
     if (boss.uniqueDrops?.length) {
-      const id =
+      let id =
         boss.uniqueDrops[Math.floor(rng() * boss.uniqueDrops.length)]!;
+      if (sealedParty.length && boss.uniqueDrops.length > 1) {
+        const ranked = [...boss.uniqueDrops].sort(
+          (a, b) =>
+            dtLootUpgradeBiasScore(b, sealedParty) -
+            dtLootUpgradeBiasScore(a, sealedParty)
+        );
+        if (dtLootUpgradeBiasScore(ranked[0]!, sealedParty) > 0 && rng() < 0.75) {
+          id = ranked[0]!;
+        }
+      }
       pushDrop(id);
     }
     pushDrop(
       rollDtLootFromPool(boss.lootPool ?? "rare", rng)?.id ??
         rollDtWeightedBattleDrop(battle.chapterId, rng, {
+          ...dropOpts,
           biasPool: boss.lootPool,
-          avoidIds: seen,
         })?.id
     );
   }
 
   if (!drops.length) {
     pushDrop(
-      rollDtWeightedBattleDrop(battle.chapterId, rng)?.id ?? "dt-trail-jerky"
+      rollDtWeightedBattleDrop(battle.chapterId, rng, dropOpts)?.id ??
+        "dt-trail-jerky"
     );
   }
   // Cap: 3 normal, 4 if a boss fought.
@@ -1323,9 +1333,17 @@ function pushLog(battle: SimpleBattleState, line: string): SimpleBattleState {
   return { ...battle, log: [line, ...battle.log].slice(0, 24) };
 }
 
+function sealedPartyChars(world?: DtWorldSave | null): CharacterSave[] {
+  if (!world) return [];
+  return PLAYER_SLOT_ORDER.map((s) => world.characters[s]).filter(
+    (c): c is CharacterSave => !!c?.created
+  );
+}
+
 function checkEnd(
   battle: SimpleBattleState,
-  rng: () => number = Math.random
+  rng: () => number = Math.random,
+  party?: CharacterSave[]
 ): SimpleBattleState {
   const units = battle.units.map((u) => (u.hp < 0 ? { ...u, hp: 0 } : u));
   const next = { ...battle, units };
@@ -1336,7 +1354,7 @@ function checkEnd(
     const lootDrops =
       next.lootDrops && next.lootDrops.length > 0
         ? next.lootDrops
-        : rollSimpleBattleLoot(next, rng);
+        : rollSimpleBattleLoot(next, rng, party);
     const combatStats: SimpleBattleCombatStats = {
       ...(next.combatStats ?? emptyCombatStats(next.round)),
       foesDefeated,
@@ -1744,7 +1762,7 @@ function resolveActorMove(
   target: SimpleBattleUnit,
   style: "enemy" | "dog" | "hero",
   rng: () => number,
-  opts?: { scaleDamage?: (base: number) => number }
+  opts?: { scaleDamage?: (base: number) => number; party?: CharacterSave[] }
 ): SimpleBattleState {
   let units = battle.units.map((u) =>
     u.id === actor.id ? { ...u, moveCursor: nextCursor } : u
@@ -1874,14 +1892,15 @@ function resolveActorMove(
     next,
     `${actor.name} ${verb} ${move.name}${targetBit}${detail}.`
   );
-  return checkEnd(next, rng);
+  return checkEnd(next, rng, opts?.party);
 }
 
 /** Run one enemy's signature move at a random living hero. */
 function enemyActInPlace(
   battle: SimpleBattleState,
   enemy: SimpleBattleUnit,
-  rng: () => number
+  rng: () => number,
+  party?: CharacterSave[]
 ): SimpleBattleState {
   if (enemy.hp <= 0) return battle;
   if ((enemy.stunRounds ?? 0) > 0) {
@@ -1926,7 +1945,8 @@ function enemyActInPlace(
     nextCursor,
     target,
     "enemy",
-    rng
+    rng,
+    { party }
   );
 }
 
@@ -1934,7 +1954,8 @@ function enemyActInPlace(
 function dogActInPlace(
   battle: SimpleBattleState,
   dog: SimpleBattleUnit,
-  rng: () => number
+  rng: () => number,
+  party?: CharacterSave[]
 ): SimpleBattleState {
   if (dog.hp <= 0) return battle;
   if ((dog.stunRounds ?? 0) > 0) {
@@ -1962,17 +1983,20 @@ function dogActInPlace(
     ? foes[Math.floor(rng() * foes.length)]!
     : dog;
 
-  return resolveActorMove(battle, dog, move, nextCursor, target, "dog", rng);
+  return resolveActorMove(battle, dog, move, nextCursor, target, "dog", rng, {
+    party,
+  });
 }
 
 function runEnemyPhase(
   battle: SimpleBattleState,
-  rng: () => number = Math.random
+  rng: () => number = Math.random,
+  party?: CharacterSave[]
 ): SimpleBattleState {
   let next: SimpleBattleState = { ...battle, phase: "enemy", fx: [] };
   for (const dog of livingDogs(next.units)) {
     if (next.status !== "active") break;
-    next = dogActInPlace(next, dog, rng);
+    next = dogActInPlace(next, dog, rng, party);
   }
   // After dogs: if party still dominating mid-fight, one foe may join and swing.
   if (next.status === "active") {
@@ -1981,7 +2005,7 @@ function runEnemyPhase(
   const foes = living(next.units, "enemy");
   for (const foe of foes) {
     if (next.status !== "active") break;
-    next = enemyActInPlace(next, foe, rng);
+    next = enemyActInPlace(next, foe, rng, party);
   }
   if (next.status !== "active") return next;
 
@@ -2065,12 +2089,13 @@ export function performSimpleBattleAction(
 
   let nextBattle: SimpleBattleState = { ...battle, fx: [], focusHeroId: heroId };
   let characters = { ...world.characters };
+  const party = sealedPartyChars(world);
   let message = "";
 
   if (action === "attack") {
     const livingFoes = living(nextBattle.units, "enemy");
     if (!livingFoes.length) {
-      nextBattle = checkEnd(nextBattle, rng);
+      nextBattle = checkEnd(nextBattle, rng, party);
       message = "No foes left — victory!";
     } else {
       let foe = targetId ? livingFoes.find((u) => u.id === targetId) : livingFoes[0];
@@ -2116,7 +2141,7 @@ export function performSimpleBattleAction(
         foe,
         "hero",
         rng,
-        { scaleDamage: scaling.scale }
+        { scaleDamage: scaling.scale, party }
       );
       nextBattle = {
         ...nextBattle,
@@ -2139,7 +2164,7 @@ export function performSimpleBattleAction(
     if (hero.mana < MAGIC_COST) return { world, message: "Not enough mana." };
     const livingFoes = living(nextBattle.units, "enemy");
     if (!livingFoes.length) {
-      nextBattle = checkEnd(nextBattle, rng);
+      nextBattle = checkEnd(nextBattle, rng, party);
       message = "No foes left — victory!";
     } else {
       let foe = targetId ? livingFoes.find((u) => u.id === targetId) : livingFoes[0];
@@ -2356,7 +2381,7 @@ export function performSimpleBattleAction(
     return { world, message: "Unknown action." };
   }
 
-  nextBattle = checkEnd(nextBattle, rng);
+  nextBattle = checkEnd(nextBattle, rng, party);
   characters = syncHeroHpFromUnits({ ...world, characters }, nextBattle.units);
 
   if (nextBattle.status === "victory" || nextBattle.status === "defeat") {
@@ -2415,7 +2440,7 @@ export function advanceSimpleBattleEnemyPhase(
     return { world, message: "" };
   }
 
-  let nextBattle = runEnemyPhase(battle, rng);
+  let nextBattle = runEnemyPhase(battle, rng, sealedPartyChars(world));
   let characters = syncHeroHpFromUnits(world, nextBattle.units);
 
   if (nextBattle.status === "victory" || nextBattle.status === "defeat") {

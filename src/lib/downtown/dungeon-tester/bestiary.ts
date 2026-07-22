@@ -11,8 +11,9 @@ import {
   type BossDef,
   type CreatureDef,
 } from "../party-chronicle/bestiary";
-import type { GearItem, GearTier } from "../party-chronicle/types";
+import type { CharacterSave, GearItem, GearTier } from "../party-chronicle/types";
 import { DT_GEAR_POOLS, getDtGear } from "./gear";
+import { dtLootUpgradeBiasScore } from "./gear-display";
 
 export type DtLootPoolId =
   | "trash"
@@ -244,25 +245,48 @@ export function rollDtLootFromPool(
 
 /**
  * Weighted chapter drop. Optional foe bias + avoid-duplicate pass.
+ * When `party` is provided, reroll a few times and prefer empty-slot /
+ * better-than-equipped gear (~upgrade bias).
  */
 export function rollDtWeightedBattleDrop(
   chapterId: string,
   rng: () => number = Math.random,
-  opts?: { biasPool?: string; avoidIds?: Set<string> }
+  opts?: {
+    biasPool?: string;
+    avoidIds?: Set<string>;
+    party?: CharacterSave[];
+  }
 ): DtBattleLootItem | undefined {
   const n = chapterNumber(chapterId);
   const weights = biasWeights(
     DT_CHAPTER_LOOT_WEIGHTS[n] ?? DT_CHAPTER_LOOT_WEIGHTS[1]!,
     opts?.biasPool
   );
-  for (let attempt = 0; attempt < 10; attempt++) {
+  const party = opts?.party?.filter((c) => c?.created) ?? [];
+  const candidates: DtBattleLootItem[] = [];
+  const tries = party.length ? 14 : 10;
+  for (let attempt = 0; attempt < tries; attempt++) {
     const tier = pickWeightedTier(weights, rng);
     const item = rollDtLootFromPool(tier, rng);
     if (!item) continue;
-    if (opts?.avoidIds?.has(item.id) && attempt < 8) continue;
-    return item;
+    if (opts?.avoidIds?.has(item.id) && attempt < tries - 2) continue;
+    if (!party.length) return item;
+    candidates.push(item);
+    // Early exit on a strong empty-slot fill.
+    if (dtLootUpgradeBiasScore(item.id, party) >= 3 && rng() < 0.65) {
+      return item;
+    }
   }
-  return rollDtLootFromPool("common", rng) ?? getDtBattleLootItem("dt-trail-jerky");
+  if (!candidates.length) {
+    return rollDtLootFromPool("common", rng) ?? getDtBattleLootItem("dt-trail-jerky");
+  }
+  if (!party.length) return candidates[0];
+  // Weighted pick: empty=3, upgrade=2, other=1.
+  const scored = candidates.map((item) => ({
+    item,
+    weight: 1 + dtLootUpgradeBiasScore(item.id, party),
+  }));
+  return weightedPick(scored, rng).item;
 }
 
 export function dtCreatureAsEncounter(c: DtCreatureDef): {

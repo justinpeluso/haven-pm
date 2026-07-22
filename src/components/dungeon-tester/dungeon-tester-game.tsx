@@ -326,6 +326,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     goldLeft: number;
   } | null>(null);
   const [turnPulse, setTurnPulse] = useState(false);
+  const [inviteModal, setInviteModal] = useState<null | { slot: PlayerSlot; url: string; name: string; email: string }>(null);
   const playTickRef = useRef<number | null>(null);
   const activeSlotRef = useRef<DtSaveSlotId>(DT_DEFAULT_SLOT_ID);
   const prevActiveSlotRef = useRef<PlayerSlot | null>(null);
@@ -1139,9 +1140,15 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     }
     const email = SLOT_DEFAULTS[open].email;
     const url = `${window.location.origin}/login?seat=${encodeURIComponent(email)}`;
+    setInviteModal({
+      slot: open,
+      url,
+      name: SLOT_DEFAULTS[open].displayName,
+      email,
+    });
     void navigator.clipboard.writeText(url).then(
-      () => setFlash("Invite link copied"),
-      () => setFlash("Invite link copied")
+      () => setFlash(`Invite for ${SLOT_DEFAULTS[open].displayName} ready`),
+      () => setFlash(`Invite for ${SLOT_DEFAULTS[open].displayName} ready`)
     );
   };
 
@@ -1610,6 +1617,57 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
               Title
             </button>
           </div>
+
+
+          {inviteModal ? (
+            <div
+              className="dt-invite-backdrop"
+              role="dialog"
+              aria-modal="true"
+              aria-label={`Invite ${inviteModal.name}`}
+              onClick={() => setInviteModal(null)}
+            >
+              <div className="dt-invite-modal" onClick={(e) => e.stopPropagation()}>
+                <p className="dt-section-label">Seat invite</p>
+                <p className="dt-section-title">Join as {inviteModal.name}</p>
+                <p className="dt-section-hint">
+                  Scan on another phone, or open the link and sign in as {inviteModal.email}.
+                </p>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  className="dt-invite-qr"
+                  alt={`QR code for ${inviteModal.name} seat`}
+                  width={180}
+                  height={180}
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(inviteModal.url)}`}
+                />
+                <code className="dt-invite-url">{inviteModal.url}</code>
+                <div className="dt-actions">
+                  <button
+                    type="button"
+                    className="dt-btn"
+                    data-variant="primary"
+                    onClick={() => {
+                      void navigator.clipboard.writeText(inviteModal.url).then(
+                        () => setFlash("Invite link copied"),
+                        () => setFlash("Invite link copied")
+                      );
+                    }}
+                  >
+                    Copy link
+                  </button>
+                  <button
+                    type="button"
+                    className="dt-btn"
+                    data-variant="secondary"
+                    onClick={() => setInviteModal(null)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : null}
 
           {isSpectator || (identity.isDm && !mySlot) ? (
             <p className="dt-mode-banner" data-mode="spectate" role="status">

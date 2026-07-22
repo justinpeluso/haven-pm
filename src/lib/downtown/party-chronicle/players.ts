@@ -50,7 +50,7 @@ export const SLOT_DEFAULTS: Record<
     suggestedClass: "warrior",
   },
   dad: {
-    displayName: "Dad",
+    displayName: "Peluso",
     isDm: false,
     email: "player5@havenpm.com",
     dogName: "Buddy",
