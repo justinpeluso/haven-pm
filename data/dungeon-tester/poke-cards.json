@@ -39311,6 +39311,157 @@
           "blurb": "Stay standing."
         }
       ]
+    },
+    "boss-warrant-captain": {
+      "id": "boss-warrant-captain",
+      "name": "Warrant Captain Harrow",
+      "blurb": "Dust-march ink and a badge that buys blood.",
+      "artId": "enemy-whip-hand",
+      "types": [
+        "chain",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "warrant-brand",
+          "name": "Warrant Brand",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.25,
+          "stunRounds": 1,
+          "blurb": "Your name is already on the paper."
+        },
+        {
+          "id": "dust-badge",
+          "name": "Dust Badge",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.35
+        },
+        {
+          "id": "ink-line",
+          "name": "Ink Line",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.2,
+          "drainPct": 0.3
+        },
+        {
+          "id": "march-order",
+          "name": "March Order",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 5,
+          "buffRounds": 2
+        }
+      ]
+    },
+    "boss-undervault-champion": {
+      "id": "boss-undervault-champion",
+      "name": "Undervault Champion",
+      "blurb": "Pit favorite of the Cade — bone drums for a crown.",
+      "artId": "enemy-ash-gut",
+      "types": [
+        "ash",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "pit-encore",
+          "name": "Pit Encore",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.45,
+          "blurb": "The crowd wants more blood."
+        },
+        {
+          "id": "bone-crowd",
+          "name": "Bone Crowd",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.2,
+          "stunRounds": 1
+        },
+        {
+          "id": "cade-favor",
+          "name": "Cade Favor",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 7,
+          "buffRounds": 3
+        },
+        {
+          "id": "drum-finish",
+          "name": "Drum Finish",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.6
+        }
+      ]
+    },
+    "boss-horizon-judge": {
+      "id": "boss-horizon-judge",
+      "name": "Horizon Judge",
+      "blurb": "Last writ before the free sky — ash and iron.",
+      "artId": "enemy-coffle-guard",
+      "types": [
+        "chain",
+        "helix"
+      ],
+      "moves": [
+        {
+          "id": "sky-sentence",
+          "name": "Sky Sentence",
+          "effects": [
+            "damage",
+            "stun"
+          ],
+          "powerMult": 1.5,
+          "stunRounds": 1,
+          "blurb": "The horizon closes like a collar."
+        },
+        {
+          "id": "ash-writ",
+          "name": "Ash Writ",
+          "effects": [
+            "damage",
+            "drain"
+          ],
+          "powerMult": 1.35,
+          "drainPct": 0.45
+        },
+        {
+          "id": "free-or-fall",
+          "name": "Free or Fall",
+          "effects": [
+            "damage"
+          ],
+          "powerMult": 1.7
+        },
+        {
+          "id": "last-seal",
+          "name": "Last Seal",
+          "effects": [
+            "buff"
+          ],
+          "powerMult": 1,
+          "powerBonus": 9,
+          "buffRounds": 3
+        }
+      ]
     }
   }
 }

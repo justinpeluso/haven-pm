@@ -27,7 +27,9 @@
         "power": 8
       },
       "uniqueDrops": [
-        "dt-liberators-spur"
+        "dt-liberators-spur",
+        "dt-stock-whip",
+        "dt-copper-spur"
       ]
     },
     {
@@ -55,7 +57,9 @@
         "power": 10
       },
       "uniqueDrops": [
-        "dt-widow-silk-cloak"
+        "dt-widow-silk-cloak",
+        "dt-mist-striders",
+        "dt-greater-poultice"
       ]
     },
     {
@@ -83,7 +87,9 @@
         "power": 14
       },
       "uniqueDrops": [
-        "dt-bridge-stone-mail"
+        "dt-bridge-stone-mail",
+        "dt-ridge-scale-greaves",
+        "dt-plank-shield"
       ]
     },
     {
@@ -111,7 +117,9 @@
         "power": 12
       },
       "uniqueDrops": [
-        "dt-bone-drum-cleaver"
+        "dt-bone-drum-cleaver",
+        "dt-gridfire-machete",
+        "dt-liberation-gauntlets"
       ]
     },
     {
@@ -140,7 +148,9 @@
         "power": 16
       },
       "uniqueDrops": [
-        "dt-ash-veil-revolver"
+        "dt-ash-veil-revolver",
+        "dt-pale-host-helm",
+        "dt-memory-shade-dagger"
       ]
     },
     {
@@ -169,7 +179,101 @@
         "power": 20
       },
       "uniqueDrops": [
-        "dt-broken-shackle-crown"
+        "dt-broken-shackle-crown",
+        "dt-wilderland-oathblade",
+        "dt-brother-bond-blade"
+      ]
+    },
+    {
+      "id": "boss-warrant-captain",
+      "name": "Warrant Captain Harrow",
+      "blurb": "Dust-march ink and a badge that buys blood.",
+      "levelMin": 8,
+      "levelMax": 16,
+      "hp": 110,
+      "power": 14,
+      "armor": 3,
+      "xp": 140,
+      "gold": 55,
+      "tags": [
+        "boss",
+        "frontier",
+        "humanoid"
+      ],
+      "artId": "enemy-whip-hand",
+      "weight": 1,
+      "lootPool": "uncommon",
+      "uniqueSkill": {
+        "id": "warrant-brand",
+        "name": "Warrant Brand",
+        "blurb": "Your name is already on the paper.",
+        "power": 9
+      },
+      "uniqueDrops": [
+        "dt-ranch-carbine",
+        "dt-hide-duster",
+        "dt-dust-poultice"
+      ]
+    },
+    {
+      "id": "boss-undervault-champion",
+      "name": "Undervault Champion",
+      "blurb": "Pit favorite of the Cade — bone drums for a crown.",
+      "levelMin": 32,
+      "levelMax": 44,
+      "hp": 240,
+      "power": 24,
+      "armor": 5,
+      "xp": 300,
+      "gold": 120,
+      "tags": [
+        "boss",
+        "orc"
+      ],
+      "artId": "enemy-ash-gut",
+      "weight": 1,
+      "lootPool": "epic",
+      "uniqueSkill": {
+        "id": "pit-encore",
+        "name": "Pit Encore",
+        "blurb": "The crowd wants more blood.",
+        "power": 14
+      },
+      "uniqueDrops": [
+        "dt-synth-mandolin-axe",
+        "dt-pit-chrome-gauntlet",
+        "dt-mana-cider"
+      ]
+    },
+    {
+      "id": "boss-horizon-judge",
+      "name": "Horizon Judge",
+      "blurb": "Last writ before the free sky — ash and iron.",
+      "levelMin": 55,
+      "levelMax": 75,
+      "hp": 360,
+      "power": 32,
+      "armor": 7,
+      "xp": 500,
+      "gold": 220,
+      "tags": [
+        "boss",
+        "frontier",
+        "humanoid"
+      ],
+      "artId": "enemy-coffle-guard",
+      "weight": 1,
+      "lootPool": "legendary",
+      "uniqueSkill": {
+        "id": "sky-sentence",
+        "name": "Sky Sentence",
+        "blurb": "The horizon closes like a collar.",
+        "power": 22
+      },
+      "uniqueDrops": [
+        "dt-free-horizon-revolver",
+        "dt-helix-director-cane",
+        "dt-neon-wilderland-bow"
       ]
     }
   ]
