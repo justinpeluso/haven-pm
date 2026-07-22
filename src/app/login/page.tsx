@@ -9,8 +9,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-type DemoAccount = { email: string; label: string };
-
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -18,54 +16,6 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [pmOpen, setPmOpen] = useState(false);
-  const [partyOpen, setPartyOpen] = useState(false);
-  const [pmAccounts, setPmAccounts] = useState<DemoAccount[] | null>(null);
-  const [partyAccounts, setPartyAccounts] = useState<DemoAccount[] | null>(null);
-  const [demoPassword, setDemoPassword] = useState<string | null>(null);
-  const [revealing, setRevealing] = useState<"pm" | "party" | null>(null);
-
-  const loadDemoAccounts = async () => {
-    const mod = await import("./demo-accounts");
-    setPmAccounts([...mod.PM_ACCOUNTS]);
-    setPartyAccounts([...mod.PARTY_ACCOUNTS]);
-    setDemoPassword(mod.DEMO_PASSWORD);
-    return mod;
-  };
-
-  const revealPm = async () => {
-    if (pmOpen) {
-      setPmOpen(false);
-      return;
-    }
-    setRevealing("pm");
-    try {
-      if (!pmAccounts) await loadDemoAccounts();
-      setPmOpen(true);
-    } finally {
-      setRevealing(null);
-    }
-  };
-
-  const revealParty = async () => {
-    if (partyOpen) {
-      setPartyOpen(false);
-      return;
-    }
-    setRevealing("party");
-    try {
-      if (!partyAccounts) await loadDemoAccounts();
-      setPartyOpen(true);
-    } finally {
-      setRevealing(null);
-    }
-  };
-
-  const fillAccount = (accountEmail: string) => {
-    setEmail(accountEmail);
-    if (demoPassword) setPassword(demoPassword);
-    setError("");
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,17 +28,23 @@ export default function LoginPage() {
       redirect: false,
     });
 
-    setLoading(false);
-
     if (result?.error) {
+      setLoading(false);
       setError("Invalid email or password");
       return;
     }
 
-    const { isPartyLoginEmail } = await import("./demo-accounts");
-    const dest = isPartyLoginEmail(email) ? "/true-grit" : "/dashboard";
-    router.push(dest);
-    router.refresh();
+    try {
+      const home = await fetch("/api/demo-accounts", { method: "POST" });
+      const data = (await home.json()) as { path?: string };
+      router.push(data.path ?? "/dashboard");
+      router.refresh();
+    } catch {
+      router.push("/dashboard");
+      router.refresh();
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -147,70 +103,6 @@ export default function LoginPage() {
               Sign in
             </Button>
           </form>
-
-          <div className="mt-6 space-y-3">
-            <div className="rounded-lg bg-muted p-4 text-xs text-muted-foreground">
-              <button
-                type="button"
-                className="mb-0 flex w-full items-center justify-between font-medium text-foreground"
-                onClick={() => void revealPm()}
-                aria-expanded={pmOpen}
-                disabled={revealing === "pm"}
-              >
-                <span>Haven PM demo accounts</span>
-                <span className="text-[0.65rem] font-normal opacity-80">
-                  {revealing === "pm" ? "…" : pmOpen ? "Hide" : "Show"}
-                </span>
-              </button>
-              {pmOpen && pmAccounts ? (
-                <ul className="mt-3 space-y-2">
-                  {pmAccounts.map((p) => (
-                    <li key={p.email} className="flex flex-wrap items-center gap-2">
-                      <button
-                        type="button"
-                        className="rounded border bg-background px-2 py-1 font-mono text-[0.7rem] hover:bg-accent"
-                        onClick={() => fillAccount(p.email)}
-                      >
-                        {p.email}
-                      </button>
-                      <span>{p.label}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </div>
-
-            <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-xs">
-              <button
-                type="button"
-                className="mb-0 flex w-full items-center justify-between font-semibold text-amber-900 dark:text-amber-100"
-                onClick={() => void revealParty()}
-                aria-expanded={partyOpen}
-                disabled={revealing === "party"}
-              >
-                <span>Dungeons and Dogs party logins</span>
-                <span className="text-[0.65rem] font-normal opacity-80">
-                  {revealing === "party" ? "…" : partyOpen ? "Hide" : "Show"}
-                </span>
-              </button>
-              {partyOpen && partyAccounts ? (
-                <ul className="mt-3 space-y-2 text-muted-foreground">
-                  {partyAccounts.map((p) => (
-                    <li key={p.email} className="flex flex-wrap items-center gap-2">
-                      <button
-                        type="button"
-                        className="rounded border border-amber-500/50 bg-background px-2 py-1 font-mono text-[0.7rem] hover:bg-amber-500/15"
-                        onClick={() => fillAccount(p.email)}
-                      >
-                        {p.email}
-                      </button>
-                      <span>{p.label}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </div>
-          </div>
         </CardContent>
       </Card>
     </div>

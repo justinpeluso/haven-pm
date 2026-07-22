@@ -1,4 +1,6 @@
-/** Loaded only after a human clicks “Show …” on /login — keeps emails out of the initial HTML. */
+import { UserRole } from "@prisma/client";
+
+/** Demo logins — only exposed via authenticated API to player1 / admins. */
 
 export const DEMO_PASSWORD = "Chomps123";
 
@@ -28,4 +30,17 @@ const PARTY_EMAILS = new Set<string>([
 
 export function isPartyLoginEmail(email: string): boolean {
   return PARTY_EMAILS.has(email.trim().toLowerCase());
+}
+
+/** Player 1 (DM seat) or any Haven administrator. */
+export function canViewDemoAccounts(user: {
+  email?: string | null;
+  role?: UserRole | string | null;
+}): boolean {
+  const email = (user.email ?? "").trim().toLowerCase();
+  if (email === "player1@havenpm.com") return true;
+  if (user.role === UserRole.ADMINISTRATOR || user.role === "ADMINISTRATOR") {
+    return true;
+  }
+  return false;
 }
