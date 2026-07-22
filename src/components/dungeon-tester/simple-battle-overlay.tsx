@@ -17,9 +17,12 @@ import {
   type SimpleMapTheme,
 } from "@/lib/downtown/dungeon-tester/simple-battle";
 import { dtEnemyArtSrc, simpleBattleMapSrc } from "@/lib/downtown/dungeon-tester/art";
+import { dtLootTierLabel } from "@/lib/downtown/dungeon-tester/bestiary";
 import { dtLoadoutSummary } from "@/lib/downtown/dungeon-tester/camp";
+import { getDtGear } from "@/lib/downtown/dungeon-tester/gear";
 import { formatGearTier, gearTierAttr } from "@/lib/downtown/dungeon-tester/gear-display";
 import { normalizeDtHeroLook } from "@/lib/downtown/dungeon-tester/look";
+import { getGear } from "@/lib/downtown/party-chronicle/gear";
 import {
   getDtDogPokeCard,
   getDtUnarmedPokeCard,
@@ -493,6 +496,9 @@ export function SimpleBattleOverlay({
   );
   /** Inspected poke card — enemy, dog, or splash pick. */
   const [inspectUnitId, setInspectUnitId] = useState<string | null>(null);
+  const [justClaimedIdx, setJustClaimedIdx] = useState<number | null>(null);
+  const prevClaimedRef = useRef<Record<number, PlayerSlot | null | undefined>>({});
+  const prevClaimedBattleIdRef = useRef<string | null>(null);
 
   const skipIntro =
     !!battle.splashDone || simpleBattleShouldSkipSplash(battle);
@@ -651,6 +657,41 @@ export function SimpleBattleOverlay({
     !isDm &&
     !!mySlot &&
     canAct;
+  const waitingAllyNames = waitingOnAlly
+    ? heroes
+        .filter(
+          (u) =>
+            u.actionsLeft > 0 &&
+            u.hp > 0 &&
+            !!u.slot &&
+            u.slot !== mySlot
+        )
+        .map((u) => u.name)
+    : [];
+
+  useEffect(() => {
+    const drops = battle.lootDrops ?? [];
+    if (prevClaimedBattleIdRef.current !== battle.id) {
+      prevClaimedBattleIdRef.current = battle.id;
+      prevClaimedRef.current = Object.fromEntries(
+        drops.map((d, i) => [i, d.claimedBy ?? null])
+      );
+      return;
+    }
+    let flashed: number | null = null;
+    drops.forEach((d, idx) => {
+      const prev = prevClaimedRef.current[idx];
+      if (!prev && d.claimedBy) flashed = idx;
+    });
+    prevClaimedRef.current = Object.fromEntries(
+      drops.map((d, i) => [i, d.claimedBy ?? null])
+    );
+    if (flashed === null) return;
+    setJustClaimedIdx(flashed);
+    const t = window.setTimeout(() => setJustClaimedIdx(null), 900);
+    return () => window.clearTimeout(t);
+  }, [battle.id, battle.lootDrops]);
+
   // Intro never blocks when splash was already stamped or fight progressed.
   const introBusy =
     introPhase !== "gone" &&
@@ -925,7 +966,9 @@ export function SimpleBattleOverlay({
               {introBusy
                 ? "Ambush!"
                 : waitingOnAlly
-                  ? "Waiting on another seat to act…"
+                  ? waitingAllyNames.length
+                    ? `Waiting on ${waitingAllyNames.join(", ")}…`
+                    : "Waiting on another seat to act…"
                   : needTarget === "enemy"
                     ? "Click an enemy — fixed spots, no movement."
                     : needTarget === "ally"
@@ -1092,11 +1135,27 @@ export function SimpleBattleOverlay({
                     const taken = !!d.claimedBy;
                     const iPassed =
                       !!mySlot && (d.passedBy ?? []).includes(mySlot);
+                    const lootTier =
+                      getDtGear(d.itemId)?.tier ?? getGear(d.itemId)?.tier;
                     return (
                       <li key={`${d.itemId}-${idx}`}>
-                        <div className="dt-sbat-loot-claim-row">
+                        <div
+                          className="dt-sbat-loot-claim-row"
+                          data-just-claimed={
+                            justClaimedIdx === idx ? "true" : undefined
+                          }
+                        >
                           <div>
                             <span className="dt-sbat-loot-name">{d.name}</span>
+                            {lootTier ? (
+                              <span
+                                className="dt-sbat-loot-tier"
+                                data-tier={gearTierAttr(lootTier)}
+                              >
+                                {" "}
+                                · {dtLootTierLabel(lootTier)}
+                              </span>
+                            ) : null}
                             {d.blurb ? (
                               <span className="dt-sbat-loot-blurb"> — {d.blurb}</span>
                             ) : null}

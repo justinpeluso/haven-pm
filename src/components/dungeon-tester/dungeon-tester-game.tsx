@@ -270,6 +270,35 @@ function frameSubjectSrc(frame: Pick<DtFrame, "sceneId" | "artId"> | null | unde
   return dtArtSrc(frame.artId);
 }
 
+/** Optional soft cue — Web Audio only, never blocks UX. */
+function playDtTone(opts: { freq: number; gain: number; ms: number }) {
+  try {
+    const AC =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!AC) return;
+    const ctx = new AC();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = opts.freq;
+    gain.gain.value = opts.gain;
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    const t0 = ctx.currentTime;
+    const dur = Math.max(0.03, opts.ms / 1000);
+    gain.gain.setValueAtTime(opts.gain, t0);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.start(t0);
+    osc.stop(t0 + dur);
+    osc.onended = () => {
+      void ctx.close().catch(() => undefined);
+    };
+  } catch {
+    /* audio optional */
+  }
+}
+
 export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   const mySlot = identity.slot;
   const [phase, setPhase] = useState<Phase>("title");
@@ -300,6 +329,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   const playTickRef = useRef<number | null>(null);
   const activeSlotRef = useRef<DtSaveSlotId>(DT_DEFAULT_SLOT_ID);
   const prevActiveSlotRef = useRef<PlayerSlot | null>(null);
+  const prevSealedCountRef = useRef<number | null>(null);
   activeSlotRef.current = activeSlotId;
   const worldRef = useRef(world);
   // Never clobber eager persist stamps with a stale React snapshot on render.
@@ -627,9 +657,8 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
         });
         if (mySlot) {
           const sealed = !!remote.characters[mySlot]?.created;
-          if (!sealed) {
-            setPhase("create");
-          } else if (phase === "create") {
+          // Late joiners stay on play with the create-hero CTA; only leave create when sealed.
+          if (sealed && phase === "create") {
             setPhase("play");
           }
         }
@@ -650,9 +679,12 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
   useEffect(() => {
     if (!bootstrapped || !world || !mySlot) return;
-    if ((phase === "play" || phase === "title") && !world.characters[mySlot]?.created) {
-      // Stay on title until they pick Continue — but never let play skip create.
-      if (phase === "play") setPhase("create");
+    if (phase === "play" && !world.characters[mySlot]?.created) {
+      // Solo start → create. Late join (others already sealed) stays on play with CTA.
+      const othersSealed = PLAYER_SLOT_ORDER.some(
+        (s) => s !== mySlot && !!world.characters[s]?.created
+      );
+      if (!othersSealed) setPhase("create");
     }
   }, [bootstrapped, world, mySlot, phase]);
 
@@ -825,6 +857,12 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
 
   const onPassTurn = () => {
     if (!world) return;
+    if (
+      dtSealedPartySlots(world).length >= 2 &&
+      !window.confirm("Pass the table turn to the next seat?")
+    ) {
+      return;
+    }
     const r = dtPassTurn(world, mySlot, { isDm: identity.isDm });
     if ("error" in r) {
       setFlash(r.error);
@@ -934,6 +972,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     }
     persist(r.world);
     setFlash(r.message);
+    playDtTone({ freq: 520, gain: 0.035, ms: 70 });
   };
 
   const onPassBattleLoot = (dropIndex: number) => {
@@ -1050,6 +1089,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     const t = window.setTimeout(() => setTurnPulse(false), 900);
     if (world.activeSlot === mySlot) {
       setFlash("Your turn!");
+      playDtTone({ freq: 660, gain: 0.05, ms: 110 });
     } else if (!identity.isDm) {
       setFlash(`Waiting on ${activeTurnName}…`);
     }
@@ -1085,6 +1125,44 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
     [world]
   );
   const needsHeroCreate = !!mySlot && !!world && !world.characters[mySlot]?.created;
+  const campTurnOk = storyTurnOk && acting;
+  const showInviteSeat =
+    !!world &&
+    openPartySlots.length > 0 &&
+    (!!mySlot || isSpectator || identity.isDm);
+
+  const onInviteSeat = () => {
+    const open = openPartySlots[0];
+    if (!open) {
+      setFlash("No open seats to invite.");
+      return;
+    }
+    const email = SLOT_DEFAULTS[open].email;
+    const url = `${window.location.origin}/login?seat=${encodeURIComponent(email)}`;
+    void navigator.clipboard.writeText(url).then(
+      () => setFlash("Invite link copied"),
+      () => setFlash("Invite link copied")
+    );
+  };
+
+  useEffect(() => {
+    if (!world || !mySlot || world.characters[mySlot]?.created) {
+      prevSealedCountRef.current =
+        world
+          ? PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created).length
+          : null;
+      return;
+    }
+    const count = PLAYER_SLOT_ORDER.filter((s) => world.characters[s]?.created).length;
+    if (prevSealedCountRef.current === null) {
+      prevSealedCountRef.current = count;
+      return;
+    }
+    if (count > prevSealedCountRef.current) {
+      setFlash("A seat sealed — march continues. Create your hero to join.");
+    }
+    prevSealedCountRef.current = count;
+  }, [world, mySlot, world?.characters]);
 
   useEffect(() => {
     if (tab !== "gear" || !world) return;
@@ -1316,13 +1394,13 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
   const playHud = formatPlaytimeHud(world?.storyPlayMs ?? 0, DT_TARGET_PLAYTIME_HOURS);
 
   const sleepBlocked =
-    !acting ||
+    !campTurnOk ||
     battleActive ||
     !world ||
     campSleepsRemaining(asPartyWorld(world)) <= 0;
   let campSleepHint: string | null = null;
   if (battleActive) campSleepHint = "Finish the battle before sleeping.";
-  else if (!acting) campSleepHint = "Not your turn.";
+  else if (!campTurnOk) campSleepHint = "Not your turn.";
   else if (world && campSleepsRemaining(asPartyWorld(world)) <= 0) {
     const waitMin = Math.max(1, Math.ceil(campSleepCooldownMs(asPartyWorld(world)) / 60_000));
     campSleepHint = `Next sleep in ~${waitMin}m.`;
@@ -1357,7 +1435,9 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
           {identity.isDm
             ? `Table turn: ${activeTurnName}`
             : storyTurnOk
-              ? "Your turn — Continue or choose a path"
+              ? tab === "camp"
+                ? "Your turn — Camp actions or Pass turn"
+                : "Your turn — Continue or choose a path"
               : `Waiting on ${activeTurnName}…`}
         </p>
       ) : null}
@@ -1531,19 +1611,17 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
             </button>
           </div>
 
-          {isSpectator ? (
+          {isSpectator || (identity.isDm && !mySlot) ? (
             <p className="dt-mode-banner" data-mode="spectate" role="status">
-              Spectating as admin — watch Story; open Gear to inspect any sealed hero.
-              {openPartySlots.length
-                ? ` Waiting on ${openPartySlots.map((s) => SLOT_DEFAULTS[s].displayName).join(", ")}.`
-                : ""}
+              Spectating — you can&apos;t act. Watching {activeTurnName || "the table"}
+              &apos;s turn.
             </p>
           ) : null}
           {needsHeroCreate ? (
             <div className="dt-mode-banner" data-mode="join" role="status">
               <span>
-                Your seat ({SLOT_DEFAULTS[mySlot!].displayName}) isn&apos;t sealed — create your
-                hero to join the march.
+                Your seat ({SLOT_DEFAULTS[mySlot!].displayName}) isn&apos;t sealed — the march is
+                underway. Create your hero to join.
               </span>
               <button
                 type="button"
@@ -1551,7 +1629,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                 data-variant="primary"
                 onClick={() => setPhase("create")}
               >
-                Create hero
+                Create hero to join
               </button>
             </div>
           ) : null}
@@ -1708,6 +1786,18 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                         Pass turn
                       </button>
                     ) : null}
+                    {showInviteSeat ? (
+                      <button
+                        type="button"
+                        className="dt-btn"
+                        data-variant="tertiary"
+                        disabled={!!world.battle}
+                        onClick={onInviteSeat}
+                        title={`Invite ${SLOT_DEFAULTS[openPartySlots[0]!].displayName}`}
+                      >
+                        Invite seat
+                      </button>
+                    ) : null}
                     {mySlot && !world.characters[mySlot].created ? (
                       <button
                         type="button"
@@ -1781,6 +1871,18 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                       onClick={onPassTurn}
                     >
                       Pass turn
+                    </button>
+                  ) : null}
+                  {showInviteSeat ? (
+                    <button
+                      type="button"
+                      className="dt-btn"
+                      data-variant="tertiary"
+                      disabled={!!world.battle}
+                      onClick={onInviteSeat}
+                      title={`Invite ${SLOT_DEFAULTS[openPartySlots[0]!].displayName}`}
+                    >
+                      Invite seat
                     </button>
                   ) : null}
                 </div>
@@ -1878,7 +1980,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   </p>
                   {(() => {
                     const loadout = dtLoadoutSummary(me);
-                    const bagEditable = acting && !battleActive;
+                    const bagEditable = campTurnOk && !battleActive;
                     return (
                       <>
                         <div className="dt-inv-block">
@@ -2029,7 +2131,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                       key={offer.itemId}
                       type="button"
                       className="dt-merchant-offer"
-                      disabled={!acting || battleActive || (me?.gold ?? 0) < offer.price}
+                      disabled={!campTurnOk || battleActive || (me?.gold ?? 0) < offer.price}
                       onClick={() => onBuyMerchant(offer.itemId)}
                     >
                       <strong className="dt-bag-name">
@@ -2072,7 +2174,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                       <button
                         type="button"
                         className="dt-btn"
-                        disabled={!acting || battleActive}
+                        disabled={!campTurnOk || battleActive}
                         onClick={onFeedDog}
                       >
                         Feed dog →
@@ -2080,7 +2182,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                       <button
                         type="button"
                         className="dt-btn"
-                        disabled={!acting || battleActive}
+                        disabled={!campTurnOk || battleActive}
                         onClick={onMeanToDog}
                       >
                         Shove dog away (mean) →
@@ -2129,7 +2231,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                           <button
                             type="button"
                             className="dt-btn"
-                            disabled={!acting || battleActive}
+                            disabled={!campTurnOk || battleActive}
                             onClick={onDisbandCompanion}
                           >
                             Disband {me.fetchedCompanion.name} →
@@ -2143,7 +2245,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                           className="dt-btn"
                           data-variant="primary"
                           disabled={
-                            !acting || battleActive || !dtDogCanFetch(me).ok
+                            !campTurnOk || battleActive || !dtDogCanFetch(me).ok
                           }
                           title={dtDogCanFetch(me).reason}
                           onClick={onDogFetch}
@@ -2171,7 +2273,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   <button
                     type="button"
                     className="dt-btn"
-                    disabled={!acting}
+                    disabled={!campTurnOk}
                     onClick={onForceAmbush}
                   >
                     Force road ambush →
@@ -2187,7 +2289,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   <button
                     type="button"
                     className="dt-btn"
-                    disabled={!acting || battleActive}
+                    disabled={!campTurnOk || battleActive}
                     onClick={onChest}
                   >
                     Stumble on a treasure chest →
@@ -2195,7 +2297,7 @@ export function DungeonTesterGame({ identity }: { identity: PlayerIdentity }) {
                   <button
                     type="button"
                     className="dt-btn"
-                    disabled={!acting || battleActive}
+                    disabled={!campTurnOk || battleActive}
                     onClick={onDig}
                   >
                     Dig a hole for loot →

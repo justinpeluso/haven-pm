@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { UserRole } from "@prisma/client";
 import { requirePermission } from "@/lib/auth/session";
 import { DungeonTesterGame } from "@/components/dungeon-tester/dungeon-tester-game";
-import { DemoAccountsPanel } from "@/components/demo-accounts-panel";
-import { canViewDemoAccounts } from "@/lib/demo-accounts";
 import { isDmEmail, slotFromEmail } from "@/lib/downtown/party-chronicle/players";
 import type { PlayerIdentity } from "@/lib/downtown/party-chronicle/types";
 
@@ -22,10 +20,8 @@ export default async function DungeonsAndDogsPage() {
     slot: slotFromEmail(email),
     isDm: isDmEmail(email) || session.user.role === UserRole.ADMINISTRATOR,
   };
-  const showDemoAccounts = canViewDemoAccounts(session.user);
   return (
     <div className="space-y-3">
-      {showDemoAccounts ? <DemoAccountsPanel compact /> : null}
       <DungeonTesterGame identity={identity} />
     </div>
   );
