@@ -2,7 +2,12 @@
 
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
-import { requireAuth, requirePermission } from "@/lib/auth/session";
+import { requireAuth, requirePermission, requireStaff } from "@/lib/auth/session";
+import { isStaffRole } from "@/lib/permissions";
+import {
+  getTenantActiveLeaseLocation,
+  getTenantForUser,
+} from "@/lib/tenant-scope";
 import { maintenanceRequestSchema, maintenanceUpdateSchema } from "@/lib/validations";
 import { logActivity, logMaintenanceTimeline, createNotification } from "@/lib/activity";
 import { generateRequestNumber } from "@/lib/utils";
@@ -27,15 +32,30 @@ export async function createMaintenanceRequest(formData: FormData) {
   }
 
   let tenantId: string | undefined;
+  let propertyId = parsed.data.propertyId;
+  let unitId = parsed.data.unitId;
+
   if (session.user.role === "TENANT") {
-    const tenant = await db.tenant.findUnique({ where: { userId: session.user.id } });
-    tenantId = tenant?.id;
+    const tenant = await getTenantForUser(session.user.id);
+    if (!tenant) return { error: "Tenant profile not found." };
+    const location = await getTenantActiveLeaseLocation(tenant.id);
+    if (!location) return { error: "No active lease on file." };
+    tenantId = tenant.id;
+    // Never trust client-supplied location for tenants.
+    propertyId = location.propertyId;
+    unitId = location.unitId;
   }
 
   const request = await db.maintenanceRequest.create({
     data: {
       requestNumber: generateRequestNumber(),
-      ...parsed.data,
+      propertyId,
+      unitId,
+      category: parsed.data.category,
+      priority: parsed.data.priority,
+      title: parsed.data.title,
+      description: parsed.data.description,
+      tenantNotes: parsed.data.tenantNotes,
       tenantId,
       createdById: session.user.id,
     },
@@ -55,11 +75,10 @@ export async function createMaintenanceRequest(formData: FormData) {
     entityType: "MaintenanceRequest",
     entityId: request.id,
     userId: session.user.id,
-    propertyId: parsed.data.propertyId,
+    propertyId,
     maintenanceRequestId: request.id,
   });
 
-  // Notify property managers
   const managers = await db.user.findMany({
     where: { role: { in: ["ADMINISTRATOR", "PROPERTY_MANAGER"] }, isActive: true },
   });
@@ -79,13 +98,23 @@ export async function createMaintenanceRequest(formData: FormData) {
 }
 
 export async function updateMaintenanceRequest(id: string, formData: FormData) {
-  const session = await requirePermission("maintenance:write");
+  const session = await requireStaff();
 
-  const existing = await db.maintenanceRequest.findUnique({ where: { id } });
+  const existing = await db.maintenanceRequest.findFirst({
+    where: { id, deletedAt: null },
+  });
   if (!existing) return { error: "Request not found" };
 
   const raw: Record<string, unknown> = {};
-  for (const key of ["status", "priority", "assignedStaffId", "vendor", "cost", "targetCompletion", "internalNotes"]) {
+  for (const key of [
+    "status",
+    "priority",
+    "assignedStaffId",
+    "vendor",
+    "cost",
+    "targetCompletion",
+    "internalNotes",
+  ]) {
     const val = formData.get(key);
     if (val !== null && val !== "") raw[key] = val;
   }
@@ -108,7 +137,6 @@ export async function updateMaintenanceRequest(id: string, formData: FormData) {
     data,
   });
 
-  // Log changes
   if (parsed.data.status && parsed.data.status !== existing.status) {
     await logMaintenanceTimeline(
       id,
@@ -166,6 +194,19 @@ export async function updateMaintenanceRequest(id: string, formData: FormData) {
 export async function addMaintenanceComment(requestId: string, comment: string) {
   const session = await requireAuth();
 
+  const where: Record<string, unknown> = { id: requestId, deletedAt: null };
+  if (!isStaffRole(session.user.role)) {
+    const tenant = await getTenantForUser(session.user.id);
+    if (!tenant) return { error: "Tenant profile not found." };
+    where.tenantId = tenant.id;
+  }
+
+  const request = await db.maintenanceRequest.findFirst({
+    where,
+    select: { id: true },
+  });
+  if (!request) return { error: "Request not found." };
+
   await logMaintenanceTimeline(
     requestId,
     "Comment added",
@@ -190,7 +231,7 @@ export async function getMaintenanceRequests(filters?: {
   const where: Record<string, unknown> = { deletedAt: null };
 
   if (session.user.role === "TENANT") {
-    const tenant = await db.tenant.findUnique({ where: { userId: session.user.id } });
+    const tenant = await getTenantForUser(session.user.id);
     if (!tenant) return [];
     where.tenantId = tenant.id;
   } else if (session.user.role === "MAINTENANCE_STAFF") {

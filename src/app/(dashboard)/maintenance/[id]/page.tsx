@@ -1,23 +1,37 @@
 import { notFound } from "next/navigation";
 import { requirePermission } from "@/lib/auth/session";
 import { db } from "@/lib/db";
+import { isStaffRole } from "@/lib/permissions";
+import { getTenantForUser } from "@/lib/tenant-scope";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ActivityTimeline } from "@/components/shared/activity-timeline";
 import { MaintenanceUpdateForm } from "@/components/maintenance/update-form";
-import { formatDate, formatCurrency, formatDateTime } from "@/lib/utils";
+import { formatCurrency, formatDateTime } from "@/lib/utils";
 
 export default async function MaintenanceDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  await requirePermission("maintenance:read");
+  const session = await requirePermission("maintenance:read");
   const { id } = await params;
+  const staffViewer = isStaffRole(session.user.role);
 
-  const request = await db.maintenanceRequest.findUnique({
-    where: { id },
+  let tenantScopeId: string | undefined;
+  if (!staffViewer) {
+    const tenant = await getTenantForUser(session.user.id);
+    if (!tenant) notFound();
+    tenantScopeId = tenant.id;
+  }
+
+  const request = await db.maintenanceRequest.findFirst({
+    where: {
+      id,
+      deletedAt: null,
+      ...(tenantScopeId ? { tenantId: tenantScopeId } : {}),
+    },
     include: {
       property: true,
       unit: true,
@@ -34,10 +48,12 @@ export default async function MaintenanceDetailPage({
 
   if (!request) notFound();
 
-  const staff = await db.user.findMany({
-    where: { role: "MAINTENANCE_STAFF", isActive: true },
-    select: { id: true, name: true },
-  });
+  const staff = staffViewer
+    ? await db.user.findMany({
+        where: { role: "MAINTENANCE_STAFF", isActive: true },
+        select: { id: true, name: true },
+      })
+    : [];
 
   return (
     <div className="space-y-6">
@@ -125,13 +141,15 @@ export default async function MaintenanceDetailPage({
         </div>
 
         <div className="space-y-6">
-          <MaintenanceUpdateForm
-            requestId={request.id}
-            currentStatus={request.status}
-            currentPriority={request.priority}
-            assignedStaffId={request.assignedStaffId}
-            staff={staff}
-          />
+          {staffViewer ? (
+            <MaintenanceUpdateForm
+              requestId={request.id}
+              currentStatus={request.status}
+              currentPriority={request.priority}
+              assignedStaffId={request.assignedStaffId}
+              staff={staff}
+            />
+          ) : null}
 
           {request.assignedStaff && (
             <Card>

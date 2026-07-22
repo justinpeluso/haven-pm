@@ -21,14 +21,22 @@ import { toast } from "@/hooks/use-toast";
 
 interface NewMaintenanceFormProps {
   properties: { id: string; name: string; units: { id: string; unitNumber: string }[] }[];
+  /** When true, property/unit come from the tenant lease and are not editable. */
+  lockLocation?: boolean;
 }
 
-export function NewMaintenanceForm({ properties }: NewMaintenanceFormProps) {
+export function NewMaintenanceForm({
+  properties,
+  lockLocation = false,
+}: NewMaintenanceFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [propertyId, setPropertyId] = useState("");
+  const initialProperty = lockLocation ? properties[0]?.id ?? "" : "";
+  const [propertyId, setPropertyId] = useState(initialProperty);
   const selectedProperty = properties.find((p) => p.id === propertyId);
+  const lockedUnitId =
+    lockLocation && selectedProperty?.units[0] ? selectedProperty.units[0].id : "";
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,6 +45,7 @@ export function NewMaintenanceForm({ properties }: NewMaintenanceFormProps) {
 
     const formData = new FormData(e.currentTarget);
     formData.set("propertyId", propertyId);
+    if (lockedUnitId) formData.set("unitId", lockedUnitId);
 
     const result = await createMaintenanceRequest(formData);
 
@@ -69,34 +78,54 @@ export function NewMaintenanceForm({ properties }: NewMaintenanceFormProps) {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label>Property</Label>
-              <Select value={propertyId} onValueChange={setPropertyId} required>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select property" />
-                </SelectTrigger>
-                <SelectContent>
-                  {properties.map((p) => (
-                    <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            {selectedProperty && selectedProperty.units.length > 0 && (
-              <div className="space-y-2">
-                <Label htmlFor="unitId">Unit (optional)</Label>
-                <Select name="unitId">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select unit" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {selectedProperty.units.map((u) => (
-                      <SelectItem key={u.id} value={u.id}>Unit {u.unitNumber}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+            {lockLocation && selectedProperty ? (
+              <div className="rounded-md border bg-muted/40 px-3 py-2 text-sm">
+                <p className="font-medium">{selectedProperty.name}</p>
+                {selectedProperty.units[0] ? (
+                  <p className="text-muted-foreground">
+                    Unit {selectedProperty.units[0].unitNumber}
+                  </p>
+                ) : null}
+                <p className="mt-1 text-xs text-muted-foreground">
+                  From your active lease
+                </p>
               </div>
+            ) : (
+              <>
+                <div className="space-y-2">
+                  <Label>Property</Label>
+                  <Select value={propertyId} onValueChange={setPropertyId} required>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select property" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {properties.map((p) => (
+                        <SelectItem key={p.id} value={p.id}>
+                          {p.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {selectedProperty && selectedProperty.units.length > 0 && (
+                  <div className="space-y-2">
+                    <Label htmlFor="unitId">Unit (optional)</Label>
+                    <Select name="unitId">
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select unit" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {selectedProperty.units.map((u) => (
+                          <SelectItem key={u.id} value={u.id}>
+                            Unit {u.unitNumber}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+              </>
             )}
 
             <div className="space-y-2">

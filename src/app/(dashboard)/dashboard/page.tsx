@@ -24,20 +24,24 @@ import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 export default async function DashboardPage() {
   const session = await requireAuth();
   const company = await getCompanySettings();
+  const isTenantOrProspect =
+    session.user.role === UserRole.TENANT ||
+    session.user.role === UserRole.PROSPECT;
+  const showStaffWidgets = !isTenantOrProspect;
 
   const [dashboard, payment, messaging, events, weatherResult, pulse] =
     await Promise.all([
       getDashboardData(session.user.role, session.user.id),
       getPaymentSettings(),
       getMessagingSettings(),
-      getCalendarPreviewEvents(6),
+      showStaffWidgets ? getCalendarPreviewEvents(6) : Promise.resolve([]),
       fetchWeatherForPlace(company.city, company.state)
         .then((weather) => ({ weather, error: null as string | null }))
         .catch(() => ({
           weather: null,
           error: "Weather unavailable right now — try refreshing.",
         })),
-      getPortfolioPulse(),
+      showStaffWidgets ? getPortfolioPulse() : Promise.resolve(null),
     ]);
 
   return (
@@ -48,11 +52,13 @@ export default async function DashboardPage() {
           Good {getGreeting()}, {session.user.name?.split(" ")[0] || "there"}
         </h1>
         <p className="text-muted-foreground">
-          Here&apos;s what&apos;s happening across your portfolio today.
+          {isTenantOrProspect
+            ? "Here’s what’s happening with your home."
+            : "Here’s what’s happening across your portfolio today."}
         </p>
       </div>
 
-      <PortfolioPulseWidget data={pulse} />
+      {pulse ? <PortfolioPulseWidget data={pulse} /> : null}
 
       {dashboard.type === "admin" && dashboard.data && (
         <AdminDashboard data={dashboard.data} />
@@ -91,14 +97,16 @@ export default async function DashboardPage() {
         }))}
       />
 
-      <PittsburghTrafficWidget />
-
-      <PittsburghHousingWidget />
-
-      <div className="grid gap-4 lg:grid-cols-2">
-        <PittsburghAirQualityWidget />
-        <MortgageRatesWidget />
-      </div>
+      {showStaffWidgets ? (
+        <>
+          <PittsburghTrafficWidget />
+          <PittsburghHousingWidget />
+          <div className="grid gap-4 lg:grid-cols-2">
+            <PittsburghAirQualityWidget />
+            <MortgageRatesWidget />
+          </div>
+        </>
+      ) : null}
     </div>
   );
 }
