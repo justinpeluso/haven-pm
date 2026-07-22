@@ -12,6 +12,7 @@ type Payload = {
   password: string;
   pm: DemoAccount[];
   party: DemoAccount[];
+  tenants?: DemoAccount[];
 };
 
 export function DemoAccountsPanel({
@@ -98,6 +99,12 @@ export function DemoAccountsPanel({
               <AccountList
                 title="Haven PM"
                 accounts={data.pm}
+                switching={switching}
+                onSwitch={switchTo}
+              />
+              <AccountList
+                title="Tenant portal"
+                accounts={data.tenants ?? []}
                 switching={switching}
                 onSwitch={switchTo}
               />

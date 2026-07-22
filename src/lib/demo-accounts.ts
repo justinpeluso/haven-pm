@@ -22,6 +22,11 @@ export const PARTY_ACCOUNTS = [
   { email: "player5@havenpm.com", label: "Dad — Player 5" },
 ] as const;
 
+export const TENANT_PORTAL_ACCOUNTS = [
+  { email: "portal@havenpm.com", label: "Demo Tenant — portal play login" },
+  { email: "tenant@havenpm.com", label: "Sample Tenant" },
+] as const;
+
 const PARTY_EMAILS = new Set<string>([
   ...PARTY_ACCOUNTS.map((p) => p.email),
   "eric@havenpm.com",

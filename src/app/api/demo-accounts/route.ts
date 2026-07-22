@@ -4,6 +4,7 @@ import {
   DEMO_PASSWORD,
   PARTY_ACCOUNTS,
   PM_ACCOUNTS,
+  TENANT_PORTAL_ACCOUNTS,
   canViewDemoAccounts,
   isPartyLoginEmail,
 } from "@/lib/demo-accounts";
@@ -17,6 +18,7 @@ export async function GET() {
     password: DEMO_PASSWORD,
     pm: PM_ACCOUNTS,
     party: PARTY_ACCOUNTS,
+    tenants: TENANT_PORTAL_ACCOUNTS,
   });
 }
 
