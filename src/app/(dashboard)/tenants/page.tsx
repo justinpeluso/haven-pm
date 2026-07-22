@@ -18,10 +18,15 @@ export default async function TenantsPage() {
     include: {
       user: { select: { name: true, email: true, phone: true } },
       leases: {
-        where: { status: "ACTIVE" },
-        include: {
+        where: { status: "ACTIVE", deletedAt: null },
+        select: {
+          id: true,
+          status: true,
           unit: {
-            include: { property: { select: { name: true } } },
+            select: {
+              unitNumber: true,
+              property: { select: { name: true } },
+            },
           },
         },
         take: 1,

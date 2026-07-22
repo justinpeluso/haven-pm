@@ -327,7 +327,10 @@ export async function getLeaseFormOptions() {
     db.unit.findMany({
       where: {
         deletedAt: null,
-        status: { in: ["AVAILABLE", "VACANT", "NOTICE_GIVEN"] },
+        status: { in: ["AVAILABLE", "VACANT"] },
+        leases: {
+          none: { status: "ACTIVE", deletedAt: null },
+        },
       },
       select: {
         id: true,

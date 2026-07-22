@@ -1,0 +1,21 @@
+---
+description: Always apply Prisma schema to local haven_pm BEFORE Neon/prod
+alwaysApply: true
+---
+
+# Local database first
+
+When changing `prisma/schema.prisma` or running `prisma db push` / `prisma migrate`:
+
+1. **Push local first**, every time:
+   ```bash
+   export PATH="/opt/homebrew/opt/node@20/bin:/opt/homebrew/opt/postgresql@17/bin:/opt/homebrew/bin:$PATH"
+   unset PGHOST PGPORT PGUSER PGPASSWORD
+   export DATABASE_URL="postgresql://justin@localhost:5432/haven_pm?schema=public"
+   npx prisma db push
+   npx prisma generate
+   ```
+2. Restart the LAN/dev Next process after schema pushes so it reloads the client (`launchctl kickstart -k "gui/$(id -u)/com.havenpm.dev-lan"` or restart `npm run dev`).
+3. Only then push/deploy so Neon gets the same schema (Vercel `vercel-build` / prod `DATABASE_URL`).
+4. Never assume `.env` alone is local — it may be overridden or previously pointed at Neon. Prefer the explicit localhost `DATABASE_URL` above for local sync.
+5. If pages blank with `column … does not exist`, the local DB is behind the Prisma client — run the local push above immediately; do not “fix” by removing fields from the schema.

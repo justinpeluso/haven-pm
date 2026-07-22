@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { requirePermission } from "@/lib/auth/session";
+import { hasPermission } from "@/lib/permissions";
 import { getLeaseReceivables } from "@/lib/actions/rent";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +13,8 @@ export default async function LeasesPage({
 }: {
   searchParams: Promise<{ filter?: string }>;
 }) {
-  await requirePermission("leases:read");
+  const session = await requirePermission("leases:read");
+  const canWrite = hasPermission(session.user.role, "leases:write");
   const params = await searchParams;
   const delinquentOnly = params.filter === "delinquent";
 
@@ -30,9 +32,11 @@ export default async function LeasesPage({
           </p>
         </div>
         <div className="flex gap-2">
-          <Button asChild size="sm" variant="secondary">
-            <Link href="/leases/new">New lease</Link>
-          </Button>
+          {canWrite ? (
+            <Button asChild size="sm" variant="secondary">
+              <Link href="/leases/new">New lease</Link>
+            </Button>
+          ) : null}
           <Button asChild size="sm" variant={delinquentOnly ? "outline" : "default"}>
             <Link href="/leases">All active</Link>
           </Button>

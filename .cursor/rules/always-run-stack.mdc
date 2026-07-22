@@ -10,7 +10,7 @@ When working in this repo, **proactively keep the local stack running**. Do not 
 ## Startup checklist (run early in a session)
 
 1. Ensure PostgreSQL is reachable (`haven_pm` on localhost).
-2. If the DB/schema may be stale: `npm run db:push` (and `npm run db:seed` only when seed data is missing or the user asks to reset).
+2. If the DB/schema may be stale: push **local first** (see `always-local-db-first`), then `npm run db:seed` only when seed data is missing or the user asks to reset.
 3. Ensure `npm run dev` is running on **http://localhost:3000**.
 4. If Next is wedged or `.next` is corrupt: `pkill -f "next dev"; rm -rf .next; npm run dev`.
 5. Prefer `./start.sh` for a full cold start (DB + seed + clean `.next` + dev).

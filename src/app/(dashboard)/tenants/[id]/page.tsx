@@ -4,6 +4,7 @@ import { Mail, Building2, Wrench, FileText } from "lucide-react";
 import { requirePermission } from "@/lib/auth/session";
 import { db } from "@/lib/db";
 import { getMessagingSettings } from "@/lib/settings";
+import { hasPermission } from "@/lib/permissions";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +17,8 @@ export default async function TenantDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  await requirePermission("tenants:read");
+  const session = await requirePermission("tenants:read");
+  const canWriteLeases = hasPermission(session.user.role, "leases:write");
   const { id } = await params;
 
   const [tenant, messaging] = await Promise.all([
@@ -27,11 +29,26 @@ export default async function TenantDetailPage({
         leases: {
           where: { deletedAt: null },
           orderBy: { startDate: "desc" },
-          include: {
+          select: {
+            id: true,
+            status: true,
+            startDate: true,
+            endDate: true,
+            rentAmount: true,
+            depositAmount: true,
+            noticeGivenAt: true,
+            plannedMoveOutDate: true,
             unit: {
-              include: {
+              select: {
+                unitNumber: true,
                 property: {
-                  select: { id: true, name: true, addressLine1: true, city: true, state: true },
+                  select: {
+                    id: true,
+                    name: true,
+                    addressLine1: true,
+                    city: true,
+                    state: true,
+                  },
                 },
               },
             },
@@ -143,7 +160,7 @@ export default async function TenantDetailPage({
         <Card className="lg:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between pb-3">
             <CardTitle className="text-base">Leases</CardTitle>
-            {!activeLease ? (
+            {!activeLease && canWriteLeases ? (
               <Link
                 href={`/leases/new?tenantId=${tenant.id}`}
                 className="text-sm font-medium text-primary hover:underline"
@@ -179,6 +196,9 @@ export default async function TenantDetailPage({
                       <Badge variant={lease.status === "ACTIVE" ? "success" : "outline"}>
                         {lease.status.replace(/_/g, " ")}
                       </Badge>
+                      {lease.noticeGivenAt ? (
+                        <Badge variant="warning">Notice</Badge>
+                      ) : null}
                     </div>
                     <p className="mt-2 text-sm text-muted-foreground">
                       {formatDate(lease.startDate)} – {formatDate(lease.endDate)}
