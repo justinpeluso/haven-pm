@@ -207,6 +207,7 @@ Best free combo for this stack: **Neon** (Postgres) + **GitHub** + **Vercel**.
 | `MESSAGING_PORTAL_URL` | `https://my.quo.com/` |
 | `MESSAGING_PROVIDER_NAME` | `OpenPhone` |
 | `MESSAGING_PHONE_NUMBER` | `(412) 797-5007` |
+| `BLOB_READ_WRITE_TOKEN` | Vercel Blob read-write token (private document storage) |
 
 Build command is set in `vercel.json` (`npm run vercel-build`).
 
@@ -221,7 +222,7 @@ Helpers (run in Terminal; keep local `.env` on localhost Postgres):
 ### Limits to know
 
 - Vercel/Neon free tiers are fine for demos; they sleep/idle and have usage caps  
-- File uploads use the local disk today — they **won’t persist** on Vercel (documents may break until you add S3/Blob storage)
+- File uploads use **Vercel Blob** when `BLOB_READ_WRITE_TOKEN` is set (private objects served through `/api/documents/[id]/download`). Without the token, uploads fall back to local `./uploads` for development.
 - Edge middleware must stay slim (no Prisma/bcrypt in `src/middleware.ts`)
 
 ## Scripts

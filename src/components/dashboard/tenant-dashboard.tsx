@@ -205,7 +205,7 @@ export function TenantDashboard({
                       <p className="text-xs text-muted-foreground">{doc.type.replace(/_/g, " ")}</p>
                     </div>
                     <Button variant="ghost" size="sm" asChild>
-                      <a href={doc.url} target="_blank" rel="noopener noreferrer">View</a>
+                      <a href={`/api/documents/${doc.id}/download`} target="_blank" rel="noopener noreferrer">View</a>
                     </Button>
                   </div>
                 ))}
